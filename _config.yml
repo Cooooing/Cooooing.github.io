@@ -108,3 +108,5 @@ deploy:
   type: git
   repo: git@github.com:2450123/2450123.github.io.git
   branch: deploy
+  name: 2450123
+  email: 2450144961@qq.com
