@@ -163,7 +163,7 @@ post_meta:
 
 # wordcount (字數統計)
 wordcount:
-  enable: false
+  enable: true
   post_wordcount: true
   min2read: true
   total_wordcount: true
@@ -408,7 +408,7 @@ crisp:
 footer:
   owner:
     enable: true
-    since: 2020
+    since: 2022
   custom_text: <a href="https://icp.gov.moe/?keyword=20222450" target="_blank">萌ICP备20222450号</a>
   copyright: true # Copyright of theme and framework
 
@@ -677,8 +677,8 @@ busuanzi:
 # Time difference between publish date and now (網頁運行時間)
 # Formal: Month/Day/Year Time or Year/Month/Day Time
 runtimeshow:
-  enable: false
-  publish_date:
+  enable: true
+  publish_date: 2022/3/12 00:00:00
 
 # Aside widget - Newest Comments
 newest_comments:
