@@ -68,6 +68,10 @@ body {
 }
 
 /* 颜色与背景相近，改成黑色显眼 */
-#footer-wrap a{
+#footer-wrap a {
+    color: black !important;
+}
+
+#footer-wrap {
     color: black !important;
 }
