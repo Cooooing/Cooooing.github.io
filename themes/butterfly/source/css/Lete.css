@@ -1,0 +1,9 @@
+/* 鼠标图标 */
+body {
+    cursor: url(https://cdn.jsdelivr.net/gh/lete114/CDN@1.0/Use/Jkll8I.png), auto;
+}
+
+/* 页脚透明 */
+#footer {
+    background: transparent !important;
+}
