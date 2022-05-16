@@ -76,3 +76,19 @@ body {
     color: black !important;
 }
 
+/* 卡片透明 */
+#recent-posts > .recent-post-item {
+    background: rgb(255, 255, 255, 0%) !important;
+}
+
+.layout > div:first-child:not(.recent-posts) {
+    background: rgb(255, 255, 255, 0%) !important;
+}
+
+#aside-content > .card-widget:first-child {
+    background: rgb(255, 255, 255, 0%) !important;
+}
+
+#aside-content .card-widget {
+    background: rgb(255, 255, 255, 0%) !important;
+}
