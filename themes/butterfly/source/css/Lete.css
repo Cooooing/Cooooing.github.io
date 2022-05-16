@@ -8,6 +8,7 @@ body {
     background: transparent !important;
 }
 
+/* 背景渐变来自https://www.antmoe.com/ */
 #web_bg {
     background: -webkit-linear-gradient(
             0deg,
@@ -64,4 +65,9 @@ body {
             rgba(7, 179, 155, 0.1) 86%,
             rgba(109, 186, 130, 0.1) 100%
     );
+}
+
+/* 颜色与背景相近，改成黑色显眼 */
+#footer-wrap {
+    color: black;
 }
