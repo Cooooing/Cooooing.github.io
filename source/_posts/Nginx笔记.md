@@ -263,7 +263,7 @@ location ~.*/(css|js|img|images){
 
 ## 动静分离
 
-![动静分离架构](source/images/Nginx笔记/动静分离架构.png)
+![动静分离架构](../images/Nginx笔记/动静分离架构.png)
 
 
 
