@@ -261,5 +261,9 @@ location ~.*/(css|js|img|images){
 
 > 正则匹配目录，比匹配后缀会好一些。
 
+## 动静分离
+
+![动静分离架构](source/images/Nginx笔记/动静分离架构.png)
+
 
 
