@@ -4,3 +4,10 @@ date: 2022-04-27 22:06:17
 type: "link"
 top_img: https://iw233.cn/api.php?sort=pc&type=jpg%3
 ---
+
+~~~yml
+- name: 咕咕咕
+  link: https://cooooing.github.io/
+  avatar: https://s1.ax1x.com/2022/03/13/bqyIpT.jpg
+  descr: 路漫漫其修远兮，吾将上下而求索。
+~~~

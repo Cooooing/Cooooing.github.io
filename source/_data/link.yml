@@ -1,6 +1,11 @@
-- class_name: 小伙伴们
-  class_desc: 会成为很大佬的人！
+- class_name: 良师益友
+  class_desc: 是很厉害很厉害的大佬！
   link_list:
+    - name: 鼠鼠在碎觉
+      link: https://www.sszsj.cc
+      avatar: https://tmx.fishpi.cn/img/head.jpg
+      descr: 我是不慎落入世界的一滴水墨
+
     - name: 青虬
       link: https://reol077.github.io/
       avatar: https://s1.ax1x.com/2022/03/18/qF2YJ1.jpg
@@ -26,10 +31,10 @@
       avatar: https://owo.wyc.rest/img/%E4%B8%87%E5%8F%B6.jpg
       descr: 这只是一个小破站而已！
 
-- class_name: 传说中的大佬
-  class_desc: 是很厉害很厉害的大佬！
+- class_name: 我的信息
+  class_desc: 添加友链可以发送邮件，不定期添加。
   link_list:
-    - name: 鼠鼠在碎觉
-      link: https://www.sszsj.cc
-      avatar: https://tmx.fishpi.cn/img/head.jpg
-      descr: 我是不慎落入世界的一滴水墨
+    - name: 咕咕咕
+      link: https://cooooing.github.io/
+      avatar: https://s1.ax1x.com/2022/03/13/bqyIpT.jpg
+      descr: 路漫漫其修远兮，吾将上下而求索。

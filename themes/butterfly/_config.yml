@@ -409,7 +409,9 @@ footer:
   owner:
     enable: true
     since: 2022
-  custom_text: <a href="https://icp.gov.moe/?keyword=20222450" target="_blank">萌ICP备20222450号</a>
+  custom_text:
+    <div style="color:black"><span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>(～￣▽￣)～<script src="/js/LifeTime.js"></script></div> 
+    <a href="https://icp.gov.moe/?keyword=20222450" target="_blank">萌ICP备20222450号</a>
   copyright: true # Copyright of theme and framework
 
 # Analysis
@@ -837,7 +839,7 @@ inject:
   bottom:
       - <div class="aplayer no-destroy" data-id="7345595717" data-server="netease" data-type="playlist" data-fixed="true" data-mini="true" data-listFolded="false" data-order="random" data-preload="none" data-autoplay="true" muted></div>
       - <link rel="stylesheet" href="https://Cooooing.github.io/css/Lete.css">
-      - <script data-pjax src="https://Cooooing.github.io/js/Lete.js"></script>
+#      - <script data-pjax src="https://Cooooing.github.io/js/Lete.js"></script>
     # - <script src="xxxx"></script>
 
 # CDN
