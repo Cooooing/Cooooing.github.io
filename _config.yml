@@ -106,7 +106,7 @@ theme: butterfly
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
   type: git
-  repo: git@github.com:2450123/2450123.github.io.git
+  repo: git@github.com:Cooooing/Cooooing.github.io.git
   branch: deploy
-  name: 2450123
+  name: Cooooing
   email: 2450144961@qq.com
