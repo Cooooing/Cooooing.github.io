@@ -101,28 +101,28 @@ disable_top_img: false
 index_img: https://s1.ax1x.com/2022/03/13/bqyL7R.jpg # /img/mainTop1.jpg
 
 # If the banner of page not setting, it will show the top_img
-default_top_img: http://api.iw233.cn/api.php?sort=pc&type=json
+default_top_img: http://api.iw233.cn/api.php?sort=pc&type=jpg
 
 # The banner image of archive page
-archive_img: http://api.iw233.cn/api.php?sort=pc&type=json
+archive_img: http://api.iw233.cn/api.php?sort=pc&type=jpg
 
 # If the banner of tag page not setting, it will show the top_img
 # note: tag page, not tags page (子標籤頁面的 top_img)
-tag_img: http://api.iw233.cn/api.php?sort=pc&type=json
+tag_img: http://api.iw233.cn/api.php?sort=pc&type=jpg
 
 # The banner image of tag page
 # format:
 #  - tag name: xxxxx
-tag_per_img: http://api.iw233.cn/api.php?sort=pc&type=json
+tag_per_img: http://api.iw233.cn/api.php?sort=pc&type=jpg
 
 # If the banner of category page not setting, it will show the top_img
 # note: category page, not categories page (子分類頁面的 top_img)
-category_img: http://api.iw233.cn/api.php?sort=pc&type=json
+category_img: http://api.iw233.cn/api.php?sort=pc&type=jpg
 
 # The banner image of category page
 # format:
 #  - category name: xxxxx
-category_per_img: http://api.iw233.cn/api.php?sort=pc&type=json
+category_per_img: http://api.iw233.cn/api.php?sort=pc&type=jpg
 
 cover:
   # display the cover or not (是否顯示文章封面)
