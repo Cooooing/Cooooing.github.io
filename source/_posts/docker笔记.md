@@ -62,8 +62,155 @@ CentOS7可以使用`yum install docker -y`直接安装。
 搜索镜像：`docker search tomcat`
 下载镜像：`docker pull tomcat`
 运行镜像：`docker run tomcat` 后台运行：`docker run -d tomcat`
+-p 参数映射端口
 显示本地已有镜像：`docker images`
 
+### 进入docker容器
 
+进入容器：`docker exec -it 容器id bash`  
+i表示交互式的，即保持标准输入流打开  
+t表示虚拟控制台  
+退出容器：`exit`
+
+从客户机访问容器，需要有端口映射，docker容器默认采用桥接模式与宿主机通信，需要将宿主机ip端口映射到容器ip端口上。  
+停止容器：`docker stop 容器id/名称`  
+启动容器：`docker run -d -p 8080:8080 tomcat`
+
+## docker核心组件
+
+docker是客户端-服务器（C/S）加厚，通过远程API来管理和创建容器。  
+docker通过镜像来创建容器。  
+
+### 镜像
+
+镜像是一个只读的模板，用于创建容器。
+
+镜像由许多层文件系统构成  
+第一层是引导文件系统bootfs  
+第二层是root文件系统rootfs，root文件系统通常是某种操作系统  
+root系统之上又有很多层文件系统，这些文件系统叠加在一起，构成docker中的镜像
+
+进入容器：`docker exit -it 镜像id bash`
+删除镜像：`docker rmi 镜像名`，rm是删除容器
+
+### 容器
+
+通过镜像启动容器：`docker run -d 镜像名`
+查看运行中的容器：`docker ps`
+查看所有的容器：`docker ps -a`
+停止容器：`docker stop 容器id/名称`
+开启容器：`docker start 容器id/名称`
+删除容器：`docker rm 容器id/名称` 删除容器时，容器必须是静止状态，否则会报错
+查看容器更多信息：`docker inspect 容器id/名称`
+停止全部运行中的容器：`docker stop $(docker ps -q)`
+删除全部容器：`docker rm $(docker ps -aq)`
+
+### 仓库
+
+仓库是集中存放镜像文件的地方。仓库分为公开仓库和私有仓库。
+最大的公开仓库是[Docker Hub](https://hub.docker.com/)
+
+[阿里云镜像](https://dev.aliyun.com)
+
+查找官方镜像：`docker search 镜像名`
+下载镜像：`docker pull 镜像名`
+
+## 自定义镜像
+
+dockerfile用于构建docker镜像，有一行行命令语句构成，基于这些命令可以构建一个镜像。  
+
+dockerfile分为四部分
+1. 基础镜像信息
+2. 维护者信息
+3. 镜像操作命令
+4. 容器启动时执行指令
+
+### 指令
+
+1. FROM
+`FROM <images> / FROM <images>:<tag> / FROM <images>:<digest>`
+用于指定所使用的基础镜像
+> FROM必须是dockerfile第一条非注释指令  
+> FROM可以出现多次，用于在一个dockerfile中创建多个镜像  
+> tag/digest是可选的，默认latest版本基础镜像
+2. MAINTAINER
+`MAINTAINER <name>`
+指定维护者信息
+3. ENV
+`ENV <key> <value> / ENV <key1>=<value1> <key2>=<value2>...`
+设置环境变量，会被后续RUN指令使用，并在容器运行时保持。
+4. COPY
+`ADD <源路径>... <目标路径> / ADD ["<源路径>",... "<目标路径>"]`
+复制指定文件到容器中指定位置。
+> 源文件的各种元数据都会保留。比如读、写、执行权限、文件变更时间等。
+5. ADD
+`ADD <源路径>... <目标路径> / ADD ["<源路径>",... "<目标路径>"]`
+复制指定文件到容器中指定位置，与COPY格式基本一致，但比COPY增加了一些功能。如源路径可以是url
+> 如果 docker 发现文件内容被改变，则接下来的指令都不会再使用缓存。
+6. RUN
+~~~shell
+#shell格式
+RUN <command>
+#exec格式
+RUN ["executable", "param1", "param2"]
+~~~
+用于构建过程中，执行特定命令，并生成一个中间镜像。  
+> RUN 指令创建的中间镜像会被缓存，并会在下次构建中使用。如果不想使用这些缓存镜像，可以在构建时指定 --no-cache 参数，如：docker build --no-cache。
+7. CMD
+~~~shell
+CMD ["executable","param1","param2"]
+CMD ["param1","param2"]
+CMD command param1 param2
+~~~
+用于指定容器启动时命令。
+> 与 RUN 指令的区别：RUN 在构建的时候执行，并生成一个新的镜像，CMD 在容器运行的时候执行，在构建时不进行任何操作。
+> 每个dockerfile只能有一条CMD命令。如果有多条，只有最后一条会被执行。
+> 如果用户启动时指定了运行的命令，则会覆盖CMD指定的命令。
+8. EXPOSE
+`EXPOSE <port> [<port>...]`
+为构建的镜像设置监听端口，使容器运行时监听
+
+
+### 自定义镜像
+
+1. JDK镜像
+创建Dockerfile文件
+~~~shell
+FROM centos
+MAINTAINER root
+ADD jdk-8u121-linux-x64.tar.gz /usr/local
+ENV JAVA_HOME /usr/local/java/jdk1.8.0_121
+ENV CLASSPATH $JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
+ENV PATH $PATH:$JAVA_HOME/bin
+CMD java -version
+~~~
+构建镜像：`docker build -t root_jdk1.8.0_121 .`
+
+2. tomcat镜像
+   创建Dockerfile文件
+~~~shell
+FROM root_jdk1.8.0_121
+MAINTAINER root
+ADD apache-tomcat-8.5.24.tar.gz /usr/local
+ENV CATALINA_HOME /usr/local/apache-tomcat-8.5.24
+ENV PATH $PATH:$CATALINA_HOME/lib:$CATALINA_HOME/bin
+EXPOSE 8080
+CMD /usr/local/apache-tomcat-8.5.24/bin/catalina.sh run
+~~~
+构建镜像：`docker build -t root_tomcat-8.5.24 .`
+
+
+### 镜像发布到仓库
+
+省略
+在阿里云注册账号，容器镜像服务有详细文档。
+![阿里云容器服务](../images/docker笔记/阿里云容器服务.png)
+
+### Docker Hub 镜像加速
+
+/etc/docker/daemon.json
+`{"registry-mirrors": ["阿里云提供的网址"]}`
+
+## docker应用部署
 
 
