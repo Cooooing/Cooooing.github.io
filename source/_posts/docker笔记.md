@@ -213,4 +213,55 @@ CMD /usr/local/apache-tomcat-8.5.24/bin/catalina.sh run
 
 ## docker应用部署
 
+1. 将开发好的程序打成jar包或war包
+2. 将打包好的文件上传至服务器
+3. 定义Dockerfile文件，用于创建项目镜像
+
+定义jar包程序Dockerfile文件
+~~~shell
+FROM java
+MAINTAINER root
+ADD springboot-web.jar /opt
+RUN chmod +x /opt/springboot-web.jar
+CMD java -jar /opt/springboot-web.jar
+~~~
+构建镜像：`docker build -t springboot-web.jar .`
+
+定义war包程序Dockerfile文件
+~~~shell
+FROM root_tomcat-8.5.24
+MAINTAINER root
+ADD springboot-web.war /usr/local/apache-tomcat-8.5.24/webapps
+EXPOSE 8080
+CMD /usr/local/apache-tomcat-8.5.24/bin/catalina.sh run
+~~~
+构建镜像：`docker build -t springboot-web.war .`
+
+修改容器保存：`docker commit 容器id 镜像名`
+容器内有新的数据，可以保存为新的镜像。
+
+## 总结
+
+主要是一些命令，但花了挺长时间。
+主要碰到了两个问题。
+
+第一个问题：
+无法启动tomcat
+~~~text
+Cannot find /usr/local/tomcat/bin/setclasspath.sh
+This file is needed to run this program
+~~~
+我不知道出现问题的原因是什么，但是找到了[解决方案](https://www.5axxw.com/questions/content/fypkh1)  
+我将tomcat的版本降低后，解决了这个问题。
+
+第二个问题：
+也是无法启动tomcat
+~~~text
+/usr/bin/docker-current: Error response from daemon: driver failed programming external connectivity on endpoint affectionate_leakey (31afb261a3eead766cd87d85a7d0b12d048379e3b8715f28367a61e27b228456): Error starting userland proxy: listen tcp 0.0.0.0:8080: bind: address already in use.
+ERRO[0000] error getting events from daemon: net/http: request canceled
+~~~
+这个是因为端口占用，而导致的报错。
+解决方案：kill占用的程序。
+> 查看端口使用情况：`netstat -anp`
+> 查看8080端口使用情况：`netstat -anp|grep 8080`
 
