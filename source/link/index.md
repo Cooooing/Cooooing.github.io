@@ -5,6 +5,8 @@ type: "link"
 top_img: https://dev.iw233.cn/api.php?sort=pc&type=jpg%3
 ---
 
+以下是我的信息
+添加友链可以发送邮件，不定期添加。
 ~~~yml
 - name: 咕咕咕
   link: https://cooooing.github.io/
