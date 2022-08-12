@@ -7,6 +7,8 @@ tags:
 - MD5
 - ip
 - session
+- mail
+- 数据库连接池
 categories:
 - bug及解决方案
 ---
@@ -137,6 +139,130 @@ spring的DigestUtils工具类
         // 基于spring框架中的DigestUtils工具类进行密码加密
         return DigestUtils.md5DigestAsHex((password).getBytes());
     }
+~~~
+
+### 发送mail邮件
+
+使用JavaMail发送邮件
+
+依赖：
+~~~xml
+        <!--javamail的依赖-->
+        <dependency>
+            <groupId>javax.mail</groupId>
+            <artifactId>mail</artifactId>
+            <version>1.4.7</version>
+        </dependency>
+~~~
+代码：
+~~~java
+    //邮件服务器地址（比如smtp.qq.com
+    private static final String mailHost = null;
+    //邮件传输协议（通常为smtp
+    private static final String mailTransportProtocol = "smtp";
+    //邮箱认证（即登录
+    private static final String mailSmtpAuth = "true";
+    //发件人邮箱地址
+    private static final String fromEmail = null;
+    //发件人邮箱密码
+    private static final String password = null;
+    /**
+     * 发送邮件
+     * @param toEmail 发往邮箱地址
+     */
+    public static void sendMail(String toEmail){
+        //发送的内容（可以是dom文档
+        String sendContent = "test mail";
+        //创建，发送邮件
+        Properties prop = new Properties();
+        prop.setProperty("mail.host", mailHost);
+        prop.setProperty("mail.transport.protocol", mailTransportProtocol);
+        prop.setProperty("mail.smtp.auth", mailSmtpAuth);
+        //使用JavaMail发送邮件的5个步骤
+        //1、创建session
+        Session session = Session.getInstance(prop);
+        //2、通过session得到transport对象
+        Transport ts;
+        try {
+            ts = session.getTransport();
+            //3、使用邮箱的用户名和密码连上邮件服务器，发送邮件时，发件人需要提交邮箱的用户名和密码给smtp服务器，用户名和密码都通过验证之后才能够正常发送邮件给收件人。
+            ts.connect(mailHost, fromEmail, password);
+            //4、创建邮件
+            MimeMessage message = new MimeMessage(session);
+            //指明邮件的发件人
+            message.setFrom(new InternetAddress(fromEmail));
+            //指明邮件的收件人
+            message.setRecipient(Message.RecipientType.TO, new InternetAddress(toEmail));
+            //邮件的标题
+            message.setSubject("标题");
+            //邮件的文本内容
+            message.setContent(sendContent, "text/html;charset=UTF-8");
+            //5、发送邮件
+            ts.sendMessage(message, message.getAllRecipients());
+            ts.close();
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+    }
+~~~
+
+参考文章：
+[使用JavaMail创建邮件和发送邮件](https://www.cnblogs.com/xdp-gacl/p/4216311.html)
+
+---
+
+使用springboot集成的mail模块
+
+依赖：
+~~~xml
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mail</artifactId>
+        </dependency>
+~~~
+配置：
+~~~properties
+spring.mail.protocol=
+spring.mail.host=
+spring.mail.username=
+spring.mail.password=
+~~~
+代码：
+~~~java
+    @Resource
+    private JavaMailSender javaMailSender;
+    @Value("${fromEmail}")
+    private String fromEmail;
+    /**
+     * 发送邮件
+     * @param toEmail 发往邮箱地址
+     */
+    public static void sendMail(String toEmail){
+        //发送的内容（可以是dom文档
+        String sendContent = "test mail";
+        try {
+            MimeMessageHelper messageHelper = new MimeMessageHelper(javaMailSender.createMimeMessage(), true);
+            messageHelper.setFrom(fromEmail);
+            messageHelper.setTo(toEmail);
+            messageHelper.setSubject("标题");
+            messageHelper.setText(sendContent, true);
+            javaMailSender.send(messageHelper.getMimeMessage());
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+    }
+~~~
+
+### jdbc数据库连接池（鸽了）
+
+因为建立数据库连接与关闭数据库连接是非常耗时的事情，如果每次查询都建立连接、关闭连接会产生很大的性能开销。
+所以有了连接池的出现来解决这一问题。
+即在程序启动时，初始化连接池（连接数据库，创建多个连接）。在需要使用时从连接池中获取连接，使用结束放回连接池。
+以减少性能开销。
+
+代码：
+~~~
+先鸽了
 ~~~
 
 ## bug及解决方案
