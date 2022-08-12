@@ -38,7 +38,7 @@ style:
   # First screen
   first_screen:
     enable: true
-    background_img: /images/mainTop1.jpg # You can use local image or image external link
+    background_img: https://s1.ax1x.com/2022/03/13/bqyL7R.jpg # /images/mainTop1.jpg # You can use local image or image external link
     description:
 
   # Scroll style settings
