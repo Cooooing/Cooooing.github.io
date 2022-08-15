@@ -4,7 +4,7 @@ date: 2022-06-24 19:28:18
 tags:
 - Nginx
 categories:
-- 笔记
+- 学习笔记
 ---
 
 ## 关于Nginx

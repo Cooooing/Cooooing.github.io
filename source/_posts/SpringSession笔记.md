@@ -5,7 +5,7 @@ tags:
 - spring
 - session
 categories:
-- 笔记
+- 学习笔记
 ---
 
 ## Session会话管理
