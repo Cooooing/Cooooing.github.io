@@ -5,7 +5,7 @@ tags:
     - Redis
     - 数据库
 categories:
-    - 笔记
+    - 学习笔记
 ---
 ## 关于Redis
 

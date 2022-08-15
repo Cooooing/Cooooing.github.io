@@ -4,7 +4,7 @@ date: 2022-03-19 22:23:35
 tags:
     - markdown 
 categories: 
-    - 笔记
+    - 学习笔记
 ---
 
 ## 关于Markdown

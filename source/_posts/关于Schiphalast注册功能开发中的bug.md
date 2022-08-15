@@ -10,7 +10,7 @@ tags:
 - mail
 - 数据库连接池
 categories:
-- bug及解决方案
+- 编程记录
 ---
 
 ## 简介
@@ -264,6 +264,9 @@ spring.mail.password=
 ~~~
 先鸽了
 ~~~
+
+附DataSource的产出背景：
+[DataSource，一个被严重低估的接口](https://www.51cto.com/article/663312.html)
 
 ## bug及解决方案
 

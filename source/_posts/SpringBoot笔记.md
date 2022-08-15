@@ -5,7 +5,7 @@ tags:
     - SpringBoot
     - java
 categories:
-    - 笔记
+    - 学习笔记
 ---
 
 # 第一章 xml与JavaConfig
