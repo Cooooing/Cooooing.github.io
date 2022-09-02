@@ -7,6 +7,10 @@ top_img: https://dev.iw233.cn/api.php?sort=pc&type=jpg&5
 
 # 日常
 
+## 2022-09-02
+
+![2021-09-02](../images/sunset/2022-09-02.jpg)
+
 ## 2022-09-01
 
 傍晚的操场
