@@ -7,6 +7,11 @@ top_img: https://dev.iw233.cn/api.php?sort=pc&type=jpg&5
 
 # 日常
 
+## 2022-09-12
+
+今天有彩虹！但是拍的不好，就不放了。
+![2022-09-12](../images/sunset/2022-09-12.jpg)
+
 ## 2022-09-10
 
 中秋快乐！
