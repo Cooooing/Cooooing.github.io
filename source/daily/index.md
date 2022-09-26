@@ -7,6 +7,11 @@ top_img: https://dev.iw233.cn/api.php?sort=pc&type=jpg&5
 
 # 日常
 
+## 2022-09-26
+
+> 你每天会忘记上千件事,何不把这件事也忘记?
+> You forget a thousand things every day，How about you make sure this is one of them?
+
 ## 2022-09-21
 
 下午去跑步，跑完休息的时候来了个四岁半的小孩子。
