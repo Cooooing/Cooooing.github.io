@@ -9,6 +9,11 @@ top_img: https://dev.iw233.cn/api.php?sort=pc&type=jpg&5
 
 ## 2022-11-16
 
+我下班了，蟹老板（9点）
+![2022-12-9](../images/daily/2022-12-9.jpg)
+
+## 2022-11-16
+
 不知不觉GTA5的主线已经结束了（意犹未尽）
 异常期待GTA6
 ![2022-11-16-1](../images/daily/2022-11-16-1.png)
