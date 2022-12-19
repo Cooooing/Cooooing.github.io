@@ -7,6 +7,10 @@ top_img: https://dev.iw233.cn/api.php?sort=pc&type=jpg&5
 
 # 日常
 
+## 2022-12-19
+
+![2022-12-19](../images/daily/2022-12-19.gif)
+
 ## 2022-12-16
 
 "名人名言"
@@ -140,13 +144,13 @@ top_img: https://dev.iw233.cn/api.php?sort=pc&type=jpg&5
 
 ## 2022-09-02
 
-![2021-09-02](../images/daily/2022-09-02.jpg)
+![2022-09-02](../images/daily/2022-09-02.jpg)
 
 ## 2022-09-01
 
 傍晚的操场
-![2021-12-28-1](../images/daily/2022-09-01-1.jpg)
-![2021-12-28-2](../images/daily/2022-09-01-2.jpg)
+![2022-09-01-1](../images/daily/2022-09-01-1.jpg)
+![2022-09-01-2](../images/daily/2022-09-01-2.jpg)
 
 
 ## 2021-12-28
