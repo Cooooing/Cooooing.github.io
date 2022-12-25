@@ -20,7 +20,7 @@ MetingJS给APlayer播放器加入网易云等支持。
 ## 配置
 
 使用cdn调用
-在 <head> 里面插入：
+在 head 里面插入：
 ~~~javascript
 <link href="https://cdn.bootcss.com/aplayer/1.10.1/APlayer.min.css" rel="stylesheet">
 <script src="https://cdn.bootcss.com/aplayer/1.10.1/APlayer.min.js"></script>
