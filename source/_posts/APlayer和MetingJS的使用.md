@@ -5,7 +5,7 @@ tags:
 - APlayer
 - MetingJS
 categories:
-- 学习记录
+- 学习笔记
 ---
 
 ## 简介
