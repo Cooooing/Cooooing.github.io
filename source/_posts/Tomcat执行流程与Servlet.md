@@ -120,7 +120,7 @@ Servlet 生命周期可被定义为从创建直到毁灭的整个过程。
 例如：
 servlet:
 
-```
+~~~java
 public class ServletTest extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -133,11 +133,11 @@ public class ServletTest extends HttpServlet {
         doGet(req, resp);
     }
 }
-```
+~~~
 
 别忘了在 web.xml 中添加映射:
 
-```
+~~~xml
 <web-app>
     <servlet>
         <servlet-name>ServletTest</servlet-name>
@@ -148,7 +148,7 @@ public class ServletTest extends HttpServlet {
         <url-pattern>/ServletTest</url-pattern>
     </servlet-mapping>
 </web-app>
-```
+~~~
 
 servlet 中详细的方法用法可以参考菜鸟教程，有比较详细的文档。
 关于 web.xml 中 servlet 的匹配规则也不详细列举了。
