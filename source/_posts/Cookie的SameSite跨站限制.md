@@ -116,7 +116,7 @@ server {
   
     # 代理后端API的配置
     location /api/ { # 用于转发的路径标记
-        proxy_pass http://124.222.100.205:8080/; # 被代理的API地址
+        proxy_pass http://ip:8080/; # 被代理的API地址
     }
 }
 ~~~
