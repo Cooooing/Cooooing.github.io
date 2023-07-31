@@ -314,6 +314,8 @@ lambda 主要是将函数作为参数和返回值。
 [Java 8 Lambda 表达式介绍](https://www.wdbyte.com/2019/11/jdk/jdk8-lambda/)
 [Java Lambda 表达式](https://www.runoob.com/java/java8-lambda-expressions.html)
 [Java8新特性 Lambda底层实现原理](https://segmentfault.com/a/1190000023747150?utm_source=tag-newest)
+[Java8系列 (一) Lambda表达式](https://www.cnblogs.com/qingshanli/p/11743439.html)
+[快速看清lambda的本质](https://juejin.cn/post/7074812705160298533)
 
 
 
