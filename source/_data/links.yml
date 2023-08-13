@@ -8,10 +8,11 @@
       avatar: https://s1.ax1x.com/2022/03/18/qF2YJ1.jpg
       description: 囊中羞涩，不知世锦繁华
 
-    - name: 顾のEvery Day
-      link: https://gufanstudy.github.io/
-      avatar: https://blog-img-1311712983.cos.ap-nanjing.myqcloud.com/avatar.png # https://s1.ax1x.com/2022/05/03/OkdkPx.png
-      description: 冲和者，淡泊平和，谦冲守正
+# 失效友链
+#    - name: 顾のEvery Day
+#      link: https://gufanstudy.github.io/
+#      avatar: https://blog-img-1311712983.cos.ap-nanjing.myqcloud.com/avatar.png # https://s1.ax1x.com/2022/05/03/OkdkPx.png
+#      description: 冲和者，淡泊平和，谦冲守正
 
     - name: 小于同学的异世界
       link: https://yby.zone
@@ -28,6 +29,7 @@
       avatar: https://sdhkj.github.io/img/%E5%A4%B4%E5%83%8F.jpg
       description: 开摆了
 
+# 失效友链
 #    - name: 季节的雪
 #      link: https://yang5201314.cn
 #      avatar: https://gitee.com/zhen-wang-yang/drawing-bed/raw/master/imge/bUncuj.webp
