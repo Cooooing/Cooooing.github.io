@@ -2,12 +2,12 @@
 /node_modules/
 /public/
 
-db.json
-package-lock.json
-.npmignore
-.deploy_git/
-.idea/
-scaffolds/
+/db.json
+/package-lock.json
+/.npmignore
+/.deploy_git/
+/.idea/
+/scaffolds/
 
 /source/_posts/opengl笔记.md
 /source/_posts/Vuejs笔记.md
