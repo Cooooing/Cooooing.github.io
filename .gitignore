@@ -1,3 +1,16 @@
 # 项目排除路径
 /node_modules/
 /public/
+
+db.json
+package-lock.json
+.npmignore
+.deploy_git/
+.idea/
+scaffolds/
+
+/source/_posts/opengl笔记.md
+/source/_posts/Vuejs笔记.md
+/source/_posts/计算机组成.md
+/source/images/opengl笔记/
+/source/images/计算机组成/
