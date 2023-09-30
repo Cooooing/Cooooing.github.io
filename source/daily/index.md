@@ -7,6 +7,10 @@ top_img: https://dev.iw233.cn/api.php?sort=pc&type=jpg&5
 
 # 日常
 
+## 2023-09-30
+
+中秋快乐，国庆快乐，生日快乐。
+
 ## 2023-07-07
 
 ![2023-07-07](../images/daily/2023-07-07.jpg)
