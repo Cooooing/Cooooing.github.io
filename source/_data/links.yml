@@ -1,62 +1,64 @@
-    - name: 鼠鼠在碎觉
-      link: https://www.sszsj.cc
-      avatar: https://tmx.fishpi.cn/img/head.jpg
-      description: 我是不慎落入世界的一滴水墨
 
-    - name: 青虬
-      link: https://reol077.github.io/
-      avatar: https://s1.ax1x.com/2022/03/18/qF2YJ1.jpg
-      description: 囊中羞涩，不知世锦繁华
 
-# 失效友链
-#    - name: 顾のEvery Day
-#      link: https://gufanstudy.github.io/
-#      avatar: https://blog-img-1311712983.cos.ap-nanjing.myqcloud.com/avatar.png # https://s1.ax1x.com/2022/05/03/OkdkPx.png
-#      description: 冲和者，淡泊平和，谦冲守正
+- name: 鼠鼠在碎觉
+  link: https://www.sszsj.cc
+  avatar: https://tmx.fishpi.cn/img/head.jpg
+  description: 我是不慎落入世界的一滴水墨
 
-    - name: 小于同学的异世界
-      link: https://yby.zone
-      avatar: https://source.yby.zone/tx.jpg
-      description: 为吾为枝，余地三尺，以己为棋，胜天半子。
-
-    - name: Mlikiowa Home Village
-      link: https://nanaeo.cn/
-      avatar: https://q1.qlogo.cn/g?b=qq&nk=1627126029&s=100
-      description: A litter Village With Mlikiowa
-
-    - name: sky
-      link: https://sdhkj.github.io/
-      avatar: https://sdhkj.github.io/img/%E5%A4%B4%E5%83%8F.jpg
-      description: 开摆了
+- name: 青虬
+  link: https://reol077.github.io/
+  avatar: https://s1.ax1x.com/2022/03/18/qF2YJ1.jpg
+  description: 囊中羞涩，不知世锦繁华
 
 # 失效友链
-#    - name: 季节的雪
-#      link: https://yang5201314.cn
-#      avatar: https://gitee.com/zhen-wang-yang/drawing-bed/raw/master/imge/bUncuj.webp
-#      description: 错过就真的错过了...
+#- name: 顾のEvery Day
+#  link: https://gufanstudy.github.io/
+#  avatar: https://blog-img-1311712983.cos.ap-nanjing.myqcloud.com/avatar.png # https://s1.ax1x.com/2022/05/03/OkdkPx.png
+#  description: 冲和者，淡泊平和，谦冲守正
 
-    - name: 忘忧草
-      link: https://owo.wyc.rest/
-      avatar: https://owo.wyc.rest/img/%E4%B8%87%E5%8F%B6.jpg
-      description: 这只是一个小破站而已！
+- name: 小于同学的异世界
+  link: https://yby.zone
+  avatar: https://source.yby.zone/tx.jpg
+  description: 为吾为枝，余地三尺，以己为棋，胜天半子。
 
-    - name: 十一
-      link: https://www.elevenblog.cn/
-      avatar: https://file.fishpi.cn/2022/06/blob-fbff7c58.png?imageView2/1/w/210/h/210/interlace/0/q/100
-      description: 懒癌晚期，混吃等死者
+- name: Mlikiowa Home Village
+  link: https://nanaeo.cn/
+  avatar: https://q1.qlogo.cn/g?b=qq&nk=1627126029&s=100
+  description: A litter Village With Mlikiowa
 
-    - name: stillwarter
-      link: https://stillwarter.github.io/
-      avatar: https://file.fishpi.cn/2022/07/MOSHED2022621164630-1b1ec532.gif?imageView2/1/w/210/h/210/interlace/0/q/100
-      description: 光就是一切的意义
+- name: sky
+  link: https://sdhkj.github.io/
+  avatar: https://sdhkj.github.io/img/%E5%A4%B4%E5%83%8F.jpg
+  description: 开摆了
 
-    - name: test12138
-      link: http://你好.eu.org/
-      avatar: https://file.fishpi.cn/2022/06/srchttpimgzcoolcncommunity0116405d84f975a801211d537707c9gifreferhttpimgzcool-0f2d09c9.gif?imageView2/1/w/48/h/48/interlace/0/q/100
-      description: 大丈夫生于天地之间，岂能郁郁久居人下。
-          
-    - name: 呼呼呼
-      link: https://bongbongbakudan.github.io/
-      avatar: https://pwl.stackoverflow.wiki/2021/12/blob-28eb4b9f.png?imageView2/1/w/48/h/48/interlace/0/q/100
-      description: 去整点薯条
-          
+# 失效友链
+#- name: 季节的雪
+#  link: https://yang5201314.cn
+#  avatar: https://gitee.com/zhen-wang-yang/drawing-bed/raw/master/imge/bUncuj.webp
+#  description: 错过就真的错过了...
+
+- name: 忘忧草
+  link: https://owo.wyc.rest/
+  avatar: https://owo.wyc.rest/img/%E4%B8%87%E5%8F%B6.jpg
+  description: 这只是一个小破站而已！
+
+- name: 十一
+  link: https://www.elevenblog.cn/
+  avatar: https://file.fishpi.cn/2022/06/blob-fbff7c58.png?imageView2/1/w/210/h/210/interlace/0/q/100
+  description: 懒癌晚期，混吃等死者
+
+- name: stillwarter
+  link: https://stillwarter.github.io/
+  avatar: https://file.fishpi.cn/2022/07/MOSHED2022621164630-1b1ec532.gif?imageView2/1/w/210/h/210/interlace/0/q/100
+  description: 光就是一切的意义
+
+- name: test12138
+  link: http://你好.eu.org/
+  avatar: https://file.fishpi.cn/2022/06/srchttpimgzcoolcncommunity0116405d84f975a801211d537707c9gifreferhttpimgzcool-0f2d09c9.gif?imageView2/1/w/48/h/48/interlace/0/q/100
+  description: 大丈夫生于天地之间，岂能郁郁久居人下。
+  
+- name: 呼呼呼
+  link: https://bongbongbakudan.github.io/
+  avatar: https://pwl.stackoverflow.wiki/2021/12/blob-28eb4b9f.png?imageView2/1/w/48/h/48/interlace/0/q/100
+  description: 去整点薯条
+  
