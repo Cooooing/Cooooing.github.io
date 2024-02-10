@@ -7,6 +7,10 @@ top_img: https://dev.iw233.cn/api.php?sort=pc&type=jpg&5
 
 # 日常
 
+## 2024-01-08
+
+大梦一场
+
 ## 2023-11-28
 
 还是加班
