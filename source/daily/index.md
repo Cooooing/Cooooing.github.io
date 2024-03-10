@@ -7,6 +7,11 @@ top_img: https://dev.iw233.cn/api.php?sort=pc&type=jpg&5
 
 # 日常
 
+## 2024-03-10
+
+吃吃吃
+![2024-03-10](../images/daily/2024-03-10.jpg)
+
 ## 2024-03-01
 
 倒计时，两个月。
