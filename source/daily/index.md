@@ -7,6 +7,12 @@ top_img: https://dev.iw233.cn/api.php?sort=pc&type=jpg&5
 
 # 日常
 
+## 2024-03-14
+
+出差，但是久违地在星期四吃了肯德基（Crazy
+![2024-03-14-1](../images/daily/2024-03-14-1.jpg)
+![2024-03-14-2](../images/daily/2024-03-14-2.jpg)
+
 ## 2024-03-10
 
 吃吃吃
