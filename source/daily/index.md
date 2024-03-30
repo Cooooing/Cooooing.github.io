@@ -7,6 +7,11 @@ top_img: https://dev.iw233.cn/api.php?sort=pc&type=jpg&5
 
 # 日常
 
+## 2024-03-27
+
+属于是跑遍江苏了
+![2024-03-27](../images/daily/2024-03-27.jpg)
+
 ## 2024-03-14
 
 出差，但是久违地在星期四吃了肯德基（Crazy
