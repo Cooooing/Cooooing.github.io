@@ -110,12 +110,12 @@ abstract class AbstractPipeline<E_IN, E_OUT, S extends BaseStream<E_OUT, S>>
 | skip(long n)                                 | 跳过  |
 
 重点记录下映射的用法，映射有两种
-1. map 必须是**一对一映射**，将每个元素转换为一个新的元素。
-2. flatMap 可以是**一对多映射**的，将每个元素转换为一个或多个元素。
+1. map 必须是**一对一映射**，将每个元素转换为一个新的元素（可以是一个新的集合）。
+2. flatMap 可以是**一对多映射**的，将每个元素转换为一个或多个元素（比 map 多了扁平化处理，将映射后的结果进行合并）。
 
 下面是例子，用来展示 map 和 flatMap 的用法和区别。
 
-~~~java
+~~~java  
 public class Main {
     public static void main(String[] args) {
         Stream<String> stringStream = Stream.of("hello", "world", "java", "stream");
@@ -135,7 +135,32 @@ public class Main {
 }
 ~~~
 
-> flatMap 操作的时候其实是先每个元素处理并返回一个新的 Stream，然后将多个 Stream 展开合并为了一个完整的新的 Stream
+> flatmap 操作的时候其实是先每个元素处理并返回一个新的 Stream，然后将多个 Stream 展开合并为了一个完整的新的 Stream
+> 即 flatmap 操作分为两步： map 和 flatten （扁平化）
+
+所以 flatmap 可以将 集合中的集合展开，变成一个新的大集合。例子：
+
+~~~java
+public class Main {
+    public static void main(String[] args) {
+        List<List<String>> list = new ArrayList<>();
+        list.add(Arrays.asList("hello", "world", "java", "stream"));
+        list.add(Arrays.asList("hello", "world", "java", "stream"));
+
+        // 将流中每个元素变为大写（一对一
+        List<List<String>> stringList1 = list.stream().map(i -> i.stream().map(String::toUpperCase).toList()).collect(Collectors.toList());
+        // 将流中每个元素转换为大写（合并流
+        List<String> stringList2 = list.stream().flatMap(s -> s.stream().map(String::toUpperCase)).collect(Collectors.toList());
+
+        System.out.println(stringList1);
+        // [[HELLO, WORLD, JAVA, STREAM], [HELLO, WORLD, JAVA, STREAM]]
+        System.out.println(stringList2);
+        // [HELLO, WORLD, JAVA, STREAM, HELLO, WORLD, JAVA, STREAM]
+    }
+}
+
+~~~
+
 
 ReferencePipeline 中 map 的实现，返回了一个无状态操作。（其中的 opWrapSink 看不懂一点，大概是流水线上的一个节点，包裹了我们要执行的操作。 
 ~~~java
