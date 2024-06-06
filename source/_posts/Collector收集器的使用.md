@@ -111,9 +111,9 @@ Collector 接口定义了 3 个泛型、5 个接口方法、2个静态方法、3
 
 有一个数组 a,b,c,d,e,f,g
 下面通过自定义的 collector 实现，返回一个 本身为 key，ascii 码为值的 map 集合。
-同时，通过打印信息区分顺序流与并行流的执行区别。
+同时，通过打印信息区分串行流与并行流的执行区别。
 
-顺序流（单线程顺序执行）
+串行流（单线程顺序执行）
 ~~~java
     public static void main(String[] args) {
         Map<String, Integer> res = Stream.of("a", "b", "c", "d", "e", "f", "g")
@@ -136,7 +136,7 @@ Collector 接口定义了 3 个泛型、5 个接口方法、2个静态方法、3
     }
 ~~~
 
-顺序流输出结果：
+串行流输出结果：
 ~~~
 main supplier...
 main accumulator: a
@@ -155,7 +155,7 @@ f:102
 g:103
 ~~~
 
-可以看到顺序流中 supplier 方法只执行一次，并且 combiner 方法没有执行。
+可以看到串行流中 supplier 方法只执行一次，并且 combiner 方法没有执行。
 
 并行流
 ~~~java
