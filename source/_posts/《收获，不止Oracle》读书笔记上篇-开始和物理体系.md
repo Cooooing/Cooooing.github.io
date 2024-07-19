@@ -422,28 +422,296 @@ DML语句不同于查询语句，会改变数据库的数据。
 
 先介绍两个概念：
 1. 系统更改号 SCN,SCN的全称是：System Change Number,这是一个只会增加不会减少的递增数字，存在于Oracle的最小单位块里，当某块改变时SCN就会递增。
-2. 回滚段记录事务槽（前面我在描述回滚的时候提过，事务槽是用来分配回滚空间的)，如果你更新了某块，事务就被写进事务槽里。如果未提交或者回滚，该块就存在活动事务，数据库读到此块可以识别到这种情况的存在。
+2. 回滚段记录事务槽（）（前面我在描述回滚的时候提过，事务槽是用来分配回滚空间的)，如果你更新了某块，事务就被写进事务槽里。如果未提交或者回滚，该块就存在活动事务，数据库读到此块可以识别到这种情况的存在。
+
+当开始查询时，首先会获取查询时刻的SCN号。查询过程中会比较查询时刻的SCN号与当前数据块头部的ITL槽内的SCN号（如果有多个ITL槽，取最大的SCN号）
+如果查询时刻的SCN号大于ITL槽内的SCN号，说明该块的数据在这段时间没有被更新，可以放心地正常全部读。
+如果查询时刻的SCN号小于ITL槽内的SCN号，说明该块的数据在这段时间被更新了，需要根据ITL槽中记录的对应的undo块的地址找到undo块，将undo块中记录的修改前的数据取出。
+
+不过并不是查询开始的SCN大于等于查询中所有块的SCN就一定可以直接获取数据。
+因为当前镜像数据c从回滚段中找不回来时，这个查询将会以 ORA-01555: Snapshot too old 的错误终止。查询失败，也不会返回一个错误的查询结果。
 
 
+> ORA-01555 错误，正式名称为"Snapshot Too Old"（快照过旧），是Oracle数据库中常见的错误之一。
+> 这个错误通常发生在执行查询或事务处理期间，数据库无法为查询结果提供足够旧的一致性读取快照，导致查询失败。这意味着数据库无法确保查询结果反映的是查询开始那一刻的数据状态，违反了读一致性原则。
+> 
+> **触发条件**：
+> 1. **Undo表空间大小不足**：如果数据库配置的Undo表空间大小较小，不足以存放长时间运行查询期间产生的undo信息，旧的undo记录可能会被新事务产生的undo信息覆盖。
+> 2. **长查询与高并发更新**：在查询执行过程中，如果有大量其他事务并发地对报表查询所涉及的数据表进行更新或删除操作，这将迅速消耗undo空间，可能导致查询所需的undo记录被提前清理。
+> 3. **Undo_RETENTION设置不当**：即使Undo表空间足够大，但如果Undo_RETENTION参数设置得过低，数据库也可能过早地回收undo信息，即使undo空间仍有空闲。
+> 
+> **解决方案**：
+> - 增加Undo表空间的大小。
+> - 调整Undo_RETENTION参数以延长undo数据的保留时间。
+> - 优化长查询，减少查询执行时间。
+> - 使用绑定变量，减少硬解析，从而减少undo的生成。
+> - 在合适的情况下，考虑使用较大的隔离级别，如SERIALIZABLE，尽管这可能会影响并发性能。
 
 
+早期的SQL Server的数据库版本，是读产生锁，在读数据时表就被锁住，这样确实是不存在问题了，不过如果读表会让表锁住，那数据库的并发会非常的糟糕。
+早期的其他数据库版本也有边读边锁的，比如已经读过的记录就允许被修改，而未读过的数据却是被锁住的，不允许修改，这虽然稍稍有些改进，只锁了表的部分而非全部，但是还是读产生锁，非常糟糕。
+而Oracle的回滚段，却解决了读一致性的问题，又避免了锁，大大增强了数据库并发操作的能力。
+
+#### 实践
+
+##### 内存
+
+查看 sga 内存区大小
+~~~text
+SQL> show parameters sga
+
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- ------------------------------
+allow_group_access_to_sga            boolean     FALSE
+lock_sga                             boolean     FALSE
+pre_page_sga                         boolean     TRUE
+sga_max_size                         big integer 1536M
+sga_min_size                         big integer 0
+sga_target                           big integer 1536M
+~~~
+
+查看 pga 内存区大小
+~~~text
+SQL> show parameters pga
+
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- ------------------------------
+pga_aggregate_limit                  big integer 2G
+pga_aggregate_target                 big integer 512M
+~~~
+
+查看 共享池 大小
+~~~text
+SQL> show parameters shared_pool_size
+
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- ------------------------------
+shared_pool_size                     big integer 0
+~~~
+
+查看 数据缓存区 大小
+~~~text
+SQL> show parameters db_cache_size
+
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- ------------------------------
+db_cache_size                        big integer 0
+~~~
+
+会发现，共享池和数据缓存区的大小都为0
+因为这里Oracle设置为SGA自动管理，共享池和数据缓存区的大小分配由之前的SGA MAX SIZE和SGA TARGET决定，总的大小为1536M
+它们分别被分配多少由Oracle来决定，无须我们人工干预，其中SGA TARGET不能大于SGA MAX SIZE。
+
+二者有什么差别呢？举个例子
+比如SGA TARGET:=2G,而SGA MAX SIZE=8G,表示数据库正常运行情况下操作系统只分配2G的内存区给Oracle使用，而这2G就是共享池和数据缓存区等内存组件分配的大小
+可是运行中发现内存不够用，这时OS可以再分配内存给SGA,但是最大不可以超过8G。
+
+一般情况下都建议使用SGA内存大小自动分配的原则，如果一定要手工分配也行，把SGA TARGET设置为O,再把SHARED POOL SIZE和DB CACHE SIZE设置为非O,就可以了。
+在启用自动管理时，数据库管理员不需要手动设置各个SGA组件（如共享池、数据缓冲区、大型池、Java池等）的确切大小。
+相反，管理员会设置一个总的SGA目标大小（如通过SGA_TARGET参数），或者在使用AMM时，设置一个总的内存目标大小（MEMORY_TARGET），包括SGA和PGA（Program Global Area，程序全局区）。
+Oracle数据库根据当前的工作负载和需求动态调整各个组件的大小，以优化资源使用和性能。
+
+可以使用 ipcs -m 的查看共享内存的命令：
+
+~~~text
+bash-4.4$ ipcs -m
+
+------ Shared Memory Segments --------
+key        shmid      owner      perms      bytes      nattch     status      
+0x00000000 0          oracle     600        5361664    102                     
+0x00000000 1          oracle     600        1593835520 51                      
+0x00000000 2          oracle     600        4530176    51                      
+0xf2c898a4 3          oracle     600        20480      51  
+~~~
+
+> `ipcs -m` 是一个在Linux系统中用于显示内存共享段信息的命令。`ipcs` 命令是一个用于报告进程间通信（IPC）设施状态的实用程序，包括消息队列、信号量集和共享内存段。当加上 `-m` 选项时，它专门针对共享内存进行操作，显示当前系统中所有共享内存段的详细信息。
+> 共享内存是进程间通信的一种高效方式，允许多个进程直接访问同一块内存区域，从而快速交换数据。`ipcs -m` 输出的信息通常包括如下几列：
+> - **Key**：共享内存段的键值，用于标识共享内存段。
+> - **shmid**：共享内存段的ID。
+> - **Owner**：创建共享内存段的用户ID。
+> - **Perms**：共享内存段的权限。
+> - **Bytes**：共享内存段的大小（字节数）。
+> - **Nattch**：当前连接到该共享内存段的进程数。
+> - **Status**：共享内存段的状态，比如是否被附加（attached）。
+> - **ctime**：共享内存段创建的时间。
+> - **mtime**：共享内存段最后一次修改的时间。
 
 
+查看 日志缓存区 大小
+~~~text
+SQL> show parameters log_buffer
+
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- ------------------------------
+log_buffer                           big integer 4192K
+~~~
+
+一般日志缓冲区满三分之一便会触发LGWR，将缓冲区中的内容写入磁盘，以确保有足够的空间供新的重做记录使用。
+
+那该如何修改这些设置呢？具体命令如下：
+使用 `alter system set <parameter_name>=<value> scope=memory|spfile both [sid=<sid_name>]` 命令可以动态修改许多系统参数。
+其中 scope 参数表示其作用范围和持久性，它有三个枚举值。
+* memory:只改变当前实例运行，重新启动数据库后失效。
+* spfile:只改变spfile的设置，不改变当前实例运行，重新启动数据库后生效。
+* both（默认值）:同时改变实例及spfile,当前更改立即生效，重新启动数据库后仍然有效。
+
+可以通过 ALTER SYSTEM 或者导入导出来更改 spfile 的内容。
+针对RAC环境，ALTER SYSTEM 还可以指定SD参数，对不同实例进行不同的设置。
+
+1. 如果当前实例使用的是pfle而非spfile,则scope=-spfile或scope--both会产生错误
+2. 如果实例以pfle启动，则scope的默认值为memory,若以spfile启动，则默认值为both
+3. 有些参数（静态参数）必须重启才能生效，如log buffer
+
+##### 进程
+
+Oracle数据库是由实例和一组数据库文件组成的，实例则是由Oracle开辟的内存区和一组后台进程组成的。
+
+下面登录Oracle数据库环境，来看一下这些后台进程。
+这里登录的环境是Linux/UNIX环境，因为Windows环境中Oracle是多线程形式的，不好查看。而UNIX环境是多进程形式的，更方便查看。
+
+查看 实例名称
+~~~text
+SQL> show parameters instance_name
+
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- ------------------------------
+instance_name                        string      FREE
+~~~
+
+使用实例名称来过滤，比使用oracle更加精准。
+
+~~~text
+bash-4.4$ ps -ef|grep FREE  
+oracle        33       1  0 Jul16 ?        00:00:33 db_pmon_FREE
+oracle        37       1  0 Jul16 ?        00:00:06 db_clmn_FREE
+oracle        41       1  0 Jul16 ?        00:00:48 db_psp0_FREE
+oracle        45       1  0 Jul16 ?        00:00:52 db_vktm_FREE
+oracle        51       1  0 Jul16 ?        00:00:19 db_gen0_FREE
+oracle        55       1  0 Jul16 ?        00:00:10 db_mman_FREE
+oracle        61       1  0 Jul16 ?        00:00:09 db_gen2_FREE
+oracle        63       1  0 Jul16 ?        00:00:10 db_diag_FREE
+oracle        65       1  0 Jul16 ?        00:00:08 db_ofsd_FREE
+oracle        69       1  0 Jul16 ?        00:00:14 db_gwpd_FREE
+oracle        71       1  0 Jul16 ?        00:01:24 db_dbrm_FREE
+oracle        73       1  0 Jul16 ?        00:10:04 db_vkrm_FREE
+oracle        75       1  0 Jul16 ?        00:00:38 db_pman_FREE
+oracle        78       1  0 Jul16 ?        00:01:42 db_dia0_FREE
+oracle        81       1  0 Jul16 ?        00:00:28 db_dbw0_FREE
+oracle        83       1  0 Jul16 ?        00:00:28 db_lgwr_FREE
+oracle        85       1  0 Jul16 ?        00:00:54 db_ckpt_FREE
+oracle        87       1  0 Jul16 ?        00:00:05 db_smon_FREE
+oracle        90       1  0 Jul16 ?        00:00:19 db_smco_FREE
+oracle        96       1  0 Jul16 ?        00:00:03 db_reco_FREE
+oracle       102       1  0 Jul16 ?        00:00:11 db_lreg_FREE
+oracle       109       1  0 Jul16 ?        00:00:10 db_pxmn_FREE
+oracle       115       1  0 Jul16 ?        00:01:06 db_mmon_FREE
+oracle       117       1  0 Jul16 ?        00:01:00 db_mmnl_FREE
+oracle       121       1  0 Jul16 ?        00:01:55 db_bg00_FREE
+oracle       123       1  0 Jul16 ?        00:00:09 db_w000_FREE
+oracle       131       1  0 Jul16 ?        00:00:47 db_bg01_FREE
+oracle       137       1  0 Jul16 ?        00:00:53 db_bg02_FREE
+oracle       146       1  0 Jul16 ?        00:00:03 db_d000_FREE
+oracle       148       1  0 Jul16 ?        00:00:02 db_s000_FREE
+oracle       150       1  0 Jul16 ?        00:00:03 db_tmon_FREE
+oracle       152       1  0 Jul16 ?        00:00:08 db_rcbg_FREE
+oracle       159       1  0 Jul16 ?        00:00:03 db_tt00_FREE
+oracle       162       1  0 Jul16 ?        00:00:08 db_tt01_FREE
+oracle       166       1  0 Jul16 ?        00:00:08 db_p000_FREE
+oracle       254       1  0 Jul16 ?        00:00:03 db_aqpc_FREE
+oracle       381       1  0 Jul16 ?        00:19:13 db_cjq0_FREE
+oracle       423       1  0 Jul16 ?        00:00:04 db_qm02_FREE
+oracle       427       1  0 Jul16 ?        00:00:02 db_q002_FREE
+oracle       431       1  0 Jul16 ?        00:00:06 db_q004_FREE
+oracle       478       1  0 Jul16 ?        00:00:09 db_w001_FREE
+oracle      1007    1006  0 Jul16 ?        00:00:00 oracleFREE (DESCRIPTION=(LOCAL=YES)(ADDRESS=(PROTOCOL=beq)))
+oracle      4550       1  0 Jul16 ?        00:00:04 oracleFREE (LOCAL=NO)
+oracle     44919       1  0 Jul17 ?        00:00:00 oracleFREE (LOCAL=NO)
+oracle     45470       1  0 Jul17 ?        00:00:00 oracleFREE (LOCAL=NO)
+oracle     65331       1  0 Jul17 ?        00:00:00 oracleFREE (LOCAL=NO)
+oracle    120778       1  0 Jul18 ?        00:01:20 db_m005_FREE
+oracle    121022       1  0 Jul18 ?        00:01:20 db_m004_FREE
+oracle    123426       1  0 Jul18 ?        00:01:17 db_m003_FREE
+oracle    125755       1  0 Jul18 ?        00:01:18 db_m000_FREE
+oracle    167946       1  0 10:41 ?        00:00:00 oracleFREE (LOCAL=NO)
+oracle    171135       1  0 11:58 ?        00:00:12 db_m006_FREE
+oracle    178882  170338  0 15:05 pts/6    00:00:00 grep FREE
+~~~
+
+这里可以看到有很多前面介绍的进程，比如lgwr。
+LOCAL=NO 表示非Oracle本身的进程，是通过其他用户通过监听连接进数据库进行访问的。
+
+这里缺少了一个重要的进程，ARCH归档进程。
+当日志循环写入过程中会出现下一个日志已经被写过的情况，再继续写将会覆盖其内容，需要将这些即将被覆盖的内容写出到磁盘里去形成归档文件。
+这样日志记录不会丢失，将来数据库就可以从这些日志文件和归档文件中进行数据库的恢复处理。
+不过这个归档并非总是必要的。
+
+~~~text
+SQL> archive log list 
+Database log mode              No Archive Mode
+Automatic archival             Disabled
+Archive destination            /opt/oracle/product/23ai/dbhomeFree/dbs/arch
+Oldest online log sequence     8
+Current log sequence           6
+~~~
+
+可以看到 No Archive Mode 数据库归档是关闭的。
+更改数据库归档模式需要重启数据库，将数据库置于mount状态后，输入`alter database archivelog`(如果是归档改为非归档，这里是`alter database noarchivelog`)
+然后再开启数据库`alter database open`,才可以将数据库更改为非归档，具体步骤如下（这里就不一一执行了）：
+1. SQL> shutdown immediate;  -- 关闭数据库
+2. startup mount; -- 启动数据库实例，并将数据库装载（mount）到实例中，但不打开（open）数据库。
+3. alter database archivelog; -- 将数据库从非归档模式转换为归档模式
+4. alter database open; -- 打开数据库
+
+##### 启停
+
+参数文件及控制文件和数据库的启动与关闭是息息相关的，数据库的启动可分为三个阶段，分别是nomount、mount和open。
+在启动的过程中可以直接输入startup启动，也可以分成startup nomount、startup mount和alter database open三步分别启动。
+
+1. **STARTUP NOMOUNT**：
+    - 此阶段初始化Oracle实例，但不装载数据库的任何数据文件或控制文件。主要用于配置参数、分配内存结构等初始化工作。
+    - 读取参数文件（PFILE/SPFILE），分配SGA（系统全局区），启动后台进程。
+
+2. **STARTUP MOUNT**：
+    - 装载数据库但不打开。此时，控制文件被读取，数据库结构被识别，但数据文件保持关闭状态。
+    - 除了NOMOUNT阶段的工作，还会装载控制文件，验证数据文件和联机重做日志文件的存在和一致性。
+
+3. **ALTER DATABASE OPEN**：
+    - 打开数据库，使其对用户可用。数据文件被打开，检查点信息被处理，必要时进行恢复操作。
+    - 打开数据文件，应用重做日志以确保数据的一致性，启动必要的后台进程，解锁数据库供用户访问。
+
+4. **STARTUP RESTRICT**（可选）：
+    - 以受限模式打开数据库，仅允许特定用户（如DBA）连接，常用于维护操作。
+    - 类似OPEN，但限制了连接数据库的用户权限。
+
+5. **STARTUP FORCE**（可选）：
+    - 强制关闭数据库（如果已打开）并重新启动。适用于数据库不能正常关闭的情况。
+    - 相当于执行了`SHUTDOWN ABORT followed by STARTUP`。
+
+总结起来，nomount阶段仅需一个参数文件即可成功，mount阶段要能够正常读取到控制文件才能成功。
+而opn阶段需要保证所有的数据文件和日志文件等需要和控制文件里记录的名称和位置一致，能被锁定访问更新的同时还要保证没有损坏，否则数据库的ope阶段就不可能成功。
+
+关闭是启动的逆过程
+首先把数据库关闭，然后数据库和实例之间DISMOUNT，最后实例关闭。
+这里三个阶段都在一个命令中完成，如下：
+
+1. **SHUTDOWN NORMAL**：
+    - 平缓关闭数据库，等待所有用户断开连接后才关闭，确保数据完整性和一致性。
+    - 阻止新连接，等待当前所有会话完成，执行检查点，关闭数据库和实例。
+
+2. **SHUTDOWN TRANSACTIONAL**：
+    - 类似于NORMAL，但在所有事务结束前不等待长时间运行的查询。
+    - 比NORMAL更快关闭，但保证所有事务完成。
+
+3. **SHUTDOWN IMMEDIATE**：
+    - 立即关闭，不等待用户会话完成，但允许当前事务完成。
+    - 终止所有非系统会话，允许当前事务快速提交或回滚后关闭。
+
+4. **SHUTDOWN ABORT**：
+    - 紧急关闭，不执行任何清理工作，可能导致未提交的事务丢失和需要实例恢复。
+    - 立即终止所有会话，不执行检查点或事务回滚，可能导致数据库需要恢复。
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+##### 文件
 
 
 
