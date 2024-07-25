@@ -32,7 +32,7 @@ tags:
 3. 优化：在深入了解数据库的运行原理的基础上，利用各类工具及手段发现并解决数据库存在的性能问题，从而提升数据库运行效率，这个说着轻巧，其实很不容易。
 4. 设计：深刻理解业务需求和数据库原理，合理高效地完成数据库模型的建设，设计出各类表及索引等数据库对象，让后续应用开发可以高效稳定。
 
-![各角色需要掌握的知识要点.png](../images/《收获，不止Oracle》读书笔记上篇-物理体系/各角色需要掌握的知识要点.png)
+![各角色需要掌握的知识要点.png](../images/《收获，不止Oracle》读书笔记上篇-开始和物理体系/各角色需要掌握的知识要点.png)
 
 我的角色目前是开发，后续笔记中也会侧重于开发的内容。除此之外，也会带一些我感兴趣的内容。
 
@@ -40,7 +40,7 @@ tags:
 
 不论什么角色，基础原理都是必学的。首先就是物理体系结构，平时遇到的各种数据库相关问题，很多都可以从中找到解决方法。
 
-![Oracle体系结构图.png](../images/《收获，不止Oracle》读书笔记上篇-物理体系/Oracle体系结构图.png)
+![Oracle体系结构图.png](../images/《收获，不止Oracle》读书笔记上篇-开始和物理体系/Oracle体系结构图.png)
 
 1. **Oracle由实例和数据库组成**，我特意用两个虚框标记出来，上半部的直角方框为实例instance,下半部的圆角方框为数据库Database,大家可以看到我在虚线框左上角做的标注。
 2. **实例是由一个开辟的共享内存区SGA(System Global Area)和一系列后台进程组成的**，其中**SGA最主要被划分为共享池(shared pool)、数据缓存区(db cache)和日志缓存(log buffer)三类**。后台进程包括图2-2中所示的PMON、SMON、LCKn、RECO、CKPT、DBWR、LGWR、ARCH等系列进程。
@@ -713,6 +713,204 @@ Current log sequence           6
 
 ##### 文件
 
+没有参数文件，实例无法创建，数据库无法NOMOUNT成功
+没有控制文件，数据库无法 MOUNT
+没有数据文件，数据库无法打开使用（此外没有了数据文件，那数据也没地方保存了，数据库也失去意义了)
+没有日志和归档文件，数据库就失去了保护伞，变得很不安全了。
+
+参数文件位置
+~~~text
+SQL> show parameters spfile
+
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- ------------------------------
+spfile                               string      /opt/oracle/product/23ai/dbhom
+                                                 eFree/dbs/spfileFREE.ora
+~~~
+
+控制文件位置
+~~~text
+SQL> show parameters control
+
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- ------------------------------
+control_file_record_keep_time        integer     7
+control_files                        string      /opt/oracle/oradata/FREE/contr
+                                                 ol01.ctl, /opt/oracle/oradata/
+                                                 FREE/control02.ctl
+control_management_pack_access       string      DIAGNOSTIC+TUNING
+diagnostics_control                  string      IGNORE
+~~~
+
+数据文件位置
+~~~text
+SQL> select file_name from DBA_DATA_FILES;
+
+FILE_NAME
+--------------------------------------------------------------------------------
+/opt/oracle/oradata/FREE/users01.dbf
+/opt/oracle/oradata/FREE/undotbs01.dbf
+/opt/oracle/oradata/FREE/system01.dbf
+/opt/oracle/oradata/FREE/sysaux01.dbf
+~~~
+
+日志文件位置
+~~~text
+SQL> select group#,member from v$logfile;
+
+    GROUP# MEMBER
+---------- ----------------------------------------------------------------------
+         3 /opt/oracle/oradata/FREE/redo03.log
+         2 /opt/oracle/oradata/FREE/redo02.log
+         1 /opt/oracle/oradata/FREE/redo01.log
+~~~
+
+归档文件位置（这里未开启归档模式，所以没有归档文件）
+~~~text
+SQL> show parameters recovery
+
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- ------------------------------
+_instance_recovery_bloom_filter_size integer     1048576
+db_recovery_auto_rekey               string      ON
+db_recovery_file_dest                string
+db_recovery_file_dest_size           big integer 0
+recovery_parallelism                 integer     0
+remote_recovery_file_dest            string
+transaction_recovery                 string      ENABLED
+~~~
+
+告警日志文件
+~~~text
+SQL> show parameters dump
+
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- ------------------------------
+background_core_dump                 string      partial
+background_dump_dest                 string      /opt/oracle/product/23ai/dbhom
+                                                 eFree/rdbms/log
+core_dump_dest                       string      /opt/oracle/diag/rdbms/free/FR
+                                                 EE/cdump
+max_dump_file_size                   string      32M
+shadow_core_dump                     string      partial
+user_dump_dest                       string      /opt/oracle/product/23ai/dbhom
+                                                 eFree/rdbms/log
+~~~
+
+##### 监听
+
+如果想在远程A机器上通过网络访问本地B机器上的数据库，B机器上的数据库必须开启监听。
+远程的A机器只需安装数据库客户端，然后通过读取A机器上数据库客户端配置的TNSNAMES.ORA的配置文件，即可连接并访问B机器的数据库。
+下面介绍监听状态的查看，监听的开启，以及监听的关闭。
+以下`Isnrctl status`命令是查看监听的状态命令，其中 Listener Parameter File 和 Listener Log File 定位了监听文件listener.ora以及对应的日志。
+
+~~~text
+bash-4.4$ lsnrctl status
+
+LSNRCTL for Linux: Version 23.0.0.0.0 - Production on 25-JUL-2024 20:16:51
+
+Copyright (c) 1991, 2024, Oracle.  All rights reserved.
+
+Connecting to (DESCRIPTION=(ADDRESS=(PROTOCOL=IPC)(KEY=EXTPROC_FOR_FREE)))
+STATUS of the LISTENER
+------------------------
+Alias                     LISTENER
+Version                   TNSLSNR for Linux: Version 23.0.0.0.0 - Production
+Start Date                16-JUL-2024 15:25:32
+Uptime                    9 days 4 hr. 51 min. 19 sec
+Trace Level               off
+Security                  ON: Local OS Authentication
+SNMP                      OFF
+Default Service           FREE
+Listener Parameter File   /opt/oracle/product/23ai/dbhomeFree/network/admin/listener.ora
+Listener Log File         /opt/oracle/diag/tnslsnr/oracle/listener/alert/log.xml
+Listening Endpoints Summary...
+  (DESCRIPTION=(ADDRESS=(PROTOCOL=ipc)(KEY=EXTPROC_FOR_FREE)))
+  (DESCRIPTION=(ADDRESS=(PROTOCOL=tcp)(HOST=0.0.0.0)(PORT=1521)))
+Services Summary...
+Service "16df542da83f091ce0630500580a27e7" has 1 instance(s).
+  Instance "FREE", status READY, has 1 handler(s) for this service...
+Service "FREE" has 1 instance(s).
+  Instance "FREE", status READY, has 1 handler(s) for this service...
+Service "FREEXDB" has 1 instance(s).
+  Instance "FREE", status READY, has 1 handler(s) for this service...
+Service "PLSExtProc" has 1 instance(s).
+  Instance "PLSExtProc", status UNKNOWN, has 1 handler(s) for this service...
+Service "freepdb1" has 1 instance(s).
+  Instance "FREE", status READY, has 1 handler(s) for this service...
+The command completed successfully
+~~~
+
+关闭监听 `lsnrctl stop`
+关闭监听 `lsnrctl start`
+
+
+### 体会 sql 性能差异
+
+#### 未优化前，单车速度
+
+使用以下存储过程，实现将1到10万插入到t表中。
+
+~~~sql
+create or replace procedure proc1
+as
+begin
+    for i in 1..100000
+        loop
+            execute immediate
+                'insert into t values ('||i||')';
+            commit;
+        end loop;
+end;
+-- 这里要记得先预先执行一遍，将过程创建起来！
+~~~
+
+~~~text
+SQL> drop table t purge;
+
+Table dropped.
+
+Elapsed: 00:00:00.45
+SQL> create table t(x int);
+
+Table created.
+
+Elapsed: 00:00:00.15
+SQL> alter system flush shared_pool;
+
+System altered.
+
+Elapsed: 00:00:01.28
+SQL> set timing on
+SQL> exec proc1;
+
+PL/SQL procedure successfully completed.
+
+Elapsed: 00:00:53.68
+SQL> select count(*) from t;
+
+  COUNT(*)
+----------
+    100000
+
+Elapsed: 00:00:00.09
+~~~
+
+耗时53秒68，每秒两千条不到。
+
+共享池中缓存下来的SQL语句以及HASH出来的唯一值，都可以在v$sql中对应的 SQL_TEXT 和 SQL_ID 字段中查询到
+而解析的次数和执行的次数分别可以从 PARSE_CALL 和 EXECUTIONS 字段中获取。
+由于这个过程PROC1执行的是 insert into t 的系列插入，于是我们执行如下语句来查询PROC1在数据库共享池中执行的情况，具体如下：
+
+~~~sql
+select t.sql_text,t.sql_id,t.PARSE_CALLS,t.EXECUTIONS
+from v$sql t
+where sql_text like '%insert into t values%';
+~~~
+
+![PROC1在共享池中的执行情况.png](../images/《收获，不止Oracle》读书笔记上篇-开始和物理体系/PROC1在共享池中的执行情况.png)
+
+可以看到共享池中有大量相似的sql，他们的sql_id都不一样，每个语句都被解析了一次、执行了一次。
 
 
 
