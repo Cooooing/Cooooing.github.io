@@ -865,6 +865,7 @@ end;
 -- 这里要记得先预先执行一遍，将过程创建起来！
 ~~~
 
+初始化表结构、清空共享池、开启计时等。每次执行存储过程前重置，以便观察各个存储的性能。后续省略
 ~~~text
 SQL> drop table t purge;
 
@@ -882,6 +883,9 @@ System altered.
 
 Elapsed: 00:00:01.28
 SQL> set timing on
+~~~
+
+~~~text
 SQL> exec proc1;
 
 PL/SQL procedure successfully completed.
@@ -911,6 +915,125 @@ where sql_text like '%insert into t values%';
 ![PROC1在共享池中的执行情况.png](../images/《收获，不止Oracle》读书笔记上篇-开始和物理体系/PROC1在共享池中的执行情况.png)
 
 可以看到共享池中有大量相似的sql，他们的sql_id都不一样，每个语句都被解析了一次、执行了一次。
+这些sql都是高度相似的，如果这些语句都能合并成一种写法，不是就可以只解析一次，然后执行十万次，节省了解析的时间。
+
+#### 绑定变量，摩托速度
+
+~~~sql
+create or replace procedure proc2
+as
+begin
+    for i in 1..100000
+        loop
+            execute immediate
+                'insert into t values (:x)' using i;
+            commit;
+        end loop;
+end;
+~~~
+
+~~~text
+SQL> exec proc2;
+
+PL/SQL procedure successfully completed.
+
+Elapsed: 00:00:03.50
+~~~
+
+耗时3秒50，每秒八千多条。
+看来sql的解析还是很耗时的。
+
+![PROC2在共享池中的执行情况.png](../images/《收获，不止Oracle》读书笔记上篇-开始和物理体系/PROC2在共享池中的执行情况.png)
+
+#### 静态改写，汽车速度
+
+execute immediate 是一种动态SQL的写法，常用于表名字段名是变量、入参的情况，由于表名都不知道，所以当然不能直接写SQL语句了。
+所以要靠动态SQL语句根据传入的表名参数，来拼成一条SQL语句，由 execute immediate 调用执行。
+但是这里显然不需要多此一举，因为insert into t values()完全可以满足需求，表名就是t，是确定的。
+
+~~~sql
+create or replace procedure proc3
+as
+begin
+    for i in 1..100000
+        loop
+            insert into t values (i);
+            commit;
+        end loop;
+end;
+~~~
+
+~~~text
+SQL> exec proc3;
+
+PL/SQL procedure successfully completed.
+
+Elapsed: 00:00:03.19
+~~~
+
+耗时3秒19，又快了一些。
+
+一般来说，静态SQL会自动使用绑定变量
+![PROC3在共享池中的执行情况.png](../images/《收获，不止Oracle》读书笔记上篇-开始和物理体系/PROC3在共享池中的执行情况.png)
+
+从执行情况可以看到proc3也实现了绑定变量，而且动态SQL的特点是执行过程中再解析，而静态SQL的特点是编译的过程就解析好了。
+这点差别就是速度再度提升的原因。
+
+#### 批量提交，动车速度
+
+commit 放在里面意味着每插入1条，就要提交1次，那放在循环里就要提交10万次，而放在循环外就是全部插入完后提交1次。
+commit 触发 LGWR 将 REDO BUFFER 写出到 REDO LOG 中，并且将回滚段的活动事务标记为不活动，同时让回滚段中记录对应前镜像记录的所在位置标记为可以重写。
+切记 commit 可不是写数据的动作，写数据将数据从 DATA BUFFER 刷出磁盘是由 CKPT。
+
+~~~text
+SQL> exec proc4;
+
+PL/SQL procedure successfully completed.
+
+Elapsed: 00:00:03.02
+~~~
+
+#### 集合写法，飞机速度
+
+`insert into t select rownum from dual connect by level<=100000;`
+
+~~~text
+SQL> insert into t select rownum from dual connect by level<=100000;
+
+100000 rows created.
+
+Elapsed: 00:00:00.14
+~~~
+
+耗时仅0.14秒
+因为原先的过程变为了sql，一条条插入的语句变成了一个集合的概念，变成了一整批地写进 DATA BUFFER 区里。
+好比你要运砖头到目的地，一种是一块砖头拿到目的地，再返回拿第二块，直到拿完全部。
+而另一种是全部放在板车一起推至目的地，只是这里的目的地是 DATA BUFFER 区而已。
+
+#### 直接路径，火箭速度
+
+时间已经很小了，这时可能会有误差，所以将数据量放大到200万。~~没加太大是因为我这小服务器内存不够~~
+
+~~~text
+SQL> insert into t select rownum from dual connect by level<=2000000;
+
+1000000 rows created.
+
+Elapsed: 00:00:02.38
+~~~
+
+耗时2.38秒。和上面差不多，每秒七八十万。
+
+下面使用 create table 的直接路径方式来新建t表。
+`create table t as select rownum x from dual connect by level<=2000000;`
+
+~~~text
+SQL> create table t as select rownum x from dual connect by level<=2000000;
+
+Table created.
+
+Elapsed: 00:00:02.02
+~~~
 
 
 
@@ -947,6 +1070,9 @@ registry-mirrors 是镜像加速地址，这里使用的是网易的镜像加速
 
 使用 `docker logs -f oracle` 查看容器日志，当出现 `DATABASE IS READY TO USE!` 时，即启动成功。
 后面就可以愉快地使用Oracle了。
+
+`docker exec -it oracle23c sqlplus sys@localhost:1521/FREE as sysdba` 进入容器内，并进行登录。
+
 
 ## HINT
 
