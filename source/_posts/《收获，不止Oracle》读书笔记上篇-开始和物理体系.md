@@ -75,7 +75,7 @@ PGA区域是仅供当前发起用户使用的私有内存空间，这个区域�
 
 下面开始实践，可以先跳至文末，搭建Oracle的环境。
 
-~~~sql
+~~~oraclesqlplussqlplus
 drop table t;
 create table t as
 select *
@@ -851,7 +851,7 @@ The command completed successfully
 
 使用以下存储过程，实现将1到10万插入到t表中。
 
-~~~sql
+~~~oraclesqlplus
 create or replace procedure proc1
 as
 begin
@@ -906,7 +906,7 @@ Elapsed: 00:00:00.09
 而解析的次数和执行的次数分别可以从 PARSE_CALL 和 EXECUTIONS 字段中获取。
 由于这个过程PROC1执行的是 insert into t 的系列插入，于是我们执行如下语句来查询PROC1在数据库共享池中执行的情况，具体如下：
 
-~~~sql
+~~~oraclesqlplus
 select t.sql_text,t.sql_id,t.PARSE_CALLS,t.EXECUTIONS
 from v$sql t
 where sql_text like '%insert into t values%';
@@ -919,7 +919,7 @@ where sql_text like '%insert into t values%';
 
 #### 绑定变量，摩托速度
 
-~~~sql
+~~~oraclesqlplus
 create or replace procedure proc2
 as
 begin
@@ -951,7 +951,7 @@ execute immediate 是一种动态SQL的写法，常用于表名字段名是变�
 所以要靠动态SQL语句根据传入的表名参数，来拼成一条SQL语句，由 execute immediate 调用执行。
 但是这里显然不需要多此一举，因为insert into t values()完全可以满足需求，表名就是t，是确定的。
 
-~~~sql
+~~~oraclesqlplus
 create or replace procedure proc3
 as
 begin
@@ -1017,24 +1017,38 @@ Elapsed: 00:00:00.14
 ~~~text
 SQL> insert into t select rownum from dual connect by level<=2000000;
 
-1000000 rows created.
+2000000 rows created.
 
-Elapsed: 00:00:02.38
+Elapsed: 00:00:01.74
 ~~~
 
-耗时2.38秒。和上面差不多，每秒七八十万。
+耗时1.74秒。
 
 下面使用 create table 的直接路径方式来新建t表。
 `create table t as select rownum x from dual connect by level<=2000000;`
 
 ~~~text
-SQL> create table t as select rownum x from dual connect by level<=2000000;
+SQL>  create table t as select rownum x from dual connect by level<=2000000;
 
 Table created.
 
-Elapsed: 00:00:02.02
+Elapsed: 00:00:01.73
 ~~~
 
+区别不是很大，可能因为数据量的关系。
+
+#### 并行设置，飞船速度
+
+最后，如果遇到性能好的机器，还是可以大幅度提升性能的。
+设置日志关闭 nologging 并且设置 parallel 4 表示用到机器的4个CPU。~~这里还是受限于机器了~~
+
+~~~text
+SQL> create table t nologging parallel 4 as select rownum x from dual connect by level<=2000000;
+
+Table created.
+
+Elapsed: 00:00:01.74
+~~~
 
 
 ## Oracle 环境的搭建
