@@ -1,4 +1,5 @@
 ---
+layout: post
 title: Nginx笔记
 date: 2022-06-24 19:28:18
 tags:

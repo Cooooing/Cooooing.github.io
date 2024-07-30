@@ -1,4 +1,5 @@
 ---
+layout: post
 title: RabbitMQ笔记
 date: 2022-08-20 13:19:48
 tags:

@@ -1,4 +1,5 @@
 ---
+layout: post
 title: 使用hexo框架在github.io上搭建博客网站.
 date: 2022-03-12 13:54:21
 tags:

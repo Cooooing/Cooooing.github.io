@@ -1,4 +1,5 @@
 ---
+layout: post
 title: stream流的使用
 date: 2023-07-31 14:47:26
 tags:

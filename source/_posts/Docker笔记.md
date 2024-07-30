@@ -1,4 +1,5 @@
 ---
+layout: post
 title: docker笔记
 date: 2022-07-23 19:40:00
 tags:

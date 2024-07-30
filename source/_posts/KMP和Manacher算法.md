@@ -1,4 +1,5 @@
 ---
+layout: post
 title: KMP和Manacher算法
 date: 2022-10-02 13:47:53
 tags:

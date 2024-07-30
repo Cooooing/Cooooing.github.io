@@ -1,4 +1,5 @@
 ---
+layout: post
 title: FastDFS笔记
 date: 2022-08-09 13:24:08
 tags:

@@ -1,4 +1,5 @@
 ---
+layout: post
 title: 关于使用反射时，因lambda产生的bug
 date: 2023-09-01 19:22:53
 categories:
