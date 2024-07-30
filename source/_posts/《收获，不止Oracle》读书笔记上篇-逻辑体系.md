@@ -205,30 +205,349 @@ create user "test"
 grant dba to "test";
 ~~~
 
+上述创建用户的命令会报错：`ORA-65096: 公用用户或角色名称必须以前缀 C## 开头`
+这是因为 Oracle Database 12c 引入了一项重要的新特性：多租户架构，其中包括容器数据库（CDB）和可插入数据库（PDB）。这项特性极大地改变了数据库管理的方式，提供了更好的资源隔离、简化了数据库部署和维护，并增强了安全性。
+在书中并未这部分，可能作者使用的版本较低。所以这部分是查资料所得。
 
 
+容器数据库（Container Database, CDB）是一个包含多个可插入数据库（Pluggable Databases, PDBs）的数据库。CDB 包括根容器（Root Container）和种子容器（Seed Container），以及一个或多个可插入数据库。
+
+- **根容器**：CDB 的根容器包含全局数据库对象和管理信息。根容器通常不包含用户数据。
+- **种子容器**：CDB 的种子容器是一个特殊的 PDB，用于创建新的 PDB 时作为模板。每个 CDB 都有一个种子容器，通常命名为 `PDB$SEED`。
+
+可插入数据库（Pluggable Database, PDB）是 CDB 中的独立数据库环境，可以像传统的独立数据库一样使用，但它们共享同一套物理文件和资源。每个 PDB 都有自己的表空间、用户、角色、对象等。
+
+- **独立性**：每个 PDB 都是一个完整的数据库环境，拥有自己的表空间、用户、角色和数据。
+- **资源隔离**：PDB 之间相互隔离，可以配置资源限制，以防止一个 PDB 影响其他 PDB 的性能。
+- **可移植性**：PDB 可以轻松地在不同的 CDB 之间移动，甚至可以在不同的 Oracle 数据库版本之间移动。
+- **共享资源**：尽管每个 PDB 都是独立的，但它们共享 CDB 的物理文件和资源，从而减少了管理开销和提高了资源利用率。
+
+使用 CDB 和 PDB 带来的好处
+
+- **简化管理**：通过将多个数据库作为 PDB 放入单个 CDB 中，可以大大简化数据库的管理。例如，补丁更新、备份和恢复等操作只需要在 CDB 层级执行即可。
+- **资源隔离**：PDB 之间的资源可以被隔离，从而确保每个 PDB 都有稳定的资源使用环境。
+- **安全性增强**：每个 PDB 都可以有自己的安全策略，从而增强了整个系统的安全性。
+- **成本节省**：多个 PDB 共享 CDB 的资源，可以减少硬件成本和许可证费用。
+
+下面是相关的 sql 语句。
+~~~oraclesqlplus
+-- 查看当前容器
+show con_name
+select sys_context('USERENV','CON_NAME') conname from dual;
+
+-- 查看PDB
+select con_id, dbid, name, open_mode from v$pdbs;
+
+-- 新建 PDB (PDB有多种创建方式，这里是通过PDB$SEED创建PDB。此外还有通过PDB创建PDB等多种方式，毕竟PDB是可插拔的，注定它的管理方式是多种多样的。)
+-- 其中 oracledb 是可插接式数据库名称，TEST_USER 是创建的该PDB的管理员用户，123456 是密码。file_name_convert 指定了文件名转换规则，用于将种子 PDB (PDB$SEED) 的数据文件路径转换为目标 PDB (oracledb) 的数据文件路径。
+create pluggable database oracledb admin user TEST_USER identified by 123456 file_name_convert = ('/opt/oracle/oradata/ORCLCDB/pdbseed','/opt/oracle/oradata/orclcdb/oracledb');
+
+-- 创建完成后的 PDB 数据库还不能直接使用，因为此时他的状态是 MOUNTED。使用下面的sql更改其状态。
+alter pluggable database oracledb open;
+alter pluggable database all open;
+
+-- 切换容器
+alter session set container=PDB$SEED;
+alter session set container=oracledb;
+~~~
+
+创建完成之后，就可以使用新的用户连接到数据库里。
+`jdbc:oracle:thin:@//127.0.0.1:1521/oracledb`
+
+这里简单叙述下 PDB 和 CDB 的概念，和基本的用户创建。下面回到书中，继续体会逻辑结构。
+
+#### EXTENT 区
+
+**Oracle的最小逻辑单位是块(BLOCK),而最小的扩展单位是区(EXTENT).**
+
+~~~oraclesqlplus
+-- 创建表 如果没有指定表空间，则使用该用户默认的表空间
+drop table t purge;
+create table t (id int) tablespace default_dataspace;
+
+-- 查询数据字典获取extent相关信息
+select segment_name,
+       extent_id,
+       tablespace_name,
+       bytes/1024/1024,blocks
+from user_extents
+where segment_name='T';
+~~~
+
+插入 2000000 条数据后，有39个区。
+
+| SEGMENT_NAME | EXTENT_ID | TABLESPACE_NAME | BYTES/1024/1024 | BLOCKS |
+|--------------|-----------|-----------------|-----------------|--------|
+| T            | 0         | SYSTEM          | 0.0625          | 8      |
+| T            | 1         | SYSTEM          | 0.0625          | 8      |
+| T            | 2         | SYSTEM          | 0.0625          | 8      |
+| T            | 3         | SYSTEM          | 0.0625          | 8      |
+| T            | 4         | SYSTEM          | 0.0625          | 8      |
+| T            | 5         | SYSTEM          | 0.0625          | 8      |
+| T            | 6         | SYSTEM          | 0.0625          | 8      |
+| T            | 7         | SYSTEM          | 0.0625          | 8      |
+| T            | 8         | SYSTEM          | 0.0625          | 8      |
+| T            | 9         | SYSTEM          | 0.0625          | 8      |
+| T            | 10        | SYSTEM          | 0.0625          | 8      |
+| T            | 11        | SYSTEM          | 0.0625          | 8      |
+| T            | 12        | SYSTEM          | 0.0625          | 8      |
+| T            | 13        | SYSTEM          | 0.0625          | 8      |
+| T            | 14        | SYSTEM          | 0.0625          | 8      |
+| T            | 15        | SYSTEM          | 0.0625          | 8      |
+| T            | 16        | SYSTEM          | 1               | 128    |
+| T            | 17        | SYSTEM          | 1               | 128    |
+| T            | 18        | SYSTEM          | 1               | 128    |
+| T            | 19        | SYSTEM          | 1               | 128    |
+| T            | 20        | SYSTEM          | 1               | 128    |
+| T            | 21        | SYSTEM          | 1               | 128    |
+| T            | 22        | SYSTEM          | 1               | 128    |
+| T            | 23        | SYSTEM          | 1               | 128    |
+| T            | 24        | SYSTEM          | 1               | 128    |
+| T            | 25        | SYSTEM          | 1               | 128    |
+| T            | 26        | SYSTEM          | 1               | 128    |
+| T            | 27        | SYSTEM          | 1               | 128    |
+| T            | 28        | SYSTEM          | 1               | 128    |
+| T            | 29        | SYSTEM          | 1               | 128    |
+| T            | 30        | SYSTEM          | 1               | 128    |
+| T            | 31        | SYSTEM          | 1               | 128    |
+| T            | 32        | SYSTEM          | 1               | 128    |
+| T            | 33        | SYSTEM          | 1               | 128    |
+| T            | 34        | SYSTEM          | 1               | 128    |
+| T            | 35        | SYSTEM          | 1               | 128    |
+| T            | 36        | SYSTEM          | 1               | 128    |
+| T            | 37        | SYSTEM          | 1               | 128    |
+| T            | 38        | SYSTEM          | 1               | 128    |
 
 
+#### SEGMENT 段
+
+观察数据段
+
+~~~oraclesqlplus
+-- 查询数据字典获取segment相关信息
+select segment_name,
+       segment_type,
+       tablespace_name,
+       blocks,
+       extents,bytes/1024/1024
+from user_segments
+where segment_name ='T';
+~~~
+
+| SEGMENT_NAME | SEGMENT_TYPE | TABLESPACE_NAME | BLOCKS | EXTENTS | BYTES/1024/1024 |
+|--------------|--------------|-----------------|--------|---------|-----------------|
+| T            | TABLE        | SYSTEM          | 3072   | 39      | 24              |
+
+2000000 条数据，占用了24M空间，用了39个区，3072个块。
+
+观察索引段
+
+~~~oraclesqlplus
+-- 创建索引
+create index idx_id on t(id);
+-- 查询数据字典获取segment相关信息
+select segment_name,
+       segment_type,
+       tablespace_name,
+       blocks,
+       extents,
+       bytes/1024/1024
+from user_segments
+where segment_name ='IDX_ID';
+~~~
+
+| SEGMENT_NAME | SEGMENT_TYPE | TABLESPACE_NAME | BLOCKS | EXTENTS | BYTES/1024/1024 |
+|--------------|--------------|-----------------|--------|---------|-----------------|
+| IDX_ID       | INDEX        | SYSTEM          | 4608   | 51      | 36              |
 
 
+### 逻辑结构二次体会
 
+#### BLOCK的大小和调整
 
+一般来说，Oracle默认的数据库块大小就是8KB,是在创建数据库时决定的，所以如果想改变块的大小，就必须在建库时指定。
+Oracle9i以后的版本中，Oracle支持用户在新建用户表空间时指定块的大小，这意味着数据库有多个表空间，他们各自的BLOCK大小有可能各不相同。
+切记只是新建的用户表空间，原有的已经建好的表空间是不可以更改的，系统表空间更不可能更改或调整。
 
+~~~text
+SQL> show parameters cache_size
 
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- ------------------------------
+client_result_cache_size             big integer 0
+data_transfer_cache_size             big integer 0
+db_16k_cache_size                    big integer 0
+db_2k_cache_size                     big integer 0
+db_32k_cache_size                    big integer 0
+db_4k_cache_size                     big integer 0
+db_8k_cache_size                     big integer 0
+db_cache_size                        big integer 0
+db_flash_cache_size                  big integer 0
+db_keep_cache_size                   big integer 0
+db_recycle_cache_size                big integer 0
+~~~
 
+上面的参数意味着可以设置2KB、4KB、8KB、16KB、32KB的块大小。
+如果将 db_16k_cache_size 设置为 1OOMB，就意味着SGA中的 DATA BUFFER 数据缓存区中将会有10OMB的大小让内存块可以以16KB的大小进行访问了，同时也意味着16KB大小的设置从此生效了。
+然后建表空间，切记加上 `blocksize 16K` 的关键字即可。这里就不演示了。
 
+#### PCTFREE 参数、调整和生效范围
 
+之前有说 BLOCK 块有一个FREE空间，是由PCTFREE参数决定的，设置这个参数来控制BLOCK保留一些空间。为什么要保留是之前留下的问题。
+下面举例子来解答：
+假如数据库中有某表T有900行记录，如果一个块最多可以装10行记录，最终需要90个块将T表记录装满。
+如果PCTFREE为10，表示会预留10%的空间，那就是每个块都只能装9行数据，最终需要100个块才可以把T表记录装满。
+这时做全表扫描的查询，查询T表的所有记录，如果PCTFREE设置为1O，将会遍历100个数据块。如果为0，将遍历90个数据块。
+这种情况下，当然是PCTFREE设置为0的效率更高。
+但是只有在只读数据库或者说只有插入删除很少更新的数据库环境中，才合适将PCTFREE设置为0。
+预留的空间是为了更新操作。
 
+有的表频繁更新，有的表几乎是只读的，从不更新。
+所以不同类型的表就应该设置不同的PCTFREE，表在数据库中就是SEGMENT，因此PCTFREE这个参数其实是可以只针对某个具体段的系列区包含的BLOCK生效。
+Oracle有一个默认的属性，就是PCTFREE=1O，在整个数据库层面生效。
+但是具体到建T表时，可以指定PCTFREE为别的值，比如20，那这个T表或者说SEGMENT T的所有块的属性，就是PCTFREE为20。
 
+#### EXTENT 尺寸与调整
 
+区的大小是可以设置的，之前在区的逻辑结构中可以看到区的大小有时是0.0625MB(扩展8个块)，有时是1MB(128个块)，这是表空间区拓展大小设置的是自动拓展的缘故。
+如果想要自定义，可以在创建表空间时添加 `uniform size 1OM` 的关键字，表示扩展是统一尺寸，大小都是1OMB。
 
+### 逻辑结构三次体会
 
+#### 以用和未用表空间情况
 
+查看表空间剩余情况
 
+~~~text
+SQL> select tablespace_name,sum(bytes)/1024/1024 from dba_free_space group by tablespace_name;
 
+TABLESPACE_NAME                SUM(BYTES)/1024/1024
+------------------------------ --------------------
+SYSTEM                                       2.4375
+SYSAUX                                      28.3125
+UNDOTBS1                                    92.3125
+~~~
 
+查看表空间总体空间情况
 
+~~~text
+SQL> select tablespace_name,sum(bytes)/1024/1024 from dba_data_files group by tablespace_name;
 
+TABLESPACE_NAME                SUM(BYTES)/1024/1024
+------------------------------ --------------------
+SYSAUX                                          430
+SYSTEM                                          340
+UNDOTBS1                                        100
+~~~
 
+#### 表空间大小和自动拓展
 
+表空间没有开启自动拓展（AUTOEXTENSIBLE = NO）或者开启了自动拓展但存储空间不够了，此时会报错：**ORA-01654: 索引 XXX 无法通过 128 (在表空间 xxx 中) 扩展**
+
+磁盘还有存储空间，但没有开启自动拓展导致表空间不足。
+这时手动添加数据文件可以解决：`ALTER TABLESPACE TBS_UB ADD DATAFILE '/opt/oracle/oradata/FREE/db02.dbf'SIZE 100M;`
+或者开启自动拓展，让oracle自己拓展：`alter database datafile '/opt/oracle/oradata/FREE/db02.dbf'autoextend on;`
+
+磁盘不足导致表空间不足的话，可以考虑删除数据（数据是宝贵的，不建议删）或者添加硬件。
+`drop tablespace TBS_UB including contents and datafiles;` 其中 including contents and datafiles 表示要删除表空间的数据和对应的数据文件，如果表空间有数据，不增加 including contents 将无法删除成功。
+
+#### 回滚表空间的新建与切换
+
+Oracle数据库建好后，UNDO表空间和TEMP表空间必然是建好了。但是实际情况是，回滚段和表空间都可以新建，并且用户都可以指定新建的空间。
+
+查看数据库当前在用回滚段，数据库当前的回滚表空间名为UNDOTBS1:
+
+~~~text
+SQL> show parameters undo
+
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- ------------------------------
+temp_undo_enabled                    boolean     FALSE
+undo_management                      string      AUTO
+undo_retention                       integer     900
+undo_tablespace                      string      UNDOTBS1
+~~~
+
+> 其中 undo_management 的取值为 AUTO 表示是系统自动管理表空间而非手动管理。
+
+查看当前数据库有几个回滚段
+
+~~~text
+SQL> select tablespace_name,contents,status from dba_tablespaces where contents='UNDO';
+
+TABLESPACE_NAME                CONTENTS              STATUS
+------------------------------ --------------------- ---------
+UNDOTBS1                       UNDO                  ONLINE
+~~~
+
+查看数据库回滚段的大小
+
+~~~text
+SQL> select tablespace_name,sum(bytes)/1024/1024 from dba_data_files where tablespace_name = 'UNDOTBS1' group by tablespace_name;
+
+TABLESPACE_NAME                SUM(BYTES)/1024/1024
+------------------------------ --------------------
+UNDOTBS1                                        100
+~~~
+
+切换回滚段的方法 `alter system set undo_tablespace=undotbs2 scope=both;` 
+
+> 当前使用中的回滚段是无法被删除的
+> 回滚表空间是真的可以新建多个，并且自由切换的，但是数据库当前使用的回滚表空间却只能有一个（注：RAC数据库会有多个）
+
+#### 临时表空间的新建和切换
+
+**回滚表空间的特点是，数据库中可以建立多个，但是目前的在用表空间却只能有一个。而临时表空间在数据库中也可以建多个，却可以被同时使用。**
+
+查看临时表空间大小
+
+~~~text
+SQL> select tablespace_name,sum(bytes)/1024/1024 from dba_temp_files group by tablespace_name;
+
+TABLESPACE_NAME                SUM(BYTES)/1024/1024
+------------------------------ --------------------
+TEMP                                             20
+~~~
+
+查看用户默认表空间和临时表空间
+
+~~~text
+SQL> select DEFAULT_TABLESPACE,TEMPORARY_TABLESPACE,username from dba_users where username='TEST_USER';
+
+DEFAULT_TABLESPACE             TEMPORARY_TABLESPACE           USERNAME
+------------------------------ ------------------------------ --------------------------------------------------------------------------------------------------------------------------------
+SYSTEM                         TEMP                           TEST_USER
+~~~
+
+`alter user TEST_USER temporary tablespace TEMP02;` 指定用户切换临时表空间
+`alter database default temporary tablespace TEMP02;` 切换所有用户默认临时表空间
+
+回滚段建多个的目的是可以瘦身，原先的回滚段一直扩展导致空间浪费太多，新建出来的小一点，切换成功后删除原来旧的回滚表空间，磁盘空间就空余出来了。
+而临时表空间是为了避免竞争。Oracle可以为每个用户指定不同的临时表空间，每个临时表空间的数据文件都在磁盘的不同位置上，减少了IO竞争。
+oracle还可以为统一用户不同session设置不同的临时表空间，进一步减少竞争。
+
+实际上建临时表空间组很简单，只要新建一个临时表空间，然后加上 `tablespace group tmp_group` ,就默认建成了一个名为 tmp_group 的临时表空间组了。例如：
+`create tablespace tmp_group01 datafile '/opt/oracle/oradata/FREE/tmp_group01.dbf' size 100M tablespace group tmp_group;`
+`create tablespace tmp_group02 datafile '/opt/oracle/oradata/FREE/tmp_group02.dbf' size 100M tablespace group tmp_group;`
+`create tablespace tmp_group03 datafile '/opt/oracle/oradata/FREE/tmp_group03.dbf' size 100M tablespace group tmp_group;`
+
+查询临时表空间情况
+
+~~~text
+SQL> select * from dba_tablespace_groups;
+
+GROUP_NAME             TABLESPACE_NAME
+---------------------- ------------------------------
+TMP_GROUP              TMP_GROUP01                  
+TMP_GROUP              TMP_GROUP02                  
+TMP_GROUP              TMP_GROUP03                  
+~~~
+
+指定某表空间移动到临时表空间组 `alter tablespace TMP_GROUP04 tablespace group TMP_GROUP;`
+使用 `alter user TEST_USER temporary tablespace TMP_GROUP;` 将用户切换到临时表空间组后。
+
+虽然是同一用户登录的，但不同的SESSION都会自动分配到了不同的临时表空间。
+同时，临时表空间组也可以分配多个。
+
+临时表空间组可以往表空间组里不断新增临时表空间，让数据库在运行时自动从临时表空间组中选择各个临时表空间，不只是用户层面，而且是在SESSION层面进行IO均衡负载，极大地提升了数据库的性能。
 
