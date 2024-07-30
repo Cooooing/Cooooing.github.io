@@ -339,15 +339,17 @@ footer:
 # Docs: https://keep-docs.xpoet.cn/basis/configuration-guide/inject.html
 # ---------------------------------------------------------------------------------------
 inject:
-  enable: false  # Option values: true | false
+  enable: true  # Option values: true | false
   css:
-    -
+    - /css/APlayer.min.css
     # e.g.
     # - /css/custom-1.css
     # - /css/custom-2.css
     # - ...
   js:
-    -
+    - /js/APlayer.min.js
+    - /js/Meting.min.js
+    - /js/leaves.js
     # e.g.
     # - /js/custom-1.js
     # - /js/custom-2.js
