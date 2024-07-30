@@ -1,4 +1,5 @@
 ---
+layout: post
 title: private 方法使用 AOP 导致注入属性为 null 的问题
 date: 2024-02-04 19:41:36
 categories:

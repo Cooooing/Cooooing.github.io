@@ -1,4 +1,5 @@
 ---
+layout: post
 title: 如何搭建minecraft服务器
 date: 2023-03-09 09:26:24
 tags:

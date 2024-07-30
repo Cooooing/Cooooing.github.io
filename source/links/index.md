@@ -1,4 +1,5 @@
 ---
+layout: post
 title: links
 date: 2022-04-27 22:06:17
 type: "links"

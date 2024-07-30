@@ -1,4 +1,5 @@
 ---
+layout: post
 title: 《收获，不止Oracle》读书笔记上篇-逻辑体系
 date: 2024-07-28 14:07:40
 updated: 2024-07-28 14:07:40
@@ -155,8 +156,7 @@ BLOCK_SIZE
 CREATE TABLESPACE "test"
     DATAFILE '/opt/oracle/oradata/FREE/test.dbf'
     SIZE 100M -- 数据文件的初始大小
-    AUTOEXTEND ON
--- 允许数据文件自动扩展
+    AUTOEXTEND ON -- 允许数据文件自动扩展
 
 -- 创建临时表空间
 CREATE TEMPORARY TABLESPACE test_temp
@@ -194,7 +194,16 @@ SYSAUX 表空间用于存储数据库的辅助数据，如索引组织表（Inde
 
 #### User 用户
 
-
+~~~oraclesqlplus
+-- 创建用户
+drop user "test" cascade;
+create user "test"
+    identified by "test_password"
+    default tablespace "test"
+    temporary tablespace test_temp;
+-- 赋权
+grant dba to "test";
+~~~
 
 
 

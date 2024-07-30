@@ -1,4 +1,5 @@
 ---
+layout: post
 title: Ventoy！多系统启动u盘
 date: 2024-03-22 19:25:48
 updated: 2024-03-22 19:25:48

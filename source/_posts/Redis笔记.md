@@ -1,4 +1,5 @@
 ---
+layout: post
 title: Redis笔记
 date: 2022-05-07 21:38:10
 tags:

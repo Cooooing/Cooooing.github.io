@@ -1,4 +1,5 @@
 ---
+layout: post
 title: HTTP协议详解
 date: 2023-02-13 15:55:32
 tags:
