@@ -551,3 +551,158 @@ TMP_GROUP              TMP_GROUP03
 
 临时表空间组可以往表空间组里不断新增临时表空间，让数据库在运行时自动从临时表空间组中选择各个临时表空间，不只是用户层面，而且是在SESSION层面进行IO均衡负载，极大地提升了数据库的性能。
 
+### END
+
+#### 过度拓展与性能
+
+extent是Oracle数据库扩展的最小单位，而且大小是可以设置的。
+如果某表（或者说某段）记录增长特别快，就可以考虑把这个EXTENT的大小设置得大一点，比如initial extent和incremental extent都设置比较大，这样申请扩展的次数就会减少，性能可以提高。
+
+下面来做个实验：
+首先建两个表空间，TBS_UB_A_01、TBS_UB_B_01，然后分别在两个表空间上建表。
+
+~~~text
+SQL> create tablespace TBS_UB_A datafile '/home/oracle/TBS_UB_A_01.DBF' size 10M autoextend on uniform size 64k;
+
+Tablespace created.
+
+Elapsed: 00:00:00.59
+SQL> create tablespace TBS_UB_B datafile '/home/oracle/TBS_UB_B_01.DBF' size 2G;
+
+Tablespace created.
+
+Elapsed: 00:00:07.87
+SQL> CREATE TABLE t_a (id int)tablespace TBS_UB_A;
+
+Table created.
+
+Elapsed: 00:00:00.37
+SQL> CREATE TABLE t_b (id int)tablespace TBS_UB_B;
+
+Table created.
+
+Elapsed: 00:00:00.01
+~~~
+
+上面创建表空间 TBS_UB_A 大小设置的为10M，想要模拟表空间不足，在大量拓展时的性能如何。书上设置的大小为1M。
+这里可能由于版本原因，设置1M会报错：`ORA-03214: The specified file size is smaller than the minimum blocks 784.`
+表示尝试创建的数据文件的大小小于 Oracle 数据库要求的最小大小。因为 Oracle 数据库需要一定的空间来存储元数据和其他管理信息，即使数据文件为空。
+接下来开始做试验，插入200万数据。分别插入两张表，观察耗时和拓展次数。
+
+~~~text
+SQL> insert into t_a select rownum from dual connect by level<=2000000;
+
+2000000 rows created.
+
+Elapsed: 00:00:01.47
+SQL> insert into t_b select rownum from dual connect by level<=2000000;
+
+2000000 rows created.
+
+Elapsed: 00:00:01.64
+
+SQL> select count(*)from user_extents where segment_name='T_A';
+
+  COUNT(*)
+----------
+       386
+
+Elapsed: 00:00:00.13
+SQL> select count(*)from user_extents where segment_name='T_B';
+
+  COUNT(*)
+----------
+        40
+
+Elapsed: 00:00:00.13
+~~~
+
+这里耗时差不多，但是拓展次数明显表空间小的更多。
+这里与书上的结果不一致，可能是因为后续的oracle版本对这方面做了优化。不过不可否认的是，拓展的次数少了，少做事也是书中第一章的核心。
+
+#### PCTFREE 与性能
+
+PCTFREE 参数在 Oracle 数据库中用于控制数据块中可用空间的比例，以便在插入或更新数据时保留一定的空闲空间。
+根据数据库对表更新的频繁程度，对表的 PCTFREE 做设置，避免和链式行产生行迁移，影响性能。
+
+在 Oracle 数据库中，行迁移和链式行是与数据块管理和行更新相关的概念。当行更新导致其大小发生变化时，可能会发生这两种情况。
+
+**行迁移** 发生在更新行时，更新后的行大小超过了原来所在的块中的可用空间。当这种情况发生时，Oracle 数据库会尝试将更新后的行迁移到同一个数据块内的其他空闲空间中。如果在同一个数据块内找不到足够的空闲空间，Oracle 会尝试将行迁移到其他数据块中。
+
+- **性能影响**：行迁移可能导致数据块之间的数据碎片化，增加后续操作的 I/O 成本。
+- **空间浪费**：如果预留的空间不足以容纳更新后的行，可能会导致空间浪费。
+
+**链式行** 发生在行迁移后仍然无法在一个数据块中容纳更新后的行的情况下。在这种情况下，Oracle 会将行分割成多个片段，并将这些片段分布在不同的数据块中。每个片段都会包含指向下一个片段的指针，形成一个链表。
+
+- **性能影响**：链式行会增加 I/O 成本，因为每次读取或更新行时都需要访问多个数据块。
+- **空间浪费**：链式行可能导致更多的空间浪费，因为每个片段都需要额外的空间来存储指向下一个片段的指针。
+
+优化的方法是：
+1. **使用 PCTFREE 参数**：通过设置 `PCTFREE` 参数，可以在数据块中预留一定比例的空间，以便在行更新时有足够的空间来容纳更新后的行。
+2. **调整数据块大小**：根据数据的特点调整数据块大小，以减少行迁移和链式行的发生。
+3. **合理设计表结构**：合理设计表结构，例如使用变长列和定长列的组合，可以减少行大小的变化，从而降低行迁移和链式行的可能性。
+4. **定期分析和优化表**：定期执行 `ANALYZE` 和 `OPTIMIZE` 操作可以帮助减少数据碎片化。见文末。
+
+这里不进行实验了，简单描述下。（没有测试表，暂时先这样吧）
+当表的字段类型由 varchar2(20) 改为 varchar2(2000)。这时，往表中填满这些字段，便会产生大量的行迁移。
+此时，进行查询便会产生大量的逻辑读，导致性能的降低。
+因为行迁移会导致数据在数据块间分布不均，造成数据碎片化。行链接也是一样，更新后的行无法在一个数据块中完全容纳，Oracle 会将行分割成多个片段，并将这些片段分布在不同的数据块中。每个片段都会包含指向下一个片段的指针，形成一个链表。
+这都意味着在后续的查询或操作中，Oracle 需要从多个数据块中读取数据，增加了逻辑读的次数。
+**消除行迁移的一个简单方法就是数据重建。`CREATE TABLE TABLE_NAME_BK AS select * from TABLE_NAME;`**
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## ANALYZE 和 OPTIMIZE
+
+在 Oracle 数据库中，定期执行 `ANALYZE` 和 `OPTIMIZE` 操作可以帮助减少数据碎片化，并保持统计信息的准确性，从而提高查询性能。
+可以参考的文章 [Oracle表的分析统计](https://www.cnblogs.com/maruidong/p/6410507.html)
+~~这部分好像很复杂啊~~
+
+### ANALYZE 操作
+
+`ANALYZE` 操作用于收集表和索引的统计信息，这些信息用于优化器制定执行计划。通过定期执行 `ANALYZE`，可以确保优化器拥有最新的统计数据，从而选择最优的查询执行计划。
+
+~~~oraclesqlplus
+-- 分析表
+ANALYZE TABLE mytable COMPUTE STATISTICS;
+
+-- 分析索引
+ANALYZE INDEX myindex COMPUTE STATISTICS;
+~~~
+
+### OPTIMIZE 操作
+
+`OPTIMIZE` 操作用于重新组织索引，减少碎片并提高索引的效率。对于 B 树索引，`OPTIMIZE` 操作会压缩索引，减少索引占用的空间并提高查询性能。
+
+~~~oraclesqlplus
+-- 优化索引
+ALTER INDEX myindex REBUILD;
+~~~
+
+### 注意事项
+
+- **性能影响**：执行 `ANALYZE` 和 `OPTIMIZE` 操作可能会对数据库性能产生影响，尤其是在大型表和索引上。因此，通常建议在非高峰时段执行这些操作。
+- **资源消耗**：这些操作可能会消耗较多的 CPU 和 I/O 资源。在执行之前，请确保有足够的资源可用。
+- **备份**：在执行 `REBUILD` 操作之前，建议先备份索引，以防万一出现问题。
+
+- **定期执行**：根据表的使用频率和数据变化情况，定期执行 `ANALYZE` 和 `OPTIMIZE` 操作。
+- **数据大量更新后**：在对表进行了大量插入、删除或更新操作后，执行 `ANALYZE` 和 `OPTIMIZE` 可以帮助减少数据碎片化并更新统计信息。
+
+也可以使用 DBMS_STATS 包查看和修改为数据库对象收集的优化器统计信息。
+[Oracle 官方文档 DBMS_STATS](https://docs.oracle.com/en/database/oracle/oracle-database/19/arpls/DBMS_STATS.html#GUID-01FAB8ED-E4A3-4C3E-8FE2-88717DCDDA06)
+
