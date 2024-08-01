@@ -650,22 +650,71 @@ PCTFREE 参数在 Oracle 数据库中用于控制数据块中可用空间的比�
 这都意味着在后续的查询或操作中，Oracle 需要从多个数据块中读取数据，增加了逻辑读的次数。
 **消除行迁移的一个简单方法就是数据重建。`CREATE TABLE TABLE_NAME_BK AS select * from TABLE_NAME;`**
 
+#### 行迁移与优化
 
+如何发现表存在行迁移？
 
+~~~oraclesqlplus
+-- 首先建chained_rows相关表，这是必需的步骤
+@?/rdbms/admin/utlchain.sql
+-- 以下命令针对T表做分析，将产生行迁移的记录插入到chained_rows表中
+analyze table t list chained rows into chained_rows;
+-- 通过分析结果可以看到具体哪条记录产生了行迁移
+select count(1) from chained_rows where table_name = 'T';
+~~~
 
+通过这个方法可以了解到哪些表产生了严重的行迁移，可以适当做出改进。比如重建新表消除行迁移，然后对PCTFREE做适当的调整等。
+下面可以对当前用户所有表做分析。
 
+~~~oraclesqlplus
+select 'analyze table ' || table_name || ' list chained rows into chained_rows;' from user_tables;
+select * from chained_rows;
+~~~
 
+[Oracle 官网 CHAINED_ROWS](https://docs.oracle.com/en/database/oracle/oracle-database/19/refrn/CHAINED_ROWS.html)
 
+#### 块的大小与应用
 
+BLOCK除了谈这个PCTFREE属性外，还有本身设置多大的问题。有的系统设置8KB甚至4KB、2KB，而有的系统设置16KB甚至32KB大。
+BLOCK是Oracle最小的单位。如果Oracle是单块读，则一次读取一个块，就是一个IO，当然如果是一次读取多个块，那还是算一个IO，这称之为多块读。
+这里有一个问题，如果块越大，装的行记录就越多，那所需要的块就越少，换句话说，读取记录产生的IO就越少。那块越大越好吗？显然不可能这么极端。
 
+实际情况是，对于数据仓库OLAP的数据库应用，一般倾向于BLOCK尽量大，而OLTP应用，一般倾向于BLOCK尽量不要太大。
+OLAP和OLTP的差别在于，前者一般查询返回大量的数据，而后者查询返回极少量数据。前者一般用户不多，并发不大，后者一般用户很多，并发很大。
+因此OLAP系统最多的查询方式应该是全表扫描，而OLTP系统最多的方式应该是索引读。
 
+其中的原理主要是较大的块可以减少IO，同时提高缓存的命中率，可以提升全表扫描的性能。而较小的块每次IO操作涉及的数据量较小，可以降低锁的竞争，提高并发性能，同时较小的数据块也有助于提高索引的性能，因为索引通常涉及到随机访问，较小的数据块可以更快地定位到所需数据。
 
+~~~oraclesqlplus
+-- 准备两个表空间，块大小分别为8K和16K
+drop tablespace TBS_UB_8K INCLUDING CONTENTS AND DATAFILES;
+create tablespace TBS_UB_8K
+    blocksize 8K
+    datafile '/home/oracle/TBS_UB_8K_01.DBF'size 1G;
+drop tablespace TBS_UB_16K INCLUDING CONTENTS AND DATAFILES;
+create tablespace TBS_UB_16K
+    blocksize 16K
+    datafile '/home/oracle/TBS_UB_16k_01.DBF'size 1G;
+-- 在两个表空间上分别创建300万数据量的大表，并创建索引。
+drop table t_16k purge;
+create table t_16k tablespace tbs_ljb_16k as select * from dba_objects;
+insert into t_16k select * from t_16k;
+-- ...省略插入数据
+update t_16k set object_id = rownum;
+create index idx_object_id on t_16k (object_id);
+commit;
+-- ...t_8k 的创建过程同上，略
 
+-- 然后可以比较两个表在全表扫和索引的读下的性能了。
+-- 记得查看执行计划。
+select count(*) from t_8k;
+select count(*) from t_16k;
+select * from t_8k where object_id = 29;
+select * from t_16k where object_id = 29;
+~~~
 
-
-
-
-
+书上的预期情况是 全表扫描的性能是大块有优势的，索引读的性能是不分上下的（可能块大小差别没那么大）。
+最后这里没有实践，不知道Oracle后续版本有没有优化。
 
 ## ANALYZE 和 OPTIMIZE
 
