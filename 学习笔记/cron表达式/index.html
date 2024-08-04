@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="咕咕咕">
+    
+    <title>
+        
+            cron表达式 |
+        
+        咕咕咕的小破站
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+        <link rel="shortcut icon" href="/images/favicon.png">
+    
+    
+<link rel="stylesheet" href="/font/css/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/regular.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/solid.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/brands.min.css">
+
+    
+        
+            
+                
+<link rel="stylesheet" href="/css/APlayer.min.css">
+
+            
+        
+    
+    <script class="keep-theme-configurations">
+    const KEEP = window.KEEP || {}
+    KEEP.hexo_config = {"hostname":"cooooing.github.io","root":"/","language":"zh-CN","path":"search.json"}
+    KEEP.theme_config = {"base_info":{"primary_color":"#0066cc","title":"咕咕咕的小破站","author":"咕咕咕","avatar":"/images/head.jpg","logo":"/images/head.jpg","favicon":"/images/favicon.png"},"menu":{"Archives":"/archives","Categories":"/categories","Tags":"/tags","日常":"/daily","Links":"/links","About":"/about"},"first_screen":{"enable":false,"background_img":"/images/bg.svg","background_img_dark":"/images/bg.svg","description":"Keep writing and Keep loving.","hitokoto":false},"social_contact":{"enable":false,"links":{"github":null,"weixin":null,"qq":null,"weibo":null,"zhihu":null,"twitter":null,"facebook":null,"email":null}},"scroll":{"progress_bar":false,"percent":false,"hide_header":true},"home":{"category":true,"tag":true,"announcement":null},"post":{"author_badge":{"enable":true,"level_badge":false,"custom_badge":["fishing"]},"word_count":{"wordcount":true,"min2read":true},"datetime_format":"YYYY-MM-DD HH:mm:ss","copyright_info":true,"share":true,"reward":{"enable":true,"img_link":"/images/thanks.png","text":"谢谢你请我喝可乐~"}},"code_block":{"tools":{"enable":true,"style":"default"},"highlight_theme":"default"},"toc":{"enable":true,"number":false,"expand_all":true,"init_open":true,"layout":"left"},"website_count":{"busuanzi_count":{"enable":true,"site_uv":true,"site_pv":true,"page_pv":true}},"local_search":{"enable":true,"preload":true},"comment":{"enable":false,"use":"valine","valine":{"appid":null,"appkey":null,"server_urls":null,"placeholder":null},"gitalk":{"github_id":null,"github_admins":null,"repository":null,"client_id":null,"client_secret":null,"proxy":null},"twikoo":{"env_id":null,"region":null,"version":"1.6.21"},"waline":{"server_url":null,"reaction":false,"version":2},"giscus":{"repo":null,"repo_id":null,"category":"Announcements","category_id":null,"reactions_enabled":false},"artalk":{"server":null},"disqus":{"shortname":null}},"rss":{"enable":false},"lazyload":{"enable":true},"cdn":{"enable":false,"provider":"cdnjs"},"pjax":{"enable":true},"footer":{"since":2022,"word_count":true,"icp":{"enable":false,"record_code":null,"url":"https://beian.miit.gov.cn"},"site_deploy":{"enable":false,"provider":"github","url":null},"shields_style":{"enable":false,"custom":[{"link_url":null,"img_url":null}]}},"inject":{"enable":true,"css":["/css/APlayer.min.css"],"js":["/js/APlayer.min.js","/js/Meting.min.js","/js/leaves.js"]},"root":"","links":[{"name":"鼠鼠在碎觉","link":"https://www.sszsj.cc","avatar":"https://tmx.fishpi.cn/img/head.jpg","description":"我是不慎落入世界的一滴水墨"},{"name":"青虬","link":"https://reol077.github.io/","avatar":"https://s1.ax1x.com/2022/03/18/qF2YJ1.jpg","description":"囊中羞涩，不知世锦繁华"},{"name":"小于同学的异世界","link":"https://yby.zone","avatar":"https://source.yby.zone/tx.jpg","description":"为吾为枝，余地三尺，以己为棋，胜天半子。"},{"name":"Mlikiowa Home Village","link":"https://nanaeo.cn/","avatar":"https://q1.qlogo.cn/g?b=qq&nk=1627126029&s=100","description":"A litter Village With Mlikiowa"},{"name":"sky","link":"https://sdhkj.github.io/","avatar":"https://sdhkj.github.io/img/%E5%A4%B4%E5%83%8F.jpg","description":"开摆了"},{"name":"忘忧草","link":"https://owo.wyc.rest/","avatar":"https://owo.wyc.rest/img/%E4%B8%87%E5%8F%B6.jpg","description":"这只是一个小破站而已！"},{"name":"十一","link":"https://www.elevenblog.cn/","avatar":"https://file.fishpi.cn/2022/06/blob-fbff7c58.png?imageView2/1/w/210/h/210/interlace/0/q/100","description":"懒癌晚期，混吃等死者"},{"name":"stillwarter","link":"https://stillwarter.github.io/","avatar":"https://file.fishpi.cn/2022/07/MOSHED2022621164630-1b1ec532.gif?imageView2/1/w/210/h/210/interlace/0/q/100","description":"光就是一切的意义"},{"name":"test12138","link":"http://你好.eu.org/","avatar":"https://file.fishpi.cn/2022/06/srchttpimgzcoolcncommunity0116405d84f975a801211d537707c9gifreferhttpimgzcool-0f2d09c9.gif?imageView2/1/w/48/h/48/interlace/0/q/100","description":"大丈夫生于天地之间，岂能郁郁久居人下。"},{"name":"呼呼呼","link":"https://bongbongbakudan.github.io/","avatar":"https://pwl.stackoverflow.wiki/2021/12/blob-28eb4b9f.png?imageView2/1/w/48/h/48/interlace/0/q/100","description":"去整点薯条"}],"version":"4.0.6"}
+    KEEP.language_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"}
+    KEEP.language_code_block = {"copy":"复制代码","copied":"已复制","fold":"折叠代码块","folded":"已折叠"}
+    KEEP.language_copy_copyright = {"copy":"复制版权信息","copied":"已复制","title":"原文标题","author":"原文作者","link":"原文链接"}
+  </script>
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+        <span class="pjax-progress-bar"></span>
+        <i class="pjax-progress-icon fas fa-circle-notch fa-spin"></i>
+    
+</div>
+
+
+<main class="page-container border-box">
+
+    <!-- home first screen  -->
+    
+
+    <!-- page content -->
+    <div class="page-main-content border-box">
+        <div class="page-main-content-top">
+            
+<header class="header-wrapper">
+
+    <div class="border-box header-content">
+        <div class="left border-box">
+            
+                <a class="logo-image border-box" href="/">
+                    <img src="/images/head.jpg">
+                </a>
+            
+            <a class="site-name border-box" href="/">
+               咕咕咕的小破站
+            </a>
+        </div>
+
+        <div class="right border-box">
+            <div class="pc">
+                <ul class="menu-list">
+                    <li class="menu-item">
+                        <a class=""
+                           href="/"
+                        >首页</a>
+                    </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >归档</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/categories"
+                            >分类</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/tags"
+                            >标签</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/daily"
+                            >日常</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/links"
+                            >友链</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >关于</a>
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="fas search fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            <li class="drawer-menu-item flex-center">
+                <a class=""
+                   href="/"
+                >首页</a>
+            </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives"
+                    >归档</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/categories"
+                    >分类</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/tags"
+                    >标签</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/daily"
+                    >日常</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/links"
+                    >友链</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about"
+                    >关于</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle border-box">
+
+            <div class="main-content border-box">
+                
+
+                    
+<div class="fade-in-down-animation">
+    <div class="post-page-container border-box">
+        <div class="post-content-container border-box">
+            
+
+            <div class="post-content-bottom border-box">
+                
+                    <div class="post-title">
+                        cron表达式
+                    </div>
+                
+
+                
+                    <div class="post-header border-box">
+                        
+                            <div class="avatar-box border-box">
+                                <img src="/images/head.jpg">
+                            </div>
+                        
+                        <div class="info-box">
+                            <div class="author border-box">
+                                <span class="name">咕咕咕</span>
+                                
+                                    <span class="author-badge">fishing</span>
+                                
+                            </div>
+                            <div class="meta-info border-box">
+                                
+
+<div class="post-meta-info-container border-box post">
+    <div class="post-meta-info border-box">
+        
+
+        
+            <span class="meta-info-item post-create-date">
+                <i class="icon fa-solid fa-calendar-plus"></i>&nbsp;
+                <span class="datetime">2024-01-23 23:04:11</span>
+            </span>
+
+            <span class="meta-info-item post-update-date">
+                <i class="icon fa-solid fa-file-pen"></i>&nbsp;
+                <span class="datetime" data-updated="Tue Jan 23 2024 15:04:11 GMT+0000">2024-01-23 23:04:11</span>
+            </span>
+        
+
+        
+            <span class="meta-info-item post-category border-box"><i class="icon fas fa-folder"></i>&nbsp;
+                <ul class="post-category-ul">
+                    
+                            <li class="category-item"><a href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+            <span class="post-tag meta-info-item border-box">
+                <i class="icon fas fa-tags"></i>&nbsp;
+                <ul class="post-tag-ul">
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1/">定时任务</a></li>
+                        
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/cron/">cron</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+        
+            <span class="meta-info-item post-wordcount">
+                <i class="icon fas fa-file-word"></i>&nbsp;<span>1.9k 字</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-min2read">
+                <i class="icon fas fa-clock"></i>&nbsp;<span>7 分钟</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-pv">
+                <i class="icon fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+            </span>
+        
+    </div>
+
+    
+</div>
+
+                            </div>
+                        </div>
+                    </div>
+                
+
+                <div class="post-content keep-markdown-body">
+                    
+
+                    <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>cron 表达式是一个用于设置计划任务的字符串，其由几个字段组成，每个字段代表任务在相应时间、日期或时间间隔执行的规则。<br>cron 表达式最初是在 类Unix 操作系统中使用的，而现在它已经被广泛地应用于各种操作系统和编程语言中。</p>
+<p>cron 表达式是一个字符串，<strong>以 5 或 6 个空格隔开，分为 6 或 7 个域</strong>，每一个域代表一个含义。</p>
+<p>cron 有如下两种语法格式：</p>
+<ul>
+<li>秒 分 小时 日期 月份 星期 年</li>
+<li>秒 分 小时 日期 月份 星期</li>
+</ul>
+<h2 id="每个域允许的值"><a href="#每个域允许的值" class="headerlink" title="每个域允许的值"></a>每个域允许的值</h2><table>
+<thead>
+<tr>
+<th>域</th>
+<th>允许的值</th>
+<th>允许的特殊字符</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>秒</td>
+<td>0-59</td>
+<td>, - * &#x2F;</td>
+</tr>
+<tr>
+<td>分</td>
+<td>0-59</td>
+<td>, - * &#x2F;</td>
+</tr>
+<tr>
+<td>小时</td>
+<td>0-23</td>
+<td>, - * &#x2F;</td>
+</tr>
+<tr>
+<td>日期</td>
+<td>1-31</td>
+<td>, - * ? &#x2F; L W C</td>
+</tr>
+<tr>
+<td>月份</td>
+<td>1-12</td>
+<td>, - * &#x2F; JAN-DEC</td>
+</tr>
+<tr>
+<td>星期</td>
+<td>1-7</td>
+<td>, - * ? &#x2F; L C # SUN-SAT</td>
+</tr>
+<tr>
+<td>年份（可选）</td>
+<td>留空，1970-2099</td>
+<td>, - * &#x2F;</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>星期中，1表示星期日，2表示星期一，以此类推。<br>月份中省略部分 JAN,FEB,MAR,APR,MAY,JUNE,JULY,AUG,SEP,OCT,NOW,DEC<br>星期中省略部分 SUN,MON,TUE,WED,THU,FRI,SAT<br>年份可选</p>
+</blockquote>
+<h2 id="特殊字符含义"><a href="#特殊字符含义" class="headerlink" title="特殊字符含义"></a>特殊字符含义</h2><table>
+<thead>
+<tr>
+<th>字符</th>
+<th>含义</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>*</td>
+<td>表示匹配域的任意值</td>
+<td>在分这个域使用 *，即表示每分钟都会触发事件。</td>
+</tr>
+<tr>
+<td>？</td>
+<td>表示匹配域的任意值，但只能用在日期和星期两个域，因为这两个域会相互影响。</td>
+<td>要在每月的 20 号触发调度，不管每个月的 20 号是星期几，则只能使用如下写法：13 13 15 20 * ?。其中，因为日期域已经指定了 20 号，最后一位星期域只能用 ?，不能使用 *。如果最后一位使用 *，则表示不管星期几都会触发，与日期域的 20 号相斥，此时表达式不正确。</td>
+</tr>
+<tr>
+<td>-</td>
+<td>表示起止范围</td>
+<td>在分这个域使用 5-20，表示从 5 分到 20 分钟每分钟触发一次。</td>
+</tr>
+<tr>
+<td>&#x2F;</td>
+<td>表示起始时间开始触发，然后每隔固定时间触发一次</td>
+<td>在分这个域使用 5&#x2F;20，表示在第 5 分钟触发一次，之后每 20 分钟触发一次，即 5、 25、45 等分别触发一次。</td>
+</tr>
+<tr>
+<td>,</td>
+<td>表示列出枚举值</td>
+<td>在分这个域使用 5,20，则意味着在 5 和 20 分每分钟触发一次。</td>
+</tr>
+<tr>
+<td>L</td>
+<td>表示最后，只能出现在日和星期两个域</td>
+<td>在星期这个域使用 5L，意味着在最后的一个星期四触发。</td>
+</tr>
+<tr>
+<td>W</td>
+<td>表示有效工作日（周一到周五），只能出现在日这个域，系统将在离指定日期最近的有效工作日触发事件。</td>
+<td>在日这个域使用 5W，如果 5 号是星期六，则将在最近的工作日星期五，即 4 号触发。如果 5 号是星期天，则在 6 号（周一）触发；如果 5 号为工作日，则就在 5 号触发。另外，W 的最近寻找不会跨过月份。</td>
+</tr>
+<tr>
+<td>LW</td>
+<td>这两个字符可以连用，表示在某个月最后一个工作日，即最后一个星期五。</td>
+<td></td>
+</tr>
+<tr>
+<td>#</td>
+<td>表示每个月第几个星期几，只能出现在星期这个域</td>
+<td>在星期这个域使用 4#2，表示某月的第二个星期三，4 表示星期三，2 表示第二个。</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>C 字符没太明白，放在下面<br>字符“C”允许在日期域和星期域出现。这个字符依靠一个指定的“日历”。也就是说这个表达式的值依赖于相关的“日历”的计算结果，如果没有“日历”关联，则等价于所有包含的“日历”。如：日期域是“5C”表示关联“日历”中第一天，或者这个月开始的第一天的后5天。星期域是“1C”表示关联“日历”中第一天，或者星期的第一天的后1天，也就是周日的后一天（周一）。<br><strong>不同环境的 cron 表达式实现不一致，部分字符可能只在特定环境生效。</strong></p>
+</blockquote>
+<h2 id="crontab-用法"><a href="#crontab-用法" class="headerlink" title="crontab 用法"></a>crontab 用法</h2><p>Linux crontab 是用来定期执行程序的命令。<br><code>crond</code> 命令每分钟会定期检查是否有要执行的工作，如果有要执行的工作便会自动执行该工作。</p>
+<blockquote>
+<p>新创建的 cron 任务，不会马上执行，至少要过 2 分钟后才可以，当然你可以重启 cron 来马上执行。</p>
+</blockquote>
+<p>语法 <code>crontab [ -u user ] file</code> 或 <code>crontab [ -u user ] &#123; -l | -r | -e &#125;</code></p>
+<p>说明 crontab 是用来让使用者在固定时间或固定间隔执行程序之用，换句话说，也就是类似使用者的时程表。<br>-u user 是指设定指定 user 的时程表，这个前提是你必须要有其权限(比如说是 root)才能够指定他人的时程表。如果不使用 -u user 的话，就是表示设定自己的时程表。</p>
+<p>参数</p>
+<ul>
+<li>-e : 执行文字编辑器来设定时程表，内定的文字编辑器是 VI，如果你想用别的文字编辑器，则请先设定 VISUAL 环境变数来指定使用那个文字编辑器(比如说 setenv VISUAL joe)</li>
+<li>-r : 删除目前的时程表</li>
+<li>-l : 列出目前的时程表</li>
+</ul>
+<h2 id="示例（来自阿里文档）"><a href="#示例（来自阿里文档）" class="headerlink" title="示例（来自阿里文档）"></a>示例（来自阿里文档）</h2><ul>
+<li>*&#x2F;5 * * * * ?    每隔 5 秒执行一次</li>
+<li>0 *&#x2F;1 * * * ?    每隔 1 分钟执行一次</li>
+<li>0 0 2 1 * ?    每月 1 日的凌晨 2 点执行一次</li>
+<li>0 15 10 ? * MON-FRI    周一到周五每天上午 10    15 执行作业</li>
+<li>0 15 10 ? 6L 2002-2006    2002 年至 2006 年的每个月的最后一个星期五上午 10:15 执行作业</li>
+<li>0 0 23 * * ?    每天 23 点执行一次</li>
+<li>0 0 1 * * ?    每天凌晨 1 点执行一次</li>
+<li>0 0 1 1 * ?    每月 1 日凌晨 1 点执行一次</li>
+<li>0 0 23 L * ?    每月最后一天 23 点执行一次</li>
+<li>0 0 1 ? * L    每周星期天凌晨 1 点执行一次</li>
+<li>0 26,29,33 * * * ?    在 26 分、29 分、33 分执行一次</li>
+<li>0 0 0,13,18,21 * * ?    每天的 0 点、13 点、18 点、21 点都执行一次</li>
+<li>0 0 10,14,16 * * ?    每天上午 10 点，下午 2 点，4 点执行一次</li>
+<li>0 0&#x2F;30 9-17 * * ?    朝九晚五工作时间内每半小时执行一次</li>
+<li>0 0 12 ? * WED    每个星期三中午 12 点执行一次</li>
+<li>0 0 12 * * ?    每天中午 12 点触发</li>
+<li>0 15 10 ? * *    每天上午 10:15 触发</li>
+<li>0 15 10 * * ?    每天上午 10:15 触发</li>
+<li>0 15 10 * * ? *    每天上午 10:15 触发</li>
+<li>0 15 10 * * ? 2005    2005 年的每天上午 10:15 触发</li>
+<li>0 * 14 * * ?    每天下午 2 点到 2:59 期间的每 1 分钟触发</li>
+<li>0 0&#x2F;5 14 * * ?    每天下午 2 点到 2:55 期间的每 5 分钟触发</li>
+<li>0 0&#x2F;5 14,18 * * ?    每天下午 2 点到 2:55 期间和下午 6 点到 6:55 期间的每 5 分钟触发</li>
+<li>0 0-5 14 * * ?    每天下午 2 点到 2:05 期间的每 1 分钟触发</li>
+<li>0 10,44 14 ? 3 WED    每年三月的星期三的下午 2:10 和 2:44 触发</li>
+<li>0 15 10 ? * MON-FRI    周一至周五的上午 10:15 触发</li>
+<li>0 15 10 15 * ?    每月 15 日上午 10:15 触发</li>
+<li>0 15 10 L * ?    每月最后一日的上午 10:15 触发</li>
+<li>0 15 10 ? * 6L    每月的最后一个星期五上午 10:15 触发</li>
+<li>0 15 10 ? * 6L 2002-2005    2002 年至 2005 年的每月的最后一个星期五上午 10:15 触发</li>
+<li>0 15 10 ? * 6#3    每月的第三个星期五上午 10:15 触发</li>
+</ul>
+
+                </div>
+
+                
+                        
+<div class="post-copyright-info-container border-box">
+    <div class="copyright-info-content border-box">
+        <div class="copyright-info-top border-box">
+            <div class="copyright-post-title border-box text-ellipsis">
+                cron表达式
+            </div>
+
+            <div class="copyright-post-link border-box text-ellipsis">
+                学习笔记/cron表达式/
+            </div>
+        </div>
+
+        <div class="copyright-info-bottom border-box">
+            <div class="copyright-post-author bottom-item">
+                <div class="type">
+                    作者
+                </div>
+                <div class="content">咕咕咕</div>
+            </div>
+
+            <div class="post-time bottom-item">
+                <div class="type">
+                    发布于
+                </div>
+                <div class="content">2024-01-23 23:04</div>
+            </div>
+
+
+            <div class="post-license bottom-item">
+                <div class="type">
+                    许可
+                </div>
+                <div class="content tooltip" data-tooltip-content="CC BY-NC-SA 4.0">
+                    <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hans">
+                        <i class="fa-brands fa-creative-commons"></i>
+                        <i class="fa-brands fa-creative-commons-by"></i>
+                        <i class="fa-brands fa-creative-commons-nc"></i>
+                        <i class="fa-brands fa-creative-commons-sa"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <i class="copyright-bg fa-solid fa-copyright"></i>
+    </div>
+    <div class="copy-copyright-info flex-center tooltip" data-tooltip-content="复制版权信息" data-tooltip-offset-y="-2px">
+        <i class="fa-solid fa-copy"></i>
+    </div>
+</div>
+
+                
+
+                <div class="post-bottom-tags-and-share border-box">
+                    <div>
+                        
+                            <ul class="post-tags-box border-box">
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1/">定时任务</a>
+                                    </li>
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/cron/">cron</a>
+                                    </li>
+                                
+                            </ul>
+                        
+                    </div>
+                    <div>
+                        
+                            <div class="post-share-container border-box">
+    <ul class="share-list-wrap border-box">
+        <li class="qq share-item border-box flex-center tooltip"
+            data-tooltip-content="分享到 QQ"
+        >
+            <i class="fa-brands fa-qq"></i>
+        </li>
+        <li class="wechat share-item border-box flex-center tooltip tooltip-img"
+            data-tooltip-content="分享到微信"
+            data-tooltip-img-tip="微信扫一扫"
+            data-tooltip-img-style="background-color: #fff; top: -10px; padding: 0.6rem 0.6rem 0.1rem 0.6rem;"
+        >
+            <i class="fa-brands fa-weixin"></i>
+        </li>
+        <li class="weibo share-item border-box flex-center tooltip"
+            data-tooltip-content="分享到微博"
+        >
+            <i class="fa-brands fa-weibo"></i>
+        </li>
+    </ul>
+</div>
+
+                        
+                    </div>
+                </div>
+
+                
+                    <div class="reward-author-container border-box flex-center">
+    <div class="reward-btn keep-button border-box flex-center tooltip tooltip-img"
+            data-tooltip-content="谢谢你请我喝可乐~"
+            data-tooltip-img-url="/images/thanks.png"
+            data-tooltip-img-trigger="click"
+            data-tooltip-img-style="top: -8px;"
+    >
+        <i class="fa-solid fa-hand-holding-heart"></i>
+    </div>
+</div>
+
+                
+
+                
+                    <div class="post-nav border-box">
+                        
+                            <div class="prev-post">
+                                <a class="prev"
+                                   rel="prev"
+                                   href="/%E7%BC%96%E7%A8%8B%E8%AE%B0%E5%BD%95/private%E6%96%B9%E6%B3%95%E4%BD%BF%E7%94%A8AOP%E5%AF%BC%E8%87%B4%E6%B3%A8%E5%85%A5%E5%B1%9E%E6%80%A7%E4%B8%BAnull%E7%9A%84%E9%97%AE%E9%A2%98/"
+                                   title="private 方法使用 AOP 导致注入属性为 null 的问题"
+                                >
+                                    <span class="left arrow-icon flex-center">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </span>
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">private 方法使用 AOP 导致注入属性为 null 的问题</span>
+                                        <span class="post-nav-item">上一篇</span>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                        
+                            <div class="next-post">
+                                <a class="next"
+                                   rel="next"
+                                   href="/%E7%BC%96%E7%A8%8B%E8%AE%B0%E5%BD%95/%E4%BA%91%E6%9C%8D%E6%97%A5%E5%B8%B8%E8%A2%AB%E6%94%BB%E5%87%BB%EF%BC%88%E4%B8%80&%E4%BA%8C%EF%BC%89/"
+                                   title="云服日常被攻击（一&amp;二）"
+                                >
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">云服日常被攻击（一&amp;二）</span>
+                                        <span class="post-nav-item">下一篇</span>
+                                    </span>
+                                    <span class="right arrow-icon flex-center">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                    </div>
+                
+
+                
+                    
+
+
+
+
+
+
+                
+            </div>
+        </div>
+
+        
+            <div class="pc-post-toc left-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%80%E4%BB%8B"><span class="nav-text">简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%AF%8F%E4%B8%AA%E5%9F%9F%E5%85%81%E8%AE%B8%E7%9A%84%E5%80%BC"><span class="nav-text">每个域允许的值</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%89%B9%E6%AE%8A%E5%AD%97%E7%AC%A6%E5%90%AB%E4%B9%89"><span class="nav-text">特殊字符含义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#crontab-%E7%94%A8%E6%B3%95"><span class="nav-text">crontab 用法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8B%EF%BC%88%E6%9D%A5%E8%87%AA%E9%98%BF%E9%87%8C%E6%96%87%E6%A1%A3%EF%BC%89"><span class="nav-text">示例（来自阿里文档）</span></a></li></ol>
+    </div>
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom border-box">
+            
+<footer class="footer border-box">
+    <div class="border-box website-info-box default">
+        
+            <div class="copyright-info info-item default">
+                &copy;&nbsp;<span>2022</span>&nbsp;-&nbsp;2024
+                
+                    &nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;&nbsp;<a href="/">咕咕咕</a>
+                
+            </div>
+
+            <div class="theme-info info-item default">
+                由&nbsp;<a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;驱动&nbsp;&&nbsp;主题&nbsp;<a class="keep-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep</a>
+            </div>
+
+            
+
+            
+        
+
+        <div style="color:var(--text-color-4);"><span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>(～￣▽￣)～<script src="/js/lifeTime.js"></script></div>
+        <a href="https://icp.gov.moe/?keyword=20222450" target="_blank">萌ICP备20222450号</a>
+
+
+        <div class="count-item info-item default">
+            
+                <span class="count-box border-box word">
+                    <span class="item-type border-box">总字数</span>
+                    <span class="item-value border-box word">177k</span>
+                </span>
+            
+
+            
+                <span class="count-box border-box uv">
+                    <span class="item-type border-box">访客数</span>
+                    <span class="item-value border-box uv" id="busuanzi_value_site_uv"></span>
+                </span>
+            
+
+            
+                <span class="count-box border-box pv">
+                    <span class="item-type border-box">访问量</span>
+                    <span class="item-value border-box pv" id="busuanzi_value_site_pv"></span>
+                </span>
+            
+        </div>
+
+        <div id="aplayer">
+          <meting-js
+                  server="netease"
+                  type="playlist"
+                  id="7345595717"
+                  fixed="true"
+                  mini="true"
+                  autoplay="false"
+                  listFolded="true"
+                  order="random"
+                  preload="none">
+          </meting-js>
+        </div>
+            <br>
+            <br>
+            <br>
+    </div>
+
+</footer>
+
+        </div>
+    </div>
+
+    <!-- post tools -->
+    
+        <div class="post-tools left-toc">
+            <div class="post-tools-container border-box">
+    <ul class="tools-list border-box">
+        <!-- PC TOC show toggle -->
+        
+            <li class="tools-item flex-center toggle-show-toc">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        <!-- PC go comment -->
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <!-- side tools -->
+    <div class="side-tools">
+        <div class="side-tools-container border-box ">
+    <ul class="side-tools-list side-tools-show-handle border-box">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-toggle-theme-mode flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list border-box">
+        
+            <li class="tools-item toggle-show-toc-tablet flex-center">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        
+
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+
+        <li class="tools-item tool-scroll-to-top flex-center show-arrow">
+            <i class="arrow fas fa-arrow-up"></i>
+            <span class="percent"></span>
+        </li>
+    </ul>
+</div>
+
+    </div>
+
+    <!-- image mask -->
+    <div class="zoom-in-image-mask">
+    <img class="zoom-in-image">
+</div>
+
+
+    <!-- local search -->
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="搜索..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="close-popup-btn">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+    <!-- tablet toc -->
+    
+        <div class="tablet-post-toc-mask">
+            <div class="tablet-post-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%80%E4%BB%8B"><span class="nav-text">简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%AF%8F%E4%B8%AA%E5%9F%9F%E5%85%81%E8%AE%B8%E7%9A%84%E5%80%BC"><span class="nav-text">每个域允许的值</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%89%B9%E6%AE%8A%E5%AD%97%E7%AC%A6%E5%90%AB%E4%B9%89"><span class="nav-text">特殊字符含义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#crontab-%E7%94%A8%E6%B3%95"><span class="nav-text">crontab 用法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8B%EF%BC%88%E6%9D%A5%E8%87%AA%E9%98%BF%E9%87%8C%E6%96%87%E6%A1%A3%EF%BC%89"><span class="nav-text">示例（来自阿里文档）</span></a></li></ol>
+    </div>
+</div>
+
+            </div>
+        </div>
+    
+</main>
+
+
+
+<!-- common -->
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/toggle-theme.js"></script>
+
+<script src="/js/code-block.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+
+<!-- local-search -->
+
+    
+<script src="/js/local-search.js"></script>
+
+
+
+<!-- lazyload -->
+
+    
+<script src="/js/lazyload.js"></script>
+
+
+
+<div class="pjax">
+    
+        <!-- post-helper -->
+        
+<script src="/js/post/post-helper.js"></script>
+
+
+        <!-- toc -->
+        
+            
+<script src="/js/post/toc.js"></script>
+
+        
+
+        <!-- copyright-info -->
+        
+            
+<script src="/js/post/copyright-info.js"></script>
+
+        
+
+        <!-- share -->
+        
+            
+<script src="/js/post/share.js"></script>
+
+        
+    
+
+    <!-- category-page -->
+    
+
+    <!-- links-page -->
+    
+
+    <!-- photos-page -->
+    
+</div>
+
+<!-- mermaid -->
+
+
+<!-- pjax -->
+
+    
+<script src="/js/libs/pjax.min.js"></script>
+
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        window.pjax = new Pjax({
+            selectors: [
+                'head title',
+                '.page-container',
+                '.pjax',
+                '#aplayer',
+                '#canvas_sakura'
+            ],
+            history: true,
+            debug: false,
+            cacheBust: false,
+            timeout: 0,
+            analytics: false,
+            currentUrlFullReload: false,
+            scrollRestoration: false,
+        });
+
+        document.addEventListener('pjax:send', () => {
+            KEEP.utils.pjaxProgressBarStart()
+        });
+
+        document.addEventListener('pjax:complete', () => {
+            KEEP.utils.pjaxProgressBarEnd()
+            window.pjax.executeScripts(document.querySelectorAll('script[data-pjax], .pjax script'))
+            KEEP.initExecute()
+        });
+    });
+</script>
+
+
+
+
+    
+        
+            
+<script class="custom-inject-js" src="/js/APlayer.min.js" data-pjax></script>
+
+        
+    
+        
+            
+<script class="custom-inject-js" src="/js/Meting.min.js" data-pjax></script>
+
+        
+    
+        
+            
+<script class="custom-inject-js" src="/js/leaves.js" data-pjax></script>
+
+        
+    
+
+
+
+</body>
+</html>
