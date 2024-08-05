@@ -1086,7 +1086,7 @@ registry-mirrors 是镜像加速地址，这里使用的是网易的镜像加速
 使用 `docker logs -f oracle` 查看容器日志，当出现 `DATABASE IS READY TO USE!` 时，即启动成功。
 后面就可以愉快地使用Oracle了。
 
-`docker exec -it oracle23c sqlplus sys@localhost:1521/FREE as sysdba` 进入容器内，并进行登录。
+`docker exec -it oracle sqlplus sys@localhost:1521/FREE as sysdba` 进入容器内，并进行登录。
 
 
 ## HINT
