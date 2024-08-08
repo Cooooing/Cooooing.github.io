@@ -342,5 +342,35 @@ INDEX FAST FULL SCAN比INDEX FULL SCAN多了一个FAST，所以差别就是索�
 
 外键建索引后，效率会更高，这和表连接的NESTED LOOPS连接方式有关，在后续表连接章节细说。
 
-在外键上建索引，还能有效避免锁的竞争。
+**在外键上建索引，还能有效避免锁的竞争。**
+
+主外键最基本的一个功能：**外键所在表的外键列取值必须在主表中的主键列有记录。**
+否则会报错：`ORA-02292 integrity constraint (string.string) violated - child record found`
+Oracle提供的这些功能保证了多表记录之间记录的制约性。
+
+同样，如果子表中有记录，要删除主表中对应的主键记录，也会报错：`ORA-02292 integrity constraint (string.string) violated - child record found`
+级联删除的设置：`ALTER TABLE t_c ADD CONSTRAINT fk_t_c_id FOREIGN KEY (t_id) REFERENCES t (id) ON DELETE CASCADE;`。添加 ON DELETE CASCADE 关键字。
+**设置级联删除后，删除主表的记录后，会自动将子表中对应的记录一起删除。慎用。**
+
+如果有一张表的某字段没有重复记录，并且只有一个普通索引，该如何改造为主键？
+因为建主键的动作其实就是建了一个唯一性索引，再增加一个约束。
+所以 `alter table t add constraint t_id_pk primary key(ID);` 即可。
+
+### 组合索引设计
+
+**当查询的列在索引或组合索引中时，可以避免回表。**
+回表在执行计划中叫 `TABLE ACCESS BY INDEX ROWID`
+
+**当组合列返回的记录比较少时，组合索引的效率会比较高。**
+类似 `select * from t where a = 1 and b = 2` 这种情况，如果在a和b字段建联合索引是不可能消除回表的，因为返回的是所有字段。
+但是只要 a=1 返回较多， b=2 返回也较多，组合起来返回很少，就适合建联合索引。
+但过多的字段建联合索引往往是不可取的，因为这样会导致索引过大，不仅影响了定位数据，更严重影响了更新性能，一般不超过三个字段。
+
+如果 a = 1 and b = 2 的返回和前面的单独 a = 1 或者单独 b = 2 的返回记录数差别不大，那组合索引的快速检索就失去意义了，单独建某列索引更好，因为单独建立的索引体积比组合索引要小，检索的索引块也更少。
+但如果不是返回所有的列，就是回表的范畴了。组合索引可能更合适。
+
+
+
+
+
 
