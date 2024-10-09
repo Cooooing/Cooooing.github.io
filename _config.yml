@@ -118,3 +118,10 @@ search:
   field: post
   content: true
   format: striptags
+
+# Feed Atom
+# npm install hexo-generator-feed
+feed:
+  type: atom
+  path: atom.xml
+  limit: 20
