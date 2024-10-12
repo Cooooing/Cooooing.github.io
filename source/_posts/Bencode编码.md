@@ -55,7 +55,7 @@ Bencode（BitTorrent 编码）是一种简单且轻量级的序列化格式，�
 包含嵌套结构的 Bencode
 
 ```bencode
-d8:announce21:https://tracker.example.com/announce4:infod6:lengthi1000e4:name4:file15:piece lengthi262144e6:pieces20:0123456789abcdef0123456789abcdefe
+d8:announce22:https://tracker.example.com/announce4:infod6:lengthi1000e4:name4:file15:piece lengthi262144e6:pieces20:0123456789abcdef0123456789abcdefe
 ```
 
 表示一个包含嵌套字典和列表的复杂结构，类似于以下 JSON：
