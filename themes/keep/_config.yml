@@ -213,8 +213,8 @@ local_search:
 # Docs: https://keep-docs.xpoet.cn/basis/configuration-guide/comment.html
 # ---------------------------------------------------------------------------------------
 comment:
-  enable: false   # Option values: true | false
-  use: valine     # Option values: valine | gitalk | twikoo | waline | giscus | artalk | disqus
+  enable: true   # Option values: true | false
+  use: gitalk     # Option values: valine | gitalk | twikoo | waline | giscus | artalk | disqus
 
   # Valine
   # See: https://github.com/xCss/Valine
@@ -229,11 +229,11 @@ comment:
   # See: https://github.com/gitalk/gitalk
   #      https://gitalk.github.io
   gitalk:
-    github_id:        # GitHub repo owner
+    github_id: Cooooing        # GitHub repo owner
     github_admins:    # GitHub Admins (in Array type), optional
-    repository:       # Repository name to store issues
-    client_id:        # GitHub Application Client ID
-    client_secret:    # GitHub Application Client Secret
+    repository: Cooooing.github.io      # Repository name to store issues
+    client_id: Ov23liFWGrM7bu5fdssB       # GitHub Application Client ID
+    client_secret: 7f78255bdccda602f9007fb1ac9155c4c9c5ca71   # GitHub Application Client Secret
     proxy:            # GitHub oauth request reverse proxy for CORS
 
   # Twikoo
