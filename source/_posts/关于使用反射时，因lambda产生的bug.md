@@ -22,14 +22,14 @@ tags:
 前面都很顺利啊，接口路径在项目启动初始化后，成功写入数据库。因为此时的接口是我用 MybatisPlus 的模板生成器生成的，比较简单。
 当接口查表，处理数据时。有些复杂了，开始使用 lambda 和 stream 流来处理查询结果。（真的很好用
 兴高采烈的写完，运行项目。初始化权限的地方（通过反射获取接口路径的方法）报了 空指针异常（NPE）。
-![报错](../images/关于使用反射时，因lambda产生的bug/报错.png)
+![报错](https://cooooing.github.io/images/关于使用反射时，因lambda产生的bug/报错.png)
 
 这个时候我的第一反应是：我是不是什么地方注解写漏了。因为具体报 NPE 的地方是 @Operation(summary = "...") 注解的 summary 属性。（swagger3 的注解）
 于是我打印了通过反射获取的方法的路径，因为 controller 层的方法上都有 RequestMapping 之类的注解用来映射请求的路径。
 我一个 controller 里就增删改查四个方法，打印出来六个，有俩空的。难道还有幽灵方法不成。
 
 于是打印了路径为空的方法看看。结果如下：
-![空方法](../images/关于使用反射时，因lambda产生的bug/空方法.png)
+![空方法](https://cooooing.github.io/images/关于使用反射时，因lambda产生的bug/空方法.png)
 
 看到 lambda ，突然就开朗了。
 最后给 @Operation 做了个空判断，只将有这个注解的方法的路径写入数据库。（文档上没有的，不在权限管理里。也很合理

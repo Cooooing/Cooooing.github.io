@@ -37,7 +37,7 @@ Markdown 应用程序使用一种称为 Markdown 处理器（也通常称为“�
 ~~~
 
 效果如图：  
-![标题1](../images/Markdown语法/标题1.png)
+![标题1](https://cooooing.github.io/images/Markdown语法/标题1.png)
 说明：
 
 1. 底线是`=`表示一级标题
@@ -63,7 +63,7 @@ Markdown 应用程序使用一种称为 Markdown 处理器（也通常称为“�
 ~~~
 
 效果如图：  
-![标题2](../images/Markdown语法/标题2.png)  
+![标题2](https://cooooing.github.io/images/Markdown语法/标题2.png)  
 说明：
 
 1. 在`行首`插入#可标记标题
@@ -98,7 +98,7 @@ ___粗斜体文本___
 ~~~
 
 效果如图：  
-![字体](../images/Markdown语法/字体.png)
+![字体](https://cooooing.github.io/images/Markdown语法/字体.png)
 
 建议
 
@@ -117,7 +117,7 @@ _ _ _
 ~~~
 
 效果如图：（本分割线有主题样式，并非Markdown原生）  
-![字体](../images/Markdown语法/分割线.png)  
+![字体](https://cooooing.github.io/images/Markdown语法/分割线.png)  
 说明：
 
 1. 分割线使用3个或以上的`*`或`-`或`_`标记
@@ -131,7 +131,7 @@ _ _ _
 ~~~
 
 效果如图：  
-![删除线和下划线](../images/Markdown语法/删除线和下划线.png)
+![删除线和下划线](https://cooooing.github.io/images/Markdown语法/删除线和下划线.png)
 
 ## 列表
 
@@ -158,7 +158,7 @@ _ _ _
 ~~~
 
 效果如图：  
-![无序列表](../images/Markdown语法/无序列表.png)
+![无序列表](https://cooooing.github.io/images/Markdown语法/无序列表.png)
 
 ### 有序列表
 
@@ -169,7 +169,7 @@ _ _ _
 ~~~
 
 效果如图：  
-![有序列表](../images/Markdown语法/有序列表.png)
+![有序列表](https://cooooing.github.io/images/Markdown语法/有序列表.png)
 
 ### 列表嵌套
 
@@ -181,7 +181,7 @@ _ _ _
 ~~~
 
 效果如图：  
-![列表嵌套](../images/Markdown语法/列表嵌套.png)
+![列表嵌套](https://cooooing.github.io/images/Markdown语法/列表嵌套.png)
 
 ## 区块
 
@@ -203,7 +203,7 @@ _ _ _
 ~~~
 
 效果如图：（这里区块样式也并非Markdown原生）  
-![区块](../images/Markdown语法/区块.png)
+![区块](https://cooooing.github.io/images/Markdown语法/区块.png)
 
 ## 图片
 

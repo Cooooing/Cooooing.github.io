@@ -41,7 +41,7 @@ docker本省不是容器，是管理容器的引擎。
 docker支持CentOS6及以上版本。  
 CentOS7可以使用`yum install docker -y`直接安装。  
 
-![docker安装](../images/docker笔记/docker安装.png)
+![docker安装](https://cooooing.github.io/images/docker笔记/docker安装.png)
 
 ### 服务启动关闭等
 
@@ -205,7 +205,7 @@ CMD /usr/local/apache-tomcat-8.5.24/bin/catalina.sh run
 
 省略
 在阿里云注册账号，容器镜像服务有详细文档。
-![阿里云容器服务](../images/docker笔记/阿里云容器服务.png)
+![阿里云容器服务](https://cooooing.github.io/images/docker笔记/阿里云容器服务.png)
 
 ### Docker Hub 镜像加速
 

@@ -44,8 +44,8 @@ MetingJS给APlayer播放器加入网易云等支持。
         audio: [{
             name: '长岛',
             artist: '花粥',
-            url: '../../images/APlayer和MetingJS的使用/长岛.mp3',
-            cover: '../../images/APlayer和MetingJS的使用/长岛封面.png'
+            url: 'https://cooooing.github.io/https://cooooing.github.io/images/APlayer和MetingJS的使用/长岛.mp3',
+            cover: 'https://cooooing.github.io/https://cooooing.github.io/images/APlayer和MetingJS的使用/长岛封面.png'
         }]
     });
 </script>
@@ -60,8 +60,8 @@ MetingJS给APlayer播放器加入网易云等支持。
         audio: [{
             name: '长岛',
             artist: '花粥',
-            url: '../../images/APlayer和MetingJS的使用/长岛.mp3',
-            cover: '../../images/APlayer和MetingJS的使用/长岛封面.png'
+            url: 'https://cooooing.github.io/https://cooooing.github.io/images/APlayer和MetingJS的使用/长岛.mp3',
+            cover: 'https://cooooing.github.io/https://cooooing.github.io/images/APlayer和MetingJS的使用/长岛封面.png'
         }]
     });
 </script>

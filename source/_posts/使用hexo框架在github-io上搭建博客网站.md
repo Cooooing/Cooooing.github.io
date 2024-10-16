@@ -61,9 +61,9 @@ git config user.email
 ssh-keygen -t rsa -C "youremail"
 ~~~
 创建完成后，会生成C:\Users\Username\.ssh文件夹
-![.shh文件夹](../images/使用hexo框架在github-io上搭建博客网站/ssh.png)
+![.shh文件夹](https://cooooing.github.io/images/使用hexo框架在github-io上搭建博客网站/ssh.png)
 其中id_rsa是生成的私钥，id_rsa.pub是生成的公钥。将id_rsa.pub用记事本打开，复制其内容，添加到github的设置中。
-![.githubSSHKey](../images/使用hexo框架在github-io上搭建博客网站/githubSSHKey.png)
+![.githubSSHKey](https://cooooing.github.io/images/使用hexo框架在github-io上搭建博客网站/githubSSHKey.png)
 添加完成后，在gitbash中查看是否添加成功
 ~~~shell
 ssh -T git@github.com

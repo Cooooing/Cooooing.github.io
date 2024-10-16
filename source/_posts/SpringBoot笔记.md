@@ -128,7 +128,7 @@ SpringBoot是Spring中的一个成员，可以简化Spring，SpringMVC的使用�
 也可以直接访问网址，创建并下载。
 
 SpringBoot的目录结构：
-![SpringBoot目录结构.png](../images/SpringBoot笔记/SpringBoot目录结构.png)
+![SpringBoot目录结构.png](https://cooooing.github.io/images/SpringBoot笔记/SpringBoot目录结构.png)
 
 ## 注解的使用
 
