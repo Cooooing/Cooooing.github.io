@@ -132,8 +132,8 @@ public class TestController {
 
 在 org.springframework.web.method.support 中 InvocableHandlerMethod 类的 doInvoke 方法上打断点。
 可以发现，不管是 public 方法还是 private 方法， cglib 创建的代理类中，service 属性为 null。
-![public代理类service属性.png](../images/private方法使用AOP导致注入属性为null的问题/public代理类service属性.png)
-![private代理类service属性.png](../images/private方法使用AOP导致注入属性为null的问题/private代理类service属性.png)
+![public代理类service属性.png](https://cooooing.github.io/images/private方法使用AOP导致注入属性为null的问题/public代理类service属性.png)
+![private代理类service属性.png](https://cooooing.github.io/images/private方法使用AOP导致注入属性为null的问题/private代理类service属性.png)
 
 但是，当在 AOP 的拦截方法上打断点，可以发现，public 方法是可以停在断点上的，但 private 方法则直接结束，并没有执行 AOP 的方法。
 **所以 private 方法是没有被 AOP 所拦截的。会继续使用代理类，而代理类中的 service 并没有注入，是 null 。从而导致 NPE 报错。**

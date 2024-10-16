@@ -133,10 +133,10 @@ CurrentTime: 2023-02-13 18:37:31
 所以，从上面的例子可以得出 http 报文的格式：
 
 请求报文格式：
-![请求报文格式](../images/HTTP协议详解/请求报文格式.png)
+![请求报文格式](https://cooooing.github.io/images/HTTP协议详解/请求报文格式.png)
 
 响应报文格式：
-![响应报文格式](../images/HTTP协议详解/响应报文格式.png)
+![响应报文格式](https://cooooing.github.io/images/HTTP协议详解/响应报文格式.png)
 
 ## HTTP 请求方法
 
@@ -168,7 +168,7 @@ URI（uniform resource identifier），统一资源标识符，用来唯一的�
 它包含了 URL 和 URN 的概念，是它们的超集。
 
 URI 的组成：
-![URI的组成](../images/HTTP协议详解/URI的组成.png)
+![URI的组成](https://cooooing.github.io/images/HTTP协议详解/URI的组成.png)
 
 1. Scheme 指的就是方案，比如 HTTP，HTTPS，FTP 等，我们也可以自定义协议，只要服务器支持即可。
    Scheme可以是由 **字母**、**数字**、**+**、**-**、**.** 都是允许的

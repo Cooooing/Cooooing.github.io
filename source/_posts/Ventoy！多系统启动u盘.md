@@ -28,7 +28,7 @@ tags:
 第二天在徐州的用户那时，他们专门配了个新电脑用来跑我部署的程序。
 电脑很新！包装盒就在边上。
 但是打开系统的那一刻，我顿感不妙。如图：
-![麒麟OS](../images/Ventoy！多系统启动u盘/麒麟OS.jpg)
+![麒麟OS](https://cooooing.github.io/images/Ventoy！多系统启动u盘/麒麟OS.jpg)
 
 碰到国产系统了，大概率会有不兼容的事要发生。
 结果和我猜的也差不多。不兼容！
@@ -39,11 +39,11 @@ tags:
 像是给我装机前的预习一样。
 
 F7 从u盘启动，安装 windows，之后重启，delete 进入bios，修改启动引导，完事。
-![install1](../images/Ventoy！多系统启动u盘/install1.jpg)
+![install1](https://cooooing.github.io/images/Ventoy！多系统启动u盘/install1.jpg)
 
 经典念诗环节
-![install2](../images/Ventoy！多系统启动u盘/install2.jpg)
-![install3](../images/Ventoy！多系统启动u盘/install3.jpg)
+![install2](https://cooooing.github.io/images/Ventoy！多系统启动u盘/install2.jpg)
+![install3](https://cooooing.github.io/images/Ventoy！多系统启动u盘/install3.jpg)
 
 然后就是赶高铁回家了。
 下班！

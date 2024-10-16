@@ -12,7 +12,7 @@ categories:
 
 首先有一张用户分数表：
 
-![user_score表结构.png](../images/sql多条件排序并去重/user_score表结构.png)
+![user_score表结构.png](https://cooooing.github.io/images/sql多条件排序并去重/user_score表结构.png)
 
 然后需要实现一个排行榜的查询：
 查询**某一谱面**（chart_id）的排行榜，排序规则为**分数降序**，**时间降序**（鼓励用户去挑战理论值，刷新排行榜）
@@ -123,7 +123,7 @@ inner join、full join、left join、right join。
 
 这个来自菜鸟教程的图是真的好，完美解释了用法：
 
-![表连接](../images/sql多条件排序并去重/表连接.png)
+![表连接](https://cooooing.github.io/images/sql多条件排序并去重/表连接.png)
 
 表连接，算是是一种表的乘法。
 外连接的话（左连接、右连接、全连接）。根据连接条件，将一条数据变成多个。

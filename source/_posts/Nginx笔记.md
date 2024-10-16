@@ -16,7 +16,7 @@ nginx是由c语言开发的。
 ### 反向代理
 
 反向代理（Reverse Proxy）方式是指以代理服务器来接受internet上的连接请求，然后将请求转发给内部网络上的服务器，并将从服务器上得到的结果返回给internet上请求连接的客户端，此时代理服务器对外就表现为一个反向代理服务器。  
-![反向代理](../images/Nginx笔记/反向代理.png)  
+![反向代理](https://cooooing.github.io/images/Nginx笔记/反向代理.png)  
 
 反向代理隐藏了真正的服务端。
 
@@ -49,10 +49,10 @@ gcc编译器、openssl库、pcre库、zlib库
 `./nginx`
 nginx由master进程和worker进程组成。  
 master进程读取配置文件，并维护worker进程，而worker进程则对请求进行实际处理。
-![nginx进程](../images/Nginx笔记/nginx进程.png)
+![nginx进程](https://cooooing.github.io/images/Nginx笔记/nginx进程.png)
 
 启动成功后，访问80端口便会出现如下欢迎页面：
-![nginx欢迎页面](../images/Nginx笔记/nginx欢迎页面.png)
+![nginx欢迎页面](https://cooooing.github.io/images/Nginx笔记/nginx欢迎页面.png)
 
 ### 通过配置文件启动
 
@@ -264,7 +264,7 @@ location ~.*/(css|js|img|images){
 
 ## 动静分离
 
-![动静分离架构](../images/Nginx笔记/动静分离架构.png)
+![动静分离架构](https://cooooing.github.io/images/Nginx笔记/动静分离架构.png)
 
 
 

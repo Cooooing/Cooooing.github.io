@@ -65,8 +65,8 @@ eula=true
 在经过漫长的世界生成和加载之后，出现 done，便成功启动了。
 随后启动对应版本的游戏，在多人游戏中加入服务器即可（默认端口号为 25565）
 
-![done](../images/如何搭建minecraft服务器/done.png)
-![done_game](../images/如何搭建minecraft服务器/done_game.png)
+![done](https://cooooing.github.io/images/如何搭建minecraft服务器/done.png)
+![done_game](https://cooooing.github.io/images/如何搭建minecraft服务器/done_game.png)
 
 此时便可以多人游玩了，服务器搭建完成。
 

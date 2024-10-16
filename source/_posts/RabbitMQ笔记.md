@@ -74,7 +74,7 @@ export ERL_HOME PATH
 ~~~
 更新环境变量 `source /etc/profile`
 查看erlang版本 `erl -version`
-![查看erlang版本](../images/RabbitMQ笔记/查看erlang版本.png)
+![查看erlang版本](https://cooooing.github.io/images/RabbitMQ笔记/查看erlang版本.png)
 如上图，即为安装成功。然后开始安装RabbitMQ。
 
 安装RabbitMQ `rpm -ivh --nodeps rabbitmq-server-3.10.7-1.el8.noarch.rpm`
@@ -100,7 +100,7 @@ export ERL_HOME PATH
 #### 用户管理
 
 浏览器访问管控台：
-![浏览器访问管控台](../images/RabbitMQ笔记/浏览器访问管控台.png)
+![浏览器访问管控台](https://cooooing.github.io/images/RabbitMQ笔记/浏览器访问管控台.png)
 
 默认用户密码均为 guest
 但只能本机登录，否则报错`User can only log in via localhost`
@@ -161,7 +161,7 @@ vhost是RabbitMQ中的一个命名空间，可以限制消息存放位置，利�
 所有的mq产品从模型抽象上来说都是一样的过程：
 消费者订阅某个队列。生产者创建消息，然后发布到队列中，最后将消息发送到监听的消费者。
 
-![AMQP协议机制](../images/RabbitMQ笔记/AMQP协议机制.png)
+![AMQP协议机制](https://cooooing.github.io/images/RabbitMQ笔记/AMQP协议机制.png)
 
 1. Message：
 消息，消息是不具体的，它由消息头和消息体组成。消息体是不透明的，而消息头则由一系列可选属性组成，这些属性包括 routing-key （路由键）、 priority （相对于其他消息的优先权）、 delivery-mode （指出该消息可能需要持久性存储）等。
@@ -196,16 +196,16 @@ headers 匹配AMQP消息的 header 而不是路由键，此外 headers 交换器
 1. direct
 消息中的路由键如果和 Binding 中的 binding key 一致，交换器就将消息发送到对应的队列中。路由键与队列名完全一致。他是**完全匹配、单播模式**。
 如果没有 binding key 与路由键一致，数据会丢失。
-![direct交换器](../images/RabbitMQ笔记/direct交换器.png)
+![direct交换器](https://cooooing.github.io/images/RabbitMQ笔记/direct交换器.png)
 
 2. fanout
 每个发到 fanout 类型交换器的消息都会分到所有绑定的队列上去。fanout 交换器不处理路由键，只是简单的将队列绑定到交换器上，每个发送到交换器的消息会被转发到与该交换器绑定的所有队列上。类似**广播**，fanout 类型转发消息是最快的。
-![fanout交换器](../images/RabbitMQ笔记/fanout交换器.png)
+![fanout交换器](https://cooooing.github.io/images/RabbitMQ笔记/fanout交换器.png)
 
 3. topic
 topic 交换器通过匹配模式分配消息的路由键属性，将路由键和某个模式进行匹配，此时队列需要绑定到一个模式上。他将路由键和绑定键的字符串切分成单词，这些单词之间用点隔开。它同样会识别两个通配符：'#'和'\*'。# 匹配0或多个单词，* 匹配一个单词。
 它也是一种广播，但是是**有一定条件的广播**。
-![topic交换器](../images/RabbitMQ笔记/topic交换器.png)
+![topic交换器](https://cooooing.github.io/images/RabbitMQ笔记/topic交换器.png)
 
 ### Java发送和接收Queue
 

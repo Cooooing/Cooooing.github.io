@@ -31,7 +31,7 @@ Tomcat 目录结构：
 
 下载 tomcat 压缩包后，解压并启动 tomcat
 便可以看见如下画面，即启动成功。
-![tomcat默认首页](../images/Tomcat执行流程与Servlet/tomcat默认首页.png)
+![tomcat默认首页](https://cooooing.github.io/images/Tomcat执行流程与Servlet/tomcat默认首页.png)
 
 部署应用，将 web 项目打包成 war 包，放在 webapps 目录下启动 tomcat 即可。
 

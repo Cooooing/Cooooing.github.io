@@ -16,10 +16,10 @@ categories:
 常见的分布式文件系统有：FastDFS、GFS、HDFS、Lustre、Ceph、GridFS、mogileFS、TFS等。
 
 传统存放方式：
-![传统存放方式](../images/FastDFS笔记/传统存放方式.png)
+![传统存放方式](https://cooooing.github.io/images/FastDFS笔记/传统存放方式.png)
 
 分布式文件存储：
-![分布式文件存储](../images/FastDFS笔记/分布式文件存储.png)
+![分布式文件存储](https://cooooing.github.io/images/FastDFS笔记/分布式文件存储.png)
 
 ### FastDFS
 
@@ -98,7 +98,7 @@ sudo ./make.sh install
 `fdfs_storaged /etc/fdfs/storage.conf`
 
 启动成功会有两个服务
-![启动成功](../images/FastDFS笔记/启动成功.png)
+![启动成功](https://cooooing.github.io/images/FastDFS笔记/启动成功.png)
 
 重启：
 `fdfs_trackerd /etc/fdfs/tracker.conf restart`
@@ -217,7 +217,7 @@ location ~/group[1-9]/M0[0-9]{
 
 ### 拓展模块执行流程
 
-![拓展模块执行流程](../images/FastDFS笔记/拓展模块执行流程.png)
+![拓展模块执行流程](https://cooooing.github.io/images/FastDFS笔记/拓展模块执行流程.png)
 
 ## 使用Java程序对FastDFS进行操作
 
@@ -334,10 +334,10 @@ spring.servlet.multipart.max-request-size=10MB
 ## 集群的访问流程
 
 集群结构：
-![集群结构](../images/FastDFS笔记/集群结构.png)
+![集群结构](https://cooooing.github.io/images/FastDFS笔记/集群结构.png)
 
 访问流程：
-![集群的访问流程](../images/FastDFS笔记/集群的访问流程.png)
+![集群的访问流程](https://cooooing.github.io/images/FastDFS笔记/集群的访问流程.png)
 
 ## 总结
 

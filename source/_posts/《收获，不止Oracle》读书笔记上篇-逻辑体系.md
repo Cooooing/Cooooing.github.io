@@ -23,13 +23,13 @@ tags:
 而这一章说的体系结构的逻辑结构正是从体系物理结构图中的数据文件部分展开描述的。
 如下图圆圈标记处所示
 
-![逻辑结构从此展开.png](../images/《收获，不止Oracle》读书笔记上篇-逻辑体系/逻辑结构从此展开.png)
+![逻辑结构从此展开.png](https://cooooing.github.io/images/《收获，不止Oracle》读书笔记上篇-逻辑体系/逻辑结构从此展开.png)
 
 这里数据文件是存放数据之处，也是数据库存在的根本！
 下面介绍的逻辑结构是：表空间(TABLESPACE)、段(SEGMENT)、区(EXTENT)、块(BLOCK)。
 ORACLE SERVER 正是条理地通过表空间以及段、区、块控制磁盘空间的合理高效的使用，看下图
 
-![逻辑结构.png](../images/《收获，不止Oracle》读书笔记上篇-逻辑体系/体系逻辑结构.png)
+![逻辑结构.png](https://cooooing.github.io/images/《收获，不止Oracle》读书笔记上篇-逻辑体系/体系逻辑结构.png)
 
 数据库(DATABASE)由若干表空间(TABLESPACE)组成，表空间(TABLESPACE)由若干段(SEGMENT)组成，段(SEGMENT)由若干区(EXTENT)组成，区(EXTENT)又是由Oracle的最小单元块(BLOCK)组成的。
 其中表空间又包含系统表空间、回滚段表空间、临时表空间、用户表空间。
@@ -66,7 +66,7 @@ Oracle的这个区(EXTENT)的设计是为了避免过度扩展。
 Oracle的数据库块并不是简单地往里插数据，插满了装不下了就插入另一个数据块这么简单，而是额外提供了一定的管理功能。
 数据库的组成分为数据块头（包括标准内容和可变内容）(common and variable header)、表目录区(tabledirectory)、行目录区(row directory)、可用空间区(free space)、行数据区(row data)这5个部分，如下图：
 
-![数据块结构.png](../images/《收获，不止Oracle》读书笔记上篇-逻辑体系/数据块结构.png)
+![数据块结构.png](https://cooooing.github.io/images/《收获，不止Oracle》读书笔记上篇-逻辑体系/数据块结构.png)
 
 1. 数据块头(header)中包含了此数据块的概要信息，例如块地址(block address)及此数据块所属的段(segment)的类型（比如到底是表还是索引）。
 2. 表目录存放了块中行数据所在的表的信息。
