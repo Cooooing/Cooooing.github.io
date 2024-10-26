@@ -8,7 +8,7 @@ tags:
   - BitTorrent
   - p2p
 categories:
-  - 编程记录
+  - 学习笔记
 ---
 
 ## Bencode
