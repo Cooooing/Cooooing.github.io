@@ -429,7 +429,7 @@ event、keys 和 dbid 分别是事件的名称、产生事件的键，以及产�
 ~~~python
 def notifyKeyspaceEvent(type, event, key, dbid):
     # 如果给定的通知不是服务器允许发送的通知，那么直接返回
-    if not(server.notify_keyspace_events & type):
+    if not (server.notify_keyspace_events & type):
         return
     # 发送键空间通知
     if server.notify_keyspace_events & REDIS_NOTIFY_KEYSPACE:
@@ -444,7 +444,7 @@ def notifyKeyspaceEvent(type, event, key, dbid):
         # 将通知发送给频道__keyevent@<dbid>__:<event>
         # 内容为发生事件的键 <key>
         # 构建频道名字
-        chan = "__keyevent@{dbid}__:{event}".format(dbid=dbid,event=event)
+        chan = "__keyevent@{dbid}__:{event}".format(dbid=dbid, event=event)
         # 发送通知
         pubsubPublishMessage(chan, key)
 ~~~
@@ -486,7 +486,8 @@ RDB持久化功能所生成的RDB文件是一个经过压缩的二进制文件�
 def SAVE():
     # 创建RDB文件
     rdbSave()
-    
+
+
 def BGSAVE():
     # 创建子进程
     pid = fork()
@@ -610,7 +611,7 @@ def serverCron():
     # 遍历所有保存条件
     for saveparam in server.saveparams:
         # 计算距离上次执行保存操作有多少秒
-        save_interval = unixtime_now()-server.lastsave
+        save_interval = unixtime_now() - server.lastsave
         # 如果数据库状态的修改次数超过条件所设置的次数
         # 并且距离上次保存的时间超过条件所设置的时间
         # 那么执行保存操作
@@ -620,6 +621,178 @@ def serverCron():
 ~~~
 
 程序会遍历并检查saveparams数组中的所有保存条件，只要有任意一个条件被满足，那么服务器就会执行BGSAVE命令。
+
+### RDB文件结构
+
+RDB文件结构如下：
+
+![RDB文件结构.png](../images/《Redis设计与实现》读书笔记-单机数据库的实现/RDB文件结构.png)
+
+RDB文件的最开头是REDIS部分，这个部分的长度为5字节，保存着“REDIS”五个字符。通过这五个字符，程序可以在载入文件时，快速检查所载入的文件是否RDB文件。
+因为RDB文件保存的是二进制数据，而不是C字符串，为了简便起见，我们用"REDIS"符号代表'R'、'E'、'D'、'I'、'S'五个字符，而不是带'\0'结尾符号的C字符串'R'、'E'、'D'、'I'、'S'、'\0'。后续关于RDB文件的结构都是这样。
+
+db_version长度为4字节，它的值是一个字符串表示的整数，这个整数记录了RDB文件的版本号，比如"0006"就代表RDB文件的版本为第六版。这里介绍的也是第六版RDB文件的结构。（虽然我看这本书的时候，redis最新版本已经是7.4.1了。）
+databases部分包含着零个或任意多个数据库，以及各个数据库中的键值对数据：
+
+* 如果服务器的数据库状态为空（所有数据库都是空的），那么这个部分也为空，长度为0字节。
+* 如果服务器的数据库状态为非空（有至少一个数据库非空），那么这个部分也为非空，根据数据库所保存键值对的数量、类型和内容不同，这个部分的长度也会有所不同。
+
+EOF常量的长度为1字节，这个常量标志着RDB文件正文内容的结束，当读入程序遇到这个值的时候，它知道所有数据库的所有键值对都已经载入完毕了。
+check_sum是一个8字节长的无符号整数，保存着一个校验和，这个校验和是程序通过对REDIS、db_version、databases、EOF四个部分的内容进行计算得出的。服务器在载入RDB文件时，会将载入数据所计算出的校验和与check_sum所记录的校验和进行对比，以此来检查RDB文件是否有出错或者损坏的情况出现。
+
+#### databases部分
+
+一个RDB文件的databases部分可以保存任意多个非空数据库。
+
+例如，如果服务器的0号数据库和3号数据库非空，那么服务器将创建一个如图所示的RDB文件，图中的database 0代表0号数据库中的所有键值对数据，而database 3则代表3号数据库中的所有键值对数据。
+
+![带有两个非空数据库的RDB文件示例.png](../images/《Redis设计与实现》读书笔记-单机数据库的实现/带有两个非空数据库的RDB文件示例.png)
+
+每个非空数据库在RDB文件中都可以保存为SELECTDB、db_number、key_value_pairs三个部分。
+
+![RDB文件中的数据库结构.png](../images/《Redis设计与实现》读书笔记-单机数据库的实现/RDB文件中的数据库结构.png)
+
+SELECTDB常量的长度为1字节，当读入程序遇到这个值的时候，它知道接下来要读入的将是一个数据库号码。
+db_number保存着一个数据库号码，根据号码的大小不同，这个部分的长度可以是1字节、2字节或者5字节。当程序读入db_number部分之后，服务器会调用SELECT命令，根据读入的数据库号码进行数据库切换，使得之后读入的键值对可以载入到正确的数据库中。
+key_value_pairs部分保存了数据库中的所有键值对数据，如果键值对带有过期时间，那么过期时间也会和键值对保存在一起。根据键值对的数量、类型、内容以及是否有过期时间等条件的不同，key_value_pairs部分的长度也会有所不同。
+
+#### key_value_pairs部分
+
+RDB文件中的每个key_value_pairs部分都保存了一个或以上数量的键值对，如果键值对带有过期时间的话，那么键值对的过期时间也会被保存在内。
+
+不带过期时间的键值对在RDB文件中由**TYPE、key、value**三部分组成。
+
+TYPE记录了value的类型，长度为1字节，值可以是以下常量的其中一个：
+
+* REDIS_RDB_TYPE_STRING
+* REDIS_RDB_TYPE_LIST
+* REDIS_RDB_TYPE_SET
+* REDIS_RDB_TYPE_ZSET
+* REDIS_RDB_TYPE_HASH
+* REDIS_RDB_TYPE_LIST_ZIPLIST
+* REDIS_RDB_TYPE_SET_INTSET
+* REDIS_RDB_TYPE_ZSET_ZIPLIST
+* REDIS_RDB_TYPE_HASH_ZIPLIST
+
+以上列出的每个TYPE常量都代表了一种对象类型或者底层编码，当服务器读入RDB文件中的键值对数据时，程序会根据TYPE的值来决定如何读入和解释value的数据。key和value分别保存了键值对的键对象和值对象：
+
+* 其中key总是一个字符串对象，它的编码方式和REDIS_RDB_TYPE_STRING类型的value一样。根据内容长度的不同，key的长度也会有所不同。
+* 根据TYPE类型的不同，以及保存内容长度的不同，保存value的结构和长度也会有所不同，稍后会详细说明每种TYPE类型的value结构保存方式。
+
+带有过期时间的键值对在RDB文件中由**EXPIRETIME_MS、ms、TYPE、key、value**五部分组成。
+
+* EXPIRETIME_MS常量的长度为1字节，它告知读入程序，接下来要读入的将是一个以毫秒为单位的过期时间。
+* ms是一个8字节长的带符号整数，记录着一个以毫秒为单位的UNIX时间戳，这个时间戳就是键值对的过期时间。
+
+#### value的编码
+
+RDB文件中的每个value部分都保存了一个值对象，每个值对象的类型都由与之对应的TYPE记录，根据类型的不同，value部分的结构、长度也会有所不同。
+
+##### 字符串对象
+
+如果TYPE的值为REDIS_RDB_TYPE_STRING，那么value保存的就是一个字符串对象，字符串对象的编码可以是REDIS_ENCODING_INT或者REDIS_ENCODING_RAW。
+
+如果字符串对象的编码为REDIS_ENCODING_INT，那么说明对象中保存的是长度不超过32位的整数。
+其中，ENCODING的值可以是REDIS_RDB_ENC_INT8、REDIS_RDB_ENC_INT16或者REDIS_RDB_ENC_INT32三个常量的其中一个，它们分别代表RDB文件使用8位（bit）、16位或者32位来保存整数值integer。
+
+INT编码字符串对象的保存结构
+![INT编码字符串对象的保存结构.png](../images/《Redis设计与实现》读书笔记-单机数据库的实现/INT编码字符串对象的保存结构.png)
+
+如果字符串对象的编码为REDIS_ENCODING_RAW，那么说明对象所保存的是一个字符串值，根据字符串长度的不同，有压缩和不压缩两种方法来保存这个字符串：
+
+* 如果字符串的长度小于等于20字节，那么这个字符串会直接被原样保存。
+* 如果字符串的长度大于20字节，那么这个字符串会被压缩之后再保存。
+
+以上两个条件是在假设服务器打开了RDB文件压缩功能的情况下进行的，如果服务器关闭了RDB文件压缩功能，那么RDB程序总以无压缩的方式保存字符串值。
+具体信息可以参考redis.conf文件中关于rdbcompression选项的说明。
+
+对于没有被压缩的字符串，RDB程序会以下图所示的结构来保存该字符串。
+![无压缩字符串的保存结构.png](../images/《Redis设计与实现》读书笔记-单机数据库的实现/无压缩字符串的保存结构.png)
+
+其中，string部分保存了字符串值本身，而len保存了字符串值的长度。
+对于压缩后的字符串，RDB程序会以下图所示的结构来保存该字符串。
+![压缩后字符串的保存结构.png](../images/《Redis设计与实现》读书笔记-单机数据库的实现/压缩后字符串的保存结构.png)
+
+其中，REDIS_RDB_ENC_LZF常量标志着字符串已经被[LZF算法](http://liblzf.plan9.de)压缩过了，读入程序在碰到这个常量时，会根据之后的compressed_len、origin_len和compressed_string三部分，对字符串进行解压缩：
+其中compressed_len记录的是字符串被压缩之后的长度，而origin_len记录的是字符串原来的长度，compressed_string记录的则是被压缩之后的字符串。
+
+##### 列表对象
+
+如果TYPE的值为REDIS_RDB_TYPE_LIST，那么value保存的就是一个REDIS_ENCODING_LINKEDLIST编码的列表对象，RDB文件保存这种对象的结构如下图所示。
+![LINKEDLIST编码列表对象的保存结构.png](../images/《Redis设计与实现》读书笔记-单机数据库的实现/LINKEDLIST编码列表对象的保存结构.png)
+
+list_length记录了列表的长度，它记录列表保存了多少个项（item），读入程序可以通过这个长度知道自己应该读入多少个列表项。
+图中以item开头的部分代表列表的项，因为每个列表项都是一个字符串对象，所以程序会以处理字符串对象的方式来保存和读入列表项。
+
+##### 集合对象
+
+如果TYPE的值为REDIS_RDB_TYPE_SET，那么value保存的就是一个REDIS_ENCODING_HT编码的集合对象，RDB文件保存这种对象的结构如下图所示。
+![HT编码集合对象的保存结构.png](../images/《Redis设计与实现》读书笔记-单机数据库的实现/HT编码集合对象的保存结构.png)
+
+其中，set_size是集合的大小，它记录集合保存了多少个元素，读入程序可以通过这个大小知道自己应该读入多少个集合元素。
+图中以elem开头的部分代表集合的元素，因为每个集合元素都是一个字符串对象，所以程序会以处理字符串对象的方式来保存和读入集合元素。
+
+##### 哈希表对象
+
+如果TYPE的值为REDIS_RDB_TYPE_HASH，那么value保存的就是一个REDIS_ENCODING_HT编码的集合对象，RDB文件保存这种对象的结构下图所示：
+
+* hash_size记录了哈希表的大小，也即是这个哈希表保存了多少键值对，读入程序可以通过这个大小知道自己应该读入多少个键值对。
+* 以key_value_pair开头的部分代表哈希表中的键值对，键值对的键和值都是字符串对象，所以程序会以处理字符串对象的方式来保存和读入键值对。
+
+![HT编码哈希表对象的保存结构.png](../images/《Redis设计与实现》读书笔记-单机数据库的实现/HT编码哈希表对象的保存结构.png)
+
+结构中的每个键值对（key_value_pair）都以键紧挨着值的方式排列在一起。
+
+##### 有序集合对象
+
+如果TYPE的值为REDIS_RDB_TYPE_ZSET，那么value保存的就是一个REDIS_ENCODING_SKIPLIST编码的有序集合对象，RDB文件保存这种对象的结构如图10-34所示。
+![SKIPLIST编码有序集合对象的保存结构.png](../images/《Redis设计与实现》读书笔记-单机数据库的实现/SKIPLIST编码有序集合对象的保存结构.png)
+
+sorted_set_size记录了有序集合的大小，也即是这个有序集合保存了多少元素，读入程序需要根据这个值来决定应该读入多少有序集合元素。
+以element开头的部分代表有序集合中的元素，每个元素又分为成员（member）和分值（score）两部分，成员是一个字符串对象，分值则是一个double类型的浮点数，程序在保存RDB文件时会先将分值转换成字符串对象，然后再用保存字符串对象的方法将分值保存起来。
+
+##### INTSET编码的集合
+
+如果TYPE的值为REDIS_RDB_TYPE_SET_INTSET，那么value保存的就是一个整数集合对象，RDB文件保存这种对象的方法是，先将整数集合转换为字符串对象，然后将这个字符串对象保存到RDB文件里面。
+如果程序在读入RDB文件的过程中，碰到由整数集合对象转换成的字符串对象，那么程序会根据TYPE值的指示，先读入字符串对象，再将这个字符串对象转换成原来的整数集合对象。
+
+##### ZIPLIST编码的列表、哈希表或者有序集合
+
+如果TYPE的值为REDIS_RDB_TYPE_LIST_ZIPLIST、REDIS_RDB_TYPE_HASH_ZIPLIST或者REDIS_RDB_TYPE_ZSET_ZIPLIST，那么value保存的就是一个压缩列表对象，RDB文件保存这种对象的方法是：
+
+1. 将压缩列表转换成一个字符串对象。
+2. 将转换所得的字符串对象保存到RDB文件。
+
+如果程序在读入RDB文件的过程中，碰到由压缩列表对象转换成的字符串对象，那么程序会根据TYPE值的指示，执行以下操作：
+
+1. 读入字符串对象，并将它转换成原来的压缩列表对象。
+2. 根据TYPE的值，设置压缩列表对象的类型：如果TYPE的值为REDIS_RDB_TYPE_LIST_ZIPLIST，那么压缩列表对象的类型为列表；如果TYPE的值为REDIS_RDB_TYPE_HASH_ZIPLIST，那么压缩列表对象的类型为哈希表；如果TYPE的值为REDIS_RDB_TYPE_ZSET_ZIPLIST，那么压缩列表对象的类型为有序集合。
+
+从步骤2可以看出，由于TYPE的存在，即使列表、哈希表和有序集合三种类型都使用压缩列表来保存，RDB读入程序也总可以将读入并转换之后得出的压缩列表设置成原来的类型。
+
+### 分析RDB文件
+
+使用od命令来分析Redis服务器产生的RDB文件，该命令可以用给定的格式转存（dump）并打印输入文件。
+比如说，给定-c参数可以以ASCII编码的方式打印输入文件，给定-x参数可以以十六进制的方式打印输入文件，诸如此类，具体的信息可以参考od命令的文档。
+
+#### 不包含任何键值对的RDB文件
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
