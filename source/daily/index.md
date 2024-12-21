@@ -8,6 +8,14 @@ top_img: https://dev.iw233.cn/api.php?sort=pc&type=jpg&5
 
 # 日常
 
+## 2024-12-21
+
+好！
+今天第一次开源贡献。
+聊天室用于分流的子节点，经过手工的暴力测试（指250个左右的客户端连接的负载非常流畅）
+也是第一次写多线程的东西，并且用于生产环境。要考虑锁，并发之类的，出问题也比较难排查。
+项目地址：[https://github.com/FishPiOffical/rhyus-golang](https://github.com/FishPiOffical/rhyus-golang)
+
 ## 2024-11-28
 
 2024-11-28 08:52 公司楼下美宜佳卖了一根放了很久的玉米给我。
