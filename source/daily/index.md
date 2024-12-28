@@ -8,6 +8,15 @@ top_img: https://dev.iw233.cn/api.php?sort=pc&type=jpg&5
 
 # 日常
 
+## 2024-12-28
+
+在阮大周刊上看到了一篇文章 [Ramsay 编程十年的感悟](https://ramsayleung.github.io/zh/post/2024/%E7%BC%96%E7%A8%8B%E5%8D%81%E5%B9%B4%E7%9A%84%E6%84%9F%E6%82%9F/)
+还是很有收获的。
+
+比如关于英语的重要性、对独立思考不随波逐流的判断力、不局限于具体技术，而是关注整体解决问题的能力、与人交流的能力，多认识厉害的大佬；
+又比如关于代码质量的说法：
+> make it run, make it fast, make it beautiful.
+
 ## 2024-12-21
 
 好！
