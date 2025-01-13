@@ -21,7 +21,7 @@ top_img: https://dev.iw233.cn/api.php?sort=pc&type=jpg&5
 
 好！
 今天第一次开源贡献。
-聊天室用于分流的子节点，经过手工的暴力测试（指250个左右的客户端连接的负载非常流畅）
+聊天室用于分流的子节点，经过手工的暴力测试（指250个左右的客户端连接的负载非常流畅）（后续压测3000连接并发，CPU占用10%，非常流畅！2024-12-30）
 也是第一次写多线程的东西，并且用于生产环境。要考虑锁，并发之类的，出问题也比较难排查。
 项目地址：[https://github.com/FishPiOffical/rhyus-golang](https://github.com/FishPiOffical/rhyus-golang)
 
