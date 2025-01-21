@@ -813,7 +813,7 @@ func main() {
 
 #### 池
 
-池(Pool)是(Pool模式)(https://zh.wikipedia.org/wiki/%E5%AF%B9%E8%B1%A1%E6%B1%A0%E6%A8%A1%E5%BC%8F)的并发安全实现。
+池(Pool)是[Pool模式](https://zh.wikipedia.org/wiki/%E5%AF%B9%E8%B1%A1%E6%B1%A0%E6%A8%A1%E5%BC%8F)的并发安全实现。
 在较高的层次上，Pool模式是一种创建和提供可供使用的固定数量实例或 Pool实例的方法。
 它通常用于约束创建昂贵的场景（如数据库连接），以便只创建固定数量的实例，但不确定数量的操作仍然可以请求访问这些场景。
 对于Go语言的sync.Pool,这种数据类型可以被多个goroutine安全地使用。
