@@ -1298,22 +1298,547 @@ func main() {
 如果你的入口速率没有超过出口速率，你仍旧造成了一个不稳定的系统，但这所导致的也仅仅是你的系统资源并没有被完全使用而已。那并不是这个世界上最槽糕的情况，但是，你可能会在大规模系统（例如，集群或者数据中心）中关心这个问题。
 
 具体的计算这里省略。
+总之，队列在系统中可能会很有用，但由于它的复杂性（它会隐藏问题），建议作为实现的最后一个优化手段。
 
+### context 包
 
+在并发程序中，由于超时，取消或系统其他部分的故障往往需要抢占操作。
+我们已经看过了创建done channel的习惯用法，该 channel 在你的程序中流动并取消所有阻塞的并发操作。这很好，但它也是有限的。
 
+如果我们可以在简单的通知上附加传递额外的信息以取消：为什么取消发生，或者我们的函数是否有需要完成的最后期限（超时），这将非常有用。
+事实证明，对于任何规模的系统来说，使用这些信息来包装已完成的频道是非常常见的，因此Go语言的作者们决定为此创建一个标准模式。
+它起源于一个在标准库之外的实验功能，但是在Go1.7中，context包被引人标准库中，这使得它成为考虑并发问题时的一个标准的风格。
+如果看一下上下文包，我们看到它非常简单：
 
+~~~go
+var Canceled = errors.New("context canceled")
+var DeadlineExceeded error = deadlineExceededError{}
 
+type CancelFunc
+type Context
 
+func Background() Context
+func TODO() Context
+func WithCancel(parent Context) (ctx Context, cancel CancelFunc)
+func WithDeadline(parent Context, deadline time.Time) (Context, CancelFunc)
+func WithTimeout(parent Context, timeout time.Duration) (Context, CancelFunc)
+func Withvalue(parent Context, key, val interface{})
+~~~
 
+~~~
+type Context interface {
+    // 当为该 context 工作的 work 被取消时，deadline 会返回时间。
+    // 在没有设定期限的情况下，会返回 ok==false
+    // 连续调用 deadline 会返回相同的值
+    Deadline() (deadline time.Time, ok bool)
+    
+    // Done 返回一个 channel，当代表此 context 的工作应被取消时，该 channel 会被关闭。
+    // 如果此 context 永远无法被取消，Done 可能返回 nil。
+    // 对 Done 的多次调用会返回相同的值。
+    // Done channel 的关闭可能是异步的，甚至在 cancel 函数返回之后才发生。
+    //
+    // WithCancel 会在 cancel 被调用时安排 Done channel 的关闭；
+    // WithDeadline 会在截止时间到达时安排 Done channel 的关闭；
+    // WithTimeout 会在超时时间到达时安排 Done channel 的关闭。
+    //
+    // Done 的设计目的是用于 select 语句中。
+    Done() <-chan struct{}
+    
+    // 如果 Done 尚未关闭，Err 返回 nil。
+    // 如果 Done 已关闭，Err 返回一个非 nil 的错误，解释原因：
+    // - 如果 context 被取消，返回 Canceled 错误；
+    // - 如果 context 的截止时间已过，返回 DeadlineExceeded 错误。
+    // 一旦 Err 返回一个非 nil 的错误，后续对 Err 的调用将返回相同的错误。
+    Err() error
+    
+    // Value 返回与当前 context 中 key 关联的值，如果没有值与 key 关联，则返回 nil。
+    // 对 Value 的多次调用（使用相同的 key）会返回相同的结果。
+    //
+    // 仅将 context 的值用于跨进程和 API 边界的请求范围数据传递，
+    // 而不是将可选参数传递给函数。
+    Value(key any) any
+}
+~~~
 
+上下文包有两个主要目的：
 
+* 提供一个可以取消你的调用图中分支的API。
+* 提供用于通过呼叫传输请求范围数据的数据包。
 
+让我们关注第一个方面：取消。
+正如我们在本章前面“防止goroutine泄漏”中所学到的，函数中的取消有三个方面：
 
+* goroutine的父goroutine可能想要取消它。
+* 一个goroutine可能想要取消它的子goroutine。
+* goroutine中的任何阻塞操作都必须是可抢占的，以便它可以被取消。
 
+context包帮助管理所有这三个东西。
+正如我们所提到的，context类型将是你的函数的第一个参数。如果你看看context接口上的方法，你会发现没有任何东西可以改变底层结构的状态。
+此外，接收context的函数并不能取消它。这保护了调用堆栈上的函数被子函数取消上下文的情况。
+结合done channel提供的完成函数，运行上下文类型安全的管理其子上下文的取消。
 
+下面的函数都接收一个 Context 参数，并返回一个 Context。其中还有些其他参数，比如截止时间和超时参数。
+这些函数用来生成新的 Context 实例（父子上下文）。
 
+~~~go
+func WithCancel(parent Context) (ctx Context, cancel CancelFunc)
+func WithCancelCause(parent Context) (ctx Context, cancel CancelCauseFunc)
+func WithDeadline(parent Context, d time.Time) (Context, CancelFunc)
+func WithDeadlineCause(parent Context, d time.Time) (Context, CancelFunc)
+func WithTimeout(parent Context, timeout time.Duration) (Context, CancelFunc)
+func WithTimeoutCause(parent Context, timeout time.Duration) (Context, CancelFunc)
+func WithValue(parent Context, key, val any) Context
+func WithoutCancel(parent Context) Context
+~~~
 
+WithCancel返回一个新的Context,它在调用返回的cancel函数时关闭其done channel。
+WithDeadline返回一个新的Context,当机器的时钟超过给定的最后期限时，它关闭完成的channel。
+WithTimeout返回一个新的Context,它在给定的超时时间后关闭其完成的channel。
 
+如果你的函数需要以某种方式在调用图中取消它后面的函数，它将调用其中一个函数并传递给它的上下文，然后将返回的上下文传递给它的子元素。
+如果你的函数不需要修改取消行为，那么函数只传递给定的上下文。
+通过这种方式，调用图的连续图层可以创建符合其需求的上下文，而不会影响其父母节点。
+这为如何管理调用图的分支提供了一个非常可组合的优雅解决方案。
 
+context包就是本着这种精神来串联起你程序的调用图的。
+在面向对象的范例中，通常将对经常使用的数据的引用存储为成员变量，但重要的是不要使用context.Context的实例来执行此操作。
+context.Context的实例可能与外部看起来相同，但在内部它们可能会在每个栈帧更改。
+出于这个原因，总是将context的实例传递给你的函数是很重要的。通过这种方式，函数具有用于它的上下文，而不是用于堆栈N的上下文。
+在异步调用图的顶部，你的代码可能不会传递上下文。要启动链，上下文包提供了两个函数来创建上下文的空实例：
 
+~~~
+func Background()Context
+func TODO()Context
+~~~
 
+`Background()`只是返回一个空的上下文。`TODO()`不是用于生产，而是返回一个空的上下文。
+`TODO()`的预期目的是作为一个占位符，当你不知道使用哪个上下文，或者你希望你的代码被提供一个上下文，但上游代码还没有提供。
+
+来看一个使用完成channel模式的例子，并且看看我们可以从切换到使用context包获得什么好处。
+这是一个同时打印问候和告别的程序：
+
+~~~go
+package main
+
+import (
+	"fmt"
+	"sync"
+	"time"
+)
+
+func main() {
+	var wg sync.WaitGroup
+	done := make(chan any)
+	defer close(done)
+
+	wg.Add(1)
+	go func() {
+		defer wg.Done()
+		if err := printGreeting(done); err != nil {
+			fmt.Printf("%v", err)
+			return
+		}
+	}()
+
+	wg.Add(1)
+	go func() {
+		defer wg.Done()
+		if err := printFarewell(done); err != nil {
+			fmt.Printf("%v", err)
+			return
+		}
+	}()
+
+	wg.Wait()
+}
+
+func printGreeting(done <-chan any) error {
+	greeting, err := genGreeting(done)
+	if err != nil {
+		return err
+	}
+	fmt.Printf("%s world!\n", greeting)
+	return nil
+}
+
+func printFarewell(done <-chan any) error {
+	farewell, err := genFarewell(done)
+	if err != nil {
+		return err
+	}
+	fmt.Printf("%s world!\n", farewell)
+	return nil
+}
+
+func genGreeting(done <-chan any) (string, error) {
+	switch locale, err := locale(done); {
+	case err != nil:
+		return "", err
+	case locale == "EN/US":
+		return "hello", nil
+	}
+	return "", fmt.Errorf("unsupported locale")
+}
+
+func genFarewell(done <-chan any) (string, error) {
+	switch locale, err := locale(done); {
+	case err != nil:
+		return "", err
+	case locale == "EN/US":
+		return "goodbye", nil
+	}
+	return "", fmt.Errorf("unsupported locale")
+}
+
+func locale(done <-chan any) (string, error) {
+	select {
+	case <-done:
+		return "", fmt.Errorf("canceled")
+	case <-time.After(1 * time.Minute):
+	}
+	return "EN/US", nil
+}
+~~~
+
+输出如下：
+
+~~~
+goodbye world!
+hello world!
+~~~
+
+忽略竞争条件（我们可以在收到问好之前接收到我们的告别！），我们可以看到我们的程序有两个分支同时运行。
+我们通过创建完成通道并将其传递给我们的调用图来设置标准抢占方法。如果我们在main的任何一点关闭完成的频道，那么两个分支都将被取消。
+通过引入goroutine,我们已经开辟了以几种不同且有趣的方式来控制该程序的可能性。
+
+在每个堆栈框架中，一个函数可以影响其下的整个调用堆栈。
+使用done channel模式，我们可以通过将传入的done channel包装到其他done channel中，然后在其中任何一个通道启动时返回，
+但我们不会获得关于Context给我们的最后期限和错误的额外信息。
+下面是使用context包实现的（设置 genGreeting 在放弃调用 locale 之前等待1s，超时时间为1s。并且如果 genGreeting 不成功，也会取消 printFarewall 的调用）：
+
+~~~go
+package main
+
+import (
+	"context"
+	"fmt"
+	"sync"
+	"time"
+)
+
+func main() {
+	var wg sync.WaitGroup
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
+	wg.Add(1)
+	go func() {
+		defer wg.Done()
+		if err := printGreeting(ctx); err != nil {
+			fmt.Printf("cannot print greeting: %v\n", err)
+			cancel()
+		}
+	}()
+
+	wg.Add(1)
+	go func() {
+		defer wg.Done()
+		if err := printFarewell(ctx); err != nil {
+			fmt.Printf("cannot print farewell: %v\n", err)
+		}
+	}()
+
+	wg.Wait()
+}
+
+func printGreeting(ctx context.Context) error {
+	greeting, err := genGreeting(ctx)
+	if err != nil {
+		return err
+	}
+	fmt.Printf("%s world!\n", greeting)
+	return nil
+}
+
+func printFarewell(ctx context.Context) error {
+	farewell, err := genFarewell(ctx)
+	if err != nil {
+		return err
+	}
+	fmt.Printf("%s world!\n", farewell)
+	return nil
+}
+
+func genGreeting(ctx context.Context) (string, error) {
+	ctx, cancel := context.WithTimeout(ctx, 1*time.Second)
+	defer cancel()
+
+	switch locale, err := locale(ctx); {
+	case err != nil:
+		return "", err
+	case locale == "EN/US":
+		return "hello", nil
+	}
+	return "", fmt.Errorf("unsupported locale")
+}
+
+func genFarewell(ctx context.Context) (string, error) {
+	switch locale, err := locale(ctx); {
+	case err != nil:
+		return "", err
+	case locale == "EN/US":
+		return "goodbye", nil
+	}
+	return "", fmt.Errorf("unsupported locale")
+}
+
+func locale(ctx context.Context) (string, error) {
+	select {
+	case <-ctx.Done():
+		return "", ctx.Err()
+	case <-time.After(1 * time.Minute):
+	}
+	return "EN/US", nil
+}
+~~~ 
+
+输出结果：
+
+~~~
+cannot print greeting: context deadline exceeded
+cannot print farewell: context canceled
+~~~
+
+genGreeting构建自定义的Context.Context以满足其需求，而不必影响父级的context。
+如果genGreeting成功返回，并且printGreeting需要再次调用，则可以在不泄漏有关genGreeting如何操作的信息的情况下进行。
+这种可组合性使你能够编写大型系统，而无需在整个调用图中混淆问题。
+
+我们可以对这个程序进行另一个改进：因为我们知道loca1e需要大约一分钟的时间来运行，所以我们可以检查是否给了我们最后期限，如果是的话，我们是否会遇到它。
+即使用context.Context的Deadline方法（在locale上增加截止时间的判断）：
+
+~~~go
+package main
+
+import (
+	"context"
+	"fmt"
+	"sync"
+	"time"
+)
+
+func main() {
+	var wg sync.WaitGroup
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
+	wg.Add(1)
+	go func() {
+		defer wg.Done()
+		if err := printGreeting(ctx); err != nil {
+			fmt.Printf("cannot print greeting: %v\n", err)
+			cancel()
+		}
+	}()
+
+	wg.Add(1)
+	go func() {
+		defer wg.Done()
+		if err := printFarewell(ctx); err != nil {
+			fmt.Printf("cannot print farewell: %v\n", err)
+		}
+	}()
+
+	wg.Wait()
+}
+
+func printGreeting(ctx context.Context) error {
+	greeting, err := genGreeting(ctx)
+	if err != nil {
+		return err
+	}
+	fmt.Printf("%s world!\n", greeting)
+	return nil
+}
+
+func printFarewell(ctx context.Context) error {
+	farewell, err := genFarewell(ctx)
+	if err != nil {
+		return err
+	}
+	fmt.Printf("%s world!\n", farewell)
+	return nil
+}
+
+func genGreeting(ctx context.Context) (string, error) {
+	ctx, cancel := context.WithTimeout(ctx, 1*time.Second)
+	defer cancel()
+
+	switch locale, err := locale(ctx); {
+	case err != nil:
+		return "", err
+	case locale == "EN/US":
+		return "hello", nil
+	}
+	return "", fmt.Errorf("unsupported locale")
+}
+
+func genFarewell(ctx context.Context) (string, error) {
+	switch locale, err := locale(ctx); {
+	case err != nil:
+		return "", err
+	case locale == "EN/US":
+		return "goodbye", nil
+	}
+	return "", fmt.Errorf("unsupported locale")
+}
+
+func locale(ctx context.Context) (string, error) {
+	if deadline, ok := ctx.Deadline(); ok {
+		if time.Now().Add(1 * time.Minute).After(deadline) {
+			return "", context.DeadlineExceeded
+		}
+	}
+	select {
+	case <-ctx.Done():
+		return "", ctx.Err()
+	case <-time.After(1 * time.Minute):
+	}
+	return "EN/US", nil
+}
+~~~
+
+虽然这个更改差异很小，但它允许 locale 函数快速失败。在调用成本很高的程序中，可能会节省大量资源和时间，它允许立即失败，而不必等待实际的超时发生。
+但现实中实践起来非常困难，因为必须要知道下级调用需要多长时间。
+
+最后来介绍用于存储和检索请求范围数据的Context的数据包。
+请记住，当一个函数创建一个goroutine和Context时，它通常会启动一个将为请求提供服务的goroutine,并且进一步向下的函数可能需要有关请求的信息。
+以下是如何在上下文中存储数据以及如何检索数据的示例：
+
+~~~go
+package main
+
+import (
+	"context"
+	"fmt"
+)
+
+func main() {
+	ProcessRequest("jane", "abc123")
+}
+func ProcessRequest(userID, authToken string) {
+	ctx := context.WithValue(context.Background(), "userID", userID)
+	ctx = context.WithValue(ctx, "authToken", authToken)
+	HandleResponse(ctx)
+}
+func HandleResponse(ctx context.Context) {
+	fmt.Printf(
+		"handling response for %v (%v)",
+		ctx.Value("userID"),
+		ctx.Value("authToken"),
+	)
+}
+~~~
+
+输出如下：`handling response for jane (abc123)`
+
+很简单的东西。唯一的限制条件是：
+
+* 键值必须满足Go语言的可比性概念，也就是运算符`==`和`!=`在使用时需要返回正确的结果。
+* 返回值必须安全，才能从多个goroutine访问。
+
+**由于Context的键和值都被定义为`interface{}`,所以当试图检索值时，我们会失去Go语言的类型安全性。**
+key可以是不同的类型，或者与我们提供的key略有不同。值可能与我们预期的不同。
+出于这些原因，Go语言作者建议你在从Context中存储和检索值时遵循一些规则。
+首先，他们建议你**在软件包中定义一个自定义键类型。只要其他软件包执行相同的操作，则可以防止上下文中的冲突。**
+作为一个提醒，为什么让我们看看一个简短的程序，试图将键存储在具有不同类型的映射中，但具有相同的基础值：
+
+~~~go
+package main
+
+import "fmt"
+
+type foo int
+type bar int
+
+func main() {
+	m := make(map[any]int)
+	m[foo(1)] = 1
+	m[bar(1)] = 2
+	fmt.Printf("%v", m)
+}
+~~~
+
+输出如下：`map[1:2 1:1]`
+
+虽然基础值是相同的，但不同的类型信息在map中区分它们。
+
+同时由于我们不应该导出存储数据的key，所以必须导出检索数据的函数。允许这些数据使用者使用静态的、类型安全的函数。
+最佳实践：
+
+~~~go
+package main
+
+import (
+	"context"
+	"fmt"
+)
+
+func main() {
+	ProcessRequest("jane", "abc123")
+}
+
+type ctxKey int
+
+const (
+	ctxUserId ctxKey = iota
+	ctxAuthToken
+)
+
+func UserId(c context.Context) string {
+	return c.Value(ctxUserId).(string)
+}
+func AuthToken(c context.Context) string {
+	return c.Value(ctxAuthToken).(string)
+}
+
+func ProcessRequest(userID, authToken string) {
+	ctx := context.WithValue(context.Background(), ctxUserId, userID)
+	ctx = context.WithValue(ctx, ctxAuthToken, authToken)
+	HandleResponse(ctx)
+}
+func HandleResponse(ctx context.Context) {
+	fmt.Printf(
+		"handling response for %v (%v)",
+		UserId(ctx),
+		AuthToken(ctx),
+	)
+}
+~~~
+
+运行结果：`handling response for jane (abc123)`
+
+现在有一种类型安全的函数来从context获取值，如果消费者在不同的包中，他们不会知道或关心用于存储信息的ky。
+但是，这种技术确实会造成问题。（循环依赖）
+在前面的例子里，假如 ProcessRequest 在 process 包中、HandleResponse 在 response 包中。
+process 包需要导入 response 包，调用函数。而 context 的 key 定义在 process 包中，response 包需要导入 process 包。
+会造成循环依赖。
+
+这会迫使体系结构设计时，将所有导入的数据类型放在一个包中。这也许是件好事。
+
+关于 context 中存储什么样的数据是有争议的，因为它可以存储任意数据，并且类型不安全会引发错误。
+
+关于什么是适当的、最普遍的指导，下面是上下文包中的下面有点含糊的注释：
+> 仅将上下文值用于传输进程和请求的请求范围数据，API边界，而不是将可选参数传递给函数。
+
+下面是启发式的建议：
+
+1. 数据应该通过进程或API边界。
+   数据应该用于在进程之间或API 边界传递请求范围的信息（如用户身份、请求 ID、跟踪信息等）。
+2. 数据应该是不可变的
+   如果不是，那么它就不再是请求范围的数据，而是可能被任意修改的共享状态。
+3. 数据应趋向简单类型。
+   数据应该是简单的类型（如 string、int、bool 等），而不是复杂的结构体或对象。
+4. 数据应该是数据，而不是类型与方法。
+   数据应该是纯粹的数据（如 userID、requestID 等），而不是包含方法或行为的类型。
+5. 数据应该有助于修饰操作，而不是驱动它们。
+   数据应该用于修饰操作（如提供额外的上下文信息），而不是驱动操作（如控制算法的行为）。
