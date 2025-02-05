@@ -100,8 +100,479 @@ Bug是一些你未在你的系统中定义的异常，或者一些“原生”�
 * 父进程取消
   对于这个问题，如果任何一种并发操作的父进程停止，那子进程也将被取消。
 * 复制请求
-  我们可能希望将数据发送到多个并发进程，以尝试从其中一个进程获得更快的响应。当第一个回来的时候，我们就会取消其余的进程。
-  
+  我们可能希望将数据发送到多个并发进程，以尝试从其中一个进程获得更快的响应。当第一个回来的时候，我们就会取消其余的进程。后面讨论
+
+也可能有有其他原因。
+
+那么当一个并发进程被取消时，对于正在执行的算法，及其下游消费这意味着什么？在编写可能随时终止的并发代码时，需要考虑哪些事项？
+
+首先是并发进程的可抢占性。
+如果一个原子操作执行时间非常地长，那么在确认取消与停止之间需要很长的时间。
+
+所以需要定义我们的并发进程可抢占的周期，确保运行周期比抢占周期长的功能本身都是可抢占的。
+**一个简单的方法是将你的goroutine代码段分解成小段。就是那些不可抢占的原子操作，确保它们的运行时间小于你认为可以接受的时间。**
+这里还有另外一个潜在的问题：如果我们的goroutine恰好修改了共享状态(例如数据库，文件，内存数据结构)，那当goroutine被取消时会发生什么？你的goroutine会试图将这个中间状态回滚吗？回滚过程需要多长时间？
+goroutine已经接收到了停止的信号，所以它不应该花太长的时间来回滚它之前的工作，对吧？
+就如何处理这个问题很难给出通用的建议，因为你的算法的性质很大程度上决定了你应当如何解决这个问题。
+然而，如果你将对共享状态的修改保特在一个很小的范围内，并且确保这些修改很容易回滚，那么你可以很好的处理取消。
+如果可能的话，将中间结果存储在内存，然后尽可能快的修改状态。
+
+另外，还需要关注重复消息的问题。
+假设有一个管道，它有三个阶段：生成阶段，阶段A和阶段B。
+生成阶段通过记录上一次channel被读取的时间，来监控阶段A持续的时间。
+如果当前实例变得不正常，阶段B在处理中时，实例A被取消。新的请求则会产生新的实例A2。但是阶段B会受到重复的消息。
+有很多种方法可以避免发送重复的消息。**最简单的方法（也是我推荐的方法）是让一个父goroutine在子goroutine已经发送完结果之后发送一个取消信号。这需要各阶段之间的双向通信（心跳）。**
+其他方法是：
+
+1. 接收到的第一个或最后一个消息，如果你的算法允许，或者你的并发进程是幂等的，那么你可以简单地在下游进程中允许可能存在的重复消息，并从接收到的第一个消息或最后一个消息中挑选一个处理。
+2. 像父goroutine确认权限，使用双向通信明确请求允许在B的channel上执行写人操作，这比心跳更安全。然而，在实践中很少这样做，因为它比心跳更加复杂，而心跳更普遍且有效。
+
+### 心跳
+
+心跳是并发进程向外界发出信号的一种方式。这个说法来自人体解剖学，在解剖学中心跳反应了观察者的生命体征。
+
+在设计并发程序时，一定要考虑到超时和取消。如果从一开始就忽略超时和取消，然后在后期尝试加入它们，这有点像在蛋糕烤好后再加鸡蛋。
+在并发编程中，有几个的原因使心跳变得格外有趣。它允许我们对系统有深入的了解，当系统工作不正常时，它可以对系统进行测试。
+下面讨论两种不同类型的心跳：
+
+* 在一段时间间隔内发出的心跳。
+* 在工作单元开始时发出的心跳
+
+在一段时间间隔上发出的心跳对并发代码很有用，尤其是当它在处于等待状态。因为你不知道新的事件什么时候会被触发，你的goroutine可能会在等待某件事情发生的时候挂起。
+心跳是告诉监听程序一切安好的一种方式，而静默状态也是预料之中的。
+下面的代码演示了一个会发出心跳的goroutine:
+
+~~~go
+package main
+
+import (
+	"fmt"
+	"time"
+)
+
+func main() {
+	doWork := func(done <-chan any, pulseInterval time.Duration) (<-chan any, <-chan time.Time) {
+		heartbeat := make(chan any) // 建立一个发送心跳的 channel
+		results := make(chan time.Time)
+		go func() {
+			defer close(heartbeat)
+			defer close(results)
+			pulse := time.Tick(pulseInterval)       // 设置心跳的间隔时间
+			workGen := time.Tick(2 * pulseInterval) // 另一个模拟工作结果的生成间隔
+			sendPulse := func() {
+				select {
+				case heartbeat <- struct{}{}:
+				default: // 添加默认语句，避免阻塞。因为可能没有人接受心跳，从 goroutine 发送信息是重要的，但心跳却不一定重要。
+				}
+			}
+			sendResult := func(r time.Time) {
+				for {
+					select {
+					case <-done:
+						return
+					case <-pulse: // 和 done channel 一样，当执行发送或接收时，也需要发送一个包含心跳的分支
+						sendPulse()
+					case results <- r:
+						return
+					}
+				}
+			}
+			for {
+				select {
+				case <-done:
+					return
+				case <-pulse: // 和 done channel 一样，当执行发送或接收时，也需要发送一个包含心跳的分支
+					sendPulse()
+				case r := <-workGen:
+					sendResult(r)
+				}
+			}
+		}()
+		return heartbeat, results
+	}
+	done := make(chan any)
+	time.AfterFunc(10*time.Second, func() { close(done) }) // 10秒后关闭 done channel
+
+	const timeout = 2 * time.Second               // 设置超时时间
+	heartbeat, results := doWork(done, timeout/2) // 心跳间隔为超时时间的一半，以便心跳有额外的响应时间
+	for {
+		select {
+		case _, ok := <-heartbeat: // 处理心跳。知道心跳会有消息，如果什么都没收到，便知道是 goroutine 出了问题
+			if !ok {
+				return
+			}
+			fmt.Println("pulse")
+		case r, ok := <-results:
+			if !ok {
+				return
+			}
+			fmt.Printf("results %v\n", r.Second())
+		case <-time.After(timeout): // 如果没有收到心跳或其他消息，就会超时
+			return
+		}
+	}
+}
+~~~
+
+输出如下：
+
+~~~
+pulse
+pulse
+results 18
+pulse
+pulse
+results 20
+pulse
+pulse
+results 22
+pulse
+pulse
+results 24
+pulse
+results 26
+~~~
+
+下面来模拟一个异常的 goroutine 。它将在两次迭代后停止，但不关闭任何一个 channel：
+
+~~~go
+package main
+
+import (
+	"fmt"
+	"time"
+)
+
+func main() {
+	doWork := func(done <-chan any, pulseInterval time.Duration) (<-chan any, <-chan time.Time) {
+		heartbeat := make(chan any)
+		results := make(chan time.Time)
+		go func() {
+			pulse := time.Tick(pulseInterval)
+			workGen := time.Tick(2 * pulseInterval)
+			sendPulse := func() {
+				select {
+				case heartbeat <- struct{}{}:
+				default:
+				}
+			}
+			sendResult := func(r time.Time) {
+				for {
+					select {
+					case <-pulse:
+						sendPulse()
+					case results <- r:
+						return
+					}
+				}
+			}
+			for i := 0; i < 2; i++ {
+				select {
+				case <-done:
+					return
+				case <-pulse:
+					sendPulse()
+				case r := <-workGen:
+					sendResult(r)
+				}
+			}
+		}()
+		return heartbeat, results
+	}
+	done := make(chan any)
+	time.AfterFunc(10*time.Second, func() { close(done) })
+
+	const timeout = 2 * time.Second
+	heartbeat, results := doWork(done, timeout/2)
+	for {
+		select {
+		case _, ok := <-heartbeat:
+			if !ok {
+				return
+			}
+			fmt.Println("pulse")
+		case r, ok := <-results:
+			if !ok {
+				return
+			}
+			fmt.Printf("results %v\n", r.Second())
+		case <-time.After(timeout):
+			fmt.Println("worker goroutine is not healthy!")
+			return
+		}
+	}
+}
+~~~
+
+输出如下：
+
+~~~
+pulse
+pulse
+worker goroutine is not healthy!
+~~~
+
+心跳和超时在正常工作，通过心跳可以确定 goroutine 是否在正常运行，从而避免死锁。
+
+### 复制请求
+
+对于某些应用来说，尽可能快地接收响应是重中之重。例如，程序正在处理用户的HTTP请求，或者检索一个数据块。
+在这些情况下，你可以进行权衡：你可以将请求分发到多个处理程序（无论是goroutine,进程，还是服务器），其中一个将比其他处理程序返回更快，你可以立即返回结果。
+缺点是为了维特多个实例的运行，你将不得不消耗更多的资源。
+
+如果这种复制是在内存中进行的，消耗则没有那么大，但是如果多个处理程序要多个进程，服务器甚至是数据中心，那可能会变得相当昂贵。
+所以你需要决定这么做是否值得。
+
+来看看如何在单个进程中制造复制请求。使用多个goroutine作为处理程序，并且goroutine将随机休眠一段时间以模似不同的负载，休眠时间在1到6秒之间。
+这将使我们处理程序在不同的时间返回结果，并且我们可以看到复制请求如何更快的返回结果。
+下面是一个在10个处理程序上复制模拟请求的例子：
+
+~~~go
+package main
+
+import (
+	"fmt"
+	"math/rand"
+	"sync"
+	"time"
+)
+
+func main() {
+	dowork := func(done <-chan any, id int, wg *sync.WaitGroup, result chan<- int) {
+		started := time.Now()
+		defer wg.Done()
+		// 模拟随机负找
+		simulatedLoadTime := time.Duration(1+rand.Intn(5)) * time.Second
+		select {
+		case <-done:
+		case <-time.After(simulatedLoadTime):
+		}
+		select {
+		case <-done:
+		case result <- id:
+		}
+		took := time.Since(started)
+		// 显示处理程序需要多长时间
+		if took < simulatedLoadTime {
+			took = simulatedLoadTime
+		}
+		fmt.Printf("%v took %v\n", id, took)
+	}
+	done := make(chan any)
+	result := make(chan int)
+	var wg sync.WaitGroup
+	wg.Add(10)
+	for i := 0; i < 10; i++ { // 启动 10 个处理程序
+		go dowork(done, i, &wg, result)
+	}
+	firstReturned := <-result // 获取处理程序组的第一个结果
+	close(done)               // 取消其余处理程序
+	wg.Wait()
+	fmt.Printf("Received an answer from %v\n", firstReturned)
+}
+~~~
+
+输出结果：
+
+~~~
+6 took 1.0010419s
+9 took 2s
+0 took 3s
+8 took 2s
+7 took 2s
+4 took 4s
+3 took 4s
+5 took 1.0010419s
+1 took 2s
+2 took 2s
+Received an answer from 6
+~~~
+
+这里第六个处理程序返回的最快。
+注意，所有的处理程序都应该是尽可能的等价的，有相同的机会处理请求。
+但需要复制请求的场景很少，因为建立和维护这样的系统有非常大的代价。除非对响应速度的要求可以接受这样的代价。
+另外，这种方式天然地提供了容错和可扩展性。（分布式处理，不过只取第一个响应的，而取消其他。比较浪费
+
+### 速率限制
+
+限制某种资源在某段时间内被访问的次数。资源可以是任何东西：API连接、磁盘读写、网络包、异常...
+速率限制允许将系统的性能和隐定性平衡在可控范围内。如果需要扩大这些限制，可以在大量测试和等待后，以可控的方式进行拓展。
+
+大多数的限速是基于令牌桶算法的。这很容易理解，而且相对容易实现。
+如果要访问资源，你必须拥有资源的访问令牌，没有令牌的请求会被拒绝。
+现在假设这些令牌存储在一个等待被检索使用的桶中。桶的深度为d,表示一个桶可以容纳d个访问令牌。
+例如，存储桶深度为五，则可以存放五个令牌。每当你需要访问资源时，都会在桶中删除一个令牌。
+如果你的存储桶包含五个令牌，前五次访问没有问题，操作正常进行；但是在第六次尝试时，就没有访问令牌可用。你的请求必须排队等待，直到令牌可用，或者被拒绝操作。
+
+那如何补充令牌，我们总是能获得一个新的吗？在令牌桶算法中，将r定义为向桶中添加令牌的速率。它可以是一纳秒或一分钟。
+这就是我们通常认为的速率限制：因为我们必须等到新的令牌可用，我们将操作速度限制在这个频率下。
+
+现在我们有两个设置项可以修改：有多少个令牌可以立即使用d,桶的深度，以及它们补充的速度r。在这两者之间，我们可以平衡突发性和限制整体速率。
+突发性指的是当存储桶已满时可以进行多少次请求。
+
+下面是使用`golang.org/x/time/rate`包实现的例子，同时对磁盘访问和网络访问添加限制。
+
+~~~go
+package main
+
+import (
+	"context"
+	"golang.org/x/time/rate"
+	"log"
+	"os"
+	"sort"
+	"sync"
+	"time"
+)
+
+func main() {
+	defer log.Printf("Done.")
+	log.SetOutput(os.Stdout)
+	log.SetFlags(log.Ltime | log.LUTC)
+
+	apiConnection := Open()
+	var wg sync.WaitGroup
+	wg.Add(20)
+
+	for i := 0; i < 10; i++ {
+		go func() {
+			defer wg.Done()
+			err := apiConnection.ReadFile(context.Background())
+			if err != nil {
+				log.Printf("cannot ReadFile: %v", err)
+			}
+			log.Printf("ReadFile")
+		}()
+	}
+
+	for i := 0; i < 10; i++ {
+		go func() {
+			defer wg.Done()
+			err := apiConnection.ResolveAddress(context.Background())
+			if err != nil {
+				log.Printf("cannot ResolveAddress: %v", err)
+			}
+			log.Printf("ResolveAddress")
+		}()
+	}
+
+	wg.Wait()
+}
+func Per(eventCount int, duration time.Duration) rate.Limit {
+	return rate.Every(duration / time.Duration(eventCount))
+}
+func Open() *APIConnection {
+	return &APIConnection{
+		apiLimiter: MultiLimiter( // 为API调用设置限速器，每秒请求数与每分钟请求数都有限制
+			rate.NewLimiter(Per(2, time.Second), 2), // 第一个参数为频率，第二个为桶大小
+			rate.NewLimiter(Per(10, time.Minute), 10),
+		),
+		diskLimiter: MultiLimiter( // 为磁盘操作设置限速器，每秒一次
+			rate.NewLimiter(rate.Limit(1), 1),
+		),
+		networkLimiter: MultiLimiter( // 为网络操作设置限速器，每秒3次
+			rate.NewLimiter(Per(3, time.Second), 3),
+		),
+	}
+}
+
+type APIConnection struct {
+	networkLimiter RateLimiter
+	diskLimiter    RateLimiter
+	apiLimiter     RateLimiter
+}
+
+func (a *APIConnection) ReadFile(ctx context.Context) error {
+	// 读取文件时，同时使用API限速器和磁盘限速器的限制
+	if err := MultiLimiter(a.apiLimiter, a.diskLimiter).Wait(ctx); err != nil {
+		return err
+	}
+	// 假设执行一些逻辑
+	return nil
+}
+
+func (a *APIConnection) ResolveAddress(ctx context.Context) error {
+	// 网络访问时，同时使用API限速器和网络限速器的限制
+	if err := MultiLimiter(a.apiLimiter, a.networkLimiter).Wait(ctx); err != nil {
+		return err
+	}
+	// 假设执行一些逻辑
+	return nil
+}
+
+type RateLimiter interface { // 定义 RateLimiter 接口，使 MultiLimiter 可以递归地定义其他 MultiLimiter 实例。
+	Wait(context.Context) error
+	Limit() rate.Limit
+}
+
+func MultiLimiter(limiters ...RateLimiter) *multiLimiter {
+	byLimit := func(i, j int) bool {
+		return limiters[i].Limit() < limiters[j].Limit()
+	}
+	sort.Slice(limiters, byLimit) // 根据每个 RateLimiter 的 Limit() 进行排序
+	return &multiLimiter{limiters: limiters}
+}
+
+type multiLimiter struct {
+	limiters []RateLimiter
+}
+
+func (l *multiLimiter) Wait(ctx context.Context) error {
+	for _, l := range l.limiters {
+		if err := l.Wait(ctx); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+func (l *multiLimiter) Limit() rate.Limit {
+	return l.limiters[0].Limit() // 返回限制最多的限速器（已排序
+}
+~~~
+
+输出如下：
+~~~
+09:09:32 ReadFile
+09:09:33 ReadFile
+09:09:33 ResolveAddress
+09:09:34 ReadFile
+09:09:35 ReadFile
+09:09:36 ReadFile
+09:09:36 ResolveAddress
+09:09:37 ReadFile
+09:09:38 ResolveAddress
+09:09:38 ReadFile
+09:09:39 ReadFile
+09:09:44 ResolveAddress
+09:09:50 ReadFile
+09:09:56 ResolveAddress
+09:10:02 ResolveAddress
+09:10:08 ResolveAddress
+09:10:14 ResolveAddress
+09:10:20 ResolveAddress
+09:10:26 ResolveAddress
+09:10:32 ReadFile
+09:10:32 Done.
+~~~
+
+### 治愈异常的goroutine
+
+在长期运行的后台程序中，经常会有一些长时间运行的goroutine。这些goroutine经常处于阻塞状态，等待数据以某种方式到达，然后唤醒它们，进行一些处理，再返回一些数据。
+有时候，这些goroutine依赖于一些控制不太好的资源。也许一个goroutine需要从接收到的请求中提取数据，或者它正在监听一个临时文件。
+问题在于，如果没有外部干预，一个goroutine很容易进入一个不正常的状态，并且无法恢复。
+抛开这些担忧，你甚至可以说，goroutine本身不应该关心其如何从一个异常状态回复过来。
+在一个长期运行的程序中，建立一个机制来监控你的goroutine是否处于健康的状态是很用的，当他们变得异常时，就可以尽快重启。
+我们将这个重启goroutine的过程称为“治愈”(Healing）。
+
+为了治愈goroutine,我们需要使用心跳模式来检查我们正在监控的goroutine是否活跃。
+心跳的类型取决于你想要监控的内容，但是如果你的goroutine有可能会产生活锁，确保心跳包含某些信息，表明该goroutine在正常的工作而不仅仅是活着。
+把监控goroutine的健康这段逻辑称为管理员，它监视一个管理区的goroutine。如果有goroutine变得不健康，管理员将负责重新启动这个管理区的goroutine。
+
+
+
+
+
 
 
 
