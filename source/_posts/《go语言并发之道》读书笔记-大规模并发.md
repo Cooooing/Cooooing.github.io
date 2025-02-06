@@ -532,6 +532,7 @@ func (l *multiLimiter) Limit() rate.Limit {
 ~~~
 
 输出如下：
+
 ~~~
 09:09:32 ReadFile
 09:09:33 ReadFile
@@ -569,12 +570,352 @@ func (l *multiLimiter) Limit() rate.Limit {
 心跳的类型取决于你想要监控的内容，但是如果你的goroutine有可能会产生活锁，确保心跳包含某些信息，表明该goroutine在正常的工作而不仅仅是活着。
 把监控goroutine的健康这段逻辑称为管理员，它监视一个管理区的goroutine。如果有goroutine变得不健康，管理员将负责重新启动这个管理区的goroutine。
 
+~~~go
+package main
 
+import (
+	"log"
+	"os"
+	"time"
+)
 
+func main() {
+	var or func(channels ...<-chan any) <-chan any
+	or = func(channels ...<-chan any) <-chan any {
+		switch len(channels) {
+		case 0:
+			return nil
+		case 1:
+			return channels[0]
+		}
 
+		orDone := make(chan any)
+		go func() {
+			defer close(orDone)
 
+			switch len(channels) {
+			case 2:
+				select {
+				case <-channels[0]:
+				case <-channels[1]:
+				}
+			default:
+				select {
+				case <-channels[0]:
+				case <-channels[1]:
+				case <-channels[2]:
+				case <-or(append(channels[3:], orDone)...):
+				}
+			}
+		}()
+		return orDone
+	}
+	type startGoroutineFn func(done <-chan any, pulseInterval time.Duration) (heartbeat <-chan any) // 定义一个可以监控和重启的goroutine的信号
 
+	newSteward := func(timeout time.Duration, startGoroutine startGoroutineFn) startGoroutineFn { // 管理员监控goroutine需要timeout变量和启动goroutine的startGoroutine函数，同时，返回一个startGoroutineFn，说明管理员本身也是可以监控的
+		return func(done <-chan any, pulseInterval time.Duration) <-chan any {
+			heartbeat := make(chan any)
+			go func() {
+				defer close(heartbeat)
 
+				var wardDone chan any
+				var wardHeartbeat <-chan any
+				startWard := func() { // 定义一个闭包，实现一个统一的方法来启动正在监控的goroutine
+					wardDone = make(chan any)                                     // 停止信号，用来停止正在监控的goroutine
+					wardHeartbeat = startGoroutine(or(wardDone, done), timeout/2) // 启动将要监控的goroutine
+				}
+				startWard()
+				pulse := time.Tick(pulseInterval)
 
+				for {
+					timeoutSignal := time.After(timeout)
+					// 管理员自身心跳
+					select {
+					case <-pulse:
+						select {
+						case heartbeat <- struct{}{}:
+						default:
+						}
+					default:
+					}
+					// 监控goroutine
+					select {
+					case <-wardHeartbeat: // 如果收到心跳，将继续监控
+						break
+					case <-timeoutSignal: // 在暂停期间没有收到goroutine心跳，会进行重启
+						log.Println("steward: ward unhealthy; restarting")
+						close(wardDone)
+						startWard()
+						break
+					case <-done:
+						return
+					}
+				}
+			}()
+
+			return heartbeat
+		}
+	}
+	log.SetOutput(os.Stdout)
+	log.SetFlags(log.Ltime | log.LUTC)
+
+	doWork := func(done <-chan any, _ time.Duration) <-chan any {
+		log.Println("ward: Hello, I'm irresponsible!")
+		go func() {
+			<-done // 这个goroutine没有做任何事，只是等待被取消
+			log.Println("ward: I am halting.")
+		}()
+		return nil
+	}
+	doWorkWithSteward := newSteward(4*time.Second, doWork) // 为上面的goroutine创建一个管理员，设置超时时间为4秒
+
+	done := make(chan any)
+	time.AfterFunc(9*time.Second, func() { // 设置9秒后停止管理员和goroutine
+		log.Println("main: halting steward and ward.")
+		close(done)
+	})
+
+	for range doWorkWithSteward(done, 4*time.Second) {
+	} // 启动管理员，并在其心跳范围内防止测试停止
+	log.Println("Done")
+}
+~~~
+
+它可以一直监控一个goroutine，当goroutine不活跃时，管理员会重新启动它。输出如下：
+
+~~~
+03:28:14 ward: Hello, I'm irresponsible!
+03:28:18 steward: ward unhealthy; restarting
+03:28:18 ward: Hello, I'm irresponsible!
+03:28:18 ward: I am halting.
+03:28:22 steward: ward unhealthy; restarting
+03:28:22 ward: Hello, I'm irresponsible!
+03:28:22 ward: I am halting.
+03:28:23 main: halting steward and ward.
+03:28:23 ward: I am halting.
+03:28:26 Done
+~~~
+
+上面的输出看起来符合预期，在其超时时重启它。
+但是它所管理goroutine有些简单，除了取消和心跳所需要的东西之外，不接受任何参数，也不返回任何参数。
+下面的例子根据离散值生成一个整数流，并在遇到负数时结束，使用闭包来对其进行包装，可以添加一些参数和返回值。
+
+~~~go
+package main
+
+import (
+	"fmt"
+	"log"
+	"os"
+	"time"
+)
+
+func main() {
+	var or func(channels ...<-chan any) <-chan any
+	or = func(channels ...<-chan any) <-chan any {
+		switch len(channels) {
+		case 0:
+			return nil
+		case 1:
+			return channels[0]
+		}
+
+		orDone := make(chan any)
+		go func() {
+			defer close(orDone)
+
+			switch len(channels) {
+			case 2:
+				select {
+				case <-channels[0]:
+				case <-channels[1]:
+				}
+			default:
+				select {
+				case <-channels[0]:
+				case <-channels[1]:
+				case <-channels[2]:
+				case <-or(append(channels[3:], orDone)...):
+				}
+			}
+		}()
+		return orDone
+	}
+	type startGoroutineFn func(done <-chan any, pulseInterval time.Duration) (heartbeat <-chan any)
+
+	newSteward := func(timeout time.Duration, startGoroutine startGoroutineFn) startGoroutineFn {
+		return func(done <-chan any, pulseInterval time.Duration) <-chan any {
+			heartbeat := make(chan any)
+			go func() {
+				defer close(heartbeat)
+
+				var wardDone chan any
+				var wardHeartbeat <-chan any
+				startWard := func() {
+					wardDone = make(chan any)
+					wardHeartbeat = startGoroutine(or(wardDone, done), timeout/2)
+				}
+				startWard()
+				pulse := time.Tick(pulseInterval)
+
+				for {
+					timeoutSignal := time.After(timeout)
+					select {
+					case <-pulse:
+						select {
+						case heartbeat <- struct{}{}:
+						default:
+						}
+					default:
+					}
+					select {
+					case <-wardHeartbeat:
+						break
+					case <-timeoutSignal:
+						log.Println("steward: ward unhealthy; restarting")
+						close(wardDone)
+						startWard()
+						break
+					case <-done:
+						return
+					}
+				}
+			}()
+
+			return heartbeat
+		}
+	}
+	take := func(done <-chan any, valueStream <-chan any, num int) <-chan any {
+		takeStream := make(chan any)
+		go func() {
+			defer close(takeStream)
+			for i := 0; i < num; i++ {
+				select {
+				case <-done:
+					return
+				case takeStream <- <-valueStream:
+				}
+			}
+		}()
+		return takeStream
+	}
+	orDone := func(done, c <-chan any) <-chan any {
+		valStream := make(chan any)
+		go func() {
+			defer close(valStream)
+			for {
+				select {
+				case <-done:
+					return
+				case v, ok := <-c:
+					if ok == false {
+						return
+					}
+					select {
+					case valStream <- v:
+					case <-done:
+					}
+				}
+			}
+		}()
+		return valStream
+	}
+	bridge := func(done <-chan any, chanStream <-chan <-chan any) <-chan any {
+		valStream := make(chan any)
+		go func() {
+			defer close(valStream)
+			for {
+				var stream <-chan any
+				select {
+				case maybeStream, ok := <-chanStream:
+					if ok == false {
+						return
+					}
+					stream = maybeStream
+				case <-done:
+					return
+				}
+				for val := range orDone(done, stream) {
+					select {
+					case valStream <- val:
+					case <-done:
+					}
+				}
+			}
+		}()
+		return valStream
+	}
+	doWorkFn := func(done <-chan any, intList ...int) (startGoroutineFn, <-chan any) { // 添加所需的参数和返回值
+		intChanStream := make(chan (<-chan any)) // 创建作为桥接模式一部分的 channel
+		intStream := bridge(done, intChanStream)
+		doWork := func(done <-chan any, pulseInterval time.Duration) <-chan any { // 创建一个被监控的闭包
+			intStream := make(chan any) // 实例化 channel，与 goroutine 通信
+			heartbeat := make(chan any)
+			go func() {
+				defer close(intStream)
+				select {
+				case intChanStream <- intStream: // 将用来通信的 channel 传递给 bridge
+				case <-done:
+					return
+				}
+				for {
+					for _, intVal := range intList {
+						if intVal < 0 {
+							log.Printf("negative value: %v\n", intVal) // 遇到负数时给出错误信息并从 goroutine 返回
+							return
+						}
+						pulse := time.Tick(pulseInterval)
+						select {
+						case <-pulse:
+							select {
+							case heartbeat <- struct{}{}:
+							default:
+							}
+						default:
+						}
+						select {
+						case intStream <- intVal:
+							break
+						case <-done:
+							return
+						}
+					}
+				}
+			}()
+			return heartbeat
+		}
+		return doWork, intStream
+	}
+	log.SetFlags(log.Ltime | log.LUTC)
+	log.SetOutput(os.Stdout)
+
+	done := make(chan any)
+	defer close(done)
+
+	doWork, intStream := doWorkFn(done, 1, 2, -1, 3, 4, 5)
+	doWorkWithSteward := newSteward(1*time.Millisecond, doWork)
+	doWorkWithSteward(done, 1*time.Hour)
+
+	for intVal := range take(done, intStream, 6) {
+		fmt.Printf("Received: %v\n", intVal)
+	}
+}
+~~~
+
+输出如下：
+
+~~~
+Received: 1
+07:22:25 negative value: -1
+Received: 2
+07:22:25 steward: ward unhealthy; restarting
+Received: 1
+07:22:25 negative value: -1
+Received: 2
+07:22:25 steward: ward unhealthy; restarting
+Received: 1
+07:22:25 negative value: -1
+Received: 2
+~~~
 
 
