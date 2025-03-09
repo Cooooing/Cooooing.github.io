@@ -182,9 +182,113 @@ Kafka 消息格式共经历过3次变迁，它们被分别称为 V0、V1和 V2�
 - **CreateTime**（默认）：时间戳由 Producer 设置，适用于**事件时间（Event Time）**语义。
 - **LogAppendTime**：时间戳由 Broker 记录，适用于**写入时间（Processing Time）**语义。
 
-Kafka 使用紧凑的二进制字节数组来保存上面这些字段，也就是说没有任何多余的比特位浪费。让我想起了之前看的 Redis 内部用的数据结构，也是十分的紧凑，没有多于比特位的浪费。
+Kafka 使用紧凑的二进制字节数组来保存上面这些字段，也就是说没有任何多余的比特位浪费。让我想起了之前看的 Redis 内部用的数据结构，也是十分的紧凑，没有多余比特位的浪费。
 
+#### topic 和 partition
 
+topic 是一个逻辑概念，代表了一类消息，也可以认为是消息被发送到的地方。通常我们可以使用topic来区分实际业务，比如业务A使用一个topic，业务B使用另外一个topic。
+Kafka中的 topic通常都会被多个消费者订阅，因此出于性能的考量，Kafka并不是 topic-message 的两级结构，而是采用了 topic-partition-message的三级结构来分散负载。从本质上说，每个Kafka topic都由若干个partition组成。
+
+topic是由多个partition组成的，而Kafka的partition是不可修改的有序消息序列，也可以说是有序的消息日志。
+每个 partition 有自己专属的 partition 号，通常是从0开始的。用户对partition 唯一能做的操作就是在消息序列的尾部追加写入消息。
+partition 上的每条消息都会被分配一个唯一的序列号——按照Kafka的术语来讲，该序列号被称为位移（offset）。该位移值是从0开始顺序递增的整数。
+位移信息可以唯一定位到某partition下的一条消息。
+
+![topic和partition.png](../images/《Apache%20Kafka实战》读书笔记/topic和partition.png)
+
+Kafka 的 partition 实际上并没有太多的业务含义，它的引入就是单纯地为了提升系统的吞吐量，因此在创建 Kafka topic 的时候可以根据集群实际配置设置具体的partition数，实现整体性能的最大化。
+
+#### offset
+
+topic partition 下的每条消息都被分配一个位移值。
+实际上，Kafka 消费者端也有位移（offset）的概念，但这两个offset属于不同的概念
+
+![消息位移与消费者位移.png](../images/《Apache%20Kafka实战》读书笔记/消息位移与消费者位移.png)
+
+每条消息在某个 partition的位移是固定的，但消费该 partition的消费者的位移会随着消费进度不断前移，但终究不可能超过该分区最新一条消息的位移。
+**Kafka 中的一条消息其实就是一个<topic,partition,offset>三元组（tuple），通过该元组值我们可以在 Kafka 集群中找到唯一对应的那条消息。**
+
+#### replica
+
+分布式系统要实现高可靠性，就要通过冗余机制来保证。partition 的消息不能只保存一份，而是要保存多份，因此每个 partition 都会分配多个副本（replica），每个副本都保存着该 partition 的消息。
+
+副本分为两类：领导者副本（leader replica）和追随者副本（follower replica）。
+follower replica 是不能提供服务给客户端的，也就是说不负责响应客户端发来的消息写入和消息消费请求。
+它只是被动地向领导者副本（leader replica）获取数据，而一旦 leader replica 所在的broker宕机，Kafka会从剩余的 replica中选举出新的 leader继续提供服务。
+
+#### leader 和 follower
+
+Kafka的 replica分为两个角色：领导者（leader）和追随者（follower）。
+如今这种角色设定几乎完全取代了过去的主备的提法（Master-Slave）。和传统主备系统（比如MySQL）不同的是，**在这类 leader-follower系统中通常只有 leader对外提供服务，follower只是被动地追随 leader 的状态，保持与 leader 的同步。**
+**follower 存在的唯一价值就是充当 leader的候补：一旦 leader 挂掉立即就会有一个追随者被选举成为新的 leader 接替它的工作。**
+**Kafka保证同一个partition的多个replica一定不会分配在同一台broker上。** 毕竟如果同一个broker上有同一个partition的多个replica，那么将无法实现备份冗余的效果。
+
+#### ISR
+
+ISR的全称是in-sync replica，翻译过来就是与leader replica保持同步的replica集合。
+
+Kafka为partition动态维护一个replica集合。该集合中的所有replica保存的消息日志都与leader replica保持同步状态。
+**只有这个集合中的 replica才能被选举为 leader，也只有该集合中所有replica都接收到了同一条消息，Kafka才会将该消息置于“已提交”状态，即认为这条消息发送成功。**
+
+正常情况下，partition的所有replica（含leader replica）都应该与leader replica保持同步，即所有 replica都在 ISR中。
+因为各种各样的原因，一小部分 replica开始落后于 leader replica的进度。当滞后到一定程度时，Kafka会将这些 replica“踢”出 ISR。
+相反地，当这些 replica重新“追上”了 leader的进度时，那么 Kafka会将它们加回到 ISR中。
+这一切都是自动维护的，不需要用户进行人工干预。
+
+### Kafka 使用场景
+
+1. 消息传输
+   Kafka非常适合替代传统的消息总线（message bus）或消息代理（message broker）。Kafka特别适合用于实现一个超大量级消息处理应用。
+2. 网站行为日志追踪
+   Kafka 最早就是用于重建用户行为数据追踪系统的。很多网站上的用户操作都会以消息的形式发送到 Kafka 的某个对应的 topic 上。
+3. 审计数据收集
+   对关键的操作和运维进行监控和审计。需要从各个运维应用程序处实时汇总操作步骤信息进行集中式管理。
+4. 日志收集
+   对于大量分散在不同机器上的服务日志。我们可以使用 Kafka对它们进行全量收集，并集中送往下游的分布式存储中（比如 HDFS 等）。
+5. Event Sourcing
+   Event Sourcing实际上是领域驱动设计（Domain-Driven Design,DDD）的名词，它使用事件序列来表示状态变更，这种思想和 Kafka 的设计特性不谋而合。Kafka 也是用不可变更的消息序列来抽象化表示业务消息的，因此Kafka特别适合作为这种应用的后端存储。
+6. 流式处理
+   自0.10.0.0版本开始，Kafka社区推出了一个全新的流式处理组件Kafka Streams。
+
+## 第二章 - Kafka 发展历史
+
+挑选我感兴趣的内容，部分略过。
+
+Kafka这个名字的由来。应该是Kafka三位原作者之一Jay Kreps的这句话：
+
+> I thought that since Kafka was a system optimized for writing using a writer's name would make sense.
+> I had taken a lot of lit classes in college and liked Franz Kafka.Plus the name sounded cool for an open source project.
+> 因为 Kafka 系统的写操作性能特别强，所以找个作家的名字来命名似乎是一个好主意。
+> 我在大学时上了很多文学课，非常喜欢Franz Kafka。另外为开源项目起Kafka这个名字听上去很酷。
+
+Kafka三位原作者之一（另外两位分别是Jun Rao和Neha Narkhede）。
+
+以下是基于搜索结果的Kafka重要版本功能变化汇总表，结合多个来源信息整理而成：
+
+| 版本     | 功能变化           | 说明                                                           |  
+|--------|----------------|--------------------------------------------------------------|
+| 0.8.x  | 副本机制           | 引入多副本机制（Replication），提升数据可靠性                                 |      
+|        | 新Producer API  | 异步发送消息，提升客户端效率，但初期存在稳定性问题                                    |      
+|        | Offset存储优化     | 将消费者位移从ZooKeeper迁移至`__consumer_offsets`主题，减少ZooKeeper压力      |      
+| 0.9.x  | 安全认证           | 支持SSL/SASL认证、授权管理及数据加密，增强外网传输安全性                             |      
+|        | Kafka Connect  | 引入高性能数据集成框架，支持与外部系统（如数据库、HDFS）对接                             |      
+|        | 新Consumer API  | 消费者自主管理Offset，支持多线程消费和细粒度控制，取代旧版High-level Consumer          |      
+| 0.10.x | Kafka Streams  | 正式成为流处理平台，支持基于时间戳的流计算，但初期功能尚不完善                              |      
+|        | 消息时间戳          | 消息体中增加时间戳字段，支持基于时间的窗口操作和回溯查询                                 |      
+| 0.11.x | Exactly-Once语义 | 支持生产者幂等性和事务功能，确保消息不重复处理（需配合Kafka Streams）                    |      
+|        | 消息格式重构         | 优化消息头结构，支持Header字段存储元数据，提升批量消息压缩效率                           |      
+| 1.0.x  | 磁盘故障转移         | Broker单块磁盘损坏时，数据自动迁移至其他磁盘，提升可用性                              |      
+|        | 跨磁盘副本迁移        | 分区副本可在同一Broker的不同磁盘目录间迁移，优化磁盘负载均衡                            |      
+| 2.0.x  | 安全增强           | 支持前缀通配符ACL和OAuth2令牌认证，默认启用SSL主机名验证                           |      
+|        | 消费者组管理优化       | 默认Offset保留时间从1天延长至7天，减少消费者组重建时的数据丢失风险                        |      
+| 2.8.x  | KRaft模式        | 引入Raft共识协议替代ZooKeeper管理元数据，简化架构（早期版本不建议生产使用）                 |      
+| 3.0.x  | 移除ZooKeeper依赖  | KRaft模式正式支持，元数据完全由Kafka自身管理，提升云原生兼容性                         |      
+|        | 默认交付保证增强       | 生产者默认启用`acks=all`和幂等性（`enable.idempotence=true`），确保消息持久化与顺序性 |
+
+1. **版本演进趋势**：从消息队列逐步发展为流处理平台，核心改进集中在**可靠性**（副本、事务）、**性能**（异步发送、压缩优化）、**云原生**（KRaft、存储分离）和**安全性**（SSL、ACL）。
+2. **兼容性注意**：
+	- 0.11.x后消息格式变更需客户端同步升级；
+	- 3.0.x起弃用Java 8和Scala 2.12，计划在4.0移除。
 
 
 
