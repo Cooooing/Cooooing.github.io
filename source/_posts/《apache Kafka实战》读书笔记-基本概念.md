@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 《apache Kafka实战》读书笔记
+title: 《apache Kafka实战》读书笔记-基本概念
 date: 2025-03-08 17:37:55
 categories:
   - 读书笔记
@@ -308,7 +308,7 @@ Java的Selector 在 Linux上的实现机制就是 epoll；
 在Linux平台上该方法底层会调用sendfile系统调用，即采用了Linux提供的零拷贝（Zero Copy）技术。
 对于Windows平台，虽然它也提供了TransmitFile函数来支持零拷贝技术，但是直到Java 8u60版本Windows平台才正式让FileChannel的transferTo方法调用该函数。
 
-### 磁盘规划
+#### 磁盘规划
 
 机械硬盘（HDD）和固态硬盘（SSD）对于Kafka没有太大的区别。（当然，SSD会有更好性能，HDD会有更好的性价比）
 因为Kafka主要是顺序写磁盘，SSD顺序IO不需要频繁移动磁头。
@@ -323,7 +323,7 @@ RAID会以容量为代价换来数据的冗余和负载均衡。但是Kafka集�
 2. JBOD 的管理需要更加细粒度化。
 3. JBOD 需要提供类似于负载均衡的功能。
 
-### 磁盘容量规划
+#### 磁盘容量规划
 
 Kafka的每条消息都保存在实际的物理磁盘中，这些消息默认会被broker保存一段时间之后清除。
 这段时间是可以配置的，因此用户可以根据自身实际业务场景和存储需求来大致计算线上环境所需的磁盘容量。
@@ -336,7 +336,7 @@ Kafka的每条消息都保存在实际的物理磁盘中，这些消息默认会
 * 副本数。
 * 是否启用压缩。
 
-### 内存规划
+#### 内存规划
 
 Kafka 虽然会持久化每条消息，但其实这个工作都是底层的文件系统来完成的，Kafka 仅仅将消息写入page cache而已，之后将消息“冲刷”到磁盘的任务完全交由操作系统来完成。
 consumer 在读取消息时也会首先尝试从该区域中查找，如果直接命中则完全不用执行耗时的物理 I/O 操作，从而提升了 consumer 的整体性能。
@@ -350,14 +350,14 @@ Kafka对于Java堆内存的使用并不多，因为Kafka的消息很快就会被
 * 不要为broker设置过大的堆内存，最好不超过6GB。
 * page cache大小至少要大于一个日志段的大小。
 
-### CPU 规划
+#### CPU 规划
 
 Kafka不属于计算密集型（CPU-bound）的系统，属于IO密集型（I/O-bound）的系统。
 所以多核系统是最佳的选择。
 
 当然，如果启用了消息压缩，那么 broker 也可能需要大量的 CPU 资源。
 
-### 带宽规划
+#### 带宽规划
 
 对带宽资源规划的建议如下：
 
@@ -365,6 +365,12 @@ Kafka不属于计算密集型（CPU-bound）的系统，属于IO密集型（I/O-
 * 根据自身网络条件和带宽来评估Kafka集群机器数量。
 * 避免使用跨机房网络。
 
+### 部署
 
+这里使用 Docker 部署，关于集群与相关参数设置这里省略，使用的时候根据[官方文档](https://kafka.apache.org/documentation/)设置即可。
 
+~~~shell
+docker pull apache/kafka:3.9.0
+docker run -p 9092:9092 apache/kafka:3.9.0
+~~~
 
