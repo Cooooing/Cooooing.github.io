@@ -156,7 +156,7 @@ Kafka 自推出伊始的确是以消息引擎的身份出现的，其强大的�
 Kafka 中的消息格式由很多字段组成，其中的很多字段都是用于管理消息的元数据字段，对用户来说是完全透明的。
 Kafka 消息格式共经历过3次变迁，它们被分别称为 V0、V1和 V2版本。目前大部分用户使用的应该还是 V1版本的消息格式。
 
-![V1版本的消息格式.png](../images/《Apache%20Kafka实战》读书笔记/V1版本的消息格式.png)
+![V1版本的消息格式.png](https://cooooing.github.io/images/《Apache%20Kafka实战》读书笔记/V1版本的消息格式.png)
 
 消息由消息头部、key和value组成。消息头部包括消息的CRC码、消息版本号、属性、时间戳、键长度和消息体长度等信息。
 
@@ -194,7 +194,7 @@ topic是由多个partition组成的，而Kafka的partition是不可修改的有�
 partition 上的每条消息都会被分配一个唯一的序列号——按照Kafka的术语来讲，该序列号被称为位移（offset）。该位移值是从0开始顺序递增的整数。
 位移信息可以唯一定位到某partition下的一条消息。
 
-![topic和partition.png](../images/《Apache%20Kafka实战》读书笔记/topic和partition.png)
+![topic和partition.png](https://cooooing.github.io/images/《Apache%20Kafka实战》读书笔记/topic和partition.png)
 
 Kafka 的 partition 实际上并没有太多的业务含义，它的引入就是单纯地为了提升系统的吞吐量，因此在创建 Kafka topic 的时候可以根据集群实际配置设置具体的partition数，实现整体性能的最大化。
 
@@ -203,7 +203,7 @@ Kafka 的 partition 实际上并没有太多的业务含义，它的引入就是
 topic partition 下的每条消息都被分配一个位移值。
 实际上，Kafka 消费者端也有位移（offset）的概念，但这两个offset属于不同的概念
 
-![消息位移与消费者位移.png](../images/《Apache%20Kafka实战》读书笔记/消息位移与消费者位移.png)
+![消息位移与消费者位移.png](https://cooooing.github.io/images/《Apache%20Kafka实战》读书笔记/消息位移与消费者位移.png)
 
 每条消息在某个 partition的位移是固定的，但消费该 partition的消费者的位移会随着消费进度不断前移，但终究不可能超过该分区最新一条消息的位移。
 **Kafka 中的一条消息其实就是一个<topic,partition,offset>三元组（tuple），通过该元组值我们可以在 Kafka 集群中找到唯一对应的那条消息。**
