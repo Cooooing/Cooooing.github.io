@@ -1,0 +1,1102 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="咕咕咕">
+    
+    <title>
+        
+            《apache Kafka实战》读书笔记-producer、consumer和设计原理 |
+        
+        咕咕咕的小破站
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+        <link rel="shortcut icon" href="/images/favicon.png">
+    
+    
+<link rel="stylesheet" href="/font/css/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/regular.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/solid.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/brands.min.css">
+
+    
+        
+            
+                
+<link rel="stylesheet" href="/css/APlayer.min.css">
+
+            
+        
+    
+    <script class="keep-theme-configurations">
+    const KEEP = window.KEEP || {}
+    KEEP.hexo_config = {"hostname":"cooooing.github.io","root":"/","language":"zh-CN","path":"search.json"}
+    KEEP.theme_config = {"base_info":{"primary_color":"#0066cc","title":"咕咕咕的小破站","author":"咕咕咕","avatar":"/images/head.jpg","logo":"/images/head.jpg","favicon":"/images/favicon.png"},"menu":{"Archives":"/archives","Categories":"/categories","Tags":"/tags","日常":"/daily","Links":"/links","About":"/about"},"first_screen":{"enable":false,"background_img":"/images/bg.svg","background_img_dark":"/images/bg.svg","description":"Keep writing and Keep loving.","hitokoto":false},"social_contact":{"enable":false,"links":{"github":null,"weixin":null,"qq":null,"weibo":null,"zhihu":null,"twitter":null,"facebook":null,"email":null}},"scroll":{"progress_bar":false,"percent":false,"hide_header":true},"home":{"category":true,"tag":true,"announcement":null},"post":{"author_badge":{"enable":true,"level_badge":false,"custom_badge":["fishing"]},"word_count":{"wordcount":true,"min2read":true},"datetime_format":"YYYY-MM-DD HH:mm:ss","copyright_info":true,"share":true,"reward":{"enable":true,"img_link":"/images/thanks.png","text":"谢谢你请我喝可乐~"}},"code_block":{"tools":{"enable":true,"style":"default"},"highlight_theme":"default"},"toc":{"enable":true,"number":false,"expand_all":true,"init_open":true,"layout":"left"},"website_count":{"busuanzi_count":{"enable":true,"site_uv":true,"site_pv":true,"page_pv":true}},"local_search":{"enable":true,"preload":true},"comment":{"enable":true,"use":"giscus","valine":{"appid":null,"appkey":null,"server_urls":null,"placeholder":null},"gitalk":{"github_id":null,"github_admins":null,"repository":null,"client_id":null,"client_secret":null,"proxy":null},"twikoo":{"env_id":null,"region":null,"version":"1.6.21"},"waline":{"server_url":null,"reaction":false,"version":2},"giscus":{"repo":"Cooooing/Cooooing.github.io","repo_id":"R_kgDOHQal_w","category":"Announcements","category_id":"DIC_kwDOHQal_84CjZo6","reactions_enabled":true},"artalk":{"server":null},"disqus":{"shortname":null}},"rss":{"enable":true},"lazyload":{"enable":true},"cdn":{"enable":false,"provider":"cdnjs"},"pjax":{"enable":true},"footer":{"since":2022,"word_count":true,"icp":{"enable":false,"record_code":null,"url":"https://beian.miit.gov.cn"},"site_deploy":{"enable":false,"provider":"github","url":null},"shields_style":{"enable":false,"custom":[{"link_url":null,"img_url":null}]}},"inject":{"enable":true,"css":["/css/APlayer.min.css"],"js":["/js/APlayer.min.js","/js/Meting.min.js","/js/leaves.js"]},"root":"","links":[{"name":"鼠鼠在碎觉","link":"https://www.sszsj.cc","avatar":"https://tmx.fishpi.cn/img/head.jpg","description":"我是不慎落入世界的一滴水墨"},{"name":"青虬","link":"https://reol077.github.io/","avatar":"https://s1.ax1x.com/2022/03/18/qF2YJ1.jpg","description":"囊中羞涩，不知世锦繁华"},{"name":"小于同学的异世界","link":"https://yby.zone","avatar":"https://source.yby.zone/tx.jpg","description":"为吾为枝，余地三尺，以己为棋，胜天半子。"},{"name":"Mlikiowa Home Village","link":"https://nanaeo.cn/","avatar":"https://q1.qlogo.cn/g?b=qq&nk=1627126029&s=100","description":"A litter Village With Mlikiowa"},{"name":"sky","link":"https://sdhkj.github.io/","avatar":"https://sdhkj.github.io/img/%E5%A4%B4%E5%83%8F.jpg","description":"开摆了"},{"name":"忘忧草","link":"https://owo.wyc.rest/","avatar":"https://owo.wyc.rest/img/%E4%B8%87%E5%8F%B6.jpg","description":"这只是一个小破站而已！"},{"name":"十一","link":"https://www.elevenblog.cn/","avatar":"https://file.fishpi.cn/2022/06/blob-fbff7c58.png?imageView2/1/w/210/h/210/interlace/0/q/100","description":"懒癌晚期，混吃等死者"},{"name":"stillwarter","link":"https://stillwarter.github.io/","avatar":"https://file.fishpi.cn/2022/07/MOSHED2022621164630-1b1ec532.gif?imageView2/1/w/210/h/210/interlace/0/q/100","description":"光就是一切的意义"},{"name":"test12138","link":"http://你好.eu.org/","avatar":"https://file.fishpi.cn/2022/06/srchttpimgzcoolcncommunity0116405d84f975a801211d537707c9gifreferhttpimgzcool-0f2d09c9.gif?imageView2/1/w/48/h/48/interlace/0/q/100","description":"大丈夫生于天地之间，岂能郁郁久居人下。"},{"name":"呼呼呼","link":"https://bongbongbakudan.github.io/","avatar":"https://pwl.stackoverflow.wiki/2021/12/blob-28eb4b9f.png?imageView2/1/w/48/h/48/interlace/0/q/100","description":"去整点薯条"}],"version":"4.0.6"}
+    KEEP.language_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"}
+    KEEP.language_code_block = {"copy":"复制代码","copied":"已复制","fold":"折叠代码块","folded":"已折叠"}
+    KEEP.language_copy_copyright = {"copy":"复制版权信息","copied":"已复制","title":"原文标题","author":"原文作者","link":"原文链接"}
+  </script>
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-CLX32WF4R1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-CLX32WF4R1');
+  </script>
+
+  <!-- 51.la -->
+  <script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
+  <script>LA.init({id:"3JwPz6wbAloyTmMc",ck:"3JwPz6wbAloyTmMc",autoTrack:true})</script>
+
+<meta name="generator" content="Hexo 7.3.0"><link rel="alternate" href="/atom.xml" title="咕咕咕的小破站" type="application/atom+xml">
+</head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+        <span class="pjax-progress-bar"></span>
+        <i class="pjax-progress-icon fas fa-circle-notch fa-spin"></i>
+    
+</div>
+
+
+<main class="page-container border-box">
+
+    <!-- home first screen  -->
+    
+
+    <!-- page content -->
+    <div class="page-main-content border-box">
+        <div class="page-main-content-top">
+            
+<header class="header-wrapper">
+
+    <div class="border-box header-content">
+        <div class="left border-box">
+            
+                <a class="logo-image border-box" href="/">
+                    <img src="/images/head.jpg">
+                </a>
+            
+            <a class="site-name border-box" href="/">
+               咕咕咕的小破站
+            </a>
+        </div>
+
+        <div class="right border-box">
+            <div class="pc">
+                <ul class="menu-list">
+                    <li class="menu-item">
+                        <a class=""
+                           href="/"
+                        >首页</a>
+                    </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >归档</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/categories"
+                            >分类</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/tags"
+                            >标签</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/daily"
+                            >日常</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/links"
+                            >友链</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >关于</a>
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="fas search fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            <li class="drawer-menu-item flex-center">
+                <a class=""
+                   href="/"
+                >首页</a>
+            </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives"
+                    >归档</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/categories"
+                    >分类</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/tags"
+                    >标签</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/daily"
+                    >日常</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/links"
+                    >友链</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about"
+                    >关于</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle border-box">
+
+            <div class="main-content border-box">
+                
+
+                    
+<div class="fade-in-down-animation">
+    <div class="post-page-container border-box">
+        <div class="post-content-container border-box">
+            
+
+            <div class="post-content-bottom border-box">
+                
+                    <div class="post-title">
+                        《apache Kafka实战》读书笔记-producer、consumer和设计原理
+                    </div>
+                
+
+                
+                    <div class="post-header border-box">
+                        
+                            <div class="avatar-box border-box">
+                                <img src="/images/head.jpg">
+                            </div>
+                        
+                        <div class="info-box">
+                            <div class="author border-box">
+                                <span class="name">咕咕咕</span>
+                                
+                                    <span class="author-badge">fishing</span>
+                                
+                            </div>
+                            <div class="meta-info border-box">
+                                
+
+<div class="post-meta-info-container border-box post">
+    <div class="post-meta-info border-box">
+        
+
+        
+            <span class="meta-info-item post-create-date">
+                <i class="icon fa-solid fa-calendar-plus"></i>&nbsp;
+                <span class="datetime">2025-03-12 22:56:21</span>
+            </span>
+
+            <span class="meta-info-item post-update-date">
+                <i class="icon fa-solid fa-file-pen"></i>&nbsp;
+                <span class="datetime" data-updated="Wed Mar 12 2025 14:56:21 GMT+0000">2025-03-12 22:56:21</span>
+            </span>
+        
+
+        
+            <span class="meta-info-item post-category border-box"><i class="icon fas fa-folder"></i>&nbsp;
+                <ul class="post-category-ul">
+                    
+                            <li class="category-item"><a href="/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">读书笔记</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+            <span class="post-tag meta-info-item border-box">
+                <i class="icon fas fa-tags"></i>&nbsp;
+                <ul class="post-tag-ul">
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/%E3%80%8Aapache-Kafka%E5%AE%9E%E6%88%98%E3%80%8B/">《apache Kafka实战》</a></li>
+                        
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/kafka/">kafka</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+        
+            <span class="meta-info-item post-wordcount">
+                <i class="icon fas fa-file-word"></i>&nbsp;<span>3.2k 字</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-min2read">
+                <i class="icon fas fa-clock"></i>&nbsp;<span>11 分钟</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-pv">
+                <i class="icon fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+            </span>
+        
+    </div>
+
+    
+</div>
+
+                            </div>
+                        </div>
+                    </div>
+                
+
+                <div class="post-content keep-markdown-body">
+                    
+
+                    <p>springboot 开发参考 <a class="link"   target="_blank" rel="noopener" href="https://docs.spring.io/spring-kafka/reference/quick-tour.html" >Spring for Apache Kafka\Introduction\Quick Tour<i class="fas fa-external-link-alt"></i></a></p>
+<h2 id="第四章-producer开发"><a href="#第四章-producer开发" class="headerlink" title="第四章 - producer开发"></a>第四章 - producer开发</h2><h3 id="producer概览"><a href="#producer概览" class="headerlink" title="producer概览"></a>producer概览</h3><p>Kafka producer 是负责向 Kafka 写入数据的应用程序。</p>
+<p>Kafka producer在设计上要比consumer简单一些，因为它不涉及复杂的组管理操作，即每个producer都是独立进行工作的，与其他producer实例之间没有关联，因此它受到的牵绊自然也要少得多，实现起来也要简单得多。<br><strong>producer的首要功能就是向某个 topic的某个分区发送一条消息</strong>，所以它首先需要确认到底要向 topic 的哪个分区写入消息——这就是分区器（partitioner）要做的事情。<br>Kafka producer 提供了一个默认的分区器。对于每条待发送的消息而言，如果该消息指定了 key，那么该 partitioner 会根据 key的哈希值来选择目标分区；<br>若这条消息没有指定 key，则 partitioner 使用轮询的方式确认目标分区——这样可以最大限度地确保消息在所有分区上的均匀性。<br>当然producer的API赋予了用户自行指定目标分区的权力，即用户可以在消息发送时跳过partitioner直接指定要发送到的分区。<br>另外，producer 也允许用户实现自定义的分区策略而非使用默认的 partitioner，这样用户可以很灵活地根据自身的业务需求确定不同的分区策略。</p>
+<p>通过 partitioner，我们就可以确信具有相同 key的所有消息都会被路由到相同的分区中。<br>这有助于实现一些特定的业务需求，比如可以利用局部性原理，将某些producer发送的消息固定地发送到相同机架上的分区从而减少网络传输的开销等。<br>如果没有指定key，那么所有消息会被均匀地发送到所有分区，而这通常也是最合理的分区策略。</p>
+<p>确认了目标分区后，producer 要做的第二件事情就是要寻找这个分区对应的 leader，也就是该分区leader副本所在的Kafka broker。<br>每个topic分区都由若干个副本组成，其中的一个副本充当leader的角色，也只有leader才能够响应clients发送过来的请求，而剩下的副本中有一部分副本会与 leader副本保持同步，即所谓的 ISR。<br>因此在发送消息时，producer 也就有了多种选择来实现消息发送。比如不等待任何副本的响应便返回成功，或者只是等待 leader副本响应写入操作之后再返回成功等。</p>
+<p>在java中，producer首先使用一个线程（用户主线程，也就是用户启动 producer的线程）将待发送的消息封装进一个 ProducerRecord 类实例。<br>然后将其序列化之后发送给 partitioner，再由后者确定了目标分区后一同发送到位于 producer程序中的一块内存缓冲区中。<br>而 producer的另一个工作线程（I&#x2F;O发送线程，也称 Sender线程）则负责实时地从该缓冲区中提取出准备就绪的消息封装进一个批次（batch），统一发送给对应的broker。</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="/../images/%E3%80%8Aapache%20Kafka%E5%AE%9E%E6%88%98%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-producer%E3%80%81consumer%E5%92%8C%E8%AE%BE%E8%AE%A1%E5%8E%9F%E7%90%86/Java%E7%89%88%E6%9C%ACproducer%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B.png"
+                        alt="Java版本producer工作流程.png"
+                 ></p>
+<h3 id="消息分区机制"><a href="#消息分区机制" class="headerlink" title="消息分区机制"></a>消息分区机制</h3><p>随 Kafka 发布的默认partitioner会尽力确保具有相同key的所有消息都会被发送到相同的分区上；若没有为消息指定 key，则该 partitioner会选择轮询的方式来确保消息在 topic的所有分区上均匀分配。<br>自定义分区策略实现<code>org.apache.kafka.clients.producer.Partitioner</code>接口即可：</p>
+<ol>
+<li><strong><code>int partition(String topic, Object key, byte[] keyBytes, Object value, byte[] valueBytes, Cluster cluster)</code></strong> 计算消息的目标分区。<ul>
+<li><code>topic</code>: 主题名称。</li>
+<li><code>key/value</code>: 消息的键值（可能为 <code>null</code>）。</li>
+<li><code>keyBytes/valueBytes</code>: 序列化后的键值字节数组。</li>
+<li><code>cluster</code>: 当前集群元数据（如可用分区信息）。</li>
+</ul>
+</li>
+<li><strong><code>void close()</code></strong> 区器时释放资源（如网络连接或线程池）。</li>
+<li><strong><code>void configure(Map&lt;String, ?&gt; configs)</code></strong> 分区器时调用，传递生产者的配置参数（如 <code>partitioner.class</code> 中配置的自定义参数）。</li>
+</ol>
+<h3 id="消息序列化"><a href="#消息序列化" class="headerlink" title="消息序列化"></a>消息序列化</h3><p>在网络中发送数据都是以字节的方式。<br>序列化器（serializer）负责在 producer 发送前将消息转换成字节数组；而与之相反，解序列化器（deserializer）则用于将 consumer 接收到的字节数组转换成相应的对象。</p>
+<p>Kafka 支持用户自定义消息序列化。若要编写一个自定义的 serializer，需要实现 <code>org.apache.kafka.common.serialization.Serializer</code> 接口：</p>
+<ol>
+<li><strong><code>void configure(Map&lt;String, ?&gt; configs, boolean isKey)</code></strong> 初始化序列化器，读取生产者&#x2F;消费者的配置参数（如编码格式、压缩类型等）。<ul>
+<li><code>configs</code>: Kafka 配置（如 <code>ProducerConfig</code> 或 <code>ConsumerConfig</code> 中的键值对）。</li>
+<li><code>isKey</code>: 标记当前序列化的是键（Key）还是值（Value）。</li>
+</ul>
+</li>
+<li><strong><code>byte[] serialize(String topic, T data)</code></strong> 将对象 <code>data</code> 序列化为字节数组。<ul>
+<li><code>topic</code>: 目标主题名称（某些序列化器可能依赖主题元数据）。</li>
+<li><code>data</code>: 待序列化的对象（可能是 <code>null</code>）。</li>
+</ul>
+</li>
+<li><strong><code>void close()</code></strong> 关闭序列化器时释放资源（如文件句柄、网络连接等）。</li>
+</ol>
+<h3 id="拦截器"><a href="#拦截器" class="headerlink" title="拦截器"></a>拦截器</h3><p>对于 producer而言，interceptor使得用户在消息发送前以及 producer回调逻辑前有机会对消息做一些定制化需求，比如修改消息等。<br>同时，producer 允许用户指定多个 interceptor 按序作用于同一条消息从而形成一个拦截链（interceptor chain）。interceptor 的实现接口是<code>org.apache.kafka.clients.producer.ProducerInterceptor</code></p>
+<h3 id="无消息丢失配置"><a href="#无消息丢失配置" class="headerlink" title="无消息丢失配置"></a>无消息丢失配置</h3><p>Java 版本 producer 用户采用异步发送机制。KafkaProducer.send 方法仅仅把消息放入缓冲区中，由一个专属 I&#x2F;O 线程负责从缓冲区中提取消息并封装进消息 batch中，然后发送出去。<br>显然，这个过程中存在着数据丢失的窗口：若 I&#x2F;O线程发送之前 producer崩溃，则存储缓冲区中的消息全部丢失了。这是producer需要处理的很重要的问题。</p>
+<p>producer 的另一个问题就是消息的乱序。如果发送两条消息 record1 和 record2。<br>由于某些原因（比如瞬时的网络抖动）导致 record1未发送成功，同时 Kafka 又配置了重试机制以及max.in.flight.requests.per.connection大于1（默认值是5）。<br>那么producer重试 record1成功后，record1在日志中的位置反而位于 record2之后，这样造成了消息的乱序。</p>
+<p>很容易想到的一个方案就是：既然异步发送可能丢失数据，改成同步发送似乎是一个不错的主意。但是性能会很差，并不推荐在实际场景中使用。<br>因此最好能有一份配置，既使用异步方式还能有效地避免数据丢失，即使出现producer崩溃的情况也不会有问题。</p>
+<h4 id="生产者（Producer）配置"><a href="#生产者（Producer）配置" class="headerlink" title="生产者（Producer）配置"></a>生产者（Producer）配置</h4><ol>
+<li><strong><code>block.on.buffer.full = true</code>（已过时）</strong><ul>
+<li>替代参数：<code>max.block.ms</code>（Kafka 0.9+ 后使用）</li>
+<li>作用：当生产者缓冲区（内存）满时，阻塞生产者线程（而非丢弃消息），直到缓冲区有空间或超时。</li>
+<li>配置原因：防止因生产者发送速度过快导致缓冲区溢出，从而丢失消息。</li>
+<li>注意：在高版本 Kafka 中，此参数已被 <code>max.block.ms</code> 替代，需设置为一个较大的值（如 <code>max.block.ms=60000</code>）。</li>
+</ul>
+</li>
+<li><strong><code>acks = all</code> 或 <code>acks = -1</code></strong><ul>
+<li>作用：要求所有 ISR（In-Sync Replicas，同步副本）确认消息写入后，生产者才认为发送成功。</li>
+<li>配置原因：确保消息至少被写入 Leader 和所有 ISR 副本的磁盘，避免 Leader 副本宕机后消息丢失。</li>
+</ul>
+</li>
+<li><strong><code>retries = Integer.MAX_VALUE</code></strong><ul>
+<li>作用：设置生产者无限重试发送失败的消息。</li>
+<li>配置原因：应对网络抖动、Broker 临时不可用等场景，确保消息最终成功写入。</li>
+<li>注意：需结合 <code>delivery.timeout.ms</code>（默认 120 秒）控制总重试时间，避免无限阻塞。</li>
+</ul>
+</li>
+<li><strong><code>max.in.flight.requests.per.connection = 1</code></strong><ul>
+<li>作用：限制单个连接上未确认的请求数最多为 1。</li>
+<li>配置原因：防止因网络问题导致消息乱序重试时覆盖先前未确认的消息（如启用重试可能导致消息顺序错乱）。</li>
+<li>权衡：降低吞吐量，但保证消息顺序性和可靠性。</li>
+</ul>
+</li>
+<li><strong>使用带回调的 <code>send()</code> 方法：<code>KafkaProducer.send(record, callback)</code></strong><ul>
+<li>作用：通过回调函数处理发送结果（成功或失败）。</li>
+<li>配置原因：<ul>
+<li>可捕获发送异常（如网络错误、序列化失败）。</li>
+<li>在回调中执行重试或日志记录，确保消息不丢失。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>Callback 逻辑中显式关闭 Producer：<code>close(0)</code></strong><ul>
+<li>作用：在发生不可恢复错误时，立即关闭生产者。</li>
+<li>配置原因：<ul>
+<li>避免继续发送可能失败的消息，防止数据丢失（如 Broker 永久不可用）。</li>
+<li><code>close(0)</code> 表示立即关闭，不等待未完成请求。</li>
+</ul>
+</li>
+<li>注意：需谨慎使用，仅在极端场景下关闭生产者（如关键业务不允许任何丢失）。</li>
+</ul>
+</li>
+</ol>
+<h4 id="Broker-配置"><a href="#Broker-配置" class="headerlink" title="Broker 配置"></a>Broker 配置</h4><ol>
+<li><strong><code>unclean.leader.election.enable = false</code></strong><ul>
+<li>作用：禁止非 ISR 副本（不同步的副本）参与 Leader 选举。</li>
+<li>配置原因：<ul>
+<li>若允许非 ISR 副本成为 Leader，可能丢失已提交但未同步到该副本的消息。</li>
+<li>确保只有同步副本成为 Leader，避免数据丢失。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong><code>replication.factor &gt;= 3</code></strong><ul>
+<li>作用：每个分区的副本数设置为大于 3。<ul>
+<li>配置原因：<ul>
+<li>提供高冗余，即使多个 Broker 宕机，分区仍可用。</li>
+<li>结合 <code>min.insync.replicas</code> 确保写入足够副本。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong><code>min.insync.replicas &gt; 1</code></strong><ul>
+<li>作用：定义消息写入至少 2 个副本（包括 Leader）后才视为“已提交”。</li>
+<li>配置原因：<ul>
+<li>若写入副本数不足，生产者会收到 <code>NotEnoughReplicasException</code>，触发重试。</li>
+<li>防止仅写入 Leader 后 Leader 宕机导致消息丢失。</li>
+<li><strong>只有在 producer 端 acks 被设置成all或-1时，这个参数才有意义。</strong></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong><code>replication.factor &gt; min.insync.replicas</code></strong><ul>
+<li>配置原因：<ul>
+<li>确保在部分副本不可用时（如维护、故障），仍有足够 ISR 副本满足 <code>min.insync.replicas</code>。</li>
+<li>例如：<code>replication.factor=3</code> 且 <code>min.insync.replicas=2</code>，允许 1 个副本离线不影响写入。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h4 id="消费者（Consumer）配置"><a href="#消费者（Consumer）配置" class="headerlink" title="消费者（Consumer）配置"></a>消费者（Consumer）配置</h4><ol>
+<li><strong><code>enable.auto.commit = false</code></strong><ul>
+<li>作用：关闭消费者自动提交偏移量（offset）。</li>
+<li>配置原因：<ul>
+<li>自动提交可能导致消息未处理完成但偏移量已提交，若消费者崩溃，消息会丢失。</li>
+<li>需手动调用 <code>commitSync()</code> 或 <code>commitAsync()</code>，确保消息处理完成后再提交偏移量。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="消息压缩"><a href="#消息压缩" class="headerlink" title="消息压缩"></a>消息压缩</h3><p>数据压缩显著地降低了磁盘占用或带宽占用，从而有效地提升了 I&#x2F;O密集型应用的性能。<br>不过引入压缩同时会消耗额外的 CPU时钟周期，因此<strong>压缩是 I&#x2F;O性能和 CPU资源的平衡（trade-off）</strong>。</p>
+<p>Kafka 压缩特性就是——producer 端压缩，broker 端保持，consumer 端解压缩。所谓的 broker 端保持是指 broker 端在通常情况下不会进行解压缩操作，它只是原样保存消息而已。<br>这里的“通常情况下”表示要满足一定的条件。如果有些前置条件不满足（比如需要进行消息格式的转换等），那么broker端就需要对消息进行解压缩然后再重新压缩。</p>
+<p>如何调优 producer的压缩性能。</p>
+<p>首先判断是否启用压缩的依据是 I&#x2F;O资源消耗与CPU资源消耗的对比。<br>如果生产环境中的I&#x2F;O资源非常紧张，比如producer程序消耗了大量的网络带宽或 broker端的磁盘占用率非常高，而 producer端的 CPU资源非常富裕，那么就可以考虑为producer开启消息压缩。<br>反之则不需要设置消息压缩以节省宝贵的CPU时钟周期。<br>其次，压缩的性能与 producer 端的 batch 大小息息相关。通常情况下我们可以认为 batch越大需要压缩的时间就越长。<br>batch大小越大，压缩时间就越长，不过时间的增长不是线性的，而是越来越平缓的。<br>如果发现压缩很慢，说明系统的瓶颈在用户主线程而不是 I&#x2F;O发送线程，因此可以考虑增加多个用户线程同时发送消息，这样通常能显著地提升producer吞吐量。</p>
+<h2 id="第五章-consumer开发"><a href="#第五章-consumer开发" class="headerlink" title="第五章 - consumer开发"></a>第五章 - consumer开发</h2><h3 id="consumer概览"><a href="#consumer概览" class="headerlink" title="consumer概览"></a>consumer概览</h3><p>Kafka消费者（consumer）是从Kafka读取数据的应用。若干个 consumer订阅Kafka集群中的若干个 topic并从 Kafka接收属于这些 topic的消息。</p>
+<h2 id="第六章-Kafka-设计原理"><a href="#第六章-Kafka-设计原理" class="headerlink" title="第六章 - Kafka 设计原理"></a>第六章 - Kafka 设计原理</h2>
+                </div>
+
+                
+                        
+<div class="post-copyright-info-container border-box">
+    <div class="copyright-info-content border-box">
+        <div class="copyright-info-top border-box">
+            <div class="copyright-post-title border-box text-ellipsis">
+                《apache Kafka实战》读书笔记-producer、consumer和设计原理
+            </div>
+
+            <div class="copyright-post-link border-box text-ellipsis">
+                读书笔记/《apache Kafka实战》读书笔记-producer、consumer和设计原理/
+            </div>
+        </div>
+
+        <div class="copyright-info-bottom border-box">
+            <div class="copyright-post-author bottom-item">
+                <div class="type">
+                    作者
+                </div>
+                <div class="content">咕咕咕</div>
+            </div>
+
+            <div class="post-time bottom-item">
+                <div class="type">
+                    发布于
+                </div>
+                <div class="content">2025-03-12 22:56</div>
+            </div>
+
+
+            <div class="post-license bottom-item">
+                <div class="type">
+                    许可
+                </div>
+                <div class="content tooltip" data-tooltip-content="CC BY-NC-SA 4.0">
+                    <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hans">
+                        <i class="fa-brands fa-creative-commons"></i>
+                        <i class="fa-brands fa-creative-commons-by"></i>
+                        <i class="fa-brands fa-creative-commons-nc"></i>
+                        <i class="fa-brands fa-creative-commons-sa"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <i class="copyright-bg fa-solid fa-copyright"></i>
+    </div>
+    <div class="copy-copyright-info flex-center tooltip" data-tooltip-content="复制版权信息" data-tooltip-offset-y="-2px">
+        <i class="fa-solid fa-copy"></i>
+    </div>
+</div>
+
+                
+
+                <div class="post-bottom-tags-and-share border-box">
+                    <div>
+                        
+                            <ul class="post-tags-box border-box">
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/%E3%80%8Aapache-Kafka%E5%AE%9E%E6%88%98%E3%80%8B/">《apache Kafka实战》</a>
+                                    </li>
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/kafka/">kafka</a>
+                                    </li>
+                                
+                            </ul>
+                        
+                    </div>
+                    <div>
+                        
+                            <div class="post-share-container border-box">
+    <ul class="share-list-wrap border-box">
+        <li class="qq share-item border-box flex-center tooltip"
+            data-tooltip-content="分享到 QQ"
+        >
+            <i class="fa-brands fa-qq"></i>
+        </li>
+        <li class="wechat share-item border-box flex-center tooltip tooltip-img"
+            data-tooltip-content="分享到微信"
+            data-tooltip-img-tip="微信扫一扫"
+            data-tooltip-img-style="background-color: #fff; top: -10px; padding: 0.6rem 0.6rem 0.1rem 0.6rem;"
+        >
+            <i class="fa-brands fa-weixin"></i>
+        </li>
+        <li class="weibo share-item border-box flex-center tooltip"
+            data-tooltip-content="分享到微博"
+        >
+            <i class="fa-brands fa-weibo"></i>
+        </li>
+    </ul>
+</div>
+
+                        
+                    </div>
+                </div>
+
+                
+                    <div class="reward-author-container border-box flex-center">
+    <div class="reward-btn keep-button border-box flex-center tooltip tooltip-img"
+            data-tooltip-content="谢谢你请我喝可乐~"
+            data-tooltip-img-url="/images/thanks.png"
+            data-tooltip-img-trigger="click"
+            data-tooltip-img-style="top: -8px;"
+    >
+        <i class="fa-solid fa-hand-holding-heart"></i>
+    </div>
+</div>
+
+                
+
+                
+                    <div class="post-nav border-box">
+                        
+                            <div class="prev-post">
+                                <a class="prev"
+                                   rel="prev"
+                                   href="/%E7%BC%96%E7%A8%8B%E8%AE%B0%E5%BD%95/oracle%E9%80%9A%E8%BF%87%E7%BB%8F%E7%BA%AC%E5%BA%A6%E8%BF%87%E6%BB%A4%E8%8C%83%E5%9B%B4%E5%86%85%E6%95%B0%E6%8D%AE/"
+                                   title="oracle通过经纬度过滤范围内数据"
+                                >
+                                    <span class="left arrow-icon flex-center">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </span>
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">oracle通过经纬度过滤范围内数据</span>
+                                        <span class="post-nav-item">上一篇</span>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                        
+                            <div class="next-post">
+                                <a class="next"
+                                   rel="next"
+                                   href="/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E3%80%8Aapache%20Kafka%E5%AE%9E%E6%88%98%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/"
+                                   title="《apache Kafka实战》读书笔记-基本概念"
+                                >
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">《apache Kafka实战》读书笔记-基本概念</span>
+                                        <span class="post-nav-item">下一篇</span>
+                                    </span>
+                                    <span class="right arrow-icon flex-center">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                    </div>
+                
+
+                
+                    
+
+
+    <div class="comments-container border-box">
+        <div id="comments-anchor" class="comment-area-title border-box">
+            <i class="fas fa-comments"></i>&nbsp;评论
+        </div>
+        <div class="comment-plugin-fail border-box">
+    <span class="fail-tip">评论插件加载失败</span>
+    <button class="reload keep-button">点击重新加载</button>
+</div>
+<div class="comment-plugin-loading flex-center border-box">
+    <i class="loading-icon fa-solid fa-spinner fa-spin"></i>
+    <span class="load-tip">正在加载评论插件</span>
+</div>
+<script data-pjax>
+  window.KeepCommentPlugin = {}
+  window.KeepCommentPlugin.hideLoading = () => {
+    const cplDom = document.querySelector('.comments-container .comment-plugin-loading')
+    cplDom.style.display = 'none'
+  }
+  window.KeepCommentPlugin.loadFailHandle = () => {
+    window.KeepCommentPlugin.hideLoading()
+    const cpfDom = document.querySelector('.comments-container .comment-plugin-fail')
+    cpfDom.style.display = 'flex'
+    cpfDom.querySelector('.reload').addEventListener('click', () => {
+      window.location.reload()
+    })
+  }
+</script>
+
+        
+            
+
+    <div class="giscus-comments-container">
+        <div class="giscus" id="giscus"></div>
+        <script data-pjax
+                onerror="window.KeepCommentPlugin.loadFailHandle()"
+        >
+          if (!window.KeepCommentPlugin?.getGiscusTheme) {
+            window.KeepCommentPlugin.getGiscusTheme = () => {
+              return document.body.classList.contains('dark-mode') ? 'dark_dimmed' : 'light_tritanopia'
+            }
+          }
+
+          if (!window.KeepCommentPlugin?.changeGiscusTheme) {
+            window.KeepCommentPlugin.changeGiscusTheme = () => {
+              const iframe = document.querySelector('iframe.giscus-frame')
+              iframe && iframe.contentWindow.postMessage({
+                giscus: {
+                  setConfig: {
+                    theme: window.KeepCommentPlugin.getGiscusTheme()
+                  }
+                }
+              }, 'https://giscus.app')
+            }
+          }
+
+          if (!window.KeepCommentPlugin?.initGiscus) {
+            window.KeepCommentPlugin.initGiscus = () => {
+              const script = document.createElement('script')
+              script.async = true
+              script.src = 'https://giscus.app/client.js'
+              script.setAttribute('data-repo', 'Cooooing/Cooooing.github.io')
+              script.setAttribute('data-repo-id', 'R_kgDOHQal_w')
+              script.setAttribute('data-category', 'Announcements')
+              script.setAttribute('data-category-id', 'DIC_kwDOHQal_84CjZo6')
+              script.setAttribute('data-reactions-enabled', '1')
+              script.setAttribute('data-lang', 'zh-CN')
+              script.setAttribute('data-mapping', 'pathname')
+              script.setAttribute('data-strict', '0')
+              script.setAttribute('data-emit-metadata', '0')
+              script.setAttribute('data-input-position', 'top')
+              script.setAttribute('crossorigin', 'anonymous')
+              script.setAttribute('loading', 'lazy')
+              script.setAttribute('data-theme', window.KeepCommentPlugin.getGiscusTheme())
+              document.querySelector('.giscus-comments-container').appendChild(script)
+              script.onerror = () => {
+                window.KeepCommentPlugin.loadFailHandle()
+              }
+              script.onload = () => {
+                window.KeepCommentPlugin.hideLoading()
+              }
+              const toggleThemeBtn = document.querySelector('.tool-toggle-theme-mode')
+              toggleThemeBtn && toggleThemeBtn.addEventListener('click', () => {
+                window.KeepCommentPlugin.changeGiscusTheme()
+              })
+            }
+          }
+
+          if ('true' === "true") {
+            setTimeout(() => {
+              window.KeepCommentPlugin.initGiscus()
+            }, 1000)
+          } else {
+            window.addEventListener("DOMContentLoaded", window.KeepCommentPlugin.initGiscus)
+          }
+        </script>
+    </div>
+
+
+        
+    </div>
+
+
+
+
+
+                
+            </div>
+        </div>
+
+        
+            <div class="pc-post-toc left-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E5%9B%9B%E7%AB%A0-producer%E5%BC%80%E5%8F%91"><span class="nav-text">第四章 - producer开发</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#producer%E6%A6%82%E8%A7%88"><span class="nav-text">producer概览</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B6%88%E6%81%AF%E5%88%86%E5%8C%BA%E6%9C%BA%E5%88%B6"><span class="nav-text">消息分区机制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B6%88%E6%81%AF%E5%BA%8F%E5%88%97%E5%8C%96"><span class="nav-text">消息序列化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8B%A6%E6%88%AA%E5%99%A8"><span class="nav-text">拦截器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%97%A0%E6%B6%88%E6%81%AF%E4%B8%A2%E5%A4%B1%E9%85%8D%E7%BD%AE"><span class="nav-text">无消息丢失配置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%94%9F%E4%BA%A7%E8%80%85%EF%BC%88Producer%EF%BC%89%E9%85%8D%E7%BD%AE"><span class="nav-text">生产者（Producer）配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Broker-%E9%85%8D%E7%BD%AE"><span class="nav-text">Broker 配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B6%88%E8%B4%B9%E8%80%85%EF%BC%88Consumer%EF%BC%89%E9%85%8D%E7%BD%AE"><span class="nav-text">消费者（Consumer）配置</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B6%88%E6%81%AF%E5%8E%8B%E7%BC%A9"><span class="nav-text">消息压缩</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%BA%94%E7%AB%A0-consumer%E5%BC%80%E5%8F%91"><span class="nav-text">第五章 - consumer开发</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#consumer%E6%A6%82%E8%A7%88"><span class="nav-text">consumer概览</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E5%85%AD%E7%AB%A0-Kafka-%E8%AE%BE%E8%AE%A1%E5%8E%9F%E7%90%86"><span class="nav-text">第六章 - Kafka 设计原理</span></a></li></ol>
+    </div>
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom border-box">
+            
+<footer class="footer border-box">
+    <div class="border-box website-info-box default">
+        
+            <div class="copyright-info info-item default">
+                &copy;&nbsp;<span>2022</span>&nbsp;-&nbsp;2025
+                
+                    &nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;&nbsp;<a href="/">咕咕咕</a>
+                
+            </div>
+
+            <div class="theme-info info-item default">
+                由&nbsp;<a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;驱动&nbsp;&&nbsp;主题&nbsp;<a class="keep-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep</a>
+            </div>
+
+            
+
+            
+        
+
+        <div style="color:var(--text-color-4);"><span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>(～￣▽￣)～<script src="/js/lifeTime.js"></script></div>
+        <a href="https://icp.gov.moe/?keyword=20222450" target="_blank">萌ICP备20222450号</a>
+
+
+        <div class="count-item info-item default">
+            
+                <span class="count-box border-box word">
+                    <span class="item-type border-box">总字数</span>
+                    <span class="item-value border-box word">320.9k</span>
+                </span>
+            
+
+            
+                <span class="count-box border-box uv">
+                    <span class="item-type border-box">访客数</span>
+                    <span class="item-value border-box uv" id="busuanzi_value_site_uv"></span>
+                </span>
+            
+
+            
+                <span class="count-box border-box pv">
+                    <span class="item-type border-box">访问量</span>
+                    <span class="item-value border-box pv" id="busuanzi_value_site_pv"></span>
+                </span>
+            
+        </div>
+
+        <div id="aplayer">
+          <meting-js
+                  server="netease"
+                  type="playlist"
+                  id="7345595717"
+                  fixed="true"
+                  mini="true"
+                  autoplay="false"
+                  listFolded="true"
+                  order="random"
+                  preload="none">
+          </meting-js>
+        </div>
+            <br>
+            <br>
+            <br>
+    </div>
+
+</footer>
+
+        </div>
+    </div>
+
+    <!-- post tools -->
+    
+        <div class="post-tools left-toc">
+            <div class="post-tools-container border-box">
+    <ul class="tools-list border-box">
+        <!-- PC TOC show toggle -->
+        
+            <li class="tools-item flex-center toggle-show-toc">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        <!-- PC go comment -->
+        
+            <li class="tools-item flex-center go-to-comments">
+                <i class="fas fa-comment"></i>
+                <span class="post-comments-count"></span>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <!-- side tools -->
+    <div class="side-tools">
+        <div class="side-tools-container border-box ">
+    <ul class="side-tools-list side-tools-show-handle border-box">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-toggle-theme-mode flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+            <li class="tools-item rss flex-center">
+                <a class="flex-center"
+                   href="/atom.xml"
+                   target="_blank"
+                >
+                    <i class="fas fa-rss"></i>
+                </a>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list border-box">
+        
+            <li class="tools-item toggle-show-toc-tablet flex-center">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        
+            <li class="tools-item go-to-comments-tablet flex-center">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+
+        <li class="tools-item tool-scroll-to-top flex-center show-arrow">
+            <i class="arrow fas fa-arrow-up"></i>
+            <span class="percent"></span>
+        </li>
+    </ul>
+</div>
+
+    </div>
+
+    <!-- image mask -->
+    <div class="zoom-in-image-mask">
+    <img class="zoom-in-image">
+</div>
+
+
+    <!-- local search -->
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="搜索..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="close-popup-btn">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+    <!-- tablet toc -->
+    
+        <div class="tablet-post-toc-mask">
+            <div class="tablet-post-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E5%9B%9B%E7%AB%A0-producer%E5%BC%80%E5%8F%91"><span class="nav-text">第四章 - producer开发</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#producer%E6%A6%82%E8%A7%88"><span class="nav-text">producer概览</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B6%88%E6%81%AF%E5%88%86%E5%8C%BA%E6%9C%BA%E5%88%B6"><span class="nav-text">消息分区机制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B6%88%E6%81%AF%E5%BA%8F%E5%88%97%E5%8C%96"><span class="nav-text">消息序列化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8B%A6%E6%88%AA%E5%99%A8"><span class="nav-text">拦截器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%97%A0%E6%B6%88%E6%81%AF%E4%B8%A2%E5%A4%B1%E9%85%8D%E7%BD%AE"><span class="nav-text">无消息丢失配置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%94%9F%E4%BA%A7%E8%80%85%EF%BC%88Producer%EF%BC%89%E9%85%8D%E7%BD%AE"><span class="nav-text">生产者（Producer）配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Broker-%E9%85%8D%E7%BD%AE"><span class="nav-text">Broker 配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B6%88%E8%B4%B9%E8%80%85%EF%BC%88Consumer%EF%BC%89%E9%85%8D%E7%BD%AE"><span class="nav-text">消费者（Consumer）配置</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B6%88%E6%81%AF%E5%8E%8B%E7%BC%A9"><span class="nav-text">消息压缩</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%BA%94%E7%AB%A0-consumer%E5%BC%80%E5%8F%91"><span class="nav-text">第五章 - consumer开发</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#consumer%E6%A6%82%E8%A7%88"><span class="nav-text">consumer概览</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E5%85%AD%E7%AB%A0-Kafka-%E8%AE%BE%E8%AE%A1%E5%8E%9F%E7%90%86"><span class="nav-text">第六章 - Kafka 设计原理</span></a></li></ol>
+    </div>
+</div>
+
+            </div>
+        </div>
+    
+</main>
+
+
+
+<!-- common -->
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/toggle-theme.js"></script>
+
+<script src="/js/code-block.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+
+<!-- local-search -->
+
+    
+<script src="/js/local-search.js"></script>
+
+
+
+<!-- lazyload -->
+
+    
+<script src="/js/lazyload.js"></script>
+
+
+
+<div class="pjax">
+    
+        <!-- post-helper -->
+        
+<script src="/js/post/post-helper.js"></script>
+
+
+        <!-- toc -->
+        
+            
+<script src="/js/post/toc.js"></script>
+
+        
+
+        <!-- copyright-info -->
+        
+            
+<script src="/js/post/copyright-info.js"></script>
+
+        
+
+        <!-- share -->
+        
+            
+<script src="/js/post/share.js"></script>
+
+        
+    
+
+    <!-- category-page -->
+    
+
+    <!-- links-page -->
+    
+
+    <!-- photos-page -->
+    
+</div>
+
+<!-- mermaid -->
+
+
+<!-- pjax -->
+
+    
+<script src="/js/libs/pjax.min.js"></script>
+
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        window.pjax = new Pjax({
+            selectors: [
+                'head title',
+                '.page-container',
+                '.pjax',
+                '#aplayer',
+                '#canvas_sakura'
+            ],
+            history: true,
+            debug: false,
+            cacheBust: false,
+            timeout: 0,
+            analytics: false,
+            currentUrlFullReload: false,
+            scrollRestoration: false,
+        });
+
+        document.addEventListener('pjax:send', () => {
+            KEEP.utils.pjaxProgressBarStart()
+        });
+
+        document.addEventListener('pjax:complete', () => {
+            KEEP.utils.pjaxProgressBarEnd()
+            window.pjax.executeScripts(document.querySelectorAll('script[data-pjax], .pjax script'))
+            KEEP.initExecute()
+        });
+    });
+</script>
+
+
+
+
+    
+        
+            
+<script class="custom-inject-js" src="/js/APlayer.min.js" data-pjax></script>
+
+        
+    
+        
+            
+<script class="custom-inject-js" src="/js/Meting.min.js" data-pjax></script>
+
+        
+    
+        
+            
+<script class="custom-inject-js" src="/js/leaves.js" data-pjax></script>
+
+        
+    
+
+
+
+</body>
+</html>
