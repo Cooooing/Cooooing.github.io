@@ -376,5 +376,206 @@ standalone consumer 间彼此独立工作互不干扰。任何一个consumer崩�
 
 ## 第六章 - Kafka设计原理
 
+### broker端设计架构
+
+broker是Apache Kafka最重要的组件，本质上它是一个功能载体（或服务载体），承载了绝大多数的Kafka服务。
+事实上，大多数的消息队列框架都有broker或与之类似的角色。一个broker 通常是以服务器的形式出现的，对用户而言，broker 的主要功能就是持久化消息以及将消息队列中的消息从发送端传输到消费端。
+Kafka的broker负责持久化producer端发送的消息，同时还为consumer端提供消息。
+
+#### 消息设计
+
+这里先提及一下 Kafka的消息集合以及消息层次的概念。
+事实上，无论是哪个版本的 Kafka，它的消息层次都分为两层：消息集合（message set）和消息。
+
+一个消息集合包含若干个日志项，而每个日志项都封装了实际的消息和一组元数据信息。
+Kafka 日志文件就是由一系列消息集合日志项构成的。Kafka 不会在消息层面上直接操作，它总是在消息集合上进行写入操作。
+每个消息集合中的日志项由一条“浅层”消息和日志项头部组成。
+
+* 浅层消息（shallow message）：如果没有启用消息压缩，那么这条浅层消息就是消息本身；否则，Kafka会将多条消息压缩到一起统一封装进这条浅层消息的 value字段。
+  此时该浅层消息被称为包装消息（或外部消息，即 wrapper消息），而value字段中包含的消息则被称为内部消息，即 inner消息。V0、V1 版本中的日志项只能包含一条浅层消息。
+* 日志项头部（log entry header）：头部由8字节的位移（offset）字段加上4字节的长度（size）字段构成。注意这里的 offset非consumer端的offset，它是指该消息在 Kafka分区日志中的 offset。
+  同样地，如果是未压缩消息，该 offset就是消息的 offset；否则该字段表示 wrapper消息中最后一条 inner消息的 offset。
+  因此，从 V0、V1 版本消息集合日志项中搜寻该日志项的起始位移（base offset 或 starting offset）是一件非常困难的事情，因为在该过程中Kafka需要深度遍历所有inner消息，这也就意味着broker端需要执行解压缩的操作，可见代价之高。
+
+上面V0、V1版本消息集合在设计上的一些缺陷：
+
+* 空间利用率不高：不论key和value长度是多少，它总是使用4字节固定长度来保存这部分信息。
+  例如，这两个版本保存100或是1000都是使用4字节，但其实我们只需要7位就足以保存100这个数字了，也就是说，只用1字节就足够，另外3字节纯属浪费。
+* 只保存最新消息位移：如前所述，若启用压缩，这个版本中的 offset 是消息集合中最后一条消息的offset。
+  如果用户想要获取第1条消息的位移，必须要把所有的消息全部解压缩装入内存，然后反向遍历才能获取，显然这个代价是很大的。
+* 冗余的消息级 CRC校验：为每条消息都执行 CRC 校验有些“鸡肋”。即使在网络传输过程中没有出现恶意篡改，我们也不能想当然地认为在 producer 端发送的消息到consumer 端时其 CRC 值是不变的。
+  若用户指定时间戳类型是 LOG_APPEND_TIME，broker 将使用当前时间戳覆盖掉消息已有时间戳，那么当 broker 端对消息进行时间戳更新后，CRC 就需要重新计算从而发生变化；
+  再如，broker 端进行消息格式转换（broker 端和 clients 端要求版本不一致时会发生消息格式转换，不过这对用户而言是完全透明的）也会带来 CRC值的变化。
+  所以对每条消息都执行 CRC 校验实际上没有必要，不仅浪费空间，还占用了宝贵的CPU时间片。
+* 未保存消息长度：每次需要单条消息的总字节数信息时都需要计算得出，没有使用单独字段来保存。
+  每次计算时为了避免对现有数据结构的破坏，都需要大量的对象副本，解序列化效率很低。
+
+V2版本依然分为消息和消息集合两个维度，只不过消息集合的提法被消息批次所取代。下面是V2版本消息的格式：
+
+![V2版本消息格式.png](../images/《apache%20Kafka实战》读书笔记-producer、consumer和设计原理/V2版本消息格式.png)
+
+“可变长度”表示 Kafka会根据具体的值来确定到底需要几字节保存。为了在序列化时降低使用的字节数，V2版本借鉴了Google ProtoBuffer中的Zig-zag编码方式，使得绝对值较小的整数占用比较少的字节。
+Zig-zag编码方式主要的思想就是将一个有符号32位整数编码成一个无符号整数，同时各个数字围绕0依次编码。
+
+| 编码前 | 编码后 |
+|-----|-----|
+| 0   | 0   |
+| -1  | 1   |
+| 1   | 2   |
+| -2  | 3   |
+| 2   | 4   |
+| ... | ... |
+
+这种编码方式可使用较少的字节来保存绝对值很小的负数。而不用保存32位整数的补码，浪费很多位的空间。
+
+由于可能使用多字节来编码一个数字，Zig-zag 会固定地将每个字节的第1位留作特殊用途，来表明该字节是否是某个数编码的最后一个字节。
+即最高位若是1，则表明编码尚未结束，还需要读取后面的字节来获取完整编码；若是0，则表示下一个字节是新的编码。
+鉴于这个原因，Zig-zag 中每个字节只有7位可用于实际的编码任务，因此单个字节只能编码0～127之间的无符号整数。
+
+V2版本的消息格式变化：
+
+* 增加消息总长度字段：在消息格式的头部增加该字段，一次性计算出消息总字节数后保存在该字段中，而不需要像之前版本一样每次重新计算。
+  Kafka 操作消息时可直接获取总字节数，直接创建出等大小的 ByteBuffer，然后分别装填其他字段，简化了消息处理过程。
+  总字节数的引入还实现了消息遍历时的快速跳跃和过滤，省去了很多空间拷贝的开销。
+* 保存时间戳增量（timestamp delta）：不再需要使用8字节来保存时间戳信息，而是使用一个可变长度保存与 batch 起始时间戳的差值。差值通常都是很小的，故需要的字节数也是很少的，从而节省了空间。
+* 保存位移增量（offset delta）：与时间戳增量类似，保存消息位移与外层 batch 起始位移的差值，而不再固定保存8字节的位移值，进一步节省消息总字节数。
+* 增加消息头部（message headers）：V2 版本中每条消息都必须有一个头部数组，里面的每个头部信息只包含两个字段：头部 key和头部 value，类型分别是 String和 byte[]。
+  增加头部信息主要是为了满足用户的一些定制化需求，比如，做集群间的消息路由之用或承载消息的一些特定元数据信息。
+* 去除消息级 CRC 校验：V2 版本不再为每条消息计算 CRC32 值，而是对整个消息batch进行CRC校验。
+* 废弃attribute字段：V0、V1版本格式都有一个attribute字段，V2版本的消息正式废弃了这个字段。
+  原先保存在 attribute字段中的压缩类型、时间戳等信息都统一保存在外层的batch格式字段中，但V2版本依然保留了单字节的attribute字段留作以后扩展使用。
+
+V2版本的消息batch格式：
+
+![V2版本消息batch格式.png](../images/《apache%20Kafka实战》读书笔记-producer、consumer和设计原理/V2版本消息batch格式.png)
+
+* CRC值从消息层面被移除，被放入batch这一层。
+* batch层面上增加了一个双字节 attribute字段，同时废弃了消息级别的 attribute字段。
+  在这个双字节的 attribute字段中，最低的 3位依然保存压缩类型，第 4位依然保存时间戳类型，而第5、6位分别保存0.11.0.0版本新引入的事务类型和控制类型。
+* PID、producer epoch和序列号等信息都是0.11.0.0版本为了实现幂等性 producer和支持事务而引入的。
+  PID表示一个幂等性producer的ID值，producer epoch表示某个PID携带的当前版本号。
+  broker使用 PID和 epoch来确定当前合法的 producer实例，并以此阻止过期 producer向 broker生产消息。
+  序列号的引入主要是为了实现消息生产的幂等性。Kafka依靠它来辨别消息是否已成功提交，从而防止出现重复生产消息。
+
+#### 集群管理
+
+Kafka 是分布式的消息引擎集群环境，它支持自动化的服务发现与成员管理。
+Kafka 是依赖 Apache ZooKeeper 实现的。每当一个broker启动时，它会将自己注册到ZooKeeper下的一个节点。
+
+Kafka 4.0 彻底移除了 Zookeeper，默认允许在 KRaft 模式下，大大简化了集群的部署和管理，消除了集成 ZooKeeper 的复杂性。
+这部分略。
+
+#### 副本与ISR设计
+
+个 Kafka分区本质上就是一个备份日志，即利用多份相同的备份共同提供冗余机制来保持系统高可用性。这些备份在 Kafka 中被称为副本（replica）。
+Kafka 把分区的所有副本均匀地分配到所有broker上，并从这些副本中挑选一个作为leader副本对外提供服务，而其他副本被称为 follower副本，只能被动地向 leader副本请求数据，从而保持与 leader副本的同步。
+
+假如 leader 副本永远工作正常，那么其实不需要 follower 副本。但现实总是残酷的，Kafka leader 副本所在的 broker 可能因为各种各样的原因而随时宕机。
+一旦发生这种情况，follower副本会竞相争夺成为新leader的权力。显然不是所有的follower都有资格去竞选leader。
+follower 会被动地向 leader 请求数据。但对于那些落后 leader 进度太多的 follower 而言，它们是没有资格竞选 leader 的，毕竟它们手中握有的数据太旧了，如果允许它们成为 leader，会造成数据丢失，而这对 clients 而言是灾难性的。鉴于这个原因，Kafka引入了ISR的概念。
+
+所谓 ISR，就是 Kafka集群动态维护的一组同步副本集合（in-sync replicas）。每个 topic分区都有自己的ISR列表，ISR中的所有副本都与leader保持同步状态。
+值得注意的是，leader副本总是包含在ISR中的，只有ISR中的副本才有资格被选举为leader。而producer写入的一条 Kafka 消息只有被 ISR 中的所有副本都接收到，才被视为 “已提交”状态。
+由此可见，若ISR中有N个副本，那么该分区最多可以忍受N-1个副本崩溃而不丢失已提交消息。
+
+##### follower副本同步
+
+follower副本只做一件事情：向 leader副本请求数据。
+
+![副本各种位置信息.png](../images/《apache%20Kafka实战》读书笔记-producer、consumer和设计原理/副本各种位置信息.png)
+
+* 起始位移（base offset）：表示该副本当前所含第一条消息的offset。
+* 高水印值（high watermark,HW）：副本高水印值。它保存了该副本最新一条已提交消息的位移。
+  leader 分区的 HW 值决定了副本中已提交消息的范围，也确定了consumer能够获取的消息上限，超过 HW值的所有消息都被视为“未提交成功的”，因而consumer是看不到的。另外值得注意的是，不是只有leader副本才有HW值。实际上每个 follower副本都有 HW值，只不过只有
+  leader副本的 HW值才能决定 clients能看到的消息数量罢了。
+* 日志末端位移（log end offset,LEO）：副本日志中下一条待写入消息的 offset。所有副本都需要维护自己的LEO信息。每当leader副本接收到producer端推送的消息，它会更新自己的LEO（通常是加1）。
+  同样，follower副本向leader副本请求到数据后也会增加自己的 LEO。事实上只有 ISR中的所有副本都更新了对应的 LEO之后，leader副本才会向右移动HW值表明消息写入成功。
+
+假设当前Kafka集群当前只有一个topic，该topic只有一个分区，分区共有3个副本，因此ISR中也是这3个副本。该topic当前没有任何数据。由于没有任何数据，因此3个副本的LEO都是0,HW值是0。
+现有一个producer向broker1所在的leader副本发送了一条消息，接下来会发生什么呢？
+
+1. broker1上的leader副本接收到消息，把自己的LEO值更新为1。
+2. broker2和broker3上的follower副本各自发送请求给broker1。
+3. broker1分别把该消息推送给follower副本。
+4. follower副本接收到消息后各自更新自己的LEO为1。
+5. leader副本接收到其他 follower副本的数据请求响应（response）之后，更新 HW值为1。此时位移为0的这条消息可以被consumer消费。
+
+对于设置了 acks=-1 的 producer而言，只有完整地做完上面所有的5步操作，producer才能正常返回，这也标志着这条消息发送成功。
+
+##### ISR设计
+
+0.9.0.0版本之前，Kafka提供了一个参数replica.lag.max.messages，用于控制follower副本落后 leader副本的消息数。
+一旦超过这个消息数，则视为该 follower为“不同步”状态，从而需要被Kafka“踢出”ISR。
+
+但在消息不稳定时，比如 出现 producer 的瞬时高峰流量、网络IO导致 follower 请求消息速度变慢、进程卡住等情况，会导致 follower 不断地被踢出 ISR，然后重新加回 ISR，造成了与 leader不同步、再同步、又不同步、再次同步的情况发生。
+
+所以在0.9.0.0版本之后，Kafka去掉了之前的 replica.lag.max.messages参数，改用统一的参数同时检测由于慢以及进程卡壳而导致的滞后（lagging）——即 follower副本落后 leader副本的时间间隔。
+这个唯一的参数就是 replica.lag.time.max.ms，默认值是 10 秒。对于“请求速度追不上”的情况，检测机制也发生了变化——如果一个 follower副本落后 leader的时间持续性地超过了这个参数值，那么该 follower 副本就是“不同步”的。
+这样即使出现producer瞬时峰值流量，只要 follower 不是持续性落后，它就不会反复地在 ISR 中移进、移出。
+
+#### 水印（watermark）和leader epoch
+
+水印也被称为高水印或高水位，通常被用在流式处理领域（著名的框架如Apache Storm、Apache Flink和Apache Spark等），以表征元素或事件在基于时间层面上的进度。
+一个比较经典的表述为：流式系统保证在水印t时刻，创建时间（event time） = t＇且t＇ ≤ t的所有事件都已经到达或被观测到。在 Kafka中，水印的概念反而与时间无关，而与位置信息相关。
+严格来说，它表示的就是位置信息，即位移（offset）。
+
+一个 Kafka 分区下通常存在多个副本（replica）用于实现数据冗余，进一步实现高可用性。如前所述，副本根据角色不同分为如下3类。
+
+* leader副本：响应clients端读/写请求的副本。
+* follower副本：被动地备份leader副本上的数据，不能响应clients端的读/写请求。
+* ISR副本集合：包含leader副本和所有与leader副本保持同步的follower副本。
+
+每个Kafka副本对象都持有两个重要的属性：日志末端位移（log end offset，下称LEO）和高水印（HW）。注意是**所有的副本** ，而不止是leader副本。以下是这两个属性的解释。
+
+* LEO：日志末端位移，记录了该副本对象底层日志文件中下一条消息的位移值。
+  举一个例子，若 LEO=10，那么表示在该副本日志上已经保存了10条消息，位移范围是[0,9]。另外，Kafka对leader副本和follower副本的LEO更新机制是不同的，后面会详细讨论。
+* HW：任何一个副本对象的 HW值一定不大于其 LEO值，而小于或等于 HW 值的所有消息被认为是“已提交的”或“已备份的”（replicated）。
+  Kafka对 leader副本和 follower副本的 HW值更新机制也是不同的，后面内容将会讨论它们的不同。
+
+如果把 LEO和 HW看作两个指针，那么它们定位的机制是不同的：**任意时刻，HW指向的是实实在在的消息，而 LEO总是指向下一条待写入消息，也就是说 LEO指向的位置上是没有消息的！**
+
+##### LEO更新机制
+
+首先是Kafka如何更新follower副本的LEO属性。
+follower副本只是被动地向leader副本请求数据，具体表现为 follower副本不停地向 leader副本所在的 broker发送 FETCH请求，一旦获取消息，便写入自己的日志中进行备份。
+
+follower 副本的 LEO 是何时更新的呢？严格来说，Kafka 设计了两套 follower 副本LEO 属性：
+一套 LEO 值保存在 follower 副本所在 broker 的缓存上；另一套 LEO 值保存在leader副本所在 broker的缓存上，换句话说，leader副本所在机器的缓存上保存了该分区下所有follower副本的LEO属性值（当然也包括它自己的LEO）。
+
+保存两套值是因为Kafka需要利用前者帮助follower副本自身更新HW值，而同时还需要使用后者来确定leader副本的HW值，即分区HW。
+
+1. follower副本端的follower副本LEO何时更新？
+   follower副本端的 follower副本 LEO值就是指该副本对象底层日志的LEO值，也就是说，每当新写入一条消息，其 LEO值就会加 1。
+   在 follower发送 FETCH请求后，leader将数据返回给 follower，此时 follower开始向底层 log写数据，从而自动更新其LEO值。
+2. leader副本端的follower副本LEO何时更新？
+   leader副本端的follower副本LEO的更新发生在leader处理follower FETCH请求时。
+   一旦leader接收到follower发送的FETCH请求，它首先会从自己的log中读取相应的数据，但是在给follower返回数据之前它先去更新follower的LEO（即上面所说的第二套LEO值）。
+3. 最后是leader副本更新 LEO的机制和时机。和 follower更新 LEO道理相同，leader写log时就会自动更新它自己的LEO值。
+
+##### HW更新机制
+
+follower 更新 HW 发生在其更新LEO之后，一旦follower向log写完数据，它就会尝试更新HW值。
+具体算法就是比较当前LEO值与FETCH响应中leader的HW值，取两者的小者作为新的HW值。
+这告诉我们一个事实：如果follower的LEO值超过了leader的HW值，那么follower HW值是不会越过leader HW值的。
+
+比起follower副本的HW属性，leader副本HW值的更新更重要，因为它直接影响了分区数据对于 consumer的可见性 。
+
+下面四种情况会尝试更新分区 HW值：
+* 副本成为leader副本时：当某个副本成为分区的leader副本，Kafka会尝试更新分区HW。这是显而易见的道理，毕竟分区leader发生了变更，这个副本的状态是一定要检查的。
+* broker 出现崩溃导致副本被踢出 ISR 时：若有 broker崩溃，则必须查看是否会波及此分区，因此检查分区HW值是否需要更新是有必要的。
+* producer 向 leader 副本写入消息时：因为写入消息会更新 leader的 LEO，故有必要再查看HW值是否也需要更新。
+* leader 处理follower FETCH 请求时：当leader处理follower的FETCH请求时，首先会从底层的log读取数据，之后再尝试更新分区HW值。
+
+基于水印的备份机制会造成 **数据丢失** 和 **数据不一致/数据离散** 的风险。
+因为 HW 值被用于衡量副本备份的成功与否，以及在出现崩溃时作为日志截断的依据，但 HW 值的更新是异步延迟的，特别是需要额外的 FETCH 请求处理流程才能更新，故这中间发生的任何崩溃都可能导致 HW 值的过期。
+鉴于这些原因，Kafka 0.11.0.0引入了leader epoch来取代HW值。leader端多开辟一段内存区域专门保存leader的epoch信息，这样即使出现上面的两个场景，Kafka也能很好地规避这些问题。
+
+所谓领导者epoch（leader epoch），实际上是一对值（epoch,offset）。epoch表示leader的版本号，从0开始，当leader变更过1次时，epoch就会加1，而offset则对应于该epoch版本的leader写入第一条消息的位移。
+假设存在两对值（0,0）和（1,120），那么表示第一个leader从位移0开始写入消息，共写了120条，即[0,119]；而第二个leader版本号是1，从位移120处开始写入消息。
+
+每个leader broker中会保存这样一个缓存，并定期写入一个检查点文件中。
+当leader写底层 log 时，它会尝试更新整个缓存——如果这个 leader 首次写消息，则会在缓存中增加一个条目，否则就不做更新。
+而每次副本重新成为 leader时会查询这部分缓存，获取对应 leader版本的位移，这就不会发生数据不一致和丢失的情况。
+
 
 
