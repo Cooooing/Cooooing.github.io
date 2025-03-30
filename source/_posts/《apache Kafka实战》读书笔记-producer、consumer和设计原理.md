@@ -167,7 +167,214 @@ batch大小越大，压缩时间就越长，不过时间的增长不是线性的
 
 Kafka消费者（consumer）是从Kafka读取数据的应用。若干个 consumer订阅Kafka集群中的若干个 topic并从 Kafka接收属于这些 topic的消息。
 
-## 第六章 - Kafka 设计原理
+消费者组：
+> Consumers label themselves with a consumer group name,and each record published to a topic is delivered to one consumer instance within each subscribing consumer group.
+> 消费者使用一个消费者组名（即 group.id）来标记自己，topic 的每条消息都只会被发送到每个订阅它的消费者组的一个消费者实例上。
+
+1. 一个 consumer group 可能有若干个 consumer实例（一个 group 只有一个实例也是允许的）。
+2. 对于同一个 group 而言，topic 的每条消息只能被发送到 group 下的一个 consumer 实例上。
+3. topic 消息可以被发送到多个group中。
+
+前面说过 Kafka 同时支持基于队列和基于发布/订阅的两种消息引擎模型。事实上 Kafka 就是通过 consumer group 实现的对这两种模型的支持。
+
+* 所有 consumer 实例都属于相同 group —— 实现基于队列的模型。每条消息只会被一个consumer实例处理。
+* consumer 实例都属于不同 group —— 实现基于发布/订阅的模型。极端的情况是每个consumer 实例都设置完全不同的 group，这样 Kafka 消息就会被广播到所有 consumer实例上。
+
+consumer group是用于实现高伸缩性、高容错性的consumer机制。
+组内多个 consumer实例可以同时读取 Kafka消息，而且一旦有某个 consumer“挂”了，consumer group会立即将已崩溃 consumer负责的分区转交给其他 consumer来负责。
+从而保证整个 group 可以继续工作，不会丢失数据——这个过程被称为重平衡（rebalance）。
+
+### 位移（offset）
+
+这里 offset 指代的是 consumer端的 offset，与分区日志中的 offset是不同的含义。
+每个 consumer 实例都会为它消费的分区维护属于自己的位置信息来记录当前消费了多少条消息。被称为 位移（offset）。
+很多消息引擎都把消费端的 offset 保存在服务器端（broker）。这样做的好处当然是实现简单，但会有以下3个方面的问题。
+
+* broker从此变成了有状态的，增加了同步成本，影响伸缩性。
+* 需要引入应答机制（acknowledgement）来确认消费成功。
+* 由于要保存许多 consumer 的 offset，故必然引入复杂的数据结构，从而造成不必要的资源浪费。
+
+Kafka 选择让 consumer group保存 offset，只需要简单地保存一个长整型数据。
+同时 Kafka consumer 还引入了检查点机制（checkpointing）定期对offset进行持久化，从而简化了应答机制的实现。
+
+**consumer客户端需要定期地向Kafka集群汇报自己消费数据的进度，这一过程被称为位移提交（offset commit）。**
+位移提交这件事情对于 consumer 而言非常重要，它不仅表征了consumer 端的消费进度，同时也直接决定了 consumer 端的消费语义保证。
+
+Kafka consumer 最开始会将位移提交到 Zookeeper，但这种方式并不好，ZooKeeper本质上只是一个协调服务组件，它并不适合作为位移信息的存储组件，毕竟频繁高并发的读/写操作并不是 ZooKeeper擅长的事情。
+所以在新版本中consumer把位移提交到 Kafka 的一个内部 topic（__consumer_offsets）上。该topic是一个内部topic，通常不能直接操作该topic。
+
+**消费者组重平衡（consumer group rebalance）本质上是一种协议，规定了一个 consumer group下所有 consumer如何达成一致来分配订阅 topic的所有分区。**
+假设我们有一个 consumer group，它有20个 consumer实例。该 group订阅了一个具有100个分区的 topic。
+那么正常情况下，consumer group平均会为每个 consumer分配5个分区，即每个 consumer负责读取5个分区的数据。这个分配过程就被称作rebalance。
+
+### 消息轮询
+
+Kafka的 consumer是用来读取消息的，而且要能够同时读取多个 topic的多个分区的消息。
+若要实现并行的消息读取，一种方法是使用多线程的方式，为每个要读取的分区都创建一个专有的线程去消费；
+另一种方法是采用类似于 Linux I/O模型的 poll或 select等，使用一个线程来同时管理多个 Socket 连接，即同时与多个 broker 通信实现消息的并行读取。
+
+一旦 consumer 订阅了 topic，所有的消费逻辑包括 coordinator 的协调、消费者组的rebalance以及数据的获取都会在主逻辑poll方法的一次调用中被执行。
+这样用户很容易使用一个线程来管理所有的consumer I/O操作。
+
+consumer 订阅 topic 之后通常以事件循环的方式来获取订阅方案并开启消息读取。
+仅仅是写一个循环，然后重复性地调用poll方法。剩下所有的工作都交给poll方法完成。每次poll方法返回的都是订阅分区上的一组消息。当然如果某些分区没有准备好，某次 poll 返回的就是空的消息集合。
+poll方法根据当前consumer的消费位移返回消息集合。当poll首次被调用时，新的消费者组会被创建并根据对应的位移重设策略（auto.offset.reset）来设定消费者组的位移。
+一旦consumer 开始提交位移，每个后续的 rebalance 完成后都会将位置设置为上次已提交的位移。传递给 poll 方法的超时设定参数用于控制 consumer 等待消息的最大阻塞时间。
+由于某些原因，broker端有时候无法立即满足consumer端的获取请求（比如consumer要求至少一次获取1MB的数据，但 broker 端无法立即全部给出），那么此时 consumer 端将会阻塞以等待数据不断累积并最终满足 consumer需求。
+如果用户不想让 consumer一直处于阻塞状态，则需要给定一个超时时间。因此poll方法返回满足以下任意一个条件即可返回。
+
+* 要么获取了足够多的可用数据。
+* 要么等待时间超过了指定的超时设置。
+
+### 位移管理
+
+offset 对于 consumer 非常重要，因为它是实现消息交付语义保证（message delivery semantic） 的基石。常见的3种消息交付语义保证如下。
+
+* 最多一次（at most once）处理语义：消息可能丢失，但不会被重复处理。
+* 最少一次（at least once）处理语义：消息不会丢失，但可能被处理多次。
+* 精确一次（exactly once）处理语义：消息一定会被处理且只会被处理一次。
+
+若consumer在消息消费之前就提交位移，那么便可以实现 at most once——因为若consumer 在提交位移与消息消费之间崩溃，则 consumer 重启后会从新的 offset 位置开始消费，前面的那条消息就丢失了。
+若提交位移在消息消费之后，则可实现 at least once 语义。
+
+除了offset，还有其他位置信息：
+
+* 上次提交位移（last committed offset）:consumer最近一次提交的offset值。
+* 当前位置（current position）:consumer已读取但尚未提交时的位置。
+* 水位（watermark）：也被称为高水位（high watermark），严格来说它不属于consumer 管理的范围，而是属于分区日志的概念。对于处于水位之下的所有消息，consumer 都是可以读取的，consumer 无法读取水位以上的消息。
+* 日志终端位移（Log End Offset,LEO）：也被称为日志最新位移。同样不属于consumer 范畴，而是属于分区日志管辖。它表示了某个分区副本当前保存消息对应的最大的位移值。值得注意的是，正常情况下 LEO不会比水位值小。事实上，只有分区所有副本都保存了某条消息，该分区的leader副本才会向上移动水位值。
+
+**consumer最多只能读取到水位值标记的消息，而不能读取尚未完全被“写入成功”的消息，即位于水位值之上的消息。**
+
+consumer 会在 Kafka 集群的所有 broker 中选择一个 broker 作为 consumer group 的coordinator，用于实现组成员管理、消费分配方案制定以及提交位移等。
+当消费者组首次启动时，由于没有初始的位移信息，coordinator 必须为其确定初始位移值，这就是 consumer 参数 auto.offset.reset的作用。
+通常情况下，consumer 要么从最早的位移开始读取，要么从最新的位移开始读取。
+
+当 consumer运行了一段时间之后，它必须要提交自己的位移值。
+如果 consumer崩溃或被关闭，它负责的分区就会被分配给其他 consumer，因此一定要在其他 consumer 读取这些分区前就做好位移提交工作，否则会出现消息的重复消费。
+
+consumer 提交位移的主要机制是通过向所属的 coordinator 发送位移提交请求来实现的。每个位移提交请求都会往 __consumer_offsets 对应分区上追加写入一条消息。
+消息的 key 是group.id、topic和分区的元组，而 value就是位移值。如果 consumer为同一个 group的同一个topic 分区提交了多次位移，那么 __consumer_offsets 对应的分区上就会有若干条 key 相同但value 不同的消息，但显然我们只关心最新一次提交的那条消息。
+从某种程度来说，只有最新提交的位移值是有效的，其他消息包含的位移值其实都已经过期了。Kafka通过压实（compact）策略来处理这种消息使用模式。
+
+默认情况下，consumer是自动提交位移的，自动提交间隔是5秒。这就是说若不做特定的设置，consumer程序在后台自动提交位移。通过设置`auto.commit.interval.ms`参数可以控制自动提交的间隔。
+
+|      | 使用方法                                                      | 优势          | 劣势                   | 交付语义保证                            | 使用场景                           |
+|------|-----------------------------------------------------------|-------------|----------------------|-----------------------------------|--------------------------------|
+| 自动提交 | 默认不用配置或显式设置enable.auto.commit=ture                        | 开发成本低，简单易用  | 无法实现精确控制，位移提交失败后不易处理 | 可能造成消息丢失，最多实现“最少一次”处理语义           | 对消息交付语义无需求，容忍一定的消息丢失           |
+| 手动提交 | 设置enable.auto.commit=false;手动调用commitSync或commitAsync提交位移 | 可精确控制位移提交行为 | 额外的开发成本，须自行处理位移提交    | 易实现“最少一次”处理语义，依赖外部状态可实现“精确一次”处理语义 | 消息处理逻辑重，不允许消息丢失，至少要求“最少一次”处理语义 |
+
+手动提交位移 API 进一步细分为同步手动提交和异步手动提交，即 commitSync 和commitAsync 方法。
+如果调用的是 commitSync，用户程序会等待位移提交结束才执行下一条语句命令。
+相反地，若是调用 commitAsync，则是一个异步非阻塞调用。consumer在后续 poll调用时轮询该位移提交的结果。
+特别注意的是，这里的异步提交位移不是指 consumer 使用单独的线程进行位移提交。实际上 consumer 依然会在用户主线程的 poll 方法中不断轮询这次异步提交的结果。只是该提交发起时此方法是不会阻塞的，因而被称为异步提交。
+
+### 重平衡（rebalance）
+
+consumer group的rebalance本质上是一组协议，它规定了一个consumer group是如何达成一致来分配订阅 topic的所有分区的。
+假设某个组下有20个 consumer实例，该组订阅了一个有着100个分区的 topic。正常情况下，Kafka会为每个 consumer平均分配5个分区。这个分配过程就被称为 rebalance。
+当 consumer成功地执行 rebalance后，组订阅 topic的每个分区只会分配给组内的一个consumer实例。
+
+#### rebalance 触发条件
+
+组rebalance触发的条件有以下3个。
+
+* 组成员发生变更，比如新 consumer 加入组，或已有 consumer 主动离开组，再或是已有consumer崩溃时则触发rebalance。
+* 组订阅 topic 数发生变更，比如使用基于正则表达式的订阅，当匹配正则表达式的新topic被创建时则会触发rebalance。
+* 组订阅 topic 的分区数发生变更，比如使用命令行脚本增加了订阅topic的分区数。
+
+如果一个 group 下的 consumer 处理消息的逻辑过重，并且事件的处理时间波动很大，非常不稳定。会导致 coordinator 会经常性地认为某个 consumer 已经挂掉，引发 rebalance。
+这时需要仔细调优consumer 参数 request.timeout.ms、max.poll.records 和 max.poll.interval.ms，以避免不必要的rebalance出现。
+
+#### rebalance 分区分配
+
+在 rebalance时 group下所有的 consumer都会协调在一起共同参与分区分配。
+Kafka 新版本 consumer 默认提供了3种分配策略，分别是 range 策略、round-robin策略和sticky策略。
+
+range策略主要是基于范围的思想。它将单个 topic 的所有分区按照顺序排列，然后把这些分区划分成固定大小的分区段并依次分配给每个 consumer。
+round-robin策略则会把所有 topic的所有分区顺序摆开，然后轮询式地分配给各个consumer。
+sticky策略有效地避免了上述两种策略完全无视历史分配方案的缺陷，采用了“有黏性”的策略对所有 consumer 实例进行分配，可以规避极端情况下的数据倾斜并且在两次rebalance间最大限度地维持了之前的分配方案。
+
+通常意义上认为，如果 group 下所有 consumer 实例的订阅是相同，那么使用 round-robin会带来更公平的分配方案，否则使用range策略的效果更好。
+新版本 consumer 默认的分配策略是 range。用户根据consumer参数`partition.assignment.strategy`来进行设置。
+另外Kafka支持自定义的分配策略，用户可以创建自己的consumer分配器（assignor）。
+
+#### rebalance generation
+
+某个consumer group可以执行任意次rebalance。为了更好地隔离每次rebalance上的数据，新版本 consumer设计了 rebalance generation用于标识某次 rebalance。
+generation这个词类似于JVM分代垃圾收集器中“分代”（严格来说，JVM GC使用的是 generational）的概念。
+在consumer中它是一个整数，通常从0开始。Kafka引入consumer generation主要是为了保护consumer group的，特别是防止无效offset提交。
+比如上一届的 consumer成员由于某些原因延迟提交了 offset，但 rebalance之后该 group产生了新一届的group成员，而这次延迟的offset提交携带的是旧的generation信息，因此这次提交会被consumer group拒绝。
+
+#### rebalance协议
+
+rebalance 本质上是一组协议。group 与 coordinator 共同使用这组协议完成group的rebalance。
+
+* JoinGroup请求：consumer请求加入组。
+* SyncGroup请求：group leader把分配方案同步更新到组内所有成员中。
+* Heartbeat请求：consumer定期向coordinator汇报心跳表明自己依然存活。
+* LeaveGroup请求：consumer主动通知coordinator该consumer即将离组。
+* DescribeGroup 请求：查看组的所有信息，包括成员信息、协议信息、分配方案以及订阅信息等。该请求类型主要供管理员使用。coordinator不使用该请求执行rebalance。
+
+#### rebalance流程
+
+consumer group在执行rebalance之前必须首先确定coordinator所在的broker，并创建与该broker 相互通信的 Socket 连接。
+确定 coordinator 的算法与确定 offset 被提交到__consumer_offsets目标分区的算法是相同的。算法如下。
+
+* 计算 Math.abs（groupID.hashCode） % offsets.topic.num.partitions参数值（默认是 50），假设是10。
+* 寻找__consumer_offsets分区10的leader副本所在的broker，该broker即为这个group的coordinator。
+  成功连接 coordinator之后便可以执行 rebalance操作。目前 rebalance主要分为两步：加入组和同步更新分配方案。
+* **加入组**：这一步中组内所有 consumer（即 group.id 相同的所有 consumer 实例）向coordinator发送 JoinGroup请求。
+  当收集全 JoinGroup请求后，coordinator从中选择一个consumer担任group的leader，并把所有成员信息以及它们的订阅信息发送给leader。
+  特别需要注意的是，group 的 leader 和 coordinator 不是一个概念。leader 是某个consumer 实例，coordinator 通常是 Kafka 集群中的一个 broker。另外 leader 而非coordinator负责为整个group的所有成员制定分配方案。
+* **同步更新分配方案**：这一步中 leader 开始制定分配方案，即根据前面提到的分配策略决定每个consumer都负责哪些topic的哪些分区。
+  一旦分配完成，leader会把这个分配方案封装进 SyncGroup 请求并发送给 coordinator。比较有意思的是，组内所有成员都会发送 SyncGroup请求，不过只有 leader发送的 SyncGroup请求中包含了分配方案。
+  coordinator 接收到分配方案后把属于每个 consumer 的方案单独抽取出来作为SyncGroup请求的response返还给各自的consumer。
+
+**consumer group分配方案是在 consumer端执行的。** Kafka将这个权力下放给客户端主要是因为这样做可以有更好的灵活性。
+比如在这种机制下用户可以自行实现类似于 Hadoop 那样的机架感知（rack-aware）分配方案。同一个机架上的分区数据被分配给相同机架上的 consumer，减少网络传输的开销。
+而且，即使以后分区策略发生了变更，也只需要重启 consumer 应用即可，不必重启Kafka服务器。
+
+#### rebalance监听器
+
+新版本 consumer 默认把位移提交到__consumer_offsets 中。其实，Kafka 也支持用户把位移提交到外部存储中，比如数据库中。
+若要实现这个功能，用户就必须使用 rebalance监听器。使用 rebalance监听器的前提是用户使用consumer group。如果使用的是独立consumer或是直接手动分配分区，那么rebalance监听器是无效的。
+
+rebalance 监听器有一个主要的接口回调类 ConsumerRebalanceListener，里面就两个方法onPartitionsRevoked和onPartitionAssigned。
+在 coordinator 开启新一轮 rebalance 前 onPartitionsRevoked 方法会被调用，而 rebalance 完成后会调用 onPartitionsAssigned 方法。
+
+> 鉴于 consumer 通常都要求 rebalance 在很短的时间内完成，千万不要在 rebalance监听器的两个方法中放入执行时间很长的逻辑，特别是一些阻塞方法，如各种阻塞队列的take或poll等。
+
+### 解序列化
+
+解序列化（deserializer）或称反序列化与前面的序列化（serializer）是互逆的操作。
+Kafka consumer从broker端获取消息的格式是字节数组，consumer需要把它还原回指定的对象类型，而这个对象类型通常都是与序列化对象类型一致的。
+比如 serializer 把一个字符串序列化成字节数组，consumer使用对应的deserializer把字节数组还原回字符串。
+
+### 多线程消费实例
+
+KafkaConsumer 是非线程安全的。它和 KafkaProducer 不同，后者是线程安全的。
+
+实现多线程消费consumer的一种方式是创建多个线程来消费 topic 数据。每个线程都会创建专属于该线程的KafkaConsumer实例。
+另一种方式是将消息的获取与消息的处理解耦，把后者放入单独的工作者线程中，即所谓的 worker线程中。同时在全局维护一个或若干个 consumer 实例执行消息获取任务。
+
+|                            | 优点                                         | 缺点                                                                                 |
+|----------------------------|--------------------------------------------|------------------------------------------------------------------------------------|
+| 方法1（每个线程维护专属KafkaConsumer) | 实现简单；速度较快，因为无线程间交互开销：方便位移管理；易于维护分区间的消息消费顺序 | Socket连接开销大；consumer数受限于topic分区数，扩展性差；broker端处理负载高（因为发往broker的请求数多）；rebalance可能性增大 |
+| 方法2（全局consumer+多worker线程）  | 消息获取与处理解耦；可独立扩展consumer数和worker数，伸缩性好      | 实现负载；难于维护分区内的消息顺序；处理链路变长，导致位移管理困难；worker线程异常可能导致消费数据丢失                             |
+
+### 独立consumer
+
+group自动帮用户执行分区分配和 rebalance。对于需要有多个 consumer 共同读取某个 topic 的需求来说，使用group 是非常方便的。
+但有的时候用户依然有精确控制消费的需求，比如严格控制某个consumer固定地消费哪些分区。比如：
+
+* 如果进程自己维护分区的状态，那么它就可以固定消费某些分区而不用担心消费状态丢失的问题。
+* 如果进程本身已经是高可用且能够自动重启恢复错误（比如使用YARN和Mesos等容器调度框架），那么它就不需要让Kafka来帮它完成错误检测和状态恢复。
+
+以上两种情况中 consumer group 都是无用武之地的，取而代之的是被称为独立 consumer （standalone consumer）的角色。
+standalone consumer 间彼此独立工作互不干扰。任何一个consumer崩溃都不影响其他standalone consumer的工作。
+
+## 第六章 - Kafka设计原理
 
 
 
