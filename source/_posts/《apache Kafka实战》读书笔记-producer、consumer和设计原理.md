@@ -561,6 +561,7 @@ follower 更新 HW 发生在其更新LEO之后，一旦follower向log写完数�
 比起follower副本的HW属性，leader副本HW值的更新更重要，因为它直接影响了分区数据对于 consumer的可见性 。
 
 下面四种情况会尝试更新分区 HW值：
+
 * 副本成为leader副本时：当某个副本成为分区的leader副本，Kafka会尝试更新分区HW。这是显而易见的道理，毕竟分区leader发生了变更，这个副本的状态是一定要检查的。
 * broker 出现崩溃导致副本被踢出 ISR 时：若有 broker崩溃，则必须查看是否会波及此分区，因此检查分区HW值是否需要更新是有必要的。
 * producer 向 leader 副本写入消息时：因为写入消息会更新 leader的 LEO，故有必要再查看HW值是否也需要更新。
@@ -577,5 +578,385 @@ follower 更新 HW 发生在其更新LEO之后，一旦follower向log写完数�
 当leader写底层 log 时，它会尝试更新整个缓存——如果这个 leader 首次写消息，则会在缓存中增加一个条目，否则就不做更新。
 而每次副本重新成为 leader时会查询这部分缓存，获取对应 leader版本的位移，这就不会发生数据不一致和丢失的情况。
 
+#### 日志存储设计
 
+##### Kafka 日志
+
+Kafka日志属于专门为程序访问的日志。而不是常见的松散结构化的请求日志、错误日志或其他数据。
+从某种意义上说，Kafka 日志的设计更像是关系型数据库中的记录，抑或是某些系统中所谓的提交日志（commit log）或日志（journal）。这些日志有一个共同的特点就是：只能按照时间顺序在日志尾部追加写入记录（record）。
+
+日志记录按照被写入的顺序保存，读取日志以从左到右的方式进行。每条记录都会被分配一个唯一的且顺序增加的记录号作为定位该消息的唯一标识（位移信息）。
+记录中消息内容和格式的实现可能有多种方式，比如使用 XML 格式或 JSON 格式。如前所述，Kafka 则是自己定义了消息格式并且在写入日志前序列化成紧凑的二进制字节数组来保存日志。
+
+日志中记录的排序通常按照时间顺序，即位于日志左边部分的记录的发生时间通常要小于位于右边部分的记录。
+Kafka 自0.10.0.0版本开始在消息体中增加了时间戳信息。默认情况下，消息创建时间会被封装进消息中，因此，Kafka 记录大部分遵循按时间排序这一规则。
+当然，凡事皆有例外，Kafka的Java版本producer确实支持用户为消息指定时间戳，用户完全可以打乱这种时间排序。只不过这样的话，时间戳索引文件可能会失效，因此，在实际中似乎并没有太多的使用场景。
+
+Kafka 的日志设计都是以分区为单位的，即每个分区都有它自己的日志，该日志被称为分区日志（partition log）。
+producer 生产 Kafka 消息时需要确定该消息被发送到的分区，然后Kafka broker把该消息写入该分区对应的日志中。
+具体对每个日志而言，Kafka又将其进一步细分成日志段文件（log segment file）以及日志段索引文件。
+所以，每个分区日志都是由若干组日志段文件+索引文件构成的。
+
+##### 底层文件系统
+
+创建 topic时，Kafka为该 topic的每个分区在文件系统中创建了一个对应的子目录，名字就是<topic>-<分区号>。
+所以，倘若有一个 topic 名为 test，有两个分区，那么在文件系统中Kafka会创建两个子目录：test-0和 test-1。每个日志子目录的文件构成都是若干组日志段+索引文件。
+
+日志段文件，即后缀名是.log 的文件保存着真实的 Kafka 记录。
+每个.log文件都包含了一段位移范围的Kafka记录。Kafka使用该文件第一条记录对应的offset来命名此.log文件。
+因此，每个新创建的 topic分区一定有 offset是0的.log文件，即00000000000000000000.log。
+虽然在 Kafka内部 offset是用64位来保存的，但目前对于日志段文件而言，Kafka只使用20位数字来标识offset。不过对于实际的线上环境而言，这通常是足够的。
+
+Kafka每个日志段文件是有上限大小的，由 broker端参数log.segment.bytes 控制，默认就是1GB 大小。
+因此，当日志段文件填满记录后，Kafka 会自动创建一组新的日志段文件和索引文件——这个过程被称为日志切分（log rolling）。
+日志切分后，新的日志文件被创建并开始承担保存记录的角色。
+
+一旦日志段被填满，它就不能再追加写入新消息了，而 Kafka 正在写入的分区日志段文件被称为当前激活日志段（active log segment）或简称为当前日志段。
+当前日志段非常特殊，它不受任何 Kafka后台任务的影响，比如定期日志清除任务和定期日志compaction任务。
+
+##### 索引文件
+
+除了.log 文件，Kafka 分区日志还包含两个特殊的文件.index 和.timeindex，它们都是索引文件，分别被称为位移索引文件和时间戳索引文件。
+前者可以帮助broker更快地定位记录所在的物理文件位置，而后者则是根据给定的时间戳查找对应的位移信息。
+
+它们都属于稀疏索引文件（sparse index file），每个索引文件都由若干条索引项（index entry）组成。
+Kafka 不会为每条消息记录都保存对应的索引项，而是待写入若干条记录后才增加一个索引项。
+broker 端参数 log.index.interval.bytes 设置了这个间隔到底是多大，默认值是4KB，即 Kafka 分区至少写入了 4KB 数据后才会在索引文件中增加一个索引项，故本质上它们是稀疏的。
+
+不论是位移索引文件还是时间戳索引文件，它们中的索引项都按照某种规律进行升序排列。
+对于位移索引文件而言，它是按照位移顺序保存的；而时间戳索引文件则严格按照时间戳顺序保存。
+由于有了这种升序规律，Kafka可以利用二分查找（binary search）算法来搜寻目标索引项，从而降低整体时间复杂度到 O（lgN）。
+若没有索引文件，Kafka 搜寻记录的方式只能是从每个日志段文件的头部顺序扫描，因此，这种方案的时间复杂度是 O（N）。
+显然，引入索引文件可以极大地减少查找时间，减少broker端的CPU开销。
+
+当前，索引文件支持两种打开方式：只读模式和读/写模式。
+对于非当前日志段而言，其对应的索引文件通常以只读方式打开，即只能读取索引文件中的内容而不能修改它。反之，当前日志段的索引文件必须要能被修改，因此总是以读/写模式打开的。
+当日志进行切分时，索引文件也需要进行切分。此时，Kafka 会关闭当前正在写入的索引文件，同时以读/写模式创建一个新的索引文件。
+broker 端参数 log.index.size.max.bytes 设置了索引文件的最大文件大小，默认值是10MB。和日志段文件不同，索引文件的空间默认都是预先分配好的，而当对索引文件切分时，Kafka 会把该文件大小“裁剪”到真实的数据大小。
+
+位移索引文件和时间戳索引文件的格式。
+
+1. 位移索引文件
+   每个索引项固定地占用8字节的物理空间，同时Kafka强制要求索引文件必须是索引项大小的整数倍，即8的整数倍。
+   因此，假设设置参数log.index.size.max.bytes为300，那么Kafka在内部会“勒令”该文件大小为296——即不大于300的最大的8的倍数。
+   前4位是相对位移——它保存的是与索引文件起始位移的差值。索引文件文件名中的位移就是该索引文件的起始位移。通过保存差值，我们只需要4字节而非保存整个位移的8字节。
+   后4位是文件物理位置。
+   如果想要增加索引项的密度，可以减少broker端参数log.index.interval.bytes的值。
+2. 时间戳索引文件
+   每个索引项固定占用12字节的物理空间，同时 Kafka强制要求索引文件必须是索引项大小的整数倍，即12的整数倍。
+   因此，假设设置参数log.index.size.max.bytes为100，那么Kafka在内部会“勒令”该文件大小为96——即不大于100的最大的12的倍数。时间戳索引项保存的也是相对位移值。
+   前8位是时间戳。
+   后4位是相对位移。
+   时间戳索引项保存的是时间戳与位移的映射关系。**给定时间戳之后根据此索引文件只能找到不大于该时间戳的最大位移，稍后 Kafka 还需要拿着返回的位移再去位移索引文件中定位真实的物理文件位置**。
+   该索引文件中的时间戳一定是按照升序排列的。
+   若消息R2在日志段中位于R1之前，但R2的时间戳小于R1（这是可能的，因为Java版本producer允许用户手动指定时间戳），那么 R2这条消息是不会被记录在时间戳索引项中的，因为这会造成时间的乱序。
+   目前 Kafka 还无力调整这种时间“错乱”的情况，而缺乏对应的索引项也会使得 clients 根据时间戳查找消息的结果不能完全准确，因而在实际场景中并不推荐producer端直接手动指定时间戳的用法。
+
+##### 日志留存
+
+Kafka 是会定期清除日志的，而且清除的单位是日志段文件，即删除符合清除策略的日志段文件和对应的两个索引文件。当前留存策略有如下两种。
+
+* 基于时间的留存策略：Kafka 默认会清除 7 天前的日志段数据（包括索引文件）。
+  Kafka提供了3个broker端参数，其中log.retention.{hours|minutes|ms}用于配置清除日志的时间间隔，其中的ms优先级最高，minutes次之，hours优先级最低。
+* 基于大小的留存策略：Kafka默认只会为每个log保存log.retention.bytes参数值大小的字节数。
+  默认值是-1，表示Kafka不会对log进行大小方面的限制。
+
+日志清除是一个异步过程，Kafka broker 启动后会创建单独的线程处理日志清除事宜。
+另外，一定要注意的是，日志清除对于当前日志段是不生效的。也就是说，Kafka 永远不会清除当前日志段。
+因此，若把日志段文件最大文件的大小设置得过大而导致没有出现日志切分，那么日志清除也就永远无法执行。
+
+在基于时间的清除策略中，0.10.0.0版本之前 Kafka 使用日志段文件的最近修改时间（当前时间与最近修改时间的差值）来衡量日志段文件是否依然在留存时间窗口中，但文件的最近修改时间属性经常有可能被“无意”修改（比如执行了 touch 操作）。
+因此，在0.10.0.0版本引入时间戳字段后，该策略会计算当前时间戳与日志段首条消息的时间戳之差作为衡量日志段是否留存的依据。如果第一条消息没有时间戳信息，Kafka才会使用最近修改时间的属性。
+
+##### 日志compaction
+
+前面讨论的所有 topic都有这样一个特点：
+clients端通常需要访问和处理这种 topic下的所有消息，但考虑这样一种应用场景，某个 Kafka topic 保存的是用户的邮箱地址，每次用户更新邮箱地址时都会发送一条Kafka消息。
+该消息的key就是用户ID，而value保存了邮件地址信息。假设用户 ID 为 user123 的用户连续修改了 3 次邮件地址，那么就会产生 3 条对应的Kafka消息，如下：
+
+1. user123 => user123@kafka1.com
+2. user123 => user123@kafka2.com
+3. user123 => user123@kafka3.com
+
+显然，在这种情况下用户只关心最近修改的邮件地址，即value是user123@kafka3.com的那条消息，而之前的其他消息都是“过期”的，可以放心删除。
+但前面提到的清除策略都无法实现这样的处理逻辑，因此，Kafka社区引入了log compaction。
+
+**log compaction 确保Kafka topic每个分区下的每条具有相同 key的消息都至少保存最新 value的消息。**
+它提供了更细粒度化的留存策略。这也说明了如果要使用log compaction,Kafka消息必须要设置key。无key消息是无法为其进行压实操作的。典型的log compaction使用场景如下。
+
+* 数据库变更订阅：用户通常在多个数据系统存有数据，比如数据库、缓存、查询集群和 Hadoop 集群等。对数据库的所有变更都需要同步到其他数据系统中。在同步的过程中用户没必要同步所有数据，只需要同步最近的变更或增量变更。
+* 事件溯源（event sourcing）：编织查询处理逻辑到应用设计中并使用变更日志保存应用状态。
+* 高可用日志化（journaling）：将本地计算进程的变更实时记录到本地状态中，以便在出现崩溃时其他进程可以加载该状态，从而实现整体上的高可用。
+
+log compaction相关的Kafka log结构：
+为了实现log compaction,Kafka在逻辑上将每个log划分成log tail和log head。
+log head和普通的Kafka log没有区别。事实上，它就是Kafka log的一部分，在log head中所有offset都是连续递增的。
+log tail中消息的位移则是不连续的，它已经是压实之后（compacted）的消息集合了。
+**log compaction 只会根据某种策略有选择性地移除 log 中的消息，而不会变更消息的offset值。**
+
+Kafka有一个组件叫 Cleaner，它就是负责执行 compaction操作的。Cleaner负责从 log中移除已废弃的消息。
+log compaction是topic级别的设置。一旦为某个topic启用了log compaction,Kafka会将该 topic 的日志在逻辑上划分成两部分：“已清理”部分和“未清理”部分，后者又可进一步划分成“可清理”部分和“不可清理”部分。
+“不可清理”部分无法被 Kafka Cleaner 清理，而当前日志段永远属于“不可清理”部分。当前 Kafka 使用一些后台线程定期执行真正的清理任务。每个线程会挑选出“最脏”的日志段执行清理。衡量一个日志段“脏”的程度使用“脏”日志部分与总日志大小的比率。
+在内部，Kafka 会构造一个哈希表来保存 key与最新位移的映射关系。当执行 compaction时，Cleaner 不断拷贝日志段中的数据，只不过它会无视那些 key 存在于哈希表中但具有较大位移值的消息。
+
+当前与compaction相关的Kafka参数如下。
+
+* log.cleanup.policy：是否启用 log compaction。0.10.1.0 版本之前只有两种取值，即delete 和 compact。
+  其中 delete 是默认值，表示采用之前所说的留存策略；设置compact 则表示启用 log compaction。
+  自 0.10.1.0 版本开始，该参数支持同时指定两种策略，如 log.cleanup.policy=delete,compact，表示既为该 topic 执行普通的留存策略，也对其进行log compaction。
+* log.cleaner.enable：是否启用 log Cleaner。
+  在 0.9.0.0 及之前的版本中该参数默认值是false，即不启用 compaction。对于这些版本的用户来说，如果要启用 Cleaner，则必须显式地设置该参数=true。
+  自 0.9.0.1版本之后该参数便默认为 true。另外需要注意的是，如果要使用 log compaction，则必须将此参数设置为 true，否则即使用户设置log.cleanup.policy=compact,Kafka也不会执行清理任务。
+* log.cleaner.min.compaction.lag.ms：默认值是 0，表示除了当前日志段，理论上所有的日志段都属于“可清理”部分，但有时候用户可能不想这么激进，用户可以设置此参数值来保护那些比某个时间新的日志段不被清理。
+  假设设置此参数为 10分钟，当前时间是下午 1点钟，那么所有最大时间戳（通常都是最后一条消息的时间戳）在 12:50之后的日志段都不可清理。
+
+前面有提到过Kafka新版本consumer使用__consumer_offsets内部topic来保存位移信息。
+这个 topic 就是采用 log compaction 留存策略的，因为对于每一个 key（通常是groupId + topic + 分区号）而言，我们只关心最新的位移值——这是非常典型的log compaction使用场景。
+
+#### 通信协议（wire protocol）
+
+##### 协议设计
+
+所谓通信协议，就是实现client-server间或server-server间数据传输的一套规范。
+Kafka的通信协议是基于 TCP 之上的二进制协议，这套协议提供的 API 表现为服务于不同功能的多种请求（request）类型以及对应的响应（response）。
+所有类型的请求和响应都是结构化的，由不同的初始类型构成。Kafka使用这组协议完成各个功能的实现。
+
+Kafka客户端与broker传输数据时，首先需要创建一个连向特定broker的Socket连接，然后按照待发送请求类型要求的结构构造响应的请求二进制字节数数组，之后发送给broker并等待从 broker处接收响应。
+假如是像发送消息和消费消息这样的请求，clients通常会一直维持与某些broker的长连接，从而创建TCP连接的开销被不断地摊薄给每条具体的请求。
+
+实际使用过程中，单个Kafka clients通常需要同时连接多个broker服务器进行数据交互，但在每个 broker 之上只需要维护一个 Socket 连接用于数据传输。
+clients 可能会创建额外的Socket连接用于其他任务，如元数据获取以及组rebalance等。
+Kafka自带的Java clients（包括Java版本producer和Java版本consumer）使用了类似于epoll的方式在单个连接上不停地轮询以传输数据。
+
+broker端需要确保在单个Socket连接上按照发送顺序对请求进行一一处理，然后依次返回对应的响应结果。
+单个 TCP 连接上某一时刻只能处理一条请求的做法正是为了保证不会出现请求乱序。当然这是 broker 端的做法，clients 端在实现时需要自行保证请求发送顺序。
+比如Java版本 producer默认情况下会对 PRODUCE请求（专门用于发送消息的请求）进行流水化处理，在内存中它允许多条未处理完成的请求同时排队等候被发送。
+这样做的好处是提升了producer 端的吞吐量，但潜在的风险是 PRODUCE 请求发送乱序所导致的消息生产乱序。在实际应用中，用户可以通过设置参数 max.in.flight.requests.per.connection=1来关闭这种流水化作业。
+
+Kafka 通信协议中规定的请求发送流向有3种。除了上面所说的 clients给 broker发送请求之外，Kafka集群中的controller也能够给其他broker发送请求。
+clients可能给多个 broker发送请求，而 controller会向所有 broker发送请求。
+当然 clients也可以给 controller直接发送请求，只是在这种情况下 clients只当其是一个普通的 broker而已。
+第三种方式就是follower副本所在broker向leader副本所在broker发送请求，不过这只能是固定的FETCH请求。
+Kafka的broker端提供了一个可配置的参数用于限制broker端能够处理请求的最大字节数。一旦超过了该阈值，发生此请求的Socket连接就会被强制关闭。clients观察到连接关闭后只能执行连接重建和请求重试等的逻辑。
+
+##### 请求/响应结构
+
+Kafka 协议提供的所有请求及其响应的结构体都是由固定格式组成的，它们统一构建于多种初始类型（primitive types）之上。这些初始类型如下。
+
+* 固定长度初始类型：包括int8、int16、int32和int64，分别表示有符号的单字节整数、双字节整数、4字节整数和8字节整数。
+* 可变长度初始类型：包括bytes和string，由一个有符号整数N加上后续的N字节组成。N表示它们的内容，若是-1，则表示内容为空。其中 string类型使用 int16来保存 N；bytes使用int32来保存N。
+* 数组：用于处理结构体之类重复性数据结构。它们总是被编码成一个int32类型的整数N 以及后续的 N 字节。同样，N表示该数组的长度信息，而具体到里面的元素可以是其他的初始类型。
+
+所有的请求和响应都具有统一的格式，即Size + Request/Response，其中的Size是int32表示的整数，表征了该请求或响应的长度信息。
+请求又可划分成请求头部和请求体，请求体的格式因请求类型的不同而变化，但请求头部的结构是固定的——它由以下4个字段构成。
+
+* api_key：请求类型，以int16整数表示。
+* api_version：请求版本号，以int16整数表示。
+* correlation_id：与对应响应的关联号，实际中用于关联 response 与 request，方便用户调试和排错。该字段以int32整数表示。
+* client_id：表示发出此请求的client ID。实际场景中用于区分集群上不同clients发送的请求。该字段是一个非空字符串。
+  同理，响应也可划分成响应头部和响应体，响应体的格式因其对应的请求类型的不同而变化，但响应头部的结构是固定的——它只有下面的这个字段。
+* correlation_id：该字段值就是上面请求头部中的 correlation_id。有了该字段，用户就能够知道该响应对应于哪个请求了。
+  Kafka 推荐用户总是指定 client_id 和 correlation_id，这样可以方便用户后续定位问题和DEBUG。
+
+##### 常见请求类型
+
+其中具体格式省略，各版本可能不一致。
+
+1. PRODUCE请求
+   这是编号为0的请求，即api_key = 0，也就是Kafka通信协议中的第一个请求类型。顾名思义，它实现消息的生产。clients向broker发送PRODUCE请求并期待broker端返回响应表明消息生产是否成功。
+2. FETCH请求
+   FETCH 请求是编号为1的请求，即 api_key = 1。它服务于消费消息，既包括 clients 向broker发送的FETCH请求，也包括分区follower副本发送给leader副本的FETCH请求。
+3. METADATA请求
+   clients向broker发送METADATA请求以获取指定topic的元数据信息。
+
+##### 请求处理流程
+
+1. clients端
+   Kafka并没有规定这些请求必须被如何处理，它要求的只是 clients端代码必须要构造符合格式的请求，然后发送给broker。每种语言的clients端代码必须自行实现对请求和响应的完整的生命周期管理。
+   ![Java版本clients端请求处理流程.png](../images/《apache%20Kafka实战》读书笔记-producer、consumer和设计原理/Java版本clients端请求处理流程.png)
+2. broker端
+   每个 broker 启动时都会创建一个请求阻塞队列，专门用于接收从 clients 端发送过来的请求。同时，broker还会创建若干个请求处理线程专门获取并处理该阻塞队列中的请求
+   ![Java版本broker端请求处理流程.png](../images/《apache%20Kafka实战》读书笔记-producer、consumer和设计原理/Java版本broker端请求处理流程.png)
+
+#### controller设计
+
+在一个 Kafka 集群中，某个 broker 会被选举出来承担特殊的角色，即控制器（下称controller）。
+顾名思义，引入 controller 就是用来管理和协调 Kafka 集群的。具体来说，就是管理集群中所有分区的状态并执行相应的管理操作。
+
+每个 Kafka 集群任意时刻都只能有一个 controller。当集群启动时，所有 broker 都会参与controller的竞选，但最终只能由一个 broker胜出。
+一旦 controller在某个时刻崩溃，集群中剩余的broker会立刻得到通知，然后开启新一轮的controller选举。新选举出来的controller将承担起之前controller的所有工作。
+
+![controller架构.png](../images/《apache%20Kafka实战》读书笔记-producer、consumer和设计原理/controller架构.png)
+
+##### controller管理状态
+
+controller维护的状态分为两类：每台broker上的分区副本和每个分区的 leader副本信息。
+从维度上看，这些状态又可分为副本状态和分区状态。controller为了维护这两个状态专门引入了两个状态机，分别管理副本状态和分区状态。
+
+1. 副本状态机（Replica State Machine）
+   当前，Kafka为副本定义了7种状态以及每个状态之间的流转规则。这些状态分别如下。
+	* NewReplica:controller 创建副本时的最初状态。当处在这个状态时，副本只能成为follower副本。
+	* OnlineReplica：启动副本后变更为该状态。在该状态下，副本既可以成为 follower 副本也可以成为leader副本。
+	* OfflineReplica：一旦副本所在broker崩溃，该副本将变更为该状态。
+	* ReplicaDeletionStarted：若开启了 topic 删除操作，topic 下所有分区的所有副本都会被删除。此时副本进入该状态。
+	* ReplicaDeletionSuccessful：若副本成功响应了删除副本请求，则进入该状态。
+	* ReplicaDeletionIneligible：若副本删除失败，则进入该状态。
+	* NonExistentReplica：若副本被成功删除，则进入该状态。
+	  ![副本状态机.png](../images/《apache%20Kafka实战》读书笔记-producer、consumer和设计原理/副本状态机.png)
+2. 分区状态机（Partition State Machine）
+   除了副本状态机，controller 还引入了分区状态机来负责集群下所有分区的状态管理。
+	* NonExistent：表明不存在的分区或已删除的分区。
+	* NewPartition：一旦被创建，分区便处于该状态。此时，Kafka 已经为分区确定了副本列表，但尚未选举出leader和ISR。
+	* OnlinePartition：一旦该分区的 leader 被选出，则进入此状态。这也是分区正常工作时的状态。
+	* OfflinePartition：在成功选举出leader后，若leader所在的broker宕机，则分区将进入该状态，表明无法正常工作了。
+	  ![分区状态机.png](../images/《apache%20Kafka实战》读书笔记-producer、consumer和设计原理/分区状态机.png)
+
+##### controller职责
+
+对集群状态的维护只是 controller 保持运行状态一致性的一个基本要素，但却不是controller 的职责所在。
+应该这样说，如果保持 controller 持续稳定地对外提供服务，就必须要求controller妥善地保存这些状态。实际上，controller的职责相当多，包括如下职责。
+
+1. 更新集群元数据信息。
+   一个clients能够向集群中任意一台broker发送METADATA请求来查询topic的分区信息（比如 topic有多少个分区、每个分区的 leader在哪台 broker上以及分区的副本列表）。
+   随着集群的运行，这部分信息可能会发生变化，因此就需要 controller 提供一种机制，用于随时随地地把变更后的分区信息广播出去，同步给集群上所有的 broker。
+   具体做法就是，当有分区信息发生变更时，controller将变更后的信息封装进 UpdateMetadataRequests请求（通信协议中的一种）中，然后发送给集群中的每个broker，这样clients在请求数据时总是能够获取最新、最及时的分区信息。
+2. 创建topic。
+   controller 启动时会创建一个 ZooKeeper 的监听器，该监听器的唯一任务就是监控ZooKeeper节点/brokers/topics下子节点的变更情况。当前一个 clients或 admin创建 topic的方式主要有如下3种。
+	* 通过kafka-topics脚本的--create创建。
+	* 构造CreateTopicsRequest请求创建
+	* 配置broker端参数auto.create.topics.enable为true，然后发送MetadataRequest请求。
+3. 删除topic。
+   标准的Kafka删除topic方法有如下两种。
+	* 通过kafka-topics脚本的--delete来删除topic。
+	* 构造DeleteTopicsRequest。
+4. 分区重分配。
+   分区重分配操作通常都是由 Kafka 集群的管理员发起的，旨在对 topic 的所有分区重新分配副本所在broker的位置，以期望实现更均匀的分配效果。
+   分区副本重分配的过程实际上是先扩展再收缩的过程。controller首先将分区副本集合进行扩展（旧副本集合与新副本集合的合集），等待它们全部与 leader保持同步之后将 leader设置为新分配方案中的副本，最后执行收缩阶段，将分区副本集合缩减成分配方案中的副本集合。
+5. preferred leader副本选举。
+   为了避免分区副本分配不均匀，Kafka引入了 preferred副本的概念。比如一个分区的副本列表是[1,2,3]，那么broker 1就被称为该分区的preferred leader，因为它位于副本列表的第一位。
+   在集群运行的过程中，分区的 leader因为各种各样的原因会发生变更，从而使得 leader不再是preferred leader，此时用户可以发起命令将这些分区的leader重新调整为preferred leader。具体的方法有如下两种。
+	* 设置 broker端参数 auto.leader.rebalance.enable为 true，这样 controller会定时地自动调整preferred leader。
+	* 通过kafka-preferred-replica-election脚本手动触发。
+6. topic分区扩展。
+   当前增加分区主要使用kafka-topics脚本的--alter选项来完成。和创建 topic一样它会向 ZooKeeper的/brokers/topics/<topic>节点下写入新的分区目录。
+7. broker加入集群。
+   每个broker成功启动之后都会在ZooKeeper的/broker/ids下创建一个znode，并写入broker的信息。如果要让Kafka动态地维护broker列表，就必须注册一个ZooKeeper监听器时刻监控该目录下的数据变化。
+   每当有新 broker 加入集群时，该监听器会感知到变化，执行对应的 broker 启动任务，之后更新集群元数据信息并广而告之。
+8. broker崩溃。
+   由于当前broker在 ZooKeeper中注册的znode是临时节点，因此一旦broker崩溃，broker与ZooKeeper的会话会失效并导致临时节点被删除，故上面监控broker加入的那个监听器同样被用来监控那些因为崩溃而退出集群的 broker 列表。
+9. 受控关闭。
+   受控关闭是由即将关闭的 broker向 controller发送请求的。请求的名字是 ControlledShutdownRequest。
+   一旦发送完 ControlledShutdownRequest，待关闭 broker将一直处于阻塞状态，直到接收到 broker端发送的 ControlledShutdownResponse，表示关闭成功，或用完所有重试机会后强行退出。
+10. controller leader选举。
+	作为 Kafka 集群的重要组件，controller 必然要支持故障转移（fail-over）。若当前controller 发生故障或显式关闭，Kafka 必须要能够保证及时选出新的 controller。
+	当前，一个Kafka集群中发生controller leader选举的场景共有如下4种。
+	* 关闭controller所在broker。
+	* 当前controller所在broker宕机或崩溃。
+	* 手动删除ZooKeeper的/controller节点。
+	* 手动向ZooKeeper的/controller节点写入新的broker id。
+	  这4种操作变更实际上都是/controller节点的内容，因此 controller只需要做一件事情：创建一个监听该目录的监听器。
+	  /controller 本质上是一个临时节点，节点保存了当前 controller 所在的 broker id。集群首次启动时所有 broker 都会抢着创建该节点，但ZooKeeper保证了最终只能有一个broker胜出——胜出的那个broker即成为controller。
+	  一旦成为 controller，它会增加 controller的版本号，即更新/controller_epoch节点的值，然后履行上面所有的这些职责。
+	  对于那些没有成为 controller 的 broker 们而言，它们不会甘心失败，而是继续监听/controller节点的存活情况并随时准备竞选新的controller。
+
+#### broker请求处理
+
+##### Reactor模式
+
+Kafka broker处理请求的模式就是 Reactor设计模式。根据维基百科的定义，Reactor设计模式是一种事件处理模式，旨在处理多个输入源同时发送过来的请求。
+Reactor 模式中的服务处理器（service handler）或分发器（dispatcher）将入站请求（inbound request）按照多路复用的方式分发到对应的请求处理器（request handler）中。
+
+本质上这和生产者-消费者的模式很像。外部的输入源就类似于producer角色，它们的工作就是生产“事件”发送给Reactor中的dispatcher，具体而言是将事件放入dispatcher中的队列上；而Reactor通常会创建多个request handler线程专门消费dispatcher分发过来的事件。
+对于Kafka而言，该模型中的事件实际上对应于Socket连接通道（SocketChannel），即broker上每当有新的Socket连接通道被创建，dispatcher都会将该连接分发给下面某个request handler来消费。
+
+Reactor 模式中有很两个很重要的组件 acceptor 线程和 processor 线程。acceptor 线程实时地监听外部数据源发送过来的事件，并执行分发任务；processor 线程执行事件处理逻辑并将处理结果发送给 client。
+
+##### Kafka broker请求处理
+
+Kafka broker 请求处理实现了上面的 Reactor 模式。在 Kafka 中，每个 broker 都有一个acceptor 线程和若干个 processor 线程。processor 线程的数量是可以配置的。
+num.network.threads就用于控制该数量的 broker端参数，默认值是 3，即每个 broker都创建 3个processor线程。值得注意的是，broker会为用户配置的每组listener创建一组processor线程。
+每个 broker 可以同时设置多种通信安全协议，比如PLAINTEXT和 SSL，因此一旦某个 broker同时配置了多套通信安全协议，那么 Kafka会为每个协议都创建一组processor线程。
+
+clients 端通常会保存与broker 的长连接，因此不需要频繁地重建 Socket 连接，故broker端固定使用一个 acceptor线程来唯一地监听入站连接。
+由于只做新连接监听这一件事情，acceptor 线程的处理逻辑是很轻量级的，在实际使用过程中通常也都不是系统瓶颈。这就是多路复用在broker端的第一个应用。
+
+processor线程接收 acceptor线程分配的新 Socket连接通道，然后开始监听该通道上的数据传输。
+目前 broker 以线程数组而非线程池的方式来实现这组processor，之后使用很简单的数组索引轮询方式依次给每个 processor 线程分配任务，实现了最均匀化的负载均衡。
+processor 线程实际上也不是处理请求的真正执行者，Kafka 创建了一个KafkaRequestHandler 线程池专门地处理真正的请求。
+processor 线程一个重要的任务就是将Socket连接上接收到的请求放入请求队列中。
+每个broker启动时会创建一个全局唯一的请求队列，大小由broker端参数queued.max.requests控制，默认值是500，表示每个broker最多只能保存500个未处理的请求。一旦超过该数字，clients端发送给broker的请求将会被“阻塞”，直到该队列腾出空间。
+
+KafkaRequestHandler线程池分配具体的线程从该队列中获取请求并执行真正的请求处理逻辑。该线程池的大小也是可以配置的，由broker端参数num.io.threads控制，默认是8个线程。
+除了请求队列，每个broker还会创建与processor线程数等量的响应队列，即为每个processor线程都创建一个对应的响应队列。processor线程的另一个很重要的任务就是实时处理各自响应队列中的响应结果。
+
+Kafka在设计上使用了 Java NIO的Selector+Channel+Buffer的思想，在每个processor线程中维护一个Selector实例，并通过这个Selector来管理多个通道上的数据交互，这便是多路复用在processor线程上的应用。
+
+### 实现精确一次处理语义
+
+Apache Kafka的消息交付语义（message delivery semantic）。Kafka是如何达到精确一次处理语义（exactly-once semantics，简称EOS）的？
+
+#### 消息交付语义
+
+clients端常见的 3种消息交付语义。它们分别如下。
+
+* 最多一次（at most once）：消息可能丢失也可能被处理，但最多只会被处理一次。
+* 至少一次（at least once）：消息不会丢失，但可能被处理多次。
+* 精确一次（exactly once）：消息被处理且只会被处理一次。
+
+对 producer而言，Kafka 引入已提交消息（committed message）的概念。一旦消息被成功地提交到日志文件，只要至少存在一个可用的包含该消息的副本，那么这条消息就永远不会丢失。
+在0.11.0.0版本之前，Kafka producer默认提供的是at least once语义。可能会因为网络出现故障导致消息写入磁盘的响应没有发送成功从而开启重试操作，导致消息被写入日志两次。
+Kafka 0.11.0.0版本推出了幂等性 producer和对事务的支持，从而完美地解决了这种消息重复发送的问题。
+
+对 consumer 端而言，相同日志下所有的副本都应该有相同的内容以及相同的当前位移值。consumer通过consumer位移自行控制和标记日志读取的进度。
+如果 consumer程序崩溃，那么替代它的新程序实例就必须要接管这个 consumer 位移，即从崩溃时读取位置继续开始消费。若要判断consumer到底支持什么交付语义，位移提交的时机就显得至关重要。
+
+一种方式是 consumer 首先获取若干消息，然后提交位移，之后再开始处理消息。
+这种方法下若consumer在提交位移后处理消息前崩溃，那么它实现的就是at most once语义，因为消息有可能不被处理，就算处理了最多也只会是一次。
+
+另一种方式是 consumer 获取了若干消息，处理到最后提交位移。
+显然，consumer 保证只有在消息被处理完成后才提交位移，因此它实现的就是 at least once 语义，因为消息处理过程中如果出现错误从而引发重试，那么某些消息就可能被处理多次。
+
+那么如何实现 consumer端的 EOS呢？主要是依赖0.11.0.0版本引入的事务。
+
+#### 幂等性producer（idempotent producer）
+
+幂等性producer是Apache Kafka 0.11.0.0版本用于实现EOS的第一个利器。
+**若一个操作执行多次的结果与只运行一次的结果是相同的，那么我们称该操作为幂等操作。**
+
+启用幂等性 producer 以及获取其提供的 EOS 语义，需要显式地设置producer端的新参数 enable.idempotence 为true。
+
+幂等性 producer的设计思路类似于 TCP的工作方式。发送到 broker端的每批消息都会被赋予一个序列号（sequence number）用于消息去重。
+但是和 TCP 不同的是，这个序列号不会被丢弃，相反 Kafka会把它们保存在底层日志中，这样即使分区的 leader副本挂掉，新选出来的 leader broker也能执行消息去重工作。
+保存序列号只需要额外几字节，因此整体上对 Kafka消息保存开销的影响并不大。
+
+除了序列号，Kafka还会为每个producer实例分配一个producer id（下称PID）。producer在初始化时必须分配一个 PID。PID 分配的过程对用户来说是完全透明的，因此不会为用户所见。
+消息要被发送到的每个分区都有对应的序列号值，它们总是从0开始并且严格单调增加。对于 PID、分区和序列号的关系，用户可以设想一个 Map,key 就是（PID，分区号）,value就是序列号。即每对（PID，分区号）都有对应的序列号值。
+若发送消息的序列号小于或等于broker端保存的序列号，那么broker会拒绝这条消息的写入操作。
+
+这种设计确保了即使出现重试操作，每条消息也只会被保存在日志中一次。
+不过，由于每个新的 producer实例都会被分配不同的 PID，当前设计只能保证单个 producer实例的 EOS语义，而无法实现多个producer实例一起提供EOS语义。
+
+#### 事务（transaction）
+
+对事务的支持是 Kafka 实现 EOS 的第二个利器。引入事务使得 clients 端程序（无论是producer还是consumer）能够将一组消息放入一个原子性单元中统一处理。
+
+处于事务中的这组消息能够从多个分区中消费，也可以发送到多个分区中去。
+重要的是不论是发送还是消费，Kafka 都能保证它们是原子性的，即所有的写入操作要么全部成功，要么全部失败。
+当然对于consumer而言，EOS语义的支持要弱一些，这是由consumer本身的特性决定的。也就是说，consumer 有可能以原子性的方式消费这批消息，也有可能是非原子性的。
+设想consumer总是需要 replay某些消息，如果是这样的使用场景，那么对于 EOS的支持就要弱很多。
+
+Kafka为实现事务要求应用程序必须提供一个唯一的 id来表征事务。这个 id被称为事务 id，或 TransactionalId，它必须在应用程序所有的会话上是唯一的。
+值得注意的是，TransactionalId与上面所说的PID是不同的，前者是由用户显式提供的，而后者是 producer 自行分配的。
+
+当提供了TransactionalId后，Kafka就能确保：
+
+* 跨应用程序会话间的幂等发送语义。具体的做法与新版本 consumer的 generation概念类似，使用具有版本含义的generation来隔离旧事务的操作。
+* 支持跨会话间的事务恢复。如果某个 producer 实例挂掉了，Kafka 能够保证下一个实例首先完成之前未完成的事务，从而总是保证状态的一致性。
+
+如果以consumer的角度而言，如前所述，事务的支持要弱一些，原因如下。
+
+* 对于compacted的topic而言，事务中的消息可能已经被删除了。
+* 事务可能跨多个日志段（log segment），因此若老的日志段被删除，用户将丢失事务中的部分消息。
+* consumer程序可能使用 seek方法定位事务中的任意位置，也可能造成部分消息的丢失。
+* consumer可能选择不消费事务中的所有消息，即无法保证读取事务的全部消息。
 
