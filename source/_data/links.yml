@@ -26,12 +26,11 @@
   avatar: https://q1.qlogo.cn/g?b=qq&nk=1627126029&s=100
   description: A litter Village With Mlikiowa
 
-- name: sky
-  link: https://sdhkj.github.io/
-  avatar: https://sdhkj.github.io/img/%E5%A4%B4%E5%83%8F.jpg
-  description: 开摆了
+#- name: sky
+#  link: https://sdhkj.github.io/
+#  avatar: https://sdhkj.github.io/img/%E5%A4%B4%E5%83%8F.jpg
+#  description: 开摆了
 
-# 失效友链
 #- name: 季节的雪
 #  link: https://yang5201314.cn
 #  avatar: https://gitee.com/zhen-wang-yang/drawing-bed/raw/master/imge/bUncuj.webp
@@ -42,10 +41,10 @@
   avatar: https://owo.wyc.rest/img/%E4%B8%87%E5%8F%B6.jpg
   description: 这只是一个小破站而已！
 
-- name: 十一
-  link: https://www.elevenblog.cn/
-  avatar: https://file.fishpi.cn/2022/06/blob-fbff7c58.png?imageView2/1/w/210/h/210/interlace/0/q/100
-  description: 懒癌晚期，混吃等死者
+#- name: 十一
+#  link: https://www.elevenblog.cn/
+#  avatar: https://file.fishpi.cn/2022/06/blob-fbff7c58.png?imageView2/1/w/210/h/210/interlace/0/q/100
+#  description: 懒癌晚期，混吃等死者
 
 - name: stillwarter
   link: https://stillwarter.github.io/
@@ -61,4 +60,6 @@
   link: https://bongbongbakudan.github.io/
   avatar: https://pwl.stackoverflow.wiki/2021/12/blob-28eb4b9f.png?imageView2/1/w/48/h/48/interlace/0/q/100
   description: 去整点薯条
+
+
   
