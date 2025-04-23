@@ -11,6 +11,6 @@ top_img: https://dev.iw233.cn/api.php?sort=pc&type=jpg%3
 ~~~yml
 - name: 咕咕咕
   link: https://cooooing.github.io/
-  avatar: https://s1.ax1x.com/2022/03/13/bqyIpT.jpg
+  avatar: https://avatars.githubusercontent.com/u/75006169?v=4
   descr: 路漫漫其修远兮，吾将上下而求索。
 ~~~
