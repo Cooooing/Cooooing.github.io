@@ -87,20 +87,20 @@ AI恰恰就是那个什么都懂的人，这时候上限就取决于我们自己
 又花了一个周末搬家，搬家是真的累。六楼没电梯差点要了命。（~~到底谁在租六楼没电梯的房子啊~~）
 
 另外新买的键盘到了，准备放公司用。把笔记本架起来，用键盘打字。比原来的薄膜应该会舒服很多。
-![2024-07-21-1](../images/daily/2024-07-21-1.jpg)
+![2024-07-21-1](https://cooooing.github.io/images/daily/2024-07-21-1.jpg)
 
 然后，感谢和我一起租房的同事。把他主机的1050ti给我用了。终于不是用核显了，虽然只是1050ti。
 他的cpu还是13490f的，没显卡开不了机。还得给他整个亮机卡。~~在下单了~~
 清灰，涂硅脂，也是整了好几个小时。毕竟他用了四年都没清理过。~~翻新显卡了属于是~~
-![2024-07-21-4](../images/daily/2024-07-21-4.jpg)
+![2024-07-21-4](https://cooooing.github.io/images/daily/2024-07-21-4.jpg)
 
 
 批了点冰棍，已经挺久没有吃了。虽然只买了些便宜的。
-![2024-07-21-2](../images/daily/2024-07-21-2.jpg)
+![2024-07-21-2](https://cooooing.github.io/images/daily/2024-07-21-2.jpg)
 
 最后，把房东在房间里留的海信的网络电视给利用上了，也算是没浪费，当拓展显示器用了。
 后面可以躺在床上，用手柄玩游戏了。虽然720p，但是比我的便携屏大多了。毕竟32寸的。
-![2024-07-21-3](../images/daily/2024-07-21-3.jpg)
+![2024-07-21-3](https://cooooing.github.io/images/daily/2024-07-21-3.jpg)
 
 
 ## 2024-05-31
@@ -109,23 +109,23 @@ AI恰恰就是那个什么都懂的人，这时候上限就取决于我们自己
 从去年上班开始，就没有体会过了。
 上一次这样、应该还是在如皋实训时。晚上出门吃完饭回来路上。
 晚风、日落、短暂且美丽的晚霞。
-![2024-05-31](../images/daily/2024-05-31.jpg)
+![2024-05-31](https://cooooing.github.io/images/daily/2024-05-31.jpg)
 
 ## 2024-03-27
 
 属于是跑遍江苏了
-![2024-03-27](../images/daily/2024-03-27.jpg)
+![2024-03-27](https://cooooing.github.io/images/daily/2024-03-27.jpg)
 
 ## 2024-03-14
 
 出差，但是久违地在星期四吃了肯德基（Crazy
-![2024-03-14-1](../images/daily/2024-03-14-1.jpg)
-![2024-03-14-2](../images/daily/2024-03-14-2.jpg)
+![2024-03-14-1](https://cooooing.github.io/images/daily/2024-03-14-1.jpg)
+![2024-03-14-2](https://cooooing.github.io/images/daily/2024-03-14-2.jpg)
 
 ## 2024-03-10
 
 吃吃吃
-![2024-03-10](../images/daily/2024-03-10.jpg)
+![2024-03-10](https://cooooing.github.io/images/daily/2024-03-10.jpg)
 
 ## 2024-03-01
 
@@ -143,13 +143,13 @@ AI恰恰就是那个什么都懂的人，这时候上限就取决于我们自己
 
 还是加班
 11月28日 22:21
-![2023-11-28](../images/daily/2023-11-28.jpg)
+![2023-11-28](https://cooooing.github.io/images/daily/2023-11-28.jpg)
 
 ## 2023-11-10
 
 加班
 11月10日 00:12
-![2023-11-10](../images/daily/2023-11-10.jpg)
+![2023-11-10](https://cooooing.github.io/images/daily/2023-11-10.jpg)
 
 ## 2023-11-05
 
@@ -157,7 +157,7 @@ AI恰恰就是那个什么都懂的人，这时候上限就取决于我们自己
 虽然知道不可能吧，但还是希望和平能长久一点。
 毕竟乌克兰和俄罗斯、加沙和以色列还在战争中。害
 
-![2023-11-05](../images/daily/2023-11-05.png)
+![2023-11-05](https://cooooing.github.io/images/daily/2023-11-05.png)
 
 ## 2023-10-11
 
@@ -175,71 +175,71 @@ AI恰恰就是那个什么都懂的人，这时候上限就取决于我们自己
 
 ## 2023-07-07
 
-![2023-07-07](../images/daily/2023-07-07.jpg)
+![2023-07-07](https://cooooing.github.io/images/daily/2023-07-07.jpg)
 
 ## 2023-06-14
 
 卡在墙缝里一晚上的小三花。后腿断了，很凶很好看。
 后来被它妈妈领走了，是校园里流浪的三花。（好想养三花，好好看
-![2023-06-14](../images/daily/2023-06-14.jpg)
+![2023-06-14](https://cooooing.github.io/images/daily/2023-06-14.jpg)
 
 ## 2023-06-04
 
 苏州灵岩山！有个灵岩寺
 远处是太湖，几座山连在一起，连爬三座。
-![2023-06-04-1](../images/daily/2023-06-04-1.jpg)
-![2023-06-04-2](../images/daily/2023-06-04-2.jpg)
+![2023-06-04-1](https://cooooing.github.io/images/daily/2023-06-04-1.jpg)
+![2023-06-04-2](https://cooooing.github.io/images/daily/2023-06-04-2.jpg)
 山上有山地摩托，似乎是平时训练。
 陡的地方只能抓着绳子走，摩托就不一样了，直接就下去了。
-![2023-06-04-3](../images/daily/2023-06-04-3.jpg)
+![2023-06-04-3](https://cooooing.github.io/images/daily/2023-06-04-3.jpg)
 
 ## 2023-05-29
 
 店里新来的猫猫员工！取名汤姆
-![2023-05-29-1](../images/daily/2023-05-29-1.jpg)
-![2023-05-29-2](../images/daily/2023-05-29-2.jpg)
-![2023-05-29-3](../images/daily/2023-05-29-3.jpg)
+![2023-05-29-1](https://cooooing.github.io/images/daily/2023-05-29-1.jpg)
+![2023-05-29-2](https://cooooing.github.io/images/daily/2023-05-29-2.jpg)
+![2023-05-29-3](https://cooooing.github.io/images/daily/2023-05-29-3.jpg)
 
 ## 2023-05-24
 
 寄！
-![2023-05-24](../images/daily/2023-05-24.jpg)
+![2023-05-24](https://cooooing.github.io/images/daily/2023-05-24.jpg)
 
 ## 2023-05-17
 
-![2023-05-17](../images/daily/2023-05-17.jpg)
+![2023-05-17](https://cooooing.github.io/images/daily/2023-05-17.jpg)
 
 ## 2023-04-21
 
 这句话建议裱起来！
-![2023-04-21](../images/daily/2023-04-21.jpg)
+![2023-04-21](https://cooooing.github.io/images/daily/2023-04-21.jpg)
 
 ## 2023-04-20
 
 店里开始卖花了，可能是因为下个月情人节。
 花很好看，就是刺太多了。
-![2023-04-20-1](../images/daily/2023-04-20-1.jpg)
-![2023-04-20-2](../images/daily/2023-04-20-2.jpg)
-![2023-04-20-3](../images/daily/2023-04-20-3.jpg)
+![2023-04-20-1](https://cooooing.github.io/images/daily/2023-04-20-1.jpg)
+![2023-04-20-2](https://cooooing.github.io/images/daily/2023-04-20-2.jpg)
+![2023-04-20-3](https://cooooing.github.io/images/daily/2023-04-20-3.jpg)
 
 ## 2023-04-06
 
 大学三年了，还是第一次去爬虞山（学校边上的山
 临时起意，中午出发的。到山顶上面已经不让进了，4点结束卖票。（4点02分到的，大概
-![2023-04-06-1](../images/daily/2023-04-06-1.jpg)
-![2023-04-06-2](../images/daily/2023-04-06-2.jpg)
-![2023-04-06-3](../images/daily/2023-04-06-3.jpg)
+![2023-04-06-1](https://cooooing.github.io/images/daily/2023-04-06-1.jpg)
+![2023-04-06-2](https://cooooing.github.io/images/daily/2023-04-06-2.jpg)
+![2023-04-06-3](https://cooooing.github.io/images/daily/2023-04-06-3.jpg)
 
 ## 2023-03-09
 
 六十页的说明书，504鸽步骤，一千多个零件！
 咔哒..咔哒...
-![2023-03-09-1](../images/daily/2023-03-09-1.jpg)
-![2023-03-09-2](../images/daily/2023-03-09-2.jpg)
-![2023-03-09-3](../images/daily/2023-03-09-3.jpg)
-![2023-03-09-4](../images/daily/2023-03-09-4.jpg)
-![2023-03-09-5](../images/daily/2023-03-09-5.jpg)
-![2023-03-09-6](../images/daily/2023-03-09-6.jpg)
+![2023-03-09-1](https://cooooing.github.io/images/daily/2023-03-09-1.jpg)
+![2023-03-09-2](https://cooooing.github.io/images/daily/2023-03-09-2.jpg)
+![2023-03-09-3](https://cooooing.github.io/images/daily/2023-03-09-3.jpg)
+![2023-03-09-4](https://cooooing.github.io/images/daily/2023-03-09-4.jpg)
+![2023-03-09-5](https://cooooing.github.io/images/daily/2023-03-09-5.jpg)
+![2023-03-09-6](https://cooooing.github.io/images/daily/2023-03-09-6.jpg)
 
 
 
@@ -251,34 +251,34 @@ yue————
 
 ## 2022-12-19
 
-![2022-12-19](../images/daily/2022-12-19.gif)
+![2022-12-19](https://cooooing.github.io/images/daily/2022-12-19.gif)
 
 ## 2022-12-16
 
 "名人名言"
-![2022-12-16](../images/daily/2022-12-16.png)
+![2022-12-16](https://cooooing.github.io/images/daily/2022-12-16.png)
 
 ## 2022-12-09
 
 我下班了，蟹老板（9点）
-![2022-12-9](../images/daily/2022-12-9.jpg)
+![2022-12-9](https://cooooing.github.io/images/daily/2022-12-9.jpg)
 
 ## 2022-11-16
 
 不知不觉GTA5的主线已经结束了（意犹未尽）
 异常期待GTA6
-![2022-11-16-1](../images/daily/2022-11-16-1.png)
-![2022-11-16-2](../images/daily/2022-11-16-2.png)
+![2022-11-16-1](https://cooooing.github.io/images/daily/2022-11-16-1.png)
+![2022-11-16-2](https://cooooing.github.io/images/daily/2022-11-16-2.png)
 
 ## 2022-11-14
 
-![2022-11-14](../images/daily/2022-11-14.gif)
+![2022-11-14](https://cooooing.github.io/images/daily/2022-11-14.gif)
     ——山田凉《孤独摇滚！》
 
 ## 2022-10-20
 
 打印店第一个月的工资，真是个好数字。
-![2022-10-20](../images/daily/2022-10-20.jpg)
+![2022-10-20](https://cooooing.github.io/images/daily/2022-10-20.jpg)
 
 ## 2022-10-17
 
@@ -286,7 +286,7 @@ yue————
 稍微有点遗憾的就是屏幕右侧装着跟玩似的 micro usb 接口（摆设），以及属于听个响级别的内置音响。
 对了，还漏发了螺丝。（虽然补发了）。
 另外，顺便把上次键盘的图片补上。
-![2022-10-17](../images/daily/2022-10-17.jpg)
+![2022-10-17](https://cooooing.github.io/images/daily/2022-10-17.jpg)
 
 ## 2022-10-06
 
@@ -302,27 +302,27 @@ yue————
 ## 2022-10-01
 
 还得是崔佛 ~~（真男人从不回头看爆炸）~~
-![2022-10-01](../images/daily/2022-10-01.png)
+![2022-10-01](https://cooooing.github.io/images/daily/2022-10-01.png)
 
 ## 2022-09-29
 
 晚上跑完步被一觉睡到晚上没吃晚饭的凡，拉去买夜宵。
 我还没白名单出不去学校，在门口等了好久。
-![2022-09-29-1](../images/daily/2022-09-29-1.jpg)
+![2022-09-29-1](https://cooooing.github.io/images/daily/2022-09-29-1.jpg)
 夜市还挺热闹（指因为城管在校门口，而在另一个十字路口摆摊）
-![2022-09-29-2](../images/daily/2022-09-29-2.jpg)
+![2022-09-29-2](https://cooooing.github.io/images/daily/2022-09-29-2.jpg)
 好小子，还给我带了杯柠檬茶 ~~（还想带鸭屎香的？）~~
 看在这杯柠檬茶的份上，就浅浅的写一下吧。
 
 ## 2022-09-27
 
 今天的天气非常好！如图：
-![2022-09-27-1](../images/daily/2022-09-27-1.jpg)
+![2022-09-27-1](https://cooooing.github.io/images/daily/2022-09-27-1.jpg)
 
 另外就是急救课了，因为问了个问题而被喊去趴在地上做示范的凡。
 **惨 凡 惨**
-![2022-09-27-2](../images/daily/2022-09-27-2.jpg)
-![2022-09-27-3](../images/daily/2022-09-27-3.jpg)
+![2022-09-27-2](https://cooooing.github.io/images/daily/2022-09-27-2.jpg)
+![2022-09-27-3](https://cooooing.github.io/images/daily/2022-09-27-3.jpg)
 
 ## 2022-09-26
 
@@ -333,7 +333,7 @@ yue————
 
 下午去跑步，跑完休息的时候来了个四岁半的小孩子。
 东问问西问问，真可爱。~~是吧，凡~~
-![2022-09-21](../images/daily/2022-09-21.jpg)
+![2022-09-21](https://cooooing.github.io/images/daily/2022-09-21.jpg)
 然后，关于死去的童年回忆（~~丢手绢~~）开始攻击我
 最后，今天打印店晚上人有点小多。坏消息是我九点半才关门下班，好消息是那半个小时算工时。
 
@@ -345,7 +345,7 @@ yue————
 由于上个学期一整个学期都没来学校，我的键盘很脏很脏。这几天给清洗了下（126键拆装是真的考验耐心。另外，黑爵的蜻蜓点水是真得好看！
 刚知道了灯光的调法（fn+home、end附近的六个键），真好看。
 图晚点附上。
-![2022-09-19](../images/daily/2022-09-19.jpg)
+![2022-09-19](https://cooooing.github.io/images/daily/2022-09-19.jpg)
 
 ## 2022-09-14
 
@@ -358,23 +358,23 @@ yue————
 ## 2022-09-12
 
 今天有彩虹！但是拍的不好，就不放了。
-![2022-09-12](../images/daily/2022-09-12.jpg)
+![2022-09-12](https://cooooing.github.io/images/daily/2022-09-12.jpg)
 
 ## 2022-09-10
 
 中秋快乐！
 中秋节和教师节在一起捏
 很帅的月亮（~~虽然不是我拍的~~）
-![2022-09-10](../images/daily/2022-09-10.jpg)
+![2022-09-10](https://cooooing.github.io/images/daily/2022-09-10.jpg)
 
 ## 2022-09-09
 
 今天傍晚的云，有一朵像鱼一样！
-![2022-09-09-1](../images/daily/2022-09-09-1.jpg)
+![2022-09-09-1](https://cooooing.github.io/images/daily/2022-09-09-1.jpg)
 打印店璐姐做的月饼！
-![2022-09-09-2](../images/daily/2022-09-09-2.jpg)
+![2022-09-09-2](https://cooooing.github.io/images/daily/2022-09-09-2.jpg)
 以及，舍友送的五仁月饼（doge）
-![2022-09-09-3](../images/daily/2022-09-09-3.jpg)
+![2022-09-09-3](https://cooooing.github.io/images/daily/2022-09-09-3.jpg)
 
 ## 2022-09-05
 
@@ -382,17 +382,17 @@ yue————
 啥也不会干，不过最后算是学会怎么打印身份证、用ps弄身份证图片以及排一寸（2.5cm*3.5cm，分辨率300）照片
 后面找个人少的时候，练练怎么用裁照片切刀。（虽然说是对齐就行了
 失误就是给人黑白打成彩色的了，pdf全选后打印没有设置选项，直接就开始打了（35页，也不知道打印店会不会亏）
-![2022-09-05](../images/daily/2022-09-05.jpg)
+![2022-09-05](https://cooooing.github.io/images/daily/2022-09-05.jpg)
 
 ## 2022-09-02
 
-![2022-09-02](../images/daily/2022-09-02.jpg)
+![2022-09-02](https://cooooing.github.io/images/daily/2022-09-02.jpg)
 
 ## 2022-09-01
 
 傍晚的操场
-![2022-09-01-1](../images/daily/2022-09-01-1.jpg)
-![2022-09-01-2](../images/daily/2022-09-01-2.jpg)
+![2022-09-01-1](https://cooooing.github.io/images/daily/2022-09-01-1.jpg)
+![2022-09-01-2](https://cooooing.github.io/images/daily/2022-09-01-2.jpg)
 
 
 ## 2021-12-28
@@ -400,6 +400,6 @@ yue————
 这是小米云文件夹中翻到的从前的落日
 
 回学校的公交车上
-![2021-12-28-1](../images/daily/2021-12-28-1.jpg)
+![2021-12-28-1](https://cooooing.github.io/images/daily/2021-12-28-1.jpg)
 学校东门往北一小段路，小河的出口处
-![2021-12-28-2](../images/daily/2021-12-28-2.jpg)
+![2021-12-28-2](https://cooooing.github.io/images/daily/2021-12-28-2.jpg)

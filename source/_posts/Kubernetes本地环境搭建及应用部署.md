@@ -35,10 +35,10 @@ worker2 节点的ip为 192.168.1.12
 这里以 master 节点为例，展示配置过程。
 
 首先打开**Hyper-V 管理器**，右侧**虚拟交换机管理器**，新建虚拟交换机。如下图：
-![新建虚拟交换机.png](../images/Kubernetes本地环境搭建及应用部署/新建虚拟交换机.png)
+![新建虚拟交换机.png](https://cooooing.github.io/images/Kubernetes本地环境搭建及应用部署/新建虚拟交换机.png)
 
 保存之后，来到**网络适配器**，为刚创建的虚拟交换机设置一个固定的ip。
-![网络适配器.png](../images/Kubernetes本地环境搭建及应用部署/网络适配器.png)
+![网络适配器.png](https://cooooing.github.io/images/Kubernetes本地环境搭建及应用部署/网络适配器.png)
 
 修改`/etc/netplan/50-cloud-init.yaml`：
 

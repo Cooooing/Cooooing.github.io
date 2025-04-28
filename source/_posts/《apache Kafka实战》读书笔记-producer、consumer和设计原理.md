@@ -36,7 +36,7 @@ Kafka producer 提供了一个默认的分区器。对于每条待发送的消�
 然后将其序列化之后发送给 partitioner，再由后者确定了目标分区后一同发送到位于 producer程序中的一块内存缓冲区中。
 而 producer的另一个工作线程（I/O发送线程，也称 Sender线程）则负责实时地从该缓冲区中提取出准备就绪的消息封装进一个批次（batch），统一发送给对应的broker。
 
-![Java版本producer工作流程.png](../images/《apache%20Kafka实战》读书笔记-producer、consumer和设计原理/Java版本producer工作流程.png)
+![Java版本producer工作流程.png](https://cooooing.github.io/images/《apache%20Kafka实战》读书笔记-producer、consumer和设计原理/Java版本producer工作流程.png)
 
 ### 消息分区机制
 
@@ -412,7 +412,7 @@ Kafka 日志文件就是由一系列消息集合日志项构成的。Kafka 不�
 
 V2版本依然分为消息和消息集合两个维度，只不过消息集合的提法被消息批次所取代。下面是V2版本消息的格式：
 
-![V2版本消息格式.png](../images/《apache%20Kafka实战》读书笔记-producer、consumer和设计原理/V2版本消息格式.png)
+![V2版本消息格式.png](https://cooooing.github.io/images/《apache%20Kafka实战》读书笔记-producer、consumer和设计原理/V2版本消息格式.png)
 
 “可变长度”表示 Kafka会根据具体的值来确定到底需要几字节保存。为了在序列化时降低使用的字节数，V2版本借鉴了Google ProtoBuffer中的Zig-zag编码方式，使得绝对值较小的整数占用比较少的字节。
 Zig-zag编码方式主要的思想就是将一个有符号32位整数编码成一个无符号整数，同时各个数字围绕0依次编码。
@@ -447,7 +447,7 @@ V2版本的消息格式变化：
 
 V2版本的消息batch格式：
 
-![V2版本消息batch格式.png](../images/《apache%20Kafka实战》读书笔记-producer、consumer和设计原理/V2版本消息batch格式.png)
+![V2版本消息batch格式.png](https://cooooing.github.io/images/《apache%20Kafka实战》读书笔记-producer、consumer和设计原理/V2版本消息batch格式.png)
 
 * CRC值从消息层面被移除，被放入batch这一层。
 * batch层面上增加了一个双字节 attribute字段，同时废弃了消息级别的 attribute字段。
@@ -482,7 +482,7 @@ follower 会被动地向 leader 请求数据。但对于那些落后 leader 进�
 
 follower副本只做一件事情：向 leader副本请求数据。
 
-![副本各种位置信息.png](../images/《apache%20Kafka实战》读书笔记-producer、consumer和设计原理/副本各种位置信息.png)
+![副本各种位置信息.png](https://cooooing.github.io/images/《apache%20Kafka实战》读书笔记-producer、consumer和设计原理/副本各种位置信息.png)
 
 * 起始位移（base offset）：表示该副本当前所含第一条消息的offset。
 * 高水印值（high watermark,HW）：副本高水印值。它保存了该副本最新一条已提交消息的位移。
@@ -773,10 +773,10 @@ Kafka 协议提供的所有请求及其响应的结构体都是由固定格式�
 
 1. clients端
    Kafka并没有规定这些请求必须被如何处理，它要求的只是 clients端代码必须要构造符合格式的请求，然后发送给broker。每种语言的clients端代码必须自行实现对请求和响应的完整的生命周期管理。
-   ![Java版本clients端请求处理流程.png](../images/《apache%20Kafka实战》读书笔记-producer、consumer和设计原理/Java版本clients端请求处理流程.png)
+   ![Java版本clients端请求处理流程.png](https://cooooing.github.io/images/《apache%20Kafka实战》读书笔记-producer、consumer和设计原理/Java版本clients端请求处理流程.png)
 2. broker端
    每个 broker 启动时都会创建一个请求阻塞队列，专门用于接收从 clients 端发送过来的请求。同时，broker还会创建若干个请求处理线程专门获取并处理该阻塞队列中的请求
-   ![Java版本broker端请求处理流程.png](../images/《apache%20Kafka实战》读书笔记-producer、consumer和设计原理/Java版本broker端请求处理流程.png)
+   ![Java版本broker端请求处理流程.png](https://cooooing.github.io/images/《apache%20Kafka实战》读书笔记-producer、consumer和设计原理/Java版本broker端请求处理流程.png)
 
 #### controller设计
 
@@ -786,7 +786,7 @@ Kafka 协议提供的所有请求及其响应的结构体都是由固定格式�
 每个 Kafka 集群任意时刻都只能有一个 controller。当集群启动时，所有 broker 都会参与controller的竞选，但最终只能由一个 broker胜出。
 一旦 controller在某个时刻崩溃，集群中剩余的broker会立刻得到通知，然后开启新一轮的controller选举。新选举出来的controller将承担起之前controller的所有工作。
 
-![controller架构.png](../images/《apache%20Kafka实战》读书笔记-producer、consumer和设计原理/controller架构.png)
+![controller架构.png](https://cooooing.github.io/images/《apache%20Kafka实战》读书笔记-producer、consumer和设计原理/controller架构.png)
 
 ##### controller管理状态
 
@@ -802,14 +802,14 @@ controller维护的状态分为两类：每台broker上的分区副本和每个�
 	* ReplicaDeletionSuccessful：若副本成功响应了删除副本请求，则进入该状态。
 	* ReplicaDeletionIneligible：若副本删除失败，则进入该状态。
 	* NonExistentReplica：若副本被成功删除，则进入该状态。
-	  ![副本状态机.png](../images/《apache%20Kafka实战》读书笔记-producer、consumer和设计原理/副本状态机.png)
+	  ![副本状态机.png](https://cooooing.github.io/images/《apache%20Kafka实战》读书笔记-producer、consumer和设计原理/副本状态机.png)
 2. 分区状态机（Partition State Machine）
    除了副本状态机，controller 还引入了分区状态机来负责集群下所有分区的状态管理。
 	* NonExistent：表明不存在的分区或已删除的分区。
 	* NewPartition：一旦被创建，分区便处于该状态。此时，Kafka 已经为分区确定了副本列表，但尚未选举出leader和ISR。
 	* OnlinePartition：一旦该分区的 leader 被选出，则进入此状态。这也是分区正常工作时的状态。
 	* OfflinePartition：在成功选举出leader后，若leader所在的broker宕机，则分区将进入该状态，表明无法正常工作了。
-	  ![分区状态机.png](../images/《apache%20Kafka实战》读书笔记-producer、consumer和设计原理/分区状态机.png)
+	  ![分区状态机.png](https://cooooing.github.io/images/《apache%20Kafka实战》读书笔记-producer、consumer和设计原理/分区状态机.png)
 
 ##### controller职责
 
