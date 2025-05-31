@@ -151,9 +151,9 @@ no_proxy="localhost,127.0.0.1,::1"
 `/etc/profile`或者`~/.bashrc`文件添加：
 
 ~~~
-export http_proxy=http://172.25.240.1:7890
-export https_proxy=http://172.25.240.1:7890
-export all_proxy=socks5://172.25.240.1:7890
+export http_proxy=http://192.168.1.5:7890
+export https_proxy=http://192.168.1.5:7890
+export all_proxy=socks5://192.168.1.5:7890
 export no_proxy="localhost,127.0.0.1,::1"
 ~~~
 
