@@ -5,12 +5,21 @@
   avatar: https://tmx.fishpi.cn/img/head.jpg
   description: 我是不慎落入世界的一滴水墨
 
-- name: 青虬
-  link: https://reol077.github.io/
-  avatar: https://s1.ax1x.com/2022/03/18/qF2YJ1.jpg
-  description: 囊中羞涩，不知世锦繁华
+- name: Gakkiyomi
+  link: https://gakkiyomi.blog
+  avatar: https://avatars.githubusercontent.com/u/41406557?v=4
+  description: 为往圣继绝学
 
-# 失效友链
+- name: Hancel's Blog
+  link: https://my.hancel.org
+  avatar: https://my.hancel.org/media/logo.jpg
+  description: 人生而自由，却无往不在枷锁之中。
+
+#- name: 青虬
+#  link: https://reol077.github.io/
+#  avatar: https://s1.ax1x.com/2022/03/18/qF2YJ1.jpg
+#  description: 囊中羞涩，不知世锦繁华
+
 #- name: 顾のEvery Day
 #  link: https://gufanstudy.github.io/
 #  avatar: https://blog-img-1311712983.cos.ap-nanjing.myqcloud.com/avatar.png # https://s1.ax1x.com/2022/05/03/OkdkPx.png
@@ -18,7 +27,7 @@
 
 - name: 小于同学的异世界
   link: https://yby.zone
-  avatar: https://source.yby.zone/tx.jpg
+  avatar: https://yby-zone.obs.cn-east-3.myhuaweicloud.com/avatar.jpg
   description: 为吾为枝，余地三尺，以己为棋，胜天半子。
 
 - name: Mlikiowa Home Village
