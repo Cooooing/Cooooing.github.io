@@ -8,6 +8,10 @@ top_img: https://dev.iw233.cn/api.php?sort=pc&type=jpg&5
 
 # 日常
 
+## 2025-06-28
+
+垃圾 mysql 居然连 full join 都不支持。
+
 ## 2024-12-28
 
 在阮大周刊上看到了一篇文章 [Ramsay 编程十年的感悟](https://ramsayleung.github.io/zh/post/2024/%E7%BC%96%E7%A8%8B%E5%8D%81%E5%B9%B4%E7%9A%84%E6%84%9F%E6%82%9F/)
