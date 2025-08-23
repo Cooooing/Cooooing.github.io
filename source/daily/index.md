@@ -8,6 +8,17 @@ top_img: https://dev.iw233.cn/api.php?sort=pc&type=jpg&5
 
 # 日常
 
+## 2025-08-23
+
+[Everything I know about good system design](https://www.seangoedecke.com/good-system-design/)
+
+> What is system design? 
+> In my view, **if software design is how you assemble lines of code, system design is how you assemble services.** 
+> The primitives of software design are variables, functions, classes, and so on. 
+> The primitives of system design are app servers, databases, caches, queues, event buses, proxies, and so on.
+> 什么是系统设计？在我看来，如果软件设计是组装代码的方式，那么系统设计就是组装服务的方式。
+> 软件设计的原语是变量、函数、类等等。系统设计的原语是应用服务器、数据库、缓存、队列、事件总线、代理等等。
+
 ## 2025-06-28
 
 垃圾 mysql 居然连 full join 都不支持。
