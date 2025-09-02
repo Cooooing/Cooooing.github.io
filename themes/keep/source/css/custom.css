@@ -1,0 +1,12 @@
+/* 引入第三方字体的 CSS */
+@import url('https://chinese-fonts-cdn.deno.dev/packages/lxgwwenkai/dist/lxgwwenkai-light/result.css');
+
+/* 设置全局默认字体 */
+:root {
+  --base-font-family: 'LXGW WenKai Light', 'LXGW WenKai', 'Microsoft YaHei', sans-serif;
+}
+
+/* 应用字体 */
+body {
+  font-family: var(--base-font-family);
+}
