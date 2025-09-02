@@ -342,6 +342,7 @@ inject:
   enable: true  # Option values: true | false
   css:
     - /css/APlayer.min.css
+    - /css/custom.css
     # e.g.
     # - /css/custom-1.css
     # - /css/custom-2.css
