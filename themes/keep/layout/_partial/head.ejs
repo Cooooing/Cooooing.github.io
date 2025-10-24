@@ -1,9 +1,10 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta name="keywords" content="<%= page?.keywords || config?.keywords || 'Hexo Theme Keep' %>">
-    <meta name="description" content="<%= page?.description || config?.description || 'Hexo Theme Keep' %>">
-    <meta name="author" content="<%= theme?.base_info?.author || config?.author || 'Keep Team' %>">
+    <meta name="keywords" content="<%= page?.keywords || config?.keywords || '技术博客,后端开发,编程笔记,生活' %>">
+    <meta name="description" content="<%= page?.description || config?.description || 'Code | Systems | Life — 专注编程本质，也关心世界如何运转。' %>">
+    <meta name="author" content="<%= theme?.base_info?.author || config?.author || '咕咕咕' %>">
+
     <%
     let title = page.title;
     if (is_archive()) {
@@ -44,19 +45,22 @@
     <% } %>
     <%- exportThemeConfig() %>
 
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-CLX32WF4R1"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-CLX32WF4R1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
 
-    gtag('config', 'G-CLX32WF4R1');
-  </script>
+      function gtag() {
+        dataLayer.push(arguments);
+      }
 
-  <!-- 51.la -->
-  <script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
-  <script>LA.init({id:"3JwPz6wbAloyTmMc",ck:"3JwPz6wbAloyTmMc",autoTrack:true})</script>
+      gtag('js', new Date());
+
+      gtag('config', 'G-CLX32WF4R1');
+    </script>
+
+    <!-- 51.la -->
+    <script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
+    <script>LA.init({id: "3JwPz6wbAloyTmMc", ck: "3JwPz6wbAloyTmMc", autoTrack: true})</script>
 
 </head>
-
