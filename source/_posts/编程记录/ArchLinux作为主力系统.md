@@ -57,3 +57,11 @@ Jetbrains 在远程开发和 AI 方面真的是没有跟上。
 
 后续可能会尝试  VSCode 的远程开发，不过我用惯了 Jetbrains，是真不习惯 VSCode。
 
+### 2025-12-07 后记
+
+终于是受不了 Wayland 的各种问题了，决定回归初心。作为开发环境，需要的是稳定，默认的也许就是最好的，于是决定转向 Ubuntu。
+选择的系统是 Linux Mint，在经过了一个晚上之后，就得到了：
+
+![mint-desktop](https://cooooing.github.io/images/编程记录/ArchLinux作为主力系统/mint-desktop.png)
+
+标题也许换成 《Linux 作为主力系统》 更合适。
