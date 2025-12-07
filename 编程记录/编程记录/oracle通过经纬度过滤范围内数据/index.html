@@ -1,0 +1,1155 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="技术博客,后端开发,编程笔记,生活">
+    <meta name="description" content="Code | Systems | Life — 专注编程本质，也关心世界如何运转。">
+    <meta name="author" content="咕咕咕">
+
+    
+    <title>
+        
+            oracle通过经纬度过滤范围内数据 |
+        
+        咕咕咕的小破站
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+        <link rel="shortcut icon" href="/images/favicon.png">
+    
+    
+<link rel="stylesheet" href="/font/css/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/regular.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/solid.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/brands.min.css">
+
+    
+        
+            
+                
+<link rel="stylesheet" href="/css/APlayer.min.css">
+
+            
+        
+            
+                
+<link rel="stylesheet" href="/css/custom.css">
+
+            
+        
+    
+    <script class="keep-theme-configurations">
+    const KEEP = window.KEEP || {}
+    KEEP.hexo_config = {"hostname":"cooooing.github.io","root":"/","language":"zh-CN","path":"search.json"}
+    KEEP.theme_config = {"base_info":{"primary_color":"#0066cc","title":"咕咕咕的小破站","author":"咕咕咕","avatar":"/images/head.jpg","logo":"/images/head.jpg","favicon":"/images/favicon.png"},"menu":{"Archives":"/archives","Categories":"/categories","Tags":"/tags","日常":"/daily","Links":"/links","About":"/about"},"first_screen":{"enable":false,"background_img":"/images/bg.svg","background_img_dark":"/images/bg.svg","description":"Keep writing and Keep loving.","hitokoto":false},"social_contact":{"enable":false,"links":{"github":null,"weixin":null,"qq":null,"weibo":null,"zhihu":null,"twitter":null,"facebook":null,"email":null}},"scroll":{"progress_bar":false,"percent":false,"hide_header":true},"home":{"category":true,"tag":true,"announcement":null},"post":{"author_badge":{"enable":true,"level_badge":false,"custom_badge":["fishing"]},"word_count":{"wordcount":true,"min2read":true},"datetime_format":"YYYY-MM-DD HH:mm:ss","copyright_info":true,"share":true,"reward":{"enable":true,"img_link":"/images/thanks.png","text":"谢谢你请我喝可乐~"}},"code_block":{"tools":{"enable":true,"style":"default"},"highlight_theme":"default"},"toc":{"enable":true,"number":false,"expand_all":true,"init_open":true,"layout":"left"},"website_count":{"busuanzi_count":{"enable":true,"site_uv":true,"site_pv":true,"page_pv":true}},"local_search":{"enable":true,"preload":true},"comment":{"enable":true,"use":"giscus","valine":{"appid":null,"appkey":null,"server_urls":null,"placeholder":null},"gitalk":{"github_id":null,"github_admins":null,"repository":null,"client_id":null,"client_secret":null,"proxy":null},"twikoo":{"env_id":null,"region":null,"version":"1.6.21"},"waline":{"server_url":null,"reaction":false,"version":2},"giscus":{"repo":"Cooooing/Cooooing.github.io","repo_id":"R_kgDOHQal_w","category":"Announcements","category_id":"DIC_kwDOHQal_84CjZo6","reactions_enabled":true},"artalk":{"server":null},"disqus":{"shortname":null}},"rss":{"enable":true},"lazyload":{"enable":true},"cdn":{"enable":false,"provider":"cdnjs"},"pjax":{"enable":true},"footer":{"since":2022,"word_count":true,"icp":{"enable":false,"record_code":null,"url":"https://beian.miit.gov.cn"},"site_deploy":{"enable":false,"provider":"github","url":null},"shields_style":{"enable":false,"custom":[{"link_url":null,"img_url":null}]}},"inject":{"enable":true,"css":["/css/APlayer.min.css","/css/custom.css"],"js":["/js/APlayer.min.js","/js/Meting.min.js","/js/leaves.js"]},"root":"","links":[{"name":"鼠鼠在碎觉","link":"https://sszsj.com","avatar":"https://tmx.fishpi.cn/img/head.jpg","description":"我是不慎落入世界的一滴水墨"},{"name":"Gakkiyomi","link":"https://gakkiyomi.blog","avatar":"https://avatars.githubusercontent.com/u/41406557?v=4","description":"为往圣继绝学"},{"name":"Hancel's Blog","link":"https://my.hancel.org","avatar":"https://my.hancel.org/media/logo.jpg","description":"人生而自由，却无往不在枷锁之中。"},{"name":"Eastshann","link":"http://121.4.99.208/","avatar":"http://121.4.99.208/img/avatar.jpg","description":"冲和者，淡泊平和，谦冲守正"},{"name":"小于同学的异世界","link":"https://yby.zone","avatar":"https://yby-zone.obs.cn-east-3.myhuaweicloud.com/avatar.jpg","description":"为吾为枝，余地三尺，以己为棋，胜天半子。"},{"name":"Mlikiowa Home Village","link":"https://nanaeo.cn/","avatar":"https://q1.qlogo.cn/g?b=qq&nk=1627126029&s=100","description":"A litter Village With Mlikiowa"},{"name":"忘忧草","link":"https://owo.wyc.rest/","avatar":"https://owo.wyc.rest/img/%E4%B8%87%E5%8F%B6.jpg","description":"这只是一个小破站而已！"},{"name":"stillwarter","link":"https://stillwarter.github.io/","avatar":"https://file.fishpi.cn/2022/07/MOSHED2022621164630-1b1ec532.gif?imageView2/1/w/210/h/210/interlace/0/q/100","description":"光就是一切的意义"},{"name":"test12138","link":"http://你好.eu.org/","avatar":"https://file.fishpi.cn/2022/06/srchttpimgzcoolcncommunity0116405d84f975a801211d537707c9gifreferhttpimgzcool-0f2d09c9.gif?imageView2/1/w/48/h/48/interlace/0/q/100","description":"大丈夫生于天地之间，岂能郁郁久居人下。"},{"name":"呼呼呼","link":"https://bongbongbakudan.github.io/","avatar":"https://pwl.stackoverflow.wiki/2021/12/blob-28eb4b9f.png?imageView2/1/w/48/h/48/interlace/0/q/100","description":"去整点薯条"},{"name":"Plumbiu","link":"https://blog.plumbiu.top/","avatar":"https://avatars.githubusercontent.com/u/99574369?v=4","description":"这人很勤奋，啥都没留"},{"name":"hiRipple","link":"https://hiripple.com/","avatar":"https://avatars.githubusercontent.com/u/115361435?v=4","description":"超高校级的游戏玩家"}],"version":"4.0.6"}
+    KEEP.language_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"}
+    KEEP.language_code_block = {"copy":"复制代码","copied":"已复制","fold":"折叠代码块","folded":"已折叠"}
+    KEEP.language_copy_copyright = {"copy":"复制版权信息","copied":"已复制","title":"原文标题","author":"原文作者","link":"原文链接"}
+  </script>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-CLX32WF4R1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+
+      gtag('js', new Date());
+
+      gtag('config', 'G-CLX32WF4R1');
+    </script>
+
+    <!-- 51.la -->
+    <script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
+    <script>LA.init({id: "3JwPz6wbAloyTmMc", ck: "3JwPz6wbAloyTmMc", autoTrack: true})</script>
+
+<meta name="generator" content="Hexo 8.1.1"><link rel="alternate" href="/atom.xml" title="咕咕咕的小破站" type="application/atom+xml">
+</head>
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+        <span class="pjax-progress-bar"></span>
+        <i class="pjax-progress-icon fas fa-circle-notch fa-spin"></i>
+    
+</div>
+
+
+<main class="page-container border-box">
+
+    <!-- home first screen  -->
+    
+
+    <!-- page content -->
+    <div class="page-main-content border-box">
+        <div class="page-main-content-top">
+            
+<header class="header-wrapper">
+
+    <div class="border-box header-content">
+        <div class="left border-box">
+            
+                <a class="logo-image border-box" href="/">
+                    <img src="/images/head.jpg">
+                </a>
+            
+            <a class="site-name border-box" href="/">
+               咕咕咕的小破站
+            </a>
+        </div>
+
+        <div class="right border-box">
+            <div class="pc">
+                <ul class="menu-list">
+                    <li class="menu-item">
+                        <a class=""
+                           href="/"
+                        >首页</a>
+                    </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >归档</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/categories"
+                            >分类</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/tags"
+                            >标签</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/daily"
+                            >日常</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/links"
+                            >友链</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >关于</a>
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="fas search fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            <li class="drawer-menu-item flex-center">
+                <a class=""
+                   href="/"
+                >首页</a>
+            </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives"
+                    >归档</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/categories"
+                    >分类</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/tags"
+                    >标签</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/daily"
+                    >日常</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/links"
+                    >友链</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about"
+                    >关于</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle border-box">
+
+            <div class="main-content border-box">
+                
+
+                    
+<div class="fade-in-down-animation">
+    <div class="post-page-container border-box">
+        <div class="post-content-container border-box">
+            
+
+            <div class="post-content-bottom border-box">
+                
+                    <div class="post-title">
+                        oracle通过经纬度过滤范围内数据
+                    </div>
+                
+
+                
+                    <div class="post-header border-box">
+                        
+                            <div class="avatar-box border-box">
+                                <img src="/images/head.jpg">
+                            </div>
+                        
+                        <div class="info-box">
+                            <div class="author border-box">
+                                <span class="name">咕咕咕</span>
+                                
+                                    <span class="author-badge">fishing</span>
+                                
+                            </div>
+                            <div class="meta-info border-box">
+                                
+
+<div class="post-meta-info-container border-box post">
+    <div class="post-meta-info border-box">
+        
+
+        
+            <span class="meta-info-item post-create-date">
+                <i class="icon fa-solid fa-calendar-plus"></i>&nbsp;
+                <span class="datetime">2025-03-26 10:54:15</span>
+            </span>
+
+            <span class="meta-info-item post-update-date">
+                <i class="icon fa-solid fa-file-pen"></i>&nbsp;
+                <span class="datetime" data-updated="Wed Mar 26 2025 02:54:15 GMT+0000">2025-03-26 10:54:15</span>
+            </span>
+        
+
+        
+            <span class="meta-info-item post-category border-box"><i class="icon fas fa-folder"></i>&nbsp;
+                <ul class="post-category-ul">
+                    
+                            <li class="category-item"><a href="/categories/%E7%BC%96%E7%A8%8B%E8%AE%B0%E5%BD%95/">编程记录</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+            <span class="post-tag meta-info-item border-box">
+                <i class="icon fas fa-tags"></i>&nbsp;
+                <ul class="post-tag-ul">
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/oracle/">oracle</a></li>
+                        
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/%E7%BB%8F%E7%BA%AC%E5%BA%A6/">经纬度</a></li>
+                        
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/%E5%9C%B0%E5%9B%BE/">地图</a></li>
+                        
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/WGS84%E5%9D%90%E6%A0%87%E7%B3%BB/">WGS84坐标系</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+        
+            <span class="meta-info-item post-wordcount">
+                <i class="icon fas fa-file-word"></i>&nbsp;<span>1.6k 字</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-min2read">
+                <i class="icon fas fa-clock"></i>&nbsp;<span>6 分钟</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-pv">
+                <i class="icon fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+            </span>
+        
+    </div>
+
+    
+</div>
+
+                            </div>
+                        </div>
+                    </div>
+                
+
+                <div class="post-content keep-markdown-body">
+                    
+
+                    <h2 id="Start"><a href="#Start" class="headerlink" title="Start"></a>Start</h2><p>今天的需求是在地图上撒了很多点，右击这个点时，可以选择一个半径，呈现在这个半径范围内的点。<br>和之前一个在地图上框选多边形区域的需求一样，需要通过经纬度来计算过滤数据。</p>
+<p>这里是通过 Oracle 的空间运算符实现的。<br>主要使用下面两个：</p>
+<ol>
+<li><a class="link"   target="_blank" rel="noopener" href="https://docs.oracle.com/en/database/oracle/oracle-database/23/spatl/sdo_within_distance.html" >SDO_WITHIN_DISTANCE<i class="fas fa-external-link-alt"></i></a><br>Identifies the set of spatial objects that are within some specified distance of a given object, such as an area of interest or point of interest.<br>标识位于给定对象（如感兴趣区域或感兴趣点）的某个指定距离内的空间对象集。</li>
+<li><a class="link"   target="_blank" rel="noopener" href="https://docs.oracle.com/en/database/oracle/oracle-database/23/spatl/sdo_inside.html" >SDO_INSIDE<i class="fas fa-external-link-alt"></i></a><br>Checks if any geometries in a table have the INSIDE topological relationship with a specified geometry. Equivalent to specifying the SDO_RELATE operator with ‘mask&#x3D;INSIDE’.<br>检查表中的任何几何是否与指定几何具有 INSIDE 拓扑关系。等效于使用 ‘mask&#x3D;INSIDE’ 指定 SDO_RELATE 运算符。</li>
+</ol>
+<h2 id="需求实现"><a href="#需求实现" class="headerlink" title="需求实现"></a>需求实现</h2><p>首先需要确保表中有经纬度的字段和数据，并且不为空。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">delete</span><br><span class="line">from T_GIS</span><br><span class="line">where LONGITUDE is null</span><br><span class="line">   or LATITUDE is null;</span><br></pre></td></tr></table></figure>
+
+<p>然后需要新建一个字段，为存储空间类型。存储经纬度转换后的数据。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">alter table T_GIS</span><br><span class="line">    add POINT_GEOMETRY SDO_GEOMETRY</span><br></pre></td></tr></table></figure>
+
+<p>将转换后的经纬度存储到这个字段中。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">UPDATE T_GIS a</span><br><span class="line">SET a.POINT_GEOMETRY = SDO_GEOMETRY(</span><br><span class="line">        2001, -- 点类型</span><br><span class="line">        8307, -- WGS84 坐标系</span><br><span class="line">        SDO_POINT_TYPE(a.LONGITUDE, a.LATITUDE, NULL), -- 点坐标</span><br><span class="line">        NULL, -- 无元素信息</span><br><span class="line">        NULL -- 无坐标数组</span><br><span class="line">                       )</span><br><span class="line">where LONGITUDE is not null</span><br><span class="line">  and LATITUDE is not null;</span><br></pre></td></tr></table></figure>
+
+<p>然后需要为这个字段创建空间索引。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">DROP INDEX T_GIS_SPATIAL_IDX;</span><br><span class="line"></span><br><span class="line">CREATE INDEX T_GIS_SPATIAL_IDX</span><br><span class="line">    ON T_GIS (POINT_GEOMETRY)</span><br><span class="line">    INDEXTYPE IS MDSYS.SPATIAL_INDEX;</span><br></pre></td></tr></table></figure>
+
+<p>然后就可以使用 SDO_WITHIN_DISTANCE 来查询了。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">select *</span><br><span class="line">from T_GIS a</span><br><span class="line">where a.POINT_GEOMETRY is not null</span><br><span class="line">  and a.LONGITUDE is not null</span><br><span class="line">  and a.LATITUDE is not null</span><br><span class="line">  and SDO_WITHIN_DISTANCE(</span><br><span class="line">              a.POINT_GEOMETRY,</span><br><span class="line">              SDO_GEOMETRY(</span><br><span class="line">                      2001, -- 点类型</span><br><span class="line">                      8307, -- WGS84 坐标系</span><br><span class="line">                      SDO_POINT_TYPE(104.48060937499996, 36.30556423523153, NULL), -- 点坐标 (经度, 纬度, 高度)</span><br><span class="line">                      NULL, -- 无元素信息</span><br><span class="line">                      NULL -- 无坐标数组</span><br><span class="line">              ),</span><br><span class="line">              &#x27;DISTANCE=1000&#x27;</span><br><span class="line">      ) = &#x27;TRUE&#x27;;</span><br></pre></td></tr></table></figure>
+
+<p>如果报错，可以使用下面的语句查看异常数据：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SELECT *</span><br><span class="line">FROM T_GIS</span><br><span class="line">WHERE SDO_GEOM.VALIDATE_GEOMETRY_WITH_CONTEXT(POINT_GEOMETRY, 0.005) != &#x27;TRUE&#x27;;</span><br></pre></td></tr></table></figure>
+
+<h2 id="WGS84-坐标系"><a href="#WGS84-坐标系" class="headerlink" title="WGS84 坐标系"></a>WGS84 坐标系</h2><p>WGS84（<strong>World Geodetic System 1984</strong>）是目前全球最广泛使用的 <strong>大地坐标系（Geodetic Coordinate System）</strong>，由美国国防部（DoD）制定，用于 <strong>GPS 定位、地图绘制、GIS 系统</strong> 等场景。</p>
+<ul>
+<li>WGS84 是一个 <strong>地球参考坐标系</strong>，用于描述地球表面点的位置（经度、纬度、高程）。</li>
+<li>它基于 <strong>椭球体模型</strong>（参考椭球），并定义了地球的形状、大小和重力场。</li>
+</ul>
+<h3 id="核心参数"><a href="#核心参数" class="headerlink" title="核心参数"></a>核心参数</h3><table>
+<thead>
+<tr>
+<th>参数</th>
+<th>值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>椭球体长半轴（a）</strong></td>
+<td>6,378,137 米</td>
+<td>赤道半径</td>
+</tr>
+<tr>
+<td><strong>椭球体短半轴（b）</strong></td>
+<td>6,356,752.3142 米</td>
+<td>极半径</td>
+</tr>
+<tr>
+<td><strong>扁率（f）</strong></td>
+<td>1&#x2F;298.257223563</td>
+<td><code>f = (a - b) / a</code></td>
+</tr>
+<tr>
+<td><strong>第一偏心率平方（e²）</strong></td>
+<td>0.00669437999014</td>
+<td>用于坐标转换</td>
+</tr>
+<tr>
+<td><strong>地球自转角速度（ω）</strong></td>
+<td>7.292115 × 10⁻⁵ rad&#x2F;s</td>
+<td>影响重力场计算</td>
+</tr>
+<tr>
+<td><strong>地心引力常数（GM）</strong></td>
+<td>3.986004418 × 10¹⁴ m³&#x2F;s²</td>
+<td>用于卫星轨道计算</td>
+</tr>
+</tbody></table>
+<h3 id="坐标表示"><a href="#坐标表示" class="headerlink" title="坐标表示"></a>坐标表示</h3><p>WGS84 使用 <strong>经度（Longitude）、纬度（Latitude）、高程（Height）</strong> 表示位置：</p>
+<ul>
+<li><strong>经度（λ）</strong>：东经（0°<del>180°E）或西经（0°</del>180°W）。</li>
+<li><strong>纬度（φ）</strong>：北纬（0°<del>90°N）或南纬（0°</del>90°S）。</li>
+<li><strong>高程（h）</strong>：相对于 WGS84 椭球面的高度（单位：米）。</li>
+</ul>
+<h3 id="WGS84-的常见用途"><a href="#WGS84-的常见用途" class="headerlink" title="WGS84 的常见用途"></a>WGS84 的常见用途</h3><ol>
+<li>GPS 定位<ul>
+<li>全球定位系统（GPS）默认使用 WGS84 坐标系。</li>
+<li>手机、车载导航、无人机等设备的定位数据通常基于 WGS84。</li>
+</ul>
+</li>
+<li>地图服务<ul>
+<li><strong>Google Maps、百度地图、高德地图</strong> 等在线地图的底层数据采用 WGS84。</li>
+<li>但部分地图（如中国 GCJ-02）会对 WGS84 进行加密偏移。</li>
+</ul>
+</li>
+<li>GIS 和空间数据库<ul>
+<li><strong>Oracle Spatial、PostGIS、ArcGIS</strong> 等支持 WGS84 坐标系。</li>
+<li>在 Oracle 中，WGS84 的 SRID（空间参考 ID）通常为：<ul>
+<li><strong>4326</strong>（标准 WGS84，经纬度顺序：纬度, 经度）</li>
+<li><strong>8307</strong>（WGS84，经纬度顺序：经度, 纬度）</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="WGS84-与其他坐标系的区别"><a href="#WGS84-与其他坐标系的区别" class="headerlink" title="WGS84 与其他坐标系的区别"></a>WGS84 与其他坐标系的区别</h3><p>WGS84 是全通通用的、无偏移的 GPS 原始数据，美国标准。GPS、谷歌地图等使用。<br>GCJ-02 对 WGS84 进行非线性偏移。在中国国内使用，高德地图、腾讯地图等使用。<br>CGCS2000 是中国标准，中国官方测绘。</p>
+<blockquote>
+<p>注：CGCS2000 和 WGS84 在 <strong>厘米级精度</strong> 下可以视为一致，但在高精度测量（如卫星定位）时需转换。</p>
+</blockquote>
+<h2 id="Oracle-Spatial-函数（部分）"><a href="#Oracle-Spatial-函数（部分）" class="headerlink" title="Oracle Spatial 函数（部分）"></a>Oracle Spatial 函数（部分）</h2><h3 id="SDO-GEOMETRY"><a href="#SDO-GEOMETRY" class="headerlink" title="SDO_GEOMETRY"></a>SDO_GEOMETRY</h3><p>SDO_GEOMETRY 是 Oracle Spatial 的核心数据类型，用于存储空间数据。</p>
+<p>基本语法</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">SDO_GEOMETRY(</span><br><span class="line">    geometry_type  NUMBER,        -- 几何类型代码</span><br><span class="line">    srid          NUMBER,        -- 空间参考系ID</span><br><span class="line">    point         SDO_POINT_TYPE,-- 点坐标(仅用于点类型)</span><br><span class="line">    elem_info     SDO_ELEM_INFO_ARRAY, -- 元素定义数组</span><br><span class="line">    ordinates     SDO_ORDINATE_ARRAY   -- 坐标值数组</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>几何类型代码</p>
+<table>
+<thead>
+<tr>
+<th>代码</th>
+<th>类型说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>2001</td>
+<td>点</td>
+</tr>
+<tr>
+<td>2002</td>
+<td>线</td>
+</tr>
+<tr>
+<td>2003</td>
+<td>多边形</td>
+</tr>
+<tr>
+<td>2005</td>
+<td>多点集合</td>
+</tr>
+<tr>
+<td>2006</td>
+<td>多线集合</td>
+</tr>
+<tr>
+<td>2007</td>
+<td>多多边形集合</td>
+</tr>
+</tbody></table>
+<p>创建点</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">-- 创建WGS84坐标系的点(经度120.5，纬度30.2)</span><br><span class="line">SELECT SDO_GEOMETRY(</span><br><span class="line">    2001,         -- 点类型</span><br><span class="line">    8307,         -- WGS84坐标系SRID</span><br><span class="line">    SDO_POINT_TYPE(120.5, 30.2, NULL), -- 经度,纬度,高程</span><br><span class="line">    NULL,</span><br><span class="line">    NULL</span><br><span class="line">) FROM dual;</span><br></pre></td></tr></table></figure>
+
+<p>创建线</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">-- 创建由三个点组成的线</span><br><span class="line">SELECT SDO_GEOMETRY(</span><br><span class="line">    2002,  -- 线类型</span><br><span class="line">    8307,</span><br><span class="line">    NULL,</span><br><span class="line">    SDO_ELEM_INFO_ARRAY(1, 2, 1), -- 简单线</span><br><span class="line">    SDO_ORDINATE_ARRAY(120,30, 121,31, 122,30) -- 三个点坐标</span><br><span class="line">) FROM dual;</span><br></pre></td></tr></table></figure>
+
+<p>创建多边形</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">-- 创建四边形(必须闭合)</span><br><span class="line">SELECT SDO_GEOMETRY(</span><br><span class="line">    2003,  -- 多边形类型</span><br><span class="line">    8307,</span><br><span class="line">    NULL,</span><br><span class="line">    SDO_ELEM_INFO_ARRAY(1, 1003, 1), -- 外多边形</span><br><span class="line">    SDO_ORDINATE_ARRAY(120,30, 121,30, 121,31, 120,31, 120,30) -- 闭合坐标</span><br><span class="line">) FROM dual;</span><br></pre></td></tr></table></figure>
+
+<h3 id="SDO-WITHIN-DISTANCE-函数详解"><a href="#SDO-WITHIN-DISTANCE-函数详解" class="headerlink" title="SDO_WITHIN_DISTANCE 函数详解"></a>SDO_WITHIN_DISTANCE 函数详解</h3><p>用于查询在指定距离范围内的空间对象。</p>
+<p>基本语法</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">SDO_WITHIN_DISTANCE(</span><br><span class="line">    geometry1  SDO_GEOMETRY,  -- 要检查的几何对象</span><br><span class="line">    geometry2  SDO_GEOMETRY,  -- 参考几何对象</span><br><span class="line">    params     VARCHAR2       -- 距离参数</span><br><span class="line">) RETURN VARCHAR2;</span><br></pre></td></tr></table></figure>
+
+<p>参数说明</p>
+<ul>
+<li><code>params</code> 格式：<code>&#39;distance=&lt;数值&gt; unit=&lt;单位&gt;&#39;</code><ul>
+<li><code>distance</code>：距离值</li>
+<li><code>unit</code>：单位(默认为坐标系单位，WGS84为米)</li>
+</ul>
+</li>
+</ul>
+<p>查询某点1公里范围内的所有商店</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">SELECT s.store_id, s.store_name</span><br><span class="line">FROM stores s</span><br><span class="line">WHERE SDO_WITHIN_DISTANCE(</span><br><span class="line">    s.location,  -- 商店位置字段</span><br><span class="line">    SDO_GEOMETRY(2001, 8307, SDO_POINT_TYPE(120.5, 30.2, NULL), NULL, NULL), -- 中心点</span><br><span class="line">    &#x27;distance=1000&#x27;  -- 1公里范围内</span><br><span class="line">) = &#x27;TRUE&#x27;;</span><br></pre></td></tr></table></figure>
+
+<p>查询某区域500米内的所有道路</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">SELECT r.road_id, r.road_name</span><br><span class="line">FROM roads r, regions reg</span><br><span class="line">WHERE reg.region_id = 101</span><br><span class="line">AND SDO_WITHIN_DISTANCE(</span><br><span class="line">    r.geom,      -- 道路几何</span><br><span class="line">    reg.geom,    -- 区域几何</span><br><span class="line">    &#x27;distance=500&#x27;  -- 500米内</span><br><span class="line">) = &#x27;TRUE&#x27;;</span><br></pre></td></tr></table></figure>
+
+<h3 id="SDO-INSIDE"><a href="#SDO-INSIDE" class="headerlink" title="SDO_INSIDE"></a>SDO_INSIDE</h3><p>用于判断一个几何对象是否完全包含在另一个几何对象内部。</p>
+<p>基本语法</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">SDO_INSIDE(</span><br><span class="line">    geometry1  SDO_GEOMETRY,  -- 要检查的几何对象</span><br><span class="line">    geometry2  SDO_GEOMETRY,  -- 容器几何对象</span><br><span class="line">    tol        NUMBER         -- 容差</span><br><span class="line">) RETURN VARCHAR2;</span><br></pre></td></tr></table></figure>
+
+<p>查询完全在某个区域内的所有建筑</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">SELECT b.building_id, b.building_name</span><br><span class="line">FROM buildings b, city_zones z</span><br><span class="line">WHERE z.zone_id = 5</span><br><span class="line">AND SDO_INSIDE(</span><br><span class="line">    b.geometry,  -- 建筑几何</span><br><span class="line">    z.geometry,  -- 区域几何</span><br><span class="line">    0.05         -- 容差</span><br><span class="line">) = &#x27;TRUE&#x27;;</span><br></pre></td></tr></table></figure>
+
+<p>检查点是否在多边形内</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">SELECT </span><br><span class="line">    CASE </span><br><span class="line">        WHEN SDO_INSIDE(</span><br><span class="line">            SDO_GEOMETRY(2001, 8307, SDO_POINT_TYPE(120.3, 30.5, NULL), NULL, NULL),</span><br><span class="line">            polygon_geom,</span><br><span class="line">            0.01</span><br><span class="line">        ) = &#x27;TRUE&#x27; THEN &#x27;Inside&#x27;</span><br><span class="line">        ELSE &#x27;Outside&#x27;</span><br><span class="line">    END AS position_status</span><br><span class="line">FROM administrative_areas</span><br><span class="line">WHERE area_id = 101;</span><br></pre></td></tr></table></figure>
+
+
+                </div>
+
+                
+                        
+<div class="post-copyright-info-container border-box">
+    <div class="copyright-info-content border-box">
+        <div class="copyright-info-top border-box">
+            <div class="copyright-post-title border-box text-ellipsis">
+                oracle通过经纬度过滤范围内数据
+            </div>
+
+            <div class="copyright-post-link border-box text-ellipsis">
+                编程记录/编程记录/oracle通过经纬度过滤范围内数据/
+            </div>
+        </div>
+
+        <div class="copyright-info-bottom border-box">
+            <div class="copyright-post-author bottom-item">
+                <div class="type">
+                    作者
+                </div>
+                <div class="content">咕咕咕</div>
+            </div>
+
+            <div class="post-time bottom-item">
+                <div class="type">
+                    发布于
+                </div>
+                <div class="content">2025-03-26 10:54</div>
+            </div>
+
+
+            <div class="post-license bottom-item">
+                <div class="type">
+                    许可
+                </div>
+                <div class="content tooltip" data-tooltip-content="CC BY-NC-SA 4.0">
+                    <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hans">
+                        <i class="fa-brands fa-creative-commons"></i>
+                        <i class="fa-brands fa-creative-commons-by"></i>
+                        <i class="fa-brands fa-creative-commons-nc"></i>
+                        <i class="fa-brands fa-creative-commons-sa"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <i class="copyright-bg fa-solid fa-copyright"></i>
+    </div>
+    <div class="copy-copyright-info flex-center tooltip" data-tooltip-content="复制版权信息" data-tooltip-offset-y="-2px">
+        <i class="fa-solid fa-copy"></i>
+    </div>
+</div>
+
+                
+
+                <div class="post-bottom-tags-and-share border-box">
+                    <div>
+                        
+                            <ul class="post-tags-box border-box">
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/oracle/">oracle</a>
+                                    </li>
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/%E7%BB%8F%E7%BA%AC%E5%BA%A6/">经纬度</a>
+                                    </li>
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/%E5%9C%B0%E5%9B%BE/">地图</a>
+                                    </li>
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/WGS84%E5%9D%90%E6%A0%87%E7%B3%BB/">WGS84坐标系</a>
+                                    </li>
+                                
+                            </ul>
+                        
+                    </div>
+                    <div>
+                        
+                            <div class="post-share-container border-box">
+    <ul class="share-list-wrap border-box">
+        <li class="qq share-item border-box flex-center tooltip"
+            data-tooltip-content="分享到 QQ"
+        >
+            <i class="fa-brands fa-qq"></i>
+        </li>
+        <li class="wechat share-item border-box flex-center tooltip tooltip-img"
+            data-tooltip-content="分享到微信"
+            data-tooltip-img-tip="微信扫一扫"
+            data-tooltip-img-style="background-color: #fff; top: -10px; padding: 0.6rem 0.6rem 0.1rem 0.6rem;"
+        >
+            <i class="fa-brands fa-weixin"></i>
+        </li>
+        <li class="weibo share-item border-box flex-center tooltip"
+            data-tooltip-content="分享到微博"
+        >
+            <i class="fa-brands fa-weibo"></i>
+        </li>
+    </ul>
+</div>
+
+                        
+                    </div>
+                </div>
+
+                
+                    <div class="reward-author-container border-box flex-center">
+    <div class="reward-btn keep-button border-box flex-center tooltip tooltip-img"
+            data-tooltip-content="谢谢你请我喝可乐~"
+            data-tooltip-img-url="/images/thanks.png"
+            data-tooltip-img-trigger="click"
+            data-tooltip-img-style="top: -8px;"
+    >
+        <i class="fa-solid fa-hand-holding-heart"></i>
+    </div>
+</div>
+
+                
+
+                
+                    <div class="post-nav border-box">
+                        
+                            <div class="prev-post">
+                                <a class="prev"
+                                   rel="prev"
+                                   href="/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E7%BC%93%E5%AD%98%E6%B7%98%E6%B1%B0%E7%AE%97%E6%B3%95LRU%E3%80%81LFU/"
+                                   title="缓存淘汰算法LRU、LFU"
+                                >
+                                    <span class="left arrow-icon flex-center">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </span>
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">缓存淘汰算法LRU、LFU</span>
+                                        <span class="post-nav-item">上一篇</span>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                        
+                            <div class="next-post">
+                                <a class="next"
+                                   rel="next"
+                                   href="/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E3%80%8Aapache%20Kafka%E5%AE%9E%E6%88%98%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-producer%E3%80%81consumer%E5%92%8C%E8%AE%BE%E8%AE%A1%E5%8E%9F%E7%90%86/"
+                                   title="《apache Kafka实战》读书笔记-producer、consumer和设计原理"
+                                >
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">《apache Kafka实战》读书笔记-producer、consumer和设计原理</span>
+                                        <span class="post-nav-item">下一篇</span>
+                                    </span>
+                                    <span class="right arrow-icon flex-center">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                    </div>
+                
+
+                
+                    
+
+
+    <div class="comments-container border-box">
+        <div id="comments-anchor" class="comment-area-title border-box">
+            <i class="fas fa-comments"></i>&nbsp;评论
+        </div>
+        <div class="comment-plugin-fail border-box">
+    <span class="fail-tip">评论插件加载失败</span>
+    <button class="reload keep-button">点击重新加载</button>
+</div>
+<div class="comment-plugin-loading flex-center border-box">
+    <i class="loading-icon fa-solid fa-spinner fa-spin"></i>
+    <span class="load-tip">正在加载评论插件</span>
+</div>
+<script data-pjax>
+  window.KeepCommentPlugin = {}
+  window.KeepCommentPlugin.hideLoading = () => {
+    const cplDom = document.querySelector('.comments-container .comment-plugin-loading')
+    cplDom.style.display = 'none'
+  }
+  window.KeepCommentPlugin.loadFailHandle = () => {
+    window.KeepCommentPlugin.hideLoading()
+    const cpfDom = document.querySelector('.comments-container .comment-plugin-fail')
+    cpfDom.style.display = 'flex'
+    cpfDom.querySelector('.reload').addEventListener('click', () => {
+      window.location.reload()
+    })
+  }
+</script>
+
+        
+            
+
+    <div class="giscus-comments-container">
+        <div class="giscus" id="giscus"></div>
+        <script data-pjax
+                onerror="window.KeepCommentPlugin.loadFailHandle()"
+        >
+          if (!window.KeepCommentPlugin?.getGiscusTheme) {
+            window.KeepCommentPlugin.getGiscusTheme = () => {
+              return document.body.classList.contains('dark-mode') ? 'dark_dimmed' : 'light_tritanopia'
+            }
+          }
+
+          if (!window.KeepCommentPlugin?.changeGiscusTheme) {
+            window.KeepCommentPlugin.changeGiscusTheme = () => {
+              const iframe = document.querySelector('iframe.giscus-frame')
+              iframe && iframe.contentWindow.postMessage({
+                giscus: {
+                  setConfig: {
+                    theme: window.KeepCommentPlugin.getGiscusTheme()
+                  }
+                }
+              }, 'https://giscus.app')
+            }
+          }
+
+          if (!window.KeepCommentPlugin?.initGiscus) {
+            window.KeepCommentPlugin.initGiscus = () => {
+              const script = document.createElement('script')
+              script.async = true
+              script.src = 'https://giscus.app/client.js'
+              script.setAttribute('data-repo', 'Cooooing/Cooooing.github.io')
+              script.setAttribute('data-repo-id', 'R_kgDOHQal_w')
+              script.setAttribute('data-category', 'Announcements')
+              script.setAttribute('data-category-id', 'DIC_kwDOHQal_84CjZo6')
+              script.setAttribute('data-reactions-enabled', '1')
+              script.setAttribute('data-lang', 'zh-CN')
+              script.setAttribute('data-mapping', 'pathname')
+              script.setAttribute('data-strict', '0')
+              script.setAttribute('data-emit-metadata', '0')
+              script.setAttribute('data-input-position', 'top')
+              script.setAttribute('crossorigin', 'anonymous')
+              script.setAttribute('loading', 'lazy')
+              script.setAttribute('data-theme', window.KeepCommentPlugin.getGiscusTheme())
+              document.querySelector('.giscus-comments-container').appendChild(script)
+              script.onerror = () => {
+                window.KeepCommentPlugin.loadFailHandle()
+              }
+              script.onload = () => {
+                window.KeepCommentPlugin.hideLoading()
+              }
+              const toggleThemeBtn = document.querySelector('.tool-toggle-theme-mode')
+              toggleThemeBtn && toggleThemeBtn.addEventListener('click', () => {
+                window.KeepCommentPlugin.changeGiscusTheme()
+              })
+            }
+          }
+
+          if ('true' === "true") {
+            setTimeout(() => {
+              window.KeepCommentPlugin.initGiscus()
+            }, 1000)
+          } else {
+            window.addEventListener("DOMContentLoaded", window.KeepCommentPlugin.initGiscus)
+          }
+        </script>
+    </div>
+
+
+        
+    </div>
+
+
+
+
+
+                
+            </div>
+        </div>
+
+        
+            <div class="pc-post-toc left-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Start"><span class="nav-text">Start</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9C%80%E6%B1%82%E5%AE%9E%E7%8E%B0"><span class="nav-text">需求实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#WGS84-%E5%9D%90%E6%A0%87%E7%B3%BB"><span class="nav-text">WGS84 坐标系</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E5%8F%82%E6%95%B0"><span class="nav-text">核心参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9D%90%E6%A0%87%E8%A1%A8%E7%A4%BA"><span class="nav-text">坐标表示</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#WGS84-%E7%9A%84%E5%B8%B8%E8%A7%81%E7%94%A8%E9%80%94"><span class="nav-text">WGS84 的常见用途</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#WGS84-%E4%B8%8E%E5%85%B6%E4%BB%96%E5%9D%90%E6%A0%87%E7%B3%BB%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-text">WGS84 与其他坐标系的区别</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Oracle-Spatial-%E5%87%BD%E6%95%B0%EF%BC%88%E9%83%A8%E5%88%86%EF%BC%89"><span class="nav-text">Oracle Spatial 函数（部分）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#SDO-GEOMETRY"><span class="nav-text">SDO_GEOMETRY</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SDO-WITHIN-DISTANCE-%E5%87%BD%E6%95%B0%E8%AF%A6%E8%A7%A3"><span class="nav-text">SDO_WITHIN_DISTANCE 函数详解</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SDO-INSIDE"><span class="nav-text">SDO_INSIDE</span></a></li></ol></li></ol>
+    </div>
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom border-box">
+            
+<footer class="footer border-box">
+    <div class="border-box website-info-box default">
+        
+            <div class="copyright-info info-item default">
+                &copy;&nbsp;<span>2022</span>&nbsp;-&nbsp;2025
+                
+                    &nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;&nbsp;<a href="/">咕咕咕</a>
+                
+            </div>
+
+            <div class="theme-info info-item default">
+                由&nbsp;<a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;驱动&nbsp;&&nbsp;主题&nbsp;<a class="keep-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep</a>
+            </div>
+
+            
+
+            
+        
+
+        <div style="color:var(--text-color-4);"><span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>(～￣▽￣)～<script src="/js/lifeTime.js"></script></div>
+        <a href="https://icp.gov.moe/?keyword=20222450" target="_blank">萌ICP备20222450号</a>
+
+
+        <div class="count-item info-item default">
+            
+                <span class="count-box border-box word">
+                    <span class="item-type border-box">总字数</span>
+                    <span class="item-value border-box word">362.1k</span>
+                </span>
+            
+
+            
+                <span class="count-box border-box uv">
+                    <span class="item-type border-box">访客数</span>
+                    <span class="item-value border-box uv" id="busuanzi_value_site_uv"></span>
+                </span>
+            
+
+            
+                <span class="count-box border-box pv">
+                    <span class="item-type border-box">访问量</span>
+                    <span class="item-value border-box pv" id="busuanzi_value_site_pv"></span>
+                </span>
+            
+        </div>
+
+        <div id="aplayer">
+          <meting-js
+                  server="netease"
+                  type="playlist"
+                  id="7345595717"
+                  fixed="true"
+                  mini="true"
+                  autoplay="false"
+                  listFolded="true"
+                  order="random"
+                  preload="none">
+          </meting-js>
+        </div>
+            <br>
+            <br>
+            <br>
+    </div>
+
+</footer>
+
+        </div>
+    </div>
+
+    <!-- post tools -->
+    
+        <div class="post-tools left-toc">
+            <div class="post-tools-container border-box">
+    <ul class="tools-list border-box">
+        <!-- PC TOC show toggle -->
+        
+            <li class="tools-item flex-center toggle-show-toc">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        <!-- PC go comment -->
+        
+            <li class="tools-item flex-center go-to-comments">
+                <i class="fas fa-comment"></i>
+                <span class="post-comments-count"></span>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <!-- side tools -->
+    <div class="side-tools">
+        <div class="side-tools-container border-box ">
+    <ul class="side-tools-list side-tools-show-handle border-box">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-toggle-theme-mode flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+            <li class="tools-item rss flex-center">
+                <a class="flex-center"
+                   href="/atom.xml"
+                   target="_blank"
+                >
+                    <i class="fas fa-rss"></i>
+                </a>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list border-box">
+        
+            <li class="tools-item toggle-show-toc-tablet flex-center">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        
+            <li class="tools-item go-to-comments-tablet flex-center">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+
+        <li class="tools-item tool-scroll-to-top flex-center show-arrow">
+            <i class="arrow fas fa-arrow-up"></i>
+            <span class="percent"></span>
+        </li>
+    </ul>
+</div>
+
+    </div>
+
+    <!-- image mask -->
+    <div class="zoom-in-image-mask">
+    <img class="zoom-in-image">
+</div>
+
+
+    <!-- local search -->
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="搜索..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="close-popup-btn">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+    <!-- tablet toc -->
+    
+        <div class="tablet-post-toc-mask">
+            <div class="tablet-post-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Start"><span class="nav-text">Start</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9C%80%E6%B1%82%E5%AE%9E%E7%8E%B0"><span class="nav-text">需求实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#WGS84-%E5%9D%90%E6%A0%87%E7%B3%BB"><span class="nav-text">WGS84 坐标系</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E5%8F%82%E6%95%B0"><span class="nav-text">核心参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9D%90%E6%A0%87%E8%A1%A8%E7%A4%BA"><span class="nav-text">坐标表示</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#WGS84-%E7%9A%84%E5%B8%B8%E8%A7%81%E7%94%A8%E9%80%94"><span class="nav-text">WGS84 的常见用途</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#WGS84-%E4%B8%8E%E5%85%B6%E4%BB%96%E5%9D%90%E6%A0%87%E7%B3%BB%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-text">WGS84 与其他坐标系的区别</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Oracle-Spatial-%E5%87%BD%E6%95%B0%EF%BC%88%E9%83%A8%E5%88%86%EF%BC%89"><span class="nav-text">Oracle Spatial 函数（部分）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#SDO-GEOMETRY"><span class="nav-text">SDO_GEOMETRY</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SDO-WITHIN-DISTANCE-%E5%87%BD%E6%95%B0%E8%AF%A6%E8%A7%A3"><span class="nav-text">SDO_WITHIN_DISTANCE 函数详解</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SDO-INSIDE"><span class="nav-text">SDO_INSIDE</span></a></li></ol></li></ol>
+    </div>
+</div>
+
+            </div>
+        </div>
+    
+</main>
+
+
+
+<!-- common -->
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/toggle-theme.js"></script>
+
+<script src="/js/code-block.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+
+<!-- local-search -->
+
+    
+<script src="/js/local-search.js"></script>
+
+
+
+<!-- lazyload -->
+
+    
+<script src="/js/lazyload.js"></script>
+
+
+
+<div class="pjax">
+    
+        <!-- post-helper -->
+        
+<script src="/js/post/post-helper.js"></script>
+
+
+        <!-- toc -->
+        
+            
+<script src="/js/post/toc.js"></script>
+
+        
+
+        <!-- copyright-info -->
+        
+            
+<script src="/js/post/copyright-info.js"></script>
+
+        
+
+        <!-- share -->
+        
+            
+<script src="/js/post/share.js"></script>
+
+        
+    
+
+    <!-- category-page -->
+    
+
+    <!-- links-page -->
+    
+
+    <!-- photos-page -->
+    
+</div>
+
+<!-- mermaid -->
+
+
+<!-- pjax -->
+
+    
+<script src="/js/libs/pjax.min.js"></script>
+
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        window.pjax = new Pjax({
+            selectors: [
+                'head title',
+                '.page-container',
+                '.pjax',
+                '#aplayer',
+                '#canvas_sakura'
+            ],
+            history: true,
+            debug: false,
+            cacheBust: false,
+            timeout: 0,
+            analytics: false,
+            currentUrlFullReload: false,
+            scrollRestoration: false,
+        });
+
+        document.addEventListener('pjax:send', () => {
+            KEEP.utils.pjaxProgressBarStart()
+        });
+
+        document.addEventListener('pjax:complete', () => {
+            KEEP.utils.pjaxProgressBarEnd()
+            window.pjax.executeScripts(document.querySelectorAll('script[data-pjax], .pjax script'))
+            KEEP.initExecute()
+        });
+    });
+</script>
+
+
+
+
+    
+        
+            
+<script class="custom-inject-js" src="/js/APlayer.min.js" data-pjax></script>
+
+        
+    
+        
+            
+<script class="custom-inject-js" src="/js/Meting.min.js" data-pjax></script>
+
+        
+    
+        
+            
+<script class="custom-inject-js" src="/js/leaves.js" data-pjax></script>
+
+        
+    
+
+
+
+</body>
+</html>

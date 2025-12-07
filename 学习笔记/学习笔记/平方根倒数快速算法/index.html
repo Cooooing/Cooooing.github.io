@@ -1,0 +1,1096 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="技术博客,后端开发,编程笔记,生活">
+    <meta name="description" content="Code | Systems | Life — 专注编程本质，也关心世界如何运转。">
+    <meta name="author" content="咕咕咕">
+
+    
+    <title>
+        
+            平方根倒数快速算法 |
+        
+        咕咕咕的小破站
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+        <link rel="shortcut icon" href="/images/favicon.png">
+    
+    
+<link rel="stylesheet" href="/font/css/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/regular.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/solid.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/brands.min.css">
+
+    
+        
+            
+                
+<link rel="stylesheet" href="/css/APlayer.min.css">
+
+            
+        
+            
+                
+<link rel="stylesheet" href="/css/custom.css">
+
+            
+        
+    
+    <script class="keep-theme-configurations">
+    const KEEP = window.KEEP || {}
+    KEEP.hexo_config = {"hostname":"cooooing.github.io","root":"/","language":"zh-CN","path":"search.json"}
+    KEEP.theme_config = {"base_info":{"primary_color":"#0066cc","title":"咕咕咕的小破站","author":"咕咕咕","avatar":"/images/head.jpg","logo":"/images/head.jpg","favicon":"/images/favicon.png"},"menu":{"Archives":"/archives","Categories":"/categories","Tags":"/tags","日常":"/daily","Links":"/links","About":"/about"},"first_screen":{"enable":false,"background_img":"/images/bg.svg","background_img_dark":"/images/bg.svg","description":"Keep writing and Keep loving.","hitokoto":false},"social_contact":{"enable":false,"links":{"github":null,"weixin":null,"qq":null,"weibo":null,"zhihu":null,"twitter":null,"facebook":null,"email":null}},"scroll":{"progress_bar":false,"percent":false,"hide_header":true},"home":{"category":true,"tag":true,"announcement":null},"post":{"author_badge":{"enable":true,"level_badge":false,"custom_badge":["fishing"]},"word_count":{"wordcount":true,"min2read":true},"datetime_format":"YYYY-MM-DD HH:mm:ss","copyright_info":true,"share":true,"reward":{"enable":true,"img_link":"/images/thanks.png","text":"谢谢你请我喝可乐~"}},"code_block":{"tools":{"enable":true,"style":"default"},"highlight_theme":"default"},"toc":{"enable":true,"number":false,"expand_all":true,"init_open":true,"layout":"left"},"website_count":{"busuanzi_count":{"enable":true,"site_uv":true,"site_pv":true,"page_pv":true}},"local_search":{"enable":true,"preload":true},"comment":{"enable":true,"use":"giscus","valine":{"appid":null,"appkey":null,"server_urls":null,"placeholder":null},"gitalk":{"github_id":null,"github_admins":null,"repository":null,"client_id":null,"client_secret":null,"proxy":null},"twikoo":{"env_id":null,"region":null,"version":"1.6.21"},"waline":{"server_url":null,"reaction":false,"version":2},"giscus":{"repo":"Cooooing/Cooooing.github.io","repo_id":"R_kgDOHQal_w","category":"Announcements","category_id":"DIC_kwDOHQal_84CjZo6","reactions_enabled":true},"artalk":{"server":null},"disqus":{"shortname":null}},"rss":{"enable":true},"lazyload":{"enable":true},"cdn":{"enable":false,"provider":"cdnjs"},"pjax":{"enable":true},"footer":{"since":2022,"word_count":true,"icp":{"enable":false,"record_code":null,"url":"https://beian.miit.gov.cn"},"site_deploy":{"enable":false,"provider":"github","url":null},"shields_style":{"enable":false,"custom":[{"link_url":null,"img_url":null}]}},"inject":{"enable":true,"css":["/css/APlayer.min.css","/css/custom.css"],"js":["/js/APlayer.min.js","/js/Meting.min.js","/js/leaves.js"]},"root":"","links":[{"name":"鼠鼠在碎觉","link":"https://sszsj.com","avatar":"https://tmx.fishpi.cn/img/head.jpg","description":"我是不慎落入世界的一滴水墨"},{"name":"Gakkiyomi","link":"https://gakkiyomi.blog","avatar":"https://avatars.githubusercontent.com/u/41406557?v=4","description":"为往圣继绝学"},{"name":"Hancel's Blog","link":"https://my.hancel.org","avatar":"https://my.hancel.org/media/logo.jpg","description":"人生而自由，却无往不在枷锁之中。"},{"name":"Eastshann","link":"http://121.4.99.208/","avatar":"http://121.4.99.208/img/avatar.jpg","description":"冲和者，淡泊平和，谦冲守正"},{"name":"小于同学的异世界","link":"https://yby.zone","avatar":"https://yby-zone.obs.cn-east-3.myhuaweicloud.com/avatar.jpg","description":"为吾为枝，余地三尺，以己为棋，胜天半子。"},{"name":"Mlikiowa Home Village","link":"https://nanaeo.cn/","avatar":"https://q1.qlogo.cn/g?b=qq&nk=1627126029&s=100","description":"A litter Village With Mlikiowa"},{"name":"忘忧草","link":"https://owo.wyc.rest/","avatar":"https://owo.wyc.rest/img/%E4%B8%87%E5%8F%B6.jpg","description":"这只是一个小破站而已！"},{"name":"stillwarter","link":"https://stillwarter.github.io/","avatar":"https://file.fishpi.cn/2022/07/MOSHED2022621164630-1b1ec532.gif?imageView2/1/w/210/h/210/interlace/0/q/100","description":"光就是一切的意义"},{"name":"test12138","link":"http://你好.eu.org/","avatar":"https://file.fishpi.cn/2022/06/srchttpimgzcoolcncommunity0116405d84f975a801211d537707c9gifreferhttpimgzcool-0f2d09c9.gif?imageView2/1/w/48/h/48/interlace/0/q/100","description":"大丈夫生于天地之间，岂能郁郁久居人下。"},{"name":"呼呼呼","link":"https://bongbongbakudan.github.io/","avatar":"https://pwl.stackoverflow.wiki/2021/12/blob-28eb4b9f.png?imageView2/1/w/48/h/48/interlace/0/q/100","description":"去整点薯条"},{"name":"Plumbiu","link":"https://blog.plumbiu.top/","avatar":"https://avatars.githubusercontent.com/u/99574369?v=4","description":"这人很勤奋，啥都没留"},{"name":"hiRipple","link":"https://hiripple.com/","avatar":"https://avatars.githubusercontent.com/u/115361435?v=4","description":"超高校级的游戏玩家"}],"version":"4.0.6"}
+    KEEP.language_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"}
+    KEEP.language_code_block = {"copy":"复制代码","copied":"已复制","fold":"折叠代码块","folded":"已折叠"}
+    KEEP.language_copy_copyright = {"copy":"复制版权信息","copied":"已复制","title":"原文标题","author":"原文作者","link":"原文链接"}
+  </script>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-CLX32WF4R1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+
+      gtag('js', new Date());
+
+      gtag('config', 'G-CLX32WF4R1');
+    </script>
+
+    <!-- 51.la -->
+    <script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
+    <script>LA.init({id: "3JwPz6wbAloyTmMc", ck: "3JwPz6wbAloyTmMc", autoTrack: true})</script>
+
+<meta name="generator" content="Hexo 8.1.1"><link rel="alternate" href="/atom.xml" title="咕咕咕的小破站" type="application/atom+xml">
+</head>
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+        <span class="pjax-progress-bar"></span>
+        <i class="pjax-progress-icon fas fa-circle-notch fa-spin"></i>
+    
+</div>
+
+
+<main class="page-container border-box">
+
+    <!-- home first screen  -->
+    
+
+    <!-- page content -->
+    <div class="page-main-content border-box">
+        <div class="page-main-content-top">
+            
+<header class="header-wrapper">
+
+    <div class="border-box header-content">
+        <div class="left border-box">
+            
+                <a class="logo-image border-box" href="/">
+                    <img src="/images/head.jpg">
+                </a>
+            
+            <a class="site-name border-box" href="/">
+               咕咕咕的小破站
+            </a>
+        </div>
+
+        <div class="right border-box">
+            <div class="pc">
+                <ul class="menu-list">
+                    <li class="menu-item">
+                        <a class=""
+                           href="/"
+                        >首页</a>
+                    </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >归档</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/categories"
+                            >分类</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/tags"
+                            >标签</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/daily"
+                            >日常</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/links"
+                            >友链</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >关于</a>
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="fas search fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            <li class="drawer-menu-item flex-center">
+                <a class=""
+                   href="/"
+                >首页</a>
+            </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives"
+                    >归档</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/categories"
+                    >分类</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/tags"
+                    >标签</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/daily"
+                    >日常</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/links"
+                    >友链</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about"
+                    >关于</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle border-box">
+
+            <div class="main-content border-box">
+                
+
+                    
+<div class="fade-in-down-animation">
+    <div class="post-page-container border-box">
+        <div class="post-content-container border-box">
+            
+
+            <div class="post-content-bottom border-box">
+                
+                    <div class="post-title">
+                        平方根倒数快速算法
+                    </div>
+                
+
+                
+                    <div class="post-header border-box">
+                        
+                            <div class="avatar-box border-box">
+                                <img src="/images/head.jpg">
+                            </div>
+                        
+                        <div class="info-box">
+                            <div class="author border-box">
+                                <span class="name">咕咕咕</span>
+                                
+                                    <span class="author-badge">fishing</span>
+                                
+                            </div>
+                            <div class="meta-info border-box">
+                                
+
+<div class="post-meta-info-container border-box post">
+    <div class="post-meta-info border-box">
+        
+
+        
+            <span class="meta-info-item post-create-date">
+                <i class="icon fa-solid fa-calendar-plus"></i>&nbsp;
+                <span class="datetime">2023-10-29 12:00:17</span>
+            </span>
+
+            <span class="meta-info-item post-update-date">
+                <i class="icon fa-solid fa-file-pen"></i>&nbsp;
+                <span class="datetime" data-updated="Sun Oct 29 2023 04:00:17 GMT+0000">2023-10-29 12:00:17</span>
+            </span>
+        
+
+        
+            <span class="meta-info-item post-category border-box"><i class="icon fas fa-folder"></i>&nbsp;
+                <ul class="post-category-ul">
+                    
+                            <li class="category-item"><a href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+            <span class="post-tag meta-info-item border-box">
+                <i class="icon fas fa-tags"></i>&nbsp;
+                <ul class="post-tag-ul">
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/%E7%AE%97%E6%B3%95/">算法</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+        
+            <span class="meta-info-item post-wordcount">
+                <i class="icon fas fa-file-word"></i>&nbsp;<span>1.8k 字</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-min2read">
+                <i class="icon fas fa-clock"></i>&nbsp;<span>7 分钟</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-pv">
+                <i class="icon fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+            </span>
+        
+    </div>
+
+    
+</div>
+
+                            </div>
+                        </div>
+                    </div>
+                
+
+                <div class="post-content keep-markdown-body">
+                    
+
+                    <h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>来看段代码，由 格雷格·沃什 所写。注释由 卡马克 所写。<br>用于快速求平方根倒数。常用于在3D图形编程。<br>随《雷神之锤3》代码开源以及卡马克注释中优雅的评价而出名。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">float</span> <span class="title function_">Q_rsqrt</span><span class="params">(<span class="type">float</span> number)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">long</span> i;</span><br><span class="line">    <span class="type">float</span> x2, y;</span><br><span class="line">    <span class="type">const</span> <span class="type">float</span> threehalfs = <span class="number">1.5F</span>;</span><br><span class="line">    </span><br><span class="line">    x2 = number * <span class="number">0.5F</span>;</span><br><span class="line">    y = number;</span><br><span class="line">    i = * ( <span class="number">1</span>ong * ) &amp;y; <span class="comment">// evil floating point bit level hacking</span></span><br><span class="line">    i = <span class="number">0x5f3759df</span> - ( i &gt;&gt; <span class="number">1</span> ); <span class="comment">// what the fuck?</span></span><br><span class="line">    y = * ( <span class="type">float</span> * ) &amp;i;</span><br><span class="line">    y = y * ( threehalfs - ( x2 * y * y ) ); <span class="comment">// 1st iteration</span></span><br><span class="line">    <span class="comment">// y = y * ( threehalfs - ( x2 * y * y ) ); // 2st iteration this can be removed</span></span><br><span class="line">    <span class="keyword">return</span> y;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="如何求平方根"><a href="#如何求平方根" class="headerlink" title="如何求平方根"></a>如何求平方根</h2><p>比如求 2 的平方根，要精确到 7 位小数。<br>把问题转化下，其实是求 y&#x3D;x^2-2 这个函数与 x 轴的交点。<br>由于这个函数是条曲线，交点坐标不好求。那么可以用一条直线近似代替曲线，什么样的直线可以呢？<br>是 <strong>切线</strong><br>取 x&#x3D;2 处的切线（y&#x3D;4x-6），近似代替曲线。如图：</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E5%B9%B3%E6%96%B9%E6%A0%B9%E5%80%92%E6%95%B0%E5%BF%AB%E9%80%9F%E7%AE%97%E6%B3%95/x=2%E5%88%87%E7%BA%BF.png"
+                        alt="img.png"
+                 ></p>
+<p>近似替代后，得到交点坐标为 (1.5,0) 那么 根号2 的一个近似值就是 1.5。那么这个精度还是不够的。</p>
+<p>如何解决呢？<br>答案是取这个点处的切线（y&#x3D;3x-4.25）继续近似替代。如图：</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E5%B9%B3%E6%96%B9%E6%A0%B9%E5%80%92%E6%95%B0%E5%BF%AB%E9%80%9F%E7%AE%97%E6%B3%95/x=1.5%E5%88%87%E7%BA%BF.png"
+                        alt="img.png"
+                 ></p>
+<p>此时，近似值来到了 1.4166666666666667<br>在多次这样的操作之后，近似值的精度会越来越高。<br>第三次近似值：1.4142156862745099<br>第四次近似值：1.4142135623746899<br>第五次近似值：1.4142135623730951<br>大概第四次第五次就达到想要的精度了。</p>
+<p>这个方法就是 <a class="link"   target="_blank" rel="noopener" href="https://zh.wikipedia.org/zh-tw/%E7%89%9B%E9%A1%BF%E6%B3%95" >牛顿法<i class="fas fa-external-link-alt"></i></a>，被广泛用于近似求解各种方程。<br>牛顿法的公式可以简化：</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E5%B9%B3%E6%96%B9%E6%A0%B9%E5%80%92%E6%95%B0%E5%BF%AB%E9%80%9F%E7%AE%97%E6%B3%95/%E7%89%9B%E9%A1%BF%E6%B3%95%E7%AE%80%E5%8C%96%E5%85%AC%E5%BC%8F.png"
+                        alt="img.png"
+                 ></p>
+<p>手算这么多位的小数肯定会头皮发麻，但计算机不会。而且牛顿法每步迭代公式都一样，给计算机算太合适了。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">Q_rsqrt</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="comment">// 初始值</span></span><br><span class="line">	x := <span class="number">2.0</span></span><br><span class="line">	precision := <span class="number">1e-7</span> <span class="comment">// 预定精度</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">// 牛顿法迭代函数</span></span><br><span class="line">	fx := <span class="function"><span class="keyword">func</span><span class="params">(x <span class="type">float64</span>)</span></span> <span class="type">float64</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> x*x - <span class="number">2</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 牛顿法迭代公式（导函数）</span></span><br><span class="line">	dfx := <span class="function"><span class="keyword">func</span><span class="params">(x <span class="type">float64</span>)</span></span> <span class="type">float64</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="number">2</span> * x</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 迭代牛顿法求解根号2</span></span><br><span class="line">	<span class="keyword">for</span> &#123;</span><br><span class="line">		xNext := x - fx(x)/dfx(x)</span><br><span class="line">		<span class="keyword">if</span> math.Abs(x-xNext) &lt; precision &#123;</span><br><span class="line">			<span class="keyword">break</span></span><br><span class="line">		&#125;</span><br><span class="line">		x = xNext</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 输出结果</span></span><br><span class="line">	fmt.Printf(<span class="string">&quot;根号2的近似解:%.7f\n&quot;</span>, x)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="如何优化"><a href="#如何优化" class="headerlink" title="如何优化"></a>如何优化</h2><p>上面通过牛顿法虽然可以求出平方根的近似值，但是效率很低。要经过多次迭代。<br>那么有办法减少迭代次数吗？或者只用一次牛顿法得到足够精确的值吗？<br>通过观察牛顿法的公式可以发现，减少迭代次数的关键就是<strong>初始值的选择</strong>。</p>
+<p>上面的例子中，初始值为 2，迭代了 4 次得到精度为 7 位小数的结果。<br>但如果初始值选择为 1.414，那么只需要一次牛顿法就可以得到想要的结果。</p>
+<p>那么如何得到更加精确的初始值呢？要得到的不就是“更加精确的初始值”吗？</p>
+<h2 id="如何得到更加精确的初始值"><a href="#如何得到更加精确的初始值" class="headerlink" title="如何得到更加精确的初始值"></a>如何得到更加精确的初始值</h2><p>首先，了解下计算机是如何存储浮点数的。<br>学习过计算机组成原理的应该都知道，<a class="link"   target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/IEEE_754" >IEEE754<i class="fas fa-external-link-alt"></i></a>。全称：IEEE二进制浮点数算术标准（ANSI&#x2F;IEEE Std 754-1985）</p>
+<p>32位单精度浮点数存储方法：</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E5%B9%B3%E6%96%B9%E6%A0%B9%E5%80%92%E6%95%B0%E5%BF%AB%E9%80%9F%E7%AE%97%E6%B3%95/32%E4%BD%8D%E5%8D%95%E7%B2%BE%E5%BA%A6%E6%B5%AE%E7%82%B9%E6%95%B0.png"
+                        alt="img.png"
+                 ></p>
+<p>1为符号位 8位指数位 23位尾数位</p>
+<p>64位双精度浮点数存储方法也类似：<br>1为符号位 11位指数位 52位尾数位</p>
+<p>这里拿32位举例。（当初学计组，拿笔手算浮点数运算可痛苦了<br>下图是32位浮点数十进制值与二进制值的关系：</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E5%B9%B3%E6%96%B9%E6%A0%B9%E5%80%92%E6%95%B0%E5%BF%AB%E9%80%9F%E7%AE%97%E6%B3%95/32%E4%BD%8D%E5%8D%95%E7%B2%BE%E5%BA%A6%E6%B5%AE%E7%82%B9%E6%95%B0%E5%80%BC.png"
+                        alt="img.png"
+                 ></p>
+<p>那么知道浮点数在计算机底层中是如何存储的之后，就要对上面的公式进行简化。</p>
+<p>这里要运用对数的知识。<br><strong>对数可以将乘除运算变为加减运算，将幂运算变为乘法运算</strong>。如图：</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E5%B9%B3%E6%96%B9%E6%A0%B9%E5%80%92%E6%95%B0%E5%BF%AB%E9%80%9F%E7%AE%97%E6%B3%95/%E5%AF%B9%E6%95%B0.png"
+                        alt="img.png"
+                 ></p>
+<p>我们要求的是平方根的倒数，也就是求 a的对数乘以-1&#x2F;2 ：</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E5%B9%B3%E6%96%B9%E6%A0%B9%E5%80%92%E6%95%B0%E5%BF%AB%E9%80%9F%E7%AE%97%E6%B3%95/%E5%AF%B9%E6%95%B01.png"
+                        alt="img.png"
+                 ></p>
+<p>那么对数怎么求？这里要分两部分。<br>将浮点数转十进制的公式带入对数将幂运算转换为乘法运算的公式中。<br>然后将式子展开（乘法运算转为加减运算）<br>前面还是对数的形式，后面则可以直接得到结果。</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E5%B9%B3%E6%96%B9%E6%A0%B9%E5%80%92%E6%95%B0%E5%BF%AB%E9%80%9F%E7%AE%97%E6%B3%95/%E8%BF%90%E7%AE%97%E7%BB%93%E6%9E%9C.png"
+                        alt="img.png"
+                 ></p>
+<p>那前面的部分如何处理？<br>M 是一个23位的2进制尾数，它除以 2^23 一定在 0~1 之间。</p>
+<p>我们可以观察下 y&#x3D;以2为底的log(1+x) 与 y&#x3D;x 在 0~1之间的函数图像。如图： </p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E5%B9%B3%E6%96%B9%E6%A0%B9%E5%80%92%E6%95%B0%E5%BF%AB%E9%80%9F%E7%AE%97%E6%B3%95/y=x%E4%B8%8Ey=log(1+x).png"
+                        alt="img.png"
+                 ></p>
+<p>这里借鉴了牛顿的思维，用直线近似替代曲线。因为 0~1 之间，y&#x3D;x 与 y&#x3D;log(1+x) 十分接近，所以用 y&#x3D;x 近似替代 y&#x3D;log(1+x)。<br>这就是上式约等号的由来。</p>
+<p>将 2^23分之一 提取出来，得到：</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E5%B9%B3%E6%96%B9%E6%A0%B9%E5%80%92%E6%95%B0%E5%BF%AB%E9%80%9F%E7%AE%97%E6%B3%95/%E8%BF%90%E7%AE%97%E7%BB%93%E6%9E%9C1.png"
+                        alt="img.png"
+                 ></p>
+<p>括号里的东西，不正是计算机中二进制存储的值吗？<br>所以，浮点数y 与 二进制存储的Y 关系：</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E5%B9%B3%E6%96%B9%E6%A0%B9%E5%80%92%E6%95%B0%E5%BF%AB%E9%80%9F%E7%AE%97%E6%B3%95/%E5%85%B3%E7%B3%BB.png"
+                        alt="img.png"
+                 ></p>
+<p>那么，假设 a 为 y 的平方根倒数：</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E5%B9%B3%E6%96%B9%E6%A0%B9%E5%80%92%E6%95%B0%E5%BF%AB%E9%80%9F%E7%AE%97%E6%B3%95/%E5%85%AC%E5%BC%8F1.png"
+                        alt="img.png"
+                 ></p>
+<p>将 a 和 y 换成二进制形式：</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E5%B9%B3%E6%96%B9%E6%A0%B9%E5%80%92%E6%95%B0%E5%BF%AB%E9%80%9F%E7%AE%97%E6%B3%95/%E5%85%AC%E5%BC%8F2.png"
+                        alt="img.png"
+                 ></p>
+<p>化简得到：</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E5%B9%B3%E6%96%B9%E6%A0%B9%E5%80%92%E6%95%B0%E5%BF%AB%E9%80%9F%E7%AE%97%E6%B3%95/%E5%85%AC%E5%BC%8F3.png"
+                        alt="img.png"
+                 ></p>
+<p>381*2^22 用16进制表示：5f400000</p>
+<p>于是出现了让卡马克写下 what the fuck? 注释的语句。<br>但是在沃什的代码中，这个数字是 5f3759df<br>为什么呢？<br>因为刚才用 y&#x3D;x 近似替代 y&#x3D;log(1+x) 时，有些粗糙了。<br>用 y&#x3D;x 近似替代，只有在两端的误差比较小。中间误差就大了。<br>而如果将 y&#x3D;x 往上移一些，就可以使误差在两端和中间比较平均，整体误差更小。</p>
+<p>反应到程序中，就是给 5f400000 加上一个偏移量。<br>沃什选择了 5f3759df，使用这个值，即使不用牛顿法，平方根倒数的最大误差也只有 5%，将初始值带入，算出的误差不超过2‰。</p>
+<p>到这，我们终于得到了精确的初始值。即代码中的 y。</p>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><p>最重要的四行，也就是注释开始的后四行。<br>第一行，将32位浮点数转为长整型，用于二进制计算<br>第二行，得到初始值（算法最核心的地方）<br>第三行，将长整型转回32位浮点数<br>第四行，使用牛顿法迭代一次（注释了一行，是因为迭代一次的精度就已经足够。大佬恐怖如斯）</p>
+<p>再次欣赏一下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">float</span> <span class="title function_">Q_rsqrt</span><span class="params">(<span class="type">float</span> number)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">long</span> i;</span><br><span class="line">    <span class="type">float</span> x2, y;</span><br><span class="line">    <span class="type">const</span> <span class="type">float</span> threehalfs = <span class="number">1.5F</span>;</span><br><span class="line">    </span><br><span class="line">    x2 = number * <span class="number">0.5F</span>;</span><br><span class="line">    y = number;</span><br><span class="line">    i = * ( <span class="number">1</span>ong * ) &amp;y; <span class="comment">// evil floating point bit level hacking</span></span><br><span class="line">    i = <span class="number">0x5f3759df</span> - ( i &gt;&gt; <span class="number">1</span> ); <span class="comment">// what the fuck?</span></span><br><span class="line">    y = * ( <span class="type">float</span> * ) &amp;i;</span><br><span class="line">    y = y * ( threehalfs - ( x2 * y * y ) ); <span class="comment">// 1st iteration</span></span><br><span class="line">    <span class="comment">// y = y * ( threehalfs - ( x2 * y * y ) ); // 2st iteration this can be removed</span></span><br><span class="line">    <span class="keyword">return</span> y;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上面公式太乱没有看懂的话，下面是手写过程：</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E5%B9%B3%E6%96%B9%E6%A0%B9%E5%80%92%E6%95%B0%E5%BF%AB%E9%80%9F%E7%AE%97%E6%B3%95/%E6%89%8B%E5%86%99%E8%BF%87%E7%A8%8B.jpg"
+                        alt="img.png"
+                 ></p>
+<p>go语言实现：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">Q_rsqrt</span><span class="params">(number <span class="type">float32</span>)</span></span> <span class="type">float32</span> &#123;</span><br><span class="line">	i := <span class="type">uint32</span>(<span class="number">0</span>)</span><br><span class="line">	x2 := number * <span class="number">0.5</span></span><br><span class="line">	y := number</span><br><span class="line">	threehalfs := <span class="type">float32</span>(<span class="number">1.5</span>)</span><br><span class="line"></span><br><span class="line">	i = *(*<span class="type">uint32</span>)(unsafe.Pointer(&amp;y))</span><br><span class="line">	i = <span class="number">0x5f3759df</span> - (i &gt;&gt; <span class="number">1</span>)</span><br><span class="line">	y = *(*<span class="type">float32</span>)(unsafe.Pointer(&amp;i))</span><br><span class="line">	y = y * (threehalfs - (x2 * y * y))</span><br><span class="line">	<span class="keyword">return</span> y</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>这个算法牛就牛在运用了浮点数在计算机中的存储方法。<br>还有至今不知道怎么来的”魔法数字“ 5f3759df</p>
+<p>参考：<br><a class="link"   target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV18j411i7bp/" >什么代码让程序员之神感叹“卧槽”？ - bilibili 量子位<i class="fas fa-external-link-alt"></i></a></p>
+
+                </div>
+
+                
+                        
+<div class="post-copyright-info-container border-box">
+    <div class="copyright-info-content border-box">
+        <div class="copyright-info-top border-box">
+            <div class="copyright-post-title border-box text-ellipsis">
+                平方根倒数快速算法
+            </div>
+
+            <div class="copyright-post-link border-box text-ellipsis">
+                学习笔记/学习笔记/平方根倒数快速算法/
+            </div>
+        </div>
+
+        <div class="copyright-info-bottom border-box">
+            <div class="copyright-post-author bottom-item">
+                <div class="type">
+                    作者
+                </div>
+                <div class="content">咕咕咕</div>
+            </div>
+
+            <div class="post-time bottom-item">
+                <div class="type">
+                    发布于
+                </div>
+                <div class="content">2023-10-29 12:00</div>
+            </div>
+
+
+            <div class="post-license bottom-item">
+                <div class="type">
+                    许可
+                </div>
+                <div class="content tooltip" data-tooltip-content="CC BY-NC-SA 4.0">
+                    <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hans">
+                        <i class="fa-brands fa-creative-commons"></i>
+                        <i class="fa-brands fa-creative-commons-by"></i>
+                        <i class="fa-brands fa-creative-commons-nc"></i>
+                        <i class="fa-brands fa-creative-commons-sa"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <i class="copyright-bg fa-solid fa-copyright"></i>
+    </div>
+    <div class="copy-copyright-info flex-center tooltip" data-tooltip-content="复制版权信息" data-tooltip-offset-y="-2px">
+        <i class="fa-solid fa-copy"></i>
+    </div>
+</div>
+
+                
+
+                <div class="post-bottom-tags-and-share border-box">
+                    <div>
+                        
+                            <ul class="post-tags-box border-box">
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/%E7%AE%97%E6%B3%95/">算法</a>
+                                    </li>
+                                
+                            </ul>
+                        
+                    </div>
+                    <div>
+                        
+                            <div class="post-share-container border-box">
+    <ul class="share-list-wrap border-box">
+        <li class="qq share-item border-box flex-center tooltip"
+            data-tooltip-content="分享到 QQ"
+        >
+            <i class="fa-brands fa-qq"></i>
+        </li>
+        <li class="wechat share-item border-box flex-center tooltip tooltip-img"
+            data-tooltip-content="分享到微信"
+            data-tooltip-img-tip="微信扫一扫"
+            data-tooltip-img-style="background-color: #fff; top: -10px; padding: 0.6rem 0.6rem 0.1rem 0.6rem;"
+        >
+            <i class="fa-brands fa-weixin"></i>
+        </li>
+        <li class="weibo share-item border-box flex-center tooltip"
+            data-tooltip-content="分享到微博"
+        >
+            <i class="fa-brands fa-weibo"></i>
+        </li>
+    </ul>
+</div>
+
+                        
+                    </div>
+                </div>
+
+                
+                    <div class="reward-author-container border-box flex-center">
+    <div class="reward-btn keep-button border-box flex-center tooltip tooltip-img"
+            data-tooltip-content="谢谢你请我喝可乐~"
+            data-tooltip-img-url="/images/thanks.png"
+            data-tooltip-img-trigger="click"
+            data-tooltip-img-style="top: -8px;"
+    >
+        <i class="fa-solid fa-hand-holding-heart"></i>
+    </div>
+</div>
+
+                
+
+                
+                    <div class="post-nav border-box">
+                        
+                            <div class="prev-post">
+                                <a class="prev"
+                                   rel="prev"
+                                   href="/%E8%AE%B0%E5%BD%95%E7%94%9F%E6%B4%BB/%E8%AE%B0%E5%BD%95%E7%94%9F%E6%B4%BB/2023%EF%BC%8C%E6%82%B2/"
+                                   title="2023，悲"
+                                >
+                                    <span class="left arrow-icon flex-center">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </span>
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">2023，悲</span>
+                                        <span class="post-nav-item">上一篇</span>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                        
+                            <div class="next-post">
+                                <a class="next"
+                                   rel="next"
+                                   href="/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/Token%E6%9C%BA%E5%88%B6/"
+                                   title="Token机制"
+                                >
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">Token机制</span>
+                                        <span class="post-nav-item">下一篇</span>
+                                    </span>
+                                    <span class="right arrow-icon flex-center">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                    </div>
+                
+
+                
+                    
+
+
+    <div class="comments-container border-box">
+        <div id="comments-anchor" class="comment-area-title border-box">
+            <i class="fas fa-comments"></i>&nbsp;评论
+        </div>
+        <div class="comment-plugin-fail border-box">
+    <span class="fail-tip">评论插件加载失败</span>
+    <button class="reload keep-button">点击重新加载</button>
+</div>
+<div class="comment-plugin-loading flex-center border-box">
+    <i class="loading-icon fa-solid fa-spinner fa-spin"></i>
+    <span class="load-tip">正在加载评论插件</span>
+</div>
+<script data-pjax>
+  window.KeepCommentPlugin = {}
+  window.KeepCommentPlugin.hideLoading = () => {
+    const cplDom = document.querySelector('.comments-container .comment-plugin-loading')
+    cplDom.style.display = 'none'
+  }
+  window.KeepCommentPlugin.loadFailHandle = () => {
+    window.KeepCommentPlugin.hideLoading()
+    const cpfDom = document.querySelector('.comments-container .comment-plugin-fail')
+    cpfDom.style.display = 'flex'
+    cpfDom.querySelector('.reload').addEventListener('click', () => {
+      window.location.reload()
+    })
+  }
+</script>
+
+        
+            
+
+    <div class="giscus-comments-container">
+        <div class="giscus" id="giscus"></div>
+        <script data-pjax
+                onerror="window.KeepCommentPlugin.loadFailHandle()"
+        >
+          if (!window.KeepCommentPlugin?.getGiscusTheme) {
+            window.KeepCommentPlugin.getGiscusTheme = () => {
+              return document.body.classList.contains('dark-mode') ? 'dark_dimmed' : 'light_tritanopia'
+            }
+          }
+
+          if (!window.KeepCommentPlugin?.changeGiscusTheme) {
+            window.KeepCommentPlugin.changeGiscusTheme = () => {
+              const iframe = document.querySelector('iframe.giscus-frame')
+              iframe && iframe.contentWindow.postMessage({
+                giscus: {
+                  setConfig: {
+                    theme: window.KeepCommentPlugin.getGiscusTheme()
+                  }
+                }
+              }, 'https://giscus.app')
+            }
+          }
+
+          if (!window.KeepCommentPlugin?.initGiscus) {
+            window.KeepCommentPlugin.initGiscus = () => {
+              const script = document.createElement('script')
+              script.async = true
+              script.src = 'https://giscus.app/client.js'
+              script.setAttribute('data-repo', 'Cooooing/Cooooing.github.io')
+              script.setAttribute('data-repo-id', 'R_kgDOHQal_w')
+              script.setAttribute('data-category', 'Announcements')
+              script.setAttribute('data-category-id', 'DIC_kwDOHQal_84CjZo6')
+              script.setAttribute('data-reactions-enabled', '1')
+              script.setAttribute('data-lang', 'zh-CN')
+              script.setAttribute('data-mapping', 'pathname')
+              script.setAttribute('data-strict', '0')
+              script.setAttribute('data-emit-metadata', '0')
+              script.setAttribute('data-input-position', 'top')
+              script.setAttribute('crossorigin', 'anonymous')
+              script.setAttribute('loading', 'lazy')
+              script.setAttribute('data-theme', window.KeepCommentPlugin.getGiscusTheme())
+              document.querySelector('.giscus-comments-container').appendChild(script)
+              script.onerror = () => {
+                window.KeepCommentPlugin.loadFailHandle()
+              }
+              script.onload = () => {
+                window.KeepCommentPlugin.hideLoading()
+              }
+              const toggleThemeBtn = document.querySelector('.tool-toggle-theme-mode')
+              toggleThemeBtn && toggleThemeBtn.addEventListener('click', () => {
+                window.KeepCommentPlugin.changeGiscusTheme()
+              })
+            }
+          }
+
+          if ('true' === "true") {
+            setTimeout(() => {
+              window.KeepCommentPlugin.initGiscus()
+            }, 1000)
+          } else {
+            window.addEventListener("DOMContentLoaded", window.KeepCommentPlugin.initGiscus)
+          }
+        </script>
+    </div>
+
+
+        
+    </div>
+
+
+
+
+
+                
+            </div>
+        </div>
+
+        
+            <div class="pc-post-toc left-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%8B%E7%BB%8D"><span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E6%B1%82%E5%B9%B3%E6%96%B9%E6%A0%B9"><span class="nav-text">如何求平方根</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E4%BC%98%E5%8C%96"><span class="nav-text">如何优化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%BE%97%E5%88%B0%E6%9B%B4%E5%8A%A0%E7%B2%BE%E7%A1%AE%E7%9A%84%E5%88%9D%E5%A7%8B%E5%80%BC"><span class="nav-text">如何得到更加精确的初始值</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81"><span class="nav-text">代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-text">总结</span></a></li></ol>
+    </div>
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom border-box">
+            
+<footer class="footer border-box">
+    <div class="border-box website-info-box default">
+        
+            <div class="copyright-info info-item default">
+                &copy;&nbsp;<span>2022</span>&nbsp;-&nbsp;2025
+                
+                    &nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;&nbsp;<a href="/">咕咕咕</a>
+                
+            </div>
+
+            <div class="theme-info info-item default">
+                由&nbsp;<a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;驱动&nbsp;&&nbsp;主题&nbsp;<a class="keep-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep</a>
+            </div>
+
+            
+
+            
+        
+
+        <div style="color:var(--text-color-4);"><span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>(～￣▽￣)～<script src="/js/lifeTime.js"></script></div>
+        <a href="https://icp.gov.moe/?keyword=20222450" target="_blank">萌ICP备20222450号</a>
+
+
+        <div class="count-item info-item default">
+            
+                <span class="count-box border-box word">
+                    <span class="item-type border-box">总字数</span>
+                    <span class="item-value border-box word">362.1k</span>
+                </span>
+            
+
+            
+                <span class="count-box border-box uv">
+                    <span class="item-type border-box">访客数</span>
+                    <span class="item-value border-box uv" id="busuanzi_value_site_uv"></span>
+                </span>
+            
+
+            
+                <span class="count-box border-box pv">
+                    <span class="item-type border-box">访问量</span>
+                    <span class="item-value border-box pv" id="busuanzi_value_site_pv"></span>
+                </span>
+            
+        </div>
+
+        <div id="aplayer">
+          <meting-js
+                  server="netease"
+                  type="playlist"
+                  id="7345595717"
+                  fixed="true"
+                  mini="true"
+                  autoplay="false"
+                  listFolded="true"
+                  order="random"
+                  preload="none">
+          </meting-js>
+        </div>
+            <br>
+            <br>
+            <br>
+    </div>
+
+</footer>
+
+        </div>
+    </div>
+
+    <!-- post tools -->
+    
+        <div class="post-tools left-toc">
+            <div class="post-tools-container border-box">
+    <ul class="tools-list border-box">
+        <!-- PC TOC show toggle -->
+        
+            <li class="tools-item flex-center toggle-show-toc">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        <!-- PC go comment -->
+        
+            <li class="tools-item flex-center go-to-comments">
+                <i class="fas fa-comment"></i>
+                <span class="post-comments-count"></span>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <!-- side tools -->
+    <div class="side-tools">
+        <div class="side-tools-container border-box ">
+    <ul class="side-tools-list side-tools-show-handle border-box">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-toggle-theme-mode flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+            <li class="tools-item rss flex-center">
+                <a class="flex-center"
+                   href="/atom.xml"
+                   target="_blank"
+                >
+                    <i class="fas fa-rss"></i>
+                </a>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list border-box">
+        
+            <li class="tools-item toggle-show-toc-tablet flex-center">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        
+            <li class="tools-item go-to-comments-tablet flex-center">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+
+        <li class="tools-item tool-scroll-to-top flex-center show-arrow">
+            <i class="arrow fas fa-arrow-up"></i>
+            <span class="percent"></span>
+        </li>
+    </ul>
+</div>
+
+    </div>
+
+    <!-- image mask -->
+    <div class="zoom-in-image-mask">
+    <img class="zoom-in-image">
+</div>
+
+
+    <!-- local search -->
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="搜索..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="close-popup-btn">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+    <!-- tablet toc -->
+    
+        <div class="tablet-post-toc-mask">
+            <div class="tablet-post-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%8B%E7%BB%8D"><span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E6%B1%82%E5%B9%B3%E6%96%B9%E6%A0%B9"><span class="nav-text">如何求平方根</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E4%BC%98%E5%8C%96"><span class="nav-text">如何优化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%BE%97%E5%88%B0%E6%9B%B4%E5%8A%A0%E7%B2%BE%E7%A1%AE%E7%9A%84%E5%88%9D%E5%A7%8B%E5%80%BC"><span class="nav-text">如何得到更加精确的初始值</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81"><span class="nav-text">代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-text">总结</span></a></li></ol>
+    </div>
+</div>
+
+            </div>
+        </div>
+    
+</main>
+
+
+
+<!-- common -->
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/toggle-theme.js"></script>
+
+<script src="/js/code-block.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+
+<!-- local-search -->
+
+    
+<script src="/js/local-search.js"></script>
+
+
+
+<!-- lazyload -->
+
+    
+<script src="/js/lazyload.js"></script>
+
+
+
+<div class="pjax">
+    
+        <!-- post-helper -->
+        
+<script src="/js/post/post-helper.js"></script>
+
+
+        <!-- toc -->
+        
+            
+<script src="/js/post/toc.js"></script>
+
+        
+
+        <!-- copyright-info -->
+        
+            
+<script src="/js/post/copyright-info.js"></script>
+
+        
+
+        <!-- share -->
+        
+            
+<script src="/js/post/share.js"></script>
+
+        
+    
+
+    <!-- category-page -->
+    
+
+    <!-- links-page -->
+    
+
+    <!-- photos-page -->
+    
+</div>
+
+<!-- mermaid -->
+
+
+<!-- pjax -->
+
+    
+<script src="/js/libs/pjax.min.js"></script>
+
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        window.pjax = new Pjax({
+            selectors: [
+                'head title',
+                '.page-container',
+                '.pjax',
+                '#aplayer',
+                '#canvas_sakura'
+            ],
+            history: true,
+            debug: false,
+            cacheBust: false,
+            timeout: 0,
+            analytics: false,
+            currentUrlFullReload: false,
+            scrollRestoration: false,
+        });
+
+        document.addEventListener('pjax:send', () => {
+            KEEP.utils.pjaxProgressBarStart()
+        });
+
+        document.addEventListener('pjax:complete', () => {
+            KEEP.utils.pjaxProgressBarEnd()
+            window.pjax.executeScripts(document.querySelectorAll('script[data-pjax], .pjax script'))
+            KEEP.initExecute()
+        });
+    });
+</script>
+
+
+
+
+    
+        
+            
+<script class="custom-inject-js" src="/js/APlayer.min.js" data-pjax></script>
+
+        
+    
+        
+            
+<script class="custom-inject-js" src="/js/Meting.min.js" data-pjax></script>
+
+        
+    
+        
+            
+<script class="custom-inject-js" src="/js/leaves.js" data-pjax></script>
+
+        
+    
+
+
+
+</body>
+</html>

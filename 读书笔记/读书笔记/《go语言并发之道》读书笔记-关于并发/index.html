@@ -1,0 +1,1118 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="技术博客,后端开发,编程笔记,生活">
+    <meta name="description" content="Code | Systems | Life — 专注编程本质，也关心世界如何运转。">
+    <meta name="author" content="咕咕咕">
+
+    
+    <title>
+        
+            《go语言并发之道》读书笔记-关于并发 |
+        
+        咕咕咕的小破站
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+        <link rel="shortcut icon" href="/images/favicon.png">
+    
+    
+<link rel="stylesheet" href="/font/css/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/regular.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/solid.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/brands.min.css">
+
+    
+        
+            
+                
+<link rel="stylesheet" href="/css/APlayer.min.css">
+
+            
+        
+            
+                
+<link rel="stylesheet" href="/css/custom.css">
+
+            
+        
+    
+    <script class="keep-theme-configurations">
+    const KEEP = window.KEEP || {}
+    KEEP.hexo_config = {"hostname":"cooooing.github.io","root":"/","language":"zh-CN","path":"search.json"}
+    KEEP.theme_config = {"base_info":{"primary_color":"#0066cc","title":"咕咕咕的小破站","author":"咕咕咕","avatar":"/images/head.jpg","logo":"/images/head.jpg","favicon":"/images/favicon.png"},"menu":{"Archives":"/archives","Categories":"/categories","Tags":"/tags","日常":"/daily","Links":"/links","About":"/about"},"first_screen":{"enable":false,"background_img":"/images/bg.svg","background_img_dark":"/images/bg.svg","description":"Keep writing and Keep loving.","hitokoto":false},"social_contact":{"enable":false,"links":{"github":null,"weixin":null,"qq":null,"weibo":null,"zhihu":null,"twitter":null,"facebook":null,"email":null}},"scroll":{"progress_bar":false,"percent":false,"hide_header":true},"home":{"category":true,"tag":true,"announcement":null},"post":{"author_badge":{"enable":true,"level_badge":false,"custom_badge":["fishing"]},"word_count":{"wordcount":true,"min2read":true},"datetime_format":"YYYY-MM-DD HH:mm:ss","copyright_info":true,"share":true,"reward":{"enable":true,"img_link":"/images/thanks.png","text":"谢谢你请我喝可乐~"}},"code_block":{"tools":{"enable":true,"style":"default"},"highlight_theme":"default"},"toc":{"enable":true,"number":false,"expand_all":true,"init_open":true,"layout":"left"},"website_count":{"busuanzi_count":{"enable":true,"site_uv":true,"site_pv":true,"page_pv":true}},"local_search":{"enable":true,"preload":true},"comment":{"enable":true,"use":"giscus","valine":{"appid":null,"appkey":null,"server_urls":null,"placeholder":null},"gitalk":{"github_id":null,"github_admins":null,"repository":null,"client_id":null,"client_secret":null,"proxy":null},"twikoo":{"env_id":null,"region":null,"version":"1.6.21"},"waline":{"server_url":null,"reaction":false,"version":2},"giscus":{"repo":"Cooooing/Cooooing.github.io","repo_id":"R_kgDOHQal_w","category":"Announcements","category_id":"DIC_kwDOHQal_84CjZo6","reactions_enabled":true},"artalk":{"server":null},"disqus":{"shortname":null}},"rss":{"enable":true},"lazyload":{"enable":true},"cdn":{"enable":false,"provider":"cdnjs"},"pjax":{"enable":true},"footer":{"since":2022,"word_count":true,"icp":{"enable":false,"record_code":null,"url":"https://beian.miit.gov.cn"},"site_deploy":{"enable":false,"provider":"github","url":null},"shields_style":{"enable":false,"custom":[{"link_url":null,"img_url":null}]}},"inject":{"enable":true,"css":["/css/APlayer.min.css","/css/custom.css"],"js":["/js/APlayer.min.js","/js/Meting.min.js","/js/leaves.js"]},"root":"","links":[{"name":"鼠鼠在碎觉","link":"https://sszsj.com","avatar":"https://tmx.fishpi.cn/img/head.jpg","description":"我是不慎落入世界的一滴水墨"},{"name":"Gakkiyomi","link":"https://gakkiyomi.blog","avatar":"https://avatars.githubusercontent.com/u/41406557?v=4","description":"为往圣继绝学"},{"name":"Hancel's Blog","link":"https://my.hancel.org","avatar":"https://my.hancel.org/media/logo.jpg","description":"人生而自由，却无往不在枷锁之中。"},{"name":"Eastshann","link":"http://121.4.99.208/","avatar":"http://121.4.99.208/img/avatar.jpg","description":"冲和者，淡泊平和，谦冲守正"},{"name":"小于同学的异世界","link":"https://yby.zone","avatar":"https://yby-zone.obs.cn-east-3.myhuaweicloud.com/avatar.jpg","description":"为吾为枝，余地三尺，以己为棋，胜天半子。"},{"name":"Mlikiowa Home Village","link":"https://nanaeo.cn/","avatar":"https://q1.qlogo.cn/g?b=qq&nk=1627126029&s=100","description":"A litter Village With Mlikiowa"},{"name":"忘忧草","link":"https://owo.wyc.rest/","avatar":"https://owo.wyc.rest/img/%E4%B8%87%E5%8F%B6.jpg","description":"这只是一个小破站而已！"},{"name":"stillwarter","link":"https://stillwarter.github.io/","avatar":"https://file.fishpi.cn/2022/07/MOSHED2022621164630-1b1ec532.gif?imageView2/1/w/210/h/210/interlace/0/q/100","description":"光就是一切的意义"},{"name":"test12138","link":"http://你好.eu.org/","avatar":"https://file.fishpi.cn/2022/06/srchttpimgzcoolcncommunity0116405d84f975a801211d537707c9gifreferhttpimgzcool-0f2d09c9.gif?imageView2/1/w/48/h/48/interlace/0/q/100","description":"大丈夫生于天地之间，岂能郁郁久居人下。"},{"name":"呼呼呼","link":"https://bongbongbakudan.github.io/","avatar":"https://pwl.stackoverflow.wiki/2021/12/blob-28eb4b9f.png?imageView2/1/w/48/h/48/interlace/0/q/100","description":"去整点薯条"},{"name":"Plumbiu","link":"https://blog.plumbiu.top/","avatar":"https://avatars.githubusercontent.com/u/99574369?v=4","description":"这人很勤奋，啥都没留"},{"name":"hiRipple","link":"https://hiripple.com/","avatar":"https://avatars.githubusercontent.com/u/115361435?v=4","description":"超高校级的游戏玩家"}],"version":"4.0.6"}
+    KEEP.language_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"}
+    KEEP.language_code_block = {"copy":"复制代码","copied":"已复制","fold":"折叠代码块","folded":"已折叠"}
+    KEEP.language_copy_copyright = {"copy":"复制版权信息","copied":"已复制","title":"原文标题","author":"原文作者","link":"原文链接"}
+  </script>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-CLX32WF4R1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+
+      gtag('js', new Date());
+
+      gtag('config', 'G-CLX32WF4R1');
+    </script>
+
+    <!-- 51.la -->
+    <script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
+    <script>LA.init({id: "3JwPz6wbAloyTmMc", ck: "3JwPz6wbAloyTmMc", autoTrack: true})</script>
+
+<meta name="generator" content="Hexo 8.1.1"><link rel="alternate" href="/atom.xml" title="咕咕咕的小破站" type="application/atom+xml">
+</head>
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+        <span class="pjax-progress-bar"></span>
+        <i class="pjax-progress-icon fas fa-circle-notch fa-spin"></i>
+    
+</div>
+
+
+<main class="page-container border-box">
+
+    <!-- home first screen  -->
+    
+
+    <!-- page content -->
+    <div class="page-main-content border-box">
+        <div class="page-main-content-top">
+            
+<header class="header-wrapper">
+
+    <div class="border-box header-content">
+        <div class="left border-box">
+            
+                <a class="logo-image border-box" href="/">
+                    <img src="/images/head.jpg">
+                </a>
+            
+            <a class="site-name border-box" href="/">
+               咕咕咕的小破站
+            </a>
+        </div>
+
+        <div class="right border-box">
+            <div class="pc">
+                <ul class="menu-list">
+                    <li class="menu-item">
+                        <a class=""
+                           href="/"
+                        >首页</a>
+                    </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >归档</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/categories"
+                            >分类</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/tags"
+                            >标签</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/daily"
+                            >日常</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/links"
+                            >友链</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >关于</a>
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="fas search fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            <li class="drawer-menu-item flex-center">
+                <a class=""
+                   href="/"
+                >首页</a>
+            </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives"
+                    >归档</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/categories"
+                    >分类</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/tags"
+                    >标签</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/daily"
+                    >日常</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/links"
+                    >友链</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about"
+                    >关于</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle border-box">
+
+            <div class="main-content border-box">
+                
+
+                    
+<div class="fade-in-down-animation">
+    <div class="post-page-container border-box">
+        <div class="post-content-container border-box">
+            
+
+            <div class="post-content-bottom border-box">
+                
+                    <div class="post-title">
+                        《go语言并发之道》读书笔记-关于并发
+                    </div>
+                
+
+                
+                    <div class="post-header border-box">
+                        
+                            <div class="avatar-box border-box">
+                                <img src="/images/head.jpg">
+                            </div>
+                        
+                        <div class="info-box">
+                            <div class="author border-box">
+                                <span class="name">咕咕咕</span>
+                                
+                                    <span class="author-badge">fishing</span>
+                                
+                            </div>
+                            <div class="meta-info border-box">
+                                
+
+<div class="post-meta-info-container border-box post">
+    <div class="post-meta-info border-box">
+        
+
+        
+            <span class="meta-info-item post-create-date">
+                <i class="icon fa-solid fa-calendar-plus"></i>&nbsp;
+                <span class="datetime">2025-01-02 17:52:21</span>
+            </span>
+
+            <span class="meta-info-item post-update-date">
+                <i class="icon fa-solid fa-file-pen"></i>&nbsp;
+                <span class="datetime" data-updated="Thu Jan 02 2025 09:52:21 GMT+0000">2025-01-02 17:52:21</span>
+            </span>
+        
+
+        
+            <span class="meta-info-item post-category border-box"><i class="icon fas fa-folder"></i>&nbsp;
+                <ul class="post-category-ul">
+                    
+                            <li class="category-item"><a href="/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">读书笔记</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+            <span class="post-tag meta-info-item border-box">
+                <i class="icon fas fa-tags"></i>&nbsp;
+                <ul class="post-tag-ul">
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/go/">go</a></li>
+                        
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/%E5%B9%B6%E5%8F%91/">并发</a></li>
+                        
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/%E3%80%8Ago%E8%AF%AD%E8%A8%80%E5%B9%B6%E5%8F%91%E4%B9%8B%E9%81%93%E3%80%8B/">《go语言并发之道》</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+        
+            <span class="meta-info-item post-wordcount">
+                <i class="icon fas fa-file-word"></i>&nbsp;<span>7.9k 字</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-min2read">
+                <i class="icon fas fa-clock"></i>&nbsp;<span>29 分钟</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-pv">
+                <i class="icon fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+            </span>
+        
+    </div>
+
+    
+</div>
+
+                            </div>
+                        </div>
+                    </div>
+                
+
+                <div class="post-content keep-markdown-body">
+                    
+
+                    <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>又开新书了，按照原来的计划，其实这次应该读的是 Kafka 相关的。<br>但奈何计划赶不上变化。</p>
+<p>前几天给鱼排论坛写了聊天室的消息分发节点 <a class="link"   target="_blank" rel="noopener" href="https://github.com/FishPiOffical/rhyus-golang" >rhyus-golang<i class="fas fa-external-link-alt"></i></a>，纯纯的多线程需要考虑并发的应用（虽然并发不高）。<br>所以变成了并发相关的书。</p>
+<p>这篇计划阅读前两章，是关于并发概念的。</p>
+<h2 id="第一章-并发概述"><a href="#第一章-并发概述" class="headerlink" title="第一章 - 并发概述"></a>第一章 - 并发概述</h2><p>书中前面关于摩尔定律、Web Scale和云计算相关的话题就跳过了。</p>
+<h3 id="为什么并发很难？"><a href="#为什么并发很难？" class="headerlink" title="为什么并发很难？"></a>为什么并发很难？</h3><p>众所周知，并发代码是很难正确构建的。它通常需要完成几个迭代才能让它按预期的方式工作，即使这样，在某些时间点（更高的磁盘利用率、更多的用户登录到系统等)到达之前，bug在代码中存在数年的事情也不少见，以至于以前未被发现的bug在后面显露出来。<br>这段话我是有点体会的，上面的节点程序我迭代了很多次，很多问题都得在高并发或者高负载时才会出现。</p>
+<h3 id="竞态条件"><a href="#竞态条件" class="headerlink" title="竞态条件"></a>竞态条件</h3><p><strong>当两个或多个操作必须按正确的顺序执行，而程序并未保证这个顺序，就会发生竞争条件。</strong><br>大多数情况下，这将在所谓的数据中出现，其中一个并发操作尝试读取一个变量，而在某个不确定的时间，另一个并发操作试图写入同一个变量。</p>
+<p>下面是一个基本示例：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;fmt&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">var</span> data <span class="type">int</span></span><br><span class="line">	<span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">		data++</span><br><span class="line">	&#125;()</span><br><span class="line">	<span class="keyword">if</span> data == <span class="number">0</span> &#123;</span><br><span class="line">		fmt.Printf(<span class="string">&quot;the value is %v.\n&quot;</span>, data)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>这里，第8行和第11行都试图访问变量data,但并不能保证以什么顺序进行访问。<br>运行这段代码有三种可能的结果：</p>
+<ol>
+<li>不打印任何东西。在这种情况下，第8行在第10行之前执行。</li>
+<li>打印“the value is 0.”。在这种情况下，第10行和第11行在第8行之前执行。</li>
+<li>打印“the value is 1.”。在这种情况下，第8行在第10行之前执行，但第8行在第11行之前执行。</li>
+</ol>
+<p><strong>如你所见，虽然只有几行不正确的代码，但在你的程序中引入了巨大的不确定性。</strong><br>在并发代码中定位问题是非常困难的，需要考虑到各种可能出现的情况。</p>
+<p><strong>有时候想象在两个操作之间会经过很长一段时间很有帮助。</strong><br>假设调用goroutine的时间和它运行的时间相差1h。那程序的其余部分将如何运行呢？<br>如果在goroutine执行成功和程序执行到if语句之间也花费了一小时，又会发生什么呢？<br>以这种方式思考对我很有帮助，因为对于计算机来说，规模可能不同，但相对的时间差异或多或少是相同的。</p>
+<p>所以有时候，会出现下面的代码（在程序中大量使用休眠语句）</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">	<span class="string">&quot;time&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">var</span> data <span class="type">int</span></span><br><span class="line">	<span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">		data++</span><br><span class="line">	&#125;()</span><br><span class="line">	time.Sleep(<span class="number">1</span> * time.Second) <span class="comment">// 这种方式非常不优雅</span></span><br><span class="line">	<span class="keyword">if</span> data == <span class="number">0</span> &#123;</span><br><span class="line">		fmt.Printf(<span class="string">&quot;the value is %v.\n&quot;</span>, data)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>我们的数据竞争问题解决了吗？并没有。事实上，在这个程序中之前的三个结果仍然有可能出现，只是可能性更小了。<br>我们在调用 goroutine 和检查数据值之间的休眠的时间越长，我们的程序就越接近正确，但那只是概率上接近逻辑的正确性：它永远不会真的变成逻辑上的正确。</p>
+<p>除此之外，<strong>这让我们的算法变得低效</strong>。我们现在不得不休眠1s,来降低我们的程序出现数据竞争的可能。<br>所以，我们应该始终以逻辑正确性为目标。在代码中引人休眠可以方便地调试并发程序，但这并不能称之为一个解决方案。</p>
+<blockquote>
+<p>竞争条件是最难以发现的并发bug类型之一，因为它们可能在代码投人生产多年之后才出现。<br>通常代码正在执行时环境产生变化，或发生了某些罕见的事情，都有可能使其浮现出来。<br>往往代码只是看上去在用正确的方式来执行，但是事实上只是执行的顺序是正确的这件事本身的概率比较大而已，最终早晚有可能会出现一些意想之外的结果。</p>
+</blockquote>
+<h3 id="原子性"><a href="#原子性" class="headerlink" title="原子性"></a>原子性</h3><p><strong>当某些东西被队为是原子的，或者具有原子性的时候，这意味着在它运行的环境中，它是不可分割的或不可中断的。</strong></p>
+<p>那么这到底意味着什么，为什么在使用并发代码时知道这一点很重要？<br>第一件非常重要的事情是“上下文(context)”这个词。<br>可能在某个上下文中有些东西是原子性的，而在另一个上下文中却不是。<br>在你的进程上下文中进行原子操作在操作系统的上下文中可能就不是原子操作；<br>在操作系统环境中原子操作在机器环境中可能就不是原子的，在你的机器上下文中原子操作在你的应用程序的上下文中可能不是原子的。<br>换句话说，操作的原子性可以根据当前定义的范围而改变。这种特性对你来说有利有弊！</p>
+<p><strong>在考虑原子性时，经常第一件需要做的事就是定义上下文或范围，然后再考虑这些操作是否是原子性的。一切都应当遵循这个原则。</strong></p>
+<p>术语“不可分割”(indivisible)和“不可中断”(uninterruptible)。<br>这些术语意味着在你所定义的上下文中，原子的东西将被完整的运行，而在这种情况下不会同时发生任何事情。<br>这仍然是一个整体，所以我们来看一个例子：<br><code>i++</code><br>这是一个任何人都可以设计的简单例子，但它很容易证明原子性的概念。它<br>可能看起来很原子，但是简要地分析一下就会发现其中有以下步骤：</p>
+<ol>
+<li>检索i的值。</li>
+<li>增加i的值。</li>
+<li>存储i的值。</li>
+</ol>
+<p>尽管这些操作中的每一个都是原子的，但三者的结合就可能不是，这取决于你的上下文。<br>这揭示了原子操作的一个有趣的性质：将它们结合并不一定会产生更大的原子操作。<br>使一个操作变为原子操作取决于你想让它在哪个上下文中。<br>如果你的上下文是一个没有并发进程的程序，那么该代码在该上下文中就是原子的。<br>如果你的上下文是一个goroutine,它不会将i暴露给其他 goroutine ,那么这个代码就是原子的。</p>
+<p>为什么我们要关心这些呢？原子性非常重要，**因为如果某个东西是原子的，隐含的意思是它在并发环境中是安全的。**这使我们能够编写逻辑上正确的程序，并且这甚至可以作为优化并发程序的一种方式。<br>但大多数语句不是原子的，更不用说函数、方法和程序了。后面会通过各种方法来调和这个矛盾。</p>
+<h3 id="内存访问同步"><a href="#内存访问同步" class="headerlink" title="内存访问同步"></a>内存访问同步</h3><p>假设有这样一个数据竞争：两个并发进程试图访问相同的内存区域，它们访问内存的方式不是原子的。<br>将之前的数据竞争的例子稍作修改就可以说明：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;fmt&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">var</span> data <span class="type">int</span></span><br><span class="line">	<span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123; data++ &#125;()</span><br><span class="line">	<span class="keyword">if</span> data == <span class="number">0</span> &#123;</span><br><span class="line">		fmt.Println(<span class="string">&quot;the value is 0.&quot;</span>)</span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		fmt.Printf(<span class="string">&quot;the value is %v.\n&quot;</span>, data)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>在这里添加了一个e1se子句，所以不管数据的值如何，我们总会得到一些输出。请记住，正如之前所介绍，如果有一个数据竞争存在，那么该程序的输出将是完全不确定的。<br>实际上，<strong>程序中需要独占访问共享资源的部分有一个专有名词，叫临界区(critical section)。</strong><br>在这个例子中，我们有三个临界区：</p>
+<ul>
+<li>我们的 goroutine 正在增加数据变量。</li>
+<li>我们的 if 语句，它检查数据的值是否为0。</li>
+<li>我们的 fmt.Printf 语句，在检索并输出数据的值。</li>
+</ul>
+<p>有很多方法可以保护你的程序的临界区，go语言在设计时有一些更好的想法来解决这个问题，不过解决这个问题的其中一个办法是在你的临界区之间内存访问做同步。（加锁）<br>下面的代码不是Go语言中惯用的方法（我不建议像这样解决你的数据竞争问题)，但它很简单地演示了内存访问同步。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">	<span class="string">&quot;sync&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">var</span> memoryAccess sync.Mutex</span><br><span class="line">	<span class="keyword">var</span> value <span class="type">int</span></span><br><span class="line">	<span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">		memoryAccess.Lock()</span><br><span class="line">		value++</span><br><span class="line">		memoryAccess.Unlock()</span><br><span class="line">	&#125;()</span><br><span class="line">	memoryAccess.Lock()</span><br><span class="line">	<span class="keyword">if</span> value == <span class="number">0</span> &#123;</span><br><span class="line">		fmt.Printf(<span class="string">&quot;the value is %v.\n&quot;</span>, value)</span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		fmt.Printf(<span class="string">&quot;the value is %v.\n&quot;</span>, value)</span><br><span class="line">	&#125;</span><br><span class="line">	memoryAccess.Unlock()</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>在这里添加一个变量 memoryAccess，它将允许我们的代码对内存数据的访问做同步。（锁，后续介绍）<br>这样虽然解决了数据竞争，但是并没有解决竞争条件。即这个程序的操作顺序仍然是不确定的，只是缩小了非确定性的范围。</p>
+<p>从表面上看，这似乎很简单：如果你发现你的代码中有临界区，那就添加锁来同步内存访问！<br>虽然通过内存访问同步来解决一些问题，但正如我们刚刚看到的，它不会自动解决数据竞争或逻辑正确性问题。此外，它也可能造成维护和性能问题。</p>
+<p>还有个问题就是 Lock 的调用会使我们的程序变慢。每次执行这些操作时，我们的程序就会暂停一段时间。<br>这会带来两个问题：</p>
+<ol>
+<li>临界区是否是频繁进入和退出？（锁竞争）</li>
+<li>临界区应该有多大？（锁的粒度）</li>
+</ol>
+<p>在程序的上下文中解决这两个问题是一种艺术，并且增加了内存访问同步的难度。</p>
+<h3 id="死锁、活锁和饥饿"><a href="#死锁、活锁和饥饿" class="headerlink" title="死锁、活锁和饥饿"></a>死锁、活锁和饥饿</h3><h4 id="死锁"><a href="#死锁" class="headerlink" title="死锁"></a>死锁</h4><p>死锁程序是所有的并发进程彼此等待的程序。在这种情况下，如果没有外界的干预，这个程序将永远无法恢复。</p>
+<p>这听起来很严峻，那是因为的确如此！Go语言的运行时会尽其所能，检测一些死锁（所有的goroutine必须被阻塞，或者“<a class="link"   target="_blank" rel="noopener" href="https://github.com/golang/go/issues/13759" >asleep<i class="fas fa-external-link-alt"></i></a>”），但是这对于防止死锁并没有太多的帮助。</p>
+<p>下面是一个死锁的例子：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">	<span class="string">&quot;sync&quot;</span></span><br><span class="line">	<span class="string">&quot;time&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> value <span class="keyword">struct</span> &#123;</span><br><span class="line">	mu    sync.Mutex</span><br><span class="line">	value <span class="type">int</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">var</span> wg sync.WaitGroup</span><br><span class="line">	printSum := <span class="function"><span class="keyword">func</span><span class="params">(v1, v2 *value)</span></span> &#123;</span><br><span class="line">		<span class="keyword">defer</span> wg.Done()</span><br><span class="line">		v1.mu.Lock()</span><br><span class="line">		<span class="keyword">defer</span> v1.mu.Unlock()</span><br><span class="line"></span><br><span class="line">		time.Sleep(time.Second)</span><br><span class="line">		v2.mu.Lock()</span><br><span class="line">		<span class="keyword">defer</span> v2.mu.Unlock()</span><br><span class="line"></span><br><span class="line">		fmt.Printf(<span class="string">&quot;sum = %v\n&quot;</span>, v1.value+v2.value)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">var</span> a, b value</span><br><span class="line">	wg.Add(<span class="number">2</span>)</span><br><span class="line">	<span class="keyword">go</span> printSum(&amp;a, &amp;b)</span><br><span class="line">	<span class="keyword">go</span> printSum(&amp;b, &amp;a)</span><br><span class="line">	wg.Wait()</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>运行会报错 <code>fatal error: all goroutines are asleep - deadlock!</code></p>
+<p>事实证明，出现死锁有儿个必要条件。I971年，Edgar Coffman 在一篇论文中列举了这些条件。这些条件现在被称为 Coffman 条件，是帮助检测、防止和纠正死锁的技术依据。<br>Coffman 条件如下：</p>
+<ol>
+<li>互斥条件 - 并发进程同时拥有资源的独占权。</li>
+<li>占有并等待条件 - 并发进程必须同时拥有一个资源，并等待额外的资源。</li>
+<li>非抢占条件 - 并发进程拥有的资源只能被该进程释放，即可满足这个条件。</li>
+<li>循环等待条件 - 一个并发进程(P1)必须等待一系列其他并发进程(P2),这些并发进程同时也在等待进程(P1),这样便满足了这个最终条件。</li>
+</ol>
+<p>这些规则也帮助我们防止死锁。如果确保至少有一个条件不成立，我们可以防止发生死锁。不幸的是，实际上这些条件很难推理，因此很难预防。</p>
+<h4 id="活锁"><a href="#活锁" class="headerlink" title="活锁"></a>活锁</h4><p>活锁是正在主动执行并发操作的程序，但是这些操作无法向前推进程序的状态。</p>
+<p>你曾经在走廊走向另一个人吗？她移动到一边让你通过，但你也做了同样的事情。所以你转到另一边，但她也是这样做的。想象一下这个情形永远持续下去，你就明白了活锁。<br><del>这个倒是经常发生</del></p>
+<p>下面是一个活锁的例子，就是上面所说的情况：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;bytes&quot;</span></span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">	<span class="string">&quot;sync&quot;</span></span><br><span class="line">	<span class="string">&quot;sync/atomic&quot;</span></span><br><span class="line">	<span class="string">&quot;time&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> value <span class="keyword">struct</span> &#123;</span><br><span class="line">	mu    sync.Mutex</span><br><span class="line">	value <span class="type">int</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	cadence := sync.NewCond(&amp;sync.Mutex&#123;&#125;)</span><br><span class="line">	<span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">		<span class="keyword">for</span> <span class="keyword">range</span> time.Tick(<span class="number">1</span> * time.Millisecond) &#123;</span><br><span class="line">			cadence.Broadcast()</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;()</span><br><span class="line">	takeStep := <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">		cadence.L.Lock()</span><br><span class="line">		cadence.Wait()</span><br><span class="line">		cadence.L.Unlock()</span><br><span class="line">	&#125;</span><br><span class="line">	tryDir := <span class="function"><span class="keyword">func</span><span class="params">(dirName <span class="type">string</span>, dir *<span class="type">int32</span>, out *bytes.Buffer)</span></span> <span class="type">bool</span> &#123;</span><br><span class="line">		fmt.Fprintf(out, <span class="string">&quot; %v&quot;</span>, dirName)</span><br><span class="line">		atomic.AddInt32(dir, <span class="number">1</span>)</span><br><span class="line">		takeStep()</span><br><span class="line">		<span class="keyword">if</span> atomic.LoadInt32(dir) == <span class="number">1</span> &#123;</span><br><span class="line">			fmt.Fprint(out, <span class="string">&quot;Success!&quot;</span>)</span><br><span class="line">			<span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">		&#125;</span><br><span class="line">		takeStep()</span><br><span class="line">		atomic.AddInt32(dir, <span class="number">-1</span>)</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">var</span> left, right <span class="type">int32</span></span><br><span class="line">	tryLeft := <span class="function"><span class="keyword">func</span><span class="params">(out *bytes.Buffer)</span></span> <span class="type">bool</span> &#123; <span class="keyword">return</span> tryDir(<span class="string">&quot;left&quot;</span>, &amp;left, out) &#125;</span><br><span class="line">	tryRight := <span class="function"><span class="keyword">func</span><span class="params">(out *bytes.Buffer)</span></span> <span class="type">bool</span> &#123; <span class="keyword">return</span> tryDir(<span class="string">&quot;right&quot;</span>, &amp;right, out) &#125;</span><br><span class="line"></span><br><span class="line">	walk := <span class="function"><span class="keyword">func</span><span class="params">(walking *sync.WaitGroup, name <span class="type">string</span>)</span></span> &#123;</span><br><span class="line">		<span class="keyword">var</span> out bytes.Buffer</span><br><span class="line">		<span class="keyword">defer</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123; fmt.Println(out.String()) &#125;()</span><br><span class="line">		<span class="keyword">defer</span> walking.Done()</span><br><span class="line">		fmt.Fprintf(&amp;out, <span class="string">&quot;%v is trying to scoot:&quot;</span>, name)</span><br><span class="line">		<span class="keyword">for</span> i := <span class="number">0</span>; i &lt; <span class="number">5</span>; i++ &#123;</span><br><span class="line">			<span class="keyword">if</span> tryLeft(&amp;out) || tryRight(&amp;out) &#123;</span><br><span class="line">				<span class="keyword">return</span></span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		fmt.Fprintf(&amp;out, <span class="string">&quot;\n%v tosses her hands up in exasperation!&quot;</span>, name)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">var</span> peopleInHallway sync.WaitGroup</span><br><span class="line">	peopleInHallway.Add(<span class="number">2</span>)</span><br><span class="line">	<span class="keyword">go</span> walk(&amp;peopleInHallway, <span class="string">&quot;Alice&quot;</span>)</span><br><span class="line">	<span class="keyword">go</span> walk(&amp;peopleInHallway, <span class="string">&quot;Barbara&quot;</span>)</span><br><span class="line">	peopleInHallway.Wait()</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>输出如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Alice is trying to scoot: left right left right left right left right left right</span><br><span class="line">Alice tosses her hands up in exasperation!</span><br><span class="line">Barbara is trying to scoot: left right left right left right left right left right</span><br><span class="line">Barbara tosses her hands up in exasperation!</span><br></pre></td></tr></table></figure>
+
+<p>你可以看到，Alice和Barbara在最终退出之前，会持续竞争。</p>
+<ol>
+<li>tryDir 函数允许一个人尝试向一个方向移动，并返回是否成功。dir 表示试图朝这个方向移动的人数。</li>
+<li>首先，宣布尝试向这个方向移动，atomic 使 dir 原子操作加一。</li>
+<li>takeStep 函数调用 cadence.Wait 来等待其他并发进程，用以同步每个协程的节奏。因为要演示活锁，每个人都必须以相同的速度或节奏移动。</li>
+<li>当意识到不能向这个方向走时，便放弃。将 dir 减一。</li>
+<li>walk 函数中，人为限制了尝试的次数，<strong>否则，它将会一直无意义执行下去。</strong></li>
+<li>walk 中，会尝试向左走，如果失败，则尝试向右走。</li>
+</ol>
+<p>这个例子演示了使用活锁的一个十分常见的原因：两个或两个以上的并发进程试图在没有协调的情况下防止死锁。<br>这就好比，如果走廊里的人都同意，只有一个人会移动，那就不会有活锁；一个人会站着不动，另一个人会移到另一边，他们就会继续移动。<br>在我看来，活锁要比死锁更复杂，因为它看起来程序好像在工作。<br>如果一个活锁程序在你的机器上运行，那你可以通过查看CPU利用率来确定它是否在做处理某些逻辑，你可能会认为它确实是在工作。<br>根据活锁的不同，它甚至可能发出其他信号，让你认为它在工作。然而，你的程序将会一直上演“hallway-shuffle’”的循环游戏。</p>
+<p>活锁是一组被称为“饥饿”的更大问题的子集。</p>
+<h4 id="饥饿"><a href="#饥饿" class="headerlink" title="饥饿"></a>饥饿</h4><p>饥饿是在任何情况下，并发进程都无法获得执行工作所需的所有资源。</p>
+<p>当我们讨论活锁时，每个goroutine的资源是一个共享锁。</p>
+<p>活锁保证讨论与饥饿是无关的，因为在活锁中，所有并发进程都是相同的，并且没有完成工作。<br>更广泛地说，饥饿通常意味着有一个或多个贪婪的并发进程，它们不公平地阻止一个或多个并发进程，以尽可能有效地完成工作，或者阻止全部并发进程。</p>
+<p>下面的例子有一个贪婪的 goroutine 和一个平和的 goroutine：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">	<span class="string">&quot;sync&quot;</span></span><br><span class="line">	<span class="string">&quot;time&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">var</span> wg sync.WaitGroup</span><br><span class="line">	<span class="keyword">var</span> sharedLock sync.Mutex</span><br><span class="line">	<span class="keyword">const</span> runtime = <span class="number">1</span> * time.Second</span><br><span class="line"></span><br><span class="line">	greedyWorker := <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">		<span class="keyword">defer</span> wg.Done()</span><br><span class="line">		<span class="keyword">var</span> count <span class="type">int</span></span><br><span class="line">		<span class="keyword">for</span> begin := time.Now(); time.Since(begin) &lt;= runtime; &#123;</span><br><span class="line">			sharedLock.Lock()</span><br><span class="line">			time.Sleep(<span class="number">3</span> * time.Nanosecond)</span><br><span class="line">			sharedLock.Unlock()</span><br><span class="line">			count++</span><br><span class="line">		&#125;</span><br><span class="line">		fmt.Printf(<span class="string">&quot;Greedy worker was able to execute %v work loops.\n&quot;</span>, count)</span><br><span class="line">	&#125;</span><br><span class="line">	politeWorker := <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">		<span class="keyword">defer</span> wg.Done()</span><br><span class="line">		<span class="keyword">var</span> count <span class="type">int</span></span><br><span class="line">		<span class="keyword">for</span> begin := time.Now(); time.Since(begin) &lt; runtime; &#123;</span><br><span class="line">			sharedLock.Lock()</span><br><span class="line">			time.Sleep(<span class="number">1</span> * time.Nanosecond)</span><br><span class="line">			sharedLock.Unlock()</span><br><span class="line">			sharedLock.Lock()</span><br><span class="line">			time.Sleep(<span class="number">1</span> * time.Nanosecond)</span><br><span class="line">			sharedLock.Unlock()</span><br><span class="line">			sharedLock.Lock()</span><br><span class="line">			time.Sleep(<span class="number">1</span> * time.Nanosecond)</span><br><span class="line">			sharedLock.Unlock()</span><br><span class="line">			count++</span><br><span class="line">		&#125;</span><br><span class="line">		fmt.Printf(<span class="string">&quot;Polite worker was able to execute %v work loops.\n&quot;</span>, count)</span><br><span class="line">	&#125;</span><br><span class="line">	wg.Add(<span class="number">2</span>)</span><br><span class="line">	<span class="keyword">go</span> greedyWorker()</span><br><span class="line">	<span class="keyword">go</span> politeWorker()</span><br><span class="line">	wg.Wait()</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>输出如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Greedy worker was able to execute 33 work loops.</span><br><span class="line">Polite worker was able to execute 12 work loops.</span><br></pre></td></tr></table></figure>
+
+<p>贪婪的 worker 会贪婪地抢占共享锁，以完成整个工作循环，而平和的 worker 只会在必要时锁定。<br>两种 worker 都做到同样的工作（sleep 3 ns），但贪婪的 worker 工作量会比平和的 worker 多得多。</p>
+<p>通过记录和采样确定进程工作速度是否符合预期，可以发现和解决饥饿。<br>所以，饥饿会导致你的程序表现不佳或不正确。前面的示例演示了低效场景，但是如果你有一个非常贪婪的并发进程，以至于完全阻止另一个并发进程完成工作，那么你就会遇到一个更大的问题。<br>我们还应该考虑到来自于外部过程的饥饿。请记住，饥饿也可以应用于CPU、内存、文件句柄、数据库连接：<strong>任何必须共享的资源都是饥饿的候选者</strong>。</p>
+<h2 id="第二章-对你的代码建：通信顺序进程"><a href="#第二章-对你的代码建：通信顺序进程" class="headerlink" title="第二章 - 对你的代码建：通信顺序进程"></a>第二章 - 对你的代码建：通信顺序进程</h2><h3 id="并发与并行的区别"><a href="#并发与并行的区别" class="headerlink" title="并发与并行的区别"></a>并发与并行的区别</h3><blockquote>
+<p>并发属于代码，并行属于一个运行中的程序。</p>
+</blockquote>
+<p>这个区别其实仔细体会一下，描述得很清楚。<br>比如，我写了一个两部分可以并行运行的程序，但我却在一个只有一个核心的机器上运行它。那么同一时刻只会有一个部分被执行，他不可能是并行的。但如果是多个核心的机器，那么两个部分就可以并行执行。<br>但这两台机器上我们都可以认为它是并发的，因为并发是一段时间内两个部分都被执行就认为是并发的。（当然，这句是我以前的观点。学习操作系统进程相关知识时的观点）</p>
+<p>但这章中的观点是：并行是一个时间或者上下文的函数。<br>上一章中，上下文被定义为一个操作被认为是原子性的界限。这里，上下文定义为两个或以上的操作被认为是并行的界限。</p>
+<p>比如，我们的上下文是一段5s的时长，执行了两个分别消耗1s的操作，我们应该认为这些操作是并行执行的。但如果我们的上下文是1s，应该认为这些操作是分别运行的。</p>
+<p>对于我们来说，用不同的时间对上下文的概念进行重定义并不是一件好事，但是请记住上下文和时间并设有关系。<br>我们可以把上下文定义成我们程序所在运行的进程，一个操作系统的线程，或者是一台机器。<br>这很重要，因为你所定义的上下文是和并发性以及正确性密切相关。<br>就像原子操作可以按照你所定义的上下文来定义是否为原子性，并发操作也依据你所定义的上下文来确定正确性。一切都是相关的。</p>
+<h3 id="什么是-CSP"><a href="#什么是-CSP" class="headerlink" title="什么是 CSP"></a>什么是 CSP</h3><p>CSP即“Communicating Sequential Processes’”(通信顺序进程)，既是个技术名词，也是介绍这种技术的论文的名字。<br>在1978年，Charles Antony Richard Hoare在Association for Computing Machinery(一般被称作ACM)中发表的论文。<br>在这篇论文里，Hoar认为输入与输出是两个被忽略的编程原语，尤其是在并发代码中。<br>在Hoare写作这篇论文的同时，关于如何架构程序的相关研究还在进行中，但是大部分的研究都是针对编写顺序代码的方法：goto语句的使用正在被讨论，面向对象范型正在成为编程的基石。并发操作并没有被给予过多的思考。<br>Hoare开始纠正这个现象，所以，关于CSP的这篇论文就横空出世了。<br>在1978年的论文中，CSP仅是一个完全用来展示通信顺序进程的能力的一个简单的编程语言。<br>事实上，他甚至在论文中写道：<code>因此，本文介绍的概念和符号应该...不被认为适合作为一种编程语言，无论是抽象的还是具体的编程。</code></p>
+<p>而且正是因为CSP的原始论文以及从论文中进化而来的原语正是Go语言并发模型的主要灵感，而这正是我们接下来所要聚焦的。</p>
+<p>用来支撑他关于输入与输出需要被按照语言的原语来考虑，Hoare的CSP编程语言包含用来建模输入与输出，或者说“在进程间正确通信”（这就是论文名字的由来)的原语。<br>为了在进程之间进行通信，Hoar心创造了输入与输出的命令：！代表发送输入到一个进程，？代表读取一个进程的输出。<br>每一个指令都需要指定具体是一个输出变量（从一个进程中读取一个变量的情况），还是一个目的地（将输入发送到一个进程的情况)。<br>有时，这两种方法会引用相同的东西，在这种情况下，这两个过程会被认为是相对应的。<br>换言之，一个进程的输出应该直接流向另一个进程的输入。</p>
+<p>这种语言同时利用了一个所谓的守护命令，也就是Edgar Dijkstra在一篇之前在I974年所写的论文中介绍的，“Guarded commands,nondeterminacy and formal derivation of programs’”。<br>一个有守护的命令仅仅是一个带有左和右倾向的语句，由一来分割。左侧服务是有运行条件的，或者是守护右侧服务，如果左侧服务运行失败，或者在一个命令执行后，返回false或者退出，右侧服务永远不会被执行。<br>将这些与Hoare的I&#x2F;O命令组合起来，为Hoare的通信过程奠定了基础，从而实现了channel。</p>
+<p>经验判断Hoare的建议是正确的，然而，有趣的是，在Go语言发布之前，很少有语言能够真正地为这些原语提供支持。<br><strong>大多数流行的语言都支持共享和内存访问同步到CSP的消息传递样式。</strong> 当然也有例外，但不幸的是，这些都局限于没有广泛采用的语言。<br>Go语言是最早将CSP的原则纳人共核心的语言之一，并将这种并发编程风格引入到大众中。它的成功也使得其他语言尝试添加这些原语。内存访问同步并不是天生就不好。<br>在Go语言中，甚至有时共享内存在某些情况下是合适的。但是，共享内存模型很难正确地使用，特别是在大型或复杂的程序中。<br>正是由于这个原因，并发被认为是Go语言的优势之一，它从一开始就建立在CSP的原则之上，因此很容易阅读、编写和推理。</p>
+<h3 id="Go语言的并发哲学"><a href="#Go语言的并发哲学" class="headerlink" title="Go语言的并发哲学"></a>Go语言的并发哲学</h3><p>CSP一直都是Go语言设计的重要组成部分。然而，Go语言还支持通过内存访问同步和遵循该技术的原语来编写并发代码的传统方式。sync与其他包中的结构体与方法可以让你执行锁，创建资源池取代goroutine等。</p>
+<p>能够在CSP原语和内存访问同步之间选择对于你来说很棒，因为它让你去编写解决问题的并发代码上有了更多选择，但这可能显得有些莫名其妙。<br>Go语言的初学者总是认为CSP样式编写并发代码是Go语言编写并发代码的唯一方式。<br>比如说，在sync包的文档中，有如下描述：</p>
+<blockquote>
+<p>sync包提供了基本的同步基元，如互斥锁。除了Once类型和WaitGroup类型，大部分都是适用低水平程序线程，高水平的同步使用channel通信更好一些。</p>
+</blockquote>
+<p>在Go语言的FAQ中，有如下陈述：</p>
+<blockquote>
+<p>为了尊重mutex,sync包实现了mutex,但是我们希望Go语言的编程风格将会鼓励人们尝试更高等级的技巧。尤其是考虑构建你的程序，以便一次只有一个goroutine负责某个特定的数据。<br>不要通过共享内存进行通信。相反，通过通信来共享内存。有数不清的关于Go语言核心图队的文章、讲座和访谈，相对于使用像sync.Mutex这样的原语，他们更加拥护CSP。</p>
+</blockquote>
+<p>因此，Go语言团队为什么选择公开内存访问同步原语会感到困惑是完全可以理解的。更令人因惑的是，你通常会在外面看到出现的同步原语。<br>见到人们抱怨过度使用channel,也会听到一些Go语言团队成员说使用它们是“OK”的。<br>Go语言的维基上有一个关于此的引用：</p>
+<blockquote>
+<p>Go语言的一个座右铭是，“<strong>使用通信来共享内存，而不是通过共享内存来通信。</strong>”<br>这就是说，Go语言确实在syc包中提供了传统的锁机制。大多数的锁问题都可以通过channel或者传统的锁两者之一来解决。<br>所以说，我该用哪个？<br>使用最好描述和最简单的那个方式。</p>
+</blockquote>
+<p>这是很好的建议，也是你在使用Go语言时经常看到的谁则，但它有点含糊。<br>我们如何理解什么更具表现力、更简单？我们应该使用什么标准？<br>幸运的是，我们可以使用一些标准来帮助我们做正确的事情。<br>正如我们将看到的那样，我们主要的区分方式来自于试图管理并发的地方：主观地想象一个狭窄的范围，或者在我们的系统外部。</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E3%80%8Ago%E8%AF%AD%E8%A8%80%E5%B9%B6%E5%8F%91%E4%B9%8B%E9%81%93%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-%E5%85%B3%E4%BA%8E%E5%B9%B6%E5%8F%91/%E5%86%B3%E7%AD%96%E6%A0%91.png"
+                        alt="决策树"
+                 ></p>
+<p>让我们逐步来介绍这些决策：</p>
+<p><strong>你想要转让数据的所有权么？</strong><br>如果你有一块产生计算结果并想共享这个结果给其他代码块的代码，你所实际做的事情是传递了数据的所有权。<br>如果你对内存所有制且不支持GC的语言很熟悉的话，对于这个概念你应该是很熟悉的：数据拥有所有者，并发程序安全就是保证同时只有一个并发上下文拥有数据的所有权。<br>channel通过将这个意图编写进channel类型本身来帮助我们表达这个意图。</p>
+<p>这么做的一个很大的好处就是可以创建一个带缓存的channel来实现一个低成本的在内存中的队列来解耦你的生产者与消费者。<br>另一个好处就是通过使用channel确保你的并发代码可以和其他的并发代码进行组合。</p>
+<p><strong>你是否试图在保护某个结构的内部状态？</strong><br>这时候内存访问同步原语的一个很好的选择，也是一个你不应该使用channel的很好的示例。<br>通过使用内存访问同步原语，可以为你的调用者隐藏关于重要代码块的实现细节。<br>这是一个线程安全类型的小例子，且不会给调用者带来复杂性：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;sync&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> Counter <span class="keyword">struct</span></span><br><span class="line">	mu    sync.Mutex</span><br><span class="line">	value <span class="type">int</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(c *Counter)</span></span> Increment() &#123;</span><br><span class="line">	c.mu.Lock()</span><br><span class="line">	<span class="keyword">defer</span> c.mu.Unlock()</span><br><span class="line">	c.value++</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>如果你能回想起关于原子性的细节，可以说我们在这里所做的就是定义了Counter类型的原子性范围。调用增量可被认为是原子的。<br>记住这里的关键词是“内部的”。如果你发现自己正在将锁暴露在一个类型之外，这时侯你应该注意了。试着将你的锁放在一个小的字典范围内。</p>
+<p><strong>你是否试图协调多个逻辑片段？</strong><br>请记住，channel本质上比内存访问同步原语更具可组合性。<br>将锁分散在整个对象图中听起来像是一场噩梦，但是，将channel编写的随处可见是被鼓励以及期待的！<br>我可以组合channel,但是我不能轻易的组合锁或者有返回值的方法。</p>
+<p>你会发现，因为Go语言的select语句，以及channel可以当作队列使用和被安全的随意传递。<br>所以，当在使用channel的时候，你可以更简单的控制你软件中出现的激增的复杂性。<br>如果你发现正在挣扎着理解你的并发代码是如何工作的，为什么会出现死锁以及竞争，而你正在只用原语，这是一个你应该切换到channel的好示例。</p>
+<p><strong>这是一个对性能要求很高的临界区吗？</strong><br>这绝对不意味着“我想让我的程序拥有高性能，因此，我应该只是用mutex’”。<br>当然，如果你程序中的某部分，事实证明是一个主要的性能瓶颈，比程序的其他部分慢几个数量级，使用内存访问同步原语可能会帮助这个重要的部分在负载下执行。<br>这是因为channel使用内存访问同步来操作，因此它们只能更慢。<br>然而，在我们考虑这一点之前，性能至关重要的程序部分可能暗示着需要重新规划我们的程序。</p>
+<p>希望这可以清楚地说明是否利用CSP风格的并发或内存访问同步。<br>还有其他一些模式和做法在使用操作系统线程作为并发抽象方式的语言中很有用。<br>在使用操作系统线程作为主要并发抽象的语言中还有其他的方式以及实践。<br>比如说，像是线程池之类的东西经常出现。因为这些抽象大多数都是为了利用操作系统线程的优点与缺点。<br>Go语言的并发性哲学可以这样总结：<strong>追求简洁，尽量使用channel,并且认为goroutine的使用是没有成本的。</strong></p>
+
+                </div>
+
+                
+                        
+<div class="post-copyright-info-container border-box">
+    <div class="copyright-info-content border-box">
+        <div class="copyright-info-top border-box">
+            <div class="copyright-post-title border-box text-ellipsis">
+                《go语言并发之道》读书笔记-关于并发
+            </div>
+
+            <div class="copyright-post-link border-box text-ellipsis">
+                读书笔记/读书笔记/《go语言并发之道》读书笔记-关于并发/
+            </div>
+        </div>
+
+        <div class="copyright-info-bottom border-box">
+            <div class="copyright-post-author bottom-item">
+                <div class="type">
+                    作者
+                </div>
+                <div class="content">咕咕咕</div>
+            </div>
+
+            <div class="post-time bottom-item">
+                <div class="type">
+                    发布于
+                </div>
+                <div class="content">2025-01-02 17:52</div>
+            </div>
+
+
+            <div class="post-license bottom-item">
+                <div class="type">
+                    许可
+                </div>
+                <div class="content tooltip" data-tooltip-content="CC BY-NC-SA 4.0">
+                    <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hans">
+                        <i class="fa-brands fa-creative-commons"></i>
+                        <i class="fa-brands fa-creative-commons-by"></i>
+                        <i class="fa-brands fa-creative-commons-nc"></i>
+                        <i class="fa-brands fa-creative-commons-sa"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <i class="copyright-bg fa-solid fa-copyright"></i>
+    </div>
+    <div class="copy-copyright-info flex-center tooltip" data-tooltip-content="复制版权信息" data-tooltip-offset-y="-2px">
+        <i class="fa-solid fa-copy"></i>
+    </div>
+</div>
+
+                
+
+                <div class="post-bottom-tags-and-share border-box">
+                    <div>
+                        
+                            <ul class="post-tags-box border-box">
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/go/">go</a>
+                                    </li>
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/%E5%B9%B6%E5%8F%91/">并发</a>
+                                    </li>
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/%E3%80%8Ago%E8%AF%AD%E8%A8%80%E5%B9%B6%E5%8F%91%E4%B9%8B%E9%81%93%E3%80%8B/">《go语言并发之道》</a>
+                                    </li>
+                                
+                            </ul>
+                        
+                    </div>
+                    <div>
+                        
+                            <div class="post-share-container border-box">
+    <ul class="share-list-wrap border-box">
+        <li class="qq share-item border-box flex-center tooltip"
+            data-tooltip-content="分享到 QQ"
+        >
+            <i class="fa-brands fa-qq"></i>
+        </li>
+        <li class="wechat share-item border-box flex-center tooltip tooltip-img"
+            data-tooltip-content="分享到微信"
+            data-tooltip-img-tip="微信扫一扫"
+            data-tooltip-img-style="background-color: #fff; top: -10px; padding: 0.6rem 0.6rem 0.1rem 0.6rem;"
+        >
+            <i class="fa-brands fa-weixin"></i>
+        </li>
+        <li class="weibo share-item border-box flex-center tooltip"
+            data-tooltip-content="分享到微博"
+        >
+            <i class="fa-brands fa-weibo"></i>
+        </li>
+    </ul>
+</div>
+
+                        
+                    </div>
+                </div>
+
+                
+                    <div class="reward-author-container border-box flex-center">
+    <div class="reward-btn keep-button border-box flex-center tooltip tooltip-img"
+            data-tooltip-content="谢谢你请我喝可乐~"
+            data-tooltip-img-url="/images/thanks.png"
+            data-tooltip-img-trigger="click"
+            data-tooltip-img-style="top: -8px;"
+    >
+        <i class="fa-solid fa-hand-holding-heart"></i>
+    </div>
+</div>
+
+                
+
+                
+                    <div class="post-nav border-box">
+                        
+                            <div class="prev-post">
+                                <a class="prev"
+                                   rel="prev"
+                                   href="/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E3%80%8Ago%E8%AF%AD%E8%A8%80%E5%B9%B6%E5%8F%91%E4%B9%8B%E9%81%93%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-%E5%B9%B6%E5%8F%91%E7%BB%84%E4%BB%B6/"
+                                   title="《go语言并发之道》读书笔记-并发组件"
+                                >
+                                    <span class="left arrow-icon flex-center">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </span>
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">《go语言并发之道》读书笔记-并发组件</span>
+                                        <span class="post-nav-item">上一篇</span>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                        
+                            <div class="next-post">
+                                <a class="next"
+                                   rel="next"
+                                   href="/%E8%AE%B0%E5%BD%95%E7%94%9F%E6%B4%BB/%E8%AE%B0%E5%BD%95%E7%94%9F%E6%B4%BB/2024%E5%B9%B4%E5%B9%B4%E7%BB%88%E6%80%BB%E7%BB%93/"
+                                   title="2024年年终总结"
+                                >
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">2024年年终总结</span>
+                                        <span class="post-nav-item">下一篇</span>
+                                    </span>
+                                    <span class="right arrow-icon flex-center">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                    </div>
+                
+
+                
+                    
+
+
+    <div class="comments-container border-box">
+        <div id="comments-anchor" class="comment-area-title border-box">
+            <i class="fas fa-comments"></i>&nbsp;评论
+        </div>
+        <div class="comment-plugin-fail border-box">
+    <span class="fail-tip">评论插件加载失败</span>
+    <button class="reload keep-button">点击重新加载</button>
+</div>
+<div class="comment-plugin-loading flex-center border-box">
+    <i class="loading-icon fa-solid fa-spinner fa-spin"></i>
+    <span class="load-tip">正在加载评论插件</span>
+</div>
+<script data-pjax>
+  window.KeepCommentPlugin = {}
+  window.KeepCommentPlugin.hideLoading = () => {
+    const cplDom = document.querySelector('.comments-container .comment-plugin-loading')
+    cplDom.style.display = 'none'
+  }
+  window.KeepCommentPlugin.loadFailHandle = () => {
+    window.KeepCommentPlugin.hideLoading()
+    const cpfDom = document.querySelector('.comments-container .comment-plugin-fail')
+    cpfDom.style.display = 'flex'
+    cpfDom.querySelector('.reload').addEventListener('click', () => {
+      window.location.reload()
+    })
+  }
+</script>
+
+        
+            
+
+    <div class="giscus-comments-container">
+        <div class="giscus" id="giscus"></div>
+        <script data-pjax
+                onerror="window.KeepCommentPlugin.loadFailHandle()"
+        >
+          if (!window.KeepCommentPlugin?.getGiscusTheme) {
+            window.KeepCommentPlugin.getGiscusTheme = () => {
+              return document.body.classList.contains('dark-mode') ? 'dark_dimmed' : 'light_tritanopia'
+            }
+          }
+
+          if (!window.KeepCommentPlugin?.changeGiscusTheme) {
+            window.KeepCommentPlugin.changeGiscusTheme = () => {
+              const iframe = document.querySelector('iframe.giscus-frame')
+              iframe && iframe.contentWindow.postMessage({
+                giscus: {
+                  setConfig: {
+                    theme: window.KeepCommentPlugin.getGiscusTheme()
+                  }
+                }
+              }, 'https://giscus.app')
+            }
+          }
+
+          if (!window.KeepCommentPlugin?.initGiscus) {
+            window.KeepCommentPlugin.initGiscus = () => {
+              const script = document.createElement('script')
+              script.async = true
+              script.src = 'https://giscus.app/client.js'
+              script.setAttribute('data-repo', 'Cooooing/Cooooing.github.io')
+              script.setAttribute('data-repo-id', 'R_kgDOHQal_w')
+              script.setAttribute('data-category', 'Announcements')
+              script.setAttribute('data-category-id', 'DIC_kwDOHQal_84CjZo6')
+              script.setAttribute('data-reactions-enabled', '1')
+              script.setAttribute('data-lang', 'zh-CN')
+              script.setAttribute('data-mapping', 'pathname')
+              script.setAttribute('data-strict', '0')
+              script.setAttribute('data-emit-metadata', '0')
+              script.setAttribute('data-input-position', 'top')
+              script.setAttribute('crossorigin', 'anonymous')
+              script.setAttribute('loading', 'lazy')
+              script.setAttribute('data-theme', window.KeepCommentPlugin.getGiscusTheme())
+              document.querySelector('.giscus-comments-container').appendChild(script)
+              script.onerror = () => {
+                window.KeepCommentPlugin.loadFailHandle()
+              }
+              script.onload = () => {
+                window.KeepCommentPlugin.hideLoading()
+              }
+              const toggleThemeBtn = document.querySelector('.tool-toggle-theme-mode')
+              toggleThemeBtn && toggleThemeBtn.addEventListener('click', () => {
+                window.KeepCommentPlugin.changeGiscusTheme()
+              })
+            }
+          }
+
+          if ('true' === "true") {
+            setTimeout(() => {
+              window.KeepCommentPlugin.initGiscus()
+            }, 1000)
+          } else {
+            window.addEventListener("DOMContentLoaded", window.KeepCommentPlugin.initGiscus)
+          }
+        </script>
+    </div>
+
+
+        
+    </div>
+
+
+
+
+
+                
+            </div>
+        </div>
+
+        
+            <div class="pc-post-toc left-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E7%AB%A0-%E5%B9%B6%E5%8F%91%E6%A6%82%E8%BF%B0"><span class="nav-text">第一章 - 并发概述</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E5%B9%B6%E5%8F%91%E5%BE%88%E9%9A%BE%EF%BC%9F"><span class="nav-text">为什么并发很难？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AB%9E%E6%80%81%E6%9D%A1%E4%BB%B6"><span class="nav-text">竞态条件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8E%9F%E5%AD%90%E6%80%A7"><span class="nav-text">原子性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%86%85%E5%AD%98%E8%AE%BF%E9%97%AE%E5%90%8C%E6%AD%A5"><span class="nav-text">内存访问同步</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%BB%E9%94%81%E3%80%81%E6%B4%BB%E9%94%81%E5%92%8C%E9%A5%A5%E9%A5%BF"><span class="nav-text">死锁、活锁和饥饿</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%AD%BB%E9%94%81"><span class="nav-text">死锁</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B4%BB%E9%94%81"><span class="nav-text">活锁</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%A5%A5%E9%A5%BF"><span class="nav-text">饥饿</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E5%AF%B9%E4%BD%A0%E7%9A%84%E4%BB%A3%E7%A0%81%E5%BB%BA%EF%BC%9A%E9%80%9A%E4%BF%A1%E9%A1%BA%E5%BA%8F%E8%BF%9B%E7%A8%8B"><span class="nav-text">第二章 - 对你的代码建：通信顺序进程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B9%B6%E5%8F%91%E4%B8%8E%E5%B9%B6%E8%A1%8C%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-text">并发与并行的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF-CSP"><span class="nav-text">什么是 CSP</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Go%E8%AF%AD%E8%A8%80%E7%9A%84%E5%B9%B6%E5%8F%91%E5%93%B2%E5%AD%A6"><span class="nav-text">Go语言的并发哲学</span></a></li></ol></li></ol>
+    </div>
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom border-box">
+            
+<footer class="footer border-box">
+    <div class="border-box website-info-box default">
+        
+            <div class="copyright-info info-item default">
+                &copy;&nbsp;<span>2022</span>&nbsp;-&nbsp;2025
+                
+                    &nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;&nbsp;<a href="/">咕咕咕</a>
+                
+            </div>
+
+            <div class="theme-info info-item default">
+                由&nbsp;<a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;驱动&nbsp;&&nbsp;主题&nbsp;<a class="keep-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep</a>
+            </div>
+
+            
+
+            
+        
+
+        <div style="color:var(--text-color-4);"><span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>(～￣▽￣)～<script src="/js/lifeTime.js"></script></div>
+        <a href="https://icp.gov.moe/?keyword=20222450" target="_blank">萌ICP备20222450号</a>
+
+
+        <div class="count-item info-item default">
+            
+                <span class="count-box border-box word">
+                    <span class="item-type border-box">总字数</span>
+                    <span class="item-value border-box word">362.1k</span>
+                </span>
+            
+
+            
+                <span class="count-box border-box uv">
+                    <span class="item-type border-box">访客数</span>
+                    <span class="item-value border-box uv" id="busuanzi_value_site_uv"></span>
+                </span>
+            
+
+            
+                <span class="count-box border-box pv">
+                    <span class="item-type border-box">访问量</span>
+                    <span class="item-value border-box pv" id="busuanzi_value_site_pv"></span>
+                </span>
+            
+        </div>
+
+        <div id="aplayer">
+          <meting-js
+                  server="netease"
+                  type="playlist"
+                  id="7345595717"
+                  fixed="true"
+                  mini="true"
+                  autoplay="false"
+                  listFolded="true"
+                  order="random"
+                  preload="none">
+          </meting-js>
+        </div>
+            <br>
+            <br>
+            <br>
+    </div>
+
+</footer>
+
+        </div>
+    </div>
+
+    <!-- post tools -->
+    
+        <div class="post-tools left-toc">
+            <div class="post-tools-container border-box">
+    <ul class="tools-list border-box">
+        <!-- PC TOC show toggle -->
+        
+            <li class="tools-item flex-center toggle-show-toc">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        <!-- PC go comment -->
+        
+            <li class="tools-item flex-center go-to-comments">
+                <i class="fas fa-comment"></i>
+                <span class="post-comments-count"></span>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <!-- side tools -->
+    <div class="side-tools">
+        <div class="side-tools-container border-box ">
+    <ul class="side-tools-list side-tools-show-handle border-box">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-toggle-theme-mode flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+            <li class="tools-item rss flex-center">
+                <a class="flex-center"
+                   href="/atom.xml"
+                   target="_blank"
+                >
+                    <i class="fas fa-rss"></i>
+                </a>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list border-box">
+        
+            <li class="tools-item toggle-show-toc-tablet flex-center">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        
+            <li class="tools-item go-to-comments-tablet flex-center">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+
+        <li class="tools-item tool-scroll-to-top flex-center show-arrow">
+            <i class="arrow fas fa-arrow-up"></i>
+            <span class="percent"></span>
+        </li>
+    </ul>
+</div>
+
+    </div>
+
+    <!-- image mask -->
+    <div class="zoom-in-image-mask">
+    <img class="zoom-in-image">
+</div>
+
+
+    <!-- local search -->
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="搜索..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="close-popup-btn">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+    <!-- tablet toc -->
+    
+        <div class="tablet-post-toc-mask">
+            <div class="tablet-post-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E7%AB%A0-%E5%B9%B6%E5%8F%91%E6%A6%82%E8%BF%B0"><span class="nav-text">第一章 - 并发概述</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E5%B9%B6%E5%8F%91%E5%BE%88%E9%9A%BE%EF%BC%9F"><span class="nav-text">为什么并发很难？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AB%9E%E6%80%81%E6%9D%A1%E4%BB%B6"><span class="nav-text">竞态条件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8E%9F%E5%AD%90%E6%80%A7"><span class="nav-text">原子性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%86%85%E5%AD%98%E8%AE%BF%E9%97%AE%E5%90%8C%E6%AD%A5"><span class="nav-text">内存访问同步</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%BB%E9%94%81%E3%80%81%E6%B4%BB%E9%94%81%E5%92%8C%E9%A5%A5%E9%A5%BF"><span class="nav-text">死锁、活锁和饥饿</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%AD%BB%E9%94%81"><span class="nav-text">死锁</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B4%BB%E9%94%81"><span class="nav-text">活锁</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%A5%A5%E9%A5%BF"><span class="nav-text">饥饿</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E5%AF%B9%E4%BD%A0%E7%9A%84%E4%BB%A3%E7%A0%81%E5%BB%BA%EF%BC%9A%E9%80%9A%E4%BF%A1%E9%A1%BA%E5%BA%8F%E8%BF%9B%E7%A8%8B"><span class="nav-text">第二章 - 对你的代码建：通信顺序进程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B9%B6%E5%8F%91%E4%B8%8E%E5%B9%B6%E8%A1%8C%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-text">并发与并行的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF-CSP"><span class="nav-text">什么是 CSP</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Go%E8%AF%AD%E8%A8%80%E7%9A%84%E5%B9%B6%E5%8F%91%E5%93%B2%E5%AD%A6"><span class="nav-text">Go语言的并发哲学</span></a></li></ol></li></ol>
+    </div>
+</div>
+
+            </div>
+        </div>
+    
+</main>
+
+
+
+<!-- common -->
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/toggle-theme.js"></script>
+
+<script src="/js/code-block.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+
+<!-- local-search -->
+
+    
+<script src="/js/local-search.js"></script>
+
+
+
+<!-- lazyload -->
+
+    
+<script src="/js/lazyload.js"></script>
+
+
+
+<div class="pjax">
+    
+        <!-- post-helper -->
+        
+<script src="/js/post/post-helper.js"></script>
+
+
+        <!-- toc -->
+        
+            
+<script src="/js/post/toc.js"></script>
+
+        
+
+        <!-- copyright-info -->
+        
+            
+<script src="/js/post/copyright-info.js"></script>
+
+        
+
+        <!-- share -->
+        
+            
+<script src="/js/post/share.js"></script>
+
+        
+    
+
+    <!-- category-page -->
+    
+
+    <!-- links-page -->
+    
+
+    <!-- photos-page -->
+    
+</div>
+
+<!-- mermaid -->
+
+
+<!-- pjax -->
+
+    
+<script src="/js/libs/pjax.min.js"></script>
+
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        window.pjax = new Pjax({
+            selectors: [
+                'head title',
+                '.page-container',
+                '.pjax',
+                '#aplayer',
+                '#canvas_sakura'
+            ],
+            history: true,
+            debug: false,
+            cacheBust: false,
+            timeout: 0,
+            analytics: false,
+            currentUrlFullReload: false,
+            scrollRestoration: false,
+        });
+
+        document.addEventListener('pjax:send', () => {
+            KEEP.utils.pjaxProgressBarStart()
+        });
+
+        document.addEventListener('pjax:complete', () => {
+            KEEP.utils.pjaxProgressBarEnd()
+            window.pjax.executeScripts(document.querySelectorAll('script[data-pjax], .pjax script'))
+            KEEP.initExecute()
+        });
+    });
+</script>
+
+
+
+
+    
+        
+            
+<script class="custom-inject-js" src="/js/APlayer.min.js" data-pjax></script>
+
+        
+    
+        
+            
+<script class="custom-inject-js" src="/js/Meting.min.js" data-pjax></script>
+
+        
+    
+        
+            
+<script class="custom-inject-js" src="/js/leaves.js" data-pjax></script>
+
+        
+    
+
+
+
+</body>
+</html>

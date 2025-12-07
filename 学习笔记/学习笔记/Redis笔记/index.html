@@ -1,0 +1,1390 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="技术博客,后端开发,编程笔记,生活">
+    <meta name="description" content="Code | Systems | Life — 专注编程本质，也关心世界如何运转。">
+    <meta name="author" content="咕咕咕">
+
+    
+    <title>
+        
+            Redis笔记 |
+        
+        咕咕咕的小破站
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+        <link rel="shortcut icon" href="/images/favicon.png">
+    
+    
+<link rel="stylesheet" href="/font/css/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/regular.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/solid.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/brands.min.css">
+
+    
+        
+            
+                
+<link rel="stylesheet" href="/css/APlayer.min.css">
+
+            
+        
+            
+                
+<link rel="stylesheet" href="/css/custom.css">
+
+            
+        
+    
+    <script class="keep-theme-configurations">
+    const KEEP = window.KEEP || {}
+    KEEP.hexo_config = {"hostname":"cooooing.github.io","root":"/","language":"zh-CN","path":"search.json"}
+    KEEP.theme_config = {"base_info":{"primary_color":"#0066cc","title":"咕咕咕的小破站","author":"咕咕咕","avatar":"/images/head.jpg","logo":"/images/head.jpg","favicon":"/images/favicon.png"},"menu":{"Archives":"/archives","Categories":"/categories","Tags":"/tags","日常":"/daily","Links":"/links","About":"/about"},"first_screen":{"enable":false,"background_img":"/images/bg.svg","background_img_dark":"/images/bg.svg","description":"Keep writing and Keep loving.","hitokoto":false},"social_contact":{"enable":false,"links":{"github":null,"weixin":null,"qq":null,"weibo":null,"zhihu":null,"twitter":null,"facebook":null,"email":null}},"scroll":{"progress_bar":false,"percent":false,"hide_header":true},"home":{"category":true,"tag":true,"announcement":null},"post":{"author_badge":{"enable":true,"level_badge":false,"custom_badge":["fishing"]},"word_count":{"wordcount":true,"min2read":true},"datetime_format":"YYYY-MM-DD HH:mm:ss","copyright_info":true,"share":true,"reward":{"enable":true,"img_link":"/images/thanks.png","text":"谢谢你请我喝可乐~"}},"code_block":{"tools":{"enable":true,"style":"default"},"highlight_theme":"default"},"toc":{"enable":true,"number":false,"expand_all":true,"init_open":true,"layout":"left"},"website_count":{"busuanzi_count":{"enable":true,"site_uv":true,"site_pv":true,"page_pv":true}},"local_search":{"enable":true,"preload":true},"comment":{"enable":true,"use":"giscus","valine":{"appid":null,"appkey":null,"server_urls":null,"placeholder":null},"gitalk":{"github_id":null,"github_admins":null,"repository":null,"client_id":null,"client_secret":null,"proxy":null},"twikoo":{"env_id":null,"region":null,"version":"1.6.21"},"waline":{"server_url":null,"reaction":false,"version":2},"giscus":{"repo":"Cooooing/Cooooing.github.io","repo_id":"R_kgDOHQal_w","category":"Announcements","category_id":"DIC_kwDOHQal_84CjZo6","reactions_enabled":true},"artalk":{"server":null},"disqus":{"shortname":null}},"rss":{"enable":true},"lazyload":{"enable":true},"cdn":{"enable":false,"provider":"cdnjs"},"pjax":{"enable":true},"footer":{"since":2022,"word_count":true,"icp":{"enable":false,"record_code":null,"url":"https://beian.miit.gov.cn"},"site_deploy":{"enable":false,"provider":"github","url":null},"shields_style":{"enable":false,"custom":[{"link_url":null,"img_url":null}]}},"inject":{"enable":true,"css":["/css/APlayer.min.css","/css/custom.css"],"js":["/js/APlayer.min.js","/js/Meting.min.js","/js/leaves.js"]},"root":"","links":[{"name":"鼠鼠在碎觉","link":"https://sszsj.com","avatar":"https://tmx.fishpi.cn/img/head.jpg","description":"我是不慎落入世界的一滴水墨"},{"name":"Gakkiyomi","link":"https://gakkiyomi.blog","avatar":"https://avatars.githubusercontent.com/u/41406557?v=4","description":"为往圣继绝学"},{"name":"Hancel's Blog","link":"https://my.hancel.org","avatar":"https://my.hancel.org/media/logo.jpg","description":"人生而自由，却无往不在枷锁之中。"},{"name":"Eastshann","link":"http://121.4.99.208/","avatar":"http://121.4.99.208/img/avatar.jpg","description":"冲和者，淡泊平和，谦冲守正"},{"name":"小于同学的异世界","link":"https://yby.zone","avatar":"https://yby-zone.obs.cn-east-3.myhuaweicloud.com/avatar.jpg","description":"为吾为枝，余地三尺，以己为棋，胜天半子。"},{"name":"Mlikiowa Home Village","link":"https://nanaeo.cn/","avatar":"https://q1.qlogo.cn/g?b=qq&nk=1627126029&s=100","description":"A litter Village With Mlikiowa"},{"name":"忘忧草","link":"https://owo.wyc.rest/","avatar":"https://owo.wyc.rest/img/%E4%B8%87%E5%8F%B6.jpg","description":"这只是一个小破站而已！"},{"name":"stillwarter","link":"https://stillwarter.github.io/","avatar":"https://file.fishpi.cn/2022/07/MOSHED2022621164630-1b1ec532.gif?imageView2/1/w/210/h/210/interlace/0/q/100","description":"光就是一切的意义"},{"name":"test12138","link":"http://你好.eu.org/","avatar":"https://file.fishpi.cn/2022/06/srchttpimgzcoolcncommunity0116405d84f975a801211d537707c9gifreferhttpimgzcool-0f2d09c9.gif?imageView2/1/w/48/h/48/interlace/0/q/100","description":"大丈夫生于天地之间，岂能郁郁久居人下。"},{"name":"呼呼呼","link":"https://bongbongbakudan.github.io/","avatar":"https://pwl.stackoverflow.wiki/2021/12/blob-28eb4b9f.png?imageView2/1/w/48/h/48/interlace/0/q/100","description":"去整点薯条"},{"name":"Plumbiu","link":"https://blog.plumbiu.top/","avatar":"https://avatars.githubusercontent.com/u/99574369?v=4","description":"这人很勤奋，啥都没留"},{"name":"hiRipple","link":"https://hiripple.com/","avatar":"https://avatars.githubusercontent.com/u/115361435?v=4","description":"超高校级的游戏玩家"}],"version":"4.0.6"}
+    KEEP.language_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"}
+    KEEP.language_code_block = {"copy":"复制代码","copied":"已复制","fold":"折叠代码块","folded":"已折叠"}
+    KEEP.language_copy_copyright = {"copy":"复制版权信息","copied":"已复制","title":"原文标题","author":"原文作者","link":"原文链接"}
+  </script>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-CLX32WF4R1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+
+      gtag('js', new Date());
+
+      gtag('config', 'G-CLX32WF4R1');
+    </script>
+
+    <!-- 51.la -->
+    <script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
+    <script>LA.init({id: "3JwPz6wbAloyTmMc", ck: "3JwPz6wbAloyTmMc", autoTrack: true})</script>
+
+<meta name="generator" content="Hexo 8.1.1"><link rel="alternate" href="/atom.xml" title="咕咕咕的小破站" type="application/atom+xml">
+</head>
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+        <span class="pjax-progress-bar"></span>
+        <i class="pjax-progress-icon fas fa-circle-notch fa-spin"></i>
+    
+</div>
+
+
+<main class="page-container border-box">
+
+    <!-- home first screen  -->
+    
+
+    <!-- page content -->
+    <div class="page-main-content border-box">
+        <div class="page-main-content-top">
+            
+<header class="header-wrapper">
+
+    <div class="border-box header-content">
+        <div class="left border-box">
+            
+                <a class="logo-image border-box" href="/">
+                    <img src="/images/head.jpg">
+                </a>
+            
+            <a class="site-name border-box" href="/">
+               咕咕咕的小破站
+            </a>
+        </div>
+
+        <div class="right border-box">
+            <div class="pc">
+                <ul class="menu-list">
+                    <li class="menu-item">
+                        <a class=""
+                           href="/"
+                        >首页</a>
+                    </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >归档</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/categories"
+                            >分类</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/tags"
+                            >标签</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/daily"
+                            >日常</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/links"
+                            >友链</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >关于</a>
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="fas search fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            <li class="drawer-menu-item flex-center">
+                <a class=""
+                   href="/"
+                >首页</a>
+            </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives"
+                    >归档</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/categories"
+                    >分类</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/tags"
+                    >标签</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/daily"
+                    >日常</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/links"
+                    >友链</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about"
+                    >关于</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle border-box">
+
+            <div class="main-content border-box">
+                
+
+                    
+<div class="fade-in-down-animation">
+    <div class="post-page-container border-box">
+        <div class="post-content-container border-box">
+            
+
+            <div class="post-content-bottom border-box">
+                
+                    <div class="post-title">
+                        Redis笔记
+                    </div>
+                
+
+                
+                    <div class="post-header border-box">
+                        
+                            <div class="avatar-box border-box">
+                                <img src="/images/head.jpg">
+                            </div>
+                        
+                        <div class="info-box">
+                            <div class="author border-box">
+                                <span class="name">咕咕咕</span>
+                                
+                                    <span class="author-badge">fishing</span>
+                                
+                            </div>
+                            <div class="meta-info border-box">
+                                
+
+<div class="post-meta-info-container border-box post">
+    <div class="post-meta-info border-box">
+        
+
+        
+            <span class="meta-info-item post-create-date">
+                <i class="icon fa-solid fa-calendar-plus"></i>&nbsp;
+                <span class="datetime">2022-05-07 21:38:10</span>
+            </span>
+
+            <span class="meta-info-item post-update-date">
+                <i class="icon fa-solid fa-file-pen"></i>&nbsp;
+                <span class="datetime" data-updated="Sat May 07 2022 13:38:10 GMT+0000">2022-05-07 21:38:10</span>
+            </span>
+        
+
+        
+            <span class="meta-info-item post-category border-box"><i class="icon fas fa-folder"></i>&nbsp;
+                <ul class="post-category-ul">
+                    
+                            <li class="category-item"><a href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+            <span class="post-tag meta-info-item border-box">
+                <i class="icon fas fa-tags"></i>&nbsp;
+                <ul class="post-tag-ul">
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/Redis/">Redis</a></li>
+                        
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+        
+            <span class="meta-info-item post-wordcount">
+                <i class="icon fas fa-file-word"></i>&nbsp;<span>5.2k 字</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-min2read">
+                <i class="icon fas fa-clock"></i>&nbsp;<span>20 分钟</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-pv">
+                <i class="icon fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+            </span>
+        
+    </div>
+
+    
+</div>
+
+                            </div>
+                        </div>
+                    </div>
+                
+
+                <div class="post-content keep-markdown-body">
+                    
+
+                    <h2 id="关于Redis"><a href="#关于Redis" class="headerlink" title="关于Redis"></a>关于Redis</h2><p><a class="link"   target="_blank" rel="noopener" href="https://redis.io/" >Redis官网<i class="fas fa-external-link-alt"></i></a><br><a class="link"   target="_blank" rel="noopener" href="https://baike.baidu.com/item/Redis/6549233" >Redis百度百科<i class="fas fa-external-link-alt"></i></a><br>REmote DIctionary Server(Redis) 是一个由 Salvatore Sanfilippo 写的 <strong>key-value</strong> 存储系统，是跨平台的非关系型数据库。<br>Redis 是一个开源的使用 ANSI C 语言编写、遵守 BSD 协议、<strong>支持网络、可基于内存、分布式、可选持久性的键值对(Key-Value)存储数据库</strong>，并提供多种语言的 API。<br>Redis 通常被称为数据结构服务器，因为值（value）可以是字符串(String)、哈希(Hash)、列表(list)、集合(sets)和有序集合(sorted sets)等类型。  </p>
+<p>使用Redis是为了解决多次读写数据库引发的性能问题。因为Redis是<strong>基于内存的数据库</strong>，所以它的性能十分优越，读的速度是110000次&#x2F;s,写的速度是81000次&#x2F;s。JavaWeb通常使用它存储<strong>缓存</strong>用的数据，以及需要高速读&#x2F;写的场合，以减少对基于硬盘的数据库的访问次数。</p>
+<h2 id="Redis中的数据结构及操作命令"><a href="#Redis中的数据结构及操作命令" class="headerlink" title="Redis中的数据结构及操作命令"></a>Redis中的数据结构及操作命令</h2><h3 id="Redis中的数据结构"><a href="#Redis中的数据结构" class="headerlink" title="Redis中的数据结构"></a>Redis中的数据结构</h3><table>
+<thead>
+<tr>
+<th>数据类型</th>
+<th>格式</th>
+<th>例子</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>string(字符串)</td>
+<td>单key:单value</td>
+<td>name:zhangsan</td>
+</tr>
+<tr>
+<td>list(列表,按插入顺序)</td>
+<td>单key:多有序value</td>
+<td>contacts:13952900000,xxx,xxx</td>
+</tr>
+<tr>
+<td>set(集合,无序且不重复,string类型)</td>
+<td>单key:多无序value</td>
+<td>city:beijing shanghai shenzhen</td>
+</tr>
+<tr>
+<td>hash(哈希,适合存储对象)</td>
+<td>单key:对象(属性:值)</td>
+<td>student:id:1,name:zhangsan,age:20</td>
+</tr>
+<tr>
+<td>zset(有序集合,通过double类型分数排序)</td>
+<td>单key:多有序value</td>
+<td>city:1000 beijing,1500 shanghai,2000 shenzhen</td>
+</tr>
+</tbody></table>
+<h3 id="关于键-key-的操作命令"><a href="#关于键-key-的操作命令" class="headerlink" title="关于键(key)的操作命令"></a>关于键(key)的操作命令</h3><ol>
+<li>查看redis中的key: <strong>keys pattern</strong>(查找符合给定模式pattern的key)<ul>
+<li>keys *: 查看redis中所有的key(*匹配零或多个字符)</li>
+<li>keys h?o: 查看redis中以h开头，o结尾且中间只有一个字符的key(?匹配一个字符)</li>
+<li>keys h[abc]llo: 查看redis中以h开头，llo结尾，且中间为abc中一个的key([]匹配[]中的一个字符)</li>
+</ul>
+</li>
+<li>判断key在redis中是否存在<ul>
+<li><strong>exists key</strong>(存在返回1，不存在返回0)</li>
+<li><strong>exists key [key key key]</strong> (返回值为存在key的数量)</li>
+</ul>
+</li>
+<li>移动指定key到指定的redis实例: <strong>move key index</strong><ul>
+<li>move k1 1</li>
+</ul>
+</li>
+<li>查看指定key的剩余生存时间: <strong>ttl key</strong>(key未设置生存时间，返回-1；key不存在，返回-2)<ul>
+<li>ttl k1</li>
+</ul>
+</li>
+<li>设置key最大生命时间: <strong>expire key seconds</strong>(单位秒)<ul>
+<li>expire k2 20</li>
+</ul>
+</li>
+<li>查看指定key的数据类型: <strong>type key</strong><ul>
+<li>type k1</li>
+</ul>
+</li>
+<li>重命名key: <strong>rename key newkey</strong><ul>
+<li>rename k1 k2</li>
+</ul>
+</li>
+<li>删除指定key: <strong>del key [key key key]</strong>(返回值是实际删除key的数量)<ul>
+<li>del k1 k2</li>
+</ul>
+</li>
+</ol>
+<h3 id="关于string类型数据的操作命令"><a href="#关于string类型数据的操作命令" class="headerlink" title="关于string类型数据的操作命令"></a>关于string类型数据的操作命令</h3><ol>
+<li>将string类型数据设置到redis中: <strong>set key value</strong><ul>
+<li>set name zhangsan</li>
+<li>set age 20</li>
+</ul>
+</li>
+<li>从redis中获取string类型数据: <strong>get key</strong><ul>
+<li>get name</li>
+<li>&gt; zhangsan</li>
+<li>get age</li>
+<li>&gt; 20</li>
+</ul>
+</li>
+<li>追加字符串: <strong>append key value</strong>(返回值为追加后字符串长度；如果key不存在，则创建并赋值)<ul>
+<li>set phone 2333333</li>
+<li>append phone 8888</li>
+<li>&gt; 23333338888</li>
+</ul>
+</li>
+<li>获取字符串长度: <strong>strlen key</strong><ul>
+<li>strlen phone</li>
+<li>&gt; 5</li>
+</ul>
+</li>
+<li>将字符串数值进行加1运算: <strong>incr key</strong><br>(返回加1运算后的数据;key不存在，设置一个初始值为0的key，在进行incr运算；key的value不为数值，报错)</li>
+<li>将字符串数值进行减1运算: <strong>decr key</strong><br>(返回减1运算后的数据;key不存在，设置一个初始值为0的key，在进行decr运算；key的value不为数值，报错)</li>
+<li>将字符串数值进行加offset运算: <strong>incrby key offset</strong><br>(返回加offset运算后的数据;key不存在，设置一个初始值为0的key，在进行incrby运算；key的value不为数值，报错)</li>
+<li>将字符串数值进行减offset运算: <strong>decrby key offset</strong><br>(返回减offset运算后的数据;key不存在，设置一个初始值为0的key，在进行decrby运算；key的value不为数值，报错)</li>
+<li>获取字符串key中从startIndex到endIndex的子串: <strong>getrange key startIndex endIndex</strong>(闭区间，下标也可为负数)<ul>
+<li>set k1 zhangsan</li>
+<li>getrange k1 2 5</li>
+<li>&gt; angs</li>
+<li>getrange k1 0 -1</li>
+<li>&gt; zhangsan</li>
+</ul>
+</li>
+<li>用value覆盖从startIndex开始的字符串: <strong>setrange key startIndex value</strong><ul>
+<li>set k1 zhangsan</li>
+<li>setrange k1 5 233</li>
+<li>&gt; zhang233</li>
+<li>setrange k1 5 a</li>
+<li>&gt; zhanga33</li>
+</ul>
+</li>
+<li>设置string数据同时，设置它的最大生命周期: <strong>setex key seconds value</strong><ul>
+<li>setex k1 20 zhangsan</li>
+</ul>
+</li>
+<li>设置string数据到redis中，不存在则设置；存在则放弃: <strong>setnx key value</strong><ul>
+<li>setnx k1 20</li>
+</ul>
+</li>
+<li>批量设置string数据到redis中: <strong>mset key1 value1 key2 value2 …</strong></li>
+<li>批量获取string数据: <strong>mget key1 key2 …</strong></li>
+</ol>
+<h3 id="关于list类型数据的操作命令"><a href="#关于list类型数据的操作命令" class="headerlink" title="关于list类型数据的操作命令"></a>关于list类型数据的操作命令</h3><p>单key-多有序value<br>多个value之间有顺序(插入顺序)，最左侧是表头，最右侧表尾。<br>每个元素都有下标，表头元素下标是0。下标可以为负数</p>
+<ol>
+<li>将一个或多个值依次插入列表的表头: <strong>lpush key value [value value …]</strong><ul>
+<li>lpush list1 1 2 3</li>
+</ul>
+</li>
+<li>获取指定列表中指定下标区间的元素: <strong>lrange key startIndex endIndex</strong><ul>
+<li>lrange list1 0 2</li>
+<li>&gt;3</li>
+<li>&gt;2</li>
+<li>&gt;1</li>
+</ul>
+</li>
+<li>将一个或多个值依次插入列表的表尾: <strong>rpush key value [value value …]</strong><ul>
+<li>rpush list2 1 2 3</li>
+<li>lrange list2 0 2</li>
+<li>&gt;1</li>
+<li>&gt;2</li>
+<li>&gt;3</li>
+</ul>
+</li>
+<li>从指定列表移除并返回表头: <strong>lpop key</strong></li>
+<li>从指定列表移除并返回表尾: <strong>rpop key</strong></li>
+<li>获取指定列表中指定下标的元素: <strong>lindex key index</strong><ul>
+<li>lindex list1 1</li>
+<li>&gt;2</li>
+</ul>
+</li>
+<li>获取指定列表的长度: llen key<ul>
+<li>llen list1</li>
+<li>&gt;3</li>
+</ul>
+</li>
+<li>根据count值移除指定列表中跟value相等的数据: <strong>lrem key count value</strong><br>count&gt;0:从列表的左侧移除count个跟value相等的数据；<br>count&lt;0:从列表的右侧移除count个跟value相等的数据；<br>count&#x3D;0:从列表移除所有跟value相等的数据。</li>
+<li>截取指定列表指定区间组成新的列表，并赋值给key: <strong>ltrim key startIndex endIndex</strong></li>
+<li>将指定列表指定下标元素设置为指定值: lset key index value</li>
+<li>将value插入到指定列表中位于pivot元素之前&#x2F;之后的位置: linsert key before&#x2F;after pivot value</li>
+</ol>
+<h3 id="关于set类型数据的操作命令"><a href="#关于set类型数据的操作命令" class="headerlink" title="关于set类型数据的操作命令"></a>关于set类型数据的操作命令</h3><p>单key-多无序value<br>无序且不重复，所以元素没有下标，直接操作数据。</p>
+<ol>
+<li>将一个或多个元素添加到指定集合: <strong>sadd key value [value value …]</strong><br>如果元素已经存在，则会忽略。返回成功加入的元素个数。<ul>
+<li>sadd set1 a b c a</li>
+</ul>
+</li>
+<li>获取指定集合中的所有元素: smembers key<ul>
+<li>smembers set1</li>
+<li>&gt;a</li>
+<li>&gt;c</li>
+<li>&gt;b</li>
+</ul>
+</li>
+<li>判断指定元素在指定集合中是否存在: <strong>sismember key member</strong><br>存在返回1，不存在返回0。</li>
+<li>获取指定集合的长度: <strong>scard key</strong></li>
+<li>移除指定集合中的一个或多个元素: <strong>srem key member [member member …]</strong><br>不存在的元素会被忽略<br>返回成功移除的元素个数</li>
+<li>随机获取指定集合中的一个或多个元素: <strong>srandmember key [count]</strong><br>count&gt;0 随机获取的多个元素不能重复<br>count&lt;0 随机获取的多个元素之间可能重复</li>
+<li>从指定集合中随机移除一个或多个元素: <strong>spop key [count]</strong></li>
+<li>将指定集合中指定元素移动到另一个集合: <strong>smove source dest member</strong><ul>
+<li>smove set1 set2 a</li>
+</ul>
+</li>
+<li>获取第一个集合中有，但其他集合中没有的元素组成新的集合(差集): <strong>sdiff key key [key key …]</strong></li>
+<li>获取所有指定集合中都有的元素组成新的集合(交集): <strong>sinter key key [key key …]</strong></li>
+<li>获取所有指定集合中所有的元素组成新的集合(并集): <strong>sunion key key [key key …]</strong></li>
+</ol>
+<h3 id="关于hash类型数据的操作命令"><a href="#关于hash类型数据的操作命令" class="headerlink" title="关于hash类型数据的操作命令"></a>关于hash类型数据的操作命令</h3><p>单key:field-value field-value …<br>hash是string类型的key和value的映射表，value是一系列的键值对，适合存储对象</p>
+<ol>
+<li>将一个或多个field-value对设置到哈希表中: <strong>hset key field1 value1 [field2 value2 …]</strong><ul>
+<li>hset stu1 id 0001</li>
+<li>hset stu2 id 0002 name zhangsan</li>
+</ul>
+</li>
+<li>获取指定哈希表中指定的field的值: <strong>hget key field</strong><ul>
+<li>hget stu1 id</li>
+<li>&gt;0001</li>
+</ul>
+</li>
+<li><del>批量将多个field-value对设置到哈希表中: <strong>hmset key field1 value1 [field2 value2 …]</strong></del></li>
+<li>批量获取指定哈希表在的field值: <strong>hmget key field1 [field2 field3 …]</strong></li>
+<li>获取指定哈希表中所有的field和value: <strong>hgetall key</strong></li>
+<li>从指定哈希表中删除一个或多个field: <strong>hdel key field1 [field1 field2 …]</strong></li>
+<li>获取指定哈希表中所有的field个数: <strong>hlen key</strong></li>
+<li>判断指定哈希表中是否存在某个field: <strong>hexists key field</strong></li>
+<li>获取指定哈希表中所有的field列表: <strong>hkeys key</strong></li>
+<li>获取指定哈希表中所有的value列表: <strong>hvals key</strong></li>
+<li>对指定哈希表中指定的field值进行整数加法运算: <strong>hincrby key field int</strong></li>
+<li>对指定哈希表中指定的field值进行浮点数加法运算: <strong>hincrbyfloat key field float</strong></li>
+<li>将一个field-value对设置到指定哈希表中: <strong>hsetnx stu1 age 30</strong><br>当key-field已经存在，则放弃设置</li>
+</ol>
+<h3 id="关于zset类型数据的操作命令"><a href="#关于zset类型数据的操作命令" class="headerlink" title="关于zset类型数据的操作命令"></a>关于zset类型数据的操作命令</h3><p>有序集合，不允许重复元素。<br>但zset集合中，每个元素会关联一个分数，redis根据分数对元素进行排序，分数可以重复。<br>zset中每个元素都有顺序，所有每个元素也有下标。。</p>
+<ol>
+<li>将一个或多个member及其score值加入有序集合: <strong>zadd key score member [score member …]</strong><br>如果元素已经存在，则会覆盖其分数<ul>
+<li>zadd zset1 1 a</li>
+</ul>
+</li>
+<li>获取指定有序集合中指定下标区间的元素: <strong>zrange key startIndex endIndex [withscores]</strong><br>withscores 是否显示分数</li>
+<li>获取指定有序集合中指定分数区间(闭区间)的元素: <strong>zrangebysorce key min max [withscores]</strong></li>
+<li>删除指定有序集合中的一个或多个元素: <strong>zrem key member [member …]</strong></li>
+<li>获取指定有序集合中所有元素的个数: <strong>zcard key</strong></li>
+<li>获取指定有序集合中分数在指定区间内的元素个数: <strong>zcount key min max</strong></li>
+<li>获取指定有序集合中指定元素的排名(从0开始): <strong>zrank key member</strong></li>
+<li>获取指定有序集合中指定元素的分数: <strong>zscore key member</strong></li>
+<li>获取指定有序集合中指定元素的排名(按分数从小到大的排名): <strong>zrevrank key member</strong></li>
+</ol>
+<h3 id="命令小结"><a href="#命令小结" class="headerlink" title="命令小结"></a>命令小结</h3><blockquote>
+<p>上面的命令是部分常用的命令，写到这里感觉不如去看文档，不过写一遍也算是加深印象。<br><a class="link"   target="_blank" rel="noopener" href="https://www.runoob.com/redis/redis-tutorial.html" >菜鸟教程Redis<i class="fas fa-external-link-alt"></i></a>  </p>
+</blockquote>
+<h2 id="Redis的配置文件"><a href="#Redis的配置文件" class="headerlink" title="Redis的配置文件"></a>Redis的配置文件</h2><p>redis根目录下提供redis.conf配置文件<br>如果不使用配置文件，redis按默认参数运行。如果使用配置文件，在启动redis服务时，必须指定所使用的配置文件。  </p>
+<h3 id="关于网络的配置"><a href="#关于网络的配置" class="headerlink" title="关于网络的配置"></a>关于网络的配置</h3><ol>
+<li>port：指定redis服务所使用的端口号，默认使用6379</li>
+<li>bind：配置客户端连接redis服务时，所能使用的ip地址，默认可以使用redis服务所在主机上任意一个ip都可以；一般情况会配置一个真实ip。  <ul>
+<li>如果配置了port和bind，则客户端连接redis服务时，必须指定端口和ip：<br>redis-cli -h 192.268.11.128 -p 6380<br>redis-cli -h 192.268.11.128 -p 6380 shutdown</li>
+</ul>
+</li>
+<li>tcp-keepalive：TCP连接保活策略。单位秒，每过多少秒向连接空闲的客户端发送一个ACK请求，以检查客户端是否挂掉，对于无响应的客户端会关闭连接。如果设置为0，则不会进行保活检测。</li>
+</ol>
+<h3 id="常规配置"><a href="#常规配置" class="headerlink" title="常规配置"></a>常规配置</h3><ol>
+<li>loglevel：配置日志级别，开发阶段可以设置成debug，生产阶段通常设置为notice或waring。</li>
+<li>logfile：指定日志文件。redis运行过程中会输出日志信息；默认会输出到控制台。</li>
+<li>databases：配置redis服务创建的数据库实例个数，默认16个。</li>
+</ol>
+<h3 id="安全配置"><a href="#安全配置" class="headerlink" title="安全配置"></a>安全配置</h3><ol>
+<li>requirepass：配置redis的访问密码。默认不配置密码。此参数必须在protected-mode&#x3D;yes(安全模式)是才起作用。</li>
+</ol>
+<h3 id="RDB配置"><a href="#RDB配置" class="headerlink" title="RDB配置"></a>RDB配置</h3><ol>
+<li>save <seconds> <changes>：配置复合的快照触发条件，即redis在seconds秒内key改变了changes次，会将快照内数据保存到磁盘一次。默认策略是：<ul>
+<li>1分钟内改变1万次</li>
+<li>或5分钟内改变10次</li>
+<li>或15分钟内改变1次</li>
+<li>如果要禁用redis的持久化功能，吧所有的save配置注释即可。</li>
+</ul>
+</li>
+<li>stop-writes-on-bgsave-erroe：在bgsave快照操作出错时停止写入磁盘，以保证数据一致性。如果出错时要继续写入，配置为no。</li>
+<li>rdbcompression：设置对存储到磁盘的快照是否压缩。yes会采用LZF算法进行压缩，no关闭此功能，可减少CPU消耗。</li>
+<li>rdbchecksum：快照存储后，可使用CRC64算法进行数据校验，会消耗一定性能，no关闭此功能。</li>
+<li>sdbfilename：持久化数据生成的文件名。默认为dump.rdb</li>
+<li>dir：持久化数据生成文件的保存目录。默认.&#x2F;即redis启动目录</li>
+</ol>
+<h3 id="AOF配置"><a href="#AOF配置" class="headerlink" title="AOF配置"></a>AOF配置</h3><ol>
+<li>appendonly：配置是否开启AOF，yes表示开启，no表示关闭。默认no</li>
+<li>appendfilename：AOF保存的文件名</li>
+<li>appendfsync：AOF异步持久化策略<ul>
+<li>always：同步持久化，每次发生数据变化立刻写入磁盘。性能差但数据安全。</li>
+<li>everysec：每秒异步记录一次。默认。</li>
+<li>no：不及时同步，由操作系统决定何时同步。</li>
+</ul>
+</li>
+<li>no-appendfysnc-on-rewrite：重写时是否可以运用appendsync，默认no，可以保证数据安全性。</li>
+<li>auto-aof-rewrite-percentage：设置重写的基准百分比。</li>
+<li>auto-aof-rewrite-min-size：设置重写的基准值。</li>
+</ol>
+<h2 id="Redis的持久化"><a href="#Redis的持久化" class="headerlink" title="Redis的持久化"></a>Redis的持久化</h2><p>redis是内存数据库，数据存储在内存中，虽然加快了读取速度，但也对数据安全性产生新的问题。当服务器宕机后，redis数据库中所有数据会全部丢失，所以redis提供了持久化功能——RDB和AOF。</p>
+<h3 id="RDB策略"><a href="#RDB策略" class="headerlink" title="RDB策略"></a>RDB策略</h3><p>在指定时间间隔内，redis服务执行指定次数的写操作，会自动触发一次持久化操作。<br>RDB策略是redis默认的持久化策略，在redis服务开启时，这种持久化策略默认开启。</p>
+<h3 id="AOF策略"><a href="#AOF策略" class="headerlink" title="AOF策略"></a>AOF策略</h3><p>采用操作日志来记录进行的每一次操作，每次redis启动时，都会重新执行一遍日志中的命令。<br>效率低下，redis默认不开启。作为RDB策略的补充。</p>
+<h3 id="持久化策略小结"><a href="#持久化策略小结" class="headerlink" title="持久化策略小结"></a>持久化策略小结</h3><blockquote>
+<p>根据数据的特点来决定使用哪种策略，一般RDB足够。redis主要做缓存，数据在关系型数据库中有备份。</p>
+</blockquote>
+<h2 id="Redis的事务"><a href="#Redis的事务" class="headerlink" title="Redis的事务"></a>Redis的事务</h2><p>事务：把一组数据库放在一起执行，保证操作的原子性，要么同时成功，要么同时失败。<br>Redis的事务：允许把一组redis命令放在一起执行，把命令序列化，然后一起执行，保证部分原子性。</p>
+<ol>
+<li>multi：用来标记一个事务的开始。<ul>
+<li>压入事务队列</li>
+<li>multi</li>
+<li>set k1 v1</li>
+<li>set k2 v2 </li>
+<li>…</li>
+</ul>
+</li>
+<li>exec：用来执行事务队列中的所有命令。<ul>
+<li>exec</li>
+</ul>
+</li>
+<li>redis的事务只能保证部分原子性：<ul>
+<li>如果一组命令中，在压入事务队列过程中发生错误，则本事务中所有命令都不执行，保证事务原子性。</li>
+<li>如果一组命令中，艾压入队列过程正常，但在执行事务队列命令时发生错误，则只会影响发生错误的命令，不会影响其他命令，不能保证事务的原子性。</li>
+</ul>
+</li>
+<li>discard：清除所有已经压入队列中的命令，并且结束整个事务。<ul>
+<li>multi</li>
+<li>set k1 v1</li>
+<li>set k2 v2</li>
+<li>discard</li>
+</ul>
+</li>
+<li>watch：监控某一个键，当事务在执行过程中，此键代码的值发生变化，则本事务放弃执行；否则，正常执行。</li>
+<li>unwatch：放弃监控某一键</li>
+</ol>
+<blockquote>
+<p>事务小结：<br>1.单独的隔离操作：事务中的所有命令会序列化、顺序地执行。执行过程中不会被其他客户端的命令请求打断，除非是用watch进行监视。<br>2.不保证事务的原子性：同一事务如果某一命令执行失败，其他命令仍可能被继续执行，redis事务没有回滚。</p>
+</blockquote>
+<h2 id="Redis消息的发布与订阅-了解"><a href="#Redis消息的发布与订阅-了解" class="headerlink" title="Redis消息的发布与订阅(了解)"></a>Redis消息的发布与订阅(了解)</h2><p>redis客户端订阅频道，消息的发布者往频道上发布消息，所有订阅此频道的客户端都能够接收到消息。</p>
+<ol>
+<li>subscribe：订阅一个或多个频道的消息。<ul>
+<li>subscribe ch1 ch2 ch3</li>
+</ul>
+</li>
+<li>publish：将消息发布到指定频道<ul>
+<li>publish ch1 hello</li>
+</ul>
+</li>
+<li>psubscribe：订阅一个或多个频道的消息，频道名支持通配符。</li>
+</ol>
+<h2 id="Redis的主从复制"><a href="#Redis的主从复制" class="headerlink" title="Redis的主从复制"></a>Redis的主从复制</h2><p>主少从多，主写从读，读写分离，主写同步复制到从。</p>
+<p>搭建一主二从的redis集群：</p>
+<ol>
+<li>搭建三台redis服务：使用一台机器，三个不同端口模拟<ul>
+<li>修改配置文件(bind、port等),以redis6379.conf为例</li>
+<li>bind 127.0.0.1</li>
+<li>port 6379</li>
+<li>pidfile &#x2F;var&#x2F;run&#x2F;redis_6379.pid</li>
+<li>logfile “6379.log”</li>
+<li>dbfilename dump6379.rdb</li>
+<li>启动服务</li>
+<li>redis-server redis6379.cond &amp;</li>
+<li>redis-server redis6380.cond &amp;</li>
+<li>redis-server redis6381.cond &amp;</li>
+</ul>
+</li>
+<li>连接到redis服务<ul>
+<li>redis-cli -h 127.0.0.1 -p 6379</li>
+<li>redis-cli -h 127.0.0.1 -p 6380</li>
+<li>redis-cli -h 127.0.0.1 -p 6381</li>
+</ul>
+</li>
+<li>查看三台redis服务在集群中的主从角色：<ul>
+<li>info replication</li>
+<li>默认情况下，所有的redis服务都是主机，既能读也能写，但都没有从机。</li>
+</ul>
+</li>
+<li>设置主从关系：设从不设主<ul>
+<li>在6380上执行：slaveof 127.0.0.1 6379</li>
+<li>在6381上执行：slaveof 127.0.0.1 6379</li>
+</ul>
+</li>
+<li>全量复制：一旦主从关系确定，会自动把主机上已有的数据同步复制到从库</li>
+<li>增量复制：主库写数据会自动同步到从库</li>
+<li>主写从读，读写分离：<ul>
+<li>在从机上进行写操作会报错</li>
+</ul>
+</li>
+<li>主机宕机、从机原地待命：<ul>
+<li>从机可以继续读，但数据不会再更新。</li>
+</ul>
+</li>
+<li>主机恢复、一切恢复正常</li>
+<li>从机宕机、主机少一个从机，其他从机不变。</li>
+<li>从机恢复、需<strong>重新设置主从关系</strong>。</li>
+<li>从机上位：<ul>
+<li>主机宕机、从机原地待命</li>
+<li>从机断开原来的主从关系</li>
+<li>在6380上执行：slaveof no one</li>
+<li>重新设置主从关系</li>
+<li>在6381上执行：slaveof 127.0.0.1 6380</li>
+</ul>
+</li>
+<li>原主机恢复<ul>
+<li>在6379上执行：slaveof 127.0.0.1 6379</li>
+<li>让6379变为6380的从机</li>
+<li>或者在6379上执行：slaveof 127.0.0.1 6381</li>
+<li>让6379成为6381的从机，此时6381既是主机又是从机，但他不能读。</li>
+</ul>
+</li>
+</ol>
+<blockquote>
+<p>小结：<br>一台主机配置多台从机，一台从机也可以配置多台从机，从而形成一个庞大的集群。减轻一台主机的压力，但是增加了服务间的延迟。</p>
+</blockquote>
+<h2 id="Redis的哨兵模式"><a href="#Redis的哨兵模式" class="headerlink" title="Redis的哨兵模式"></a>Redis的哨兵模式</h2><p>主机宕机、从机上位的自动版</p>
+<ol>
+<li>搭建一主二从的redis集群(见上文)</li>
+<li>提供哨兵的配置文件：<ul>
+<li>在redis安装目录下下创建配置文件：redis_sentinel.conf</li>
+<li>写入 sentinel monitor dc-redis 127.0.0.1 6379 1</li>
+</ul>
+</li>
+<li>启动哨兵服务：redis-sentinel redis_sentinel.conf</li>
+<li>主机宕机，哨兵自动选择从机上位</li>
+<li>原主机恢复，自动从属于新主机</li>
+</ol>
+<blockquote>
+<p>哨兵小结<br>可以设置多个哨兵。即每个redis服务都可以设置一个哨兵。<br>哨兵模式三大任务：监控、提醒、自动故障迁移</p>
+</blockquote>
+<h2 id="Jedis操作Redis"><a href="#Jedis操作Redis" class="headerlink" title="Jedis操作Redis"></a>Jedis操作Redis</h2><p>使用Redis官方推荐的Jedis，在Java应用中操作Redis。操作Redis的命令在jedis中以方法形式出现。<br><a class="link"   target="_blank" rel="noopener" href="https://ppg007.github.io/redis/docs/jedis.html" >Jedis文档<i class="fas fa-external-link-alt"></i></a></p>
+<p>maven配置</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>redis.clients<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>jedis<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">version</span>&gt;</span>4.2.2<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>示例java程序</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> org.example;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> redis.clients.jedis.Jedis;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.Set;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Main</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="comment">//连接redis</span></span><br><span class="line">        <span class="type">Jedis</span> <span class="variable">jedis</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Jedis</span>(<span class="string">&quot;127.0.0.1&quot;</span>, <span class="number">6379</span>);</span><br><span class="line">        <span class="comment">//使用jedis对象操作redis服务</span></span><br><span class="line">        Set&lt;String&gt; ret = jedis.keys(<span class="string">&quot;*&quot;</span>);</span><br><span class="line">        System.out.println(ret);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>输出：[]</p>
+<h2 id="Jedis中连接池的使用"><a href="#Jedis中连接池的使用" class="headerlink" title="Jedis中连接池的使用"></a>Jedis中连接池的使用</h2><p>工具类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> org.example;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> redis.clients.jedis.JedisPool;</span><br><span class="line"><span class="keyword">import</span> redis.clients.jedis.JedisPoolConfig;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">RedisUtils</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> JedisPool pool;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//创建JedisPool对象</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> JedisPool <span class="title function_">open</span><span class="params">(String ip, <span class="type">int</span> port)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (pool == <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="comment">//创建JedisPool</span></span><br><span class="line">            <span class="comment">//创建JedisPoolConfig，给config设置连接池的参数，使用config对象创建JedisPool</span></span><br><span class="line">            <span class="type">JedisPoolConfig</span> <span class="variable">config</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">JedisPoolConfig</span>();</span><br><span class="line">            <span class="comment">//给config设置连接池的参数</span></span><br><span class="line"></span><br><span class="line">            <span class="comment">//设置最大线程数，一个线程就是一个Jedis</span></span><br><span class="line">            config.setMaxTotal(<span class="number">20</span>);</span><br><span class="line">            <span class="comment">//设置最大空闲数</span></span><br><span class="line">            config.setMaxIdle(<span class="number">2</span>);</span><br><span class="line">            <span class="comment">//设置检查项为true，表示从线程池中获取的对象一定是经过检查可用的</span></span><br><span class="line">            config.setTestOnBorrow(<span class="literal">true</span>);</span><br><span class="line">            <span class="comment">//创建Pool对象</span></span><br><span class="line">            <span class="comment">/*</span></span><br><span class="line"><span class="comment">             * poolConfig:配置器JedisPoolConfig</span></span><br><span class="line"><span class="comment">             * host:redis所在linux的ip</span></span><br><span class="line"><span class="comment">             * port:redis的端口</span></span><br><span class="line"><span class="comment">             * timeout:链接redis超时，毫秒值</span></span><br><span class="line"><span class="comment">             * password:链接redis的访问密码</span></span><br><span class="line"><span class="comment">             */</span></span><br><span class="line">            pool = <span class="keyword">new</span> <span class="title class_">JedisPool</span>(config, ip, port, <span class="number">6000</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> pool;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//关闭Pool对象</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">close</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (pool != <span class="literal">null</span>) &#123;</span><br><span class="line">            pool.close();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>测试类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> org.example;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> redis.clients.jedis.Jedis;</span><br><span class="line"><span class="keyword">import</span> redis.clients.jedis.JedisPool;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.Set;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Main</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="type">String</span> <span class="variable">host</span> <span class="operator">=</span> <span class="string">&quot;127.0.0.1&quot;</span>;</span><br><span class="line">        <span class="type">int</span> <span class="variable">port</span> <span class="operator">=</span> <span class="number">6379</span>;</span><br><span class="line">        <span class="comment">//创建JedisPool对象，从JedisPool中获取Jedis</span></span><br><span class="line">        <span class="type">JedisPool</span> <span class="variable">pool</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">        <span class="type">Jedis</span> <span class="variable">jedis</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            pool = RedisUtils.open(host, port);</span><br><span class="line">            <span class="comment">//从pool中获取Jedis</span></span><br><span class="line">            jedis = pool.getResource();</span><br><span class="line"></span><br><span class="line">            Set&lt;String&gt; ret = jedis.keys(<span class="string">&quot;*&quot;</span>);</span><br><span class="line">            System.out.println(ret);</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            <span class="comment">//关闭Jedis对象，把Pool中获取的Jedis放回Pool，供其他请求使用。</span></span><br><span class="line">            <span class="keyword">if</span> (jedis != <span class="literal">null</span>) &#123;</span><br><span class="line">                jedis.close();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>输出：[]</p>
+<h2 id="Redis客户端工具——Redis-Desktop-Manager"><a href="#Redis客户端工具——Redis-Desktop-Manager" class="headerlink" title="Redis客户端工具——Redis Desktop Manager"></a>Redis客户端工具——Redis Desktop Manager</h2><p>使用命令行还行，就不用客户端了。贴个<a class="link"   target="_blank" rel="noopener" href="https://resp.app/" >官网链接<i class="fas fa-external-link-alt"></i></a></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><blockquote>
+<p>Redis的学习告一段落，其中用的最多的应该还是对数据的操作。</p>
+</blockquote>
+
+                </div>
+
+                
+                        
+<div class="post-copyright-info-container border-box">
+    <div class="copyright-info-content border-box">
+        <div class="copyright-info-top border-box">
+            <div class="copyright-post-title border-box text-ellipsis">
+                Redis笔记
+            </div>
+
+            <div class="copyright-post-link border-box text-ellipsis">
+                学习笔记/学习笔记/Redis笔记/
+            </div>
+        </div>
+
+        <div class="copyright-info-bottom border-box">
+            <div class="copyright-post-author bottom-item">
+                <div class="type">
+                    作者
+                </div>
+                <div class="content">咕咕咕</div>
+            </div>
+
+            <div class="post-time bottom-item">
+                <div class="type">
+                    发布于
+                </div>
+                <div class="content">2022-05-07 21:38</div>
+            </div>
+
+
+            <div class="post-license bottom-item">
+                <div class="type">
+                    许可
+                </div>
+                <div class="content tooltip" data-tooltip-content="CC BY-NC-SA 4.0">
+                    <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hans">
+                        <i class="fa-brands fa-creative-commons"></i>
+                        <i class="fa-brands fa-creative-commons-by"></i>
+                        <i class="fa-brands fa-creative-commons-nc"></i>
+                        <i class="fa-brands fa-creative-commons-sa"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <i class="copyright-bg fa-solid fa-copyright"></i>
+    </div>
+    <div class="copy-copyright-info flex-center tooltip" data-tooltip-content="复制版权信息" data-tooltip-offset-y="-2px">
+        <i class="fa-solid fa-copy"></i>
+    </div>
+</div>
+
+                
+
+                <div class="post-bottom-tags-and-share border-box">
+                    <div>
+                        
+                            <ul class="post-tags-box border-box">
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/Redis/">Redis</a>
+                                    </li>
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+                                    </li>
+                                
+                            </ul>
+                        
+                    </div>
+                    <div>
+                        
+                            <div class="post-share-container border-box">
+    <ul class="share-list-wrap border-box">
+        <li class="qq share-item border-box flex-center tooltip"
+            data-tooltip-content="分享到 QQ"
+        >
+            <i class="fa-brands fa-qq"></i>
+        </li>
+        <li class="wechat share-item border-box flex-center tooltip tooltip-img"
+            data-tooltip-content="分享到微信"
+            data-tooltip-img-tip="微信扫一扫"
+            data-tooltip-img-style="background-color: #fff; top: -10px; padding: 0.6rem 0.6rem 0.1rem 0.6rem;"
+        >
+            <i class="fa-brands fa-weixin"></i>
+        </li>
+        <li class="weibo share-item border-box flex-center tooltip"
+            data-tooltip-content="分享到微博"
+        >
+            <i class="fa-brands fa-weibo"></i>
+        </li>
+    </ul>
+</div>
+
+                        
+                    </div>
+                </div>
+
+                
+                    <div class="reward-author-container border-box flex-center">
+    <div class="reward-btn keep-button border-box flex-center tooltip tooltip-img"
+            data-tooltip-content="谢谢你请我喝可乐~"
+            data-tooltip-img-url="/images/thanks.png"
+            data-tooltip-img-trigger="click"
+            data-tooltip-img-style="top: -8px;"
+    >
+        <i class="fa-solid fa-hand-holding-heart"></i>
+    </div>
+</div>
+
+                
+
+                
+                    <div class="post-nav border-box">
+                        
+                            <div class="prev-post">
+                                <a class="prev"
+                                   rel="prev"
+                                   href="/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/SpringBoot%E7%AC%94%E8%AE%B0/"
+                                   title="SpringBoot笔记"
+                                >
+                                    <span class="left arrow-icon flex-center">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </span>
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">SpringBoot笔记</span>
+                                        <span class="post-nav-item">上一篇</span>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                        
+                            <div class="next-post">
+                                <a class="next"
+                                   rel="next"
+                                   href="/%E7%BC%96%E7%A8%8B%E8%AE%B0%E5%BD%95/%E7%BC%96%E7%A8%8B%E8%AE%B0%E5%BD%95/%E7%8C%B4%E5%AD%90%E6%8E%92%E5%BA%8F/"
+                                   title="猴子排序"
+                                >
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">猴子排序</span>
+                                        <span class="post-nav-item">下一篇</span>
+                                    </span>
+                                    <span class="right arrow-icon flex-center">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                    </div>
+                
+
+                
+                    
+
+
+    <div class="comments-container border-box">
+        <div id="comments-anchor" class="comment-area-title border-box">
+            <i class="fas fa-comments"></i>&nbsp;评论
+        </div>
+        <div class="comment-plugin-fail border-box">
+    <span class="fail-tip">评论插件加载失败</span>
+    <button class="reload keep-button">点击重新加载</button>
+</div>
+<div class="comment-plugin-loading flex-center border-box">
+    <i class="loading-icon fa-solid fa-spinner fa-spin"></i>
+    <span class="load-tip">正在加载评论插件</span>
+</div>
+<script data-pjax>
+  window.KeepCommentPlugin = {}
+  window.KeepCommentPlugin.hideLoading = () => {
+    const cplDom = document.querySelector('.comments-container .comment-plugin-loading')
+    cplDom.style.display = 'none'
+  }
+  window.KeepCommentPlugin.loadFailHandle = () => {
+    window.KeepCommentPlugin.hideLoading()
+    const cpfDom = document.querySelector('.comments-container .comment-plugin-fail')
+    cpfDom.style.display = 'flex'
+    cpfDom.querySelector('.reload').addEventListener('click', () => {
+      window.location.reload()
+    })
+  }
+</script>
+
+        
+            
+
+    <div class="giscus-comments-container">
+        <div class="giscus" id="giscus"></div>
+        <script data-pjax
+                onerror="window.KeepCommentPlugin.loadFailHandle()"
+        >
+          if (!window.KeepCommentPlugin?.getGiscusTheme) {
+            window.KeepCommentPlugin.getGiscusTheme = () => {
+              return document.body.classList.contains('dark-mode') ? 'dark_dimmed' : 'light_tritanopia'
+            }
+          }
+
+          if (!window.KeepCommentPlugin?.changeGiscusTheme) {
+            window.KeepCommentPlugin.changeGiscusTheme = () => {
+              const iframe = document.querySelector('iframe.giscus-frame')
+              iframe && iframe.contentWindow.postMessage({
+                giscus: {
+                  setConfig: {
+                    theme: window.KeepCommentPlugin.getGiscusTheme()
+                  }
+                }
+              }, 'https://giscus.app')
+            }
+          }
+
+          if (!window.KeepCommentPlugin?.initGiscus) {
+            window.KeepCommentPlugin.initGiscus = () => {
+              const script = document.createElement('script')
+              script.async = true
+              script.src = 'https://giscus.app/client.js'
+              script.setAttribute('data-repo', 'Cooooing/Cooooing.github.io')
+              script.setAttribute('data-repo-id', 'R_kgDOHQal_w')
+              script.setAttribute('data-category', 'Announcements')
+              script.setAttribute('data-category-id', 'DIC_kwDOHQal_84CjZo6')
+              script.setAttribute('data-reactions-enabled', '1')
+              script.setAttribute('data-lang', 'zh-CN')
+              script.setAttribute('data-mapping', 'pathname')
+              script.setAttribute('data-strict', '0')
+              script.setAttribute('data-emit-metadata', '0')
+              script.setAttribute('data-input-position', 'top')
+              script.setAttribute('crossorigin', 'anonymous')
+              script.setAttribute('loading', 'lazy')
+              script.setAttribute('data-theme', window.KeepCommentPlugin.getGiscusTheme())
+              document.querySelector('.giscus-comments-container').appendChild(script)
+              script.onerror = () => {
+                window.KeepCommentPlugin.loadFailHandle()
+              }
+              script.onload = () => {
+                window.KeepCommentPlugin.hideLoading()
+              }
+              const toggleThemeBtn = document.querySelector('.tool-toggle-theme-mode')
+              toggleThemeBtn && toggleThemeBtn.addEventListener('click', () => {
+                window.KeepCommentPlugin.changeGiscusTheme()
+              })
+            }
+          }
+
+          if ('true' === "true") {
+            setTimeout(() => {
+              window.KeepCommentPlugin.initGiscus()
+            }, 1000)
+          } else {
+            window.addEventListener("DOMContentLoaded", window.KeepCommentPlugin.initGiscus)
+          }
+        </script>
+    </div>
+
+
+        
+    </div>
+
+
+
+
+
+                
+            </div>
+        </div>
+
+        
+            <div class="pc-post-toc left-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B3%E4%BA%8ERedis"><span class="nav-text">关于Redis</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis%E4%B8%AD%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%8F%8A%E6%93%8D%E4%BD%9C%E5%91%BD%E4%BB%A4"><span class="nav-text">Redis中的数据结构及操作命令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Redis%E4%B8%AD%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="nav-text">Redis中的数据结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E4%BA%8E%E9%94%AE-key-%E7%9A%84%E6%93%8D%E4%BD%9C%E5%91%BD%E4%BB%A4"><span class="nav-text">关于键(key)的操作命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E4%BA%8Estring%E7%B1%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E7%9A%84%E6%93%8D%E4%BD%9C%E5%91%BD%E4%BB%A4"><span class="nav-text">关于string类型数据的操作命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E4%BA%8Elist%E7%B1%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E7%9A%84%E6%93%8D%E4%BD%9C%E5%91%BD%E4%BB%A4"><span class="nav-text">关于list类型数据的操作命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E4%BA%8Eset%E7%B1%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E7%9A%84%E6%93%8D%E4%BD%9C%E5%91%BD%E4%BB%A4"><span class="nav-text">关于set类型数据的操作命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E4%BA%8Ehash%E7%B1%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E7%9A%84%E6%93%8D%E4%BD%9C%E5%91%BD%E4%BB%A4"><span class="nav-text">关于hash类型数据的操作命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E4%BA%8Ezset%E7%B1%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E7%9A%84%E6%93%8D%E4%BD%9C%E5%91%BD%E4%BB%A4"><span class="nav-text">关于zset类型数据的操作命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%91%BD%E4%BB%A4%E5%B0%8F%E7%BB%93"><span class="nav-text">命令小结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis%E7%9A%84%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="nav-text">Redis的配置文件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E4%BA%8E%E7%BD%91%E7%BB%9C%E7%9A%84%E9%85%8D%E7%BD%AE"><span class="nav-text">关于网络的配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E8%A7%84%E9%85%8D%E7%BD%AE"><span class="nav-text">常规配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E5%85%A8%E9%85%8D%E7%BD%AE"><span class="nav-text">安全配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RDB%E9%85%8D%E7%BD%AE"><span class="nav-text">RDB配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AOF%E9%85%8D%E7%BD%AE"><span class="nav-text">AOF配置</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis%E7%9A%84%E6%8C%81%E4%B9%85%E5%8C%96"><span class="nav-text">Redis的持久化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#RDB%E7%AD%96%E7%95%A5"><span class="nav-text">RDB策略</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AOF%E7%AD%96%E7%95%A5"><span class="nav-text">AOF策略</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8C%81%E4%B9%85%E5%8C%96%E7%AD%96%E7%95%A5%E5%B0%8F%E7%BB%93"><span class="nav-text">持久化策略小结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis%E7%9A%84%E4%BA%8B%E5%8A%A1"><span class="nav-text">Redis的事务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis%E6%B6%88%E6%81%AF%E7%9A%84%E5%8F%91%E5%B8%83%E4%B8%8E%E8%AE%A2%E9%98%85-%E4%BA%86%E8%A7%A3"><span class="nav-text">Redis消息的发布与订阅(了解)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis%E7%9A%84%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6"><span class="nav-text">Redis的主从复制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis%E7%9A%84%E5%93%A8%E5%85%B5%E6%A8%A1%E5%BC%8F"><span class="nav-text">Redis的哨兵模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Jedis%E6%93%8D%E4%BD%9CRedis"><span class="nav-text">Jedis操作Redis</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Jedis%E4%B8%AD%E8%BF%9E%E6%8E%A5%E6%B1%A0%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="nav-text">Jedis中连接池的使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%B7%A5%E5%85%B7%E2%80%94%E2%80%94Redis-Desktop-Manager"><span class="nav-text">Redis客户端工具——Redis Desktop Manager</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-text">总结</span></a></li></ol>
+    </div>
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom border-box">
+            
+<footer class="footer border-box">
+    <div class="border-box website-info-box default">
+        
+            <div class="copyright-info info-item default">
+                &copy;&nbsp;<span>2022</span>&nbsp;-&nbsp;2025
+                
+                    &nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;&nbsp;<a href="/">咕咕咕</a>
+                
+            </div>
+
+            <div class="theme-info info-item default">
+                由&nbsp;<a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;驱动&nbsp;&&nbsp;主题&nbsp;<a class="keep-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep</a>
+            </div>
+
+            
+
+            
+        
+
+        <div style="color:var(--text-color-4);"><span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>(～￣▽￣)～<script src="/js/lifeTime.js"></script></div>
+        <a href="https://icp.gov.moe/?keyword=20222450" target="_blank">萌ICP备20222450号</a>
+
+
+        <div class="count-item info-item default">
+            
+                <span class="count-box border-box word">
+                    <span class="item-type border-box">总字数</span>
+                    <span class="item-value border-box word">362.1k</span>
+                </span>
+            
+
+            
+                <span class="count-box border-box uv">
+                    <span class="item-type border-box">访客数</span>
+                    <span class="item-value border-box uv" id="busuanzi_value_site_uv"></span>
+                </span>
+            
+
+            
+                <span class="count-box border-box pv">
+                    <span class="item-type border-box">访问量</span>
+                    <span class="item-value border-box pv" id="busuanzi_value_site_pv"></span>
+                </span>
+            
+        </div>
+
+        <div id="aplayer">
+          <meting-js
+                  server="netease"
+                  type="playlist"
+                  id="7345595717"
+                  fixed="true"
+                  mini="true"
+                  autoplay="false"
+                  listFolded="true"
+                  order="random"
+                  preload="none">
+          </meting-js>
+        </div>
+            <br>
+            <br>
+            <br>
+    </div>
+
+</footer>
+
+        </div>
+    </div>
+
+    <!-- post tools -->
+    
+        <div class="post-tools left-toc">
+            <div class="post-tools-container border-box">
+    <ul class="tools-list border-box">
+        <!-- PC TOC show toggle -->
+        
+            <li class="tools-item flex-center toggle-show-toc">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        <!-- PC go comment -->
+        
+            <li class="tools-item flex-center go-to-comments">
+                <i class="fas fa-comment"></i>
+                <span class="post-comments-count"></span>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <!-- side tools -->
+    <div class="side-tools">
+        <div class="side-tools-container border-box ">
+    <ul class="side-tools-list side-tools-show-handle border-box">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-toggle-theme-mode flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+            <li class="tools-item rss flex-center">
+                <a class="flex-center"
+                   href="/atom.xml"
+                   target="_blank"
+                >
+                    <i class="fas fa-rss"></i>
+                </a>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list border-box">
+        
+            <li class="tools-item toggle-show-toc-tablet flex-center">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        
+            <li class="tools-item go-to-comments-tablet flex-center">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+
+        <li class="tools-item tool-scroll-to-top flex-center show-arrow">
+            <i class="arrow fas fa-arrow-up"></i>
+            <span class="percent"></span>
+        </li>
+    </ul>
+</div>
+
+    </div>
+
+    <!-- image mask -->
+    <div class="zoom-in-image-mask">
+    <img class="zoom-in-image">
+</div>
+
+
+    <!-- local search -->
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="搜索..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="close-popup-btn">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+    <!-- tablet toc -->
+    
+        <div class="tablet-post-toc-mask">
+            <div class="tablet-post-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B3%E4%BA%8ERedis"><span class="nav-text">关于Redis</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis%E4%B8%AD%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%8F%8A%E6%93%8D%E4%BD%9C%E5%91%BD%E4%BB%A4"><span class="nav-text">Redis中的数据结构及操作命令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Redis%E4%B8%AD%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="nav-text">Redis中的数据结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E4%BA%8E%E9%94%AE-key-%E7%9A%84%E6%93%8D%E4%BD%9C%E5%91%BD%E4%BB%A4"><span class="nav-text">关于键(key)的操作命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E4%BA%8Estring%E7%B1%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E7%9A%84%E6%93%8D%E4%BD%9C%E5%91%BD%E4%BB%A4"><span class="nav-text">关于string类型数据的操作命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E4%BA%8Elist%E7%B1%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E7%9A%84%E6%93%8D%E4%BD%9C%E5%91%BD%E4%BB%A4"><span class="nav-text">关于list类型数据的操作命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E4%BA%8Eset%E7%B1%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E7%9A%84%E6%93%8D%E4%BD%9C%E5%91%BD%E4%BB%A4"><span class="nav-text">关于set类型数据的操作命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E4%BA%8Ehash%E7%B1%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E7%9A%84%E6%93%8D%E4%BD%9C%E5%91%BD%E4%BB%A4"><span class="nav-text">关于hash类型数据的操作命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E4%BA%8Ezset%E7%B1%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E7%9A%84%E6%93%8D%E4%BD%9C%E5%91%BD%E4%BB%A4"><span class="nav-text">关于zset类型数据的操作命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%91%BD%E4%BB%A4%E5%B0%8F%E7%BB%93"><span class="nav-text">命令小结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis%E7%9A%84%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="nav-text">Redis的配置文件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E4%BA%8E%E7%BD%91%E7%BB%9C%E7%9A%84%E9%85%8D%E7%BD%AE"><span class="nav-text">关于网络的配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E8%A7%84%E9%85%8D%E7%BD%AE"><span class="nav-text">常规配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E5%85%A8%E9%85%8D%E7%BD%AE"><span class="nav-text">安全配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RDB%E9%85%8D%E7%BD%AE"><span class="nav-text">RDB配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AOF%E9%85%8D%E7%BD%AE"><span class="nav-text">AOF配置</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis%E7%9A%84%E6%8C%81%E4%B9%85%E5%8C%96"><span class="nav-text">Redis的持久化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#RDB%E7%AD%96%E7%95%A5"><span class="nav-text">RDB策略</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AOF%E7%AD%96%E7%95%A5"><span class="nav-text">AOF策略</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8C%81%E4%B9%85%E5%8C%96%E7%AD%96%E7%95%A5%E5%B0%8F%E7%BB%93"><span class="nav-text">持久化策略小结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis%E7%9A%84%E4%BA%8B%E5%8A%A1"><span class="nav-text">Redis的事务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis%E6%B6%88%E6%81%AF%E7%9A%84%E5%8F%91%E5%B8%83%E4%B8%8E%E8%AE%A2%E9%98%85-%E4%BA%86%E8%A7%A3"><span class="nav-text">Redis消息的发布与订阅(了解)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis%E7%9A%84%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6"><span class="nav-text">Redis的主从复制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis%E7%9A%84%E5%93%A8%E5%85%B5%E6%A8%A1%E5%BC%8F"><span class="nav-text">Redis的哨兵模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Jedis%E6%93%8D%E4%BD%9CRedis"><span class="nav-text">Jedis操作Redis</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Jedis%E4%B8%AD%E8%BF%9E%E6%8E%A5%E6%B1%A0%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="nav-text">Jedis中连接池的使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%B7%A5%E5%85%B7%E2%80%94%E2%80%94Redis-Desktop-Manager"><span class="nav-text">Redis客户端工具——Redis Desktop Manager</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-text">总结</span></a></li></ol>
+    </div>
+</div>
+
+            </div>
+        </div>
+    
+</main>
+
+
+
+<!-- common -->
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/toggle-theme.js"></script>
+
+<script src="/js/code-block.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+
+<!-- local-search -->
+
+    
+<script src="/js/local-search.js"></script>
+
+
+
+<!-- lazyload -->
+
+    
+<script src="/js/lazyload.js"></script>
+
+
+
+<div class="pjax">
+    
+        <!-- post-helper -->
+        
+<script src="/js/post/post-helper.js"></script>
+
+
+        <!-- toc -->
+        
+            
+<script src="/js/post/toc.js"></script>
+
+        
+
+        <!-- copyright-info -->
+        
+            
+<script src="/js/post/copyright-info.js"></script>
+
+        
+
+        <!-- share -->
+        
+            
+<script src="/js/post/share.js"></script>
+
+        
+    
+
+    <!-- category-page -->
+    
+
+    <!-- links-page -->
+    
+
+    <!-- photos-page -->
+    
+</div>
+
+<!-- mermaid -->
+
+
+<!-- pjax -->
+
+    
+<script src="/js/libs/pjax.min.js"></script>
+
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        window.pjax = new Pjax({
+            selectors: [
+                'head title',
+                '.page-container',
+                '.pjax',
+                '#aplayer',
+                '#canvas_sakura'
+            ],
+            history: true,
+            debug: false,
+            cacheBust: false,
+            timeout: 0,
+            analytics: false,
+            currentUrlFullReload: false,
+            scrollRestoration: false,
+        });
+
+        document.addEventListener('pjax:send', () => {
+            KEEP.utils.pjaxProgressBarStart()
+        });
+
+        document.addEventListener('pjax:complete', () => {
+            KEEP.utils.pjaxProgressBarEnd()
+            window.pjax.executeScripts(document.querySelectorAll('script[data-pjax], .pjax script'))
+            KEEP.initExecute()
+        });
+    });
+</script>
+
+
+
+
+    
+        
+            
+<script class="custom-inject-js" src="/js/APlayer.min.js" data-pjax></script>
+
+        
+    
+        
+            
+<script class="custom-inject-js" src="/js/Meting.min.js" data-pjax></script>
+
+        
+    
+        
+            
+<script class="custom-inject-js" src="/js/leaves.js" data-pjax></script>
+
+        
+    
+
+
+
+</body>
+</html>

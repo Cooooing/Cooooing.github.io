@@ -1,0 +1,1342 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="技术博客,后端开发,编程笔记,生活">
+    <meta name="description" content="Code | Systems | Life — 专注编程本质，也关心世界如何运转。">
+    <meta name="author" content="咕咕咕">
+
+    
+    <title>
+        
+            top命令 |
+        
+        咕咕咕的小破站
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+        <link rel="shortcut icon" href="/images/favicon.png">
+    
+    
+<link rel="stylesheet" href="/font/css/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/regular.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/solid.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/brands.min.css">
+
+    
+        
+            
+                
+<link rel="stylesheet" href="/css/APlayer.min.css">
+
+            
+        
+            
+                
+<link rel="stylesheet" href="/css/custom.css">
+
+            
+        
+    
+    <script class="keep-theme-configurations">
+    const KEEP = window.KEEP || {}
+    KEEP.hexo_config = {"hostname":"cooooing.github.io","root":"/","language":"zh-CN","path":"search.json"}
+    KEEP.theme_config = {"base_info":{"primary_color":"#0066cc","title":"咕咕咕的小破站","author":"咕咕咕","avatar":"/images/head.jpg","logo":"/images/head.jpg","favicon":"/images/favicon.png"},"menu":{"Archives":"/archives","Categories":"/categories","Tags":"/tags","日常":"/daily","Links":"/links","About":"/about"},"first_screen":{"enable":false,"background_img":"/images/bg.svg","background_img_dark":"/images/bg.svg","description":"Keep writing and Keep loving.","hitokoto":false},"social_contact":{"enable":false,"links":{"github":null,"weixin":null,"qq":null,"weibo":null,"zhihu":null,"twitter":null,"facebook":null,"email":null}},"scroll":{"progress_bar":false,"percent":false,"hide_header":true},"home":{"category":true,"tag":true,"announcement":null},"post":{"author_badge":{"enable":true,"level_badge":false,"custom_badge":["fishing"]},"word_count":{"wordcount":true,"min2read":true},"datetime_format":"YYYY-MM-DD HH:mm:ss","copyright_info":true,"share":true,"reward":{"enable":true,"img_link":"/images/thanks.png","text":"谢谢你请我喝可乐~"}},"code_block":{"tools":{"enable":true,"style":"default"},"highlight_theme":"default"},"toc":{"enable":true,"number":false,"expand_all":true,"init_open":true,"layout":"left"},"website_count":{"busuanzi_count":{"enable":true,"site_uv":true,"site_pv":true,"page_pv":true}},"local_search":{"enable":true,"preload":true},"comment":{"enable":true,"use":"giscus","valine":{"appid":null,"appkey":null,"server_urls":null,"placeholder":null},"gitalk":{"github_id":null,"github_admins":null,"repository":null,"client_id":null,"client_secret":null,"proxy":null},"twikoo":{"env_id":null,"region":null,"version":"1.6.21"},"waline":{"server_url":null,"reaction":false,"version":2},"giscus":{"repo":"Cooooing/Cooooing.github.io","repo_id":"R_kgDOHQal_w","category":"Announcements","category_id":"DIC_kwDOHQal_84CjZo6","reactions_enabled":true},"artalk":{"server":null},"disqus":{"shortname":null}},"rss":{"enable":true},"lazyload":{"enable":true},"cdn":{"enable":false,"provider":"cdnjs"},"pjax":{"enable":true},"footer":{"since":2022,"word_count":true,"icp":{"enable":false,"record_code":null,"url":"https://beian.miit.gov.cn"},"site_deploy":{"enable":false,"provider":"github","url":null},"shields_style":{"enable":false,"custom":[{"link_url":null,"img_url":null}]}},"inject":{"enable":true,"css":["/css/APlayer.min.css","/css/custom.css"],"js":["/js/APlayer.min.js","/js/Meting.min.js","/js/leaves.js"]},"root":"","links":[{"name":"鼠鼠在碎觉","link":"https://sszsj.com","avatar":"https://tmx.fishpi.cn/img/head.jpg","description":"我是不慎落入世界的一滴水墨"},{"name":"Gakkiyomi","link":"https://gakkiyomi.blog","avatar":"https://avatars.githubusercontent.com/u/41406557?v=4","description":"为往圣继绝学"},{"name":"Hancel's Blog","link":"https://my.hancel.org","avatar":"https://my.hancel.org/media/logo.jpg","description":"人生而自由，却无往不在枷锁之中。"},{"name":"Eastshann","link":"http://121.4.99.208/","avatar":"http://121.4.99.208/img/avatar.jpg","description":"冲和者，淡泊平和，谦冲守正"},{"name":"小于同学的异世界","link":"https://yby.zone","avatar":"https://yby-zone.obs.cn-east-3.myhuaweicloud.com/avatar.jpg","description":"为吾为枝，余地三尺，以己为棋，胜天半子。"},{"name":"Mlikiowa Home Village","link":"https://nanaeo.cn/","avatar":"https://q1.qlogo.cn/g?b=qq&nk=1627126029&s=100","description":"A litter Village With Mlikiowa"},{"name":"忘忧草","link":"https://owo.wyc.rest/","avatar":"https://owo.wyc.rest/img/%E4%B8%87%E5%8F%B6.jpg","description":"这只是一个小破站而已！"},{"name":"stillwarter","link":"https://stillwarter.github.io/","avatar":"https://file.fishpi.cn/2022/07/MOSHED2022621164630-1b1ec532.gif?imageView2/1/w/210/h/210/interlace/0/q/100","description":"光就是一切的意义"},{"name":"test12138","link":"http://你好.eu.org/","avatar":"https://file.fishpi.cn/2022/06/srchttpimgzcoolcncommunity0116405d84f975a801211d537707c9gifreferhttpimgzcool-0f2d09c9.gif?imageView2/1/w/48/h/48/interlace/0/q/100","description":"大丈夫生于天地之间，岂能郁郁久居人下。"},{"name":"呼呼呼","link":"https://bongbongbakudan.github.io/","avatar":"https://pwl.stackoverflow.wiki/2021/12/blob-28eb4b9f.png?imageView2/1/w/48/h/48/interlace/0/q/100","description":"去整点薯条"},{"name":"Plumbiu","link":"https://blog.plumbiu.top/","avatar":"https://avatars.githubusercontent.com/u/99574369?v=4","description":"这人很勤奋，啥都没留"},{"name":"hiRipple","link":"https://hiripple.com/","avatar":"https://avatars.githubusercontent.com/u/115361435?v=4","description":"超高校级的游戏玩家"}],"version":"4.0.6"}
+    KEEP.language_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"}
+    KEEP.language_code_block = {"copy":"复制代码","copied":"已复制","fold":"折叠代码块","folded":"已折叠"}
+    KEEP.language_copy_copyright = {"copy":"复制版权信息","copied":"已复制","title":"原文标题","author":"原文作者","link":"原文链接"}
+  </script>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-CLX32WF4R1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+
+      gtag('js', new Date());
+
+      gtag('config', 'G-CLX32WF4R1');
+    </script>
+
+    <!-- 51.la -->
+    <script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
+    <script>LA.init({id: "3JwPz6wbAloyTmMc", ck: "3JwPz6wbAloyTmMc", autoTrack: true})</script>
+
+<meta name="generator" content="Hexo 8.1.1"><link rel="alternate" href="/atom.xml" title="咕咕咕的小破站" type="application/atom+xml">
+</head>
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+        <span class="pjax-progress-bar"></span>
+        <i class="pjax-progress-icon fas fa-circle-notch fa-spin"></i>
+    
+</div>
+
+
+<main class="page-container border-box">
+
+    <!-- home first screen  -->
+    
+
+    <!-- page content -->
+    <div class="page-main-content border-box">
+        <div class="page-main-content-top">
+            
+<header class="header-wrapper">
+
+    <div class="border-box header-content">
+        <div class="left border-box">
+            
+                <a class="logo-image border-box" href="/">
+                    <img src="/images/head.jpg">
+                </a>
+            
+            <a class="site-name border-box" href="/">
+               咕咕咕的小破站
+            </a>
+        </div>
+
+        <div class="right border-box">
+            <div class="pc">
+                <ul class="menu-list">
+                    <li class="menu-item">
+                        <a class=""
+                           href="/"
+                        >首页</a>
+                    </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >归档</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/categories"
+                            >分类</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/tags"
+                            >标签</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/daily"
+                            >日常</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/links"
+                            >友链</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >关于</a>
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="fas search fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            <li class="drawer-menu-item flex-center">
+                <a class=""
+                   href="/"
+                >首页</a>
+            </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives"
+                    >归档</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/categories"
+                    >分类</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/tags"
+                    >标签</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/daily"
+                    >日常</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/links"
+                    >友链</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about"
+                    >关于</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle border-box">
+
+            <div class="main-content border-box">
+                
+
+                    
+<div class="fade-in-down-animation">
+    <div class="post-page-container border-box">
+        <div class="post-content-container border-box">
+            
+
+            <div class="post-content-bottom border-box">
+                
+                    <div class="post-title">
+                        top命令
+                    </div>
+                
+
+                
+                    <div class="post-header border-box">
+                        
+                            <div class="avatar-box border-box">
+                                <img src="/images/head.jpg">
+                            </div>
+                        
+                        <div class="info-box">
+                            <div class="author border-box">
+                                <span class="name">咕咕咕</span>
+                                
+                                    <span class="author-badge">fishing</span>
+                                
+                            </div>
+                            <div class="meta-info border-box">
+                                
+
+<div class="post-meta-info-container border-box post">
+    <div class="post-meta-info border-box">
+        
+
+        
+            <span class="meta-info-item post-create-date">
+                <i class="icon fa-solid fa-calendar-plus"></i>&nbsp;
+                <span class="datetime">2025-09-03 10:01:14</span>
+            </span>
+
+            <span class="meta-info-item post-update-date">
+                <i class="icon fa-solid fa-file-pen"></i>&nbsp;
+                <span class="datetime" data-updated="Wed Sep 03 2025 02:01:14 GMT+0000">2025-09-03 10:01:14</span>
+            </span>
+        
+
+        
+            <span class="meta-info-item post-category border-box"><i class="icon fas fa-folder"></i>&nbsp;
+                <ul class="post-category-ul">
+                    
+                            <li class="category-item"><a href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+            <span class="post-tag meta-info-item border-box">
+                <i class="icon fas fa-tags"></i>&nbsp;
+                <ul class="post-tag-ul">
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/linux/">linux</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+        
+            <span class="meta-info-item post-wordcount">
+                <i class="icon fas fa-file-word"></i>&nbsp;<span>2.9k 字</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-min2read">
+                <i class="icon fas fa-clock"></i>&nbsp;<span>13 分钟</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-pv">
+                <i class="icon fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+            </span>
+        
+    </div>
+
+    
+</div>
+
+                            </div>
+                        </div>
+                    </div>
+                
+
+                <div class="post-content keep-markdown-body">
+                    
+
+                    <h2 id="top-命令"><a href="#top-命令" class="headerlink" title="top 命令"></a>top 命令</h2><p>top 命令是 Linux 常用的实时系统监控工具。它默认每隔 3 秒刷新一次。</p>
+<h3 id="启动参数（命令行选项）"><a href="#启动参数（命令行选项）" class="headerlink" title="启动参数（命令行选项）"></a>启动参数（命令行选项）</h3><table>
+<thead>
+<tr>
+<th>参数</th>
+<th>全称</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>-d seconds</code></td>
+<td><strong>delay-time</strong></td>
+<td>刷新间隔（默认 3 秒），例如 <code>top -d 1</code> 每 1 秒刷新一次</td>
+</tr>
+<tr>
+<td><code>-n count</code></td>
+<td><strong>number-of-iterations</strong></td>
+<td>运行多少次后退出，例如 <code>top -n 5</code> 显示 5 次后退出</td>
+</tr>
+<tr>
+<td><code>-p pid</code></td>
+<td><strong>process-id</strong></td>
+<td>仅监控指定进程，例如 <code>top -p 1234</code></td>
+</tr>
+<tr>
+<td><code>-u user</code></td>
+<td><strong>user-name</strong></td>
+<td>仅显示指定用户的进程，例如 <code>top -u root</code></td>
+</tr>
+<tr>
+<td><code>-U user</code></td>
+<td><strong>UID-based</strong></td>
+<td>类似 <code>-u</code>，但基于 UID</td>
+</tr>
+<tr>
+<td><code>-b</code></td>
+<td><strong>batch-mode</strong></td>
+<td>批处理模式（无交互，常用于重定向到文件：<code>top -b -n 1 &gt; out.txt</code>）</td>
+</tr>
+<tr>
+<td><code>-H</code></td>
+<td><strong>threads-mode</strong></td>
+<td>显示线程而非进程</td>
+</tr>
+<tr>
+<td><code>-i</code></td>
+<td><strong>idle-process toggle</strong></td>
+<td>启动时忽略空闲任务（&#x3D; 运行时按 <code>i</code>）</td>
+</tr>
+<tr>
+<td><code>-c</code></td>
+<td><strong>command-line toggle</strong></td>
+<td>显示完整命令行（&#x3D; 运行时按 <code>c</code>）</td>
+</tr>
+</tbody></table>
+<h3 id="交互式快捷键（运行时输入）"><a href="#交互式快捷键（运行时输入）" class="headerlink" title="交互式快捷键（运行时输入）"></a>交互式快捷键（运行时输入）</h3><h4 id="显示控制"><a href="#显示控制" class="headerlink" title="显示控制"></a>显示控制</h4><table>
+<thead>
+<tr>
+<th>按键</th>
+<th>全称</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>h</code></td>
+<td><strong>help</strong></td>
+<td>显示帮助（所有快捷键说明）</td>
+</tr>
+<tr>
+<td><code>q</code></td>
+<td><strong>quit</strong></td>
+<td>退出 <code>top</code></td>
+</tr>
+<tr>
+<td><code>z</code></td>
+<td><strong>color&#x2F;mono toggle</strong></td>
+<td>切换彩色&#x2F;单色模式</td>
+</tr>
+<tr>
+<td><code>B</code></td>
+<td><strong>bold toggle</strong></td>
+<td>是否加粗高亮</td>
+</tr>
+<tr>
+<td><code>l</code></td>
+<td><strong>load-average toggle</strong></td>
+<td>显示&#x2F;隐藏顶部的负载信息</td>
+</tr>
+<tr>
+<td><code>t</code></td>
+<td><strong>tasks toggle</strong></td>
+<td>显示&#x2F;隐藏任务和 CPU 使用情况</td>
+</tr>
+<tr>
+<td><code>m</code></td>
+<td><strong>memory toggle</strong></td>
+<td>显示&#x2F;隐藏内存&#x2F;Swap 行</td>
+</tr>
+<tr>
+<td><code>1</code></td>
+<td><strong>cpu-per-core</strong></td>
+<td>展开&#x2F;收起所有 CPU 核心的使用率</td>
+</tr>
+</tbody></table>
+<hr>
+<h4 id="排序与过滤"><a href="#排序与过滤" class="headerlink" title="排序与过滤"></a>排序与过滤</h4><table>
+<thead>
+<tr>
+<th>按键</th>
+<th>全称</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>P</code></td>
+<td><strong>sort by CPU</strong></td>
+<td>按 CPU 使用率排序（默认）</td>
+</tr>
+<tr>
+<td><code>M</code></td>
+<td><strong>sort by Memory</strong></td>
+<td>按内存使用率排序</td>
+</tr>
+<tr>
+<td><code>T</code></td>
+<td><strong>sort by Time</strong></td>
+<td>按运行时间排序</td>
+</tr>
+<tr>
+<td><code>N</code></td>
+<td><strong>sort by PID</strong></td>
+<td>按 PID 排序</td>
+</tr>
+<tr>
+<td><code>R</code></td>
+<td><strong>reverse sort</strong></td>
+<td>反向排序</td>
+</tr>
+<tr>
+<td><code>O</code>（大写）</td>
+<td><strong>change sort field</strong></td>
+<td>按其他字段排序（进入交互菜单选择）</td>
+</tr>
+<tr>
+<td><code>o</code>（小写）</td>
+<td><strong>filter by field</strong></td>
+<td>过滤显示（例如 <code>COMMAND=nginx</code>）</td>
+</tr>
+<tr>
+<td><code>u</code></td>
+<td><strong>filter by user</strong></td>
+<td>只显示某个用户的进程</td>
+</tr>
+</tbody></table>
+<hr>
+<h4 id="进程控制"><a href="#进程控制" class="headerlink" title="进程控制"></a>进程控制</h4><table>
+<thead>
+<tr>
+<th>按键</th>
+<th>全称</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>k</code></td>
+<td><strong>kill</strong></td>
+<td>杀死进程（输入 PID 和信号，默认 15 <code>SIGTERM</code>）</td>
+</tr>
+<tr>
+<td><code>r</code></td>
+<td><strong>renice</strong></td>
+<td>调整进程 Nice 值（输入 PID 和新 nice 值）</td>
+</tr>
+<tr>
+<td><code>s</code></td>
+<td><strong>set-delay</strong></td>
+<td>修改刷新间隔（秒）</td>
+</tr>
+<tr>
+<td><code>W</code></td>
+<td><strong>write config</strong></td>
+<td>保存当前配置，下次启动生效（写入 <code>~/.toprc</code>）</td>
+</tr>
+</tbody></table>
+<hr>
+<h4 id="进程显示切换"><a href="#进程显示切换" class="headerlink" title="进程显示切换"></a>进程显示切换</h4><table>
+<thead>
+<tr>
+<th>按键</th>
+<th>全称</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>c</code></td>
+<td><strong>command-line toggle</strong></td>
+<td>显示完整命令行 vs 仅命令名</td>
+</tr>
+<tr>
+<td><code>i</code></td>
+<td><strong>idle toggle</strong></td>
+<td>显示&#x2F;隐藏空闲进程</td>
+</tr>
+<tr>
+<td><code>H</code></td>
+<td><strong>threads toggle</strong></td>
+<td>显示线程而不是进程</td>
+</tr>
+<tr>
+<td><code>x</code></td>
+<td><strong>highlight sort column</strong></td>
+<td>高亮当前排序列</td>
+</tr>
+<tr>
+<td><code>y</code></td>
+<td><strong>highlight running tasks</strong></td>
+<td>高亮正在运行的任务</td>
+</tr>
+<tr>
+<td><code>u</code></td>
+<td><strong>user filter</strong></td>
+<td>只显示指定用户的进程</td>
+</tr>
+<tr>
+<td><code>V</code></td>
+<td><strong>forest view</strong></td>
+<td>树状显示进程（类似 <code>pstree</code>）</td>
+</tr>
+</tbody></table>
+<h2 id="显示信息"><a href="#显示信息" class="headerlink" title="显示信息"></a>显示信息</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">top - 13:24:16 up 3 days, 22:41,  0 user,  load average: 0.14, 0.14, 0.11</span><br><span class="line">Tasks: 163 total,   1 running, 162 sleeping,   0 stopped,   0 zombie</span><br><span class="line">%Cpu(s):  1.3 us,  0.8 sy,  0.0 ni, 97.1 id,  0.7 wa,  0.0 hi,  0.1 si,  0.0 st </span><br><span class="line">MiB Mem :   7940.7 total,    222.3 free,   6399.8 used,   1590.8 buff/cache     </span><br><span class="line">MiB Swap:      0.0 total,      0.0 free,      0.0 used.   1540.9 avail Mem </span><br><span class="line"></span><br><span class="line">  PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND                                                                                    </span><br><span class="line"> 1197 root      20   0 1963420 640468  36736 S   4.0   7.9 282:35.87 kube-apiserver                                                                             </span><br><span class="line"> 2327 root      20   0 2237824  49708  24064 S   1.3   0.6  80:30.91 calico-node                                                                                </span><br><span class="line">  771 root       0 -20   11.3g  89348  23552 S   1.0   1.1  79:04.21 etcd                                                                                       </span><br><span class="line"> 1228 root      20   0 1412044  84508  21376 S   1.0   1.0  78:41.97 kube-controller                                                                            </span><br><span class="line">32616 root      20   0 2227064  92080  50560 S   1.0   1.1  79:00.74 kubelet                                                                                    </span><br><span class="line"> 1212 root      20   0 1283348  32972  13056 S   0.3   0.4  15:25.14 kube-scheduler                                                                             </span><br><span class="line"> 1648 root      20   0  746604  16832   6400 S   0.3   0.2   9:40.87 node-cache                                                                                 </span><br><span class="line">15415 root      20   0       0      0      0 I   0.3   0.0   0:00.28 kworker/1:1-events                                                                         </span><br><span class="line">31742 root      20   0 2398412  60844  29696 S   0.3   0.7  26:17.82 containerd                                                                                 </span><br><span class="line">43556 ubuntu    20   0   13228   6528   4352 R   0.3   0.1   0:00.18 top                                                                                        </span><br><span class="line">    1 root      20   0   23084  12288   7680 S   0.0   0.2   1:12.93 systemd                                                                                    </span><br><span class="line">    2 root      20   0       0      0      0 S   0.0   0.0   0:00.05 kthreadd                                                                                   </span><br><span class="line">    3 root      20   0       0      0      0 S   0.0   0.0   0:00.00 pool_workqueue_release                                                                     </span><br><span class="line">    4 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-rcu_g                                                                            </span><br><span class="line">    5 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-rcu_p                                                                            </span><br><span class="line">    6 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-slub_                                                                            </span><br><span class="line">    7 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-netns                                                                            </span><br><span class="line">    9 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/0:0H-events_highpri                                                                </span><br><span class="line">   12 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-mm_pe                                                                            </span><br><span class="line">   13 root      20   0       0      0      0 I   0.0   0.0   0:00.00 rcu_tasks_kthread                                                                          </span><br><span class="line">   14 root      20   0       0      0      0 I   0.0   0.0   0:00.00 rcu_tasks_rude_kthread                                                                     </span><br><span class="line">   15 root      20   0       0      0      0 I   0.0   0.0   0:00.00 rcu_tasks_trace_kthread                                                                    </span><br><span class="line">   16 root      20   0       0      0      0 S   0.0   0.0   0:13.07 ksoftirqd/0                                                                                </span><br><span class="line">   17 root      20   0       0      0      0 I   0.0   0.0   1:02.67 rcu_preempt                                                                                </span><br><span class="line">   18 root      rt   0       0      0      0 S   0.0   0.0   0:02.89 migration/0                                                                                </span><br><span class="line">   19 root     -51   0       0      0      0 S   0.0   0.0   0:00.00 idle_inject/0                                                                              </span><br><span class="line">   20 root      20   0       0      0      0 S   0.0   0.0   0:00.00 cpuhp/0                                                                                    </span><br><span class="line">   21 root      20   0       0      0      0 S   0.0   0.0   0:00.00 cpuhp/2                                                                                    </span><br><span class="line">   22 root     -51   0       0      0      0 S   0.0   0.0   0:00.00 idle_inject/2                                                                              </span><br><span class="line">   23 root      rt   0       0      0      0 S   0.0   0.0   0:02.40 migration/2     </span><br></pre></td></tr></table></figure>
+
+<h3 id="顶部状态"><a href="#顶部状态" class="headerlink" title="顶部状态"></a>顶部状态</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">top - 13:24:16 up 3 days, 22:41,  0 user,  load average: 0.14, 0.14, 0.11</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>13:24:16</strong> → 当前系统时间</li>
+<li><strong>up 3 days, 22:41</strong> → 系统已运行 3 天 22 小时 41 分钟</li>
+<li><strong>0 user</strong> → 当前登录用户数（这里没有用户直接登录）</li>
+<li><strong>load average: 0.14, 0.14, 0.11</strong> 系统 1 分钟、5 分钟、15 分钟的平均负载。数字越接近 CPU 核心数，说明负载越合理。比如 4 核 CPU，load average 小于 4 基本健康。</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Tasks: 163 total,   1 running, 162 sleeping,   0 stopped,   0 zombie</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>163 total</strong> → 系统中共有 163 个进程</li>
+<li><strong>1 running</strong> → 正在运行的进程 1 个</li>
+<li><strong>162 sleeping</strong> → 休眠状态的进程 162 个（大部分进程常处于此状态，等待事件触发）</li>
+<li><strong>0 stopped</strong> → 停止的进程（通过信号暂停）</li>
+<li><strong>0 zombie</strong> → 僵尸进程（子进程结束但父进程未回收资源，数量多时是问题信号）</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">%Cpu(s):  1.3 us,  0.8 sy,  0.0 ni, 97.1 id,  0.7 wa,  0.0 hi,  0.1 si,  0.0 st</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>1.3 us (user space)</strong> → 用户态进程占用 CPU 1.3%</li>
+<li><strong>0.8 sy (system)</strong> → 内核态占用 CPU 0.8%</li>
+<li><strong>0.0 ni (nice)</strong> → 调整过 nice 优先级的进程占用 0%</li>
+<li><strong>97.1 id (idle)</strong> → CPU 空闲 97.1%</li>
+<li><strong>0.7 wa (I&#x2F;O wait)</strong> → 等待 I&#x2F;O 的 CPU 时间（磁盘&#x2F;网络）</li>
+<li><strong>0.0 hi (hardware interrupt)</strong> → 硬件中断占用 CPU 时间百分比</li>
+<li><strong>0.1 si (software interrupt)</strong> → 软件中断占用 CPU 时间百分比</li>
+<li><strong>0.0 st (steal time)</strong> → 被虚拟机管理程序（Hypervisor）“偷走”的 CPU 时间百分比（虚拟化场景有意义）</li>
+</ul>
+<blockquote>
+<p>一般关注 us+sy（实际负载），如果 wa 很高，说明 I&#x2F;O 瓶颈。</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">MiB Mem :   7940.7 total,    222.3 free,   6399.8 used,   1590.8 buff/cache</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>7940.7 total</strong> → 总内存 7.9 GB</li>
+<li><strong>222.3 free</strong> → 空闲内存 222 MB（未使用部分，Linux 下通常较小）</li>
+<li><strong>6399.8 used</strong> → 被程序使用的内存 6.4 GB（包含应用+缓存）</li>
+<li><strong>1590.8 buff&#x2F;cache</strong> → 缓冲和缓存内存（用于磁盘缓存和文件缓存，可回收）</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">MiB Swap:      0.0 total,      0.0 free,      0.0 used.   1540.9 avail Mem</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>total 0.0</strong> → 没有配置 swap 分区</li>
+<li><strong>free 0.0</strong> → 空闲 Swap</li>
+<li><strong>used 0.0</strong> → 已用 Swap</li>
+<li><strong>avail Mem 1540.9</strong> → 实际可用内存 1.5 GB（考虑缓存和可回收内存），比 free 更准确</li>
+</ul>
+<blockquote>
+<p>如果 Swap used 很高，说明物理内存不足。</p>
+</blockquote>
+<h3 id="进程列表"><a href="#进程列表" class="headerlink" title="进程列表"></a>进程列表</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND </span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>PID (Process ID)</strong> → 进程 ID（唯一标识）</li>
+<li><strong>USER</strong> → 进程所有者（用户名）</li>
+<li><strong>PR (Priority)</strong> → （内核调度的优先级，数值越小优先级越高）</li>
+<li><strong>NI (Nice)</strong> → nice 值（用户可调节，-20 ~ 19，影响优先级）</li>
+<li><strong>VIRT (Virtual Memory)</strong> → 进程使用的虚拟内存 (KB)，进程申请的总地址空间，包括共享库、映射文件等</li>
+<li><strong>RES (Resident Memory)</strong> → 进程常驻物理内存 (KB)，实际占用的物理内存</li>
+<li><strong>SHR (Shared Memory)</strong> → 共享内存 (KB)，与其他进程共享的内存</li>
+<li><strong>S (State)</strong> → 进程状态<ul>
+<li><code>R</code> → running</li>
+<li><code>S</code> → sleeping</li>
+<li><code>I</code> → idle</li>
+<li><code>D</code> → 不可中断睡眠</li>
+<li><code>Z</code> → 僵尸</li>
+</ul>
+</li>
+<li><strong>%CPU (CPU usage)</strong> → CPU 使用率（按刷新周期计算）</li>
+<li><strong>%MEM (Memory usage)</strong> → 内存使用率（占总内存百分比）</li>
+<li><strong>TIME+ (CPU Time)</strong> → 进程累计使用的 CPU 时间，格式 <em>分钟:秒.百分秒</em></li>
+<li><strong>COMMAND</strong> → 进程的命令或程序名（默认显示简写，可按 <code>c</code> 显示完整命令行）</li>
+</ul>
+<h2 id="一些指标的概念"><a href="#一些指标的概念" class="headerlink" title="一些指标的概念"></a>一些指标的概念</h2><h3 id="Nice-值-Niceness-Value"><a href="#Nice-值-Niceness-Value" class="headerlink" title="Nice 值 (Niceness Value)"></a>Nice 值 (Niceness Value)</h3><p>调节进程的<strong>优先级 (Priority, PR)</strong>，影响 CPU 调度的先后顺序。</p>
+<ul>
+<li><p><strong>取值范围</strong>：<code>-20 ~ 19</code></p>
+<ul>
+<li><strong>-20</strong> → 最高优先级（最“自私”，会多抢占 CPU）</li>
+<li><strong>0</strong> → 默认值</li>
+<li><strong>19</strong> → 最低优先级（最“友好”，让出 CPU 机会）</li>
+</ul>
+</li>
+<li><p><strong>关系</strong>：</p>
+<ul>
+<li>最终调度优先级由 <strong>PR &#x3D; base_priority + NI</strong> 决定</li>
+<li><code>top</code> 里 <strong>PR</strong> 越小，进程调度优先级越高</li>
+</ul>
+</li>
+<li><p><strong>修改方式</strong>：</p>
+<ul>
+<li>启动时指定：<code>nice -n 10 my_program</code></li>
+<li>运行时调整：<code>renice -n -5 -p 1234</code> （调整 PID&#x3D;1234 的进程）</li>
+</ul>
+</li>
+<li><p>大型数据分析进程可以 <code>nice=10</code> → 不阻塞关键服务</p>
+</li>
+<li><p>系统关键进程可能会设置低 nice 值（-5 ~ -20），保证调度优先级</p>
+</li>
+</ul>
+<hr>
+<h3 id="交换空间-Swap-Space"><a href="#交换空间-Swap-Space" class="headerlink" title="交换空间 (Swap Space)"></a>交换空间 (Swap Space)</h3><p>当物理内存不足时，Linux 会把部分<strong>不常用的内存页</strong>写到磁盘上的 Swap 区域，以释放 RAM。<br>可以让系统避免“内存不足直接崩溃”。但磁盘速度远低于内存，频繁使用 Swap 会导致性能下降（俗称“抖动 &#x2F; thrashing”）。</p>
+<ul>
+<li>在 <code>top</code> 的 <strong>Swap used</strong> 升高时，说明内存吃紧</li>
+<li>进程会明显变慢</li>
+</ul>
+<p><strong>Kubernetes 中默认不允许使用交换内存</strong></p>
+<p>Kubernetes 的调度和资源控制主要依赖于 <strong>cgroup 的 CPU、内存限制</strong>。</p>
+<ul>
+<li><strong>内存限制</strong>：Pod 被限制多少内存，超过就会触发 <strong>OOMKill</strong>。</li>
+<li>如果允许 swap，那么：<ul>
+<li>Pod 占用的物理内存可能被换出到 swap，而 kubelet 和 cgroup 并不知道。</li>
+<li>容器可能“假装”没超内存，实际上性能已经变得非常差。</li>
+<li>这会导致 <strong>资源隔离失真</strong>，调度器也无法准确分配资源。</li>
+</ul>
+</li>
+</ul>
+<p>因此，Kubernetes 默认要求节点运行在 <strong>no swap</strong> 的状态下，以保证资源控制的可预测性。</p>
+<p>但 Kubernetes 在后续版本有支持开启交换内存的功能：</p>
+<p><a class="link"   target="_blank" rel="noopener" href="https://kubernetes.io/blog/2021/08/09/run-nodes-with-swap-alpha/" >New in Kubernetes v1.22: alpha support for using swap memory<i class="fas fa-external-link-alt"></i></a><br><a class="link"   target="_blank" rel="noopener" href="https://kubernetes.io/zh-cn/blog/2023/08/24/swap-linux-beta/" >Kubernetes 1.28: Beta support for using swap on Linux<i class="fas fa-external-link-alt"></i></a></p>
+<h3 id="虚拟内存-Virtual-Memory-VIRT"><a href="#虚拟内存-Virtual-Memory-VIRT" class="headerlink" title="虚拟内存 (Virtual Memory, VIRT)"></a>虚拟内存 (Virtual Memory, VIRT)</h3><p>每个进程拥有<strong>独立的地址空间</strong>（虚拟内存），由操作系统内核管理并映射到实际物理内存或磁盘。</p>
+<p>包含内容：</p>
+<ol>
+<li>程序代码</li>
+<li>已分配但未实际使用的内存</li>
+<li>动态库</li>
+<li>内存映射文件（mmap）</li>
+<li>可能被换出到 Swap 的部分</li>
+</ol>
+<p>指标含义：</p>
+<ul>
+<li><code>top</code> 里的 <strong>VIRT</strong> → 进程可寻址的虚拟内存总量（不等于真实占用 RAM）</li>
+<li><code>RES</code> → 真实常驻物理内存</li>
+<li><code>SHR</code> → 共享内存</li>
+</ul>
+<p>举例：一个 Python 程序加载 TensorFlow，<code>VIRT</code> 可能几十 GB，但 <code>RES</code> 可能只有几百 MB，因为很多库只是映射，并没有真正加载到内存。</p>
+<h3 id="中断-Interrupt"><a href="#中断-Interrupt" class="headerlink" title="中断 (Interrupt)"></a>中断 (Interrupt)</h3><p>中断是 CPU 在运行用户代码时，被“打断”去处理某个事件的机制。分为<strong>硬件中断</strong>和<strong>软件中断</strong>。</p>
+<h4 id="硬件中断-Hardware-Interrupt-hi"><a href="#硬件中断-Hardware-Interrupt-hi" class="headerlink" title="硬件中断 (Hardware Interrupt, hi)"></a>硬件中断 (Hardware Interrupt, hi)</h4><p>来源：外部硬件设备向 CPU 发出信号<br>例子：</p>
+<ul>
+<li>键盘输入（按下一个键）</li>
+<li>网络接口卡收到数据包</li>
+<li>磁盘 I&#x2F;O 完成通知</li>
+</ul>
+<p>类比：你正在写字（运行程序），突然电话响了（键盘输入），你必须停下去接电话（处理硬件中断）。</p>
+<h4 id="软件中断-Software-Interrupt-si"><a href="#软件中断-Software-Interrupt-si" class="headerlink" title="软件中断 (Software Interrupt, si)"></a>软件中断 (Software Interrupt, si)</h4><p>来源：内核为处理高频硬件事件，把一些工作转交给“软中断”机制（通常由内核线程完成）。<br>例子：</p>
+<ul>
+<li>网络包的协议栈处理（TCP&#x2F;IP 解析）</li>
+<li>大量磁盘 IO 的后续处理</li>
+</ul>
+<p>类比：电话太多了，你雇了秘书（内核线程）来代接一部分，这就是软件中断。</p>
+
+                </div>
+
+                
+                        
+<div class="post-copyright-info-container border-box">
+    <div class="copyright-info-content border-box">
+        <div class="copyright-info-top border-box">
+            <div class="copyright-post-title border-box text-ellipsis">
+                top命令
+            </div>
+
+            <div class="copyright-post-link border-box text-ellipsis">
+                学习笔记/学习笔记/top命令/
+            </div>
+        </div>
+
+        <div class="copyright-info-bottom border-box">
+            <div class="copyright-post-author bottom-item">
+                <div class="type">
+                    作者
+                </div>
+                <div class="content">咕咕咕</div>
+            </div>
+
+            <div class="post-time bottom-item">
+                <div class="type">
+                    发布于
+                </div>
+                <div class="content">2025-09-03 10:01</div>
+            </div>
+
+
+            <div class="post-license bottom-item">
+                <div class="type">
+                    许可
+                </div>
+                <div class="content tooltip" data-tooltip-content="CC BY-NC-SA 4.0">
+                    <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hans">
+                        <i class="fa-brands fa-creative-commons"></i>
+                        <i class="fa-brands fa-creative-commons-by"></i>
+                        <i class="fa-brands fa-creative-commons-nc"></i>
+                        <i class="fa-brands fa-creative-commons-sa"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <i class="copyright-bg fa-solid fa-copyright"></i>
+    </div>
+    <div class="copy-copyright-info flex-center tooltip" data-tooltip-content="复制版权信息" data-tooltip-offset-y="-2px">
+        <i class="fa-solid fa-copy"></i>
+    </div>
+</div>
+
+                
+
+                <div class="post-bottom-tags-and-share border-box">
+                    <div>
+                        
+                            <ul class="post-tags-box border-box">
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/linux/">linux</a>
+                                    </li>
+                                
+                            </ul>
+                        
+                    </div>
+                    <div>
+                        
+                            <div class="post-share-container border-box">
+    <ul class="share-list-wrap border-box">
+        <li class="qq share-item border-box flex-center tooltip"
+            data-tooltip-content="分享到 QQ"
+        >
+            <i class="fa-brands fa-qq"></i>
+        </li>
+        <li class="wechat share-item border-box flex-center tooltip tooltip-img"
+            data-tooltip-content="分享到微信"
+            data-tooltip-img-tip="微信扫一扫"
+            data-tooltip-img-style="background-color: #fff; top: -10px; padding: 0.6rem 0.6rem 0.1rem 0.6rem;"
+        >
+            <i class="fa-brands fa-weixin"></i>
+        </li>
+        <li class="weibo share-item border-box flex-center tooltip"
+            data-tooltip-content="分享到微博"
+        >
+            <i class="fa-brands fa-weibo"></i>
+        </li>
+    </ul>
+</div>
+
+                        
+                    </div>
+                </div>
+
+                
+                    <div class="reward-author-container border-box flex-center">
+    <div class="reward-btn keep-button border-box flex-center tooltip tooltip-img"
+            data-tooltip-content="谢谢你请我喝可乐~"
+            data-tooltip-img-url="/images/thanks.png"
+            data-tooltip-img-trigger="click"
+            data-tooltip-img-style="top: -8px;"
+    >
+        <i class="fa-solid fa-hand-holding-heart"></i>
+    </div>
+</div>
+
+                
+
+                
+                    <div class="post-nav border-box">
+                        
+                            <div class="prev-post">
+                                <a class="prev"
+                                   rel="prev"
+                                   href="/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/Go%E5%86%85%E7%BD%AE%E6%97%B6%E9%97%B4%E5%B8%B8%E9%87%8F%E6%A0%BC%E5%BC%8F%EF%BC%88time%E5%8C%85%EF%BC%89%E5%AF%B9%E7%85%A7%E8%A1%A8/"
+                                   title="Go内置时间常量格式（time包）对照表"
+                                >
+                                    <span class="left arrow-icon flex-center">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </span>
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">Go内置时间常量格式（time包）对照表</span>
+                                        <span class="post-nav-item">上一篇</span>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                        
+                            <div class="next-post">
+                                <a class="next"
+                                   rel="next"
+                                   href="/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E5%B8%B8%E7%94%A8%E7%9A%84%E9%94%81/"
+                                   title="常用的锁"
+                                >
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">常用的锁</span>
+                                        <span class="post-nav-item">下一篇</span>
+                                    </span>
+                                    <span class="right arrow-icon flex-center">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                    </div>
+                
+
+                
+                    
+
+
+    <div class="comments-container border-box">
+        <div id="comments-anchor" class="comment-area-title border-box">
+            <i class="fas fa-comments"></i>&nbsp;评论
+        </div>
+        <div class="comment-plugin-fail border-box">
+    <span class="fail-tip">评论插件加载失败</span>
+    <button class="reload keep-button">点击重新加载</button>
+</div>
+<div class="comment-plugin-loading flex-center border-box">
+    <i class="loading-icon fa-solid fa-spinner fa-spin"></i>
+    <span class="load-tip">正在加载评论插件</span>
+</div>
+<script data-pjax>
+  window.KeepCommentPlugin = {}
+  window.KeepCommentPlugin.hideLoading = () => {
+    const cplDom = document.querySelector('.comments-container .comment-plugin-loading')
+    cplDom.style.display = 'none'
+  }
+  window.KeepCommentPlugin.loadFailHandle = () => {
+    window.KeepCommentPlugin.hideLoading()
+    const cpfDom = document.querySelector('.comments-container .comment-plugin-fail')
+    cpfDom.style.display = 'flex'
+    cpfDom.querySelector('.reload').addEventListener('click', () => {
+      window.location.reload()
+    })
+  }
+</script>
+
+        
+            
+
+    <div class="giscus-comments-container">
+        <div class="giscus" id="giscus"></div>
+        <script data-pjax
+                onerror="window.KeepCommentPlugin.loadFailHandle()"
+        >
+          if (!window.KeepCommentPlugin?.getGiscusTheme) {
+            window.KeepCommentPlugin.getGiscusTheme = () => {
+              return document.body.classList.contains('dark-mode') ? 'dark_dimmed' : 'light_tritanopia'
+            }
+          }
+
+          if (!window.KeepCommentPlugin?.changeGiscusTheme) {
+            window.KeepCommentPlugin.changeGiscusTheme = () => {
+              const iframe = document.querySelector('iframe.giscus-frame')
+              iframe && iframe.contentWindow.postMessage({
+                giscus: {
+                  setConfig: {
+                    theme: window.KeepCommentPlugin.getGiscusTheme()
+                  }
+                }
+              }, 'https://giscus.app')
+            }
+          }
+
+          if (!window.KeepCommentPlugin?.initGiscus) {
+            window.KeepCommentPlugin.initGiscus = () => {
+              const script = document.createElement('script')
+              script.async = true
+              script.src = 'https://giscus.app/client.js'
+              script.setAttribute('data-repo', 'Cooooing/Cooooing.github.io')
+              script.setAttribute('data-repo-id', 'R_kgDOHQal_w')
+              script.setAttribute('data-category', 'Announcements')
+              script.setAttribute('data-category-id', 'DIC_kwDOHQal_84CjZo6')
+              script.setAttribute('data-reactions-enabled', '1')
+              script.setAttribute('data-lang', 'zh-CN')
+              script.setAttribute('data-mapping', 'pathname')
+              script.setAttribute('data-strict', '0')
+              script.setAttribute('data-emit-metadata', '0')
+              script.setAttribute('data-input-position', 'top')
+              script.setAttribute('crossorigin', 'anonymous')
+              script.setAttribute('loading', 'lazy')
+              script.setAttribute('data-theme', window.KeepCommentPlugin.getGiscusTheme())
+              document.querySelector('.giscus-comments-container').appendChild(script)
+              script.onerror = () => {
+                window.KeepCommentPlugin.loadFailHandle()
+              }
+              script.onload = () => {
+                window.KeepCommentPlugin.hideLoading()
+              }
+              const toggleThemeBtn = document.querySelector('.tool-toggle-theme-mode')
+              toggleThemeBtn && toggleThemeBtn.addEventListener('click', () => {
+                window.KeepCommentPlugin.changeGiscusTheme()
+              })
+            }
+          }
+
+          if ('true' === "true") {
+            setTimeout(() => {
+              window.KeepCommentPlugin.initGiscus()
+            }, 1000)
+          } else {
+            window.addEventListener("DOMContentLoaded", window.KeepCommentPlugin.initGiscus)
+          }
+        </script>
+    </div>
+
+
+        
+    </div>
+
+
+
+
+
+                
+            </div>
+        </div>
+
+        
+            <div class="pc-post-toc left-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#top-%E5%91%BD%E4%BB%A4"><span class="nav-text">top 命令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%AF%E5%8A%A8%E5%8F%82%E6%95%B0%EF%BC%88%E5%91%BD%E4%BB%A4%E8%A1%8C%E9%80%89%E9%A1%B9%EF%BC%89"><span class="nav-text">启动参数（命令行选项）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%A4%E4%BA%92%E5%BC%8F%E5%BF%AB%E6%8D%B7%E9%94%AE%EF%BC%88%E8%BF%90%E8%A1%8C%E6%97%B6%E8%BE%93%E5%85%A5%EF%BC%89"><span class="nav-text">交互式快捷键（运行时输入）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%98%BE%E7%A4%BA%E6%8E%A7%E5%88%B6"><span class="nav-text">显示控制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8E%92%E5%BA%8F%E4%B8%8E%E8%BF%87%E6%BB%A4"><span class="nav-text">排序与过滤</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BF%9B%E7%A8%8B%E6%8E%A7%E5%88%B6"><span class="nav-text">进程控制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BF%9B%E7%A8%8B%E6%98%BE%E7%A4%BA%E5%88%87%E6%8D%A2"><span class="nav-text">进程显示切换</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%98%BE%E7%A4%BA%E4%BF%A1%E6%81%AF"><span class="nav-text">显示信息</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A1%B6%E9%83%A8%E7%8A%B6%E6%80%81"><span class="nav-text">顶部状态</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%9B%E7%A8%8B%E5%88%97%E8%A1%A8"><span class="nav-text">进程列表</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E4%BA%9B%E6%8C%87%E6%A0%87%E7%9A%84%E6%A6%82%E5%BF%B5"><span class="nav-text">一些指标的概念</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Nice-%E5%80%BC-Niceness-Value"><span class="nav-text">Nice 值 (Niceness Value)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%A4%E6%8D%A2%E7%A9%BA%E9%97%B4-Swap-Space"><span class="nav-text">交换空间 (Swap Space)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98-Virtual-Memory-VIRT"><span class="nav-text">虚拟内存 (Virtual Memory, VIRT)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%AD%E6%96%AD-Interrupt"><span class="nav-text">中断 (Interrupt)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%A1%AC%E4%BB%B6%E4%B8%AD%E6%96%AD-Hardware-Interrupt-hi"><span class="nav-text">硬件中断 (Hardware Interrupt, hi)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BD%AF%E4%BB%B6%E4%B8%AD%E6%96%AD-Software-Interrupt-si"><span class="nav-text">软件中断 (Software Interrupt, si)</span></a></li></ol></li></ol></li></ol>
+    </div>
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom border-box">
+            
+<footer class="footer border-box">
+    <div class="border-box website-info-box default">
+        
+            <div class="copyright-info info-item default">
+                &copy;&nbsp;<span>2022</span>&nbsp;-&nbsp;2025
+                
+                    &nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;&nbsp;<a href="/">咕咕咕</a>
+                
+            </div>
+
+            <div class="theme-info info-item default">
+                由&nbsp;<a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;驱动&nbsp;&&nbsp;主题&nbsp;<a class="keep-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep</a>
+            </div>
+
+            
+
+            
+        
+
+        <div style="color:var(--text-color-4);"><span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>(～￣▽￣)～<script src="/js/lifeTime.js"></script></div>
+        <a href="https://icp.gov.moe/?keyword=20222450" target="_blank">萌ICP备20222450号</a>
+
+
+        <div class="count-item info-item default">
+            
+                <span class="count-box border-box word">
+                    <span class="item-type border-box">总字数</span>
+                    <span class="item-value border-box word">362.1k</span>
+                </span>
+            
+
+            
+                <span class="count-box border-box uv">
+                    <span class="item-type border-box">访客数</span>
+                    <span class="item-value border-box uv" id="busuanzi_value_site_uv"></span>
+                </span>
+            
+
+            
+                <span class="count-box border-box pv">
+                    <span class="item-type border-box">访问量</span>
+                    <span class="item-value border-box pv" id="busuanzi_value_site_pv"></span>
+                </span>
+            
+        </div>
+
+        <div id="aplayer">
+          <meting-js
+                  server="netease"
+                  type="playlist"
+                  id="7345595717"
+                  fixed="true"
+                  mini="true"
+                  autoplay="false"
+                  listFolded="true"
+                  order="random"
+                  preload="none">
+          </meting-js>
+        </div>
+            <br>
+            <br>
+            <br>
+    </div>
+
+</footer>
+
+        </div>
+    </div>
+
+    <!-- post tools -->
+    
+        <div class="post-tools left-toc">
+            <div class="post-tools-container border-box">
+    <ul class="tools-list border-box">
+        <!-- PC TOC show toggle -->
+        
+            <li class="tools-item flex-center toggle-show-toc">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        <!-- PC go comment -->
+        
+            <li class="tools-item flex-center go-to-comments">
+                <i class="fas fa-comment"></i>
+                <span class="post-comments-count"></span>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <!-- side tools -->
+    <div class="side-tools">
+        <div class="side-tools-container border-box ">
+    <ul class="side-tools-list side-tools-show-handle border-box">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-toggle-theme-mode flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+            <li class="tools-item rss flex-center">
+                <a class="flex-center"
+                   href="/atom.xml"
+                   target="_blank"
+                >
+                    <i class="fas fa-rss"></i>
+                </a>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list border-box">
+        
+            <li class="tools-item toggle-show-toc-tablet flex-center">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        
+            <li class="tools-item go-to-comments-tablet flex-center">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+
+        <li class="tools-item tool-scroll-to-top flex-center show-arrow">
+            <i class="arrow fas fa-arrow-up"></i>
+            <span class="percent"></span>
+        </li>
+    </ul>
+</div>
+
+    </div>
+
+    <!-- image mask -->
+    <div class="zoom-in-image-mask">
+    <img class="zoom-in-image">
+</div>
+
+
+    <!-- local search -->
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="搜索..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="close-popup-btn">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+    <!-- tablet toc -->
+    
+        <div class="tablet-post-toc-mask">
+            <div class="tablet-post-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#top-%E5%91%BD%E4%BB%A4"><span class="nav-text">top 命令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%AF%E5%8A%A8%E5%8F%82%E6%95%B0%EF%BC%88%E5%91%BD%E4%BB%A4%E8%A1%8C%E9%80%89%E9%A1%B9%EF%BC%89"><span class="nav-text">启动参数（命令行选项）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%A4%E4%BA%92%E5%BC%8F%E5%BF%AB%E6%8D%B7%E9%94%AE%EF%BC%88%E8%BF%90%E8%A1%8C%E6%97%B6%E8%BE%93%E5%85%A5%EF%BC%89"><span class="nav-text">交互式快捷键（运行时输入）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%98%BE%E7%A4%BA%E6%8E%A7%E5%88%B6"><span class="nav-text">显示控制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8E%92%E5%BA%8F%E4%B8%8E%E8%BF%87%E6%BB%A4"><span class="nav-text">排序与过滤</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BF%9B%E7%A8%8B%E6%8E%A7%E5%88%B6"><span class="nav-text">进程控制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BF%9B%E7%A8%8B%E6%98%BE%E7%A4%BA%E5%88%87%E6%8D%A2"><span class="nav-text">进程显示切换</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%98%BE%E7%A4%BA%E4%BF%A1%E6%81%AF"><span class="nav-text">显示信息</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A1%B6%E9%83%A8%E7%8A%B6%E6%80%81"><span class="nav-text">顶部状态</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%9B%E7%A8%8B%E5%88%97%E8%A1%A8"><span class="nav-text">进程列表</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E4%BA%9B%E6%8C%87%E6%A0%87%E7%9A%84%E6%A6%82%E5%BF%B5"><span class="nav-text">一些指标的概念</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Nice-%E5%80%BC-Niceness-Value"><span class="nav-text">Nice 值 (Niceness Value)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%A4%E6%8D%A2%E7%A9%BA%E9%97%B4-Swap-Space"><span class="nav-text">交换空间 (Swap Space)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98-Virtual-Memory-VIRT"><span class="nav-text">虚拟内存 (Virtual Memory, VIRT)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%AD%E6%96%AD-Interrupt"><span class="nav-text">中断 (Interrupt)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%A1%AC%E4%BB%B6%E4%B8%AD%E6%96%AD-Hardware-Interrupt-hi"><span class="nav-text">硬件中断 (Hardware Interrupt, hi)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BD%AF%E4%BB%B6%E4%B8%AD%E6%96%AD-Software-Interrupt-si"><span class="nav-text">软件中断 (Software Interrupt, si)</span></a></li></ol></li></ol></li></ol>
+    </div>
+</div>
+
+            </div>
+        </div>
+    
+</main>
+
+
+
+<!-- common -->
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/toggle-theme.js"></script>
+
+<script src="/js/code-block.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+
+<!-- local-search -->
+
+    
+<script src="/js/local-search.js"></script>
+
+
+
+<!-- lazyload -->
+
+    
+<script src="/js/lazyload.js"></script>
+
+
+
+<div class="pjax">
+    
+        <!-- post-helper -->
+        
+<script src="/js/post/post-helper.js"></script>
+
+
+        <!-- toc -->
+        
+            
+<script src="/js/post/toc.js"></script>
+
+        
+
+        <!-- copyright-info -->
+        
+            
+<script src="/js/post/copyright-info.js"></script>
+
+        
+
+        <!-- share -->
+        
+            
+<script src="/js/post/share.js"></script>
+
+        
+    
+
+    <!-- category-page -->
+    
+
+    <!-- links-page -->
+    
+
+    <!-- photos-page -->
+    
+</div>
+
+<!-- mermaid -->
+
+
+<!-- pjax -->
+
+    
+<script src="/js/libs/pjax.min.js"></script>
+
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        window.pjax = new Pjax({
+            selectors: [
+                'head title',
+                '.page-container',
+                '.pjax',
+                '#aplayer',
+                '#canvas_sakura'
+            ],
+            history: true,
+            debug: false,
+            cacheBust: false,
+            timeout: 0,
+            analytics: false,
+            currentUrlFullReload: false,
+            scrollRestoration: false,
+        });
+
+        document.addEventListener('pjax:send', () => {
+            KEEP.utils.pjaxProgressBarStart()
+        });
+
+        document.addEventListener('pjax:complete', () => {
+            KEEP.utils.pjaxProgressBarEnd()
+            window.pjax.executeScripts(document.querySelectorAll('script[data-pjax], .pjax script'))
+            KEEP.initExecute()
+        });
+    });
+</script>
+
+
+
+
+    
+        
+            
+<script class="custom-inject-js" src="/js/APlayer.min.js" data-pjax></script>
+
+        
+    
+        
+            
+<script class="custom-inject-js" src="/js/Meting.min.js" data-pjax></script>
+
+        
+    
+        
+            
+<script class="custom-inject-js" src="/js/leaves.js" data-pjax></script>
+
+        
+    
+
+
+
+</body>
+</html>

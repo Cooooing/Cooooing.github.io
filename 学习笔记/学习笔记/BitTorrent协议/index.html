@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="技术博客,后端开发,编程笔记,生活">
+    <meta name="description" content="Code | Systems | Life — 专注编程本质，也关心世界如何运转。">
+    <meta name="author" content="咕咕咕">
+
+    
+    <title>
+        
+            BitTorrent协议 |
+        
+        咕咕咕的小破站
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+        <link rel="shortcut icon" href="/images/favicon.png">
+    
+    
+<link rel="stylesheet" href="/font/css/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/regular.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/solid.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/brands.min.css">
+
+    
+        
+            
+                
+<link rel="stylesheet" href="/css/APlayer.min.css">
+
+            
+        
+            
+                
+<link rel="stylesheet" href="/css/custom.css">
+
+            
+        
+    
+    <script class="keep-theme-configurations">
+    const KEEP = window.KEEP || {}
+    KEEP.hexo_config = {"hostname":"cooooing.github.io","root":"/","language":"zh-CN","path":"search.json"}
+    KEEP.theme_config = {"base_info":{"primary_color":"#0066cc","title":"咕咕咕的小破站","author":"咕咕咕","avatar":"/images/head.jpg","logo":"/images/head.jpg","favicon":"/images/favicon.png"},"menu":{"Archives":"/archives","Categories":"/categories","Tags":"/tags","日常":"/daily","Links":"/links","About":"/about"},"first_screen":{"enable":false,"background_img":"/images/bg.svg","background_img_dark":"/images/bg.svg","description":"Keep writing and Keep loving.","hitokoto":false},"social_contact":{"enable":false,"links":{"github":null,"weixin":null,"qq":null,"weibo":null,"zhihu":null,"twitter":null,"facebook":null,"email":null}},"scroll":{"progress_bar":false,"percent":false,"hide_header":true},"home":{"category":true,"tag":true,"announcement":null},"post":{"author_badge":{"enable":true,"level_badge":false,"custom_badge":["fishing"]},"word_count":{"wordcount":true,"min2read":true},"datetime_format":"YYYY-MM-DD HH:mm:ss","copyright_info":true,"share":true,"reward":{"enable":true,"img_link":"/images/thanks.png","text":"谢谢你请我喝可乐~"}},"code_block":{"tools":{"enable":true,"style":"default"},"highlight_theme":"default"},"toc":{"enable":true,"number":false,"expand_all":true,"init_open":true,"layout":"left"},"website_count":{"busuanzi_count":{"enable":true,"site_uv":true,"site_pv":true,"page_pv":true}},"local_search":{"enable":true,"preload":true},"comment":{"enable":true,"use":"giscus","valine":{"appid":null,"appkey":null,"server_urls":null,"placeholder":null},"gitalk":{"github_id":null,"github_admins":null,"repository":null,"client_id":null,"client_secret":null,"proxy":null},"twikoo":{"env_id":null,"region":null,"version":"1.6.21"},"waline":{"server_url":null,"reaction":false,"version":2},"giscus":{"repo":"Cooooing/Cooooing.github.io","repo_id":"R_kgDOHQal_w","category":"Announcements","category_id":"DIC_kwDOHQal_84CjZo6","reactions_enabled":true},"artalk":{"server":null},"disqus":{"shortname":null}},"rss":{"enable":true},"lazyload":{"enable":true},"cdn":{"enable":false,"provider":"cdnjs"},"pjax":{"enable":true},"footer":{"since":2022,"word_count":true,"icp":{"enable":false,"record_code":null,"url":"https://beian.miit.gov.cn"},"site_deploy":{"enable":false,"provider":"github","url":null},"shields_style":{"enable":false,"custom":[{"link_url":null,"img_url":null}]}},"inject":{"enable":true,"css":["/css/APlayer.min.css","/css/custom.css"],"js":["/js/APlayer.min.js","/js/Meting.min.js","/js/leaves.js"]},"root":"","links":[{"name":"鼠鼠在碎觉","link":"https://sszsj.com","avatar":"https://tmx.fishpi.cn/img/head.jpg","description":"我是不慎落入世界的一滴水墨"},{"name":"Gakkiyomi","link":"https://gakkiyomi.blog","avatar":"https://avatars.githubusercontent.com/u/41406557?v=4","description":"为往圣继绝学"},{"name":"Hancel's Blog","link":"https://my.hancel.org","avatar":"https://my.hancel.org/media/logo.jpg","description":"人生而自由，却无往不在枷锁之中。"},{"name":"Eastshann","link":"http://121.4.99.208/","avatar":"http://121.4.99.208/img/avatar.jpg","description":"冲和者，淡泊平和，谦冲守正"},{"name":"小于同学的异世界","link":"https://yby.zone","avatar":"https://yby-zone.obs.cn-east-3.myhuaweicloud.com/avatar.jpg","description":"为吾为枝，余地三尺，以己为棋，胜天半子。"},{"name":"Mlikiowa Home Village","link":"https://nanaeo.cn/","avatar":"https://q1.qlogo.cn/g?b=qq&nk=1627126029&s=100","description":"A litter Village With Mlikiowa"},{"name":"忘忧草","link":"https://owo.wyc.rest/","avatar":"https://owo.wyc.rest/img/%E4%B8%87%E5%8F%B6.jpg","description":"这只是一个小破站而已！"},{"name":"stillwarter","link":"https://stillwarter.github.io/","avatar":"https://file.fishpi.cn/2022/07/MOSHED2022621164630-1b1ec532.gif?imageView2/1/w/210/h/210/interlace/0/q/100","description":"光就是一切的意义"},{"name":"test12138","link":"http://你好.eu.org/","avatar":"https://file.fishpi.cn/2022/06/srchttpimgzcoolcncommunity0116405d84f975a801211d537707c9gifreferhttpimgzcool-0f2d09c9.gif?imageView2/1/w/48/h/48/interlace/0/q/100","description":"大丈夫生于天地之间，岂能郁郁久居人下。"},{"name":"呼呼呼","link":"https://bongbongbakudan.github.io/","avatar":"https://pwl.stackoverflow.wiki/2021/12/blob-28eb4b9f.png?imageView2/1/w/48/h/48/interlace/0/q/100","description":"去整点薯条"},{"name":"Plumbiu","link":"https://blog.plumbiu.top/","avatar":"https://avatars.githubusercontent.com/u/99574369?v=4","description":"这人很勤奋，啥都没留"},{"name":"hiRipple","link":"https://hiripple.com/","avatar":"https://avatars.githubusercontent.com/u/115361435?v=4","description":"超高校级的游戏玩家"}],"version":"4.0.6"}
+    KEEP.language_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"}
+    KEEP.language_code_block = {"copy":"复制代码","copied":"已复制","fold":"折叠代码块","folded":"已折叠"}
+    KEEP.language_copy_copyright = {"copy":"复制版权信息","copied":"已复制","title":"原文标题","author":"原文作者","link":"原文链接"}
+  </script>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-CLX32WF4R1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+
+      gtag('js', new Date());
+
+      gtag('config', 'G-CLX32WF4R1');
+    </script>
+
+    <!-- 51.la -->
+    <script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
+    <script>LA.init({id: "3JwPz6wbAloyTmMc", ck: "3JwPz6wbAloyTmMc", autoTrack: true})</script>
+
+<meta name="generator" content="Hexo 8.1.1"><link rel="alternate" href="/atom.xml" title="咕咕咕的小破站" type="application/atom+xml">
+</head>
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+        <span class="pjax-progress-bar"></span>
+        <i class="pjax-progress-icon fas fa-circle-notch fa-spin"></i>
+    
+</div>
+
+
+<main class="page-container border-box">
+
+    <!-- home first screen  -->
+    
+
+    <!-- page content -->
+    <div class="page-main-content border-box">
+        <div class="page-main-content-top">
+            
+<header class="header-wrapper">
+
+    <div class="border-box header-content">
+        <div class="left border-box">
+            
+                <a class="logo-image border-box" href="/">
+                    <img src="/images/head.jpg">
+                </a>
+            
+            <a class="site-name border-box" href="/">
+               咕咕咕的小破站
+            </a>
+        </div>
+
+        <div class="right border-box">
+            <div class="pc">
+                <ul class="menu-list">
+                    <li class="menu-item">
+                        <a class=""
+                           href="/"
+                        >首页</a>
+                    </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >归档</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/categories"
+                            >分类</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/tags"
+                            >标签</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/daily"
+                            >日常</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/links"
+                            >友链</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >关于</a>
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="fas search fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            <li class="drawer-menu-item flex-center">
+                <a class=""
+                   href="/"
+                >首页</a>
+            </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives"
+                    >归档</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/categories"
+                    >分类</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/tags"
+                    >标签</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/daily"
+                    >日常</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/links"
+                    >友链</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about"
+                    >关于</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle border-box">
+
+            <div class="main-content border-box">
+                
+
+                    
+<div class="fade-in-down-animation">
+    <div class="post-page-container border-box">
+        <div class="post-content-container border-box">
+            
+
+            <div class="post-content-bottom border-box">
+                
+                    <div class="post-title">
+                        BitTorrent协议
+                    </div>
+                
+
+                
+                    <div class="post-header border-box">
+                        
+                            <div class="avatar-box border-box">
+                                <img src="/images/head.jpg">
+                            </div>
+                        
+                        <div class="info-box">
+                            <div class="author border-box">
+                                <span class="name">咕咕咕</span>
+                                
+                                    <span class="author-badge">fishing</span>
+                                
+                            </div>
+                            <div class="meta-info border-box">
+                                
+
+<div class="post-meta-info-container border-box post">
+    <div class="post-meta-info border-box">
+        
+
+        
+            <span class="meta-info-item post-create-date">
+                <i class="icon fa-solid fa-calendar-plus"></i>&nbsp;
+                <span class="datetime">2024-10-12 11:24:13</span>
+            </span>
+
+            <span class="meta-info-item post-update-date">
+                <i class="icon fa-solid fa-file-pen"></i>&nbsp;
+                <span class="datetime" data-updated="Sat Oct 12 2024 03:24:13 GMT+0000">2024-10-12 11:24:13</span>
+            </span>
+        
+
+        
+            <span class="meta-info-item post-category border-box"><i class="icon fas fa-folder"></i>&nbsp;
+                <ul class="post-category-ul">
+                    
+                            <li class="category-item"><a href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+            <span class="post-tag meta-info-item border-box">
+                <i class="icon fas fa-tags"></i>&nbsp;
+                <ul class="post-tag-ul">
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/Bencode%E7%BC%96%E7%A0%81/">Bencode编码</a></li>
+                        
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/BitTorrent/">BitTorrent</a></li>
+                        
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/p2p/">p2p</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+        
+            <span class="meta-info-item post-wordcount">
+                <i class="icon fas fa-file-word"></i>&nbsp;<span>3.6k 字</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-min2read">
+                <i class="icon fas fa-clock"></i>&nbsp;<span>12 分钟</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-pv">
+                <i class="icon fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+            </span>
+        
+    </div>
+
+    
+</div>
+
+                            </div>
+                        </div>
+                    </div>
+                
+
+                <div class="post-content keep-markdown-body">
+                    
+
+                    <h2 id="BitTorrent协议规范"><a href="#BitTorrent协议规范" class="headerlink" title="BitTorrent协议规范"></a>BitTorrent协议规范</h2><p>BitTorrent是一个用于分发文件的协议。它通过URL识别内容，并设计为与网络无缝集成。<br>与普通HTTP相比，它的优势在于，当多个用户同时下载同一文件时，下载者之间会互相上传，这使得文件源能够以适度的负载支持大量下载者。</p>
+<p>BitTorrent文件分发包括以下实体：</p>
+<ul>
+<li>普通Web服务器</li>
+<li>静态“元信息”文件</li>
+<li>BitTorrent跟踪器</li>
+<li>“原始”下载者</li>
+<li>终端用户的Web浏览器</li>
+<li>终端用户的下载器</li>
+</ul>
+<p>理想情况下，一个文件应该有多个终端用户。</p>
+<h3 id="服务端准备步骤："><a href="#服务端准备步骤：" class="headerlink" title="服务端准备步骤："></a>服务端准备步骤：</h3><ol>
+<li>启动一个跟踪器（或更可能是已经在运行一个）。</li>
+<li>启动一个普通的Web服务器，例如Apache，或已经有一个。</li>
+<li>将.torrent扩展名与MIME类型application&#x2F;x-bittorrent关联（或已经完成）。</li>
+<li>使用要服务的完整文件和跟踪器的URL生成一个元信息（.torrent）文件。</li>
+<li>将元信息文件放置在Web服务器上。</li>
+<li>从其他网页链接到元信息（.torrent）文件。</li>
+<li>启动一个已经拥有完整文件的下载器（“原点”）。</li>
+</ol>
+<h3 id="用户下载步骤："><a href="#用户下载步骤：" class="headerlink" title="用户下载步骤："></a>用户下载步骤：</h3><ol>
+<li>安装BitTorrent（或已经完成）。</li>
+<li>浏览网页。</li>
+<li>点击.torrent文件的链接。</li>
+<li>选择在本地保存文件的位置，或选择恢复部分下载。</li>
+<li>等待下载完成。</li>
+<li>告诉下载器退出（在这之前，它会继续上传）。</li>
+</ol>
+<h2 id="bencoding"><a href="#bencoding" class="headerlink" title="bencoding"></a>bencoding</h2><ul>
+<li>字符串以长度前缀表示，后跟一个冒号和字符串。例如，<code>4:spam</code>对应于“spam”。</li>
+<li>整数以“i”开头，后跟十进制数字，再以“e”结束。例如，<code>i3e</code>对应于3，i-3e对应于-3。整数没有大小限制。i-0e是无效的。以零开头的所有编码，例如i03e，都是无效的，除了i0e，它当然对应于0。</li>
+<li>列表以“l”开头，后跟其元素（也经过bencoding编码），最后以“e”结束。例如，<code>l4:spam4:eggse</code>对应于[‘spam’, ‘eggs’]。</li>
+<li>字典以“d”开头，后跟一个交替的键值对列表，最后以“e”结束。例如，<code>d3:cow3:moo4:spam4:eggse</code>对应于{‘cow’: ‘moo’, ‘spam’: ‘eggs’}，而<code>d4:spaml1:a1:bee</code>对应于{‘spam’: [‘a’, ‘b’]}。键必须是字符串并按排序顺序出现（按原始字符串排序，而非字母数字）。</li>
+</ul>
+<h2 id="元信息文件"><a href="#元信息文件" class="headerlink" title="元信息文件"></a>元信息文件</h2><p>元信息文件（也称为.torrent文件）是一个bencoded字典，包含以下键：</p>
+<ul>
+<li><strong>announce</strong>：跟踪器的URL。</li>
+<li><strong>info</strong>：映射到一个字典，下面描述了其键。</li>
+</ul>
+<p>所有包含文本的.torrent文件中的字符串必须是UTF-8编码。</p>
+<h2 id="info字典"><a href="#info字典" class="headerlink" title="info字典"></a>info字典</h2><ul>
+<li><strong>name</strong>：键映射到一个UTF-8编码的字符串，建议将文件（或目录）保存为的名称。这是纯粹的建议。</li>
+<li><strong>piece length</strong>：映射到文件分割成的每个片段的字节数。为了传输，文件被分割成固定大小的片段，除非最后一个片段可能被截断，所有片段通常都是相同长度的。piece length几乎总是2的幂，最常见的是2^18 &#x3D; 256 K（BitTorrent在3.2版本之前使用2^20 &#x3D; 1 M作为默认值）。</li>
+<li><strong>pieces</strong>：映射到一个长度是20的倍数的字符串。它被细分为长度为20的字符串，每个字符串是相应索引的片段的SHA1哈希。</li>
+</ul>
+<p>还可以有一个<strong>length</strong>或<strong>files</strong>键，但不能同时存在。<br>如果length存在，则下载表示单个文件；否则，它表示一组在目录结构的文件。<br>在单文件情况下，length映射到文件的字节长度。</p>
+<p>在其他键的目的上，多文件情况被视为只有一个文件，通过按文件列表中出现的顺序连接文件。文件列表的值是files，映射到一个字典列表，包含以下键：</p>
+<ul>
+<li><strong>length</strong>：文件的字节长度。</li>
+<li><strong>path</strong>：对应子目录名称的UTF-8编码字符串列表，最后一个是实际文件名（零长度列表是错误情况）。</li>
+</ul>
+<p>在单文件情况下，name键是文件名；在多文件情况下，它是目录名。</p>
+<h2 id="跟踪器"><a href="#跟踪器" class="headerlink" title="跟踪器"></a>跟踪器</h2><p>跟踪器的GET请求具有以下键：</p>
+<ul>
+<li><strong>info_hash</strong>：bencoded形式的info值的20字节SHA1哈希。该值几乎肯定需要进行转义。<br>请注意，这个值是元信息文件的一个子串。info-hash必须是编码形式的哈希，正如在.torrent文件中找到的那样，这与b解码元信息文件、提取info字典并编码相同，仅当bencode完全验证输入（例如，键排序、没有前导零）时才能这样做。<br>相反，这意味着客户端必须拒绝无效的元信息文件，或者直接提取子串。它们不得在无效数据上进行解码-编码的循环。</li>
+<li><strong>peer_id</strong>：下载器使用的长度为20的字符串作为其ID。每个下载器在新的下载开始时随机生成自己的ID。该值也几乎肯定需要进行转义。</li>
+<li><strong>ip</strong>：可选参数，给出该对等体的IP（或DNS名称）。通常用于原点，如果它与跟踪器在同一台机器上。</li>
+<li><strong>port</strong>：该对等体正在监听的端口号。通常的行为是下载器尝试监听6881端口，如果该端口已被占用，则尝试6882、6883等，并在6889之后放弃。</li>
+<li><strong>uploaded</strong>：到目前为止，总共上传的量，以十进制ASCII编码。</li>
+<li><strong>downloaded</strong>：到目前为止，总共下载的量，以十进制ASCII编码。</li>
+<li><strong>left</strong>：该对等体仍需下载的字节数，以十进制ASCII编码。请注意，这不能从下载量和文件长度计算出来，因为它可能是恢复下载，且有可能部分下载的数据未通过完整性检查，必须重新下载。</li>
+<li><strong>event</strong>：这是一个可选键，映射到started、completed或stopped（或空，表示与不出现时相同）。如果不存在，则这是定期进行的公告之一。<br>当下载首次开始时，会发送使用started的公告；当下载完成时，会发送使用completed的公告。如果文件在开始时已完成，则不会发送completed。下载者在停止下载时发送一个使用stopped的公告。</li>
+</ul>
+<p>跟踪器响应是bencoded字典。如果跟踪器响应有一个键failure reason，则它映射到一个可读字符串，解释查询失败的原因，且不需要其他键。<br>否则，它必须有两个键：interval，映射到下载器应该等待的秒数，以便进行定期重新请求，和peers。peers映射到对应对等体的字典列表，每个字典包含peer id、ip和port键，分别映射到对等体自选的ID、IP地址或DNS名称作为字符串和端口号。<br>请注意，下载者在发生事件或需要更多对等体时，可以在非预定时间重新请求。</p>
+<p>更常见的是，跟踪器返回对等体列表的紧凑表示，见<a class="link"   target="_blank" rel="noopener" href="http://ll.www.bittorrent.org/beps/bep_0023.html" >BEP 23<i class="fas fa-external-link-alt"></i></a>。<br>如果您想对元信息文件或跟踪器查询进行任何扩展，请与Bram Cohen协调，以确保所有扩展都是兼容的。<br>通常通过<a class="link"   target="_blank" rel="noopener" href="http://ll.www.bittorrent.org/beps/bep_0015.html" >UDP跟踪器协议<i class="fas fa-external-link-alt"></i></a>进行公告。</p>
+<h2 id="对等协议"><a href="#对等协议" class="headerlink" title="对等协议"></a>对等协议</h2><p>BitTorrent的对等协议通过TCP或<a class="link"   target="_blank" rel="noopener" href="http://ll.www.bittorrent.org/beps/bep_0029.html" >uTP<i class="fas fa-external-link-alt"></i></a>运行。<br>对等连接是对称的。双向发送的消息看起来相同，数据可以在任一方向流动。</p>
+<p>对等协议通过索引引用文件的片段，如元信息文件中所描述，从零开始。当对等体完成下载一个片段并检查哈希匹配时，它会向所有对等体宣布它拥有该片段。<br>连接在两端包含两个状态位：阻塞或不阻塞，以及感兴趣或不感兴趣。阻塞是一个通知，在解除阻塞之前不会发送任何数据。阻塞背后的原因和常见技术将在本文档后面解释。</p>
+<p>数据传输发生在一个对等体（peer）感兴趣而另一个对等体没有被阻塞（unchoked）时。兴趣状态必须始终保持更新——当下载者在未被阻塞的情况下，发现没有什么需要请求的内容时，他们必须表达缺乏兴趣，即使他们当前被阻塞。<br>这一过程的实现比较复杂，但这样做的目的是让下载者能够知道，哪些对等体在解除阻塞后会立即开始下载。</p>
+<p>连接开始时被阻塞且不感兴趣。<br>当数据正在传输时，下载者应同时保持多个片段请求排队，以获得良好的TCP性能（这被称为“流水线”）。另一方面，无法立即写入TCP缓冲区的请求应在内存中排队，而不是保留在应用程序级别的网络缓冲区，以便在发生阻塞时可以全部丢弃。<br>对等协议的消息流由握手开始，后跟一个永无止境的长度前缀消息流。握手以字符19（十进制）开头，后跟字符串“BitTorrent protocol”。前导字符是长度前缀，旨在希望其他新协议也能这样做，从而彼此显著区分。<br>所有后续发送的整数都以四字节大端格式编码。<br>在固定头之后，有八个保留字节，当前实现中都为零。如果您希望使用这些字节扩展协议，请与Bram Cohen协调，以确保所有扩展都是兼容的。</p>
+<p>接下来是元信息文件中info值的20字节SHA1哈希（这是跟踪器上公告为info_hash的相同值，只是在这里是原始的而不是引用的）。如果双方发送的值不相同，则断开连接。<br>一个可能的例外是，如果下载者希望通过单个端口进行多个下载，他们可能会等待传入连接首先提供下载哈希，并在其列表中如果存在则响应相同的值。<br>握手之后，接下来是一个交替的长度前缀和消息的流。长度为零的消息是保持活跃消息，忽略。保持活跃消息通常每两分钟发送一次，但在期望数据时超时可以更快完成。</p>
+<h2 id="对等消息"><a href="#对等消息" class="headerlink" title="对等消息"></a>对等消息</h2><p>所有非保持活跃消息以一个单字节开头，表示其类型。</p>
+<p>可能的值是：</p>
+<ul>
+<li>0 - choke</li>
+<li>1 - unchoke</li>
+<li>2 - interested</li>
+<li>3 - not interested</li>
+<li>4 - have</li>
+<li>5 - bitfield</li>
+<li>6 - request</li>
+<li>7 - piece</li>
+<li>8 - cancel</li>
+</ul>
+<p>“choke”、“unchoke”、“interested”和“not interested”没有负载。<br>“bitfield”只在首次消息中发送。其负载是一个比特字段，下载者发送的每个索引设置为1，其余设置为0。尚未拥有任何内容的下载者可以跳过“bitfield”消息。比特字段的第一个字节对应于高位到低位的索引0-7，第二个字节对应于8-15，以此类推。末尾的闲置位设置为零。<br>“have”消息的负载是一个单一数字，即该下载者刚刚完成并检查哈希的索引。<br>“request”消息包含索引、开始和长度。最后两个是字节偏移。长度通常是2的幂，除非在文件末尾被截断。所有当前实现使用2^14（16 KiB），并关闭请求大于该量的连接。<br>“cancel”消息的负载与请求消息相同。它们通常仅在下载接近完成时发送，在所谓的“结束模式”下。当下载几乎完成时，最后几个片段通常全部从一个拥挤的调制解调器线路下载，耗时很长。为了确保最后几个片段快速到达，一旦所有该下载者尚未拥有的片段的请求正在进行，它会向所有正在下载的对等体发送请求。为了避免效率低下，它在每次接收到片段时向其他所有对等体发送取消。<br>“piece”消息包含索引、开始和片段。请注意，它们与请求消息隐含相关。如果在快速连续发送的阻塞和解除阻塞消息中，可能会收到意外的片段。</p>
+<p>下载者通常以随机顺序下载片段，这样可以合理地避免拥有任何对等体的片段的严格子集或超集。<br>阻塞是出于多种原因。TCP拥塞控制在同时通过多个连接发送时表现非常差。此外，阻塞让每个对等体使用一种互惠算法，确保它们获得一致的下载速度。</p>
+<p>以下描述的阻塞算法是当前部署的算法。所有新算法在由它们自身组成的网络中和以此为主的网络中都应良好运作。<br>一个好的阻塞算法应满足多个标准。<br>它应限制同时上传的数量以确保良好的TCP性能。<br>它应避免快速阻塞和解除阻塞，这称为“颤动”。<br>它应对让其下载的对等体进行互惠。<br>最后，它应偶尔尝试未使用的连接，以查找它们是否可能比当前使用的连接更好，这称为乐观解除阻塞。</p>
+<p>当前部署的阻塞算法通过每十秒钟仅更改被阻塞的对象，避免了颤动。它通过解除四个上传速率最佳且感兴趣的对等体来实现互惠和上传数量的限制。<br>那些上传速率更好但不感兴趣的对等体会被解除阻塞，如果它们变得感兴趣，则最差的上传者会被阻塞。如果下载者拥有完整文件，它会使用其上传速率而非下载速率来决定解除哪个对等体的阻塞。<br>在乐观解除阻塞方面，任何时候都有一个对等体被解除阻塞，无论其上传速率如何（如果感兴趣，它会算作四个允许的下载者之一）。被乐观解除阻塞的对等体每30秒轮换一次。为了给它们一个良好的机会上传完整的片段，新连接比当前乐观解除阻塞的连接更有三倍的可能性。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a class="link"   target="_blank" rel="noopener" href="http://ll.www.bittorrent.org/beps/bep_0003.html" >The BitTorrent Protocol Specification<i class="fas fa-external-link-alt"></i></a></p>
+
+                </div>
+
+                
+                        
+<div class="post-copyright-info-container border-box">
+    <div class="copyright-info-content border-box">
+        <div class="copyright-info-top border-box">
+            <div class="copyright-post-title border-box text-ellipsis">
+                BitTorrent协议
+            </div>
+
+            <div class="copyright-post-link border-box text-ellipsis">
+                学习笔记/学习笔记/BitTorrent协议/
+            </div>
+        </div>
+
+        <div class="copyright-info-bottom border-box">
+            <div class="copyright-post-author bottom-item">
+                <div class="type">
+                    作者
+                </div>
+                <div class="content">咕咕咕</div>
+            </div>
+
+            <div class="post-time bottom-item">
+                <div class="type">
+                    发布于
+                </div>
+                <div class="content">2024-10-12 11:24</div>
+            </div>
+
+
+            <div class="post-license bottom-item">
+                <div class="type">
+                    许可
+                </div>
+                <div class="content tooltip" data-tooltip-content="CC BY-NC-SA 4.0">
+                    <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hans">
+                        <i class="fa-brands fa-creative-commons"></i>
+                        <i class="fa-brands fa-creative-commons-by"></i>
+                        <i class="fa-brands fa-creative-commons-nc"></i>
+                        <i class="fa-brands fa-creative-commons-sa"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <i class="copyright-bg fa-solid fa-copyright"></i>
+    </div>
+    <div class="copy-copyright-info flex-center tooltip" data-tooltip-content="复制版权信息" data-tooltip-offset-y="-2px">
+        <i class="fa-solid fa-copy"></i>
+    </div>
+</div>
+
+                
+
+                <div class="post-bottom-tags-and-share border-box">
+                    <div>
+                        
+                            <ul class="post-tags-box border-box">
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/Bencode%E7%BC%96%E7%A0%81/">Bencode编码</a>
+                                    </li>
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/BitTorrent/">BitTorrent</a>
+                                    </li>
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/p2p/">p2p</a>
+                                    </li>
+                                
+                            </ul>
+                        
+                    </div>
+                    <div>
+                        
+                            <div class="post-share-container border-box">
+    <ul class="share-list-wrap border-box">
+        <li class="qq share-item border-box flex-center tooltip"
+            data-tooltip-content="分享到 QQ"
+        >
+            <i class="fa-brands fa-qq"></i>
+        </li>
+        <li class="wechat share-item border-box flex-center tooltip tooltip-img"
+            data-tooltip-content="分享到微信"
+            data-tooltip-img-tip="微信扫一扫"
+            data-tooltip-img-style="background-color: #fff; top: -10px; padding: 0.6rem 0.6rem 0.1rem 0.6rem;"
+        >
+            <i class="fa-brands fa-weixin"></i>
+        </li>
+        <li class="weibo share-item border-box flex-center tooltip"
+            data-tooltip-content="分享到微博"
+        >
+            <i class="fa-brands fa-weibo"></i>
+        </li>
+    </ul>
+</div>
+
+                        
+                    </div>
+                </div>
+
+                
+                    <div class="reward-author-container border-box flex-center">
+    <div class="reward-btn keep-button border-box flex-center tooltip tooltip-img"
+            data-tooltip-content="谢谢你请我喝可乐~"
+            data-tooltip-img-url="/images/thanks.png"
+            data-tooltip-img-trigger="click"
+            data-tooltip-img-style="top: -8px;"
+    >
+        <i class="fa-solid fa-hand-holding-heart"></i>
+    </div>
+</div>
+
+                
+
+                
+                    <div class="post-nav border-box">
+                        
+                            <div class="prev-post">
+                                <a class="prev"
+                                   rel="prev"
+                                   href="/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E3%80%8ARedis%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E5%AF%B9%E8%B1%A1/"
+                                   title="《Redis设计与实现》读书笔记-数据结构与对象"
+                                >
+                                    <span class="left arrow-icon flex-center">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </span>
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">《Redis设计与实现》读书笔记-数据结构与对象</span>
+                                        <span class="post-nav-item">上一篇</span>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                        
+                            <div class="next-post">
+                                <a class="next"
+                                   rel="next"
+                                   href="/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/Bencode%E7%BC%96%E7%A0%81/"
+                                   title="Bencode编码"
+                                >
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">Bencode编码</span>
+                                        <span class="post-nav-item">下一篇</span>
+                                    </span>
+                                    <span class="right arrow-icon flex-center">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                    </div>
+                
+
+                
+                    
+
+
+    <div class="comments-container border-box">
+        <div id="comments-anchor" class="comment-area-title border-box">
+            <i class="fas fa-comments"></i>&nbsp;评论
+        </div>
+        <div class="comment-plugin-fail border-box">
+    <span class="fail-tip">评论插件加载失败</span>
+    <button class="reload keep-button">点击重新加载</button>
+</div>
+<div class="comment-plugin-loading flex-center border-box">
+    <i class="loading-icon fa-solid fa-spinner fa-spin"></i>
+    <span class="load-tip">正在加载评论插件</span>
+</div>
+<script data-pjax>
+  window.KeepCommentPlugin = {}
+  window.KeepCommentPlugin.hideLoading = () => {
+    const cplDom = document.querySelector('.comments-container .comment-plugin-loading')
+    cplDom.style.display = 'none'
+  }
+  window.KeepCommentPlugin.loadFailHandle = () => {
+    window.KeepCommentPlugin.hideLoading()
+    const cpfDom = document.querySelector('.comments-container .comment-plugin-fail')
+    cpfDom.style.display = 'flex'
+    cpfDom.querySelector('.reload').addEventListener('click', () => {
+      window.location.reload()
+    })
+  }
+</script>
+
+        
+            
+
+    <div class="giscus-comments-container">
+        <div class="giscus" id="giscus"></div>
+        <script data-pjax
+                onerror="window.KeepCommentPlugin.loadFailHandle()"
+        >
+          if (!window.KeepCommentPlugin?.getGiscusTheme) {
+            window.KeepCommentPlugin.getGiscusTheme = () => {
+              return document.body.classList.contains('dark-mode') ? 'dark_dimmed' : 'light_tritanopia'
+            }
+          }
+
+          if (!window.KeepCommentPlugin?.changeGiscusTheme) {
+            window.KeepCommentPlugin.changeGiscusTheme = () => {
+              const iframe = document.querySelector('iframe.giscus-frame')
+              iframe && iframe.contentWindow.postMessage({
+                giscus: {
+                  setConfig: {
+                    theme: window.KeepCommentPlugin.getGiscusTheme()
+                  }
+                }
+              }, 'https://giscus.app')
+            }
+          }
+
+          if (!window.KeepCommentPlugin?.initGiscus) {
+            window.KeepCommentPlugin.initGiscus = () => {
+              const script = document.createElement('script')
+              script.async = true
+              script.src = 'https://giscus.app/client.js'
+              script.setAttribute('data-repo', 'Cooooing/Cooooing.github.io')
+              script.setAttribute('data-repo-id', 'R_kgDOHQal_w')
+              script.setAttribute('data-category', 'Announcements')
+              script.setAttribute('data-category-id', 'DIC_kwDOHQal_84CjZo6')
+              script.setAttribute('data-reactions-enabled', '1')
+              script.setAttribute('data-lang', 'zh-CN')
+              script.setAttribute('data-mapping', 'pathname')
+              script.setAttribute('data-strict', '0')
+              script.setAttribute('data-emit-metadata', '0')
+              script.setAttribute('data-input-position', 'top')
+              script.setAttribute('crossorigin', 'anonymous')
+              script.setAttribute('loading', 'lazy')
+              script.setAttribute('data-theme', window.KeepCommentPlugin.getGiscusTheme())
+              document.querySelector('.giscus-comments-container').appendChild(script)
+              script.onerror = () => {
+                window.KeepCommentPlugin.loadFailHandle()
+              }
+              script.onload = () => {
+                window.KeepCommentPlugin.hideLoading()
+              }
+              const toggleThemeBtn = document.querySelector('.tool-toggle-theme-mode')
+              toggleThemeBtn && toggleThemeBtn.addEventListener('click', () => {
+                window.KeepCommentPlugin.changeGiscusTheme()
+              })
+            }
+          }
+
+          if ('true' === "true") {
+            setTimeout(() => {
+              window.KeepCommentPlugin.initGiscus()
+            }, 1000)
+          } else {
+            window.addEventListener("DOMContentLoaded", window.KeepCommentPlugin.initGiscus)
+          }
+        </script>
+    </div>
+
+
+        
+    </div>
+
+
+
+
+
+                
+            </div>
+        </div>
+
+        
+            <div class="pc-post-toc left-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#BitTorrent%E5%8D%8F%E8%AE%AE%E8%A7%84%E8%8C%83"><span class="nav-text">BitTorrent协议规范</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%8D%E5%8A%A1%E7%AB%AF%E5%87%86%E5%A4%87%E6%AD%A5%E9%AA%A4%EF%BC%9A"><span class="nav-text">服务端准备步骤：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%A8%E6%88%B7%E4%B8%8B%E8%BD%BD%E6%AD%A5%E9%AA%A4%EF%BC%9A"><span class="nav-text">用户下载步骤：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#bencoding"><span class="nav-text">bencoding</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%83%E4%BF%A1%E6%81%AF%E6%96%87%E4%BB%B6"><span class="nav-text">元信息文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#info%E5%AD%97%E5%85%B8"><span class="nav-text">info字典</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B7%9F%E8%B8%AA%E5%99%A8"><span class="nav-text">跟踪器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%B9%E7%AD%89%E5%8D%8F%E8%AE%AE"><span class="nav-text">对等协议</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%B9%E7%AD%89%E6%B6%88%E6%81%AF"><span class="nav-text">对等消息</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-text">参考</span></a></li></ol>
+    </div>
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom border-box">
+            
+<footer class="footer border-box">
+    <div class="border-box website-info-box default">
+        
+            <div class="copyright-info info-item default">
+                &copy;&nbsp;<span>2022</span>&nbsp;-&nbsp;2025
+                
+                    &nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;&nbsp;<a href="/">咕咕咕</a>
+                
+            </div>
+
+            <div class="theme-info info-item default">
+                由&nbsp;<a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;驱动&nbsp;&&nbsp;主题&nbsp;<a class="keep-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep</a>
+            </div>
+
+            
+
+            
+        
+
+        <div style="color:var(--text-color-4);"><span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>(～￣▽￣)～<script src="/js/lifeTime.js"></script></div>
+        <a href="https://icp.gov.moe/?keyword=20222450" target="_blank">萌ICP备20222450号</a>
+
+
+        <div class="count-item info-item default">
+            
+                <span class="count-box border-box word">
+                    <span class="item-type border-box">总字数</span>
+                    <span class="item-value border-box word">362.1k</span>
+                </span>
+            
+
+            
+                <span class="count-box border-box uv">
+                    <span class="item-type border-box">访客数</span>
+                    <span class="item-value border-box uv" id="busuanzi_value_site_uv"></span>
+                </span>
+            
+
+            
+                <span class="count-box border-box pv">
+                    <span class="item-type border-box">访问量</span>
+                    <span class="item-value border-box pv" id="busuanzi_value_site_pv"></span>
+                </span>
+            
+        </div>
+
+        <div id="aplayer">
+          <meting-js
+                  server="netease"
+                  type="playlist"
+                  id="7345595717"
+                  fixed="true"
+                  mini="true"
+                  autoplay="false"
+                  listFolded="true"
+                  order="random"
+                  preload="none">
+          </meting-js>
+        </div>
+            <br>
+            <br>
+            <br>
+    </div>
+
+</footer>
+
+        </div>
+    </div>
+
+    <!-- post tools -->
+    
+        <div class="post-tools left-toc">
+            <div class="post-tools-container border-box">
+    <ul class="tools-list border-box">
+        <!-- PC TOC show toggle -->
+        
+            <li class="tools-item flex-center toggle-show-toc">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        <!-- PC go comment -->
+        
+            <li class="tools-item flex-center go-to-comments">
+                <i class="fas fa-comment"></i>
+                <span class="post-comments-count"></span>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <!-- side tools -->
+    <div class="side-tools">
+        <div class="side-tools-container border-box ">
+    <ul class="side-tools-list side-tools-show-handle border-box">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-toggle-theme-mode flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+            <li class="tools-item rss flex-center">
+                <a class="flex-center"
+                   href="/atom.xml"
+                   target="_blank"
+                >
+                    <i class="fas fa-rss"></i>
+                </a>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list border-box">
+        
+            <li class="tools-item toggle-show-toc-tablet flex-center">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        
+            <li class="tools-item go-to-comments-tablet flex-center">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+
+        <li class="tools-item tool-scroll-to-top flex-center show-arrow">
+            <i class="arrow fas fa-arrow-up"></i>
+            <span class="percent"></span>
+        </li>
+    </ul>
+</div>
+
+    </div>
+
+    <!-- image mask -->
+    <div class="zoom-in-image-mask">
+    <img class="zoom-in-image">
+</div>
+
+
+    <!-- local search -->
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="搜索..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="close-popup-btn">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+    <!-- tablet toc -->
+    
+        <div class="tablet-post-toc-mask">
+            <div class="tablet-post-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#BitTorrent%E5%8D%8F%E8%AE%AE%E8%A7%84%E8%8C%83"><span class="nav-text">BitTorrent协议规范</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%8D%E5%8A%A1%E7%AB%AF%E5%87%86%E5%A4%87%E6%AD%A5%E9%AA%A4%EF%BC%9A"><span class="nav-text">服务端准备步骤：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%A8%E6%88%B7%E4%B8%8B%E8%BD%BD%E6%AD%A5%E9%AA%A4%EF%BC%9A"><span class="nav-text">用户下载步骤：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#bencoding"><span class="nav-text">bencoding</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%83%E4%BF%A1%E6%81%AF%E6%96%87%E4%BB%B6"><span class="nav-text">元信息文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#info%E5%AD%97%E5%85%B8"><span class="nav-text">info字典</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B7%9F%E8%B8%AA%E5%99%A8"><span class="nav-text">跟踪器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%B9%E7%AD%89%E5%8D%8F%E8%AE%AE"><span class="nav-text">对等协议</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%B9%E7%AD%89%E6%B6%88%E6%81%AF"><span class="nav-text">对等消息</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-text">参考</span></a></li></ol>
+    </div>
+</div>
+
+            </div>
+        </div>
+    
+</main>
+
+
+
+<!-- common -->
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/toggle-theme.js"></script>
+
+<script src="/js/code-block.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+
+<!-- local-search -->
+
+    
+<script src="/js/local-search.js"></script>
+
+
+
+<!-- lazyload -->
+
+    
+<script src="/js/lazyload.js"></script>
+
+
+
+<div class="pjax">
+    
+        <!-- post-helper -->
+        
+<script src="/js/post/post-helper.js"></script>
+
+
+        <!-- toc -->
+        
+            
+<script src="/js/post/toc.js"></script>
+
+        
+
+        <!-- copyright-info -->
+        
+            
+<script src="/js/post/copyright-info.js"></script>
+
+        
+
+        <!-- share -->
+        
+            
+<script src="/js/post/share.js"></script>
+
+        
+    
+
+    <!-- category-page -->
+    
+
+    <!-- links-page -->
+    
+
+    <!-- photos-page -->
+    
+</div>
+
+<!-- mermaid -->
+
+
+<!-- pjax -->
+
+    
+<script src="/js/libs/pjax.min.js"></script>
+
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        window.pjax = new Pjax({
+            selectors: [
+                'head title',
+                '.page-container',
+                '.pjax',
+                '#aplayer',
+                '#canvas_sakura'
+            ],
+            history: true,
+            debug: false,
+            cacheBust: false,
+            timeout: 0,
+            analytics: false,
+            currentUrlFullReload: false,
+            scrollRestoration: false,
+        });
+
+        document.addEventListener('pjax:send', () => {
+            KEEP.utils.pjaxProgressBarStart()
+        });
+
+        document.addEventListener('pjax:complete', () => {
+            KEEP.utils.pjaxProgressBarEnd()
+            window.pjax.executeScripts(document.querySelectorAll('script[data-pjax], .pjax script'))
+            KEEP.initExecute()
+        });
+    });
+</script>
+
+
+
+
+    
+        
+            
+<script class="custom-inject-js" src="/js/APlayer.min.js" data-pjax></script>
+
+        
+    
+        
+            
+<script class="custom-inject-js" src="/js/Meting.min.js" data-pjax></script>
+
+        
+    
+        
+            
+<script class="custom-inject-js" src="/js/leaves.js" data-pjax></script>
+
+        
+    
+
+
+
+</body>
+</html>

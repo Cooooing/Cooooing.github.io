@@ -1,0 +1,1077 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="技术博客,后端开发,编程笔记,生活">
+    <meta name="description" content="Code | Systems | Life — 专注编程本质，也关心世界如何运转。">
+    <meta name="author" content="咕咕咕">
+
+    
+    <title>
+        
+            FastDFS笔记 |
+        
+        咕咕咕的小破站
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+        <link rel="shortcut icon" href="/images/favicon.png">
+    
+    
+<link rel="stylesheet" href="/font/css/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/regular.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/solid.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/brands.min.css">
+
+    
+        
+            
+                
+<link rel="stylesheet" href="/css/APlayer.min.css">
+
+            
+        
+            
+                
+<link rel="stylesheet" href="/css/custom.css">
+
+            
+        
+    
+    <script class="keep-theme-configurations">
+    const KEEP = window.KEEP || {}
+    KEEP.hexo_config = {"hostname":"cooooing.github.io","root":"/","language":"zh-CN","path":"search.json"}
+    KEEP.theme_config = {"base_info":{"primary_color":"#0066cc","title":"咕咕咕的小破站","author":"咕咕咕","avatar":"/images/head.jpg","logo":"/images/head.jpg","favicon":"/images/favicon.png"},"menu":{"Archives":"/archives","Categories":"/categories","Tags":"/tags","日常":"/daily","Links":"/links","About":"/about"},"first_screen":{"enable":false,"background_img":"/images/bg.svg","background_img_dark":"/images/bg.svg","description":"Keep writing and Keep loving.","hitokoto":false},"social_contact":{"enable":false,"links":{"github":null,"weixin":null,"qq":null,"weibo":null,"zhihu":null,"twitter":null,"facebook":null,"email":null}},"scroll":{"progress_bar":false,"percent":false,"hide_header":true},"home":{"category":true,"tag":true,"announcement":null},"post":{"author_badge":{"enable":true,"level_badge":false,"custom_badge":["fishing"]},"word_count":{"wordcount":true,"min2read":true},"datetime_format":"YYYY-MM-DD HH:mm:ss","copyright_info":true,"share":true,"reward":{"enable":true,"img_link":"/images/thanks.png","text":"谢谢你请我喝可乐~"}},"code_block":{"tools":{"enable":true,"style":"default"},"highlight_theme":"default"},"toc":{"enable":true,"number":false,"expand_all":true,"init_open":true,"layout":"left"},"website_count":{"busuanzi_count":{"enable":true,"site_uv":true,"site_pv":true,"page_pv":true}},"local_search":{"enable":true,"preload":true},"comment":{"enable":true,"use":"giscus","valine":{"appid":null,"appkey":null,"server_urls":null,"placeholder":null},"gitalk":{"github_id":null,"github_admins":null,"repository":null,"client_id":null,"client_secret":null,"proxy":null},"twikoo":{"env_id":null,"region":null,"version":"1.6.21"},"waline":{"server_url":null,"reaction":false,"version":2},"giscus":{"repo":"Cooooing/Cooooing.github.io","repo_id":"R_kgDOHQal_w","category":"Announcements","category_id":"DIC_kwDOHQal_84CjZo6","reactions_enabled":true},"artalk":{"server":null},"disqus":{"shortname":null}},"rss":{"enable":true},"lazyload":{"enable":true},"cdn":{"enable":false,"provider":"cdnjs"},"pjax":{"enable":true},"footer":{"since":2022,"word_count":true,"icp":{"enable":false,"record_code":null,"url":"https://beian.miit.gov.cn"},"site_deploy":{"enable":false,"provider":"github","url":null},"shields_style":{"enable":false,"custom":[{"link_url":null,"img_url":null}]}},"inject":{"enable":true,"css":["/css/APlayer.min.css","/css/custom.css"],"js":["/js/APlayer.min.js","/js/Meting.min.js","/js/leaves.js"]},"root":"","links":[{"name":"鼠鼠在碎觉","link":"https://sszsj.com","avatar":"https://tmx.fishpi.cn/img/head.jpg","description":"我是不慎落入世界的一滴水墨"},{"name":"Gakkiyomi","link":"https://gakkiyomi.blog","avatar":"https://avatars.githubusercontent.com/u/41406557?v=4","description":"为往圣继绝学"},{"name":"Hancel's Blog","link":"https://my.hancel.org","avatar":"https://my.hancel.org/media/logo.jpg","description":"人生而自由，却无往不在枷锁之中。"},{"name":"Eastshann","link":"http://121.4.99.208/","avatar":"http://121.4.99.208/img/avatar.jpg","description":"冲和者，淡泊平和，谦冲守正"},{"name":"小于同学的异世界","link":"https://yby.zone","avatar":"https://yby-zone.obs.cn-east-3.myhuaweicloud.com/avatar.jpg","description":"为吾为枝，余地三尺，以己为棋，胜天半子。"},{"name":"Mlikiowa Home Village","link":"https://nanaeo.cn/","avatar":"https://q1.qlogo.cn/g?b=qq&nk=1627126029&s=100","description":"A litter Village With Mlikiowa"},{"name":"忘忧草","link":"https://owo.wyc.rest/","avatar":"https://owo.wyc.rest/img/%E4%B8%87%E5%8F%B6.jpg","description":"这只是一个小破站而已！"},{"name":"stillwarter","link":"https://stillwarter.github.io/","avatar":"https://file.fishpi.cn/2022/07/MOSHED2022621164630-1b1ec532.gif?imageView2/1/w/210/h/210/interlace/0/q/100","description":"光就是一切的意义"},{"name":"test12138","link":"http://你好.eu.org/","avatar":"https://file.fishpi.cn/2022/06/srchttpimgzcoolcncommunity0116405d84f975a801211d537707c9gifreferhttpimgzcool-0f2d09c9.gif?imageView2/1/w/48/h/48/interlace/0/q/100","description":"大丈夫生于天地之间，岂能郁郁久居人下。"},{"name":"呼呼呼","link":"https://bongbongbakudan.github.io/","avatar":"https://pwl.stackoverflow.wiki/2021/12/blob-28eb4b9f.png?imageView2/1/w/48/h/48/interlace/0/q/100","description":"去整点薯条"},{"name":"Plumbiu","link":"https://blog.plumbiu.top/","avatar":"https://avatars.githubusercontent.com/u/99574369?v=4","description":"这人很勤奋，啥都没留"},{"name":"hiRipple","link":"https://hiripple.com/","avatar":"https://avatars.githubusercontent.com/u/115361435?v=4","description":"超高校级的游戏玩家"}],"version":"4.0.6"}
+    KEEP.language_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"}
+    KEEP.language_code_block = {"copy":"复制代码","copied":"已复制","fold":"折叠代码块","folded":"已折叠"}
+    KEEP.language_copy_copyright = {"copy":"复制版权信息","copied":"已复制","title":"原文标题","author":"原文作者","link":"原文链接"}
+  </script>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-CLX32WF4R1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+
+      gtag('js', new Date());
+
+      gtag('config', 'G-CLX32WF4R1');
+    </script>
+
+    <!-- 51.la -->
+    <script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
+    <script>LA.init({id: "3JwPz6wbAloyTmMc", ck: "3JwPz6wbAloyTmMc", autoTrack: true})</script>
+
+<meta name="generator" content="Hexo 8.1.1"><link rel="alternate" href="/atom.xml" title="咕咕咕的小破站" type="application/atom+xml">
+</head>
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+        <span class="pjax-progress-bar"></span>
+        <i class="pjax-progress-icon fas fa-circle-notch fa-spin"></i>
+    
+</div>
+
+
+<main class="page-container border-box">
+
+    <!-- home first screen  -->
+    
+
+    <!-- page content -->
+    <div class="page-main-content border-box">
+        <div class="page-main-content-top">
+            
+<header class="header-wrapper">
+
+    <div class="border-box header-content">
+        <div class="left border-box">
+            
+                <a class="logo-image border-box" href="/">
+                    <img src="/images/head.jpg">
+                </a>
+            
+            <a class="site-name border-box" href="/">
+               咕咕咕的小破站
+            </a>
+        </div>
+
+        <div class="right border-box">
+            <div class="pc">
+                <ul class="menu-list">
+                    <li class="menu-item">
+                        <a class=""
+                           href="/"
+                        >首页</a>
+                    </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >归档</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/categories"
+                            >分类</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/tags"
+                            >标签</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/daily"
+                            >日常</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/links"
+                            >友链</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >关于</a>
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="fas search fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            <li class="drawer-menu-item flex-center">
+                <a class=""
+                   href="/"
+                >首页</a>
+            </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives"
+                    >归档</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/categories"
+                    >分类</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/tags"
+                    >标签</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/daily"
+                    >日常</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/links"
+                    >友链</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about"
+                    >关于</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle border-box">
+
+            <div class="main-content border-box">
+                
+
+                    
+<div class="fade-in-down-animation">
+    <div class="post-page-container border-box">
+        <div class="post-content-container border-box">
+            
+
+            <div class="post-content-bottom border-box">
+                
+                    <div class="post-title">
+                        FastDFS笔记
+                    </div>
+                
+
+                
+                    <div class="post-header border-box">
+                        
+                            <div class="avatar-box border-box">
+                                <img src="/images/head.jpg">
+                            </div>
+                        
+                        <div class="info-box">
+                            <div class="author border-box">
+                                <span class="name">咕咕咕</span>
+                                
+                                    <span class="author-badge">fishing</span>
+                                
+                            </div>
+                            <div class="meta-info border-box">
+                                
+
+<div class="post-meta-info-container border-box post">
+    <div class="post-meta-info border-box">
+        
+
+        
+            <span class="meta-info-item post-create-date">
+                <i class="icon fa-solid fa-calendar-plus"></i>&nbsp;
+                <span class="datetime">2022-08-09 13:24:08</span>
+            </span>
+
+            <span class="meta-info-item post-update-date">
+                <i class="icon fa-solid fa-file-pen"></i>&nbsp;
+                <span class="datetime" data-updated="Tue Aug 09 2022 05:24:08 GMT+0000">2022-08-09 13:24:08</span>
+            </span>
+        
+
+        
+            <span class="meta-info-item post-category border-box"><i class="icon fas fa-folder"></i>&nbsp;
+                <ul class="post-category-ul">
+                    
+                            <li class="category-item"><a href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+            <span class="post-tag meta-info-item border-box">
+                <i class="icon fas fa-tags"></i>&nbsp;
+                <ul class="post-tag-ul">
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/FastDFS/">FastDFS</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+        
+            <span class="meta-info-item post-wordcount">
+                <i class="icon fas fa-file-word"></i>&nbsp;<span>2.5k 字</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-min2read">
+                <i class="icon fas fa-clock"></i>&nbsp;<span>10 分钟</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-pv">
+                <i class="icon fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+            </span>
+        
+    </div>
+
+    
+</div>
+
+                            </div>
+                        </div>
+                    </div>
+                
+
+                <div class="post-content keep-markdown-body">
+                    
+
+                    <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><h3 id="分布式文件系统"><a href="#分布式文件系统" class="headerlink" title="分布式文件系统"></a>分布式文件系统</h3><p>分布式文件系统（Distributed File System，DFS）是指文件系统管理的物理存储资源不一定直接连接在本地节点上，而是通过计算机网络与节点（可简单的理解为一台计算机）相连；或是若干不同的逻辑磁盘分区或卷标组合在一起而形成的完整的有层次的文件系统。DFS为分布在网络上任意位置的资源提供一个逻辑上的树形文件系统结构，从而使用户访问分布在网络上的共享文件更加简便。单独的 DFS共享文件夹的作用是相对于通过网络上的其他共享文件夹的访问点。<br>常见的分布式文件系统有：FastDFS、GFS、HDFS、Lustre、Ceph、GridFS、mogileFS、TFS等。</p>
+<p>传统存放方式：<br><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/FastDFS%E7%AC%94%E8%AE%B0/%E4%BC%A0%E7%BB%9F%E5%AD%98%E6%94%BE%E6%96%B9%E5%BC%8F.png"
+                        alt="传统存放方式"
+                 ></p>
+<p>分布式文件存储：<br><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/FastDFS%E7%AC%94%E8%AE%B0/%E5%88%86%E5%B8%83%E5%BC%8F%E6%96%87%E4%BB%B6%E5%AD%98%E5%82%A8.png"
+                        alt="分布式文件存储"
+                 ></p>
+<h3 id="FastDFS"><a href="#FastDFS" class="headerlink" title="FastDFS"></a>FastDFS</h3><p>FastDFS是开源的轻量级分布式文件系统，为互联网应用定制，简单、灵活、高效。<br>采用c语言开发，由阿里巴巴开发并开源。<br>FastDFS对文件进行管理，功能包括：文件存储、文件同步（上传、下载、删除）等，解决大容量文件存储问题，特别适合以文件为载体的在线服务。比如文档网站、图片网址、视频网址等<br>FastDFS充分考虑了冗余备份、线性扩容等级制，并注重高可用、高性能等指标，使用它很容易搭建一套高性能的文件服务器集群提供文件上传下载等服务。</p>
+<p><del>看起来做个人云盘什么的很不错</del></p>
+<p><a class="link"   target="_blank" rel="noopener" href="https://github.com/happyfish100/fastdfs" >FastDFS开源地址<i class="fas fa-external-link-alt"></i></a></p>
+<h3 id="FastDFS整体架构"><a href="#FastDFS整体架构" class="headerlink" title="FastDFS整体架构"></a>FastDFS整体架构</h3><p>FastDFS由客户端和服务端构成<br>客户端通常是我们的程序，比如用java去连接FastDFS、操作FastDFS。它提供了专有的api访问<br>服务端由跟踪器（tracker）和存储节点（storage）构成<br>跟踪器主要做调度工作，在内存中记录集群中存储节点storage的状态信息，是前端Client和后端存储节点storage的枢纽。因为相关信息存储在内存中，所以tracker server的性能非常高。<br>存储节点用于存储文件，包括文件和文件属性（meta data）都保存到存储服务器磁盘上，完成文件管理的所有功能：存储、同步、访问等</p>
+<h2 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h2><h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><p>旧版本 FastDFS 说明：<br>FastDFS有一部分是网络通信功能，旧版本FastDFS（FastDFS2.0之前版本）没有直接使用 epoll 实现，而是通过libevent实现（libevent是一个用C语言编写的、轻量级的开源高性能网络库），但是最新版的FastDFS最终网络IO这部分重新用epoll实现<br>所以如果是FastDFS 是 2.0 之前的版本，请先安装好 libevent 环境（新版本不需要安装）</p>
+<p>安装前准备:<br>检查linux是否安装了gcc、libevent、libevent-devel</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">yum list installed|grep gcc</span><br><span class="line">yum list installed|grep libevent</span><br><span class="line">yum list installed|grep libevent-devel</span><br></pre></td></tr></table></figure>
+<p>安装</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install gcc libevent libevent-devel -y</span><br></pre></td></tr></table></figure>
+
+<p>安装libfastcommon：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/happyfish100/libfastcommon.git</span><br><span class="line">cd libfastcommon/</span><br><span class="line">./make.sh</span><br><span class="line">sudo ./make.sh install</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>头文件安装在&#x2F;usr&#x2F;include&#x2F;fastcommon目录下<br>动态库安装在&#x2F;usr&#x2F;lib64&#x2F;和&#x2F;usr&#x2F;lib&#x2F;目录下</p>
+</blockquote>
+<p>安装fastdfs</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/happyfish100/fastdfs.git</span><br><span class="line">cd fastdfs</span><br><span class="line">./make.sh</span><br><span class="line">sudo ./make.sh install</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>工具安装在&#x2F;usr&#x2F;bin&#x2F;目录下：(无需配置环境变量，直接使用)<br>fdfs_delete_file：删除文件<br>fdfs_download_file：下载文件<br>fdfs_upload_file：上传文件<br>fdfs_trackerd：启动tracker服务<br>fdfs_storaged：启动storage服务<br>fdfs_file_info：用来检查一个文件的信息，参数传递一个FastDFS文件</p>
+</blockquote>
+<blockquote>
+<p>配置文件默认安装在&#x2F;etc&#x2F;fdfs&#x2F;目录下：<br>client.conf.sample：客户端默认配置文件<br>storage.conf.sample：storage服务默认配置文件<br>storage_ids.conf.sample：<br>tracker.conf.sample：tracker服务默认配置文件</p>
+</blockquote>
+<h3 id="启动与关闭"><a href="#启动与关闭" class="headerlink" title="启动与关闭"></a>启动与关闭</h3><p>启动：<br><code>fdfs_trackerd /etc/fdfs/tracker.conf</code><br><code>fdfs_storaged /etc/fdfs/storage.conf</code></p>
+<p>启动成功会有两个服务<br><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/FastDFS%E7%AC%94%E8%AE%B0/%E5%90%AF%E5%8A%A8%E6%88%90%E5%8A%9F.png"
+                        alt="启动成功"
+                 ></p>
+<p>重启：<br><code>fdfs_trackerd /etc/fdfs/tracker.conf restart</code><br><code>fdfs_storaged /etc/fdfs/storage.conf restart</code></p>
+<p>关闭：<br><code>fdfs_trackerd /etc/fdfs/tracker.conf stop</code><br><code>fdfs_storaged /etc/fdfs/storage.conf stop</code></p>
+<blockquote>
+<p>可以使用kill关闭，但不建议，因为可能会导致文件信息不同步问题</p>
+</blockquote>
+<h3 id="测试上传"><a href="#测试上传" class="headerlink" title="测试上传"></a>测试上传</h3><p>上传测试：<br><code>fdfs_test /etc/fdfs/client.conf upload 文件路径</code><br>示例：<br><code>fdfs_test /etc/fdfs/client.conf upload /root/test.txt</code><br>返回信息：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">tracker_query_storage_store_list_without_group:</span><br><span class="line">        server 1. group_name=, ip_addr=127.0.0.1, port=23000</span><br><span class="line"></span><br><span class="line">group_name=group1, ip_addr=127.0.0.1, port=23000</span><br><span class="line">storage_upload_by_filename</span><br><span class="line">group_name=group1, remote_filename=M00/00/00/fwAAAWLygpOAUo-DAAAAGhtfdIk672.txt</span><br><span class="line">source ip address: 127.0.0.1</span><br><span class="line">file timestamp=2022-08-09 23:51:47</span><br><span class="line">file size=26</span><br><span class="line">file crc32=459240585</span><br><span class="line">example file url: http://127.0.0.1/group1/M00/00/00/fwAAAWLygpOAUo-DAAAAGhtfdIk672.txt</span><br><span class="line">storage_upload_slave_by_filename</span><br><span class="line">group_name=group1, remote_filename=M00/00/00/fwAAAWLygpOAUo-DAAAAGhtfdIk672_big.txt</span><br><span class="line">source ip address: 127.0.0.1</span><br><span class="line">file timestamp=2022-08-09 23:51:47</span><br><span class="line">file size=26</span><br><span class="line">file crc32=459240585</span><br><span class="line">example file url: http://127.0.0.1/group1/M00/00/00/fwAAAWLygpOAUo-DAAAAGhtfdIk672_big.txt</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>其中<br>group_name&#x3D;group1, remote_filename&#x3D;M00&#x2F;00&#x2F;00&#x2F;fwAAAWLygpOAUo-DAAAAGhtfdIk672.txt<br>group1 为 组名、M00 为 磁盘、&#x2F;00&#x2F;00&#x2F; 为 目录、最后是文件名</p>
+</blockquote>
+<p>上传后的文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">(base) [root@VM-16-9-centos 00]# ll</span><br><span class="line">total 16</span><br><span class="line">-rw-r--r-- 1 root root 26 Aug  9 23:51 fwAAAWLygpOAUo-DAAAAGhtfdIk672_big.txt</span><br><span class="line">-rw-r--r-- 1 root root 49 Aug  9 23:51 fwAAAWLygpOAUo-DAAAAGhtfdIk672_big.txt-m</span><br><span class="line">-rw-r--r-- 1 root root 26 Aug  9 23:51 fwAAAWLygpOAUo-DAAAAGhtfdIk672.txt</span><br><span class="line">-rw-r--r-- 1 root root 49 Aug  9 23:51 fwAAAWLygpOAUo-DAAAAGhtfdIk672.txt-m</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>_big是备份文件，与没有的文件存储内容一样<br>-m是文件的属性文件</p>
+</blockquote>
+<h3 id="测试下载"><a href="#测试下载" class="headerlink" title="测试下载"></a>测试下载</h3><p>上传测试：<br><code>fdfs_test /etc/fdfs/client.conf download 组名 远程文件路径</code><br>示例：<br><code>fdfs_test /etc/fdfs/client.conf download group1 M00/00/00/fwAAAWLygpOAUo-DAAAAGhtfdIk672.txt</code><br>返回信息：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">storage=127.0.0.1:23000</span><br><span class="line">download file success, file size=26, file save to fwAAAWLygpOAUo-DAAAAGhtfdIk672.txt</span><br></pre></td></tr></table></figure>
+
+<p>删除文件测试：<br><code>fdfs_test /etc/fdfs/client.conf delete 组名 远程文件路径</code></p>
+<h2 id="FastDFS的http访问"><a href="#FastDFS的http访问" class="headerlink" title="FastDFS的http访问"></a>FastDFS的http访问</h2><h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><p>文件上传成功的提示信息中说，我们可以通过某个路径访问上传的文件，但直接访问这个路径是访问不了的。<br>FastDFS提供了一个Nginx扩展模块，利用这个模块，可以通过nginx访问已经上传到FastDFS上的文件。</p>
+<p><a class="link"   target="_blank" rel="noopener" href="https://github.com/happyfish100/fastdfs-nginx-module" >FastDFS-nginx扩展模块<i class="fas fa-external-link-alt"></i></a></p>
+<h3 id="安装nginx并添加扩展模块"><a href="#安装nginx并添加扩展模块" class="headerlink" title="安装nginx并添加扩展模块"></a>安装nginx并添加扩展模块</h3><p>解压缩扩展模块。</p>
+<p>配置nginx<br>使用<code>./configure --prefix=/usr/local/nginx_fdfs --add-model=扩展模块的src目录</code>添加拓展模块<br>配置完成后<code>make</code><br>然后<code>make install</code>安装nginx</p>
+<h3 id="配置nginx"><a href="#配置nginx" class="headerlink" title="配置nginx"></a>配置nginx</h3><p>FastDFS配置(mod_fastdfs.conf)</p>
+<p>基础路径<br><code>base_path=...</code><br>tracker_server地址<br><code>tracker_server=...:22122</code><br>请求中需要包含组名<br><code>url_have_group_name = true</code><br>有几个磁盘存储路径<br><code>store_path_count=1</code><br>文件存储路径<br><code>store_path0=...</code></p>
+<p>nginx配置(nginx.conf)</p>
+<p>拦截请求路径中包含 &#x2F;group[1-9]&#x2F;M0[0-9] 的请求，用fastdfs的nginx模块进行转发</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">location ~/group[1-9]/M0[0-9]&#123;</span><br><span class="line">    ngx_fastdfs_model;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>启动失败可能的原因：</p>
+<ol>
+<li>mod_fastdfs.conf没有放到&#x2F;etc&#x2F;fdfs目录中</li>
+<li>配置文件中有错误。比如基础路径不存在</li>
+</ol>
+<h3 id="拓展模块执行流程"><a href="#拓展模块执行流程" class="headerlink" title="拓展模块执行流程"></a>拓展模块执行流程</h3><p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/FastDFS%E7%AC%94%E8%AE%B0/%E6%8B%93%E5%B1%95%E6%A8%A1%E5%9D%97%E6%89%A7%E8%A1%8C%E6%B5%81%E7%A8%8B.png"
+                        alt="拓展模块执行流程"
+                 ></p>
+<h2 id="使用Java程序对FastDFS进行操作"><a href="#使用Java程序对FastDFS进行操作" class="headerlink" title="使用Java程序对FastDFS进行操作"></a>使用Java程序对FastDFS进行操作</h2><p><a class="link"   target="_blank" rel="noopener" href="https://github.com/happyfish100/fastdfs-client-java" >fastdfs-client-java 项目地址<i class="fas fa-external-link-alt"></i></a></p>
+<p>maven依赖</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--</span></span><br><span class="line"><span class="comment">    引入FastDFS的maven依赖包</span></span><br><span class="line"><span class="comment">    这个依赖包不在maven的中央库中，需要对源码进行编译，将客户端代码编译到maven本地库中或直接拷贝依赖包文件到maven库中。</span></span><br><span class="line"><span class="comment">--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.csource<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>fastdfs-client-java<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.29-SNAPSHOT<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>创建配置文件（fastdfs.conf）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tracker_server=127.0.0.1:22122</span><br></pre></td></tr></table></figure>
+
+<p>文件上传：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">upload</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="type">TrackerServer</span> <span class="variable">ts</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">    <span class="type">StorageServer</span> <span class="variable">ss</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="comment">//读取配置文件，用于将所有的tracker的地址读取到内存中</span></span><br><span class="line">        ClientGlobal.init(<span class="string">&quot;fastdfs.conf&quot;</span>);</span><br><span class="line">        <span class="type">TrackerClient</span> <span class="variable">tc</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">TrackerClient</span>();</span><br><span class="line">        ts = tc.getTrackerServer();</span><br><span class="line">        ss = tc.getStoreStorage(ts);</span><br><span class="line">        <span class="comment">//定义Storage的客户端对象，需要用这个对象来完成文件上传、下载、删除操作。</span></span><br><span class="line">        <span class="type">StorageClient</span> <span class="variable">sc</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">StorageClient</span>(ts, ss);</span><br><span class="line">        <span class="comment">/*</span></span><br><span class="line"><span class="comment">        文件上传</span></span><br><span class="line"><span class="comment">        参数1 需要上传文件的绝对路径</span></span><br><span class="line"><span class="comment">        参数2 需要上传文件的拓展名</span></span><br><span class="line"><span class="comment">        参数3 为文件的属性文件，通常不上传</span></span><br><span class="line"><span class="comment">        返回一个string数组，需妥善保管</span></span><br><span class="line"><span class="comment">        数组中第一个元素为文件所在组名，第二个元素为文件所在的远程路径名称</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        String[] result = sc.upload_file(<span class="string">&quot;&quot;</span>, <span class="string">&quot;&quot;</span>, <span class="literal">null</span>);</span><br><span class="line">        </span><br><span class="line">    &#125; <span class="keyword">catch</span> (IOException | MyException e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>文件下载：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">download</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="type">TrackerServer</span> <span class="variable">ts</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">    <span class="type">StorageServer</span> <span class="variable">ss</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="comment">//读取配置文件，用于将所有的tracker的地址读取到内存中</span></span><br><span class="line">        ClientGlobal.init(<span class="string">&quot;fastdfs.conf&quot;</span>);</span><br><span class="line">        <span class="type">TrackerClient</span> <span class="variable">tc</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">TrackerClient</span>();</span><br><span class="line">        ts = tc.getTrackerServer();</span><br><span class="line">        ss = tc.getStoreStorage(ts);</span><br><span class="line">        <span class="comment">//定义Storage的客户端对象，需要用这个对象来完成文件上传、下载、删除操作。</span></span><br><span class="line">        <span class="type">StorageClient</span> <span class="variable">sc</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">StorageClient</span>(ts, ss);</span><br><span class="line">        <span class="comment">/*</span></span><br><span class="line"><span class="comment">        文件下载</span></span><br><span class="line"><span class="comment">        参数1 需要下载的文件的组名</span></span><br><span class="line"><span class="comment">        参数2 需要下载文件的远程文件名</span></span><br><span class="line"><span class="comment">        参数3 需要保存的本地文件名</span></span><br><span class="line"><span class="comment">        返回一个int类型的数据。返回0 表示文件下载成功，其他值表示文件下载失败</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">result</span> <span class="operator">=</span> sc.download_file(<span class="string">&quot;&quot;</span>, <span class="string">&quot;&quot;</span>, <span class="string">&quot;&quot;</span>);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (MyException | IOException e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>文件删除：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">delete</span><span class="params">()</span>&#123;</span><br><span class="line">    <span class="type">TrackerServer</span> <span class="variable">ts</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">    <span class="type">StorageServer</span> <span class="variable">ss</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="comment">//读取配置文件，用于将所有的tracker的地址读取到内存中</span></span><br><span class="line">        ClientGlobal.init(<span class="string">&quot;fastdfs.conf&quot;</span>);</span><br><span class="line">        <span class="type">TrackerClient</span> <span class="variable">tc</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">TrackerClient</span>();</span><br><span class="line">        ts = tc.getTrackerServer();</span><br><span class="line">        ss = tc.getStoreStorage(ts);</span><br><span class="line">        <span class="comment">//定义Storage的客户端对象，需要用这个对象来完成文件上传、下载、删除操作。</span></span><br><span class="line">        <span class="type">StorageClient</span> <span class="variable">sc</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">StorageClient</span>(ts, ss);</span><br><span class="line">        <span class="comment">/*</span></span><br><span class="line"><span class="comment">        文件下载</span></span><br><span class="line"><span class="comment">        参数1 需要删除的文件的组名</span></span><br><span class="line"><span class="comment">        参数2 需要删除文件的远程文件名</span></span><br><span class="line"><span class="comment">        返回一个int类型的数据。返回0 表示文件删除成功，其他值表示文件删除失败</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">result</span> <span class="operator">=</span> sc.delete_file(<span class="string">&quot;&quot;</span>, <span class="string">&quot;&quot;</span>);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (MyException | IOException e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>springboot中关于上传文件大小的配置</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#设置springMVC允许上传的单个文件大小 默认值为1MB</span></span><br><span class="line"><span class="attr">spring.servlet.multipart.max-file-size</span>=<span class="string">1MB</span></span><br><span class="line"><span class="comment">#设置springMVC允许的表单中请求中允许上传文件总大小 默认值为10MB</span></span><br><span class="line"><span class="attr">spring.servlet.multipart.max-request-size</span>=<span class="string">10MB</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="集群的访问流程"><a href="#集群的访问流程" class="headerlink" title="集群的访问流程"></a>集群的访问流程</h2><p>集群结构：<br><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/FastDFS%E7%AC%94%E8%AE%B0/%E9%9B%86%E7%BE%A4%E7%BB%93%E6%9E%84.png"
+                        alt="集群结构"
+                 ></p>
+<p>访问流程：<br><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/FastDFS%E7%AC%94%E8%AE%B0/%E9%9B%86%E7%BE%A4%E7%9A%84%E8%AE%BF%E9%97%AE%E6%B5%81%E7%A8%8B.png"
+                        alt="集群的访问流程"
+                 ></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>部署分布式的部分省略了。咕<br>这部分用了快十天，划水划了挺久。不过总算结束了。</p>
+
+                </div>
+
+                
+                        
+<div class="post-copyright-info-container border-box">
+    <div class="copyright-info-content border-box">
+        <div class="copyright-info-top border-box">
+            <div class="copyright-post-title border-box text-ellipsis">
+                FastDFS笔记
+            </div>
+
+            <div class="copyright-post-link border-box text-ellipsis">
+                学习笔记/学习笔记/FastDFS笔记/
+            </div>
+        </div>
+
+        <div class="copyright-info-bottom border-box">
+            <div class="copyright-post-author bottom-item">
+                <div class="type">
+                    作者
+                </div>
+                <div class="content">咕咕咕</div>
+            </div>
+
+            <div class="post-time bottom-item">
+                <div class="type">
+                    发布于
+                </div>
+                <div class="content">2022-08-09 13:24</div>
+            </div>
+
+
+            <div class="post-license bottom-item">
+                <div class="type">
+                    许可
+                </div>
+                <div class="content tooltip" data-tooltip-content="CC BY-NC-SA 4.0">
+                    <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hans">
+                        <i class="fa-brands fa-creative-commons"></i>
+                        <i class="fa-brands fa-creative-commons-by"></i>
+                        <i class="fa-brands fa-creative-commons-nc"></i>
+                        <i class="fa-brands fa-creative-commons-sa"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <i class="copyright-bg fa-solid fa-copyright"></i>
+    </div>
+    <div class="copy-copyright-info flex-center tooltip" data-tooltip-content="复制版权信息" data-tooltip-offset-y="-2px">
+        <i class="fa-solid fa-copy"></i>
+    </div>
+</div>
+
+                
+
+                <div class="post-bottom-tags-and-share border-box">
+                    <div>
+                        
+                            <ul class="post-tags-box border-box">
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/FastDFS/">FastDFS</a>
+                                    </li>
+                                
+                            </ul>
+                        
+                    </div>
+                    <div>
+                        
+                            <div class="post-share-container border-box">
+    <ul class="share-list-wrap border-box">
+        <li class="qq share-item border-box flex-center tooltip"
+            data-tooltip-content="分享到 QQ"
+        >
+            <i class="fa-brands fa-qq"></i>
+        </li>
+        <li class="wechat share-item border-box flex-center tooltip tooltip-img"
+            data-tooltip-content="分享到微信"
+            data-tooltip-img-tip="微信扫一扫"
+            data-tooltip-img-style="background-color: #fff; top: -10px; padding: 0.6rem 0.6rem 0.1rem 0.6rem;"
+        >
+            <i class="fa-brands fa-weixin"></i>
+        </li>
+        <li class="weibo share-item border-box flex-center tooltip"
+            data-tooltip-content="分享到微博"
+        >
+            <i class="fa-brands fa-weibo"></i>
+        </li>
+    </ul>
+</div>
+
+                        
+                    </div>
+                </div>
+
+                
+                    <div class="reward-author-container border-box flex-center">
+    <div class="reward-btn keep-button border-box flex-center tooltip tooltip-img"
+            data-tooltip-content="谢谢你请我喝可乐~"
+            data-tooltip-img-url="/images/thanks.png"
+            data-tooltip-img-trigger="click"
+            data-tooltip-img-style="top: -8px;"
+    >
+        <i class="fa-solid fa-hand-holding-heart"></i>
+    </div>
+</div>
+
+                
+
+                
+                    <div class="post-nav border-box">
+                        
+                            <div class="prev-post">
+                                <a class="prev"
+                                   rel="prev"
+                                   href="/%E7%BC%96%E7%A8%8B%E8%AE%B0%E5%BD%95/%E7%BC%96%E7%A8%8B%E8%AE%B0%E5%BD%95/%E5%85%B3%E4%BA%8ESchiphalast%E6%B3%A8%E5%86%8C%E5%8A%9F%E8%83%BD%E5%BC%80%E5%8F%91%E4%B8%AD%E7%9A%84bug/"
+                                   title="关于Schiphalast注册功能开发中的bug"
+                                >
+                                    <span class="left arrow-icon flex-center">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </span>
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">关于Schiphalast注册功能开发中的bug</span>
+                                        <span class="post-nav-item">上一篇</span>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                        
+                            <div class="next-post">
+                                <a class="next"
+                                   rel="next"
+                                   href="/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/SpringSession%E7%AC%94%E8%AE%B0/"
+                                   title="SpringSession笔记"
+                                >
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">SpringSession笔记</span>
+                                        <span class="post-nav-item">下一篇</span>
+                                    </span>
+                                    <span class="right arrow-icon flex-center">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                    </div>
+                
+
+                
+                    
+
+
+    <div class="comments-container border-box">
+        <div id="comments-anchor" class="comment-area-title border-box">
+            <i class="fas fa-comments"></i>&nbsp;评论
+        </div>
+        <div class="comment-plugin-fail border-box">
+    <span class="fail-tip">评论插件加载失败</span>
+    <button class="reload keep-button">点击重新加载</button>
+</div>
+<div class="comment-plugin-loading flex-center border-box">
+    <i class="loading-icon fa-solid fa-spinner fa-spin"></i>
+    <span class="load-tip">正在加载评论插件</span>
+</div>
+<script data-pjax>
+  window.KeepCommentPlugin = {}
+  window.KeepCommentPlugin.hideLoading = () => {
+    const cplDom = document.querySelector('.comments-container .comment-plugin-loading')
+    cplDom.style.display = 'none'
+  }
+  window.KeepCommentPlugin.loadFailHandle = () => {
+    window.KeepCommentPlugin.hideLoading()
+    const cpfDom = document.querySelector('.comments-container .comment-plugin-fail')
+    cpfDom.style.display = 'flex'
+    cpfDom.querySelector('.reload').addEventListener('click', () => {
+      window.location.reload()
+    })
+  }
+</script>
+
+        
+            
+
+    <div class="giscus-comments-container">
+        <div class="giscus" id="giscus"></div>
+        <script data-pjax
+                onerror="window.KeepCommentPlugin.loadFailHandle()"
+        >
+          if (!window.KeepCommentPlugin?.getGiscusTheme) {
+            window.KeepCommentPlugin.getGiscusTheme = () => {
+              return document.body.classList.contains('dark-mode') ? 'dark_dimmed' : 'light_tritanopia'
+            }
+          }
+
+          if (!window.KeepCommentPlugin?.changeGiscusTheme) {
+            window.KeepCommentPlugin.changeGiscusTheme = () => {
+              const iframe = document.querySelector('iframe.giscus-frame')
+              iframe && iframe.contentWindow.postMessage({
+                giscus: {
+                  setConfig: {
+                    theme: window.KeepCommentPlugin.getGiscusTheme()
+                  }
+                }
+              }, 'https://giscus.app')
+            }
+          }
+
+          if (!window.KeepCommentPlugin?.initGiscus) {
+            window.KeepCommentPlugin.initGiscus = () => {
+              const script = document.createElement('script')
+              script.async = true
+              script.src = 'https://giscus.app/client.js'
+              script.setAttribute('data-repo', 'Cooooing/Cooooing.github.io')
+              script.setAttribute('data-repo-id', 'R_kgDOHQal_w')
+              script.setAttribute('data-category', 'Announcements')
+              script.setAttribute('data-category-id', 'DIC_kwDOHQal_84CjZo6')
+              script.setAttribute('data-reactions-enabled', '1')
+              script.setAttribute('data-lang', 'zh-CN')
+              script.setAttribute('data-mapping', 'pathname')
+              script.setAttribute('data-strict', '0')
+              script.setAttribute('data-emit-metadata', '0')
+              script.setAttribute('data-input-position', 'top')
+              script.setAttribute('crossorigin', 'anonymous')
+              script.setAttribute('loading', 'lazy')
+              script.setAttribute('data-theme', window.KeepCommentPlugin.getGiscusTheme())
+              document.querySelector('.giscus-comments-container').appendChild(script)
+              script.onerror = () => {
+                window.KeepCommentPlugin.loadFailHandle()
+              }
+              script.onload = () => {
+                window.KeepCommentPlugin.hideLoading()
+              }
+              const toggleThemeBtn = document.querySelector('.tool-toggle-theme-mode')
+              toggleThemeBtn && toggleThemeBtn.addEventListener('click', () => {
+                window.KeepCommentPlugin.changeGiscusTheme()
+              })
+            }
+          }
+
+          if ('true' === "true") {
+            setTimeout(() => {
+              window.KeepCommentPlugin.initGiscus()
+            }, 1000)
+          } else {
+            window.addEventListener("DOMContentLoaded", window.KeepCommentPlugin.initGiscus)
+          }
+        </script>
+    </div>
+
+
+        
+    </div>
+
+
+
+
+
+                
+            </div>
+        </div>
+
+        
+            <div class="pc-post-toc left-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%80%E4%BB%8B"><span class="nav-text">简介</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F"><span class="nav-text">分布式文件系统</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#FastDFS"><span class="nav-text">FastDFS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#FastDFS%E6%95%B4%E4%BD%93%E6%9E%B6%E6%9E%84"><span class="nav-text">FastDFS整体架构</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA"><span class="nav-text">环境搭建</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85"><span class="nav-text">安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%AF%E5%8A%A8%E4%B8%8E%E5%85%B3%E9%97%AD"><span class="nav-text">启动与关闭</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95%E4%B8%8A%E4%BC%A0"><span class="nav-text">测试上传</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95%E4%B8%8B%E8%BD%BD"><span class="nav-text">测试下载</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#FastDFS%E7%9A%84http%E8%AE%BF%E9%97%AE"><span class="nav-text">FastDFS的http访问</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0"><span class="nav-text">概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85nginx%E5%B9%B6%E6%B7%BB%E5%8A%A0%E6%89%A9%E5%B1%95%E6%A8%A1%E5%9D%97"><span class="nav-text">安装nginx并添加扩展模块</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E7%BD%AEnginx"><span class="nav-text">配置nginx</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8B%93%E5%B1%95%E6%A8%A1%E5%9D%97%E6%89%A7%E8%A1%8C%E6%B5%81%E7%A8%8B"><span class="nav-text">拓展模块执行流程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8Java%E7%A8%8B%E5%BA%8F%E5%AF%B9FastDFS%E8%BF%9B%E8%A1%8C%E6%93%8D%E4%BD%9C"><span class="nav-text">使用Java程序对FastDFS进行操作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9B%86%E7%BE%A4%E7%9A%84%E8%AE%BF%E9%97%AE%E6%B5%81%E7%A8%8B"><span class="nav-text">集群的访问流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-text">总结</span></a></li></ol>
+    </div>
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom border-box">
+            
+<footer class="footer border-box">
+    <div class="border-box website-info-box default">
+        
+            <div class="copyright-info info-item default">
+                &copy;&nbsp;<span>2022</span>&nbsp;-&nbsp;2025
+                
+                    &nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;&nbsp;<a href="/">咕咕咕</a>
+                
+            </div>
+
+            <div class="theme-info info-item default">
+                由&nbsp;<a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;驱动&nbsp;&&nbsp;主题&nbsp;<a class="keep-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep</a>
+            </div>
+
+            
+
+            
+        
+
+        <div style="color:var(--text-color-4);"><span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>(～￣▽￣)～<script src="/js/lifeTime.js"></script></div>
+        <a href="https://icp.gov.moe/?keyword=20222450" target="_blank">萌ICP备20222450号</a>
+
+
+        <div class="count-item info-item default">
+            
+                <span class="count-box border-box word">
+                    <span class="item-type border-box">总字数</span>
+                    <span class="item-value border-box word">362.1k</span>
+                </span>
+            
+
+            
+                <span class="count-box border-box uv">
+                    <span class="item-type border-box">访客数</span>
+                    <span class="item-value border-box uv" id="busuanzi_value_site_uv"></span>
+                </span>
+            
+
+            
+                <span class="count-box border-box pv">
+                    <span class="item-type border-box">访问量</span>
+                    <span class="item-value border-box pv" id="busuanzi_value_site_pv"></span>
+                </span>
+            
+        </div>
+
+        <div id="aplayer">
+          <meting-js
+                  server="netease"
+                  type="playlist"
+                  id="7345595717"
+                  fixed="true"
+                  mini="true"
+                  autoplay="false"
+                  listFolded="true"
+                  order="random"
+                  preload="none">
+          </meting-js>
+        </div>
+            <br>
+            <br>
+            <br>
+    </div>
+
+</footer>
+
+        </div>
+    </div>
+
+    <!-- post tools -->
+    
+        <div class="post-tools left-toc">
+            <div class="post-tools-container border-box">
+    <ul class="tools-list border-box">
+        <!-- PC TOC show toggle -->
+        
+            <li class="tools-item flex-center toggle-show-toc">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        <!-- PC go comment -->
+        
+            <li class="tools-item flex-center go-to-comments">
+                <i class="fas fa-comment"></i>
+                <span class="post-comments-count"></span>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <!-- side tools -->
+    <div class="side-tools">
+        <div class="side-tools-container border-box ">
+    <ul class="side-tools-list side-tools-show-handle border-box">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-toggle-theme-mode flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+            <li class="tools-item rss flex-center">
+                <a class="flex-center"
+                   href="/atom.xml"
+                   target="_blank"
+                >
+                    <i class="fas fa-rss"></i>
+                </a>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list border-box">
+        
+            <li class="tools-item toggle-show-toc-tablet flex-center">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        
+            <li class="tools-item go-to-comments-tablet flex-center">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+
+        <li class="tools-item tool-scroll-to-top flex-center show-arrow">
+            <i class="arrow fas fa-arrow-up"></i>
+            <span class="percent"></span>
+        </li>
+    </ul>
+</div>
+
+    </div>
+
+    <!-- image mask -->
+    <div class="zoom-in-image-mask">
+    <img class="zoom-in-image">
+</div>
+
+
+    <!-- local search -->
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="搜索..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="close-popup-btn">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+    <!-- tablet toc -->
+    
+        <div class="tablet-post-toc-mask">
+            <div class="tablet-post-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%80%E4%BB%8B"><span class="nav-text">简介</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F"><span class="nav-text">分布式文件系统</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#FastDFS"><span class="nav-text">FastDFS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#FastDFS%E6%95%B4%E4%BD%93%E6%9E%B6%E6%9E%84"><span class="nav-text">FastDFS整体架构</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA"><span class="nav-text">环境搭建</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85"><span class="nav-text">安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%AF%E5%8A%A8%E4%B8%8E%E5%85%B3%E9%97%AD"><span class="nav-text">启动与关闭</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95%E4%B8%8A%E4%BC%A0"><span class="nav-text">测试上传</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95%E4%B8%8B%E8%BD%BD"><span class="nav-text">测试下载</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#FastDFS%E7%9A%84http%E8%AE%BF%E9%97%AE"><span class="nav-text">FastDFS的http访问</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0"><span class="nav-text">概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85nginx%E5%B9%B6%E6%B7%BB%E5%8A%A0%E6%89%A9%E5%B1%95%E6%A8%A1%E5%9D%97"><span class="nav-text">安装nginx并添加扩展模块</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E7%BD%AEnginx"><span class="nav-text">配置nginx</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8B%93%E5%B1%95%E6%A8%A1%E5%9D%97%E6%89%A7%E8%A1%8C%E6%B5%81%E7%A8%8B"><span class="nav-text">拓展模块执行流程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8Java%E7%A8%8B%E5%BA%8F%E5%AF%B9FastDFS%E8%BF%9B%E8%A1%8C%E6%93%8D%E4%BD%9C"><span class="nav-text">使用Java程序对FastDFS进行操作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9B%86%E7%BE%A4%E7%9A%84%E8%AE%BF%E9%97%AE%E6%B5%81%E7%A8%8B"><span class="nav-text">集群的访问流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-text">总结</span></a></li></ol>
+    </div>
+</div>
+
+            </div>
+        </div>
+    
+</main>
+
+
+
+<!-- common -->
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/toggle-theme.js"></script>
+
+<script src="/js/code-block.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+
+<!-- local-search -->
+
+    
+<script src="/js/local-search.js"></script>
+
+
+
+<!-- lazyload -->
+
+    
+<script src="/js/lazyload.js"></script>
+
+
+
+<div class="pjax">
+    
+        <!-- post-helper -->
+        
+<script src="/js/post/post-helper.js"></script>
+
+
+        <!-- toc -->
+        
+            
+<script src="/js/post/toc.js"></script>
+
+        
+
+        <!-- copyright-info -->
+        
+            
+<script src="/js/post/copyright-info.js"></script>
+
+        
+
+        <!-- share -->
+        
+            
+<script src="/js/post/share.js"></script>
+
+        
+    
+
+    <!-- category-page -->
+    
+
+    <!-- links-page -->
+    
+
+    <!-- photos-page -->
+    
+</div>
+
+<!-- mermaid -->
+
+
+<!-- pjax -->
+
+    
+<script src="/js/libs/pjax.min.js"></script>
+
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        window.pjax = new Pjax({
+            selectors: [
+                'head title',
+                '.page-container',
+                '.pjax',
+                '#aplayer',
+                '#canvas_sakura'
+            ],
+            history: true,
+            debug: false,
+            cacheBust: false,
+            timeout: 0,
+            analytics: false,
+            currentUrlFullReload: false,
+            scrollRestoration: false,
+        });
+
+        document.addEventListener('pjax:send', () => {
+            KEEP.utils.pjaxProgressBarStart()
+        });
+
+        document.addEventListener('pjax:complete', () => {
+            KEEP.utils.pjaxProgressBarEnd()
+            window.pjax.executeScripts(document.querySelectorAll('script[data-pjax], .pjax script'))
+            KEEP.initExecute()
+        });
+    });
+</script>
+
+
+
+
+    
+        
+            
+<script class="custom-inject-js" src="/js/APlayer.min.js" data-pjax></script>
+
+        
+    
+        
+            
+<script class="custom-inject-js" src="/js/Meting.min.js" data-pjax></script>
+
+        
+    
+        
+            
+<script class="custom-inject-js" src="/js/leaves.js" data-pjax></script>
+
+        
+    
+
+
+
+</body>
+</html>

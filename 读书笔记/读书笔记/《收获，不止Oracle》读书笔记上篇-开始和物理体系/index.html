@@ -1,0 +1,1391 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="技术博客,后端开发,编程笔记,生活">
+    <meta name="description" content="Code | Systems | Life — 专注编程本质，也关心世界如何运转。">
+    <meta name="author" content="咕咕咕">
+
+    
+    <title>
+        
+            《收获，不止Oracle》读书笔记上篇-开始和物理体系 |
+        
+        咕咕咕的小破站
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+        <link rel="shortcut icon" href="/images/favicon.png">
+    
+    
+<link rel="stylesheet" href="/font/css/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/regular.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/solid.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/brands.min.css">
+
+    
+        
+            
+                
+<link rel="stylesheet" href="/css/APlayer.min.css">
+
+            
+        
+            
+                
+<link rel="stylesheet" href="/css/custom.css">
+
+            
+        
+    
+    <script class="keep-theme-configurations">
+    const KEEP = window.KEEP || {}
+    KEEP.hexo_config = {"hostname":"cooooing.github.io","root":"/","language":"zh-CN","path":"search.json"}
+    KEEP.theme_config = {"base_info":{"primary_color":"#0066cc","title":"咕咕咕的小破站","author":"咕咕咕","avatar":"/images/head.jpg","logo":"/images/head.jpg","favicon":"/images/favicon.png"},"menu":{"Archives":"/archives","Categories":"/categories","Tags":"/tags","日常":"/daily","Links":"/links","About":"/about"},"first_screen":{"enable":false,"background_img":"/images/bg.svg","background_img_dark":"/images/bg.svg","description":"Keep writing and Keep loving.","hitokoto":false},"social_contact":{"enable":false,"links":{"github":null,"weixin":null,"qq":null,"weibo":null,"zhihu":null,"twitter":null,"facebook":null,"email":null}},"scroll":{"progress_bar":false,"percent":false,"hide_header":true},"home":{"category":true,"tag":true,"announcement":null},"post":{"author_badge":{"enable":true,"level_badge":false,"custom_badge":["fishing"]},"word_count":{"wordcount":true,"min2read":true},"datetime_format":"YYYY-MM-DD HH:mm:ss","copyright_info":true,"share":true,"reward":{"enable":true,"img_link":"/images/thanks.png","text":"谢谢你请我喝可乐~"}},"code_block":{"tools":{"enable":true,"style":"default"},"highlight_theme":"default"},"toc":{"enable":true,"number":false,"expand_all":true,"init_open":true,"layout":"left"},"website_count":{"busuanzi_count":{"enable":true,"site_uv":true,"site_pv":true,"page_pv":true}},"local_search":{"enable":true,"preload":true},"comment":{"enable":true,"use":"giscus","valine":{"appid":null,"appkey":null,"server_urls":null,"placeholder":null},"gitalk":{"github_id":null,"github_admins":null,"repository":null,"client_id":null,"client_secret":null,"proxy":null},"twikoo":{"env_id":null,"region":null,"version":"1.6.21"},"waline":{"server_url":null,"reaction":false,"version":2},"giscus":{"repo":"Cooooing/Cooooing.github.io","repo_id":"R_kgDOHQal_w","category":"Announcements","category_id":"DIC_kwDOHQal_84CjZo6","reactions_enabled":true},"artalk":{"server":null},"disqus":{"shortname":null}},"rss":{"enable":true},"lazyload":{"enable":true},"cdn":{"enable":false,"provider":"cdnjs"},"pjax":{"enable":true},"footer":{"since":2022,"word_count":true,"icp":{"enable":false,"record_code":null,"url":"https://beian.miit.gov.cn"},"site_deploy":{"enable":false,"provider":"github","url":null},"shields_style":{"enable":false,"custom":[{"link_url":null,"img_url":null}]}},"inject":{"enable":true,"css":["/css/APlayer.min.css","/css/custom.css"],"js":["/js/APlayer.min.js","/js/Meting.min.js","/js/leaves.js"]},"root":"","links":[{"name":"鼠鼠在碎觉","link":"https://sszsj.com","avatar":"https://tmx.fishpi.cn/img/head.jpg","description":"我是不慎落入世界的一滴水墨"},{"name":"Gakkiyomi","link":"https://gakkiyomi.blog","avatar":"https://avatars.githubusercontent.com/u/41406557?v=4","description":"为往圣继绝学"},{"name":"Hancel's Blog","link":"https://my.hancel.org","avatar":"https://my.hancel.org/media/logo.jpg","description":"人生而自由，却无往不在枷锁之中。"},{"name":"Eastshann","link":"http://121.4.99.208/","avatar":"http://121.4.99.208/img/avatar.jpg","description":"冲和者，淡泊平和，谦冲守正"},{"name":"小于同学的异世界","link":"https://yby.zone","avatar":"https://yby-zone.obs.cn-east-3.myhuaweicloud.com/avatar.jpg","description":"为吾为枝，余地三尺，以己为棋，胜天半子。"},{"name":"Mlikiowa Home Village","link":"https://nanaeo.cn/","avatar":"https://q1.qlogo.cn/g?b=qq&nk=1627126029&s=100","description":"A litter Village With Mlikiowa"},{"name":"忘忧草","link":"https://owo.wyc.rest/","avatar":"https://owo.wyc.rest/img/%E4%B8%87%E5%8F%B6.jpg","description":"这只是一个小破站而已！"},{"name":"stillwarter","link":"https://stillwarter.github.io/","avatar":"https://file.fishpi.cn/2022/07/MOSHED2022621164630-1b1ec532.gif?imageView2/1/w/210/h/210/interlace/0/q/100","description":"光就是一切的意义"},{"name":"test12138","link":"http://你好.eu.org/","avatar":"https://file.fishpi.cn/2022/06/srchttpimgzcoolcncommunity0116405d84f975a801211d537707c9gifreferhttpimgzcool-0f2d09c9.gif?imageView2/1/w/48/h/48/interlace/0/q/100","description":"大丈夫生于天地之间，岂能郁郁久居人下。"},{"name":"呼呼呼","link":"https://bongbongbakudan.github.io/","avatar":"https://pwl.stackoverflow.wiki/2021/12/blob-28eb4b9f.png?imageView2/1/w/48/h/48/interlace/0/q/100","description":"去整点薯条"},{"name":"Plumbiu","link":"https://blog.plumbiu.top/","avatar":"https://avatars.githubusercontent.com/u/99574369?v=4","description":"这人很勤奋，啥都没留"},{"name":"hiRipple","link":"https://hiripple.com/","avatar":"https://avatars.githubusercontent.com/u/115361435?v=4","description":"超高校级的游戏玩家"}],"version":"4.0.6"}
+    KEEP.language_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"}
+    KEEP.language_code_block = {"copy":"复制代码","copied":"已复制","fold":"折叠代码块","folded":"已折叠"}
+    KEEP.language_copy_copyright = {"copy":"复制版权信息","copied":"已复制","title":"原文标题","author":"原文作者","link":"原文链接"}
+  </script>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-CLX32WF4R1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+
+      gtag('js', new Date());
+
+      gtag('config', 'G-CLX32WF4R1');
+    </script>
+
+    <!-- 51.la -->
+    <script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
+    <script>LA.init({id: "3JwPz6wbAloyTmMc", ck: "3JwPz6wbAloyTmMc", autoTrack: true})</script>
+
+<meta name="generator" content="Hexo 8.1.1"><link rel="alternate" href="/atom.xml" title="咕咕咕的小破站" type="application/atom+xml">
+</head>
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+        <span class="pjax-progress-bar"></span>
+        <i class="pjax-progress-icon fas fa-circle-notch fa-spin"></i>
+    
+</div>
+
+
+<main class="page-container border-box">
+
+    <!-- home first screen  -->
+    
+
+    <!-- page content -->
+    <div class="page-main-content border-box">
+        <div class="page-main-content-top">
+            
+<header class="header-wrapper">
+
+    <div class="border-box header-content">
+        <div class="left border-box">
+            
+                <a class="logo-image border-box" href="/">
+                    <img src="/images/head.jpg">
+                </a>
+            
+            <a class="site-name border-box" href="/">
+               咕咕咕的小破站
+            </a>
+        </div>
+
+        <div class="right border-box">
+            <div class="pc">
+                <ul class="menu-list">
+                    <li class="menu-item">
+                        <a class=""
+                           href="/"
+                        >首页</a>
+                    </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >归档</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/categories"
+                            >分类</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/tags"
+                            >标签</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/daily"
+                            >日常</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/links"
+                            >友链</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >关于</a>
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="fas search fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            <li class="drawer-menu-item flex-center">
+                <a class=""
+                   href="/"
+                >首页</a>
+            </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives"
+                    >归档</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/categories"
+                    >分类</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/tags"
+                    >标签</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/daily"
+                    >日常</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/links"
+                    >友链</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about"
+                    >关于</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle border-box">
+
+            <div class="main-content border-box">
+                
+
+                    
+<div class="fade-in-down-animation">
+    <div class="post-page-container border-box">
+        <div class="post-content-container border-box">
+            
+
+            <div class="post-content-bottom border-box">
+                
+                    <div class="post-title">
+                        《收获，不止Oracle》读书笔记上篇-开始和物理体系
+                    </div>
+                
+
+                
+                    <div class="post-header border-box">
+                        
+                            <div class="avatar-box border-box">
+                                <img src="/images/head.jpg">
+                            </div>
+                        
+                        <div class="info-box">
+                            <div class="author border-box">
+                                <span class="name">咕咕咕</span>
+                                
+                                    <span class="author-badge">fishing</span>
+                                
+                            </div>
+                            <div class="meta-info border-box">
+                                
+
+<div class="post-meta-info-container border-box post">
+    <div class="post-meta-info border-box">
+        
+
+        
+            <span class="meta-info-item post-create-date">
+                <i class="icon fa-solid fa-calendar-plus"></i>&nbsp;
+                <span class="datetime">2024-07-11 10:31:50</span>
+            </span>
+
+            <span class="meta-info-item post-update-date">
+                <i class="icon fa-solid fa-file-pen"></i>&nbsp;
+                <span class="datetime" data-updated="Thu Jul 11 2024 02:31:50 GMT+0000">2024-07-11 10:31:50</span>
+            </span>
+        
+
+        
+            <span class="meta-info-item post-category border-box"><i class="icon fas fa-folder"></i>&nbsp;
+                <ul class="post-category-ul">
+                    
+                            <li class="category-item"><a href="/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">读书笔记</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+            <span class="post-tag meta-info-item border-box">
+                <i class="icon fas fa-tags"></i>&nbsp;
+                <ul class="post-tag-ul">
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a></li>
+                        
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/%E3%80%8A%E6%94%B6%E8%8E%B7%EF%BC%8C%E4%B8%8D%E6%AD%A2Oracle%E3%80%8B/">《收获，不止Oracle》</a></li>
+                        
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/Oracle/">Oracle</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+        
+            <span class="meta-info-item post-wordcount">
+                <i class="icon fas fa-file-word"></i>&nbsp;<span>15k 字</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-min2read">
+                <i class="icon fas fa-clock"></i>&nbsp;<span>57 分钟</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-pv">
+                <i class="icon fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+            </span>
+        
+    </div>
+
+    
+</div>
+
+                            </div>
+                        </div>
+                    </div>
+                
+
+                <div class="post-content keep-markdown-body">
+                    
+
+                    <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>由于想深入了解下数据库，包括索引、分区表以及sql优化相关的知识，加上工作使用的是 Oracle 数据库。所以选择这本书开始学习。<br>最开始看的时候，已经看了四章了。但是不做笔记，总是看了后面忘了前面，所以决定重读并且记笔记。主要及一些重点，方便以后查阅和回忆。<br>（当然，可能会有很多引用原文的部分，也会有自己的总结。引用的部分就不一一标注了，不过基本也能看出来）</p>
+<h2 id="第一章-意识，少做事从学习开始"><a href="#第一章-意识，少做事从学习开始" class="headerlink" title="第一章 - 意识，少做事从学习开始"></a>第一章 - 意识，少做事从学习开始</h2><p>这一章的重点就是，<strong>学什么要先了解做什么</strong>。学了没想过怎么用，或者干脆不用，基本上是白学的。<br>先讲下数据库应用的基本功能，再根据具体的角色（DBA、开发、运维等）看具体该如何使用，根据使用的侧重点不同，而对数据库不同进行深度的学习。<br>毕竟数据库体系是庞大的，想要全盘掌握不现实，也不必要。按需学习即可。</p>
+<p>这里作者是以手机的例子，加以二八现象说明。即百分之二十的功能实现百分之八十的需求，数据库也是一样。<br>对于开发人员来说，首先应该了解 SQL 的编写，而不是数据库的备份和恢复。而对于运维或者DBA来说，了解数据库的备份和恢复则更为重要。</p>
+<p>首先，数据库应用的功能主要分为 数据库开发、数据库管理、数据库优化、数据库设计 四类（当然只是大概）。侧重点如下：</p>
+<ol>
+<li>开发：能利用SQL完成数据库的查增删改的基本操作：能用PL&#x2F;SQL完成及各类逻辑的实现。</li>
+<li>管理：能完成数据库的安装、部署、参数调试、备份恢复、数据迁移等系统相关的工作：能完成分配用户、控制权限、表空间划分等管理相关工作：能进行故障定位、问题分析等数据库诊断修复相关工作。</li>
+<li>优化：在深入了解数据库的运行原理的基础上，利用各类工具及手段发现并解决数据库存在的性能问题，从而提升数据库运行效率，这个说着轻巧，其实很不容易。</li>
+<li>设计：深刻理解业务需求和数据库原理，合理高效地完成数据库模型的建设，设计出各类表及索引等数据库对象，让后续应用开发可以高效稳定。</li>
+</ol>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E3%80%8A%E6%94%B6%E8%8E%B7%EF%BC%8C%E4%B8%8D%E6%AD%A2Oracle%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0%E4%B8%8A%E7%AF%87-%E5%BC%80%E5%A7%8B%E5%92%8C%E7%89%A9%E7%90%86%E4%BD%93%E7%B3%BB/%E5%90%84%E8%A7%92%E8%89%B2%E9%9C%80%E8%A6%81%E6%8E%8C%E6%8F%A1%E7%9A%84%E7%9F%A5%E8%AF%86%E8%A6%81%E7%82%B9.png"
+                        alt="各角色需要掌握的知识要点.png"
+                 ></p>
+<p>我的角色目前是开发，后续笔记中也会侧重于开发的内容。除此之外，也会带一些我感兴趣的内容。</p>
+<h2 id="第二章-震惊，体验物理体系之旅"><a href="#第二章-震惊，体验物理体系之旅" class="headerlink" title="第二章 - 震惊，体验物理体系之旅"></a>第二章 - 震惊，体验物理体系之旅</h2><p>不论什么角色，基础原理都是必学的。首先就是物理体系结构，平时遇到的各种数据库相关问题，很多都可以从中找到解决方法。</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E3%80%8A%E6%94%B6%E8%8E%B7%EF%BC%8C%E4%B8%8D%E6%AD%A2Oracle%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0%E4%B8%8A%E7%AF%87-%E5%BC%80%E5%A7%8B%E5%92%8C%E7%89%A9%E7%90%86%E4%BD%93%E7%B3%BB/Oracle%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%9B%BE.png"
+                        alt="Oracle体系结构图.png"
+                 ></p>
+<ol>
+<li><strong>Oracle由实例和数据库组成</strong>，我特意用两个虚框标记出来，上半部的直角方框为实例instance,下半部的圆角方框为数据库Database,大家可以看到我在虚线框左上角做的标注。</li>
+<li><strong>实例是由一个开辟的共享内存区SGA(System Global Area)和一系列后台进程组成的</strong>，其中<strong>SGA最主要被划分为共享池(shared pool)、数据缓存区(db cache)和日志缓存(log buffer)三类</strong>。后台进程包括图2-2中所示的PMON、SMON、LCKn、RECO、CKPT、DBWR、LGWR、ARCH等系列进程。</li>
+<li>数据库是由数据文件、参数文件、日志文件、控制文件、归档日志文件等系列文件组成的，其中归档日志最终可能会被转移到新的存储介质中，用于备份恢复使用。大家请注意看图2-2中的圆形虚线框标记部分的一个细节，<strong>PGA(Program Global Area)区，这也是一块开辟出来的内存区，和SGA最明显的差别在于，PGA不是共享内存，是私有不共亨的</strong>，S理解为共享的首字母。用户对数据库发起的无论查询还是更新的任何操作，都是在PGA先预处理，然后接下来才进入实例区域，由SGA和系列后台进程共同完成用户发起的请求。</li>
+<li>PGA起到的其体作用，也就是前面说的预处理，是什么呢？主要有三点：第一，保存用户的连接信息，如会话属性、绑定变量等：第二，保存用户权限等重要信息，当用户进程与数据库建立会话时，系统会将这个用户的相关权限查询出来，然后保存在这个会话区内：第三，当发起的指令需要排序的时候，PGA(Program Global Area)正是这个排序区，如果在内存中可以放下排序的尺寸，就在内存PGA区内完成，如果放不下，超出的部分就在临时表空间中完成排序，也就是在磁盘中完成排序。</li>
+<li>我在图中标识了三块区域（大家注意看虚线框的左下角标注），分别是1区圆形虚线框，2区直角方形虚线框，3区圆角方形虚线框。用户的请求发起经历的顺序一般如下：1区→2区→3区：或者1区→2区。</li>
+</ol>
+<p>从这个体系结构可以提出一些问题，提问很重要！</p>
+<ol>
+<li>为什么会有用户的请求不经过3区数据库的情况，直接从2区实例返回了？</li>
+<li>为什么SGA要划分为共享池、数据缓存区、日志缓存区，它们的作用分别是什么？</li>
+<li>为什么数据量大时排序会导致sql执行非常缓慢？（这个问题从上面的体系结构中显而易见）</li>
+</ol>
+<h3 id="从普通查询-sql-开始"><a href="#从普通查询-sql-开始" class="headerlink" title="从普通查询 sql 开始"></a>从普通查询 sql 开始</h3><p>从简单的查询sql <code>select object_name from t where object_id=29;</code> 开始。<br>当用户发起这个sql指令后，首先会从1区开始做准备。</p>
+<p>PGA区域是仅供当前发起用户使用的私有内存空间，这个区域有三个作用，但这里的连接只完成了<strong>用户连接信息的保存和q权限的保存</strong>。只要该session不断开连接，下次便可以直接从PGA中获取，而不用去硬盘中读取数据。<br>此外，该sql还会匹配成一条唯一的HASH值，然后进入2区域。首先进入SGA区的共享池。<br>进入共享池后，先查询是否有地方存储过这个sql（HASH值，唯一标识一个sql）。</p>
+<p>如果没有，那首先就要查询这个sql语法是否正确（from是否写成form），语义是否正确（字段、表是否存在），是否有权限。都没问题则会生成唯一HASH并保存。<br>接下来开始解析，看是否有索引，是索引读高效还是全表扫描高效？oracle要做出抉择。</p>
+<p>如何做出抉择？将两种方式都估算一下，看那个代价（COST）更低。这里比较并不会真正分别执行两次来比较，具体方法后文会有。将代价更低的执行计划保存起来，并于HASH对应起来。<br>有了执行计划之后，便来到数据缓存区来查询数据了。当数据缓存区找不到需要的数据时，便会去3区的数据库中查找，当然得按照执行计划来，这是圣旨，不可违抗。找到后，回到数据缓存区返回，找不到，就找不到了。</p>
+<ol>
+<li>这里2区中的日志缓存区并没有说到</li>
+<li>3区也只描述了一个数据文件，其他文件并没有被提及</li>
+<li>2区中除了SGA，还有很多进程，他们的作用也没有被提及</li>
+</ol>
+<p>下面开始实践，可以先跳至文末，搭建Oracle的环境。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">drop table t;</span><br><span class="line">create table t as</span><br><span class="line">select *</span><br><span class="line">from all_objects;</span><br><span class="line">create index idx_object_id on t (object_id);</span><br><span class="line">-- 跟踪SQL的执行计划和执行的统计信息</span><br><span class="line">set autotrace on</span><br><span class="line">-- 设置查询结果在屏幕上显示时每行的最大字符数，使得查询结果不被截断，提高可读性</span><br><span class="line">set linesize 1000</span><br><span class="line">-- 跟踪该语句执行完成的时间</span><br><span class="line">set timing on</span><br><span class="line">select object_name</span><br><span class="line">from t</span><br><span class="line">where object_id = 29;</span><br></pre></td></tr></table></figure>
+
+<p>第一次查询结果</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">SQL&gt; select object_name from t where object_id = 29;</span><br><span class="line"></span><br><span class="line">OBJECT_NAME</span><br><span class="line">--------------------------------------------------------------------------------------------------------------------------------</span><br><span class="line">C_COBJ#</span><br><span class="line"></span><br><span class="line">Elapsed: 00:00:00.67</span><br><span class="line"></span><br><span class="line">Execution Plan</span><br><span class="line">----------------------------------------------------------</span><br><span class="line">Plan hash value: 1296629646</span><br><span class="line"></span><br><span class="line">-----------------------------------------------------------------------------------------------------</span><br><span class="line">| Id  | Operation                           | Name          | Rows  | Bytes | Cost (%CPU)| Time     |</span><br><span class="line">-----------------------------------------------------------------------------------------------------</span><br><span class="line">|   0 | SELECT STATEMENT                    |               |     1 |    79 |     2   (0)| 00:00:01 |</span><br><span class="line">|   1 |  TABLE ACCESS BY INDEX ROWID BATCHED| T             |     1 |    79 |     2   (0)| 00:00:01 |</span><br><span class="line">|*  2 |   INDEX RANGE SCAN                  | IDX_OBJECT_ID |     1 |       |     1   (0)| 00:00:01 |</span><br><span class="line">-----------------------------------------------------------------------------------------------------</span><br><span class="line"></span><br><span class="line">Predicate Information (identified by operation id):</span><br><span class="line">---------------------------------------------------</span><br><span class="line"></span><br><span class="line">   2 - access(&quot;OBJECT_ID&quot;=29)</span><br><span class="line"></span><br><span class="line">Note</span><br><span class="line">-----</span><br><span class="line">   - dynamic statistics used: dynamic sampling (level=2)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Statistics</span><br><span class="line">----------------------------------------------------------</span><br><span class="line">         11  recursive calls</span><br><span class="line">          0  db block gets</span><br><span class="line">         83  consistent gets</span><br><span class="line">          1  physical reads</span><br><span class="line">          0  redo size</span><br><span class="line">        594  bytes sent via SQL*Net to client</span><br><span class="line">        108  bytes received via SQL*Net from client</span><br><span class="line">          2  SQL*Net roundtrips to/from client</span><br><span class="line">          0  sorts (memory)</span><br><span class="line">          0  sorts (disk)</span><br><span class="line">          1  rows processed</span><br></pre></td></tr></table></figure>
+
+<p>第二次查询结果：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">SQL&gt; select object_name from t where object_id = 29;</span><br><span class="line"></span><br><span class="line">OBJECT_NAME</span><br><span class="line">--------------------------------------------------------------------------------------------------------------------------------</span><br><span class="line">C_COBJ#</span><br><span class="line"></span><br><span class="line">Elapsed: 00:00:00.27</span><br><span class="line"></span><br><span class="line">Execution Plan</span><br><span class="line">----------------------------------------------------------</span><br><span class="line">Plan hash value: 1296629646</span><br><span class="line"></span><br><span class="line">-----------------------------------------------------------------------------------------------------</span><br><span class="line">| Id  | Operation                           | Name          | Rows  | Bytes | Cost (%CPU)| Time     |</span><br><span class="line">-----------------------------------------------------------------------------------------------------</span><br><span class="line">|   0 | SELECT STATEMENT                    |               |     1 |    79 |     2   (0)| 00:00:01 |</span><br><span class="line">|   1 |  TABLE ACCESS BY INDEX ROWID BATCHED| T             |     1 |    79 |     2   (0)| 00:00:01 |</span><br><span class="line">|*  2 |   INDEX RANGE SCAN                  | IDX_OBJECT_ID |     1 |       |     1   (0)| 00:00:01 |</span><br><span class="line">-----------------------------------------------------------------------------------------------------</span><br><span class="line"></span><br><span class="line">Predicate Information (identified by operation id):</span><br><span class="line">---------------------------------------------------</span><br><span class="line"></span><br><span class="line">   2 - access(&quot;OBJECT_ID&quot;=29)</span><br><span class="line"></span><br><span class="line">Note</span><br><span class="line">-----</span><br><span class="line">   - dynamic statistics used: dynamic sampling (level=2)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Statistics</span><br><span class="line">----------------------------------------------------------</span><br><span class="line">          0  recursive calls</span><br><span class="line">          0  db block gets</span><br><span class="line">          4  consistent gets</span><br><span class="line">          0  physical reads</span><br><span class="line">          0  redo size</span><br><span class="line">        594  bytes sent via SQL*Net to client</span><br><span class="line">        108  bytes received via SQL*Net from client</span><br><span class="line">          2  SQL*Net roundtrips to/from client</span><br><span class="line">          0  sorts (memory)</span><br><span class="line">          0  sorts (disk)</span><br><span class="line">          1  rows processed</span><br></pre></td></tr></table></figure>
+
+<p>先简单介绍下统计信息中各个信息的含义：</p>
+<ul>
+<li>Recursive Calls: 表示查询执行期间数据库内部发生的递归调用次数，这可能包括子查询、视图的重写以及其他内部处理所需的多次查询执行。</li>
+<li>DB Block Gets: 指从数据库缓存区中读取数据块的次数，反映的是从内存中获取数据的频率。</li>
+<li>Consistent Gets: 代表为维护数据一致性而从数据库缓存中获取数据块的次数。这在读一致性要求高的查询中尤为重要，确保查询看到的是事务开始那一刻的数据版本。</li>
+<li>Physical Reads: 指从磁盘上实际读取数据块的次数，发生物理读取通常意味着所需数据未在数据库缓存区中找到，需要从持久存储中加载。</li>
+<li>Redo Size: 记录由于本次操作产生的重做日志大小，单位通常是字节。重做日志用于事务恢复。</li>
+<li>Bytes Sent via SQL<em>Net to Client: 通过SQL</em>Net网络协议发送到客户端的数据量，包括查询结果集等信息。</li>
+<li>Bytes Received via SQL<em>Net from Client: 通过SQL</em>Net网络协议从客户端接收的数据量，主要涉及客户端发送的查询请求等。</li>
+<li>SQL*Net Roundtrips to&#x2F;from Client: 完成查询操作所需的客户端与服务器之间的网络往返次数，每次往返可能涉及请求或响应。</li>
+<li>Sorts (Memory): 在内存中执行的排序操作次数，用于组织数据以便于高效查询或显示。</li>
+<li>Sorts (Disk):当内存不足，需要使用临时表空间在磁盘上进行排序操作的次数，这通常比内存排序效率低。</li>
+<li>Rows Processed: 查询最终处理的行数，即查询结果集中包含的行数。</li>
+</ul>
+<p>第一次执行花费0.67秒，第二次只花费了0.27秒。比第一次快了很多<br>接下来是统计信息的差别<br>第一次执行，产生了11次递归调用、83次逻辑读、1次物理读<br>第二次执行，产生了0次递归调用、4次逻辑读、0次物理读</p>
+<p>下面是描述两次执行的差异：</p>
+<ol>
+<li>用户首次执行该SQL指令时，该指令从磁盘中获取用户连接信息和相关权限信息权限，并保存在PGA内存里。当用户再次执行该指令时，由于SESSION之前未被断开重连，连接信息和相关权限信息就可以在PGA内存中直接获取，避免了物理读。</li>
+<li>首次执行该SQL指令结束后，SGA内存区的共享池里已经保存了该SQL唯一指令HASH值，并保留了语法语意检查及执行计划等相关解析动作的劳动成果，当再次执行该$QL时，由于该SQL指令的HASH值和共享池里保存的相匹配了，所以之前的硬解析动作就无须再做，不仅跳过了相关语法语意检查，对于该选取哪种执行计划也无须考虑，直接拿来主义就好了。</li>
+<li>首次执行该SQL指令时，数据一般不在SGA的数据缓存区里（除非被别的SQL读入内存了)，只能从磁盘中获取，不可避免地产生了物理读，但是由于获取后会保存在数据缓存区里，再次执行就直接从数据缓存区里获取了，完全避免了物理读，就像上面的实践一样，首次执行物理读为4，第2次执行的物理读为0，没有物理读，数据全在缓存中，效率当然高得多！</li>
+</ol>
+<p>即，不用获取用户和权限相关信息、不用进行语法检查和执行计划等相关解析、不用从磁盘获取直接从缓存获取。</p>
+<h3 id="体会Oracle的代价"><a href="#体会Oracle的代价" class="headerlink" title="体会Oracle的代价"></a>体会Oracle的代价</h3><p>在表有索引的情况下，Oracle可以选择索引读，也可以选择全表扫描，这是两种截然不同的执行计划，不见得一定是索引读胜过全表扫，有时索引读的效率会比全表扫更低<br>所以Oracle的选择不是看是啥执行计划，而是判断谁的代价更低。<br>下面来比较下两者的代价</p>
+<p>这里会使用 HINT 的写法。HINT是一种强制写法，让数据库的查询优化器遵循某种特定的执行路径或采用特定的算法来处理查询。详细的介绍，放在文末。<br>使用 <code>/*+full(t)*/</code> 的写法，来强制该sql不走索引，走全表扫描。如下：<br><code>select /*+full(t)*/object_name from t where object_id = 29;</code></p>
+<blockquote>
+<p>多次执行同一个SQL查询，可以解析次数减少、物理读减少甚至递归调用次数</p>
+</blockquote>
+<p>下面是走全表扫描的执行结果：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">SQL&gt; select /*+full(t)*/object_name from t where object_id = 29;</span><br><span class="line"></span><br><span class="line">OBJECT_NAME</span><br><span class="line">--------------------------------------------------------------------------------------------------------------------------------</span><br><span class="line">C_COBJ#</span><br><span class="line"></span><br><span class="line">Elapsed: 00:00:00.03</span><br><span class="line"></span><br><span class="line">Execution Plan</span><br><span class="line">----------------------------------------------------------</span><br><span class="line">Plan hash value: 1601196873</span><br><span class="line"></span><br><span class="line">--------------------------------------------------------------------------</span><br><span class="line">| Id  | Operation         | Name | Rows  | Bytes | Cost (%CPU)| Time     |</span><br><span class="line">--------------------------------------------------------------------------</span><br><span class="line">|   0 | SELECT STATEMENT  |      |     1 |    44 |   410   (0)| 00:00:01 |</span><br><span class="line">|*  1 |  TABLE ACCESS FULL| T    |     1 |    44 |   410   (0)| 00:00:01 |</span><br><span class="line">--------------------------------------------------------------------------</span><br><span class="line"></span><br><span class="line">Predicate Information (identified by operation id):</span><br><span class="line">---------------------------------------------------</span><br><span class="line"></span><br><span class="line">   1 - filter(&quot;OBJECT_ID&quot;=29)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Statistics</span><br><span class="line">----------------------------------------------------------</span><br><span class="line">          0  recursive calls</span><br><span class="line">          0  db block gets</span><br><span class="line">       1514  consistent gets</span><br><span class="line">          0  physical reads</span><br><span class="line">          0  redo size</span><br><span class="line">        594  bytes sent via SQL*Net to client</span><br><span class="line">        108  bytes received via SQL*Net from client</span><br><span class="line">          2  SQL*Net roundtrips to/from client</span><br><span class="line">          0  sorts (memory)</span><br><span class="line">          0  sorts (disk)</span><br><span class="line">          1  rows processed</span><br></pre></td></tr></table></figure>
+
+<p>比较走全表扫描和oracle自己选择的使用索引的方式的执行计划和统计信息，发现代价（Cost）410远大于2，1514次逻辑读也远大于4次。<br>显而易见，走索引的方式代价更低。</p>
+<p>同时，选择的操作也比较艰难，缓存选择的结果，也能避免做重复的事情，提高效率。</p>
+<p>第一个问题这里已经有答案了，那就是有缓存的存在，使得后续相同的查询不需要经过3区数据库，直接从2区的缓存中获取结果并返回。</p>
+<h3 id="再探体系结构原理"><a href="#再探体系结构原理" class="headerlink" title="再探体系结构原理"></a>再探体系结构原理</h3><h4 id="从普通更新语句开始"><a href="#从普通更新语句开始" class="headerlink" title="从普通更新语句开始"></a>从普通更新语句开始</h4><p>下面主要是二三问题的解答，即体系结构图中上面没有被提及到的组件、进程的作用是什么？</p>
+<p>sql语句除了上面的查询，还有更新语句，包括插入、修改、删除三类。如果是一个只读数据库，那么是不需要这么多组件的。<br>下面以 <code>update t set object_id=92 where object_id=29;</code> 为例。</p>
+<p>sql执行过程前面和查询语句是一样的</p>
+<ol>
+<li>如果该用户并没有退出原连接去新建立一个连接，PGA区的用户连接信息和权限判断等诸多动作依然不用做，否则需要完成用户连接信息和权限判断等诸多动。</li>
+<li>如果该语句是第一次执行，在共享池里依然需要完成语法语意分析及解析，update t set object_id&#x3D;92 where object_id&#x3D;29指令中想匹配到object_id&#x3D;29的记录既可以用索引读，也可以用全表扫描，到底选用哪种执行计划需要根据代价的大小来选择。</li>
+<li>接下来进入数据缓存区，首次执行该数据一定不在缓存区里，也是和前面一样，先从磁盘中获取到缓存区中…</li>
+</ol>
+<p>到这里，查询语句将查询结果返回给用户，他的工作就结束了。但更新语句还有很多工作。</p>
+<p>在更新语句改写了缓存区的数据后，将<strong>启动DBWR进程将新的数据从内存刷入磁盘</strong>。进行持久化存储，否则内存断点后，数据会消失。</p>
+<p><strong>日志缓存区保存了数据库相关操作的日志</strong>，记录了这个动作，然后由<strong>LGWR后台进程将其从日志缓存区这个内存区写进磁盘的日志文件里</strong>。<br>目的很简单，就是为了便于将来出现异常情况时，可以根据日志文件中记录的动作，再继续执行一遍，从而保护数据的安全。</p>
+<p>Oracle写日志是很重要的，LGWR进程会将日志缓存区持久化保存到日志文件。日志文件通常有多个，当第一个写满时，会写入第二个…<br>当所有的日志文件都写满时，会重新从第一个开始覆写。<strong>所以在日志文件被覆写之前，需要将其备份出去，成为归档文件。由ARCH进程进行归档操作。</strong></p>
+<h4 id="关于提交-Commit"><a href="#关于提交-Commit" class="headerlink" title="关于提交 Commit"></a>关于提交 Commit</h4><p>当执行一条更新语句后，当前session再次查询是可以查询到更新后的数据的。<br>但是其他session无法查询到更新后的，因为没有提交。</p>
+<p>提交 Commit 和 回滚 Rollback ，都是更新操作后，用户的确认。前者表示用户确认无误，确实需要更新；后者表示用户反悔了，撤销之前的操作。<br>其中涉及到的细节会很多，这里只是简单描述。</p>
+<p>Commit操作，按照正常的逻辑，应该是执行之后，立刻被DBWR进程将更新后的数据写入磁盘，以便其他session查询到最新的数据和防止数据丢失。<br>但事实上并非如此，因为频繁的写入操作性能较低，等数据缓存区累积到一定量时成批写入性能会更高。但这样无法兼顾数据安全。<br><strong>所以Commit操作之后，并不一定会立刻被DBWR进程将更新后的数据写入磁盘。</strong><br>很多事情都很难两全其美，和分布式系统中的CAP理论一样。但这里oracle做到了兼顾，下面来说oracle是如何做到的？</p>
+<p>因为oracle有日志缓存区和日志文件，在磁盘中记录了所有的操作，所以即便突然断电导致未提交的数据丢失，也可以通过日志文件重新执行之前的操作，从而恢复丢失的数据。<br>那么数据缓存区是否越大越好呢？<br>显然并不是，没有什么是极端的，需要从中取得平衡。数据缓存区越大，DBWR批量写入磁盘的效率越高，但断电恢复需要的时间就越长。反之也是一样</p>
+<p>下面介绍CKPT，<strong>什么时候将数据缓存区的数据写入磁盘是由CKPT触发的</strong>。<br>如果更新操作的一直不提交，数据缓存区的数据会被写入磁盘中吗？<br>答案是会的，<strong>因为DBWR将数据缓存区数据写入磁盘，不是由Commit决定的，而是由CKPT决定的。</strong><br><strong>但当LGWR出现故障时，DBWR并不会听从CKPT的命令。会先等LGWR将日志缓存区的数据写入日志文件，才会完成数据缓存区写入磁盘的操作。</strong><br><strong>因为凡是有记录，否则会发送数据丢失的问题。</strong></p>
+<h4 id="各主要进程总结"><a href="#各主要进程总结" class="headerlink" title="各主要进程总结"></a>各主要进程总结</h4><ol>
+<li><strong>PMON (Process Monitor)</strong>:<br>PMON负责监控和清理数据库实例中的失败或不响应的用户进程。当检测到一个用户进程异常终止时，PMON会执行清理工作，包括回滚未提交的事务、释放资源以及从进程表中删除相应的条目。<br>如果遇到LGWR进程失败这样严重的问题，PMON可能会做出中止实例的激进操作，以防止数据混乱。<br>此外，PMON还负责执行某些数据库的初始化任务，如打开监听器连接。</li>
+<li><strong>SMON (System Monitor)</strong>:<br>SMON关注的是系统级的操作，而非单个进程。主要负责实例恢复工作，在数据库实例启动时执行实例恢复，包括应用联机重做日志以恢复未提交的事务，并清理实例崩溃后可能遗留的临时段。SMON还负责合并空间碎片、回收不再使用的临时段和回滚段。</li>
+<li><strong>LCKn (Lock Process)</strong>:<br>LCKn是锁进程，仅用于RAC数据库。其中’n’代表编号，表示可以有多个这样的进程（最多可能有10个）。这些进程管理数据库中的锁，确保并发访问的一致性和数据完整性。它们负责授予和撤销对数据库对象的锁，以及解决锁冲突，确保多个用户或进程能够安全地并发访问数据库资源。</li>
+<li><strong>RECO (Recovery Process)</strong>:<br>RECO用于处理分布式事务中的失败情况。当一个分布式事务的一部分在远程数据库中失败时，RECO会根据两阶段提交协议的记录，自动尝试完成或回滚未决的分布式事务，确保事务的原子性和一致性。</li>
+<li><strong>CKPT (Checkpoint Process)</strong>:<br>用于触发DBWR从数据缓存区中写出数据到磁盘。CKPT执行越频繁，DBWR写出越频繁，DBWR写出越频繁越不能显示批量特性，性能就越低，但是数据库异常恢复的时候会越迅速。</li>
+<li><strong>DBWR (Database Writer)</strong>:<br>DBWR负责将数据库缓存区缓存（Buffer Cache）中的脏数据块（已修改但尚未写入磁盘的数据）写入到数据文件中。这有助于释放缓存区空间，提高缓存命中率，并确保数据的一致性。通常，DBWR会有多个实例运行（DBW0, DBW1等），以并行处理大量I&#x2F;O操作。</li>
+<li><strong>LGWR (Log Writer)</strong>:<br>LGWR负责将重做日志缓存区中的内容定期或在特定触发条件下（如事务提交、重做日志缓存区空间不足、检查点事件等）写入到在线重做日志文件中。这保证了数据库的事务可恢复性，即使在系统故障后也能恢复到一致状态。</li>
+<li><strong>ARCH (Archiver Process)</strong>:<br>在归档日志模式下，ARCH进程负责将已填满并归档标记的在线重做日志文件复制到归档存储位置，确保即使原始在线日志被覆盖，重做信息仍然可用，这对于数据库备份和恢复至关重要。在高负载或高可用性要求的系统中，可能有多个ARCH进程并行工作。</li>
+</ol>
+<blockquote>
+<p>RAC（Real Application Clusters）是Oracle数据库的一项技术，它允许一个数据库分布在多个服务器上，这些服务器共享相同的数据库实例，并以集群的形式协同工作。RAC架构设计的主要目标是为了提高数据库的可用性、可伸缩性和性能。<br>在RAC环境下，数据库的数据文件、控制文件和重做日志文件等存储在共享存储设备上，所有参与集群的节点都可以访问这些共享资源。每个节点都运行着自己的Oracle实例，包含一个数据库实例进程集合，如LGWR、DBWR、CKPT等，以及前面提到的后台进程。这些实例通过高速互联（如InfiniBand网络）相互通信，协调对数据库的访问和数据修改。<br>RAC的实施和运维相对复杂，需要仔细规划网络、存储和系统资源，以及精细的配置和管理，以确保集群的稳定运行和最佳性能。</p>
+</blockquote>
+<p>LGWR的工作就是将日志缓存区的数据写入到磁盘的REDO日志文件中。完成对更新操作的记录，可用于数据库的异常恢复。<br>因为操作发生是有顺序的，比如建表、插入数据、删除、修改…<br>如果建表操作没有被记录，那么后续所有的操作都无法被执行。<br><strong>LGWR必须顺序的记录这些操作，顺序记录才有意义。因此，LGWR是单线程的。</strong></p>
+<p>LGWR有5条规则，来适应高强度的日志记录工作。</p>
+<ol>
+<li>每隔三秒钟，LGWR运行一次。</li>
+<li>任何COMMIT触发LGWR运行一次。</li>
+<li>DBWR要把数据从数据缓存写到磁盘，触发LGWR运行一次。</li>
+<li>日志缓存区满三分之一或记录满1MB,触发LGWR运行一次。</li>
+<li>联机日志文件切换也将触发LGWR。</li>
+</ol>
+<h4 id="关于回滚-Rollback"><a href="#关于回滚-Rollback" class="headerlink" title="关于回滚 Rollback"></a>关于回滚 Rollback</h4><p>还是以 <code>update t set object_id=92 where object_id=29;</code> 为例。前面说过的PGA和共享池区部分省略</p>
+<ol>
+<li>想更新object_id&#x3D;29的记录首先就需要查到object_id&#x3D;29的记录，检查object_id&#x3D;29是否在数据缓存区里，不存在则从磁盘中读取到数据缓存区中，这一点和普通的查询语句类似。</li>
+<li>但是这毕竞不是查询语句而是更新语句，于是要做一件和查询语句很不同的事，在回滚表空间的相应回滚段事务表上分配事务槽，从而在回滚表空间分配到空间。该动作需要记录日志写进日志缓存区。</li>
+<li>在数据缓存区中创建object_id&#x3D;29的前镜像，前镜像数据也会写进磁盘的数据文件里（回滚表空间的数据文件)，从缓存区写进磁盘的规律前面已经说过了，由CKPT决定，由LGWR写入，当然也别忘记了这些动作都会记录日志，并将其写进日志缓存区，劳模LGWR还在忙着将日志缓存区的数据写入磁盘形成redo文件呢。</li>
+<li>前面步骤做好了，才允许将object_id&#x3D;29修改为object_id&#x3D;92,这个显然也是要记录进日志缓存区的。</li>
+<li>此时用户如果执行了提交，日志缓存区立即要记录这个提交信息，然后就把回滚段事务标记为非激活INACTIVE状态，表示允许重写。</li>
+<li>如果是执行了回滚呢，Oracle需要从回滚段中将前镜像object_id&#x3D;29的数据读出米，修改数据缓存区，完成回滚。这个过程依然要产生日志，要写数据进日志缓存区。</li>
+</ol>
+<p>记录前镜像为什么也需要记录日志？<br>前镜像会记录在SGA的数据缓存区（Undohu缓存区）里，由CKPT触发LGWR数据缓存区写入磁盘。<br><strong>用于准备回滚的前镜像数据的生成其实和普通数据操作差不多，唯一的差别就在于一个是刷新到磁盘的普通文件里，一个是刷新到磁盘的回滚数据文件里。</strong></p>
+<p>普通数据可能会出现事务已经commit，但数据还在数据缓存区中，没有被写入磁盘，数据丢失需要根据redo来进行重做恢复的场景。<br>回滚前镜像数据也是这样，需要记录回滚前镜像数据的相关操作，来应对用户需要回滚，但回滚前镜像数据既不在内存也不在磁盘的情况（比如突然断电）<br>此时回滚，则需要依据记录了前镜像数据的redo日志来重做一次还原前镜像数据的操作。</p>
+<p>下面来看回滚段的相关参数。</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">SQL&gt; show parameters undo</span><br><span class="line"></span><br><span class="line">NAME                                 TYPE        VALUE</span><br><span class="line">------------------------------------ ----------- ------------------------------</span><br><span class="line">temp_undo_enabled                    boolean     FALSE</span><br><span class="line">undo_management                      string      AUTO</span><br><span class="line">undo_retention                       integer     900</span><br><span class="line">undo_tablespace                      string      UNDOTBS1</span><br></pre></td></tr></table></figure>
+
+<p>UNDO MANAGEMETN为AUTO表示是自动回滚段管理，回滚段空间不够时可以自动扩展<br>UNDO RETENTION为900的含义是，DML语句需要记录前镜像，当COMMIT后，表示回滚段保留的前镜像被打上了可以覆盖重新使用的标记，但是要在900秒后方可允许<br>UNDO TABLESPACE为UNDOTBS1就不用多解释了，表示回滚段表空间的名字为UNDOTBS1</p>
+<p>Undo日志（回滚日志）和Redo日志（重做日志）共同确保了事务处理的ACID特性（原子性、一致性、隔离性、持久性），特别是在事务管理和数据库恢复过程中。下面详细解释两者的作用：</p>
+<ul>
+<li>Undo日志（回滚日志）<br>**事务回滚：**Undo日志记录了事务对数据库所做的修改前的原始数据状态。当一个事务需要被回滚时（例如，事务执行失败或者用户发出了ROLLBACK命令），数据库系统会利用Undo日志来撤销事务中已经执行的所有修改，恢复数据库到事务开始前的一致状态。这一过程保证了事务的原子性，即事务中的所有操作要么全部成功，要么全部失败。<br>**多版本并发控制（MVCC）：**在支持多版本并发控制的数据库（如Oracle的InnoDB存储引擎）中，Undo日志还用来提供历史版本的数据，以便在事务执行期间保持数据的一致视图。这样，即使其他事务已经修改了数据，当前事务仍能看到符合其开始时刻的数据状态，增强了并发控制的能力。</li>
+<li>Redo日志（重做日志）<br>**事务恢复：**Redo日志记录了事务对数据库所做的所有修改操作，包括修改后的数据值、修改类型以及数据所在的位置。在系统发生故障（如电源故障、系统崩溃）之后，数据库可以使用Redo日志来“重做”那些已经完成但还未持久化到磁盘的事务操作，确保数据的持久性。即使在崩溃发生前数据尚未完全写入数据文件，也能通过重做日志恢复到崩溃前的最新状态。<br>**保证数据不丢失：**Redo日志在事务提交时被写入，并且通常会先于实际数据更改持久化到磁盘，以防止在提交过程中出现故障导致的数据丢失。</li>
+</ul>
+<p>DML语句不同于查询语句，会改变数据库的数据。<br>除此之外，还会产生用于将来恢复的redo和用于回退的undo。<br>另外还有一个细节就是，由于undo也需要保护，所以还会专门产生保护undo操作的redo。</p>
+<h4 id="一致读的原理"><a href="#一致读的原理" class="headerlink" title="一致读的原理"></a>一致读的原理</h4><p>查询的结果由查询的那个时刻决定了，后续数据新的变化是不予理睬的。<br>如果不这样，Oracle每次查询的结果都可能会不一样，会导致错误的产生。<br>比如从a向b转钱，两者的余额总和无论何时都应该是一样的。但如果在转钱之前查询余额总和，查询的过程中，钱才转到b的账户中，此时查询的最终结果肯定是错误的。<br>因为oracle不可能回头去查变化后的数据，这样如果一直有变化产生，查询将永远不会结束。</p>
+<p>先介绍两个概念：</p>
+<ol>
+<li>系统更改号 SCN,SCN的全称是：System Change Number,这是一个只会增加不会减少的递增数字，存在于Oracle的最小单位块里，当某块改变时SCN就会递增。</li>
+<li>回滚段记录事务槽（）（前面我在描述回滚的时候提过，事务槽是用来分配回滚空间的)，如果你更新了某块，事务就被写进事务槽里。如果未提交或者回滚，该块就存在活动事务，数据库读到此块可以识别到这种情况的存在。</li>
+</ol>
+<p>当开始查询时，首先会获取查询时刻的SCN号。查询过程中会比较查询时刻的SCN号与当前数据块头部的ITL槽内的SCN号（如果有多个ITL槽，取最大的SCN号）<br>如果查询时刻的SCN号大于ITL槽内的SCN号，说明该块的数据在这段时间没有被更新，可以放心地正常全部读。<br>如果查询时刻的SCN号小于ITL槽内的SCN号，说明该块的数据在这段时间被更新了，需要根据ITL槽中记录的对应的undo块的地址找到undo块，将undo块中记录的修改前的数据取出。</p>
+<p>不过并不是查询开始的SCN大于等于查询中所有块的SCN就一定可以直接获取数据。<br>因为当前镜像数据c从回滚段中找不回来时，这个查询将会以 ORA-01555: Snapshot too old 的错误终止。查询失败，也不会返回一个错误的查询结果。</p>
+<blockquote>
+<p>ORA-01555 错误，正式名称为”Snapshot Too Old”（快照过旧），是Oracle数据库中常见的错误之一。<br>这个错误通常发生在执行查询或事务处理期间，数据库无法为查询结果提供足够旧的一致性读取快照，导致查询失败。这意味着数据库无法确保查询结果反映的是查询开始那一刻的数据状态，违反了读一致性原则。</p>
+<p><strong>触发条件</strong>：</p>
+<ol>
+<li><strong>Undo表空间大小不足</strong>：如果数据库配置的Undo表空间大小较小，不足以存放长时间运行查询期间产生的undo信息，旧的undo记录可能会被新事务产生的undo信息覆盖。</li>
+<li><strong>长查询与高并发更新</strong>：在查询执行过程中，如果有大量其他事务并发地对报表查询所涉及的数据表进行更新或删除操作，这将迅速消耗undo空间，可能导致查询所需的undo记录被提前清理。</li>
+<li><strong>Undo_RETENTION设置不当</strong>：即使Undo表空间足够大，但如果Undo_RETENTION参数设置得过低，数据库也可能过早地回收undo信息，即使undo空间仍有空闲。</li>
+</ol>
+<p><strong>解决方案</strong>：</p>
+<ul>
+<li>增加Undo表空间的大小。</li>
+<li>调整Undo_RETENTION参数以延长undo数据的保留时间。</li>
+<li>优化长查询，减少查询执行时间。</li>
+<li>使用绑定变量，减少硬解析，从而减少undo的生成。</li>
+<li>在合适的情况下，考虑使用较大的隔离级别，如SERIALIZABLE，尽管这可能会影响并发性能。</li>
+</ul>
+</blockquote>
+<p>早期的SQL Server的数据库版本，是读产生锁，在读数据时表就被锁住，这样确实是不存在问题了，不过如果读表会让表锁住，那数据库的并发会非常的糟糕。<br>早期的其他数据库版本也有边读边锁的，比如已经读过的记录就允许被修改，而未读过的数据却是被锁住的，不允许修改，这虽然稍稍有些改进，只锁了表的部分而非全部，但是还是读产生锁，非常糟糕。<br>而Oracle的回滚段，却解决了读一致性的问题，又避免了锁，大大增强了数据库并发操作的能力。</p>
+<h4 id="实践"><a href="#实践" class="headerlink" title="实践"></a>实践</h4><h5 id="内存"><a href="#内存" class="headerlink" title="内存"></a>内存</h5><p>查看 sga 内存区大小</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">SQL&gt; show parameters sga</span><br><span class="line"></span><br><span class="line">NAME                                 TYPE        VALUE</span><br><span class="line">------------------------------------ ----------- ------------------------------</span><br><span class="line">allow_group_access_to_sga            boolean     FALSE</span><br><span class="line">lock_sga                             boolean     FALSE</span><br><span class="line">pre_page_sga                         boolean     TRUE</span><br><span class="line">sga_max_size                         big integer 1536M</span><br><span class="line">sga_min_size                         big integer 0</span><br><span class="line">sga_target                           big integer 1536M</span><br></pre></td></tr></table></figure>
+
+<p>查看 pga 内存区大小</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">SQL&gt; show parameters pga</span><br><span class="line"></span><br><span class="line">NAME                                 TYPE        VALUE</span><br><span class="line">------------------------------------ ----------- ------------------------------</span><br><span class="line">pga_aggregate_limit                  big integer 2G</span><br><span class="line">pga_aggregate_target                 big integer 512M</span><br></pre></td></tr></table></figure>
+
+<p>查看 共享池 大小</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">SQL&gt; show parameters shared_pool_size</span><br><span class="line"></span><br><span class="line">NAME                                 TYPE        VALUE</span><br><span class="line">------------------------------------ ----------- ------------------------------</span><br><span class="line">shared_pool_size                     big integer 0</span><br></pre></td></tr></table></figure>
+
+<p>查看 数据缓存区 大小</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">SQL&gt; show parameters db_cache_size</span><br><span class="line"></span><br><span class="line">NAME                                 TYPE        VALUE</span><br><span class="line">------------------------------------ ----------- ------------------------------</span><br><span class="line">db_cache_size                        big integer 0</span><br></pre></td></tr></table></figure>
+
+<p>会发现，共享池和数据缓存区的大小都为0<br>因为这里Oracle设置为SGA自动管理，共享池和数据缓存区的大小分配由之前的SGA MAX SIZE和SGA TARGET决定，总的大小为1536M<br>它们分别被分配多少由Oracle来决定，无须我们人工干预，其中SGA TARGET不能大于SGA MAX SIZE。</p>
+<p>二者有什么差别呢？举个例子<br>比如SGA TARGET:&#x3D;2G,而SGA MAX SIZE&#x3D;8G,表示数据库正常运行情况下操作系统只分配2G的内存区给Oracle使用，而这2G就是共享池和数据缓存区等内存组件分配的大小<br>可是运行中发现内存不够用，这时OS可以再分配内存给SGA,但是最大不可以超过8G。</p>
+<p>一般情况下都建议使用SGA内存大小自动分配的原则，如果一定要手工分配也行，把SGA TARGET设置为O,再把SHARED POOL SIZE和DB CACHE SIZE设置为非O,就可以了。<br>在启用自动管理时，数据库管理员不需要手动设置各个SGA组件（如共享池、数据缓冲区、大型池、Java池等）的确切大小。<br>相反，管理员会设置一个总的SGA目标大小（如通过SGA_TARGET参数），或者在使用AMM时，设置一个总的内存目标大小（MEMORY_TARGET），包括SGA和PGA（Program Global Area，程序全局区）。<br>Oracle数据库根据当前的工作负载和需求动态调整各个组件的大小，以优化资源使用和性能。</p>
+<p>可以使用 ipcs -m 的查看共享内存的命令：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">bash-4.4$ ipcs -m</span><br><span class="line"></span><br><span class="line">------ Shared Memory Segments --------</span><br><span class="line">key        shmid      owner      perms      bytes      nattch     status      </span><br><span class="line">0x00000000 0          oracle     600        5361664    102                     </span><br><span class="line">0x00000000 1          oracle     600        1593835520 51                      </span><br><span class="line">0x00000000 2          oracle     600        4530176    51                      </span><br><span class="line">0xf2c898a4 3          oracle     600        20480      51  </span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><code>ipcs -m</code> 是一个在Linux系统中用于显示内存共享段信息的命令。<code>ipcs</code> 命令是一个用于报告进程间通信（IPC）设施状态的实用程序，包括消息队列、信号量集和共享内存段。当加上 <code>-m</code> 选项时，它专门针对共享内存进行操作，显示当前系统中所有共享内存段的详细信息。<br>共享内存是进程间通信的一种高效方式，允许多个进程直接访问同一块内存区域，从而快速交换数据。<code>ipcs -m</code> 输出的信息通常包括如下几列：</p>
+<ul>
+<li><strong>Key</strong>：共享内存段的键值，用于标识共享内存段。</li>
+<li><strong>shmid</strong>：共享内存段的ID。</li>
+<li><strong>Owner</strong>：创建共享内存段的用户ID。</li>
+<li><strong>Perms</strong>：共享内存段的权限。</li>
+<li><strong>Bytes</strong>：共享内存段的大小（字节数）。</li>
+<li><strong>Nattch</strong>：当前连接到该共享内存段的进程数。</li>
+<li><strong>Status</strong>：共享内存段的状态，比如是否被附加（attached）。</li>
+<li><strong>ctime</strong>：共享内存段创建的时间。</li>
+<li><strong>mtime</strong>：共享内存段最后一次修改的时间。</li>
+</ul>
+</blockquote>
+<p>查看 日志缓存区 大小</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">SQL&gt; show parameters log_buffer</span><br><span class="line"></span><br><span class="line">NAME                                 TYPE        VALUE</span><br><span class="line">------------------------------------ ----------- ------------------------------</span><br><span class="line">log_buffer                           big integer 4192K</span><br></pre></td></tr></table></figure>
+
+<p>一般日志缓冲区满三分之一便会触发LGWR，将缓冲区中的内容写入磁盘，以确保有足够的空间供新的重做记录使用。</p>
+<p>那该如何修改这些设置呢？具体命令如下：<br>使用 <code>alter system set &lt;parameter_name&gt;=&lt;value&gt; scope=memory|spfile both [sid=&lt;sid_name&gt;]</code> 命令可以动态修改许多系统参数。<br>其中 scope 参数表示其作用范围和持久性，它有三个枚举值。</p>
+<ul>
+<li>memory:只改变当前实例运行，重新启动数据库后失效。</li>
+<li>spfile:只改变spfile的设置，不改变当前实例运行，重新启动数据库后生效。</li>
+<li>both（默认值）:同时改变实例及spfile,当前更改立即生效，重新启动数据库后仍然有效。</li>
+</ul>
+<p>可以通过 ALTER SYSTEM 或者导入导出来更改 spfile 的内容。<br>针对RAC环境，ALTER SYSTEM 还可以指定SD参数，对不同实例进行不同的设置。</p>
+<ol>
+<li>如果当前实例使用的是pfle而非spfile,则scope&#x3D;-spfile或scope–both会产生错误</li>
+<li>如果实例以pfle启动，则scope的默认值为memory,若以spfile启动，则默认值为both</li>
+<li>有些参数（静态参数）必须重启才能生效，如log buffer</li>
+</ol>
+<h5 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h5><p>Oracle数据库是由实例和一组数据库文件组成的，实例则是由Oracle开辟的内存区和一组后台进程组成的。</p>
+<p>下面登录Oracle数据库环境，来看一下这些后台进程。<br>这里登录的环境是Linux&#x2F;UNIX环境，因为Windows环境中Oracle是多线程形式的，不好查看。而UNIX环境是多进程形式的，更方便查看。</p>
+<p>查看 实例名称</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">SQL&gt; show parameters instance_name</span><br><span class="line"></span><br><span class="line">NAME                                 TYPE        VALUE</span><br><span class="line">------------------------------------ ----------- ------------------------------</span><br><span class="line">instance_name                        string      FREE</span><br></pre></td></tr></table></figure>
+
+<p>使用实例名称来过滤，比使用oracle更加精准。</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line">bash-4.4$ ps -ef|grep FREE  </span><br><span class="line">oracle        33       1  0 Jul16 ?        00:00:33 db_pmon_FREE</span><br><span class="line">oracle        37       1  0 Jul16 ?        00:00:06 db_clmn_FREE</span><br><span class="line">oracle        41       1  0 Jul16 ?        00:00:48 db_psp0_FREE</span><br><span class="line">oracle        45       1  0 Jul16 ?        00:00:52 db_vktm_FREE</span><br><span class="line">oracle        51       1  0 Jul16 ?        00:00:19 db_gen0_FREE</span><br><span class="line">oracle        55       1  0 Jul16 ?        00:00:10 db_mman_FREE</span><br><span class="line">oracle        61       1  0 Jul16 ?        00:00:09 db_gen2_FREE</span><br><span class="line">oracle        63       1  0 Jul16 ?        00:00:10 db_diag_FREE</span><br><span class="line">oracle        65       1  0 Jul16 ?        00:00:08 db_ofsd_FREE</span><br><span class="line">oracle        69       1  0 Jul16 ?        00:00:14 db_gwpd_FREE</span><br><span class="line">oracle        71       1  0 Jul16 ?        00:01:24 db_dbrm_FREE</span><br><span class="line">oracle        73       1  0 Jul16 ?        00:10:04 db_vkrm_FREE</span><br><span class="line">oracle        75       1  0 Jul16 ?        00:00:38 db_pman_FREE</span><br><span class="line">oracle        78       1  0 Jul16 ?        00:01:42 db_dia0_FREE</span><br><span class="line">oracle        81       1  0 Jul16 ?        00:00:28 db_dbw0_FREE</span><br><span class="line">oracle        83       1  0 Jul16 ?        00:00:28 db_lgwr_FREE</span><br><span class="line">oracle        85       1  0 Jul16 ?        00:00:54 db_ckpt_FREE</span><br><span class="line">oracle        87       1  0 Jul16 ?        00:00:05 db_smon_FREE</span><br><span class="line">oracle        90       1  0 Jul16 ?        00:00:19 db_smco_FREE</span><br><span class="line">oracle        96       1  0 Jul16 ?        00:00:03 db_reco_FREE</span><br><span class="line">oracle       102       1  0 Jul16 ?        00:00:11 db_lreg_FREE</span><br><span class="line">oracle       109       1  0 Jul16 ?        00:00:10 db_pxmn_FREE</span><br><span class="line">oracle       115       1  0 Jul16 ?        00:01:06 db_mmon_FREE</span><br><span class="line">oracle       117       1  0 Jul16 ?        00:01:00 db_mmnl_FREE</span><br><span class="line">oracle       121       1  0 Jul16 ?        00:01:55 db_bg00_FREE</span><br><span class="line">oracle       123       1  0 Jul16 ?        00:00:09 db_w000_FREE</span><br><span class="line">oracle       131       1  0 Jul16 ?        00:00:47 db_bg01_FREE</span><br><span class="line">oracle       137       1  0 Jul16 ?        00:00:53 db_bg02_FREE</span><br><span class="line">oracle       146       1  0 Jul16 ?        00:00:03 db_d000_FREE</span><br><span class="line">oracle       148       1  0 Jul16 ?        00:00:02 db_s000_FREE</span><br><span class="line">oracle       150       1  0 Jul16 ?        00:00:03 db_tmon_FREE</span><br><span class="line">oracle       152       1  0 Jul16 ?        00:00:08 db_rcbg_FREE</span><br><span class="line">oracle       159       1  0 Jul16 ?        00:00:03 db_tt00_FREE</span><br><span class="line">oracle       162       1  0 Jul16 ?        00:00:08 db_tt01_FREE</span><br><span class="line">oracle       166       1  0 Jul16 ?        00:00:08 db_p000_FREE</span><br><span class="line">oracle       254       1  0 Jul16 ?        00:00:03 db_aqpc_FREE</span><br><span class="line">oracle       381       1  0 Jul16 ?        00:19:13 db_cjq0_FREE</span><br><span class="line">oracle       423       1  0 Jul16 ?        00:00:04 db_qm02_FREE</span><br><span class="line">oracle       427       1  0 Jul16 ?        00:00:02 db_q002_FREE</span><br><span class="line">oracle       431       1  0 Jul16 ?        00:00:06 db_q004_FREE</span><br><span class="line">oracle       478       1  0 Jul16 ?        00:00:09 db_w001_FREE</span><br><span class="line">oracle      1007    1006  0 Jul16 ?        00:00:00 oracleFREE (DESCRIPTION=(LOCAL=YES)(ADDRESS=(PROTOCOL=beq)))</span><br><span class="line">oracle      4550       1  0 Jul16 ?        00:00:04 oracleFREE (LOCAL=NO)</span><br><span class="line">oracle     44919       1  0 Jul17 ?        00:00:00 oracleFREE (LOCAL=NO)</span><br><span class="line">oracle     45470       1  0 Jul17 ?        00:00:00 oracleFREE (LOCAL=NO)</span><br><span class="line">oracle     65331       1  0 Jul17 ?        00:00:00 oracleFREE (LOCAL=NO)</span><br><span class="line">oracle    120778       1  0 Jul18 ?        00:01:20 db_m005_FREE</span><br><span class="line">oracle    121022       1  0 Jul18 ?        00:01:20 db_m004_FREE</span><br><span class="line">oracle    123426       1  0 Jul18 ?        00:01:17 db_m003_FREE</span><br><span class="line">oracle    125755       1  0 Jul18 ?        00:01:18 db_m000_FREE</span><br><span class="line">oracle    167946       1  0 10:41 ?        00:00:00 oracleFREE (LOCAL=NO)</span><br><span class="line">oracle    171135       1  0 11:58 ?        00:00:12 db_m006_FREE</span><br><span class="line">oracle    178882  170338  0 15:05 pts/6    00:00:00 grep FREE</span><br></pre></td></tr></table></figure>
+
+<p>这里可以看到有很多前面介绍的进程，比如lgwr。<br>LOCAL&#x3D;NO 表示非Oracle本身的进程，是通过其他用户通过监听连接进数据库进行访问的。</p>
+<p>这里缺少了一个重要的进程，ARCH归档进程。<br>当日志循环写入过程中会出现下一个日志已经被写过的情况，再继续写将会覆盖其内容，需要将这些即将被覆盖的内容写出到磁盘里去形成归档文件。<br>这样日志记录不会丢失，将来数据库就可以从这些日志文件和归档文件中进行数据库的恢复处理。<br>不过这个归档并非总是必要的。</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">SQL&gt; archive log list </span><br><span class="line">Database log mode              No Archive Mode</span><br><span class="line">Automatic archival             Disabled</span><br><span class="line">Archive destination            /opt/oracle/product/23ai/dbhomeFree/dbs/arch</span><br><span class="line">Oldest online log sequence     8</span><br><span class="line">Current log sequence           6</span><br></pre></td></tr></table></figure>
+
+<p>可以看到 No Archive Mode 数据库归档是关闭的。<br>更改数据库归档模式需要重启数据库，将数据库置于mount状态后，输入<code>alter database archivelog</code>(如果是归档改为非归档，这里是<code>alter database noarchivelog</code>)<br>然后再开启数据库<code>alter database open</code>,才可以将数据库更改为非归档，具体步骤如下（这里就不一一执行了）：</p>
+<ol>
+<li>SQL&gt; shutdown immediate;  – 关闭数据库</li>
+<li>startup mount; – 启动数据库实例，并将数据库装载（mount）到实例中，但不打开（open）数据库。</li>
+<li>alter database archivelog; – 将数据库从非归档模式转换为归档模式</li>
+<li>alter database open; – 打开数据库</li>
+</ol>
+<h5 id="启停"><a href="#启停" class="headerlink" title="启停"></a>启停</h5><p>参数文件及控制文件和数据库的启动与关闭是息息相关的，数据库的启动可分为三个阶段，分别是nomount、mount和open。<br>在启动的过程中可以直接输入startup启动，也可以分成startup nomount、startup mount和alter database open三步分别启动。</p>
+<ol>
+<li><p><strong>STARTUP NOMOUNT</strong>：</p>
+<ul>
+<li>此阶段初始化Oracle实例，但不装载数据库的任何数据文件或控制文件。主要用于配置参数、分配内存结构等初始化工作。</li>
+<li>读取参数文件（PFILE&#x2F;SPFILE），分配SGA（系统全局区），启动后台进程。</li>
+</ul>
+</li>
+<li><p><strong>STARTUP MOUNT</strong>：</p>
+<ul>
+<li>装载数据库但不打开。此时，控制文件被读取，数据库结构被识别，但数据文件保持关闭状态。</li>
+<li>除了NOMOUNT阶段的工作，还会装载控制文件，验证数据文件和联机重做日志文件的存在和一致性。</li>
+</ul>
+</li>
+<li><p><strong>ALTER DATABASE OPEN</strong>：</p>
+<ul>
+<li>打开数据库，使其对用户可用。数据文件被打开，检查点信息被处理，必要时进行恢复操作。</li>
+<li>打开数据文件，应用重做日志以确保数据的一致性，启动必要的后台进程，解锁数据库供用户访问。</li>
+</ul>
+</li>
+<li><p><strong>STARTUP RESTRICT</strong>（可选）：</p>
+<ul>
+<li>以受限模式打开数据库，仅允许特定用户（如DBA）连接，常用于维护操作。</li>
+<li>类似OPEN，但限制了连接数据库的用户权限。</li>
+</ul>
+</li>
+<li><p><strong>STARTUP FORCE</strong>（可选）：</p>
+<ul>
+<li>强制关闭数据库（如果已打开）并重新启动。适用于数据库不能正常关闭的情况。</li>
+<li>相当于执行了<code>SHUTDOWN ABORT followed by STARTUP</code>。</li>
+</ul>
+</li>
+</ol>
+<p>总结起来，nomount阶段仅需一个参数文件即可成功，mount阶段要能够正常读取到控制文件才能成功。<br>而opn阶段需要保证所有的数据文件和日志文件等需要和控制文件里记录的名称和位置一致，能被锁定访问更新的同时还要保证没有损坏，否则数据库的ope阶段就不可能成功。</p>
+<p>关闭是启动的逆过程<br>首先把数据库关闭，然后数据库和实例之间DISMOUNT，最后实例关闭。<br>这里三个阶段都在一个命令中完成，如下：</p>
+<ol>
+<li><p><strong>SHUTDOWN NORMAL</strong>：</p>
+<ul>
+<li>平缓关闭数据库，等待所有用户断开连接后才关闭，确保数据完整性和一致性。</li>
+<li>阻止新连接，等待当前所有会话完成，执行检查点，关闭数据库和实例。</li>
+</ul>
+</li>
+<li><p><strong>SHUTDOWN TRANSACTIONAL</strong>：</p>
+<ul>
+<li>类似于NORMAL，但在所有事务结束前不等待长时间运行的查询。</li>
+<li>比NORMAL更快关闭，但保证所有事务完成。</li>
+</ul>
+</li>
+<li><p><strong>SHUTDOWN IMMEDIATE</strong>：</p>
+<ul>
+<li>立即关闭，不等待用户会话完成，但允许当前事务完成。</li>
+<li>终止所有非系统会话，允许当前事务快速提交或回滚后关闭。</li>
+</ul>
+</li>
+<li><p><strong>SHUTDOWN ABORT</strong>：</p>
+<ul>
+<li>紧急关闭，不执行任何清理工作，可能导致未提交的事务丢失和需要实例恢复。</li>
+<li>立即终止所有会话，不执行检查点或事务回滚，可能导致数据库需要恢复。</li>
+</ul>
+</li>
+</ol>
+<h5 id="文件"><a href="#文件" class="headerlink" title="文件"></a>文件</h5><p>没有参数文件，实例无法创建，数据库无法NOMOUNT成功<br>没有控制文件，数据库无法 MOUNT<br>没有数据文件，数据库无法打开使用（此外没有了数据文件，那数据也没地方保存了，数据库也失去意义了)<br>没有日志和归档文件，数据库就失去了保护伞，变得很不安全了。</p>
+<p>参数文件位置</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">SQL&gt; show parameters spfile</span><br><span class="line"></span><br><span class="line">NAME                                 TYPE        VALUE</span><br><span class="line">------------------------------------ ----------- ------------------------------</span><br><span class="line">spfile                               string      /opt/oracle/product/23ai/dbhom</span><br><span class="line">                                                 eFree/dbs/spfileFREE.ora</span><br></pre></td></tr></table></figure>
+
+<p>控制文件位置</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">SQL&gt; show parameters control</span><br><span class="line"></span><br><span class="line">NAME                                 TYPE        VALUE</span><br><span class="line">------------------------------------ ----------- ------------------------------</span><br><span class="line">control_file_record_keep_time        integer     7</span><br><span class="line">control_files                        string      /opt/oracle/oradata/FREE/contr</span><br><span class="line">                                                 ol01.ctl, /opt/oracle/oradata/</span><br><span class="line">                                                 FREE/control02.ctl</span><br><span class="line">control_management_pack_access       string      DIAGNOSTIC+TUNING</span><br><span class="line">diagnostics_control                  string      IGNORE</span><br></pre></td></tr></table></figure>
+
+<p>数据文件位置</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">SQL&gt; select file_name from DBA_DATA_FILES;</span><br><span class="line"></span><br><span class="line">FILE_NAME</span><br><span class="line">--------------------------------------------------------------------------------</span><br><span class="line">/opt/oracle/oradata/FREE/users01.dbf</span><br><span class="line">/opt/oracle/oradata/FREE/undotbs01.dbf</span><br><span class="line">/opt/oracle/oradata/FREE/system01.dbf</span><br><span class="line">/opt/oracle/oradata/FREE/sysaux01.dbf</span><br></pre></td></tr></table></figure>
+
+<p>日志文件位置</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">SQL&gt; select group#,member from v$logfile;</span><br><span class="line"></span><br><span class="line">    GROUP# MEMBER</span><br><span class="line">---------- ----------------------------------------------------------------------</span><br><span class="line">         3 /opt/oracle/oradata/FREE/redo03.log</span><br><span class="line">         2 /opt/oracle/oradata/FREE/redo02.log</span><br><span class="line">         1 /opt/oracle/oradata/FREE/redo01.log</span><br></pre></td></tr></table></figure>
+
+<p>归档文件位置（这里未开启归档模式，所以没有归档文件）</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">SQL&gt; show parameters recovery</span><br><span class="line"></span><br><span class="line">NAME                                 TYPE        VALUE</span><br><span class="line">------------------------------------ ----------- ------------------------------</span><br><span class="line">_instance_recovery_bloom_filter_size integer     1048576</span><br><span class="line">db_recovery_auto_rekey               string      ON</span><br><span class="line">db_recovery_file_dest                string</span><br><span class="line">db_recovery_file_dest_size           big integer 0</span><br><span class="line">recovery_parallelism                 integer     0</span><br><span class="line">remote_recovery_file_dest            string</span><br><span class="line">transaction_recovery                 string      ENABLED</span><br></pre></td></tr></table></figure>
+
+<p>告警日志文件</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">SQL&gt; show parameters dump</span><br><span class="line"></span><br><span class="line">NAME                                 TYPE        VALUE</span><br><span class="line">------------------------------------ ----------- ------------------------------</span><br><span class="line">background_core_dump                 string      partial</span><br><span class="line">background_dump_dest                 string      /opt/oracle/product/23ai/dbhom</span><br><span class="line">                                                 eFree/rdbms/log</span><br><span class="line">core_dump_dest                       string      /opt/oracle/diag/rdbms/free/FR</span><br><span class="line">                                                 EE/cdump</span><br><span class="line">max_dump_file_size                   string      32M</span><br><span class="line">shadow_core_dump                     string      partial</span><br><span class="line">user_dump_dest                       string      /opt/oracle/product/23ai/dbhom</span><br><span class="line">                                                 eFree/rdbms/log</span><br></pre></td></tr></table></figure>
+
+<h5 id="监听"><a href="#监听" class="headerlink" title="监听"></a>监听</h5><p>如果想在远程A机器上通过网络访问本地B机器上的数据库，B机器上的数据库必须开启监听。<br>远程的A机器只需安装数据库客户端，然后通过读取A机器上数据库客户端配置的TNSNAMES.ORA的配置文件，即可连接并访问B机器的数据库。<br>下面介绍监听状态的查看，监听的开启，以及监听的关闭。<br>以下<code>Isnrctl status</code>命令是查看监听的状态命令，其中 Listener Parameter File 和 Listener Log File 定位了监听文件listener.ora以及对应的日志。</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">bash-4.4$ lsnrctl status</span><br><span class="line"></span><br><span class="line">LSNRCTL for Linux: Version 23.0.0.0.0 - Production on 25-JUL-2024 20:16:51</span><br><span class="line"></span><br><span class="line">Copyright (c) 1991, 2024, Oracle.  All rights reserved.</span><br><span class="line"></span><br><span class="line">Connecting to (DESCRIPTION=(ADDRESS=(PROTOCOL=IPC)(KEY=EXTPROC_FOR_FREE)))</span><br><span class="line">STATUS of the LISTENER</span><br><span class="line">------------------------</span><br><span class="line">Alias                     LISTENER</span><br><span class="line">Version                   TNSLSNR for Linux: Version 23.0.0.0.0 - Production</span><br><span class="line">Start Date                16-JUL-2024 15:25:32</span><br><span class="line">Uptime                    9 days 4 hr. 51 min. 19 sec</span><br><span class="line">Trace Level               off</span><br><span class="line">Security                  ON: Local OS Authentication</span><br><span class="line">SNMP                      OFF</span><br><span class="line">Default Service           FREE</span><br><span class="line">Listener Parameter File   /opt/oracle/product/23ai/dbhomeFree/network/admin/listener.ora</span><br><span class="line">Listener Log File         /opt/oracle/diag/tnslsnr/oracle/listener/alert/log.xml</span><br><span class="line">Listening Endpoints Summary...</span><br><span class="line">  (DESCRIPTION=(ADDRESS=(PROTOCOL=ipc)(KEY=EXTPROC_FOR_FREE)))</span><br><span class="line">  (DESCRIPTION=(ADDRESS=(PROTOCOL=tcp)(HOST=0.0.0.0)(PORT=1521)))</span><br><span class="line">Services Summary...</span><br><span class="line">Service &quot;16df542da83f091ce0630500580a27e7&quot; has 1 instance(s).</span><br><span class="line">  Instance &quot;FREE&quot;, status READY, has 1 handler(s) for this service...</span><br><span class="line">Service &quot;FREE&quot; has 1 instance(s).</span><br><span class="line">  Instance &quot;FREE&quot;, status READY, has 1 handler(s) for this service...</span><br><span class="line">Service &quot;FREEXDB&quot; has 1 instance(s).</span><br><span class="line">  Instance &quot;FREE&quot;, status READY, has 1 handler(s) for this service...</span><br><span class="line">Service &quot;PLSExtProc&quot; has 1 instance(s).</span><br><span class="line">  Instance &quot;PLSExtProc&quot;, status UNKNOWN, has 1 handler(s) for this service...</span><br><span class="line">Service &quot;freepdb1&quot; has 1 instance(s).</span><br><span class="line">  Instance &quot;FREE&quot;, status READY, has 1 handler(s) for this service...</span><br><span class="line">The command completed successfully</span><br></pre></td></tr></table></figure>
+
+<p>关闭监听 <code>lsnrctl stop</code><br>关闭监听 <code>lsnrctl start</code></p>
+<h3 id="体会-sql-性能差异"><a href="#体会-sql-性能差异" class="headerlink" title="体会 sql 性能差异"></a>体会 sql 性能差异</h3><h4 id="未优化前，单车速度"><a href="#未优化前，单车速度" class="headerlink" title="未优化前，单车速度"></a>未优化前，单车速度</h4><p>使用以下存储过程，实现将1到10万插入到t表中。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">create or replace procedure proc1</span><br><span class="line">as</span><br><span class="line">begin</span><br><span class="line">    for i in 1..100000</span><br><span class="line">        loop</span><br><span class="line">            execute immediate</span><br><span class="line">                &#x27;insert into t values (&#x27;||i||&#x27;)&#x27;;</span><br><span class="line">            commit;</span><br><span class="line">        end loop;</span><br><span class="line">end;</span><br><span class="line">-- 这里要记得先预先执行一遍，将过程创建起来！</span><br></pre></td></tr></table></figure>
+
+<p>初始化表结构、清空共享池、开启计时等。每次执行存储过程前重置，以便观察各个存储的性能。后续省略</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">SQL&gt; drop table t purge;</span><br><span class="line"></span><br><span class="line">Table dropped.</span><br><span class="line"></span><br><span class="line">Elapsed: 00:00:00.45</span><br><span class="line">SQL&gt; create table t(x int);</span><br><span class="line"></span><br><span class="line">Table created.</span><br><span class="line"></span><br><span class="line">Elapsed: 00:00:00.15</span><br><span class="line">SQL&gt; alter system flush shared_pool;</span><br><span class="line"></span><br><span class="line">System altered.</span><br><span class="line"></span><br><span class="line">Elapsed: 00:00:01.28</span><br><span class="line">SQL&gt; set timing on</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">SQL&gt; exec proc1;</span><br><span class="line"></span><br><span class="line">PL/SQL procedure successfully completed.</span><br><span class="line"></span><br><span class="line">Elapsed: 00:00:53.68</span><br><span class="line">SQL&gt; select count(*) from t;</span><br><span class="line"></span><br><span class="line">  COUNT(*)</span><br><span class="line">----------</span><br><span class="line">    100000</span><br><span class="line"></span><br><span class="line">Elapsed: 00:00:00.09</span><br></pre></td></tr></table></figure>
+
+<p>耗时53秒68，每秒两千条不到。</p>
+<p>共享池中缓存下来的SQL语句以及HASH出来的唯一值，都可以在v$sql中对应的 SQL_TEXT 和 SQL_ID 字段中查询到<br>而解析的次数和执行的次数分别可以从 PARSE_CALL 和 EXECUTIONS 字段中获取。<br>由于这个过程PROC1执行的是 insert into t 的系列插入，于是我们执行如下语句来查询PROC1在数据库共享池中执行的情况，具体如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">select t.sql_text,t.sql_id,t.PARSE_CALLS,t.EXECUTIONS</span><br><span class="line">from v$sql t</span><br><span class="line">where sql_text like &#x27;%insert into t values%&#x27;;</span><br></pre></td></tr></table></figure>
+
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E3%80%8A%E6%94%B6%E8%8E%B7%EF%BC%8C%E4%B8%8D%E6%AD%A2Oracle%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0%E4%B8%8A%E7%AF%87-%E5%BC%80%E5%A7%8B%E5%92%8C%E7%89%A9%E7%90%86%E4%BD%93%E7%B3%BB/PROC1%E5%9C%A8%E5%85%B1%E4%BA%AB%E6%B1%A0%E4%B8%AD%E7%9A%84%E6%89%A7%E8%A1%8C%E6%83%85%E5%86%B5.png"
+                        alt="PROC1在共享池中的执行情况.png"
+                 ></p>
+<p>可以看到共享池中有大量相似的sql，他们的sql_id都不一样，每个语句都被解析了一次、执行了一次。<br>这些sql都是高度相似的，如果这些语句都能合并成一种写法，不是就可以只解析一次，然后执行十万次，节省了解析的时间。</p>
+<h4 id="绑定变量，摩托速度"><a href="#绑定变量，摩托速度" class="headerlink" title="绑定变量，摩托速度"></a>绑定变量，摩托速度</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">create or replace procedure proc2</span><br><span class="line">as</span><br><span class="line">begin</span><br><span class="line">    for i in 1..100000</span><br><span class="line">        loop</span><br><span class="line">            execute immediate</span><br><span class="line">                &#x27;insert into t values (:x)&#x27; using i;</span><br><span class="line">            commit;</span><br><span class="line">        end loop;</span><br><span class="line">end;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">SQL&gt; exec proc2;</span><br><span class="line"></span><br><span class="line">PL/SQL procedure successfully completed.</span><br><span class="line"></span><br><span class="line">Elapsed: 00:00:03.50</span><br></pre></td></tr></table></figure>
+
+<p>耗时3秒50，每秒八千多条。<br>看来sql的解析还是很耗时的。</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E3%80%8A%E6%94%B6%E8%8E%B7%EF%BC%8C%E4%B8%8D%E6%AD%A2Oracle%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0%E4%B8%8A%E7%AF%87-%E5%BC%80%E5%A7%8B%E5%92%8C%E7%89%A9%E7%90%86%E4%BD%93%E7%B3%BB/PROC2%E5%9C%A8%E5%85%B1%E4%BA%AB%E6%B1%A0%E4%B8%AD%E7%9A%84%E6%89%A7%E8%A1%8C%E6%83%85%E5%86%B5.png"
+                        alt="PROC2在共享池中的执行情况.png"
+                 ></p>
+<h4 id="静态改写，汽车速度"><a href="#静态改写，汽车速度" class="headerlink" title="静态改写，汽车速度"></a>静态改写，汽车速度</h4><p>execute immediate 是一种动态SQL的写法，常用于表名字段名是变量、入参的情况，由于表名都不知道，所以当然不能直接写SQL语句了。<br>所以要靠动态SQL语句根据传入的表名参数，来拼成一条SQL语句，由 execute immediate 调用执行。<br>但是这里显然不需要多此一举，因为insert into t values()完全可以满足需求，表名就是t，是确定的。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">create or replace procedure proc3</span><br><span class="line">as</span><br><span class="line">begin</span><br><span class="line">    for i in 1..100000</span><br><span class="line">        loop</span><br><span class="line">            insert into t values (i);</span><br><span class="line">            commit;</span><br><span class="line">        end loop;</span><br><span class="line">end;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">SQL&gt; exec proc3;</span><br><span class="line"></span><br><span class="line">PL/SQL procedure successfully completed.</span><br><span class="line"></span><br><span class="line">Elapsed: 00:00:03.19</span><br></pre></td></tr></table></figure>
+
+<p>耗时3秒19，又快了一些。</p>
+<p>一般来说，静态SQL会自动使用绑定变量<br><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E3%80%8A%E6%94%B6%E8%8E%B7%EF%BC%8C%E4%B8%8D%E6%AD%A2Oracle%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0%E4%B8%8A%E7%AF%87-%E5%BC%80%E5%A7%8B%E5%92%8C%E7%89%A9%E7%90%86%E4%BD%93%E7%B3%BB/PROC3%E5%9C%A8%E5%85%B1%E4%BA%AB%E6%B1%A0%E4%B8%AD%E7%9A%84%E6%89%A7%E8%A1%8C%E6%83%85%E5%86%B5.png"
+                        alt="PROC3在共享池中的执行情况.png"
+                 ></p>
+<p>从执行情况可以看到proc3也实现了绑定变量，而且动态SQL的特点是执行过程中再解析，而静态SQL的特点是编译的过程就解析好了。<br>这点差别就是速度再度提升的原因。</p>
+<h4 id="批量提交，动车速度"><a href="#批量提交，动车速度" class="headerlink" title="批量提交，动车速度"></a>批量提交，动车速度</h4><p>commit 放在里面意味着每插入1条，就要提交1次，那放在循环里就要提交10万次，而放在循环外就是全部插入完后提交1次。<br>commit 触发 LGWR 将 REDO BUFFER 写出到 REDO LOG 中，并且将回滚段的活动事务标记为不活动，同时让回滚段中记录对应前镜像记录的所在位置标记为可以重写。<br>切记 commit 可不是写数据的动作，写数据将数据从 DATA BUFFER 刷出磁盘是由 CKPT。</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">SQL&gt; exec proc4;</span><br><span class="line"></span><br><span class="line">PL/SQL procedure successfully completed.</span><br><span class="line"></span><br><span class="line">Elapsed: 00:00:03.02</span><br></pre></td></tr></table></figure>
+
+<h4 id="集合写法，飞机速度"><a href="#集合写法，飞机速度" class="headerlink" title="集合写法，飞机速度"></a>集合写法，飞机速度</h4><p><code>insert into t select rownum from dual connect by level&lt;=100000;</code></p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">SQL&gt; insert into t select rownum from dual connect by level&lt;=100000;</span><br><span class="line"></span><br><span class="line">100000 rows created.</span><br><span class="line"></span><br><span class="line">Elapsed: 00:00:00.14</span><br></pre></td></tr></table></figure>
+
+<p>耗时仅0.14秒<br>因为原先的过程变为了sql，一条条插入的语句变成了一个集合的概念，变成了一整批地写进 DATA BUFFER 区里。<br>好比你要运砖头到目的地，一种是一块砖头拿到目的地，再返回拿第二块，直到拿完全部。<br>而另一种是全部放在板车一起推至目的地，只是这里的目的地是 DATA BUFFER 区而已。</p>
+<h4 id="直接路径，火箭速度"><a href="#直接路径，火箭速度" class="headerlink" title="直接路径，火箭速度"></a>直接路径，火箭速度</h4><p>时间已经很小了，这时可能会有误差，所以将数据量放大到200万。<del>没加太大是因为我这小服务器内存不够</del></p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">SQL&gt; insert into t select rownum from dual connect by level&lt;=2000000;</span><br><span class="line"></span><br><span class="line">2000000 rows created.</span><br><span class="line"></span><br><span class="line">Elapsed: 00:00:01.74</span><br></pre></td></tr></table></figure>
+
+<p>耗时1.74秒。</p>
+<p>下面使用 create table 的直接路径方式来新建t表。<br><code>create table t as select rownum x from dual connect by level&lt;=2000000;</code></p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">SQL&gt;  create table t as select rownum x from dual connect by level&lt;=2000000;</span><br><span class="line"></span><br><span class="line">Table created.</span><br><span class="line"></span><br><span class="line">Elapsed: 00:00:01.73</span><br></pre></td></tr></table></figure>
+
+<p>区别不是很大，可能因为数据量的关系。</p>
+<h4 id="并行设置，飞船速度"><a href="#并行设置，飞船速度" class="headerlink" title="并行设置，飞船速度"></a>并行设置，飞船速度</h4><p>最后，如果遇到性能好的机器，还是可以大幅度提升性能的。<br>设置日志关闭 nologging 并且设置 parallel 4 表示用到机器的4个CPU。<del>这里还是受限于机器了</del></p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">SQL&gt; create table t nologging parallel 4 as select rownum x from dual connect by level&lt;=2000000;</span><br><span class="line"></span><br><span class="line">Table created.</span><br><span class="line"></span><br><span class="line">Elapsed: 00:00:01.74</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="Oracle-环境的搭建"><a href="#Oracle-环境的搭建" class="headerlink" title="Oracle 环境的搭建"></a>Oracle 环境的搭建</h2><p>中间有段时间没有连着写，是去搭建Oracle环境了。毕竟公司的测试环境没有dba权限，还是自己搭一个比较好。<br>这里为了方便，采用官方的docker镜像进行部署。</p>
+<p>首先用 <code>docker pull container-registry.oracle.com/database/free:latest</code> 拉取镜像。<br>镜像比较大，需要等一段时间。确保磁盘有足够的空间，我这里拉取的镜像id是 <code>7510f8869b04</code><br>如果下载过慢，或者内存不足，可以参考下面修改docker的配置文件 <code>sudo vim /etc/docker/daemon.json</code></p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;data-root&quot;</span><span class="punctuation">:</span> <span class="string">&quot;/new_dir/docker&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;registry-mirrors&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">    <span class="string">&quot;http://hub-mirror.c.163.com&quot;</span></span><br><span class="line">  <span class="punctuation">]</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>data-root 是docker数据存储位置<br>registry-mirrors 是镜像加速地址，这里使用的是网易的镜像加速地址<br>保存后重启docker即可，<code>sudo systemctl start docker</code></p>
+<p>镜像拉取完成后，就可以构建启动容器了。<br><code>docker run -d --name oracle -h oracle -p 1521:1521 -v /etc/localtime:/etc/localtime:ro container-registry.oracle.com/database/free:latest</code></p>
+<ul>
+<li>-d: 这是一个标志，表示以守护态（detached mode）运行容器，即在后台运行，不会把容器的输出直接打印到当前终端。</li>
+<li>–name oracle: 为新创建的容器指定一个名字 oracle，便于后续引用和管理。</li>
+<li>-h oracle: 设置容器的主机名（hostname）为 oracle。这对于某些依赖主机名的应用配置是有帮助的。</li>
+<li>-p 1521:1521: 映射容器的端口 1521 到宿主机的端口 1521。这允许外部通过宿主机的 1521 端口访问容器中的 Oracle 数据库服务。</li>
+<li>-v &#x2F;etc&#x2F;localtime:&#x2F;etc&#x2F;localtime:ro: 使用卷挂载的方式，将宿主机的 &#x2F;etc&#x2F;localtime 文件或目录以只读（read-only）模式挂载到容器的 &#x2F;etc&#x2F;localtime。这样做是为了确保容器内的时间与宿主机保持一致，避免时区问题。</li>
+</ul>
+<p>使用 <code>docker logs -f oracle</code> 查看容器日志，当出现 <code>DATABASE IS READY TO USE!</code> 时，即启动成功。<br>后面就可以愉快地使用Oracle了。</p>
+<p><code>docker exec -it oracle sqlplus sys@localhost:1521/FREE as sysdba</code> 进入容器内，并进行登录。</p>
+<h2 id="HINT"><a href="#HINT" class="headerlink" title="HINT"></a>HINT</h2><p>在SQL查询中，HINT 是一种向数据库优化器提供提示的方式，用来指导SQL执行计划的选择。<br>HINT 不是SQL语言的标准组成部分，而是数据库特有的优化手段，它通常以注释的形式出现在SQL语句中，让数据库的查询优化器遵循某种特定的执行路径或采用特定的算法来处理查询。</p>
+<p>在Oracle数据库中，HINT的写法通常是在表名或视图名后面紧跟一个特定的提示关键字或短语，这些提示被包围在 &#x2F;*+ … *&#x2F; 注释符号内。例如，如果你想提示优化器使用特定的索引，可以这样写：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="comment">/*+ INDEX(table_name index_name) */</span> column1, column2</span><br><span class="line"><span class="keyword">FROM</span> table_name</span><br><span class="line"><span class="keyword">WHERE</span> some_condition;</span><br></pre></td></tr></table></figure>
+
+<p>在这个例子中，<code>INDEX(table_name index_name)</code> 是一个HINT，告诉优化器使用名为 <code>index_name</code> 的索引来访问 <code>table_name</code>。</p>
+<p>还有一些常见的HINT，如：</p>
+<ul>
+<li><code>FULL(table_name)</code> 强制全表扫描。</li>
+<li><code>USE_NL(a b)</code> 强制使用嵌套循环连接(a表和b表)。</li>
+<li><code>USE_HASH(a b)</code> 强制使用哈希连接(a表和b表)。</li>
+<li><code>PARALLEL(table_name, degree)</code> 指定表并行查询的度数。</li>
+<li><code>LEADING(table_name[, ...])</code> 指定连接顺序的起始表。</li>
+</ul>
+<p>需要注意的是，使用HINT应当谨慎，<strong>因为它们会绕过数据库自动优化机制，只有在明确知道优化器选择的执行计划不如预期高效时才应考虑使用。</strong><br>而且，随着数据库版本的更新或数据分布的变化，曾经有效的HINT可能不再是最优选择，因此定期审查和调整HINT是必要的。</p>
+
+                </div>
+
+                
+                        
+<div class="post-copyright-info-container border-box">
+    <div class="copyright-info-content border-box">
+        <div class="copyright-info-top border-box">
+            <div class="copyright-post-title border-box text-ellipsis">
+                《收获，不止Oracle》读书笔记上篇-开始和物理体系
+            </div>
+
+            <div class="copyright-post-link border-box text-ellipsis">
+                读书笔记/读书笔记/《收获，不止Oracle》读书笔记上篇-开始和物理体系/
+            </div>
+        </div>
+
+        <div class="copyright-info-bottom border-box">
+            <div class="copyright-post-author bottom-item">
+                <div class="type">
+                    作者
+                </div>
+                <div class="content">咕咕咕</div>
+            </div>
+
+            <div class="post-time bottom-item">
+                <div class="type">
+                    发布于
+                </div>
+                <div class="content">2024-07-11 10:31</div>
+            </div>
+
+
+            <div class="post-license bottom-item">
+                <div class="type">
+                    许可
+                </div>
+                <div class="content tooltip" data-tooltip-content="CC BY-NC-SA 4.0">
+                    <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hans">
+                        <i class="fa-brands fa-creative-commons"></i>
+                        <i class="fa-brands fa-creative-commons-by"></i>
+                        <i class="fa-brands fa-creative-commons-nc"></i>
+                        <i class="fa-brands fa-creative-commons-sa"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <i class="copyright-bg fa-solid fa-copyright"></i>
+    </div>
+    <div class="copy-copyright-info flex-center tooltip" data-tooltip-content="复制版权信息" data-tooltip-offset-y="-2px">
+        <i class="fa-solid fa-copy"></i>
+    </div>
+</div>
+
+                
+
+                <div class="post-bottom-tags-and-share border-box">
+                    <div>
+                        
+                            <ul class="post-tags-box border-box">
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+                                    </li>
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/%E3%80%8A%E6%94%B6%E8%8E%B7%EF%BC%8C%E4%B8%8D%E6%AD%A2Oracle%E3%80%8B/">《收获，不止Oracle》</a>
+                                    </li>
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/Oracle/">Oracle</a>
+                                    </li>
+                                
+                            </ul>
+                        
+                    </div>
+                    <div>
+                        
+                            <div class="post-share-container border-box">
+    <ul class="share-list-wrap border-box">
+        <li class="qq share-item border-box flex-center tooltip"
+            data-tooltip-content="分享到 QQ"
+        >
+            <i class="fa-brands fa-qq"></i>
+        </li>
+        <li class="wechat share-item border-box flex-center tooltip tooltip-img"
+            data-tooltip-content="分享到微信"
+            data-tooltip-img-tip="微信扫一扫"
+            data-tooltip-img-style="background-color: #fff; top: -10px; padding: 0.6rem 0.6rem 0.1rem 0.6rem;"
+        >
+            <i class="fa-brands fa-weixin"></i>
+        </li>
+        <li class="weibo share-item border-box flex-center tooltip"
+            data-tooltip-content="分享到微博"
+        >
+            <i class="fa-brands fa-weibo"></i>
+        </li>
+    </ul>
+</div>
+
+                        
+                    </div>
+                </div>
+
+                
+                    <div class="reward-author-container border-box flex-center">
+    <div class="reward-btn keep-button border-box flex-center tooltip tooltip-img"
+            data-tooltip-content="谢谢你请我喝可乐~"
+            data-tooltip-img-url="/images/thanks.png"
+            data-tooltip-img-trigger="click"
+            data-tooltip-img-style="top: -8px;"
+    >
+        <i class="fa-solid fa-hand-holding-heart"></i>
+    </div>
+</div>
+
+                
+
+                
+                    <div class="post-nav border-box">
+                        
+                            <div class="prev-post">
+                                <a class="prev"
+                                   rel="prev"
+                                   href="/%E5%85%B6%E4%BB%96/%E5%85%B6%E4%BB%96/%E5%AD%A4%E7%8B%AC%E7%9A%84%E6%A0%B9%E5%8F%B7%E4%B8%89/"
+                                   title="孤独的根号三"
+                                >
+                                    <span class="left arrow-icon flex-center">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </span>
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">孤独的根号三</span>
+                                        <span class="post-nav-item">上一篇</span>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                        
+                            <div class="next-post">
+                                <a class="next"
+                                   rel="next"
+                                   href="/%E8%AE%B0%E5%BD%95%E7%94%9F%E6%B4%BB/%E8%AE%B0%E5%BD%95%E7%94%9F%E6%B4%BB/%E7%8E%89%E5%AD%90%E7%88%B1%E6%83%85%E6%95%85%E4%BA%8B/"
+                                   title="玉子爱情故事"
+                                >
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">玉子爱情故事</span>
+                                        <span class="post-nav-item">下一篇</span>
+                                    </span>
+                                    <span class="right arrow-icon flex-center">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                    </div>
+                
+
+                
+                    
+
+
+    <div class="comments-container border-box">
+        <div id="comments-anchor" class="comment-area-title border-box">
+            <i class="fas fa-comments"></i>&nbsp;评论
+        </div>
+        <div class="comment-plugin-fail border-box">
+    <span class="fail-tip">评论插件加载失败</span>
+    <button class="reload keep-button">点击重新加载</button>
+</div>
+<div class="comment-plugin-loading flex-center border-box">
+    <i class="loading-icon fa-solid fa-spinner fa-spin"></i>
+    <span class="load-tip">正在加载评论插件</span>
+</div>
+<script data-pjax>
+  window.KeepCommentPlugin = {}
+  window.KeepCommentPlugin.hideLoading = () => {
+    const cplDom = document.querySelector('.comments-container .comment-plugin-loading')
+    cplDom.style.display = 'none'
+  }
+  window.KeepCommentPlugin.loadFailHandle = () => {
+    window.KeepCommentPlugin.hideLoading()
+    const cpfDom = document.querySelector('.comments-container .comment-plugin-fail')
+    cpfDom.style.display = 'flex'
+    cpfDom.querySelector('.reload').addEventListener('click', () => {
+      window.location.reload()
+    })
+  }
+</script>
+
+        
+            
+
+    <div class="giscus-comments-container">
+        <div class="giscus" id="giscus"></div>
+        <script data-pjax
+                onerror="window.KeepCommentPlugin.loadFailHandle()"
+        >
+          if (!window.KeepCommentPlugin?.getGiscusTheme) {
+            window.KeepCommentPlugin.getGiscusTheme = () => {
+              return document.body.classList.contains('dark-mode') ? 'dark_dimmed' : 'light_tritanopia'
+            }
+          }
+
+          if (!window.KeepCommentPlugin?.changeGiscusTheme) {
+            window.KeepCommentPlugin.changeGiscusTheme = () => {
+              const iframe = document.querySelector('iframe.giscus-frame')
+              iframe && iframe.contentWindow.postMessage({
+                giscus: {
+                  setConfig: {
+                    theme: window.KeepCommentPlugin.getGiscusTheme()
+                  }
+                }
+              }, 'https://giscus.app')
+            }
+          }
+
+          if (!window.KeepCommentPlugin?.initGiscus) {
+            window.KeepCommentPlugin.initGiscus = () => {
+              const script = document.createElement('script')
+              script.async = true
+              script.src = 'https://giscus.app/client.js'
+              script.setAttribute('data-repo', 'Cooooing/Cooooing.github.io')
+              script.setAttribute('data-repo-id', 'R_kgDOHQal_w')
+              script.setAttribute('data-category', 'Announcements')
+              script.setAttribute('data-category-id', 'DIC_kwDOHQal_84CjZo6')
+              script.setAttribute('data-reactions-enabled', '1')
+              script.setAttribute('data-lang', 'zh-CN')
+              script.setAttribute('data-mapping', 'pathname')
+              script.setAttribute('data-strict', '0')
+              script.setAttribute('data-emit-metadata', '0')
+              script.setAttribute('data-input-position', 'top')
+              script.setAttribute('crossorigin', 'anonymous')
+              script.setAttribute('loading', 'lazy')
+              script.setAttribute('data-theme', window.KeepCommentPlugin.getGiscusTheme())
+              document.querySelector('.giscus-comments-container').appendChild(script)
+              script.onerror = () => {
+                window.KeepCommentPlugin.loadFailHandle()
+              }
+              script.onload = () => {
+                window.KeepCommentPlugin.hideLoading()
+              }
+              const toggleThemeBtn = document.querySelector('.tool-toggle-theme-mode')
+              toggleThemeBtn && toggleThemeBtn.addEventListener('click', () => {
+                window.KeepCommentPlugin.changeGiscusTheme()
+              })
+            }
+          }
+
+          if ('true' === "true") {
+            setTimeout(() => {
+              window.KeepCommentPlugin.initGiscus()
+            }, 1000)
+          } else {
+            window.addEventListener("DOMContentLoaded", window.KeepCommentPlugin.initGiscus)
+          }
+        </script>
+    </div>
+
+
+        
+    </div>
+
+
+
+
+
+                
+            </div>
+        </div>
+
+        
+            <div class="pc-post-toc left-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E7%AB%A0-%E6%84%8F%E8%AF%86%EF%BC%8C%E5%B0%91%E5%81%9A%E4%BA%8B%E4%BB%8E%E5%AD%A6%E4%B9%A0%E5%BC%80%E5%A7%8B"><span class="nav-text">第一章 - 意识，少做事从学习开始</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E9%9C%87%E6%83%8A%EF%BC%8C%E4%BD%93%E9%AA%8C%E7%89%A9%E7%90%86%E4%BD%93%E7%B3%BB%E4%B9%8B%E6%97%85"><span class="nav-text">第二章 - 震惊，体验物理体系之旅</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%8E%E6%99%AE%E9%80%9A%E6%9F%A5%E8%AF%A2-sql-%E5%BC%80%E5%A7%8B"><span class="nav-text">从普通查询 sql 开始</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%93%E4%BC%9AOracle%E7%9A%84%E4%BB%A3%E4%BB%B7"><span class="nav-text">体会Oracle的代价</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%86%8D%E6%8E%A2%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%8E%9F%E7%90%86"><span class="nav-text">再探体系结构原理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BB%8E%E6%99%AE%E9%80%9A%E6%9B%B4%E6%96%B0%E8%AF%AD%E5%8F%A5%E5%BC%80%E5%A7%8B"><span class="nav-text">从普通更新语句开始</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%B3%E4%BA%8E%E6%8F%90%E4%BA%A4-Commit"><span class="nav-text">关于提交 Commit</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%90%84%E4%B8%BB%E8%A6%81%E8%BF%9B%E7%A8%8B%E6%80%BB%E7%BB%93"><span class="nav-text">各主要进程总结</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%B3%E4%BA%8E%E5%9B%9E%E6%BB%9A-Rollback"><span class="nav-text">关于回滚 Rollback</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%80%E8%87%B4%E8%AF%BB%E7%9A%84%E5%8E%9F%E7%90%86"><span class="nav-text">一致读的原理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%9E%E8%B7%B5"><span class="nav-text">实践</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%86%85%E5%AD%98"><span class="nav-text">内存</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%BF%9B%E7%A8%8B"><span class="nav-text">进程</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%90%AF%E5%81%9C"><span class="nav-text">启停</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%96%87%E4%BB%B6"><span class="nav-text">文件</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%9B%91%E5%90%AC"><span class="nav-text">监听</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%93%E4%BC%9A-sql-%E6%80%A7%E8%83%BD%E5%B7%AE%E5%BC%82"><span class="nav-text">体会 sql 性能差异</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9C%AA%E4%BC%98%E5%8C%96%E5%89%8D%EF%BC%8C%E5%8D%95%E8%BD%A6%E9%80%9F%E5%BA%A6"><span class="nav-text">未优化前，单车速度</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BB%91%E5%AE%9A%E5%8F%98%E9%87%8F%EF%BC%8C%E6%91%A9%E6%89%98%E9%80%9F%E5%BA%A6"><span class="nav-text">绑定变量，摩托速度</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%9D%99%E6%80%81%E6%94%B9%E5%86%99%EF%BC%8C%E6%B1%BD%E8%BD%A6%E9%80%9F%E5%BA%A6"><span class="nav-text">静态改写，汽车速度</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%89%B9%E9%87%8F%E6%8F%90%E4%BA%A4%EF%BC%8C%E5%8A%A8%E8%BD%A6%E9%80%9F%E5%BA%A6"><span class="nav-text">批量提交，动车速度</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%9B%86%E5%90%88%E5%86%99%E6%B3%95%EF%BC%8C%E9%A3%9E%E6%9C%BA%E9%80%9F%E5%BA%A6"><span class="nav-text">集合写法，飞机速度</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%9B%B4%E6%8E%A5%E8%B7%AF%E5%BE%84%EF%BC%8C%E7%81%AB%E7%AE%AD%E9%80%9F%E5%BA%A6"><span class="nav-text">直接路径，火箭速度</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B9%B6%E8%A1%8C%E8%AE%BE%E7%BD%AE%EF%BC%8C%E9%A3%9E%E8%88%B9%E9%80%9F%E5%BA%A6"><span class="nav-text">并行设置，飞船速度</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Oracle-%E7%8E%AF%E5%A2%83%E7%9A%84%E6%90%AD%E5%BB%BA"><span class="nav-text">Oracle 环境的搭建</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HINT"><span class="nav-text">HINT</span></a></li></ol>
+    </div>
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom border-box">
+            
+<footer class="footer border-box">
+    <div class="border-box website-info-box default">
+        
+            <div class="copyright-info info-item default">
+                &copy;&nbsp;<span>2022</span>&nbsp;-&nbsp;2025
+                
+                    &nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;&nbsp;<a href="/">咕咕咕</a>
+                
+            </div>
+
+            <div class="theme-info info-item default">
+                由&nbsp;<a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;驱动&nbsp;&&nbsp;主题&nbsp;<a class="keep-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep</a>
+            </div>
+
+            
+
+            
+        
+
+        <div style="color:var(--text-color-4);"><span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>(～￣▽￣)～<script src="/js/lifeTime.js"></script></div>
+        <a href="https://icp.gov.moe/?keyword=20222450" target="_blank">萌ICP备20222450号</a>
+
+
+        <div class="count-item info-item default">
+            
+                <span class="count-box border-box word">
+                    <span class="item-type border-box">总字数</span>
+                    <span class="item-value border-box word">362.1k</span>
+                </span>
+            
+
+            
+                <span class="count-box border-box uv">
+                    <span class="item-type border-box">访客数</span>
+                    <span class="item-value border-box uv" id="busuanzi_value_site_uv"></span>
+                </span>
+            
+
+            
+                <span class="count-box border-box pv">
+                    <span class="item-type border-box">访问量</span>
+                    <span class="item-value border-box pv" id="busuanzi_value_site_pv"></span>
+                </span>
+            
+        </div>
+
+        <div id="aplayer">
+          <meting-js
+                  server="netease"
+                  type="playlist"
+                  id="7345595717"
+                  fixed="true"
+                  mini="true"
+                  autoplay="false"
+                  listFolded="true"
+                  order="random"
+                  preload="none">
+          </meting-js>
+        </div>
+            <br>
+            <br>
+            <br>
+    </div>
+
+</footer>
+
+        </div>
+    </div>
+
+    <!-- post tools -->
+    
+        <div class="post-tools left-toc">
+            <div class="post-tools-container border-box">
+    <ul class="tools-list border-box">
+        <!-- PC TOC show toggle -->
+        
+            <li class="tools-item flex-center toggle-show-toc">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        <!-- PC go comment -->
+        
+            <li class="tools-item flex-center go-to-comments">
+                <i class="fas fa-comment"></i>
+                <span class="post-comments-count"></span>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <!-- side tools -->
+    <div class="side-tools">
+        <div class="side-tools-container border-box ">
+    <ul class="side-tools-list side-tools-show-handle border-box">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-toggle-theme-mode flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+            <li class="tools-item rss flex-center">
+                <a class="flex-center"
+                   href="/atom.xml"
+                   target="_blank"
+                >
+                    <i class="fas fa-rss"></i>
+                </a>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list border-box">
+        
+            <li class="tools-item toggle-show-toc-tablet flex-center">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        
+            <li class="tools-item go-to-comments-tablet flex-center">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+
+        <li class="tools-item tool-scroll-to-top flex-center show-arrow">
+            <i class="arrow fas fa-arrow-up"></i>
+            <span class="percent"></span>
+        </li>
+    </ul>
+</div>
+
+    </div>
+
+    <!-- image mask -->
+    <div class="zoom-in-image-mask">
+    <img class="zoom-in-image">
+</div>
+
+
+    <!-- local search -->
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="搜索..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="close-popup-btn">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+    <!-- tablet toc -->
+    
+        <div class="tablet-post-toc-mask">
+            <div class="tablet-post-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E7%AB%A0-%E6%84%8F%E8%AF%86%EF%BC%8C%E5%B0%91%E5%81%9A%E4%BA%8B%E4%BB%8E%E5%AD%A6%E4%B9%A0%E5%BC%80%E5%A7%8B"><span class="nav-text">第一章 - 意识，少做事从学习开始</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E9%9C%87%E6%83%8A%EF%BC%8C%E4%BD%93%E9%AA%8C%E7%89%A9%E7%90%86%E4%BD%93%E7%B3%BB%E4%B9%8B%E6%97%85"><span class="nav-text">第二章 - 震惊，体验物理体系之旅</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%8E%E6%99%AE%E9%80%9A%E6%9F%A5%E8%AF%A2-sql-%E5%BC%80%E5%A7%8B"><span class="nav-text">从普通查询 sql 开始</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%93%E4%BC%9AOracle%E7%9A%84%E4%BB%A3%E4%BB%B7"><span class="nav-text">体会Oracle的代价</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%86%8D%E6%8E%A2%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%8E%9F%E7%90%86"><span class="nav-text">再探体系结构原理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BB%8E%E6%99%AE%E9%80%9A%E6%9B%B4%E6%96%B0%E8%AF%AD%E5%8F%A5%E5%BC%80%E5%A7%8B"><span class="nav-text">从普通更新语句开始</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%B3%E4%BA%8E%E6%8F%90%E4%BA%A4-Commit"><span class="nav-text">关于提交 Commit</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%90%84%E4%B8%BB%E8%A6%81%E8%BF%9B%E7%A8%8B%E6%80%BB%E7%BB%93"><span class="nav-text">各主要进程总结</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%B3%E4%BA%8E%E5%9B%9E%E6%BB%9A-Rollback"><span class="nav-text">关于回滚 Rollback</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%80%E8%87%B4%E8%AF%BB%E7%9A%84%E5%8E%9F%E7%90%86"><span class="nav-text">一致读的原理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%9E%E8%B7%B5"><span class="nav-text">实践</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%86%85%E5%AD%98"><span class="nav-text">内存</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%BF%9B%E7%A8%8B"><span class="nav-text">进程</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%90%AF%E5%81%9C"><span class="nav-text">启停</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%96%87%E4%BB%B6"><span class="nav-text">文件</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%9B%91%E5%90%AC"><span class="nav-text">监听</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%93%E4%BC%9A-sql-%E6%80%A7%E8%83%BD%E5%B7%AE%E5%BC%82"><span class="nav-text">体会 sql 性能差异</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9C%AA%E4%BC%98%E5%8C%96%E5%89%8D%EF%BC%8C%E5%8D%95%E8%BD%A6%E9%80%9F%E5%BA%A6"><span class="nav-text">未优化前，单车速度</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BB%91%E5%AE%9A%E5%8F%98%E9%87%8F%EF%BC%8C%E6%91%A9%E6%89%98%E9%80%9F%E5%BA%A6"><span class="nav-text">绑定变量，摩托速度</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%9D%99%E6%80%81%E6%94%B9%E5%86%99%EF%BC%8C%E6%B1%BD%E8%BD%A6%E9%80%9F%E5%BA%A6"><span class="nav-text">静态改写，汽车速度</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%89%B9%E9%87%8F%E6%8F%90%E4%BA%A4%EF%BC%8C%E5%8A%A8%E8%BD%A6%E9%80%9F%E5%BA%A6"><span class="nav-text">批量提交，动车速度</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%9B%86%E5%90%88%E5%86%99%E6%B3%95%EF%BC%8C%E9%A3%9E%E6%9C%BA%E9%80%9F%E5%BA%A6"><span class="nav-text">集合写法，飞机速度</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%9B%B4%E6%8E%A5%E8%B7%AF%E5%BE%84%EF%BC%8C%E7%81%AB%E7%AE%AD%E9%80%9F%E5%BA%A6"><span class="nav-text">直接路径，火箭速度</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B9%B6%E8%A1%8C%E8%AE%BE%E7%BD%AE%EF%BC%8C%E9%A3%9E%E8%88%B9%E9%80%9F%E5%BA%A6"><span class="nav-text">并行设置，飞船速度</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Oracle-%E7%8E%AF%E5%A2%83%E7%9A%84%E6%90%AD%E5%BB%BA"><span class="nav-text">Oracle 环境的搭建</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HINT"><span class="nav-text">HINT</span></a></li></ol>
+    </div>
+</div>
+
+            </div>
+        </div>
+    
+</main>
+
+
+
+<!-- common -->
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/toggle-theme.js"></script>
+
+<script src="/js/code-block.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+
+<!-- local-search -->
+
+    
+<script src="/js/local-search.js"></script>
+
+
+
+<!-- lazyload -->
+
+    
+<script src="/js/lazyload.js"></script>
+
+
+
+<div class="pjax">
+    
+        <!-- post-helper -->
+        
+<script src="/js/post/post-helper.js"></script>
+
+
+        <!-- toc -->
+        
+            
+<script src="/js/post/toc.js"></script>
+
+        
+
+        <!-- copyright-info -->
+        
+            
+<script src="/js/post/copyright-info.js"></script>
+
+        
+
+        <!-- share -->
+        
+            
+<script src="/js/post/share.js"></script>
+
+        
+    
+
+    <!-- category-page -->
+    
+
+    <!-- links-page -->
+    
+
+    <!-- photos-page -->
+    
+</div>
+
+<!-- mermaid -->
+
+
+<!-- pjax -->
+
+    
+<script src="/js/libs/pjax.min.js"></script>
+
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        window.pjax = new Pjax({
+            selectors: [
+                'head title',
+                '.page-container',
+                '.pjax',
+                '#aplayer',
+                '#canvas_sakura'
+            ],
+            history: true,
+            debug: false,
+            cacheBust: false,
+            timeout: 0,
+            analytics: false,
+            currentUrlFullReload: false,
+            scrollRestoration: false,
+        });
+
+        document.addEventListener('pjax:send', () => {
+            KEEP.utils.pjaxProgressBarStart()
+        });
+
+        document.addEventListener('pjax:complete', () => {
+            KEEP.utils.pjaxProgressBarEnd()
+            window.pjax.executeScripts(document.querySelectorAll('script[data-pjax], .pjax script'))
+            KEEP.initExecute()
+        });
+    });
+</script>
+
+
+
+
+    
+        
+            
+<script class="custom-inject-js" src="/js/APlayer.min.js" data-pjax></script>
+
+        
+    
+        
+            
+<script class="custom-inject-js" src="/js/Meting.min.js" data-pjax></script>
+
+        
+    
+        
+            
+<script class="custom-inject-js" src="/js/leaves.js" data-pjax></script>
+
+        
+    
+
+
+
+</body>
+</html>

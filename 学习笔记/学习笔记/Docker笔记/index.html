@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="技术博客,后端开发,编程笔记,生活">
+    <meta name="description" content="Code | Systems | Life — 专注编程本质，也关心世界如何运转。">
+    <meta name="author" content="咕咕咕">
+
+    
+    <title>
+        
+            docker笔记 |
+        
+        咕咕咕的小破站
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+        <link rel="shortcut icon" href="/images/favicon.png">
+    
+    
+<link rel="stylesheet" href="/font/css/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/regular.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/solid.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/brands.min.css">
+
+    
+        
+            
+                
+<link rel="stylesheet" href="/css/APlayer.min.css">
+
+            
+        
+            
+                
+<link rel="stylesheet" href="/css/custom.css">
+
+            
+        
+    
+    <script class="keep-theme-configurations">
+    const KEEP = window.KEEP || {}
+    KEEP.hexo_config = {"hostname":"cooooing.github.io","root":"/","language":"zh-CN","path":"search.json"}
+    KEEP.theme_config = {"base_info":{"primary_color":"#0066cc","title":"咕咕咕的小破站","author":"咕咕咕","avatar":"/images/head.jpg","logo":"/images/head.jpg","favicon":"/images/favicon.png"},"menu":{"Archives":"/archives","Categories":"/categories","Tags":"/tags","日常":"/daily","Links":"/links","About":"/about"},"first_screen":{"enable":false,"background_img":"/images/bg.svg","background_img_dark":"/images/bg.svg","description":"Keep writing and Keep loving.","hitokoto":false},"social_contact":{"enable":false,"links":{"github":null,"weixin":null,"qq":null,"weibo":null,"zhihu":null,"twitter":null,"facebook":null,"email":null}},"scroll":{"progress_bar":false,"percent":false,"hide_header":true},"home":{"category":true,"tag":true,"announcement":null},"post":{"author_badge":{"enable":true,"level_badge":false,"custom_badge":["fishing"]},"word_count":{"wordcount":true,"min2read":true},"datetime_format":"YYYY-MM-DD HH:mm:ss","copyright_info":true,"share":true,"reward":{"enable":true,"img_link":"/images/thanks.png","text":"谢谢你请我喝可乐~"}},"code_block":{"tools":{"enable":true,"style":"default"},"highlight_theme":"default"},"toc":{"enable":true,"number":false,"expand_all":true,"init_open":true,"layout":"left"},"website_count":{"busuanzi_count":{"enable":true,"site_uv":true,"site_pv":true,"page_pv":true}},"local_search":{"enable":true,"preload":true},"comment":{"enable":true,"use":"giscus","valine":{"appid":null,"appkey":null,"server_urls":null,"placeholder":null},"gitalk":{"github_id":null,"github_admins":null,"repository":null,"client_id":null,"client_secret":null,"proxy":null},"twikoo":{"env_id":null,"region":null,"version":"1.6.21"},"waline":{"server_url":null,"reaction":false,"version":2},"giscus":{"repo":"Cooooing/Cooooing.github.io","repo_id":"R_kgDOHQal_w","category":"Announcements","category_id":"DIC_kwDOHQal_84CjZo6","reactions_enabled":true},"artalk":{"server":null},"disqus":{"shortname":null}},"rss":{"enable":true},"lazyload":{"enable":true},"cdn":{"enable":false,"provider":"cdnjs"},"pjax":{"enable":true},"footer":{"since":2022,"word_count":true,"icp":{"enable":false,"record_code":null,"url":"https://beian.miit.gov.cn"},"site_deploy":{"enable":false,"provider":"github","url":null},"shields_style":{"enable":false,"custom":[{"link_url":null,"img_url":null}]}},"inject":{"enable":true,"css":["/css/APlayer.min.css","/css/custom.css"],"js":["/js/APlayer.min.js","/js/Meting.min.js","/js/leaves.js"]},"root":"","links":[{"name":"鼠鼠在碎觉","link":"https://sszsj.com","avatar":"https://tmx.fishpi.cn/img/head.jpg","description":"我是不慎落入世界的一滴水墨"},{"name":"Gakkiyomi","link":"https://gakkiyomi.blog","avatar":"https://avatars.githubusercontent.com/u/41406557?v=4","description":"为往圣继绝学"},{"name":"Hancel's Blog","link":"https://my.hancel.org","avatar":"https://my.hancel.org/media/logo.jpg","description":"人生而自由，却无往不在枷锁之中。"},{"name":"Eastshann","link":"http://121.4.99.208/","avatar":"http://121.4.99.208/img/avatar.jpg","description":"冲和者，淡泊平和，谦冲守正"},{"name":"小于同学的异世界","link":"https://yby.zone","avatar":"https://yby-zone.obs.cn-east-3.myhuaweicloud.com/avatar.jpg","description":"为吾为枝，余地三尺，以己为棋，胜天半子。"},{"name":"Mlikiowa Home Village","link":"https://nanaeo.cn/","avatar":"https://q1.qlogo.cn/g?b=qq&nk=1627126029&s=100","description":"A litter Village With Mlikiowa"},{"name":"忘忧草","link":"https://owo.wyc.rest/","avatar":"https://owo.wyc.rest/img/%E4%B8%87%E5%8F%B6.jpg","description":"这只是一个小破站而已！"},{"name":"stillwarter","link":"https://stillwarter.github.io/","avatar":"https://file.fishpi.cn/2022/07/MOSHED2022621164630-1b1ec532.gif?imageView2/1/w/210/h/210/interlace/0/q/100","description":"光就是一切的意义"},{"name":"test12138","link":"http://你好.eu.org/","avatar":"https://file.fishpi.cn/2022/06/srchttpimgzcoolcncommunity0116405d84f975a801211d537707c9gifreferhttpimgzcool-0f2d09c9.gif?imageView2/1/w/48/h/48/interlace/0/q/100","description":"大丈夫生于天地之间，岂能郁郁久居人下。"},{"name":"呼呼呼","link":"https://bongbongbakudan.github.io/","avatar":"https://pwl.stackoverflow.wiki/2021/12/blob-28eb4b9f.png?imageView2/1/w/48/h/48/interlace/0/q/100","description":"去整点薯条"},{"name":"Plumbiu","link":"https://blog.plumbiu.top/","avatar":"https://avatars.githubusercontent.com/u/99574369?v=4","description":"这人很勤奋，啥都没留"},{"name":"hiRipple","link":"https://hiripple.com/","avatar":"https://avatars.githubusercontent.com/u/115361435?v=4","description":"超高校级的游戏玩家"}],"version":"4.0.6"}
+    KEEP.language_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"}
+    KEEP.language_code_block = {"copy":"复制代码","copied":"已复制","fold":"折叠代码块","folded":"已折叠"}
+    KEEP.language_copy_copyright = {"copy":"复制版权信息","copied":"已复制","title":"原文标题","author":"原文作者","link":"原文链接"}
+  </script>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-CLX32WF4R1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+
+      gtag('js', new Date());
+
+      gtag('config', 'G-CLX32WF4R1');
+    </script>
+
+    <!-- 51.la -->
+    <script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
+    <script>LA.init({id: "3JwPz6wbAloyTmMc", ck: "3JwPz6wbAloyTmMc", autoTrack: true})</script>
+
+<meta name="generator" content="Hexo 8.1.1"><link rel="alternate" href="/atom.xml" title="咕咕咕的小破站" type="application/atom+xml">
+</head>
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+        <span class="pjax-progress-bar"></span>
+        <i class="pjax-progress-icon fas fa-circle-notch fa-spin"></i>
+    
+</div>
+
+
+<main class="page-container border-box">
+
+    <!-- home first screen  -->
+    
+
+    <!-- page content -->
+    <div class="page-main-content border-box">
+        <div class="page-main-content-top">
+            
+<header class="header-wrapper">
+
+    <div class="border-box header-content">
+        <div class="left border-box">
+            
+                <a class="logo-image border-box" href="/">
+                    <img src="/images/head.jpg">
+                </a>
+            
+            <a class="site-name border-box" href="/">
+               咕咕咕的小破站
+            </a>
+        </div>
+
+        <div class="right border-box">
+            <div class="pc">
+                <ul class="menu-list">
+                    <li class="menu-item">
+                        <a class=""
+                           href="/"
+                        >首页</a>
+                    </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >归档</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/categories"
+                            >分类</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/tags"
+                            >标签</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/daily"
+                            >日常</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/links"
+                            >友链</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >关于</a>
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="fas search fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            <li class="drawer-menu-item flex-center">
+                <a class=""
+                   href="/"
+                >首页</a>
+            </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives"
+                    >归档</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/categories"
+                    >分类</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/tags"
+                    >标签</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/daily"
+                    >日常</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/links"
+                    >友链</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about"
+                    >关于</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle border-box">
+
+            <div class="main-content border-box">
+                
+
+                    
+<div class="fade-in-down-animation">
+    <div class="post-page-container border-box">
+        <div class="post-content-container border-box">
+            
+
+            <div class="post-content-bottom border-box">
+                
+                    <div class="post-title">
+                        docker笔记
+                    </div>
+                
+
+                
+                    <div class="post-header border-box">
+                        
+                            <div class="avatar-box border-box">
+                                <img src="/images/head.jpg">
+                            </div>
+                        
+                        <div class="info-box">
+                            <div class="author border-box">
+                                <span class="name">咕咕咕</span>
+                                
+                                    <span class="author-badge">fishing</span>
+                                
+                            </div>
+                            <div class="meta-info border-box">
+                                
+
+<div class="post-meta-info-container border-box post">
+    <div class="post-meta-info border-box">
+        
+
+        
+            <span class="meta-info-item post-create-date">
+                <i class="icon fa-solid fa-calendar-plus"></i>&nbsp;
+                <span class="datetime">2022-07-23 19:40:00</span>
+            </span>
+
+            <span class="meta-info-item post-update-date">
+                <i class="icon fa-solid fa-file-pen"></i>&nbsp;
+                <span class="datetime" data-updated="Sat Jul 23 2022 11:40:00 GMT+0000">2022-07-23 19:40:00</span>
+            </span>
+        
+
+        
+            <span class="meta-info-item post-category border-box"><i class="icon fas fa-folder"></i>&nbsp;
+                <ul class="post-category-ul">
+                    
+                            <li class="category-item"><a href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+            <span class="post-tag meta-info-item border-box">
+                <i class="icon fas fa-tags"></i>&nbsp;
+                <ul class="post-tag-ul">
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/docker/">docker</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+        
+            <span class="meta-info-item post-wordcount">
+                <i class="icon fas fa-file-word"></i>&nbsp;<span>2.2k 字</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-min2read">
+                <i class="icon fas fa-clock"></i>&nbsp;<span>8 分钟</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-pv">
+                <i class="icon fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+            </span>
+        
+    </div>
+
+    
+</div>
+
+                            </div>
+                        </div>
+                    </div>
+                
+
+                <div class="post-content keep-markdown-body">
+                    
+
+                    <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><h3 id="虚拟化"><a href="#虚拟化" class="headerlink" title="虚拟化"></a>虚拟化</h3><p>虚拟化是一种计算机资源管理技术。<br>指通过虚拟化技术将一台计算机虚拟为多台逻辑计算机。在一台计算机上同时运行多个逻辑计算机，每个逻辑计算机可运行不同的操作系统，并且应用程序都可以在相互独立的空间内运行而互不影响，从而显著提高计算机的工作效率。  </p>
+<p>虚拟化分类（略，因为过于复杂，了解即可）  </p>
+<p>优点：一台物理机可以虚拟化多个服务器，让计算机资源利用更充分。<br>缺点：</p>
+<ol>
+<li>每个虚拟机都会创建一个操作系统，会增加资源的消耗。</li>
+<li>环境兼容问题。</li>
+</ol>
+<h3 id="容器技术"><a href="#容器技术" class="headerlink" title="容器技术"></a>容器技术</h3><p>运行在操作系统之上的虚拟化技术，模拟的运行在一个操作系统上的多个不同进程，封装在容器中。  </p>
+<p>docker发布于2013年，基于LXC技术。<br>LXC是linux Container，是一种内核虚拟化技术。提供轻量级的虚拟化，以便隔离进程和资源。与宿主机使用同一内核，性能损耗小。</p>
+<p>docker是开源的应用容器引擎，基于go语言实现。<br><a class="link"   target="_blank" rel="noopener" href="https://www.docker.com/" >docker官网<i class="fas fa-external-link-alt"></i></a><br>docker技术可以让开发者将开发好的应用和依赖包打包到容器中，以便可以运行在任意linux服务器上，解决开发环境与运维环境不同的问题。<br>docker本省不是容器，是管理容器的引擎。  </p>
+<h2 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h2><h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><p>docker支持CentOS6及以上版本。<br>CentOS7可以使用<code>yum install docker -y</code>直接安装。  </p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/docker%E7%AC%94%E8%AE%B0/docker%E5%AE%89%E8%A3%85.png"
+                        alt="docker安装"
+                 ></p>
+<h3 id="服务启动关闭等"><a href="#服务启动关闭等" class="headerlink" title="服务启动关闭等"></a>服务启动关闭等</h3><p>启动：<code>systemctl start docker</code>或者<code>service docker start</code><br>停止：<code>systemctl stop docker</code>或者<code>service docker stop</code><br>重启：<code>systemctl restart docker</code>或者<code>service docker restart</code><br>查看运行状态：<code>systemctl status docker</code>或者<code>service docker status</code></p>
+<p>查看docker系统信息：<code>docker info</code><br>查看docker所有帮助信息：<code>docker</code><br>查看某个命令帮助信息：<code>docker commond --help</code></p>
+<h3 id="docker运行机制"><a href="#docker运行机制" class="headerlink" title="docker运行机制"></a>docker运行机制</h3><p>启动服务–&gt;下载镜像–&gt;启动该镜像得到一个容器–&gt;容器里运行应用</p>
+<ol>
+<li>启动服务</li>
+<li>下载镜像，如果本地没有对应镜像，则会从镜像仓库下载，<a class="link"   target="_blank" rel="noopener" href="https://hub.docker.com/" >默认仓库<i class="fas fa-external-link-alt"></i></a><br>搜索镜像：<code>docker search tomcat</code><br>下载镜像：<code>docker pull tomcat</code><br>运行镜像：<code>docker run tomcat</code> 后台运行：<code>docker run -d tomcat</code><br>-p 参数映射端口<br>显示本地已有镜像：<code>docker images</code></li>
+</ol>
+<h3 id="进入docker容器"><a href="#进入docker容器" class="headerlink" title="进入docker容器"></a>进入docker容器</h3><p>进入容器：<code>docker exec -it 容器id bash</code><br>i表示交互式的，即保持标准输入流打开<br>t表示虚拟控制台<br>退出容器：<code>exit</code></p>
+<p>从客户机访问容器，需要有端口映射，docker容器默认采用桥接模式与宿主机通信，需要将宿主机ip端口映射到容器ip端口上。<br>停止容器：<code>docker stop 容器id/名称</code><br>启动容器：<code>docker run -d -p 8080:8080 tomcat</code></p>
+<h2 id="docker核心组件"><a href="#docker核心组件" class="headerlink" title="docker核心组件"></a>docker核心组件</h2><p>docker是客户端-服务器（C&#x2F;S）加厚，通过远程API来管理和创建容器。<br>docker通过镜像来创建容器。  </p>
+<h3 id="镜像"><a href="#镜像" class="headerlink" title="镜像"></a>镜像</h3><p>镜像是一个只读的模板，用于创建容器。</p>
+<p>镜像由许多层文件系统构成<br>第一层是引导文件系统bootfs<br>第二层是root文件系统rootfs，root文件系统通常是某种操作系统<br>root系统之上又有很多层文件系统，这些文件系统叠加在一起，构成docker中的镜像</p>
+<p>进入容器：<code>docker exit -it 镜像id bash</code><br>删除镜像：<code>docker rmi 镜像名</code>，rm是删除容器</p>
+<h3 id="容器"><a href="#容器" class="headerlink" title="容器"></a>容器</h3><p>通过镜像启动容器：<code>docker run -d 镜像名</code><br>查看运行中的容器：<code>docker ps</code><br>查看所有的容器：<code>docker ps -a</code><br>停止容器：<code>docker stop 容器id/名称</code><br>开启容器：<code>docker start 容器id/名称</code><br>删除容器：<code>docker rm 容器id/名称</code> 删除容器时，容器必须是静止状态，否则会报错<br>查看容器更多信息：<code>docker inspect 容器id/名称</code><br>停止全部运行中的容器：<code>docker stop $(docker ps -q)</code><br>删除全部容器：<code>docker rm $(docker ps -aq)</code></p>
+<h3 id="仓库"><a href="#仓库" class="headerlink" title="仓库"></a>仓库</h3><p>仓库是集中存放镜像文件的地方。仓库分为公开仓库和私有仓库。<br>最大的公开仓库是<a class="link"   target="_blank" rel="noopener" href="https://hub.docker.com/" >Docker Hub<i class="fas fa-external-link-alt"></i></a></p>
+<p><a class="link"   target="_blank" rel="noopener" href="https://dev.aliyun.com/" >阿里云镜像<i class="fas fa-external-link-alt"></i></a></p>
+<p>查找官方镜像：<code>docker search 镜像名</code><br>下载镜像：<code>docker pull 镜像名</code></p>
+<h2 id="自定义镜像"><a href="#自定义镜像" class="headerlink" title="自定义镜像"></a>自定义镜像</h2><p>dockerfile用于构建docker镜像，有一行行命令语句构成，基于这些命令可以构建一个镜像。  </p>
+<p>dockerfile分为四部分</p>
+<ol>
+<li>基础镜像信息</li>
+<li>维护者信息</li>
+<li>镜像操作命令</li>
+<li>容器启动时执行指令</li>
+</ol>
+<h3 id="指令"><a href="#指令" class="headerlink" title="指令"></a>指令</h3><ol>
+<li>FROM<br><code>FROM &lt;images&gt; / FROM &lt;images&gt;:&lt;tag&gt; / FROM &lt;images&gt;:&lt;digest&gt;</code><br>用于指定所使用的基础镜像<blockquote>
+<p>FROM必须是dockerfile第一条非注释指令<br>FROM可以出现多次，用于在一个dockerfile中创建多个镜像<br>tag&#x2F;digest是可选的，默认latest版本基础镜像</p>
+</blockquote>
+</li>
+<li>MAINTAINER<br><code>MAINTAINER &lt;name&gt;</code><br>指定维护者信息</li>
+<li>ENV<br><code>ENV &lt;key&gt; &lt;value&gt; / ENV &lt;key1&gt;=&lt;value1&gt; &lt;key2&gt;=&lt;value2&gt;...</code><br>设置环境变量，会被后续RUN指令使用，并在容器运行时保持。</li>
+<li>COPY<br><code>ADD &lt;源路径&gt;... &lt;目标路径&gt; / ADD [&quot;&lt;源路径&gt;&quot;,... &quot;&lt;目标路径&gt;&quot;]</code><br>复制指定文件到容器中指定位置。<blockquote>
+<p>源文件的各种元数据都会保留。比如读、写、执行权限、文件变更时间等。</p>
+</blockquote>
+</li>
+<li>ADD<br><code>ADD &lt;源路径&gt;... &lt;目标路径&gt; / ADD [&quot;&lt;源路径&gt;&quot;,... &quot;&lt;目标路径&gt;&quot;]</code><br>复制指定文件到容器中指定位置，与COPY格式基本一致，但比COPY增加了一些功能。如源路径可以是url<blockquote>
+<p>如果 docker 发现文件内容被改变，则接下来的指令都不会再使用缓存。</p>
+</blockquote>
+</li>
+<li>RUN</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">shell格式</span></span><br><span class="line">RUN &lt;command&gt;</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="built_in">exec</span>格式</span></span><br><span class="line">RUN [&quot;executable&quot;, &quot;param1&quot;, &quot;param2&quot;]</span><br></pre></td></tr></table></figure>
+<p>用于构建过程中，执行特定命令，并生成一个中间镜像。  </p>
+<blockquote>
+<p>RUN 指令创建的中间镜像会被缓存，并会在下次构建中使用。如果不想使用这些缓存镜像，可以在构建时指定 –no-cache 参数，如：docker build –no-cache。</p>
+<ol start="7">
+<li>CMD</li>
+</ol>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">CMD [&quot;executable&quot;,&quot;param1&quot;,&quot;param2&quot;]</span><br><span class="line">CMD [&quot;param1&quot;,&quot;param2&quot;]</span><br><span class="line">CMD command param1 param2</span><br></pre></td></tr></table></figure>
+<p>用于指定容器启动时命令。</p>
+<blockquote>
+<p>与 RUN 指令的区别：RUN 在构建的时候执行，并生成一个新的镜像，CMD 在容器运行的时候执行，在构建时不进行任何操作。<br>每个dockerfile只能有一条CMD命令。如果有多条，只有最后一条会被执行。<br>如果用户启动时指定了运行的命令，则会覆盖CMD指定的命令。</p>
+<ol start="8">
+<li>EXPOSE<br><code>EXPOSE &lt;port&gt; [&lt;port&gt;...]</code><br>为构建的镜像设置监听端口，使容器运行时监听</li>
+</ol>
+</blockquote>
+<h3 id="自定义镜像-1"><a href="#自定义镜像-1" class="headerlink" title="自定义镜像"></a>自定义镜像</h3><ol>
+<li>JDK镜像<br>创建Dockerfile文件</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">FROM centos</span><br><span class="line">MAINTAINER root</span><br><span class="line">ADD jdk-8u121-linux-x64.tar.gz /usr/local</span><br><span class="line">ENV JAVA_HOME /usr/local/java/jdk1.8.0_121</span><br><span class="line">ENV CLASSPATH $JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar</span><br><span class="line">ENV PATH $PATH:$JAVA_HOME/bin</span><br><span class="line">CMD java -version</span><br></pre></td></tr></table></figure>
+<p>构建镜像：<code>docker build -t root_jdk1.8.0_121 .</code></p>
+<ol start="2">
+<li>tomcat镜像<br>创建Dockerfile文件</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">FROM root_jdk1.8.0_121</span><br><span class="line">MAINTAINER root</span><br><span class="line">ADD apache-tomcat-8.5.24.tar.gz /usr/local</span><br><span class="line">ENV CATALINA_HOME /usr/local/apache-tomcat-8.5.24</span><br><span class="line">ENV PATH $PATH:$CATALINA_HOME/lib:$CATALINA_HOME/bin</span><br><span class="line">EXPOSE 8080</span><br><span class="line">CMD /usr/local/apache-tomcat-8.5.24/bin/catalina.sh run</span><br></pre></td></tr></table></figure>
+<p>构建镜像：<code>docker build -t root_tomcat-8.5.24 .</code></p>
+<h3 id="镜像发布到仓库"><a href="#镜像发布到仓库" class="headerlink" title="镜像发布到仓库"></a>镜像发布到仓库</h3><p>省略<br>在阿里云注册账号，容器镜像服务有详细文档。<br><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/docker%E7%AC%94%E8%AE%B0/%E9%98%BF%E9%87%8C%E4%BA%91%E5%AE%B9%E5%99%A8%E6%9C%8D%E5%8A%A1.png"
+                        alt="阿里云容器服务"
+                 ></p>
+<h3 id="Docker-Hub-镜像加速"><a href="#Docker-Hub-镜像加速" class="headerlink" title="Docker Hub 镜像加速"></a>Docker Hub 镜像加速</h3><p>&#x2F;etc&#x2F;docker&#x2F;daemon.json<br><code>{&quot;registry-mirrors&quot;: [&quot;阿里云提供的网址&quot;]}</code></p>
+<h2 id="docker应用部署"><a href="#docker应用部署" class="headerlink" title="docker应用部署"></a>docker应用部署</h2><ol>
+<li>将开发好的程序打成jar包或war包</li>
+<li>将打包好的文件上传至服务器</li>
+<li>定义Dockerfile文件，用于创建项目镜像</li>
+</ol>
+<p>定义jar包程序Dockerfile文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">FROM java</span><br><span class="line">MAINTAINER root</span><br><span class="line">ADD springboot-web.jar /opt</span><br><span class="line">RUN chmod +x /opt/springboot-web.jar</span><br><span class="line">CMD java -jar /opt/springboot-web.jar</span><br></pre></td></tr></table></figure>
+<p>构建镜像：<code>docker build -t springboot-web.jar .</code></p>
+<p>定义war包程序Dockerfile文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">FROM root_tomcat-8.5.24</span><br><span class="line">MAINTAINER root</span><br><span class="line">ADD springboot-web.war /usr/local/apache-tomcat-8.5.24/webapps</span><br><span class="line">EXPOSE 8080</span><br><span class="line">CMD /usr/local/apache-tomcat-8.5.24/bin/catalina.sh run</span><br></pre></td></tr></table></figure>
+<p>构建镜像：<code>docker build -t springboot-web.war .</code></p>
+<p>修改容器保存：<code>docker commit 容器id 镜像名</code><br>容器内有新的数据，可以保存为新的镜像。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>主要是一些命令，但花了挺长时间。<br>主要碰到了两个问题。</p>
+<p>第一个问题：<br>无法启动tomcat</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Cannot find /usr/local/tomcat/bin/setclasspath.sh</span><br><span class="line">This file is needed to run this program</span><br></pre></td></tr></table></figure>
+<p>我不知道出现问题的原因是什么，但是找到了<a class="link"   target="_blank" rel="noopener" href="https://www.5axxw.com/questions/content/fypkh1" >解决方案<i class="fas fa-external-link-alt"></i></a><br>我将tomcat的版本降低后，解决了这个问题。</p>
+<p>第二个问题：<br>也是无法启动tomcat</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">/usr/bin/docker-current: Error response from daemon: driver failed programming external connectivity on endpoint affectionate_leakey (31afb261a3eead766cd87d85a7d0b12d048379e3b8715f28367a61e27b228456): Error starting userland proxy: listen tcp 0.0.0.0:8080: bind: address already in use.</span><br><span class="line">ERRO[0000] error getting events from daemon: net/http: request canceled</span><br></pre></td></tr></table></figure>
+<p>这个是因为端口占用，而导致的报错。<br>解决方案：kill占用的程序。</p>
+<blockquote>
+<p>查看端口使用情况：<code>netstat -anp</code><br>查看8080端口使用情况：<code>netstat -anp|grep 8080</code></p>
+</blockquote>
+
+                </div>
+
+                
+                        
+<div class="post-copyright-info-container border-box">
+    <div class="copyright-info-content border-box">
+        <div class="copyright-info-top border-box">
+            <div class="copyright-post-title border-box text-ellipsis">
+                docker笔记
+            </div>
+
+            <div class="copyright-post-link border-box text-ellipsis">
+                学习笔记/学习笔记/Docker笔记/
+            </div>
+        </div>
+
+        <div class="copyright-info-bottom border-box">
+            <div class="copyright-post-author bottom-item">
+                <div class="type">
+                    作者
+                </div>
+                <div class="content">咕咕咕</div>
+            </div>
+
+            <div class="post-time bottom-item">
+                <div class="type">
+                    发布于
+                </div>
+                <div class="content">2022-07-23 19:40</div>
+            </div>
+
+
+            <div class="post-license bottom-item">
+                <div class="type">
+                    许可
+                </div>
+                <div class="content tooltip" data-tooltip-content="CC BY-NC-SA 4.0">
+                    <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hans">
+                        <i class="fa-brands fa-creative-commons"></i>
+                        <i class="fa-brands fa-creative-commons-by"></i>
+                        <i class="fa-brands fa-creative-commons-nc"></i>
+                        <i class="fa-brands fa-creative-commons-sa"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <i class="copyright-bg fa-solid fa-copyright"></i>
+    </div>
+    <div class="copy-copyright-info flex-center tooltip" data-tooltip-content="复制版权信息" data-tooltip-offset-y="-2px">
+        <i class="fa-solid fa-copy"></i>
+    </div>
+</div>
+
+                
+
+                <div class="post-bottom-tags-and-share border-box">
+                    <div>
+                        
+                            <ul class="post-tags-box border-box">
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/docker/">docker</a>
+                                    </li>
+                                
+                            </ul>
+                        
+                    </div>
+                    <div>
+                        
+                            <div class="post-share-container border-box">
+    <ul class="share-list-wrap border-box">
+        <li class="qq share-item border-box flex-center tooltip"
+            data-tooltip-content="分享到 QQ"
+        >
+            <i class="fa-brands fa-qq"></i>
+        </li>
+        <li class="wechat share-item border-box flex-center tooltip tooltip-img"
+            data-tooltip-content="分享到微信"
+            data-tooltip-img-tip="微信扫一扫"
+            data-tooltip-img-style="background-color: #fff; top: -10px; padding: 0.6rem 0.6rem 0.1rem 0.6rem;"
+        >
+            <i class="fa-brands fa-weixin"></i>
+        </li>
+        <li class="weibo share-item border-box flex-center tooltip"
+            data-tooltip-content="分享到微博"
+        >
+            <i class="fa-brands fa-weibo"></i>
+        </li>
+    </ul>
+</div>
+
+                        
+                    </div>
+                </div>
+
+                
+                    <div class="reward-author-container border-box flex-center">
+    <div class="reward-btn keep-button border-box flex-center tooltip tooltip-img"
+            data-tooltip-content="谢谢你请我喝可乐~"
+            data-tooltip-img-url="/images/thanks.png"
+            data-tooltip-img-trigger="click"
+            data-tooltip-img-style="top: -8px;"
+    >
+        <i class="fa-solid fa-hand-holding-heart"></i>
+    </div>
+</div>
+
+                
+
+                
+                    <div class="post-nav border-box">
+                        
+                            <div class="prev-post">
+                                <a class="prev"
+                                   rel="prev"
+                                   href="/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/SpringSession%E7%AC%94%E8%AE%B0/"
+                                   title="SpringSession笔记"
+                                >
+                                    <span class="left arrow-icon flex-center">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </span>
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">SpringSession笔记</span>
+                                        <span class="post-nav-item">上一篇</span>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                        
+                            <div class="next-post">
+                                <a class="next"
+                                   rel="next"
+                                   href="/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/Nginx%E7%AC%94%E8%AE%B0/"
+                                   title="Nginx笔记"
+                                >
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">Nginx笔记</span>
+                                        <span class="post-nav-item">下一篇</span>
+                                    </span>
+                                    <span class="right arrow-icon flex-center">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                    </div>
+                
+
+                
+                    
+
+
+    <div class="comments-container border-box">
+        <div id="comments-anchor" class="comment-area-title border-box">
+            <i class="fas fa-comments"></i>&nbsp;评论
+        </div>
+        <div class="comment-plugin-fail border-box">
+    <span class="fail-tip">评论插件加载失败</span>
+    <button class="reload keep-button">点击重新加载</button>
+</div>
+<div class="comment-plugin-loading flex-center border-box">
+    <i class="loading-icon fa-solid fa-spinner fa-spin"></i>
+    <span class="load-tip">正在加载评论插件</span>
+</div>
+<script data-pjax>
+  window.KeepCommentPlugin = {}
+  window.KeepCommentPlugin.hideLoading = () => {
+    const cplDom = document.querySelector('.comments-container .comment-plugin-loading')
+    cplDom.style.display = 'none'
+  }
+  window.KeepCommentPlugin.loadFailHandle = () => {
+    window.KeepCommentPlugin.hideLoading()
+    const cpfDom = document.querySelector('.comments-container .comment-plugin-fail')
+    cpfDom.style.display = 'flex'
+    cpfDom.querySelector('.reload').addEventListener('click', () => {
+      window.location.reload()
+    })
+  }
+</script>
+
+        
+            
+
+    <div class="giscus-comments-container">
+        <div class="giscus" id="giscus"></div>
+        <script data-pjax
+                onerror="window.KeepCommentPlugin.loadFailHandle()"
+        >
+          if (!window.KeepCommentPlugin?.getGiscusTheme) {
+            window.KeepCommentPlugin.getGiscusTheme = () => {
+              return document.body.classList.contains('dark-mode') ? 'dark_dimmed' : 'light_tritanopia'
+            }
+          }
+
+          if (!window.KeepCommentPlugin?.changeGiscusTheme) {
+            window.KeepCommentPlugin.changeGiscusTheme = () => {
+              const iframe = document.querySelector('iframe.giscus-frame')
+              iframe && iframe.contentWindow.postMessage({
+                giscus: {
+                  setConfig: {
+                    theme: window.KeepCommentPlugin.getGiscusTheme()
+                  }
+                }
+              }, 'https://giscus.app')
+            }
+          }
+
+          if (!window.KeepCommentPlugin?.initGiscus) {
+            window.KeepCommentPlugin.initGiscus = () => {
+              const script = document.createElement('script')
+              script.async = true
+              script.src = 'https://giscus.app/client.js'
+              script.setAttribute('data-repo', 'Cooooing/Cooooing.github.io')
+              script.setAttribute('data-repo-id', 'R_kgDOHQal_w')
+              script.setAttribute('data-category', 'Announcements')
+              script.setAttribute('data-category-id', 'DIC_kwDOHQal_84CjZo6')
+              script.setAttribute('data-reactions-enabled', '1')
+              script.setAttribute('data-lang', 'zh-CN')
+              script.setAttribute('data-mapping', 'pathname')
+              script.setAttribute('data-strict', '0')
+              script.setAttribute('data-emit-metadata', '0')
+              script.setAttribute('data-input-position', 'top')
+              script.setAttribute('crossorigin', 'anonymous')
+              script.setAttribute('loading', 'lazy')
+              script.setAttribute('data-theme', window.KeepCommentPlugin.getGiscusTheme())
+              document.querySelector('.giscus-comments-container').appendChild(script)
+              script.onerror = () => {
+                window.KeepCommentPlugin.loadFailHandle()
+              }
+              script.onload = () => {
+                window.KeepCommentPlugin.hideLoading()
+              }
+              const toggleThemeBtn = document.querySelector('.tool-toggle-theme-mode')
+              toggleThemeBtn && toggleThemeBtn.addEventListener('click', () => {
+                window.KeepCommentPlugin.changeGiscusTheme()
+              })
+            }
+          }
+
+          if ('true' === "true") {
+            setTimeout(() => {
+              window.KeepCommentPlugin.initGiscus()
+            }, 1000)
+          } else {
+            window.addEventListener("DOMContentLoaded", window.KeepCommentPlugin.initGiscus)
+          }
+        </script>
+    </div>
+
+
+        
+    </div>
+
+
+
+
+
+                
+            </div>
+        </div>
+
+        
+            <div class="pc-post-toc left-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%80%E4%BB%8B"><span class="nav-text">简介</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%99%9A%E6%8B%9F%E5%8C%96"><span class="nav-text">虚拟化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%B9%E5%99%A8%E6%8A%80%E6%9C%AF"><span class="nav-text">容器技术</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA"><span class="nav-text">环境搭建</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85"><span class="nav-text">安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%8D%E5%8A%A1%E5%90%AF%E5%8A%A8%E5%85%B3%E9%97%AD%E7%AD%89"><span class="nav-text">服务启动关闭等</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#docker%E8%BF%90%E8%A1%8C%E6%9C%BA%E5%88%B6"><span class="nav-text">docker运行机制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%9B%E5%85%A5docker%E5%AE%B9%E5%99%A8"><span class="nav-text">进入docker容器</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#docker%E6%A0%B8%E5%BF%83%E7%BB%84%E4%BB%B6"><span class="nav-text">docker核心组件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%95%9C%E5%83%8F"><span class="nav-text">镜像</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%B9%E5%99%A8"><span class="nav-text">容器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%93%E5%BA%93"><span class="nav-text">仓库</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E9%95%9C%E5%83%8F"><span class="nav-text">自定义镜像</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8C%87%E4%BB%A4"><span class="nav-text">指令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E9%95%9C%E5%83%8F-1"><span class="nav-text">自定义镜像</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%95%9C%E5%83%8F%E5%8F%91%E5%B8%83%E5%88%B0%E4%BB%93%E5%BA%93"><span class="nav-text">镜像发布到仓库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Docker-Hub-%E9%95%9C%E5%83%8F%E5%8A%A0%E9%80%9F"><span class="nav-text">Docker Hub 镜像加速</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#docker%E5%BA%94%E7%94%A8%E9%83%A8%E7%BD%B2"><span class="nav-text">docker应用部署</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-text">总结</span></a></li></ol>
+    </div>
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom border-box">
+            
+<footer class="footer border-box">
+    <div class="border-box website-info-box default">
+        
+            <div class="copyright-info info-item default">
+                &copy;&nbsp;<span>2022</span>&nbsp;-&nbsp;2025
+                
+                    &nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;&nbsp;<a href="/">咕咕咕</a>
+                
+            </div>
+
+            <div class="theme-info info-item default">
+                由&nbsp;<a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;驱动&nbsp;&&nbsp;主题&nbsp;<a class="keep-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep</a>
+            </div>
+
+            
+
+            
+        
+
+        <div style="color:var(--text-color-4);"><span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>(～￣▽￣)～<script src="/js/lifeTime.js"></script></div>
+        <a href="https://icp.gov.moe/?keyword=20222450" target="_blank">萌ICP备20222450号</a>
+
+
+        <div class="count-item info-item default">
+            
+                <span class="count-box border-box word">
+                    <span class="item-type border-box">总字数</span>
+                    <span class="item-value border-box word">362.1k</span>
+                </span>
+            
+
+            
+                <span class="count-box border-box uv">
+                    <span class="item-type border-box">访客数</span>
+                    <span class="item-value border-box uv" id="busuanzi_value_site_uv"></span>
+                </span>
+            
+
+            
+                <span class="count-box border-box pv">
+                    <span class="item-type border-box">访问量</span>
+                    <span class="item-value border-box pv" id="busuanzi_value_site_pv"></span>
+                </span>
+            
+        </div>
+
+        <div id="aplayer">
+          <meting-js
+                  server="netease"
+                  type="playlist"
+                  id="7345595717"
+                  fixed="true"
+                  mini="true"
+                  autoplay="false"
+                  listFolded="true"
+                  order="random"
+                  preload="none">
+          </meting-js>
+        </div>
+            <br>
+            <br>
+            <br>
+    </div>
+
+</footer>
+
+        </div>
+    </div>
+
+    <!-- post tools -->
+    
+        <div class="post-tools left-toc">
+            <div class="post-tools-container border-box">
+    <ul class="tools-list border-box">
+        <!-- PC TOC show toggle -->
+        
+            <li class="tools-item flex-center toggle-show-toc">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        <!-- PC go comment -->
+        
+            <li class="tools-item flex-center go-to-comments">
+                <i class="fas fa-comment"></i>
+                <span class="post-comments-count"></span>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <!-- side tools -->
+    <div class="side-tools">
+        <div class="side-tools-container border-box ">
+    <ul class="side-tools-list side-tools-show-handle border-box">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-toggle-theme-mode flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+            <li class="tools-item rss flex-center">
+                <a class="flex-center"
+                   href="/atom.xml"
+                   target="_blank"
+                >
+                    <i class="fas fa-rss"></i>
+                </a>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list border-box">
+        
+            <li class="tools-item toggle-show-toc-tablet flex-center">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        
+            <li class="tools-item go-to-comments-tablet flex-center">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+
+        <li class="tools-item tool-scroll-to-top flex-center show-arrow">
+            <i class="arrow fas fa-arrow-up"></i>
+            <span class="percent"></span>
+        </li>
+    </ul>
+</div>
+
+    </div>
+
+    <!-- image mask -->
+    <div class="zoom-in-image-mask">
+    <img class="zoom-in-image">
+</div>
+
+
+    <!-- local search -->
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="搜索..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="close-popup-btn">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+    <!-- tablet toc -->
+    
+        <div class="tablet-post-toc-mask">
+            <div class="tablet-post-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%80%E4%BB%8B"><span class="nav-text">简介</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%99%9A%E6%8B%9F%E5%8C%96"><span class="nav-text">虚拟化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%B9%E5%99%A8%E6%8A%80%E6%9C%AF"><span class="nav-text">容器技术</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA"><span class="nav-text">环境搭建</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85"><span class="nav-text">安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%8D%E5%8A%A1%E5%90%AF%E5%8A%A8%E5%85%B3%E9%97%AD%E7%AD%89"><span class="nav-text">服务启动关闭等</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#docker%E8%BF%90%E8%A1%8C%E6%9C%BA%E5%88%B6"><span class="nav-text">docker运行机制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%9B%E5%85%A5docker%E5%AE%B9%E5%99%A8"><span class="nav-text">进入docker容器</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#docker%E6%A0%B8%E5%BF%83%E7%BB%84%E4%BB%B6"><span class="nav-text">docker核心组件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%95%9C%E5%83%8F"><span class="nav-text">镜像</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%B9%E5%99%A8"><span class="nav-text">容器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%93%E5%BA%93"><span class="nav-text">仓库</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E9%95%9C%E5%83%8F"><span class="nav-text">自定义镜像</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8C%87%E4%BB%A4"><span class="nav-text">指令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E9%95%9C%E5%83%8F-1"><span class="nav-text">自定义镜像</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%95%9C%E5%83%8F%E5%8F%91%E5%B8%83%E5%88%B0%E4%BB%93%E5%BA%93"><span class="nav-text">镜像发布到仓库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Docker-Hub-%E9%95%9C%E5%83%8F%E5%8A%A0%E9%80%9F"><span class="nav-text">Docker Hub 镜像加速</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#docker%E5%BA%94%E7%94%A8%E9%83%A8%E7%BD%B2"><span class="nav-text">docker应用部署</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-text">总结</span></a></li></ol>
+    </div>
+</div>
+
+            </div>
+        </div>
+    
+</main>
+
+
+
+<!-- common -->
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/toggle-theme.js"></script>
+
+<script src="/js/code-block.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+
+<!-- local-search -->
+
+    
+<script src="/js/local-search.js"></script>
+
+
+
+<!-- lazyload -->
+
+    
+<script src="/js/lazyload.js"></script>
+
+
+
+<div class="pjax">
+    
+        <!-- post-helper -->
+        
+<script src="/js/post/post-helper.js"></script>
+
+
+        <!-- toc -->
+        
+            
+<script src="/js/post/toc.js"></script>
+
+        
+
+        <!-- copyright-info -->
+        
+            
+<script src="/js/post/copyright-info.js"></script>
+
+        
+
+        <!-- share -->
+        
+            
+<script src="/js/post/share.js"></script>
+
+        
+    
+
+    <!-- category-page -->
+    
+
+    <!-- links-page -->
+    
+
+    <!-- photos-page -->
+    
+</div>
+
+<!-- mermaid -->
+
+
+<!-- pjax -->
+
+    
+<script src="/js/libs/pjax.min.js"></script>
+
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        window.pjax = new Pjax({
+            selectors: [
+                'head title',
+                '.page-container',
+                '.pjax',
+                '#aplayer',
+                '#canvas_sakura'
+            ],
+            history: true,
+            debug: false,
+            cacheBust: false,
+            timeout: 0,
+            analytics: false,
+            currentUrlFullReload: false,
+            scrollRestoration: false,
+        });
+
+        document.addEventListener('pjax:send', () => {
+            KEEP.utils.pjaxProgressBarStart()
+        });
+
+        document.addEventListener('pjax:complete', () => {
+            KEEP.utils.pjaxProgressBarEnd()
+            window.pjax.executeScripts(document.querySelectorAll('script[data-pjax], .pjax script'))
+            KEEP.initExecute()
+        });
+    });
+</script>
+
+
+
+
+    
+        
+            
+<script class="custom-inject-js" src="/js/APlayer.min.js" data-pjax></script>
+
+        
+    
+        
+            
+<script class="custom-inject-js" src="/js/Meting.min.js" data-pjax></script>
+
+        
+    
+        
+            
+<script class="custom-inject-js" src="/js/leaves.js" data-pjax></script>
+
+        
+    
+
+
+
+</body>
+</html>

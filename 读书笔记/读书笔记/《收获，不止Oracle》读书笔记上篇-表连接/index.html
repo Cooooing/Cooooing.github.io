@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="技术博客,后端开发,编程笔记,生活">
+    <meta name="description" content="Code | Systems | Life — 专注编程本质，也关心世界如何运转。">
+    <meta name="author" content="咕咕咕">
+
+    
+    <title>
+        
+            《收获，不止Oracle》读书笔记上篇-表连接 |
+        
+        咕咕咕的小破站
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+        <link rel="shortcut icon" href="/images/favicon.png">
+    
+    
+<link rel="stylesheet" href="/font/css/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/regular.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/solid.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/brands.min.css">
+
+    
+        
+            
+                
+<link rel="stylesheet" href="/css/APlayer.min.css">
+
+            
+        
+            
+                
+<link rel="stylesheet" href="/css/custom.css">
+
+            
+        
+    
+    <script class="keep-theme-configurations">
+    const KEEP = window.KEEP || {}
+    KEEP.hexo_config = {"hostname":"cooooing.github.io","root":"/","language":"zh-CN","path":"search.json"}
+    KEEP.theme_config = {"base_info":{"primary_color":"#0066cc","title":"咕咕咕的小破站","author":"咕咕咕","avatar":"/images/head.jpg","logo":"/images/head.jpg","favicon":"/images/favicon.png"},"menu":{"Archives":"/archives","Categories":"/categories","Tags":"/tags","日常":"/daily","Links":"/links","About":"/about"},"first_screen":{"enable":false,"background_img":"/images/bg.svg","background_img_dark":"/images/bg.svg","description":"Keep writing and Keep loving.","hitokoto":false},"social_contact":{"enable":false,"links":{"github":null,"weixin":null,"qq":null,"weibo":null,"zhihu":null,"twitter":null,"facebook":null,"email":null}},"scroll":{"progress_bar":false,"percent":false,"hide_header":true},"home":{"category":true,"tag":true,"announcement":null},"post":{"author_badge":{"enable":true,"level_badge":false,"custom_badge":["fishing"]},"word_count":{"wordcount":true,"min2read":true},"datetime_format":"YYYY-MM-DD HH:mm:ss","copyright_info":true,"share":true,"reward":{"enable":true,"img_link":"/images/thanks.png","text":"谢谢你请我喝可乐~"}},"code_block":{"tools":{"enable":true,"style":"default"},"highlight_theme":"default"},"toc":{"enable":true,"number":false,"expand_all":true,"init_open":true,"layout":"left"},"website_count":{"busuanzi_count":{"enable":true,"site_uv":true,"site_pv":true,"page_pv":true}},"local_search":{"enable":true,"preload":true},"comment":{"enable":true,"use":"giscus","valine":{"appid":null,"appkey":null,"server_urls":null,"placeholder":null},"gitalk":{"github_id":null,"github_admins":null,"repository":null,"client_id":null,"client_secret":null,"proxy":null},"twikoo":{"env_id":null,"region":null,"version":"1.6.21"},"waline":{"server_url":null,"reaction":false,"version":2},"giscus":{"repo":"Cooooing/Cooooing.github.io","repo_id":"R_kgDOHQal_w","category":"Announcements","category_id":"DIC_kwDOHQal_84CjZo6","reactions_enabled":true},"artalk":{"server":null},"disqus":{"shortname":null}},"rss":{"enable":true},"lazyload":{"enable":true},"cdn":{"enable":false,"provider":"cdnjs"},"pjax":{"enable":true},"footer":{"since":2022,"word_count":true,"icp":{"enable":false,"record_code":null,"url":"https://beian.miit.gov.cn"},"site_deploy":{"enable":false,"provider":"github","url":null},"shields_style":{"enable":false,"custom":[{"link_url":null,"img_url":null}]}},"inject":{"enable":true,"css":["/css/APlayer.min.css","/css/custom.css"],"js":["/js/APlayer.min.js","/js/Meting.min.js","/js/leaves.js"]},"root":"","links":[{"name":"鼠鼠在碎觉","link":"https://sszsj.com","avatar":"https://tmx.fishpi.cn/img/head.jpg","description":"我是不慎落入世界的一滴水墨"},{"name":"Gakkiyomi","link":"https://gakkiyomi.blog","avatar":"https://avatars.githubusercontent.com/u/41406557?v=4","description":"为往圣继绝学"},{"name":"Hancel's Blog","link":"https://my.hancel.org","avatar":"https://my.hancel.org/media/logo.jpg","description":"人生而自由，却无往不在枷锁之中。"},{"name":"Eastshann","link":"http://121.4.99.208/","avatar":"http://121.4.99.208/img/avatar.jpg","description":"冲和者，淡泊平和，谦冲守正"},{"name":"小于同学的异世界","link":"https://yby.zone","avatar":"https://yby-zone.obs.cn-east-3.myhuaweicloud.com/avatar.jpg","description":"为吾为枝，余地三尺，以己为棋，胜天半子。"},{"name":"Mlikiowa Home Village","link":"https://nanaeo.cn/","avatar":"https://q1.qlogo.cn/g?b=qq&nk=1627126029&s=100","description":"A litter Village With Mlikiowa"},{"name":"忘忧草","link":"https://owo.wyc.rest/","avatar":"https://owo.wyc.rest/img/%E4%B8%87%E5%8F%B6.jpg","description":"这只是一个小破站而已！"},{"name":"stillwarter","link":"https://stillwarter.github.io/","avatar":"https://file.fishpi.cn/2022/07/MOSHED2022621164630-1b1ec532.gif?imageView2/1/w/210/h/210/interlace/0/q/100","description":"光就是一切的意义"},{"name":"test12138","link":"http://你好.eu.org/","avatar":"https://file.fishpi.cn/2022/06/srchttpimgzcoolcncommunity0116405d84f975a801211d537707c9gifreferhttpimgzcool-0f2d09c9.gif?imageView2/1/w/48/h/48/interlace/0/q/100","description":"大丈夫生于天地之间，岂能郁郁久居人下。"},{"name":"呼呼呼","link":"https://bongbongbakudan.github.io/","avatar":"https://pwl.stackoverflow.wiki/2021/12/blob-28eb4b9f.png?imageView2/1/w/48/h/48/interlace/0/q/100","description":"去整点薯条"},{"name":"Plumbiu","link":"https://blog.plumbiu.top/","avatar":"https://avatars.githubusercontent.com/u/99574369?v=4","description":"这人很勤奋，啥都没留"},{"name":"hiRipple","link":"https://hiripple.com/","avatar":"https://avatars.githubusercontent.com/u/115361435?v=4","description":"超高校级的游戏玩家"}],"version":"4.0.6"}
+    KEEP.language_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"}
+    KEEP.language_code_block = {"copy":"复制代码","copied":"已复制","fold":"折叠代码块","folded":"已折叠"}
+    KEEP.language_copy_copyright = {"copy":"复制版权信息","copied":"已复制","title":"原文标题","author":"原文作者","link":"原文链接"}
+  </script>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-CLX32WF4R1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+
+      gtag('js', new Date());
+
+      gtag('config', 'G-CLX32WF4R1');
+    </script>
+
+    <!-- 51.la -->
+    <script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
+    <script>LA.init({id: "3JwPz6wbAloyTmMc", ck: "3JwPz6wbAloyTmMc", autoTrack: true})</script>
+
+<meta name="generator" content="Hexo 8.1.1"><link rel="alternate" href="/atom.xml" title="咕咕咕的小破站" type="application/atom+xml">
+</head>
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+        <span class="pjax-progress-bar"></span>
+        <i class="pjax-progress-icon fas fa-circle-notch fa-spin"></i>
+    
+</div>
+
+
+<main class="page-container border-box">
+
+    <!-- home first screen  -->
+    
+
+    <!-- page content -->
+    <div class="page-main-content border-box">
+        <div class="page-main-content-top">
+            
+<header class="header-wrapper">
+
+    <div class="border-box header-content">
+        <div class="left border-box">
+            
+                <a class="logo-image border-box" href="/">
+                    <img src="/images/head.jpg">
+                </a>
+            
+            <a class="site-name border-box" href="/">
+               咕咕咕的小破站
+            </a>
+        </div>
+
+        <div class="right border-box">
+            <div class="pc">
+                <ul class="menu-list">
+                    <li class="menu-item">
+                        <a class=""
+                           href="/"
+                        >首页</a>
+                    </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >归档</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/categories"
+                            >分类</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/tags"
+                            >标签</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/daily"
+                            >日常</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/links"
+                            >友链</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >关于</a>
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="fas search fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            <li class="drawer-menu-item flex-center">
+                <a class=""
+                   href="/"
+                >首页</a>
+            </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives"
+                    >归档</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/categories"
+                    >分类</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/tags"
+                    >标签</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/daily"
+                    >日常</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/links"
+                    >友链</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about"
+                    >关于</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle border-box">
+
+            <div class="main-content border-box">
+                
+
+                    
+<div class="fade-in-down-animation">
+    <div class="post-page-container border-box">
+        <div class="post-content-container border-box">
+            
+
+            <div class="post-content-bottom border-box">
+                
+                    <div class="post-title">
+                        《收获，不止Oracle》读书笔记上篇-表连接
+                    </div>
+                
+
+                
+                    <div class="post-header border-box">
+                        
+                            <div class="avatar-box border-box">
+                                <img src="/images/head.jpg">
+                            </div>
+                        
+                        <div class="info-box">
+                            <div class="author border-box">
+                                <span class="name">咕咕咕</span>
+                                
+                                    <span class="author-badge">fishing</span>
+                                
+                            </div>
+                            <div class="meta-info border-box">
+                                
+
+<div class="post-meta-info-container border-box post">
+    <div class="post-meta-info border-box">
+        
+
+        
+            <span class="meta-info-item post-create-date">
+                <i class="icon fa-solid fa-calendar-plus"></i>&nbsp;
+                <span class="datetime">2024-08-28 09:35:14</span>
+            </span>
+
+            <span class="meta-info-item post-update-date">
+                <i class="icon fa-solid fa-file-pen"></i>&nbsp;
+                <span class="datetime" data-updated="Wed Aug 28 2024 01:35:14 GMT+0000">2024-08-28 09:35:14</span>
+            </span>
+        
+
+        
+            <span class="meta-info-item post-category border-box"><i class="icon fas fa-folder"></i>&nbsp;
+                <ul class="post-category-ul">
+                    
+                            <li class="category-item"><a href="/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">读书笔记</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+            <span class="post-tag meta-info-item border-box">
+                <i class="icon fas fa-tags"></i>&nbsp;
+                <ul class="post-tag-ul">
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a></li>
+                        
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/%E3%80%8A%E6%94%B6%E8%8E%B7%EF%BC%8C%E4%B8%8D%E6%AD%A2Oracle%E3%80%8B/">《收获，不止Oracle》</a></li>
+                        
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/Oracle/">Oracle</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+        
+            <span class="meta-info-item post-wordcount">
+                <i class="icon fas fa-file-word"></i>&nbsp;<span>3.7k 字</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-min2read">
+                <i class="icon fas fa-clock"></i>&nbsp;<span>14 分钟</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-pv">
+                <i class="icon fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+            </span>
+        
+    </div>
+
+    
+</div>
+
+                            </div>
+                        </div>
+                    </div>
+                
+
+                <div class="post-content keep-markdown-body">
+                    
+
+                    <h2 id="第六章-经典，表的连接学以致用"><a href="#第六章-经典，表的连接学以致用" class="headerlink" title="第六章 - 经典，表的连接学以致用"></a>第六章 - 经典，表的连接学以致用</h2><h3 id="三种连接类型"><a href="#三种连接类型" class="headerlink" title="三种连接类型"></a>三种连接类型</h3><p>嵌套循环连接（Nested Loop Join）、哈希连接（Hash Join）和排序合并连接（Sort Merge Join）是Oracle数据库中最常用的三种连接算法。</p>
+<h4 id="嵌套循环连接（Nested-Loop-Join）"><a href="#嵌套循环连接（Nested-Loop-Join）" class="headerlink" title="嵌套循环连接（Nested Loop Join）"></a>嵌套循环连接（Nested Loop Join）</h4><p>嵌套循环连接是最简单的连接方法之一，它通过遍历一个表（外部表），对于外部表中的每一行，再遍历另一个表（内部表）来查找匹配的行。</p>
+<ol>
+<li>选择一个较小的表作为外部表。通常，外部表是较小的表或已经被索引访问的表。</li>
+<li>遍历外部表的每一行。</li>
+<li>对于外部表中的每一行，遍历内部表以查找匹配的行。如果找到匹配的行，则将这两行组合在一起作为结果的一部分。</li>
+</ol>
+<p>当一个表很小或者已经被索引访问时，嵌套循环连接可以非常高效。<br>如果内部表很大，则嵌套循环连接可能会非常慢。对于大数据量的表，嵌套循环连接可能会导致性能问题。</p>
+<h4 id="哈希连接（Hash-Join）"><a href="#哈希连接（Hash-Join）" class="headerlink" title="哈希连接（Hash Join）"></a>哈希连接（Hash Join）</h4><p>哈希连接是一种高效的连接算法，它通过在内存中创建哈希表来查找匹配的行。</p>
+<ol>
+<li>选择一个较大的表作为内部表。对于内部表中的每一行，根据连接键计算哈希值，并将该行存储在一个哈希表中。</li>
+<li>遍历外部表。对于外部表中的每一行，根据连接键计算哈希值，并在哈希表中查找匹配的行。如果找到匹配的行，则将这两行组合在一起作为结果的一部分。</li>
+</ol>
+<p>当内部表可以完全装入内存时很高效，可以处理较大的数据集。<br>但如果内部表太大以至于无法完全装入内存，则性能可能会受到影响。哈希表的构建可能会消耗较多的内存资源。</p>
+<h4 id="排序合并连接（Sort-Merge-Join）"><a href="#排序合并连接（Sort-Merge-Join）" class="headerlink" title="排序合并连接（Sort Merge Join）"></a>排序合并连接（Sort Merge Join）</h4><p>排序合并连接是一种连接算法，它通过先对两个表进行排序，然后通过比较排序后的键值来查找匹配的行。</p>
+<ol>
+<li>对两个表按照连接键进行排序。如果表已经排序或可以通过索引访问，则可以跳过此步骤。</li>
+<li>遍历两个排序后的表。比较两个表中当前行的连接键值。如果键值相同，则将这两行组合在一起作为结果的一部分。</li>
+</ol>
+<p>当连接键的值有序时，排序合并连接非常高效。可以处理大数据量。<br>但如果表未排序，则需要额外的排序步骤，这可能会消耗时间和磁盘空间。当表很大时，排序可能会很慢。</p>
+<h3 id="各类连接访问次数差异"><a href="#各类连接访问次数差异" class="headerlink" title="各类连接访问次数差异"></a>各类连接访问次数差异</h3><p>可以使用<code>alter session set statistics_level = all</code>进行跟踪。<br>这条命令用于设置会话级别的统计信息级别。作用是开启尽可能多的统计信息收集，以便于诊断和性能调优。<br>可以知道表的访问次数。</p>
+<h4 id="嵌套循环的表访问次数"><a href="#嵌套循环的表访问次数" class="headerlink" title="嵌套循环的表访问次数"></a>嵌套循环的表访问次数</h4><p>准备表和数据</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">DROP TABLE t1 CASCADE CONSTRAINTS PURGE;</span><br><span class="line">DROP TABLE t2 CASCADE CONSTRAINTS PURGE;</span><br><span class="line">execute dbms_random.seed(0);</span><br><span class="line">create table t1 as</span><br><span class="line">SELECT rownum                      id,</span><br><span class="line">       rownum                      n,</span><br><span class="line">       dbms_random.string(&#x27;a&#x27;, 50) contents</span><br><span class="line">FROM dual</span><br><span class="line">CONNECT BY level &lt;= 100</span><br><span class="line">ORDER BY dbms_random.random;</span><br><span class="line">create table t2 as</span><br><span class="line">SELECT rownum                      id,</span><br><span class="line">       rownum                      t1_id,</span><br><span class="line">       rownum                      n,</span><br><span class="line">       dbms_random.string(&#x27;b&#x27;, 50) contents</span><br><span class="line">FROM dual</span><br><span class="line">CONNECT BY level &lt;= 100000</span><br><span class="line">ORDER BY dbms_random.random;</span><br></pre></td></tr></table></figure>
+
+<p>查看嵌套循环的连接次数。</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">SQL&gt; set linesize 1000</span><br><span class="line">SQL&gt; alter session set statistics_level = all;</span><br><span class="line"></span><br><span class="line">Session altered.</span><br><span class="line"></span><br><span class="line">SQL&gt; SELECT /*+leading(t1) use_nl(t1 t2)*/ * FROM t1,t2 WHERE t1.id = t2.t1_id;</span><br><span class="line">-- 省略结果集</span><br><span class="line"></span><br><span class="line">SQL&gt; select * from table(dbms_xplan.display_cursor(null,null,&#x27;allstats last&#x27;));</span><br><span class="line"></span><br><span class="line">PLAN_TABLE_OUTPUT</span><br><span class="line">-------------------------------------------------------------------------------------------------</span><br><span class="line">SQL_ID  f7haq9xwppqqf, child number 0</span><br><span class="line">-------------------------------------</span><br><span class="line">SELECT /*+leading(t1) use_nl(t1 t2)*/ * FROM t1,t2 WHERE t1.id = t2.t1_id</span><br><span class="line"></span><br><span class="line">Plan hash value: 1967407726</span><br><span class="line"></span><br><span class="line">-------------------------------------------------------------------------------------</span><br><span class="line">| Id  | Operation          | Name | Starts | E-Rows | A-Rows |   A-Time   | Buffers |</span><br><span class="line">-------------------------------------------------------------------------------------</span><br><span class="line">|   0 | SELECT STATEMENT   |      |      1 |        |    100 |00:00:00.33 |   98515 |</span><br><span class="line"></span><br><span class="line">PLAN_TABLE_OUTPUT</span><br><span class="line">-------------------------------------------------------------------------------------------------</span><br><span class="line">|   1 |  NESTED LOOPS      |      |      1 |    100 |    100 |00:00:00.33 |   98515 |</span><br><span class="line">|   2 |   TABLE ACCESS FULL| T1   |      1 |    100 |    100 |00:00:00.01 |       9 |</span><br><span class="line">|*  3 |   TABLE ACCESS FULL| T2   |    100 |      1 |    100 |00:00:00.33 |   98506 |</span><br><span class="line">-------------------------------------------------------------------------------------</span><br><span class="line"></span><br><span class="line">Predicate Information (identified by operation id):</span><br><span class="line">---------------------------------------------------</span><br><span class="line"></span><br><span class="line">   3 - filter(&quot;T1&quot;.&quot;ID&quot;=&quot;T2&quot;.&quot;T1_ID&quot;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">21 rows selected.</span><br></pre></td></tr></table></figure>
+
+<p>Starts 这列表示表访问的次数。这里 t1 被访问了1次，t2 被访问了 100 次。</p>
+<p>下面还有三条不同i情况的语句，就不一一贴详细执行过程，直接说结果了。<br><code>SELECT /*+leading(t1) use_nl(t1 t2)*/ * FROM t1,t2 WHERE t1.id = t2.t1_id and t1.n in (17,19);</code> t2 表被访问2次<br><code>SELECT /*+leading(t1) use_nl(t1 t2)*/ * FROM t1,t2 WHERE t1.id = t2.t1_id and t1.n 19;</code> t2 表被访问1次<br><code>SELECT /*+leading(t1) use_nl(t1 t2)*/ * FROM t1,t2 WHERE t1.id = t2.t1_id and t1.n = 999999999;</code> t2 表被访问0次</p>
+<p>原因也很简单，和 t1 表中返回的数据数量有关。<br><strong>在嵌套循环连接中，驱动表返回多少条记录，被驱动表就访问多少次。</strong></p>
+<p>此外，这里使用 <code>/*+leading(t1) use_nl(t1 t2)*/</code> 这个 HINT。<br>其中<code>use_nl</code>表示强制用嵌套循环连接方式。<code>leading(t1)</code>表示强制先访问 t1 表，也就是 t1 表作为驱动表。</p>
+<h4 id="哈希连接的表访问次数"><a href="#哈希连接的表访问次数" class="headerlink" title="哈希连接的表访问次数"></a>哈希连接的表访问次数</h4><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">SQL&gt; SELECT /*+leading(t1) use_hash(t1 t2)*/ * FROM t1,t2 WHERE t1.id = t2.t1_id;</span><br><span class="line">-- 省略结果集</span><br><span class="line"></span><br><span class="line">SQL&gt; select * from table(dbms_xplan.display_cursor(null,null,&#x27;allstats last&#x27;));</span><br><span class="line"></span><br><span class="line">PLAN_TABLE_OUTPUT</span><br><span class="line">----------------------------------------------------------------------------------------------------------------</span><br><span class="line">SQL_ID  bgn80s3r4xwq9, child number 0</span><br><span class="line">-------------------------------------</span><br><span class="line">SELECT /*+leading(t1) use_hash(t1 t2)*/ * FROM t1,t2 WHERE t1.id =</span><br><span class="line">t2.t1_id</span><br><span class="line"></span><br><span class="line">Plan hash value: 1838229974</span><br><span class="line"></span><br><span class="line">----------------------------------------------------------------------------------------------------------------</span><br><span class="line">| Id  | Operation          | Name | Starts | E-Rows | A-Rows |   A-Time   | Buffers |  OMem |  1Mem | Used-Mem |</span><br><span class="line">----------------------------------------------------------------------------------------------------------------</span><br><span class="line">|   0 | SELECT STATEMENT   |      |      1 |        |    100 |00:00:00.02 |     994 |       |       |          |</span><br><span class="line"></span><br><span class="line">PLAN_TABLE_OUTPUT</span><br><span class="line">----------------------------------------------------------------------------------------------------------------</span><br><span class="line">|*  1 |  HASH JOIN         |      |      1 |    100 |    100 |00:00:00.02 |     994 |  1000K|  1000K| 1329K (0)|</span><br><span class="line">|   2 |   TABLE ACCESS FULL| T1   |      1 |    100 |    100 |00:00:00.01 |       2 |       |       |          |</span><br><span class="line">|   3 |   TABLE ACCESS FULL| T2   |      1 |    100K|    100K|00:00:00.01 |     992 |       |       |          |</span><br><span class="line">----------------------------------------------------------------------------------------------------------------</span><br><span class="line"></span><br><span class="line">Predicate Information (identified by operation id):</span><br><span class="line">---------------------------------------------------</span><br><span class="line"></span><br><span class="line">   1 - access(&quot;T1&quot;.&quot;ID&quot;=&quot;T2&quot;.&quot;T1_ID&quot;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">21 rows selected.</span><br></pre></td></tr></table></figure>
+
+<p><strong>在HASH连接中，驱动表和被驱动表都只会访问0次或者1次。</strong></p>
+<p>哈希连接中，只有构建哈希表这一步需遍历驱动表一次。哈希表构建完成后，后续的查找阶段不再需要访问驱动表，而是直接在哈希表中查找匹配项。被驱动表同理。<br>当驱动表中没有符合条件的数据时，便不会访问被驱动表。当查询条件始终不成立时（比如 where 1 &#x3D; 2），也不会访问驱动表。</p>
+<h4 id="排序合并的表访问次数"><a href="#排序合并的表访问次数" class="headerlink" title="排序合并的表访问次数"></a>排序合并的表访问次数</h4><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">SQL&gt; SELECT /*+ordered use_merge(t1 t2)*/ * FROM t1,t2 WHERE t1.id = t2.t1_id;</span><br><span class="line">-- 省略结果集</span><br><span class="line"></span><br><span class="line">SQL&gt; select * from table(dbms_xplan.display_cursor(null,null,&#x27;allstats last&#x27;));</span><br><span class="line"></span><br><span class="line">PLAN_TABLE_OUTPUT</span><br><span class="line">--------------------------------------------------------------------------------------------------------------------------</span><br><span class="line">SQL_ID  bgs49pws4vu8d, child number 0</span><br><span class="line">-------------------------------------</span><br><span class="line">SELECT /*+ordered use_merge(t1 t2)*/ * FROM t1,t2 WHERE t1.id = t2.t1_id</span><br><span class="line"></span><br><span class="line">Plan hash value: 412793182</span><br><span class="line"></span><br><span class="line">--------------------------------------------------------------------------------------------------------------------------</span><br><span class="line">| Id  | Operation           | Name | Starts | E-Rows | A-Rows |   A-Time   | Buffers | Reads  |  OMem |  1Mem | Used-Mem |</span><br><span class="line">--------------------------------------------------------------------------------------------------------------------------</span><br><span class="line">|   0 | SELECT STATEMENT    |      |      1 |        |    100 |00:00:00.07 |     987 |    982 |       |       |          |</span><br><span class="line">|   1 |  MERGE JOIN         |      |      1 |    100 |    100 |00:00:00.07 |     987 |    982 |       |       |          |</span><br><span class="line"></span><br><span class="line">PLAN_TABLE_OUTPUT</span><br><span class="line">--------------------------------------------------------------------------------------------------------------------------</span><br><span class="line">|   2 |   SORT JOIN         |      |      1 |    100 |    100 |00:00:00.01 |       2 |      1 | 13312 | 13312 |12288  (0)|</span><br><span class="line">|   3 |    TABLE ACCESS FULL| T1   |      1 |    100 |    100 |00:00:00.01 |       2 |      1 |       |       |          |</span><br><span class="line">|*  4 |   SORT JOIN         |      |    100 |    100K|    100 |00:00:00.07 |     985 |    981 |  9762K|  1209K| 8677K (0)|</span><br><span class="line">|   5 |    TABLE ACCESS FULL| T2   |      1 |    100K|    100K|00:00:00.05 |     985 |    981 |       |       |          |</span><br><span class="line">--------------------------------------------------------------------------------------------------------------------------</span><br><span class="line"></span><br><span class="line">Predicate Information (identified by operation id):</span><br><span class="line">---------------------------------------------------</span><br><span class="line"></span><br><span class="line">   4 - access(&quot;T1&quot;.&quot;ID&quot;=&quot;T2&quot;.&quot;T1_ID&quot;)</span><br><span class="line">       filter(&quot;T1&quot;.&quot;ID&quot;=&quot;T2&quot;.&quot;T1_ID&quot;)</span><br><span class="line"></span><br><span class="line">PLAN_TABLE_OUTPUT</span><br><span class="line">--------------------------------------------------------------------------------------------------------------------------</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">23 rows selected.</span><br></pre></td></tr></table></figure>
+
+<p>在访问次数上，排序合并连接和HASH连接是一样的，<strong>两表都只会访问0次或者1次</strong>。关于0次的试验这里就不再举例了。<br><strong>排序合并连接根本就没有驱动和被驱动的概念，而嵌套循环和哈希连接要考虑驱动和被驱动情况。</strong></p>
+<p>排序合并连接，也只有在排序时才需要访问表，排序完成后，后续的合并阶段不需要访问表，只需要从排序结果中查找匹配项即可。</p>
+<h3 id="各类连接驱动顺序区别"><a href="#各类连接驱动顺序区别" class="headerlink" title="各类连接驱动顺序区别"></a>各类连接驱动顺序区别</h3><p>观察两表的前后访问顺序对调后的性能差异。</p>
+<h4 id="嵌套循环的表驱动顺序"><a href="#嵌套循环的表驱动顺序" class="headerlink" title="嵌套循环的表驱动顺序"></a>嵌套循环的表驱动顺序</h4><p><code>SELECT /*+leading(t1) use_nl(t1 t2)*/ * FROM t1,t2 WHERE t1.id = t2.t1_id and t1.n = 19;</code> t1 表被访问 1 次，t2 表被访问 1 次。使用 Buffers 989<br><code>SELECT /*+leading(t2) use_nl(t1 t2)*/ * FROM t1,t2 WHERE t1.id = t2.t1_id and t1.n = 19;</code> t1 表被访问 100k 次，t2 表被访问 1 次。使用 Buffers 200k</p>
+<p>在嵌套循环连接中驱动表的顺序非常重要，性能差异十分明显。<br><strong>嵌套循环连接要特别注意驱动表的顺序，小的结果集先访问，大的结果集后访问，才能保证被驱动表的访问次数降到最低，从而提升性能。</strong></p>
+<h4 id="哈希连接的表驱动顺序"><a href="#哈希连接的表驱动顺序" class="headerlink" title="哈希连接的表驱动顺序"></a>哈希连接的表驱动顺序</h4><p><code>SELECT /*+leading(t1) use_hash(t1 t2)*/ * FROM t1,t2 WHERE t1.id = t2.t1_id and t1.n = 19;</code> t1 表被访问 1 次，t2 表被访问 1 次。使用 Buffers 988，Used-Mem 416k ，耗时 0.02s<br><code>SELECT /*+leading(t2) use_hash(t1 t2)*/ * FROM t1,t2 WHERE t1.id = t2.t1_id and t1.n = 19;</code> t1 表被访问 1 次，t2 表被访问 1 次。使用 Buffers 988，Used-Mem 13M ，耗时 0.03s</p>
+<p>其中 Buffers 相同，但 Used-Mem 差异非常大，说明排序尺寸差异明显。时间也可以看出一些<br>哈希连接中驱动表的顺序非常重要，性能也差别明显。</p>
+<h4 id="排序合并的表驱动顺序"><a href="#排序合并的表驱动顺序" class="headerlink" title="排序合并的表驱动顺序"></a>排序合并的表驱动顺序</h4><p><code>SELECT /*+leading(t1) use_merge(t1 t2)*/ * FROM t1,t2 WHERE t1.id = t2.t1_id and t1.n = 19;</code> t1 表被访问 1 次，t2 表被访问 100k 次。使用 Buffers 987，Used-Mem 分别是 2048 和 8677k ，耗时 0.04s<br><code>SELECT /*+leading(t2) use_merge(t2 t1)*/ * FROM t1,t2 WHERE t1.id = t2.t1_id and t1.n = 19;</code> t1 表被访问 1 次，t2 表被访问 100k 次。使用 Buffers 987，Used-Mem 分别是 2048 和 8677k ，耗时 0.05s</p>
+<p><strong>嵌套循环连接和哈希连接有驱动顺序，驱动表的顺序不同将影响表连接的性能，而排序合并连接没有驱动的概念，无论哪张表在前都无妨。</strong></p>
+<h3 id="各类连接排序情况分析"><a href="#各类连接排序情况分析" class="headerlink" title="各类连接排序情况分析"></a>各类连接排序情况分析</h3><h4 id="嵌套循环和哈希连接无需排序"><a href="#嵌套循环和哈希连接无需排序" class="headerlink" title="嵌套循环和哈希连接无需排序"></a>嵌套循环和哈希连接无需排序</h4><p>嵌套循环的执行计划中没有 Used-Mem 信息，说明没有排序。<br>哈希连接也没有排序，虽然执行计划中有 Used-Mem 信息。但消耗的内存是用于建立哈希表的。</p>
+<h4 id="排序只需取部分字段"><a href="#排序只需取部分字段" class="headerlink" title="排序只需取部分字段"></a>排序只需取部分字段</h4><p><code>SELECT /*+leading(t1) use_merge(t1 t2)*/ t1.id FROM t1,t2 WHERE t1.id = t2.t1_id and t1.n = 19;</code><br><code>SELECT /*+leading(t1) use_merge(t1 t2)*/ * FROM t1,t2 WHERE t1.id = t2.t1_id and t1.n = 19;</code></p>
+<p>上面第一条sql只取部分字段，比第二条sql取全部字段所消耗的内存更小。<br>在PGA空间不足以容纳排序区，导致排序需要在磁盘上进行时，那么性能会出现数量级的下降。</p>
+<h3 id="各类连接限制场景对比"><a href="#各类连接限制场景对比" class="headerlink" title="各类连接限制场景对比"></a>各类连接限制场景对比</h3><p>一般来说 HINT 是 Oracle 提供的用来强制走某执行计划的一个工具，比如你不想让 Oracle 的某查询走索引而要走全表扫描，你使用 full() 的提示就可以达成目的，反之亦是如此。<br>但是如果你用 HINT 将导致 Oracle 的运行结果有错，或者是 Oracle 在特定场景下无法支持这个 HINT 的执行计划，那就无法如你所愿。<br>比如之前的 COUNT(*) 的优化，如果你的索引列没有定义为非空属性，无论如何使用 INDEX() 的 HINT ，都不可能让 Oracle 走索引的，因为索引不能存储空值，用索引来统计将得到一个错误的结果，这是无法容忍的，所以 HINT 是无法生效的。<br>同样，这里与表连接相关的三个 HINT 分别是 use_nl、use_hash 和 use_merge ，如果在特定的写法下，用这些 HINT 也无法达成所愿。</p>
+<h4 id="哈希连接的限制"><a href="#哈希连接的限制" class="headerlink" title="哈希连接的限制"></a>哈希连接的限制</h4><p><strong>哈希连接不支持不等值连接<code>&lt;&gt;</code>，不支持<code>&gt;</code>和<code>&lt;</code>的连接方式，也不支持<code>LIKE</code>的连接方式。</strong></p>
+<h4 id="排序合并的限制"><a href="#排序合并的限制" class="headerlink" title="排序合并的限制"></a>排序合并的限制</h4><p><strong>排序合并连接不支持<code>&lt;&gt;</code>的连接条件，也不支持<code>LIKE</code>的连接条件，但是比起哈希连接，支持面要广一些，支持<code>&gt;</code>之类的连接条件。</strong></p>
+<h4 id="嵌套循环无限制"><a href="#嵌套循环无限制" class="headerlink" title="嵌套循环无限制"></a>嵌套循环无限制</h4><p><strong>嵌套循环支持所有的sql连接条件写法，没有任何限制。</strong></p>
+<h3 id="索引与各表连接经典优化"><a href="#索引与各表连接经典优化" class="headerlink" title="索引与各表连接经典优化"></a>索引与各表连接经典优化</h3><h4 id="嵌套循环与索引"><a href="#嵌套循环与索引" class="headerlink" title="嵌套循环与索引"></a>嵌套循环与索引</h4><p>嵌套索引的原理前面有写过，先从驱动表过滤出符合条件的记录，再去被驱动表匹配符合条件的记录，最后将结果组合在一起返回。<br>从两个表中匹配数据的过程可以使用索引提高性能，在过滤条件或连接条件有索引时，可以大大提高查询效率。<br>一般在驱动表的过滤条件加索引、在被驱动表的连接条件加索引比较合理。</p>
+<p>适合嵌套循环连接的场景</p>
+<ol>
+<li>两表关联返回的记录不多，最佳情况是驱动表结果集仅返回1条或少量几条记录，而被驱动表仅匹配到1条或少量几条记录，这种情况即便T1表和T2表的记录奇大无比，也是非常迅速的。</li>
+<li>遇到一些不等值查询导致哈希和排序合并连接被限制使用，不得不使用L连接。</li>
+<li>驱动表的限制条件所在的列有索引。</li>
+<li>被驱动表的连接条件所在的列有索引。</li>
+</ol>
+<h4 id="哈希连接与索引"><a href="#哈希连接与索引" class="headerlink" title="哈希连接与索引"></a>哈希连接与索引</h4><p>哈希连接、排序合并连接和嵌套循环连接最大的差别在于，连接条件的索引对它们起不到<strong>传递</strong>的作用。<br>对于哈希连接和排序合并连接来说，索引的连接条件起不到快速检索的作用，但是限制条件列如果有适合的索引可以快速检索到少量记录，还是可以提升性能的。<br><strong>因此关于哈希连接与索引的关系可以理解为单表索引的设置技巧</strong>，这在之前的索引章节中己经详细叙说过了。</p>
+<p>此外两表关联等值查询，在没有任何索引的情况下，Oracle 倾向于走哈希连接这种算法，因为哈希连接的算法本身还是比较高效先进的。<br>哈希连接需要在 PGA 中的HASH AREA SIZE中完成，因此增大HASH AREA SIZE也是优化哈希连接的一种有效的途径，一般在内存自动管理的情况下，只要加大PGA区大小即可。</p>
+<h4 id="排序合并与索引"><a href="#排序合并与索引" class="headerlink" title="排序合并与索引"></a>排序合并与索引</h4><p><strong>排序合并连接上的连接条件虽然没有检索的作用，却有消除排序的作用。</strong><br>索引本身排序，可以有效地避免排序合并连接中的排序。<br>此外，还有一个和哈希连接类似的优化思路，就是增大内存排序区，避免在排序尺寸过大时在磁盘中排序。</p>
+
+                </div>
+
+                
+                        
+<div class="post-copyright-info-container border-box">
+    <div class="copyright-info-content border-box">
+        <div class="copyright-info-top border-box">
+            <div class="copyright-post-title border-box text-ellipsis">
+                《收获，不止Oracle》读书笔记上篇-表连接
+            </div>
+
+            <div class="copyright-post-link border-box text-ellipsis">
+                读书笔记/读书笔记/《收获，不止Oracle》读书笔记上篇-表连接/
+            </div>
+        </div>
+
+        <div class="copyright-info-bottom border-box">
+            <div class="copyright-post-author bottom-item">
+                <div class="type">
+                    作者
+                </div>
+                <div class="content">咕咕咕</div>
+            </div>
+
+            <div class="post-time bottom-item">
+                <div class="type">
+                    发布于
+                </div>
+                <div class="content">2024-08-28 09:35</div>
+            </div>
+
+
+            <div class="post-license bottom-item">
+                <div class="type">
+                    许可
+                </div>
+                <div class="content tooltip" data-tooltip-content="CC BY-NC-SA 4.0">
+                    <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hans">
+                        <i class="fa-brands fa-creative-commons"></i>
+                        <i class="fa-brands fa-creative-commons-by"></i>
+                        <i class="fa-brands fa-creative-commons-nc"></i>
+                        <i class="fa-brands fa-creative-commons-sa"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <i class="copyright-bg fa-solid fa-copyright"></i>
+    </div>
+    <div class="copy-copyright-info flex-center tooltip" data-tooltip-content="复制版权信息" data-tooltip-offset-y="-2px">
+        <i class="fa-solid fa-copy"></i>
+    </div>
+</div>
+
+                
+
+                <div class="post-bottom-tags-and-share border-box">
+                    <div>
+                        
+                            <ul class="post-tags-box border-box">
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+                                    </li>
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/%E3%80%8A%E6%94%B6%E8%8E%B7%EF%BC%8C%E4%B8%8D%E6%AD%A2Oracle%E3%80%8B/">《收获，不止Oracle》</a>
+                                    </li>
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/Oracle/">Oracle</a>
+                                    </li>
+                                
+                            </ul>
+                        
+                    </div>
+                    <div>
+                        
+                            <div class="post-share-container border-box">
+    <ul class="share-list-wrap border-box">
+        <li class="qq share-item border-box flex-center tooltip"
+            data-tooltip-content="分享到 QQ"
+        >
+            <i class="fa-brands fa-qq"></i>
+        </li>
+        <li class="wechat share-item border-box flex-center tooltip tooltip-img"
+            data-tooltip-content="分享到微信"
+            data-tooltip-img-tip="微信扫一扫"
+            data-tooltip-img-style="background-color: #fff; top: -10px; padding: 0.6rem 0.6rem 0.1rem 0.6rem;"
+        >
+            <i class="fa-brands fa-weixin"></i>
+        </li>
+        <li class="weibo share-item border-box flex-center tooltip"
+            data-tooltip-content="分享到微博"
+        >
+            <i class="fa-brands fa-weibo"></i>
+        </li>
+    </ul>
+</div>
+
+                        
+                    </div>
+                </div>
+
+                
+                    <div class="reward-author-container border-box flex-center">
+    <div class="reward-btn keep-button border-box flex-center tooltip tooltip-img"
+            data-tooltip-content="谢谢你请我喝可乐~"
+            data-tooltip-img-url="/images/thanks.png"
+            data-tooltip-img-trigger="click"
+            data-tooltip-img-style="top: -8px;"
+    >
+        <i class="fa-solid fa-hand-holding-heart"></i>
+    </div>
+</div>
+
+                
+
+                
+                    <div class="post-nav border-box">
+                        
+                            <div class="prev-post">
+                                <a class="prev"
+                                   rel="prev"
+                                   href="/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E3%80%8A%E6%94%B6%E8%8E%B7%EF%BC%8C%E4%B8%8D%E6%AD%A2Oracle%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0%E4%B8%8B%E7%AF%87/"
+                                   title="《收获，不止Oracle》读书笔记下篇"
+                                >
+                                    <span class="left arrow-icon flex-center">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </span>
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">《收获，不止Oracle》读书笔记下篇</span>
+                                        <span class="post-nav-item">上一篇</span>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                        
+                            <div class="next-post">
+                                <a class="next"
+                                   rel="next"
+                                   href="/%E8%AE%B0%E5%BD%95%E7%94%9F%E6%B4%BB/%E8%AE%B0%E5%BD%95%E7%94%9F%E6%B4%BB/%E8%A8%80%E5%8F%B6%E4%B9%8B%E5%BA%AD/"
+                                   title="言叶之庭"
+                                >
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">言叶之庭</span>
+                                        <span class="post-nav-item">下一篇</span>
+                                    </span>
+                                    <span class="right arrow-icon flex-center">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                    </div>
+                
+
+                
+                    
+
+
+    <div class="comments-container border-box">
+        <div id="comments-anchor" class="comment-area-title border-box">
+            <i class="fas fa-comments"></i>&nbsp;评论
+        </div>
+        <div class="comment-plugin-fail border-box">
+    <span class="fail-tip">评论插件加载失败</span>
+    <button class="reload keep-button">点击重新加载</button>
+</div>
+<div class="comment-plugin-loading flex-center border-box">
+    <i class="loading-icon fa-solid fa-spinner fa-spin"></i>
+    <span class="load-tip">正在加载评论插件</span>
+</div>
+<script data-pjax>
+  window.KeepCommentPlugin = {}
+  window.KeepCommentPlugin.hideLoading = () => {
+    const cplDom = document.querySelector('.comments-container .comment-plugin-loading')
+    cplDom.style.display = 'none'
+  }
+  window.KeepCommentPlugin.loadFailHandle = () => {
+    window.KeepCommentPlugin.hideLoading()
+    const cpfDom = document.querySelector('.comments-container .comment-plugin-fail')
+    cpfDom.style.display = 'flex'
+    cpfDom.querySelector('.reload').addEventListener('click', () => {
+      window.location.reload()
+    })
+  }
+</script>
+
+        
+            
+
+    <div class="giscus-comments-container">
+        <div class="giscus" id="giscus"></div>
+        <script data-pjax
+                onerror="window.KeepCommentPlugin.loadFailHandle()"
+        >
+          if (!window.KeepCommentPlugin?.getGiscusTheme) {
+            window.KeepCommentPlugin.getGiscusTheme = () => {
+              return document.body.classList.contains('dark-mode') ? 'dark_dimmed' : 'light_tritanopia'
+            }
+          }
+
+          if (!window.KeepCommentPlugin?.changeGiscusTheme) {
+            window.KeepCommentPlugin.changeGiscusTheme = () => {
+              const iframe = document.querySelector('iframe.giscus-frame')
+              iframe && iframe.contentWindow.postMessage({
+                giscus: {
+                  setConfig: {
+                    theme: window.KeepCommentPlugin.getGiscusTheme()
+                  }
+                }
+              }, 'https://giscus.app')
+            }
+          }
+
+          if (!window.KeepCommentPlugin?.initGiscus) {
+            window.KeepCommentPlugin.initGiscus = () => {
+              const script = document.createElement('script')
+              script.async = true
+              script.src = 'https://giscus.app/client.js'
+              script.setAttribute('data-repo', 'Cooooing/Cooooing.github.io')
+              script.setAttribute('data-repo-id', 'R_kgDOHQal_w')
+              script.setAttribute('data-category', 'Announcements')
+              script.setAttribute('data-category-id', 'DIC_kwDOHQal_84CjZo6')
+              script.setAttribute('data-reactions-enabled', '1')
+              script.setAttribute('data-lang', 'zh-CN')
+              script.setAttribute('data-mapping', 'pathname')
+              script.setAttribute('data-strict', '0')
+              script.setAttribute('data-emit-metadata', '0')
+              script.setAttribute('data-input-position', 'top')
+              script.setAttribute('crossorigin', 'anonymous')
+              script.setAttribute('loading', 'lazy')
+              script.setAttribute('data-theme', window.KeepCommentPlugin.getGiscusTheme())
+              document.querySelector('.giscus-comments-container').appendChild(script)
+              script.onerror = () => {
+                window.KeepCommentPlugin.loadFailHandle()
+              }
+              script.onload = () => {
+                window.KeepCommentPlugin.hideLoading()
+              }
+              const toggleThemeBtn = document.querySelector('.tool-toggle-theme-mode')
+              toggleThemeBtn && toggleThemeBtn.addEventListener('click', () => {
+                window.KeepCommentPlugin.changeGiscusTheme()
+              })
+            }
+          }
+
+          if ('true' === "true") {
+            setTimeout(() => {
+              window.KeepCommentPlugin.initGiscus()
+            }, 1000)
+          } else {
+            window.addEventListener("DOMContentLoaded", window.KeepCommentPlugin.initGiscus)
+          }
+        </script>
+    </div>
+
+
+        
+    </div>
+
+
+
+
+
+                
+            </div>
+        </div>
+
+        
+            <div class="pc-post-toc left-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E5%85%AD%E7%AB%A0-%E7%BB%8F%E5%85%B8%EF%BC%8C%E8%A1%A8%E7%9A%84%E8%BF%9E%E6%8E%A5%E5%AD%A6%E4%BB%A5%E8%87%B4%E7%94%A8"><span class="nav-text">第六章 - 经典，表的连接学以致用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%89%E7%A7%8D%E8%BF%9E%E6%8E%A5%E7%B1%BB%E5%9E%8B"><span class="nav-text">三种连接类型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B5%8C%E5%A5%97%E5%BE%AA%E7%8E%AF%E8%BF%9E%E6%8E%A5%EF%BC%88Nested-Loop-Join%EF%BC%89"><span class="nav-text">嵌套循环连接（Nested Loop Join）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%93%88%E5%B8%8C%E8%BF%9E%E6%8E%A5%EF%BC%88Hash-Join%EF%BC%89"><span class="nav-text">哈希连接（Hash Join）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8E%92%E5%BA%8F%E5%90%88%E5%B9%B6%E8%BF%9E%E6%8E%A5%EF%BC%88Sort-Merge-Join%EF%BC%89"><span class="nav-text">排序合并连接（Sort Merge Join）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%84%E7%B1%BB%E8%BF%9E%E6%8E%A5%E8%AE%BF%E9%97%AE%E6%AC%A1%E6%95%B0%E5%B7%AE%E5%BC%82"><span class="nav-text">各类连接访问次数差异</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B5%8C%E5%A5%97%E5%BE%AA%E7%8E%AF%E7%9A%84%E8%A1%A8%E8%AE%BF%E9%97%AE%E6%AC%A1%E6%95%B0"><span class="nav-text">嵌套循环的表访问次数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%93%88%E5%B8%8C%E8%BF%9E%E6%8E%A5%E7%9A%84%E8%A1%A8%E8%AE%BF%E9%97%AE%E6%AC%A1%E6%95%B0"><span class="nav-text">哈希连接的表访问次数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8E%92%E5%BA%8F%E5%90%88%E5%B9%B6%E7%9A%84%E8%A1%A8%E8%AE%BF%E9%97%AE%E6%AC%A1%E6%95%B0"><span class="nav-text">排序合并的表访问次数</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%84%E7%B1%BB%E8%BF%9E%E6%8E%A5%E9%A9%B1%E5%8A%A8%E9%A1%BA%E5%BA%8F%E5%8C%BA%E5%88%AB"><span class="nav-text">各类连接驱动顺序区别</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B5%8C%E5%A5%97%E5%BE%AA%E7%8E%AF%E7%9A%84%E8%A1%A8%E9%A9%B1%E5%8A%A8%E9%A1%BA%E5%BA%8F"><span class="nav-text">嵌套循环的表驱动顺序</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%93%88%E5%B8%8C%E8%BF%9E%E6%8E%A5%E7%9A%84%E8%A1%A8%E9%A9%B1%E5%8A%A8%E9%A1%BA%E5%BA%8F"><span class="nav-text">哈希连接的表驱动顺序</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8E%92%E5%BA%8F%E5%90%88%E5%B9%B6%E7%9A%84%E8%A1%A8%E9%A9%B1%E5%8A%A8%E9%A1%BA%E5%BA%8F"><span class="nav-text">排序合并的表驱动顺序</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%84%E7%B1%BB%E8%BF%9E%E6%8E%A5%E6%8E%92%E5%BA%8F%E6%83%85%E5%86%B5%E5%88%86%E6%9E%90"><span class="nav-text">各类连接排序情况分析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B5%8C%E5%A5%97%E5%BE%AA%E7%8E%AF%E5%92%8C%E5%93%88%E5%B8%8C%E8%BF%9E%E6%8E%A5%E6%97%A0%E9%9C%80%E6%8E%92%E5%BA%8F"><span class="nav-text">嵌套循环和哈希连接无需排序</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8E%92%E5%BA%8F%E5%8F%AA%E9%9C%80%E5%8F%96%E9%83%A8%E5%88%86%E5%AD%97%E6%AE%B5"><span class="nav-text">排序只需取部分字段</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%84%E7%B1%BB%E8%BF%9E%E6%8E%A5%E9%99%90%E5%88%B6%E5%9C%BA%E6%99%AF%E5%AF%B9%E6%AF%94"><span class="nav-text">各类连接限制场景对比</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%93%88%E5%B8%8C%E8%BF%9E%E6%8E%A5%E7%9A%84%E9%99%90%E5%88%B6"><span class="nav-text">哈希连接的限制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8E%92%E5%BA%8F%E5%90%88%E5%B9%B6%E7%9A%84%E9%99%90%E5%88%B6"><span class="nav-text">排序合并的限制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B5%8C%E5%A5%97%E5%BE%AA%E7%8E%AF%E6%97%A0%E9%99%90%E5%88%B6"><span class="nav-text">嵌套循环无限制</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B4%A2%E5%BC%95%E4%B8%8E%E5%90%84%E8%A1%A8%E8%BF%9E%E6%8E%A5%E7%BB%8F%E5%85%B8%E4%BC%98%E5%8C%96"><span class="nav-text">索引与各表连接经典优化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B5%8C%E5%A5%97%E5%BE%AA%E7%8E%AF%E4%B8%8E%E7%B4%A2%E5%BC%95"><span class="nav-text">嵌套循环与索引</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%93%88%E5%B8%8C%E8%BF%9E%E6%8E%A5%E4%B8%8E%E7%B4%A2%E5%BC%95"><span class="nav-text">哈希连接与索引</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8E%92%E5%BA%8F%E5%90%88%E5%B9%B6%E4%B8%8E%E7%B4%A2%E5%BC%95"><span class="nav-text">排序合并与索引</span></a></li></ol></li></ol></li></ol>
+    </div>
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom border-box">
+            
+<footer class="footer border-box">
+    <div class="border-box website-info-box default">
+        
+            <div class="copyright-info info-item default">
+                &copy;&nbsp;<span>2022</span>&nbsp;-&nbsp;2025
+                
+                    &nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;&nbsp;<a href="/">咕咕咕</a>
+                
+            </div>
+
+            <div class="theme-info info-item default">
+                由&nbsp;<a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;驱动&nbsp;&&nbsp;主题&nbsp;<a class="keep-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep</a>
+            </div>
+
+            
+
+            
+        
+
+        <div style="color:var(--text-color-4);"><span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>(～￣▽￣)～<script src="/js/lifeTime.js"></script></div>
+        <a href="https://icp.gov.moe/?keyword=20222450" target="_blank">萌ICP备20222450号</a>
+
+
+        <div class="count-item info-item default">
+            
+                <span class="count-box border-box word">
+                    <span class="item-type border-box">总字数</span>
+                    <span class="item-value border-box word">362.1k</span>
+                </span>
+            
+
+            
+                <span class="count-box border-box uv">
+                    <span class="item-type border-box">访客数</span>
+                    <span class="item-value border-box uv" id="busuanzi_value_site_uv"></span>
+                </span>
+            
+
+            
+                <span class="count-box border-box pv">
+                    <span class="item-type border-box">访问量</span>
+                    <span class="item-value border-box pv" id="busuanzi_value_site_pv"></span>
+                </span>
+            
+        </div>
+
+        <div id="aplayer">
+          <meting-js
+                  server="netease"
+                  type="playlist"
+                  id="7345595717"
+                  fixed="true"
+                  mini="true"
+                  autoplay="false"
+                  listFolded="true"
+                  order="random"
+                  preload="none">
+          </meting-js>
+        </div>
+            <br>
+            <br>
+            <br>
+    </div>
+
+</footer>
+
+        </div>
+    </div>
+
+    <!-- post tools -->
+    
+        <div class="post-tools left-toc">
+            <div class="post-tools-container border-box">
+    <ul class="tools-list border-box">
+        <!-- PC TOC show toggle -->
+        
+            <li class="tools-item flex-center toggle-show-toc">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        <!-- PC go comment -->
+        
+            <li class="tools-item flex-center go-to-comments">
+                <i class="fas fa-comment"></i>
+                <span class="post-comments-count"></span>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <!-- side tools -->
+    <div class="side-tools">
+        <div class="side-tools-container border-box ">
+    <ul class="side-tools-list side-tools-show-handle border-box">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-toggle-theme-mode flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+            <li class="tools-item rss flex-center">
+                <a class="flex-center"
+                   href="/atom.xml"
+                   target="_blank"
+                >
+                    <i class="fas fa-rss"></i>
+                </a>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list border-box">
+        
+            <li class="tools-item toggle-show-toc-tablet flex-center">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        
+            <li class="tools-item go-to-comments-tablet flex-center">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+
+        <li class="tools-item tool-scroll-to-top flex-center show-arrow">
+            <i class="arrow fas fa-arrow-up"></i>
+            <span class="percent"></span>
+        </li>
+    </ul>
+</div>
+
+    </div>
+
+    <!-- image mask -->
+    <div class="zoom-in-image-mask">
+    <img class="zoom-in-image">
+</div>
+
+
+    <!-- local search -->
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="搜索..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="close-popup-btn">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+    <!-- tablet toc -->
+    
+        <div class="tablet-post-toc-mask">
+            <div class="tablet-post-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E5%85%AD%E7%AB%A0-%E7%BB%8F%E5%85%B8%EF%BC%8C%E8%A1%A8%E7%9A%84%E8%BF%9E%E6%8E%A5%E5%AD%A6%E4%BB%A5%E8%87%B4%E7%94%A8"><span class="nav-text">第六章 - 经典，表的连接学以致用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%89%E7%A7%8D%E8%BF%9E%E6%8E%A5%E7%B1%BB%E5%9E%8B"><span class="nav-text">三种连接类型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B5%8C%E5%A5%97%E5%BE%AA%E7%8E%AF%E8%BF%9E%E6%8E%A5%EF%BC%88Nested-Loop-Join%EF%BC%89"><span class="nav-text">嵌套循环连接（Nested Loop Join）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%93%88%E5%B8%8C%E8%BF%9E%E6%8E%A5%EF%BC%88Hash-Join%EF%BC%89"><span class="nav-text">哈希连接（Hash Join）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8E%92%E5%BA%8F%E5%90%88%E5%B9%B6%E8%BF%9E%E6%8E%A5%EF%BC%88Sort-Merge-Join%EF%BC%89"><span class="nav-text">排序合并连接（Sort Merge Join）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%84%E7%B1%BB%E8%BF%9E%E6%8E%A5%E8%AE%BF%E9%97%AE%E6%AC%A1%E6%95%B0%E5%B7%AE%E5%BC%82"><span class="nav-text">各类连接访问次数差异</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B5%8C%E5%A5%97%E5%BE%AA%E7%8E%AF%E7%9A%84%E8%A1%A8%E8%AE%BF%E9%97%AE%E6%AC%A1%E6%95%B0"><span class="nav-text">嵌套循环的表访问次数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%93%88%E5%B8%8C%E8%BF%9E%E6%8E%A5%E7%9A%84%E8%A1%A8%E8%AE%BF%E9%97%AE%E6%AC%A1%E6%95%B0"><span class="nav-text">哈希连接的表访问次数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8E%92%E5%BA%8F%E5%90%88%E5%B9%B6%E7%9A%84%E8%A1%A8%E8%AE%BF%E9%97%AE%E6%AC%A1%E6%95%B0"><span class="nav-text">排序合并的表访问次数</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%84%E7%B1%BB%E8%BF%9E%E6%8E%A5%E9%A9%B1%E5%8A%A8%E9%A1%BA%E5%BA%8F%E5%8C%BA%E5%88%AB"><span class="nav-text">各类连接驱动顺序区别</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B5%8C%E5%A5%97%E5%BE%AA%E7%8E%AF%E7%9A%84%E8%A1%A8%E9%A9%B1%E5%8A%A8%E9%A1%BA%E5%BA%8F"><span class="nav-text">嵌套循环的表驱动顺序</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%93%88%E5%B8%8C%E8%BF%9E%E6%8E%A5%E7%9A%84%E8%A1%A8%E9%A9%B1%E5%8A%A8%E9%A1%BA%E5%BA%8F"><span class="nav-text">哈希连接的表驱动顺序</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8E%92%E5%BA%8F%E5%90%88%E5%B9%B6%E7%9A%84%E8%A1%A8%E9%A9%B1%E5%8A%A8%E9%A1%BA%E5%BA%8F"><span class="nav-text">排序合并的表驱动顺序</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%84%E7%B1%BB%E8%BF%9E%E6%8E%A5%E6%8E%92%E5%BA%8F%E6%83%85%E5%86%B5%E5%88%86%E6%9E%90"><span class="nav-text">各类连接排序情况分析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B5%8C%E5%A5%97%E5%BE%AA%E7%8E%AF%E5%92%8C%E5%93%88%E5%B8%8C%E8%BF%9E%E6%8E%A5%E6%97%A0%E9%9C%80%E6%8E%92%E5%BA%8F"><span class="nav-text">嵌套循环和哈希连接无需排序</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8E%92%E5%BA%8F%E5%8F%AA%E9%9C%80%E5%8F%96%E9%83%A8%E5%88%86%E5%AD%97%E6%AE%B5"><span class="nav-text">排序只需取部分字段</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%84%E7%B1%BB%E8%BF%9E%E6%8E%A5%E9%99%90%E5%88%B6%E5%9C%BA%E6%99%AF%E5%AF%B9%E6%AF%94"><span class="nav-text">各类连接限制场景对比</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%93%88%E5%B8%8C%E8%BF%9E%E6%8E%A5%E7%9A%84%E9%99%90%E5%88%B6"><span class="nav-text">哈希连接的限制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8E%92%E5%BA%8F%E5%90%88%E5%B9%B6%E7%9A%84%E9%99%90%E5%88%B6"><span class="nav-text">排序合并的限制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B5%8C%E5%A5%97%E5%BE%AA%E7%8E%AF%E6%97%A0%E9%99%90%E5%88%B6"><span class="nav-text">嵌套循环无限制</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B4%A2%E5%BC%95%E4%B8%8E%E5%90%84%E8%A1%A8%E8%BF%9E%E6%8E%A5%E7%BB%8F%E5%85%B8%E4%BC%98%E5%8C%96"><span class="nav-text">索引与各表连接经典优化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B5%8C%E5%A5%97%E5%BE%AA%E7%8E%AF%E4%B8%8E%E7%B4%A2%E5%BC%95"><span class="nav-text">嵌套循环与索引</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%93%88%E5%B8%8C%E8%BF%9E%E6%8E%A5%E4%B8%8E%E7%B4%A2%E5%BC%95"><span class="nav-text">哈希连接与索引</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8E%92%E5%BA%8F%E5%90%88%E5%B9%B6%E4%B8%8E%E7%B4%A2%E5%BC%95"><span class="nav-text">排序合并与索引</span></a></li></ol></li></ol></li></ol>
+    </div>
+</div>
+
+            </div>
+        </div>
+    
+</main>
+
+
+
+<!-- common -->
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/toggle-theme.js"></script>
+
+<script src="/js/code-block.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+
+<!-- local-search -->
+
+    
+<script src="/js/local-search.js"></script>
+
+
+
+<!-- lazyload -->
+
+    
+<script src="/js/lazyload.js"></script>
+
+
+
+<div class="pjax">
+    
+        <!-- post-helper -->
+        
+<script src="/js/post/post-helper.js"></script>
+
+
+        <!-- toc -->
+        
+            
+<script src="/js/post/toc.js"></script>
+
+        
+
+        <!-- copyright-info -->
+        
+            
+<script src="/js/post/copyright-info.js"></script>
+
+        
+
+        <!-- share -->
+        
+            
+<script src="/js/post/share.js"></script>
+
+        
+    
+
+    <!-- category-page -->
+    
+
+    <!-- links-page -->
+    
+
+    <!-- photos-page -->
+    
+</div>
+
+<!-- mermaid -->
+
+
+<!-- pjax -->
+
+    
+<script src="/js/libs/pjax.min.js"></script>
+
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        window.pjax = new Pjax({
+            selectors: [
+                'head title',
+                '.page-container',
+                '.pjax',
+                '#aplayer',
+                '#canvas_sakura'
+            ],
+            history: true,
+            debug: false,
+            cacheBust: false,
+            timeout: 0,
+            analytics: false,
+            currentUrlFullReload: false,
+            scrollRestoration: false,
+        });
+
+        document.addEventListener('pjax:send', () => {
+            KEEP.utils.pjaxProgressBarStart()
+        });
+
+        document.addEventListener('pjax:complete', () => {
+            KEEP.utils.pjaxProgressBarEnd()
+            window.pjax.executeScripts(document.querySelectorAll('script[data-pjax], .pjax script'))
+            KEEP.initExecute()
+        });
+    });
+</script>
+
+
+
+
+    
+        
+            
+<script class="custom-inject-js" src="/js/APlayer.min.js" data-pjax></script>
+
+        
+    
+        
+            
+<script class="custom-inject-js" src="/js/Meting.min.js" data-pjax></script>
+
+        
+    
+        
+            
+<script class="custom-inject-js" src="/js/leaves.js" data-pjax></script>
+
+        
+    
+
+
+
+</body>
+</html>

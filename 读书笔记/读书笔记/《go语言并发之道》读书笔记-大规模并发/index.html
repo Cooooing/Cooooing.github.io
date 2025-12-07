@@ -1,0 +1,1110 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="技术博客,后端开发,编程笔记,生活">
+    <meta name="description" content="Code | Systems | Life — 专注编程本质，也关心世界如何运转。">
+    <meta name="author" content="咕咕咕">
+
+    
+    <title>
+        
+            《go语言并发之道》读书笔记-大规模并发 |
+        
+        咕咕咕的小破站
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+        <link rel="shortcut icon" href="/images/favicon.png">
+    
+    
+<link rel="stylesheet" href="/font/css/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/regular.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/solid.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/brands.min.css">
+
+    
+        
+            
+                
+<link rel="stylesheet" href="/css/APlayer.min.css">
+
+            
+        
+            
+                
+<link rel="stylesheet" href="/css/custom.css">
+
+            
+        
+    
+    <script class="keep-theme-configurations">
+    const KEEP = window.KEEP || {}
+    KEEP.hexo_config = {"hostname":"cooooing.github.io","root":"/","language":"zh-CN","path":"search.json"}
+    KEEP.theme_config = {"base_info":{"primary_color":"#0066cc","title":"咕咕咕的小破站","author":"咕咕咕","avatar":"/images/head.jpg","logo":"/images/head.jpg","favicon":"/images/favicon.png"},"menu":{"Archives":"/archives","Categories":"/categories","Tags":"/tags","日常":"/daily","Links":"/links","About":"/about"},"first_screen":{"enable":false,"background_img":"/images/bg.svg","background_img_dark":"/images/bg.svg","description":"Keep writing and Keep loving.","hitokoto":false},"social_contact":{"enable":false,"links":{"github":null,"weixin":null,"qq":null,"weibo":null,"zhihu":null,"twitter":null,"facebook":null,"email":null}},"scroll":{"progress_bar":false,"percent":false,"hide_header":true},"home":{"category":true,"tag":true,"announcement":null},"post":{"author_badge":{"enable":true,"level_badge":false,"custom_badge":["fishing"]},"word_count":{"wordcount":true,"min2read":true},"datetime_format":"YYYY-MM-DD HH:mm:ss","copyright_info":true,"share":true,"reward":{"enable":true,"img_link":"/images/thanks.png","text":"谢谢你请我喝可乐~"}},"code_block":{"tools":{"enable":true,"style":"default"},"highlight_theme":"default"},"toc":{"enable":true,"number":false,"expand_all":true,"init_open":true,"layout":"left"},"website_count":{"busuanzi_count":{"enable":true,"site_uv":true,"site_pv":true,"page_pv":true}},"local_search":{"enable":true,"preload":true},"comment":{"enable":true,"use":"giscus","valine":{"appid":null,"appkey":null,"server_urls":null,"placeholder":null},"gitalk":{"github_id":null,"github_admins":null,"repository":null,"client_id":null,"client_secret":null,"proxy":null},"twikoo":{"env_id":null,"region":null,"version":"1.6.21"},"waline":{"server_url":null,"reaction":false,"version":2},"giscus":{"repo":"Cooooing/Cooooing.github.io","repo_id":"R_kgDOHQal_w","category":"Announcements","category_id":"DIC_kwDOHQal_84CjZo6","reactions_enabled":true},"artalk":{"server":null},"disqus":{"shortname":null}},"rss":{"enable":true},"lazyload":{"enable":true},"cdn":{"enable":false,"provider":"cdnjs"},"pjax":{"enable":true},"footer":{"since":2022,"word_count":true,"icp":{"enable":false,"record_code":null,"url":"https://beian.miit.gov.cn"},"site_deploy":{"enable":false,"provider":"github","url":null},"shields_style":{"enable":false,"custom":[{"link_url":null,"img_url":null}]}},"inject":{"enable":true,"css":["/css/APlayer.min.css","/css/custom.css"],"js":["/js/APlayer.min.js","/js/Meting.min.js","/js/leaves.js"]},"root":"","links":[{"name":"鼠鼠在碎觉","link":"https://sszsj.com","avatar":"https://tmx.fishpi.cn/img/head.jpg","description":"我是不慎落入世界的一滴水墨"},{"name":"Gakkiyomi","link":"https://gakkiyomi.blog","avatar":"https://avatars.githubusercontent.com/u/41406557?v=4","description":"为往圣继绝学"},{"name":"Hancel's Blog","link":"https://my.hancel.org","avatar":"https://my.hancel.org/media/logo.jpg","description":"人生而自由，却无往不在枷锁之中。"},{"name":"Eastshann","link":"http://121.4.99.208/","avatar":"http://121.4.99.208/img/avatar.jpg","description":"冲和者，淡泊平和，谦冲守正"},{"name":"小于同学的异世界","link":"https://yby.zone","avatar":"https://yby-zone.obs.cn-east-3.myhuaweicloud.com/avatar.jpg","description":"为吾为枝，余地三尺，以己为棋，胜天半子。"},{"name":"Mlikiowa Home Village","link":"https://nanaeo.cn/","avatar":"https://q1.qlogo.cn/g?b=qq&nk=1627126029&s=100","description":"A litter Village With Mlikiowa"},{"name":"忘忧草","link":"https://owo.wyc.rest/","avatar":"https://owo.wyc.rest/img/%E4%B8%87%E5%8F%B6.jpg","description":"这只是一个小破站而已！"},{"name":"stillwarter","link":"https://stillwarter.github.io/","avatar":"https://file.fishpi.cn/2022/07/MOSHED2022621164630-1b1ec532.gif?imageView2/1/w/210/h/210/interlace/0/q/100","description":"光就是一切的意义"},{"name":"test12138","link":"http://你好.eu.org/","avatar":"https://file.fishpi.cn/2022/06/srchttpimgzcoolcncommunity0116405d84f975a801211d537707c9gifreferhttpimgzcool-0f2d09c9.gif?imageView2/1/w/48/h/48/interlace/0/q/100","description":"大丈夫生于天地之间，岂能郁郁久居人下。"},{"name":"呼呼呼","link":"https://bongbongbakudan.github.io/","avatar":"https://pwl.stackoverflow.wiki/2021/12/blob-28eb4b9f.png?imageView2/1/w/48/h/48/interlace/0/q/100","description":"去整点薯条"},{"name":"Plumbiu","link":"https://blog.plumbiu.top/","avatar":"https://avatars.githubusercontent.com/u/99574369?v=4","description":"这人很勤奋，啥都没留"},{"name":"hiRipple","link":"https://hiripple.com/","avatar":"https://avatars.githubusercontent.com/u/115361435?v=4","description":"超高校级的游戏玩家"}],"version":"4.0.6"}
+    KEEP.language_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"}
+    KEEP.language_code_block = {"copy":"复制代码","copied":"已复制","fold":"折叠代码块","folded":"已折叠"}
+    KEEP.language_copy_copyright = {"copy":"复制版权信息","copied":"已复制","title":"原文标题","author":"原文作者","link":"原文链接"}
+  </script>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-CLX32WF4R1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+
+      gtag('js', new Date());
+
+      gtag('config', 'G-CLX32WF4R1');
+    </script>
+
+    <!-- 51.la -->
+    <script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
+    <script>LA.init({id: "3JwPz6wbAloyTmMc", ck: "3JwPz6wbAloyTmMc", autoTrack: true})</script>
+
+<meta name="generator" content="Hexo 8.1.1"><link rel="alternate" href="/atom.xml" title="咕咕咕的小破站" type="application/atom+xml">
+</head>
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+        <span class="pjax-progress-bar"></span>
+        <i class="pjax-progress-icon fas fa-circle-notch fa-spin"></i>
+    
+</div>
+
+
+<main class="page-container border-box">
+
+    <!-- home first screen  -->
+    
+
+    <!-- page content -->
+    <div class="page-main-content border-box">
+        <div class="page-main-content-top">
+            
+<header class="header-wrapper">
+
+    <div class="border-box header-content">
+        <div class="left border-box">
+            
+                <a class="logo-image border-box" href="/">
+                    <img src="/images/head.jpg">
+                </a>
+            
+            <a class="site-name border-box" href="/">
+               咕咕咕的小破站
+            </a>
+        </div>
+
+        <div class="right border-box">
+            <div class="pc">
+                <ul class="menu-list">
+                    <li class="menu-item">
+                        <a class=""
+                           href="/"
+                        >首页</a>
+                    </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >归档</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/categories"
+                            >分类</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/tags"
+                            >标签</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/daily"
+                            >日常</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/links"
+                            >友链</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >关于</a>
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="fas search fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            <li class="drawer-menu-item flex-center">
+                <a class=""
+                   href="/"
+                >首页</a>
+            </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives"
+                    >归档</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/categories"
+                    >分类</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/tags"
+                    >标签</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/daily"
+                    >日常</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/links"
+                    >友链</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about"
+                    >关于</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle border-box">
+
+            <div class="main-content border-box">
+                
+
+                    
+<div class="fade-in-down-animation">
+    <div class="post-page-container border-box">
+        <div class="post-content-container border-box">
+            
+
+            <div class="post-content-bottom border-box">
+                
+                    <div class="post-title">
+                        《go语言并发之道》读书笔记-大规模并发
+                    </div>
+                
+
+                
+                    <div class="post-header border-box">
+                        
+                            <div class="avatar-box border-box">
+                                <img src="/images/head.jpg">
+                            </div>
+                        
+                        <div class="info-box">
+                            <div class="author border-box">
+                                <span class="name">咕咕咕</span>
+                                
+                                    <span class="author-badge">fishing</span>
+                                
+                            </div>
+                            <div class="meta-info border-box">
+                                
+
+<div class="post-meta-info-container border-box post">
+    <div class="post-meta-info border-box">
+        
+
+        
+            <span class="meta-info-item post-create-date">
+                <i class="icon fa-solid fa-calendar-plus"></i>&nbsp;
+                <span class="datetime">2025-01-28 22:27:50</span>
+            </span>
+
+            <span class="meta-info-item post-update-date">
+                <i class="icon fa-solid fa-file-pen"></i>&nbsp;
+                <span class="datetime" data-updated="Tue Jan 28 2025 14:27:50 GMT+0000">2025-01-28 22:27:50</span>
+            </span>
+        
+
+        
+            <span class="meta-info-item post-category border-box"><i class="icon fas fa-folder"></i>&nbsp;
+                <ul class="post-category-ul">
+                    
+                            <li class="category-item"><a href="/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">读书笔记</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+            <span class="post-tag meta-info-item border-box">
+                <i class="icon fas fa-tags"></i>&nbsp;
+                <ul class="post-tag-ul">
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/go/">go</a></li>
+                        
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/%E5%B9%B6%E5%8F%91/">并发</a></li>
+                        
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/%E3%80%8Ago%E8%AF%AD%E8%A8%80%E5%B9%B6%E5%8F%91%E4%B9%8B%E9%81%93%E3%80%8B/">《go语言并发之道》</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+        
+            <span class="meta-info-item post-wordcount">
+                <i class="icon fas fa-file-word"></i>&nbsp;<span>9.1k 字</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-min2read">
+                <i class="icon fas fa-clock"></i>&nbsp;<span>36 分钟</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-pv">
+                <i class="icon fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+            </span>
+        
+    </div>
+
+    
+</div>
+
+                            </div>
+                        </div>
+                    </div>
+                
+
+                <div class="post-content keep-markdown-body">
+                    
+
+                    <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>今天是2025年1月28日，除夕夜晚上十点半。今年家里是十分的冷清，没有什么过年的氛围。<br>不过，可能向来如此吧。</p>
+<p>除夕夜还在看这些，莫名有些伤感。<br>想起一句话：<strong>我们是除夕夜街头，即将放飞理想的有志青年。</strong><br>也许吧，还是看书吧</p>
+<h2 id="第五章-大规模并发"><a href="#第五章-大规模并发" class="headerlink" title="第五章 - 大规模并发"></a>第五章 - 大规模并发</h2><h3 id="异常传递"><a href="#异常传递" class="headerlink" title="异常传递"></a>异常传递</h3><p>编写并发代码，特别是在分布式系统中，你的系统中非常容易出现一些奇怪问题，并且难以理解为什么会发生这种情况。<br>为了将你自己、你的团队、你的用户从众多的痛苦中拯救出来，你需要仔细考虑异常(error)是如何通过分布式系统传递的，以及问题最终将如何呈现给使用者。</p>
+<p>异常处理十分的重要，首先来明确异常是什么，什么时候发生，提供了哪些好处。<br>出现异常表示你的系统进入了一个无法满足用户操作的状态，这个操作可能是显式的，也可能是隐式的。<br>这时系统需要传达几个信息：</p>
+<ol>
+<li>发生了什么<br>这部分异常信息包含了对异常事件的描述。例如：“磁盘已满”，“连接被重置”，“证书过期”。这些信息可能是被一些代码隐式的表达出来的，你可以用一些上下文来修饰这些信息来帮助用户理解发生了什么问题。</li>
+<li>发生在什么时间、什么位置<br>异常应当总是包含完整的栈轨迹信息，从调用的启动方式开始，以异常的实例结尾。栈轨迹信息不应该包含在异常消息中（这一点尤为重要），但当需要处理栈中的异常时应该很容易被找到。<br>更进一步讲，异常应当包含有关其内部运行的上下文信息。例如，在分布式系统中，异常应该有一些字段用来识别发生异常的机器。发生异常后，这些信息会对你诊断系统故障原因非常有价值。<br>此外，异常还应包含对应机器上的时间，并且最好是UTC时间。</li>
+<li>对用户友好的信息<br>应当对展现给用户的异常信息进行自定义，以适应你的系统和用户。这些信息应该只包含前两点的概述以及相关信息。对用户友好的信息是从用户的角度考虑，给出一些信息，说明这些问题是否是暂时的，并且最好是行以内的文本。</li>
+<li>告诉用户如何获得更多的信息<br>在某些情况下，用户希望知道当异常发生时，具体发生了哪些故障。展现给用户的异常信息应当提供一个ID,利用这个ID可以查询到对应的详细日志。<br>这个详细日志应显示异常的完整信息：发生异常的时间（而不是异常记录的时间)，异常创建时完整的堆栈调用。包含一个堆栈轨迹的hash也有助于聚合这些异常，就像bug追踪器那样跟踪问题。</li>
+</ol>
+<p>默认状态下，如果你不介人，异常信息不会包含上述所有的信息。因此，你应当保持这样一种观念，任何展现给用户的异常信息如果没包含这些信息，不是出错了就是有bug。<br>这引出了一个可以用来处理异常的通用模型。所有的异常都几乎都能归为以下两种分类之一：</p>
+<ul>
+<li>Bug</li>
+<li>已知信息（例如：网络连接断开，磁盘写入失败等）。</li>
+</ul>
+<p>Bug是一些你未在你的系统中定义的异常，或者一些“原生”的异常，就是那些极少遇到的情况。<br>有时这是有意为之的，在你系统最初的几次迭代中，一些罕见问题展现给用户是可以接受的。还有些时候这是意外发生的。<br>总之，如果你同意我所提出的方法，即“原生”异常总是bug。在确定如何传播异常时，在系统随着时间的推移如何增长以及最终向用户展示什么时，这种区别被证明是非常有用的。</p>
+<p>当我们面向用户部分的代码收到一个格式良好的异常信息时，我们知道在代码的各个层面上，我们都小心的处理了异常，我们可以将其记录下来并打印出来供用户查看。确保异常类型的准确有效是非常重要的。<br>当不规范的异常或bug传递给用户时，我们也应该记录异常，但是应该向用户显示一条友好的消息，指出发生了意外的事情。如果我们在系统中支持自动的异常报告，则应该将这些问题报告为bug。如果我们不这样做，我们应该建议用户提交一个bug反馈。<br>请注意，不规范的异常实际上也可能包含用的信息，但我们不能保证这一点，我们唯一能确认的是异常没有经过我们格式化。因此我们应该直截了当地展示一段人类可解读的信息，来展示刚刚发生的事情。</p>
+<p>请记住，在这两种情况下，如果出现格式不规范的异常，我们将在消息中包含一个日志ID,以便用户在需要更多信息时可以查询到相关的内容。<br>因此，如果bug确实包含了有用的信息，有需要的用户仍然有可追踪的线索。</p>
+<p>作者给了个简单的包装异常的例子，这里就省略了。<br>我通常处理异常的方式和上面是一样的，分为自定义异常（不符合业务逻辑的异常、可以预料到的系统异常）和意料之外的异常。<br>具体处理方式在不同的场景下区别是比较大的，这块后续会去学习errors包的处理方式。另外还有分布式的异常处理方式。</p>
+<h3 id="超时与取消"><a href="#超时与取消" class="headerlink" title="超时与取消"></a>超时与取消</h3><p>在并发代码运行时，超时（Timeouts）和取消（Cancellation）会频繁出现。<br>超时的处理对于创建一个易于理解的系统是至关重要的，进程被取消是其发生超时时的自然反应。</p>
+<p>那么，为什么希望并发程序支持超时呢？</p>
+<ul>
+<li>系统饱和<br>即系统的处理能力达到上线，希望超出的请求返回超时，而不是花很长时间等待响应。<ul>
+<li>请求在超时时不太可能重复</li>
+<li>没有资源存储请求（内存队列内存，持久队列磁盘）</li>
+<li>如果系统对响应或请求发送数据有时效性要求。</li>
+<li>如果一个请求可能会重复，超时会额外增加一个请求和超时的消耗。</li>
+<li>如果开销超过系统容量，可能会导致系统宕机。</li>
+</ul>
+</li>
+<li>陈旧的数据<br>数据通常有一个窗口期，一般是在这个窗口中必须先处理更多的相关数据，或者处理数据的需求已经过期。<br>如果一个并发进程处理数据需要的时间比这个窗口期更长，我们会想返回超时并取消并发进程。<br>例如，如果我们的并发进程在长时间的等待之后响应请求，则在排队中的请求或其数据可能已经过时。<br>如果事先知道这个窗口时间，那么将context.WithDeadline或context.WithTimeout创建的context.Context传递给我们的并发进程是有意义的。<br>如果事先不知道窗口，我们希望并发进程的父节点能够在请求不再需要时取消并发进程。context.WithCancel是达到这个目的的最佳选择。</li>
+<li>试图防止死锁<br>在大型系统中，尤其是分布式系统中，有时难以理解数据流动的方式，或者可能出现的罕见情况。<br>为了保证系统不会发生死锁，建议在所有并发操作中增加超时处理。超时时间不一定要接近执行并发操作所需的实际时间。<br>不过超时的目的只是为了防止死锁，所以需要它足够短，使死锁的系统在合理的时间内解除阻塞即可。<br>尝试通过设置超时可以将一个死锁系统转变为一个活锁系统。不过，在大型系统中，由于存在更多灵活的组件，在系统死锁后，你的系统更可能会遇到时序配置不同步的情况。<br>因此，最好是在允许的时间内尽可能修复活锁，好过发生死锁后只有通过重新启动才能恢复系统。</li>
+</ul>
+<p>如何建立一个并发处理来优雅地处理取消。并发进程可能被取消的原因有很多：</p>
+<ul>
+<li>超时<br>超时是隐式取消。</li>
+<li>用户干预<br>为了获得良好的用户体验，通常建议维持一个长链接，然后以轮询间隔将状态报告给用户，或允许用户查看他们认为合适的状态。<br>当用户使用并发程序时，有时需要允许用户取消他们已经开始的操作。</li>
+<li>父进程取消<br>对于这个问题，如果任何一种并发操作的父进程停止，那子进程也将被取消。</li>
+<li>复制请求<br>我们可能希望将数据发送到多个并发进程，以尝试从其中一个进程获得更快的响应。当第一个回来的时候，我们就会取消其余的进程。后面讨论</li>
+</ul>
+<p>也可能有有其他原因。</p>
+<p>那么当一个并发进程被取消时，对于正在执行的算法，及其下游消费这意味着什么？在编写可能随时终止的并发代码时，需要考虑哪些事项？</p>
+<p>首先是并发进程的可抢占性。<br>如果一个原子操作执行时间非常地长，那么在确认取消与停止之间需要很长的时间。</p>
+<p>所以需要定义我们的并发进程可抢占的周期，确保运行周期比抢占周期长的功能本身都是可抢占的。<br><strong>一个简单的方法是将你的goroutine代码段分解成小段。就是那些不可抢占的原子操作，确保它们的运行时间小于你认为可以接受的时间。</strong><br>这里还有另外一个潜在的问题：如果我们的goroutine恰好修改了共享状态(例如数据库，文件，内存数据结构)，那当goroutine被取消时会发生什么？你的goroutine会试图将这个中间状态回滚吗？回滚过程需要多长时间？<br>goroutine已经接收到了停止的信号，所以它不应该花太长的时间来回滚它之前的工作，对吧？<br>就如何处理这个问题很难给出通用的建议，因为你的算法的性质很大程度上决定了你应当如何解决这个问题。<br>然而，如果你将对共享状态的修改保特在一个很小的范围内，并且确保这些修改很容易回滚，那么你可以很好的处理取消。<br>如果可能的话，将中间结果存储在内存，然后尽可能快的修改状态。</p>
+<p>另外，还需要关注重复消息的问题。<br>假设有一个管道，它有三个阶段：生成阶段，阶段A和阶段B。<br>生成阶段通过记录上一次channel被读取的时间，来监控阶段A持续的时间。<br>如果当前实例变得不正常，阶段B在处理中时，实例A被取消。新的请求则会产生新的实例A2。但是阶段B会受到重复的消息。<br>有很多种方法可以避免发送重复的消息。<strong>最简单的方法（也是我推荐的方法）是让一个父goroutine在子goroutine已经发送完结果之后发送一个取消信号。这需要各阶段之间的双向通信（心跳）。</strong><br>其他方法是：</p>
+<ol>
+<li>接收到的第一个或最后一个消息，如果你的算法允许，或者你的并发进程是幂等的，那么你可以简单地在下游进程中允许可能存在的重复消息，并从接收到的第一个消息或最后一个消息中挑选一个处理。</li>
+<li>像父goroutine确认权限，使用双向通信明确请求允许在B的channel上执行写人操作，这比心跳更安全。然而，在实践中很少这样做，因为它比心跳更加复杂，而心跳更普遍且有效。</li>
+</ol>
+<h3 id="心跳"><a href="#心跳" class="headerlink" title="心跳"></a>心跳</h3><p>心跳是并发进程向外界发出信号的一种方式。这个说法来自人体解剖学，在解剖学中心跳反应了观察者的生命体征。</p>
+<p>在设计并发程序时，一定要考虑到超时和取消。如果从一开始就忽略超时和取消，然后在后期尝试加入它们，这有点像在蛋糕烤好后再加鸡蛋。<br>在并发编程中，有几个的原因使心跳变得格外有趣。它允许我们对系统有深入的了解，当系统工作不正常时，它可以对系统进行测试。<br>下面讨论两种不同类型的心跳：</p>
+<ul>
+<li>在一段时间间隔内发出的心跳。</li>
+<li>在工作单元开始时发出的心跳</li>
+</ul>
+<p>在一段时间间隔上发出的心跳对并发代码很有用，尤其是当它在处于等待状态。因为你不知道新的事件什么时候会被触发，你的goroutine可能会在等待某件事情发生的时候挂起。<br>心跳是告诉监听程序一切安好的一种方式，而静默状态也是预料之中的。<br>下面的代码演示了一个会发出心跳的goroutine:</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">	<span class="string">&quot;time&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	doWork := <span class="function"><span class="keyword">func</span><span class="params">(done &lt;-<span class="keyword">chan</span> any, pulseInterval time.Duration)</span></span> (&lt;-<span class="keyword">chan</span> any, &lt;-<span class="keyword">chan</span> time.Time) &#123;</span><br><span class="line">		heartbeat := <span class="built_in">make</span>(<span class="keyword">chan</span> any) <span class="comment">// 建立一个发送心跳的 channel</span></span><br><span class="line">		results := <span class="built_in">make</span>(<span class="keyword">chan</span> time.Time)</span><br><span class="line">		<span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">			<span class="keyword">defer</span> <span class="built_in">close</span>(heartbeat)</span><br><span class="line">			<span class="keyword">defer</span> <span class="built_in">close</span>(results)</span><br><span class="line">			pulse := time.Tick(pulseInterval)       <span class="comment">// 设置心跳的间隔时间</span></span><br><span class="line">			workGen := time.Tick(<span class="number">2</span> * pulseInterval) <span class="comment">// 另一个模拟工作结果的生成间隔</span></span><br><span class="line">			sendPulse := <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">				<span class="keyword">select</span> &#123;</span><br><span class="line">				<span class="keyword">case</span> heartbeat &lt;- <span class="keyword">struct</span>&#123;&#125;&#123;&#125;:</span><br><span class="line">				<span class="keyword">default</span>: <span class="comment">// 添加默认语句，避免阻塞。因为可能没有人接受心跳，从 goroutine 发送信息是重要的，但心跳却不一定重要。</span></span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">			sendResult := <span class="function"><span class="keyword">func</span><span class="params">(r time.Time)</span></span> &#123;</span><br><span class="line">				<span class="keyword">for</span> &#123;</span><br><span class="line">					<span class="keyword">select</span> &#123;</span><br><span class="line">					<span class="keyword">case</span> &lt;-done:</span><br><span class="line">						<span class="keyword">return</span></span><br><span class="line">					<span class="keyword">case</span> &lt;-pulse: <span class="comment">// 和 done channel 一样，当执行发送或接收时，也需要发送一个包含心跳的分支</span></span><br><span class="line">						sendPulse()</span><br><span class="line">					<span class="keyword">case</span> results &lt;- r:</span><br><span class="line">						<span class="keyword">return</span></span><br><span class="line">					&#125;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">for</span> &#123;</span><br><span class="line">				<span class="keyword">select</span> &#123;</span><br><span class="line">				<span class="keyword">case</span> &lt;-done:</span><br><span class="line">					<span class="keyword">return</span></span><br><span class="line">				<span class="keyword">case</span> &lt;-pulse: <span class="comment">// 和 done channel 一样，当执行发送或接收时，也需要发送一个包含心跳的分支</span></span><br><span class="line">					sendPulse()</span><br><span class="line">				<span class="keyword">case</span> r := &lt;-workGen:</span><br><span class="line">					sendResult(r)</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;()</span><br><span class="line">		<span class="keyword">return</span> heartbeat, results</span><br><span class="line">	&#125;</span><br><span class="line">	done := <span class="built_in">make</span>(<span class="keyword">chan</span> any)</span><br><span class="line">	time.AfterFunc(<span class="number">10</span>*time.Second, <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123; <span class="built_in">close</span>(done) &#125;) <span class="comment">// 10秒后关闭 done channel</span></span><br><span class="line"></span><br><span class="line">	<span class="keyword">const</span> timeout = <span class="number">2</span> * time.Second               <span class="comment">// 设置超时时间</span></span><br><span class="line">	heartbeat, results := doWork(done, timeout/<span class="number">2</span>) <span class="comment">// 心跳间隔为超时时间的一半，以便心跳有额外的响应时间</span></span><br><span class="line">	<span class="keyword">for</span> &#123;</span><br><span class="line">		<span class="keyword">select</span> &#123;</span><br><span class="line">		<span class="keyword">case</span> _, ok := &lt;-heartbeat: <span class="comment">// 处理心跳。知道心跳会有消息，如果什么都没收到，便知道是 goroutine 出了问题</span></span><br><span class="line">			<span class="keyword">if</span> !ok &#123;</span><br><span class="line">				<span class="keyword">return</span></span><br><span class="line">			&#125;</span><br><span class="line">			fmt.Println(<span class="string">&quot;pulse&quot;</span>)</span><br><span class="line">		<span class="keyword">case</span> r, ok := &lt;-results:</span><br><span class="line">			<span class="keyword">if</span> !ok &#123;</span><br><span class="line">				<span class="keyword">return</span></span><br><span class="line">			&#125;</span><br><span class="line">			fmt.Printf(<span class="string">&quot;results %v\n&quot;</span>, r.Second())</span><br><span class="line">		<span class="keyword">case</span> &lt;-time.After(timeout): <span class="comment">// 如果没有收到心跳或其他消息，就会超时</span></span><br><span class="line">			<span class="keyword">return</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">pulse</span><br><span class="line">pulse</span><br><span class="line">results 18</span><br><span class="line">pulse</span><br><span class="line">pulse</span><br><span class="line">results 20</span><br><span class="line">pulse</span><br><span class="line">pulse</span><br><span class="line">results 22</span><br><span class="line">pulse</span><br><span class="line">pulse</span><br><span class="line">results 24</span><br><span class="line">pulse</span><br><span class="line">results 26</span><br></pre></td></tr></table></figure>
+
+<p>下面来模拟一个异常的 goroutine 。它将在两次迭代后停止，但不关闭任何一个 channel：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">	<span class="string">&quot;time&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	doWork := <span class="function"><span class="keyword">func</span><span class="params">(done &lt;-<span class="keyword">chan</span> any, pulseInterval time.Duration)</span></span> (&lt;-<span class="keyword">chan</span> any, &lt;-<span class="keyword">chan</span> time.Time) &#123;</span><br><span class="line">		heartbeat := <span class="built_in">make</span>(<span class="keyword">chan</span> any)</span><br><span class="line">		results := <span class="built_in">make</span>(<span class="keyword">chan</span> time.Time)</span><br><span class="line">		<span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">			pulse := time.Tick(pulseInterval)</span><br><span class="line">			workGen := time.Tick(<span class="number">2</span> * pulseInterval)</span><br><span class="line">			sendPulse := <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">				<span class="keyword">select</span> &#123;</span><br><span class="line">				<span class="keyword">case</span> heartbeat &lt;- <span class="keyword">struct</span>&#123;&#125;&#123;&#125;:</span><br><span class="line">				<span class="keyword">default</span>:</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">			sendResult := <span class="function"><span class="keyword">func</span><span class="params">(r time.Time)</span></span> &#123;</span><br><span class="line">				<span class="keyword">for</span> &#123;</span><br><span class="line">					<span class="keyword">select</span> &#123;</span><br><span class="line">					<span class="keyword">case</span> &lt;-pulse:</span><br><span class="line">						sendPulse()</span><br><span class="line">					<span class="keyword">case</span> results &lt;- r:</span><br><span class="line">						<span class="keyword">return</span></span><br><span class="line">					&#125;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">for</span> i := <span class="number">0</span>; i &lt; <span class="number">2</span>; i++ &#123;</span><br><span class="line">				<span class="keyword">select</span> &#123;</span><br><span class="line">				<span class="keyword">case</span> &lt;-done:</span><br><span class="line">					<span class="keyword">return</span></span><br><span class="line">				<span class="keyword">case</span> &lt;-pulse:</span><br><span class="line">					sendPulse()</span><br><span class="line">				<span class="keyword">case</span> r := &lt;-workGen:</span><br><span class="line">					sendResult(r)</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;()</span><br><span class="line">		<span class="keyword">return</span> heartbeat, results</span><br><span class="line">	&#125;</span><br><span class="line">	done := <span class="built_in">make</span>(<span class="keyword">chan</span> any)</span><br><span class="line">	time.AfterFunc(<span class="number">10</span>*time.Second, <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123; <span class="built_in">close</span>(done) &#125;)</span><br><span class="line"></span><br><span class="line">	<span class="keyword">const</span> timeout = <span class="number">2</span> * time.Second</span><br><span class="line">	heartbeat, results := doWork(done, timeout/<span class="number">2</span>)</span><br><span class="line">	<span class="keyword">for</span> &#123;</span><br><span class="line">		<span class="keyword">select</span> &#123;</span><br><span class="line">		<span class="keyword">case</span> _, ok := &lt;-heartbeat:</span><br><span class="line">			<span class="keyword">if</span> !ok &#123;</span><br><span class="line">				<span class="keyword">return</span></span><br><span class="line">			&#125;</span><br><span class="line">			fmt.Println(<span class="string">&quot;pulse&quot;</span>)</span><br><span class="line">		<span class="keyword">case</span> r, ok := &lt;-results:</span><br><span class="line">			<span class="keyword">if</span> !ok &#123;</span><br><span class="line">				<span class="keyword">return</span></span><br><span class="line">			&#125;</span><br><span class="line">			fmt.Printf(<span class="string">&quot;results %v\n&quot;</span>, r.Second())</span><br><span class="line">		<span class="keyword">case</span> &lt;-time.After(timeout):</span><br><span class="line">			fmt.Println(<span class="string">&quot;worker goroutine is not healthy!&quot;</span>)</span><br><span class="line">			<span class="keyword">return</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">pulse</span><br><span class="line">pulse</span><br><span class="line">worker goroutine is not healthy!</span><br></pre></td></tr></table></figure>
+
+<p>心跳和超时在正常工作，通过心跳可以确定 goroutine 是否在正常运行，从而避免死锁。</p>
+<h3 id="复制请求"><a href="#复制请求" class="headerlink" title="复制请求"></a>复制请求</h3><p>对于某些应用来说，尽可能快地接收响应是重中之重。例如，程序正在处理用户的HTTP请求，或者检索一个数据块。<br>在这些情况下，你可以进行权衡：你可以将请求分发到多个处理程序（无论是goroutine,进程，还是服务器），其中一个将比其他处理程序返回更快，你可以立即返回结果。<br>缺点是为了维特多个实例的运行，你将不得不消耗更多的资源。</p>
+<p>如果这种复制是在内存中进行的，消耗则没有那么大，但是如果多个处理程序要多个进程，服务器甚至是数据中心，那可能会变得相当昂贵。<br>所以你需要决定这么做是否值得。</p>
+<p>来看看如何在单个进程中制造复制请求。使用多个goroutine作为处理程序，并且goroutine将随机休眠一段时间以模似不同的负载，休眠时间在1到6秒之间。<br>这将使我们处理程序在不同的时间返回结果，并且我们可以看到复制请求如何更快的返回结果。<br>下面是一个在10个处理程序上复制模拟请求的例子：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">	<span class="string">&quot;math/rand&quot;</span></span><br><span class="line">	<span class="string">&quot;sync&quot;</span></span><br><span class="line">	<span class="string">&quot;time&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	dowork := <span class="function"><span class="keyword">func</span><span class="params">(done &lt;-<span class="keyword">chan</span> any, id <span class="type">int</span>, wg *sync.WaitGroup, result <span class="keyword">chan</span>&lt;- <span class="type">int</span>)</span></span> &#123;</span><br><span class="line">		started := time.Now()</span><br><span class="line">		<span class="keyword">defer</span> wg.Done()</span><br><span class="line">		<span class="comment">// 模拟随机负找</span></span><br><span class="line">		simulatedLoadTime := time.Duration(<span class="number">1</span>+rand.Intn(<span class="number">5</span>)) * time.Second</span><br><span class="line">		<span class="keyword">select</span> &#123;</span><br><span class="line">		<span class="keyword">case</span> &lt;-done:</span><br><span class="line">		<span class="keyword">case</span> &lt;-time.After(simulatedLoadTime):</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">select</span> &#123;</span><br><span class="line">		<span class="keyword">case</span> &lt;-done:</span><br><span class="line">		<span class="keyword">case</span> result &lt;- id:</span><br><span class="line">		&#125;</span><br><span class="line">		took := time.Since(started)</span><br><span class="line">		<span class="comment">// 显示处理程序需要多长时间</span></span><br><span class="line">		<span class="keyword">if</span> took &lt; simulatedLoadTime &#123;</span><br><span class="line">			took = simulatedLoadTime</span><br><span class="line">		&#125;</span><br><span class="line">		fmt.Printf(<span class="string">&quot;%v took %v\n&quot;</span>, id, took)</span><br><span class="line">	&#125;</span><br><span class="line">	done := <span class="built_in">make</span>(<span class="keyword">chan</span> any)</span><br><span class="line">	result := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="type">int</span>)</span><br><span class="line">	<span class="keyword">var</span> wg sync.WaitGroup</span><br><span class="line">	wg.Add(<span class="number">10</span>)</span><br><span class="line">	<span class="keyword">for</span> i := <span class="number">0</span>; i &lt; <span class="number">10</span>; i++ &#123; <span class="comment">// 启动 10 个处理程序</span></span><br><span class="line">		<span class="keyword">go</span> dowork(done, i, &amp;wg, result)</span><br><span class="line">	&#125;</span><br><span class="line">	firstReturned := &lt;-result <span class="comment">// 获取处理程序组的第一个结果</span></span><br><span class="line">	<span class="built_in">close</span>(done)               <span class="comment">// 取消其余处理程序</span></span><br><span class="line">	wg.Wait()</span><br><span class="line">	fmt.Printf(<span class="string">&quot;Received an answer from %v\n&quot;</span>, firstReturned)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出结果：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">6 took 1.0010419s</span><br><span class="line">9 took 2s</span><br><span class="line">0 took 3s</span><br><span class="line">8 took 2s</span><br><span class="line">7 took 2s</span><br><span class="line">4 took 4s</span><br><span class="line">3 took 4s</span><br><span class="line">5 took 1.0010419s</span><br><span class="line">1 took 2s</span><br><span class="line">2 took 2s</span><br><span class="line">Received an answer from 6</span><br></pre></td></tr></table></figure>
+
+<p>这里第六个处理程序返回的最快。<br>注意，所有的处理程序都应该是尽可能的等价的，有相同的机会处理请求。<br>但需要复制请求的场景很少，因为建立和维护这样的系统有非常大的代价。除非对响应速度的要求可以接受这样的代价。<br>另外，这种方式天然地提供了容错和可扩展性。（分布式处理，不过只取第一个响应的，而取消其他。比较浪费</p>
+<h3 id="速率限制"><a href="#速率限制" class="headerlink" title="速率限制"></a>速率限制</h3><p>限制某种资源在某段时间内被访问的次数。资源可以是任何东西：API连接、磁盘读写、网络包、异常…<br>速率限制允许将系统的性能和隐定性平衡在可控范围内。如果需要扩大这些限制，可以在大量测试和等待后，以可控的方式进行拓展。</p>
+<p>大多数的限速是基于令牌桶算法的。这很容易理解，而且相对容易实现。<br>如果要访问资源，你必须拥有资源的访问令牌，没有令牌的请求会被拒绝。<br>现在假设这些令牌存储在一个等待被检索使用的桶中。桶的深度为d,表示一个桶可以容纳d个访问令牌。<br>例如，存储桶深度为五，则可以存放五个令牌。每当你需要访问资源时，都会在桶中删除一个令牌。<br>如果你的存储桶包含五个令牌，前五次访问没有问题，操作正常进行；但是在第六次尝试时，就没有访问令牌可用。你的请求必须排队等待，直到令牌可用，或者被拒绝操作。</p>
+<p>那如何补充令牌，我们总是能获得一个新的吗？在令牌桶算法中，将r定义为向桶中添加令牌的速率。它可以是一纳秒或一分钟。<br>这就是我们通常认为的速率限制：因为我们必须等到新的令牌可用，我们将操作速度限制在这个频率下。</p>
+<p>现在我们有两个设置项可以修改：有多少个令牌可以立即使用d,桶的深度，以及它们补充的速度r。在这两者之间，我们可以平衡突发性和限制整体速率。<br>突发性指的是当存储桶已满时可以进行多少次请求。</p>
+<p>下面是使用<code>golang.org/x/time/rate</code>包实现的例子，同时对磁盘访问和网络访问添加限制。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;context&quot;</span></span><br><span class="line">	<span class="string">&quot;golang.org/x/time/rate&quot;</span></span><br><span class="line">	<span class="string">&quot;log&quot;</span></span><br><span class="line">	<span class="string">&quot;os&quot;</span></span><br><span class="line">	<span class="string">&quot;sort&quot;</span></span><br><span class="line">	<span class="string">&quot;sync&quot;</span></span><br><span class="line">	<span class="string">&quot;time&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">defer</span> log.Printf(<span class="string">&quot;Done.&quot;</span>)</span><br><span class="line">	log.SetOutput(os.Stdout)</span><br><span class="line">	log.SetFlags(log.Ltime | log.LUTC)</span><br><span class="line"></span><br><span class="line">	apiConnection := Open()</span><br><span class="line">	<span class="keyword">var</span> wg sync.WaitGroup</span><br><span class="line">	wg.Add(<span class="number">20</span>)</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> i := <span class="number">0</span>; i &lt; <span class="number">10</span>; i++ &#123;</span><br><span class="line">		<span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">			<span class="keyword">defer</span> wg.Done()</span><br><span class="line">			err := apiConnection.ReadFile(context.Background())</span><br><span class="line">			<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">				log.Printf(<span class="string">&quot;cannot ReadFile: %v&quot;</span>, err)</span><br><span class="line">			&#125;</span><br><span class="line">			log.Printf(<span class="string">&quot;ReadFile&quot;</span>)</span><br><span class="line">		&#125;()</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> i := <span class="number">0</span>; i &lt; <span class="number">10</span>; i++ &#123;</span><br><span class="line">		<span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">			<span class="keyword">defer</span> wg.Done()</span><br><span class="line">			err := apiConnection.ResolveAddress(context.Background())</span><br><span class="line">			<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">				log.Printf(<span class="string">&quot;cannot ResolveAddress: %v&quot;</span>, err)</span><br><span class="line">			&#125;</span><br><span class="line">			log.Printf(<span class="string">&quot;ResolveAddress&quot;</span>)</span><br><span class="line">		&#125;()</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	wg.Wait()</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">Per</span><span class="params">(eventCount <span class="type">int</span>, duration time.Duration)</span></span> rate.Limit &#123;</span><br><span class="line">	<span class="keyword">return</span> rate.Every(duration / time.Duration(eventCount))</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">Open</span><span class="params">()</span></span> *APIConnection &#123;</span><br><span class="line">	<span class="keyword">return</span> &amp;APIConnection&#123;</span><br><span class="line">		apiLimiter: MultiLimiter( <span class="comment">// 为API调用设置限速器，每秒请求数与每分钟请求数都有限制</span></span><br><span class="line">			rate.NewLimiter(Per(<span class="number">2</span>, time.Second), <span class="number">2</span>), <span class="comment">// 第一个参数为频率，第二个为桶大小</span></span><br><span class="line">			rate.NewLimiter(Per(<span class="number">10</span>, time.Minute), <span class="number">10</span>),</span><br><span class="line">		),</span><br><span class="line">		diskLimiter: MultiLimiter( <span class="comment">// 为磁盘操作设置限速器，每秒一次</span></span><br><span class="line">			rate.NewLimiter(rate.Limit(<span class="number">1</span>), <span class="number">1</span>),</span><br><span class="line">		),</span><br><span class="line">		networkLimiter: MultiLimiter( <span class="comment">// 为网络操作设置限速器，每秒3次</span></span><br><span class="line">			rate.NewLimiter(Per(<span class="number">3</span>, time.Second), <span class="number">3</span>),</span><br><span class="line">		),</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> APIConnection <span class="keyword">struct</span> &#123;</span><br><span class="line">	networkLimiter RateLimiter</span><br><span class="line">	diskLimiter    RateLimiter</span><br><span class="line">	apiLimiter     RateLimiter</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(a *APIConnection)</span></span> ReadFile(ctx context.Context) <span class="type">error</span> &#123;</span><br><span class="line">	<span class="comment">// 读取文件时，同时使用API限速器和磁盘限速器的限制</span></span><br><span class="line">	<span class="keyword">if</span> err := MultiLimiter(a.apiLimiter, a.diskLimiter).Wait(ctx); err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> err</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">// 假设执行一些逻辑</span></span><br><span class="line">	<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(a *APIConnection)</span></span> ResolveAddress(ctx context.Context) <span class="type">error</span> &#123;</span><br><span class="line">	<span class="comment">// 网络访问时，同时使用API限速器和网络限速器的限制</span></span><br><span class="line">	<span class="keyword">if</span> err := MultiLimiter(a.apiLimiter, a.networkLimiter).Wait(ctx); err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> err</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">// 假设执行一些逻辑</span></span><br><span class="line">	<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> RateLimiter <span class="keyword">interface</span> &#123; <span class="comment">// 定义 RateLimiter 接口，使 MultiLimiter 可以递归地定义其他 MultiLimiter 实例。</span></span><br><span class="line">	Wait(context.Context) <span class="type">error</span></span><br><span class="line">	Limit() rate.Limit</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">MultiLimiter</span><span class="params">(limiters ...RateLimiter)</span></span> *multiLimiter &#123;</span><br><span class="line">	byLimit := <span class="function"><span class="keyword">func</span><span class="params">(i, j <span class="type">int</span>)</span></span> <span class="type">bool</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> limiters[i].Limit() &lt; limiters[j].Limit()</span><br><span class="line">	&#125;</span><br><span class="line">	sort.Slice(limiters, byLimit) <span class="comment">// 根据每个 RateLimiter 的 Limit() 进行排序</span></span><br><span class="line">	<span class="keyword">return</span> &amp;multiLimiter&#123;limiters: limiters&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> multiLimiter <span class="keyword">struct</span> &#123;</span><br><span class="line">	limiters []RateLimiter</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(l *multiLimiter)</span></span> Wait(ctx context.Context) <span class="type">error</span> &#123;</span><br><span class="line">	<span class="keyword">for</span> _, l := <span class="keyword">range</span> l.limiters &#123;</span><br><span class="line">		<span class="keyword">if</span> err := l.Wait(ctx); err != <span class="literal">nil</span> &#123;</span><br><span class="line">			<span class="keyword">return</span> err</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(l *multiLimiter)</span></span> Limit() rate.Limit &#123;</span><br><span class="line">	<span class="keyword">return</span> l.limiters[<span class="number">0</span>].Limit() <span class="comment">// 返回限制最多的限速器（已排序</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">09:09:32 ReadFile</span><br><span class="line">09:09:33 ReadFile</span><br><span class="line">09:09:33 ResolveAddress</span><br><span class="line">09:09:34 ReadFile</span><br><span class="line">09:09:35 ReadFile</span><br><span class="line">09:09:36 ReadFile</span><br><span class="line">09:09:36 ResolveAddress</span><br><span class="line">09:09:37 ReadFile</span><br><span class="line">09:09:38 ResolveAddress</span><br><span class="line">09:09:38 ReadFile</span><br><span class="line">09:09:39 ReadFile</span><br><span class="line">09:09:44 ResolveAddress</span><br><span class="line">09:09:50 ReadFile</span><br><span class="line">09:09:56 ResolveAddress</span><br><span class="line">09:10:02 ResolveAddress</span><br><span class="line">09:10:08 ResolveAddress</span><br><span class="line">09:10:14 ResolveAddress</span><br><span class="line">09:10:20 ResolveAddress</span><br><span class="line">09:10:26 ResolveAddress</span><br><span class="line">09:10:32 ReadFile</span><br><span class="line">09:10:32 Done.</span><br></pre></td></tr></table></figure>
+
+<h3 id="治愈异常的goroutine"><a href="#治愈异常的goroutine" class="headerlink" title="治愈异常的goroutine"></a>治愈异常的goroutine</h3><p>在长期运行的后台程序中，经常会有一些长时间运行的goroutine。这些goroutine经常处于阻塞状态，等待数据以某种方式到达，然后唤醒它们，进行一些处理，再返回一些数据。<br>有时候，这些goroutine依赖于一些控制不太好的资源。也许一个goroutine需要从接收到的请求中提取数据，或者它正在监听一个临时文件。<br>问题在于，如果没有外部干预，一个goroutine很容易进入一个不正常的状态，并且无法恢复。<br>抛开这些担忧，你甚至可以说，goroutine本身不应该关心其如何从一个异常状态回复过来。<br>在一个长期运行的程序中，建立一个机制来监控你的goroutine是否处于健康的状态是很用的，当他们变得异常时，就可以尽快重启。<br>我们将这个重启goroutine的过程称为“治愈”(Healing）。</p>
+<p>为了治愈goroutine,我们需要使用心跳模式来检查我们正在监控的goroutine是否活跃。<br>心跳的类型取决于你想要监控的内容，但是如果你的goroutine有可能会产生活锁，确保心跳包含某些信息，表明该goroutine在正常的工作而不仅仅是活着。<br>把监控goroutine的健康这段逻辑称为管理员，它监视一个管理区的goroutine。如果有goroutine变得不健康，管理员将负责重新启动这个管理区的goroutine。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;log&quot;</span></span><br><span class="line">	<span class="string">&quot;os&quot;</span></span><br><span class="line">	<span class="string">&quot;time&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">var</span> or <span class="function"><span class="keyword">func</span><span class="params">(channels ...&lt;-<span class="keyword">chan</span> any)</span></span> &lt;-<span class="keyword">chan</span> any</span><br><span class="line">	or = <span class="function"><span class="keyword">func</span><span class="params">(channels ...&lt;-<span class="keyword">chan</span> any)</span></span> &lt;-<span class="keyword">chan</span> any &#123;</span><br><span class="line">		<span class="keyword">switch</span> <span class="built_in">len</span>(channels) &#123;</span><br><span class="line">		<span class="keyword">case</span> <span class="number">0</span>:</span><br><span class="line">			<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">		<span class="keyword">case</span> <span class="number">1</span>:</span><br><span class="line">			<span class="keyword">return</span> channels[<span class="number">0</span>]</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		orDone := <span class="built_in">make</span>(<span class="keyword">chan</span> any)</span><br><span class="line">		<span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">			<span class="keyword">defer</span> <span class="built_in">close</span>(orDone)</span><br><span class="line"></span><br><span class="line">			<span class="keyword">switch</span> <span class="built_in">len</span>(channels) &#123;</span><br><span class="line">			<span class="keyword">case</span> <span class="number">2</span>:</span><br><span class="line">				<span class="keyword">select</span> &#123;</span><br><span class="line">				<span class="keyword">case</span> &lt;-channels[<span class="number">0</span>]:</span><br><span class="line">				<span class="keyword">case</span> &lt;-channels[<span class="number">1</span>]:</span><br><span class="line">				&#125;</span><br><span class="line">			<span class="keyword">default</span>:</span><br><span class="line">				<span class="keyword">select</span> &#123;</span><br><span class="line">				<span class="keyword">case</span> &lt;-channels[<span class="number">0</span>]:</span><br><span class="line">				<span class="keyword">case</span> &lt;-channels[<span class="number">1</span>]:</span><br><span class="line">				<span class="keyword">case</span> &lt;-channels[<span class="number">2</span>]:</span><br><span class="line">				<span class="keyword">case</span> &lt;-or(<span class="built_in">append</span>(channels[<span class="number">3</span>:], orDone)...):</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;()</span><br><span class="line">		<span class="keyword">return</span> orDone</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">type</span> startGoroutineFn <span class="function"><span class="keyword">func</span><span class="params">(done &lt;-<span class="keyword">chan</span> any, pulseInterval time.Duration)</span></span> (heartbeat &lt;-<span class="keyword">chan</span> any) <span class="comment">// 定义一个可以监控和重启的goroutine的信号</span></span><br><span class="line"></span><br><span class="line">	newSteward := <span class="function"><span class="keyword">func</span><span class="params">(timeout time.Duration, startGoroutine startGoroutineFn)</span></span> startGoroutineFn &#123; <span class="comment">// 管理员监控goroutine需要timeout变量和启动goroutine的startGoroutine函数，同时，返回一个startGoroutineFn，说明管理员本身也是可以监控的</span></span><br><span class="line">		<span class="keyword">return</span> <span class="function"><span class="keyword">func</span><span class="params">(done &lt;-<span class="keyword">chan</span> any, pulseInterval time.Duration)</span></span> &lt;-<span class="keyword">chan</span> any &#123;</span><br><span class="line">			heartbeat := <span class="built_in">make</span>(<span class="keyword">chan</span> any)</span><br><span class="line">			<span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">				<span class="keyword">defer</span> <span class="built_in">close</span>(heartbeat)</span><br><span class="line"></span><br><span class="line">				<span class="keyword">var</span> wardDone <span class="keyword">chan</span> any</span><br><span class="line">				<span class="keyword">var</span> wardHeartbeat &lt;-<span class="keyword">chan</span> any</span><br><span class="line">				startWard := <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123; <span class="comment">// 定义一个闭包，实现一个统一的方法来启动正在监控的goroutine</span></span><br><span class="line">					wardDone = <span class="built_in">make</span>(<span class="keyword">chan</span> any)                                     <span class="comment">// 停止信号，用来停止正在监控的goroutine</span></span><br><span class="line">					wardHeartbeat = startGoroutine(or(wardDone, done), timeout/<span class="number">2</span>) <span class="comment">// 启动将要监控的goroutine</span></span><br><span class="line">				&#125;</span><br><span class="line">				startWard()</span><br><span class="line">				pulse := time.Tick(pulseInterval)</span><br><span class="line"></span><br><span class="line">				<span class="keyword">for</span> &#123;</span><br><span class="line">					timeoutSignal := time.After(timeout)</span><br><span class="line">					<span class="comment">// 管理员自身心跳</span></span><br><span class="line">					<span class="keyword">select</span> &#123;</span><br><span class="line">					<span class="keyword">case</span> &lt;-pulse:</span><br><span class="line">						<span class="keyword">select</span> &#123;</span><br><span class="line">						<span class="keyword">case</span> heartbeat &lt;- <span class="keyword">struct</span>&#123;&#125;&#123;&#125;:</span><br><span class="line">						<span class="keyword">default</span>:</span><br><span class="line">						&#125;</span><br><span class="line">					<span class="keyword">default</span>:</span><br><span class="line">					&#125;</span><br><span class="line">					<span class="comment">// 监控goroutine</span></span><br><span class="line">					<span class="keyword">select</span> &#123;</span><br><span class="line">					<span class="keyword">case</span> &lt;-wardHeartbeat: <span class="comment">// 如果收到心跳，将继续监控</span></span><br><span class="line">						<span class="keyword">break</span></span><br><span class="line">					<span class="keyword">case</span> &lt;-timeoutSignal: <span class="comment">// 在暂停期间没有收到goroutine心跳，会进行重启</span></span><br><span class="line">						log.Println(<span class="string">&quot;steward: ward unhealthy; restarting&quot;</span>)</span><br><span class="line">						<span class="built_in">close</span>(wardDone)</span><br><span class="line">						startWard()</span><br><span class="line">						<span class="keyword">break</span></span><br><span class="line">					<span class="keyword">case</span> &lt;-done:</span><br><span class="line">						<span class="keyword">return</span></span><br><span class="line">					&#125;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;()</span><br><span class="line"></span><br><span class="line">			<span class="keyword">return</span> heartbeat</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	log.SetOutput(os.Stdout)</span><br><span class="line">	log.SetFlags(log.Ltime | log.LUTC)</span><br><span class="line"></span><br><span class="line">	doWork := <span class="function"><span class="keyword">func</span><span class="params">(done &lt;-<span class="keyword">chan</span> any, _ time.Duration)</span></span> &lt;-<span class="keyword">chan</span> any &#123;</span><br><span class="line">		log.Println(<span class="string">&quot;ward: Hello, I&#x27;m irresponsible!&quot;</span>)</span><br><span class="line">		<span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">			&lt;-done <span class="comment">// 这个goroutine没有做任何事，只是等待被取消</span></span><br><span class="line">			log.Println(<span class="string">&quot;ward: I am halting.&quot;</span>)</span><br><span class="line">		&#125;()</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">	&#125;</span><br><span class="line">	doWorkWithSteward := newSteward(<span class="number">4</span>*time.Second, doWork) <span class="comment">// 为上面的goroutine创建一个管理员，设置超时时间为4秒</span></span><br><span class="line"></span><br><span class="line">	done := <span class="built_in">make</span>(<span class="keyword">chan</span> any)</span><br><span class="line">	time.AfterFunc(<span class="number">9</span>*time.Second, <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123; <span class="comment">// 设置9秒后停止管理员和goroutine</span></span><br><span class="line">		log.Println(<span class="string">&quot;main: halting steward and ward.&quot;</span>)</span><br><span class="line">		<span class="built_in">close</span>(done)</span><br><span class="line">	&#125;)</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> <span class="keyword">range</span> doWorkWithSteward(done, <span class="number">4</span>*time.Second) &#123;</span><br><span class="line">	&#125; <span class="comment">// 启动管理员，并在其心跳范围内防止测试停止</span></span><br><span class="line">	log.Println(<span class="string">&quot;Done&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>它可以一直监控一个goroutine，当goroutine不活跃时，管理员会重新启动它。输出如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">03:28:14 ward: Hello, I&#x27;m irresponsible!</span><br><span class="line">03:28:18 steward: ward unhealthy; restarting</span><br><span class="line">03:28:18 ward: Hello, I&#x27;m irresponsible!</span><br><span class="line">03:28:18 ward: I am halting.</span><br><span class="line">03:28:22 steward: ward unhealthy; restarting</span><br><span class="line">03:28:22 ward: Hello, I&#x27;m irresponsible!</span><br><span class="line">03:28:22 ward: I am halting.</span><br><span class="line">03:28:23 main: halting steward and ward.</span><br><span class="line">03:28:23 ward: I am halting.</span><br><span class="line">03:28:26 Done</span><br></pre></td></tr></table></figure>
+
+<p>上面的输出看起来符合预期，在其超时时重启它。<br>但是它所管理goroutine有些简单，除了取消和心跳所需要的东西之外，不接受任何参数，也不返回任何参数。<br>下面的例子根据离散值生成一个整数流，并在遇到负数时结束，使用闭包来对其进行包装，可以添加一些参数和返回值。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">	<span class="string">&quot;log&quot;</span></span><br><span class="line">	<span class="string">&quot;os&quot;</span></span><br><span class="line">	<span class="string">&quot;time&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">var</span> or <span class="function"><span class="keyword">func</span><span class="params">(channels ...&lt;-<span class="keyword">chan</span> any)</span></span> &lt;-<span class="keyword">chan</span> any</span><br><span class="line">	or = <span class="function"><span class="keyword">func</span><span class="params">(channels ...&lt;-<span class="keyword">chan</span> any)</span></span> &lt;-<span class="keyword">chan</span> any &#123;</span><br><span class="line">		<span class="keyword">switch</span> <span class="built_in">len</span>(channels) &#123;</span><br><span class="line">		<span class="keyword">case</span> <span class="number">0</span>:</span><br><span class="line">			<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">		<span class="keyword">case</span> <span class="number">1</span>:</span><br><span class="line">			<span class="keyword">return</span> channels[<span class="number">0</span>]</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		orDone := <span class="built_in">make</span>(<span class="keyword">chan</span> any)</span><br><span class="line">		<span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">			<span class="keyword">defer</span> <span class="built_in">close</span>(orDone)</span><br><span class="line"></span><br><span class="line">			<span class="keyword">switch</span> <span class="built_in">len</span>(channels) &#123;</span><br><span class="line">			<span class="keyword">case</span> <span class="number">2</span>:</span><br><span class="line">				<span class="keyword">select</span> &#123;</span><br><span class="line">				<span class="keyword">case</span> &lt;-channels[<span class="number">0</span>]:</span><br><span class="line">				<span class="keyword">case</span> &lt;-channels[<span class="number">1</span>]:</span><br><span class="line">				&#125;</span><br><span class="line">			<span class="keyword">default</span>:</span><br><span class="line">				<span class="keyword">select</span> &#123;</span><br><span class="line">				<span class="keyword">case</span> &lt;-channels[<span class="number">0</span>]:</span><br><span class="line">				<span class="keyword">case</span> &lt;-channels[<span class="number">1</span>]:</span><br><span class="line">				<span class="keyword">case</span> &lt;-channels[<span class="number">2</span>]:</span><br><span class="line">				<span class="keyword">case</span> &lt;-or(<span class="built_in">append</span>(channels[<span class="number">3</span>:], orDone)...):</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;()</span><br><span class="line">		<span class="keyword">return</span> orDone</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">type</span> startGoroutineFn <span class="function"><span class="keyword">func</span><span class="params">(done &lt;-<span class="keyword">chan</span> any, pulseInterval time.Duration)</span></span> (heartbeat &lt;-<span class="keyword">chan</span> any)</span><br><span class="line"></span><br><span class="line">	newSteward := <span class="function"><span class="keyword">func</span><span class="params">(timeout time.Duration, startGoroutine startGoroutineFn)</span></span> startGoroutineFn &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="function"><span class="keyword">func</span><span class="params">(done &lt;-<span class="keyword">chan</span> any, pulseInterval time.Duration)</span></span> &lt;-<span class="keyword">chan</span> any &#123;</span><br><span class="line">			heartbeat := <span class="built_in">make</span>(<span class="keyword">chan</span> any)</span><br><span class="line">			<span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">				<span class="keyword">defer</span> <span class="built_in">close</span>(heartbeat)</span><br><span class="line"></span><br><span class="line">				<span class="keyword">var</span> wardDone <span class="keyword">chan</span> any</span><br><span class="line">				<span class="keyword">var</span> wardHeartbeat &lt;-<span class="keyword">chan</span> any</span><br><span class="line">				startWard := <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">					wardDone = <span class="built_in">make</span>(<span class="keyword">chan</span> any)</span><br><span class="line">					wardHeartbeat = startGoroutine(or(wardDone, done), timeout/<span class="number">2</span>)</span><br><span class="line">				&#125;</span><br><span class="line">				startWard()</span><br><span class="line">				pulse := time.Tick(pulseInterval)</span><br><span class="line"></span><br><span class="line">				<span class="keyword">for</span> &#123;</span><br><span class="line">					timeoutSignal := time.After(timeout)</span><br><span class="line">					<span class="keyword">select</span> &#123;</span><br><span class="line">					<span class="keyword">case</span> &lt;-pulse:</span><br><span class="line">						<span class="keyword">select</span> &#123;</span><br><span class="line">						<span class="keyword">case</span> heartbeat &lt;- <span class="keyword">struct</span>&#123;&#125;&#123;&#125;:</span><br><span class="line">						<span class="keyword">default</span>:</span><br><span class="line">						&#125;</span><br><span class="line">					<span class="keyword">default</span>:</span><br><span class="line">					&#125;</span><br><span class="line">					<span class="keyword">select</span> &#123;</span><br><span class="line">					<span class="keyword">case</span> &lt;-wardHeartbeat:</span><br><span class="line">						<span class="keyword">break</span></span><br><span class="line">					<span class="keyword">case</span> &lt;-timeoutSignal:</span><br><span class="line">						log.Println(<span class="string">&quot;steward: ward unhealthy; restarting&quot;</span>)</span><br><span class="line">						<span class="built_in">close</span>(wardDone)</span><br><span class="line">						startWard()</span><br><span class="line">						<span class="keyword">break</span></span><br><span class="line">					<span class="keyword">case</span> &lt;-done:</span><br><span class="line">						<span class="keyword">return</span></span><br><span class="line">					&#125;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;()</span><br><span class="line"></span><br><span class="line">			<span class="keyword">return</span> heartbeat</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	take := <span class="function"><span class="keyword">func</span><span class="params">(done &lt;-<span class="keyword">chan</span> any, valueStream &lt;-<span class="keyword">chan</span> any, num <span class="type">int</span>)</span></span> &lt;-<span class="keyword">chan</span> any &#123;</span><br><span class="line">		takeStream := <span class="built_in">make</span>(<span class="keyword">chan</span> any)</span><br><span class="line">		<span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">			<span class="keyword">defer</span> <span class="built_in">close</span>(takeStream)</span><br><span class="line">			<span class="keyword">for</span> i := <span class="number">0</span>; i &lt; num; i++ &#123;</span><br><span class="line">				<span class="keyword">select</span> &#123;</span><br><span class="line">				<span class="keyword">case</span> &lt;-done:</span><br><span class="line">					<span class="keyword">return</span></span><br><span class="line">				<span class="keyword">case</span> takeStream &lt;- &lt;-valueStream:</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;()</span><br><span class="line">		<span class="keyword">return</span> takeStream</span><br><span class="line">	&#125;</span><br><span class="line">	orDone := <span class="function"><span class="keyword">func</span><span class="params">(done, c &lt;-<span class="keyword">chan</span> any)</span></span> &lt;-<span class="keyword">chan</span> any &#123;</span><br><span class="line">		valStream := <span class="built_in">make</span>(<span class="keyword">chan</span> any)</span><br><span class="line">		<span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">			<span class="keyword">defer</span> <span class="built_in">close</span>(valStream)</span><br><span class="line">			<span class="keyword">for</span> &#123;</span><br><span class="line">				<span class="keyword">select</span> &#123;</span><br><span class="line">				<span class="keyword">case</span> &lt;-done:</span><br><span class="line">					<span class="keyword">return</span></span><br><span class="line">				<span class="keyword">case</span> v, ok := &lt;-c:</span><br><span class="line">					<span class="keyword">if</span> ok == <span class="literal">false</span> &#123;</span><br><span class="line">						<span class="keyword">return</span></span><br><span class="line">					&#125;</span><br><span class="line">					<span class="keyword">select</span> &#123;</span><br><span class="line">					<span class="keyword">case</span> valStream &lt;- v:</span><br><span class="line">					<span class="keyword">case</span> &lt;-done:</span><br><span class="line">					&#125;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;()</span><br><span class="line">		<span class="keyword">return</span> valStream</span><br><span class="line">	&#125;</span><br><span class="line">	bridge := <span class="function"><span class="keyword">func</span><span class="params">(done &lt;-<span class="keyword">chan</span> any, chanStream &lt;-<span class="keyword">chan</span> &lt;-<span class="keyword">chan</span> any)</span></span> &lt;-<span class="keyword">chan</span> any &#123;</span><br><span class="line">		valStream := <span class="built_in">make</span>(<span class="keyword">chan</span> any)</span><br><span class="line">		<span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">			<span class="keyword">defer</span> <span class="built_in">close</span>(valStream)</span><br><span class="line">			<span class="keyword">for</span> &#123;</span><br><span class="line">				<span class="keyword">var</span> stream &lt;-<span class="keyword">chan</span> any</span><br><span class="line">				<span class="keyword">select</span> &#123;</span><br><span class="line">				<span class="keyword">case</span> maybeStream, ok := &lt;-chanStream:</span><br><span class="line">					<span class="keyword">if</span> ok == <span class="literal">false</span> &#123;</span><br><span class="line">						<span class="keyword">return</span></span><br><span class="line">					&#125;</span><br><span class="line">					stream = maybeStream</span><br><span class="line">				<span class="keyword">case</span> &lt;-done:</span><br><span class="line">					<span class="keyword">return</span></span><br><span class="line">				&#125;</span><br><span class="line">				<span class="keyword">for</span> val := <span class="keyword">range</span> orDone(done, stream) &#123;</span><br><span class="line">					<span class="keyword">select</span> &#123;</span><br><span class="line">					<span class="keyword">case</span> valStream &lt;- val:</span><br><span class="line">					<span class="keyword">case</span> &lt;-done:</span><br><span class="line">					&#125;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;()</span><br><span class="line">		<span class="keyword">return</span> valStream</span><br><span class="line">	&#125;</span><br><span class="line">	doWorkFn := <span class="function"><span class="keyword">func</span><span class="params">(done &lt;-<span class="keyword">chan</span> any, intList ...<span class="type">int</span>)</span></span> (startGoroutineFn, &lt;-<span class="keyword">chan</span> any) &#123; <span class="comment">// 添加所需的参数和返回值</span></span><br><span class="line">		intChanStream := <span class="built_in">make</span>(<span class="keyword">chan</span> (&lt;-<span class="keyword">chan</span> any)) <span class="comment">// 创建作为桥接模式一部分的 channel</span></span><br><span class="line">		intStream := bridge(done, intChanStream)</span><br><span class="line">		doWork := <span class="function"><span class="keyword">func</span><span class="params">(done &lt;-<span class="keyword">chan</span> any, pulseInterval time.Duration)</span></span> &lt;-<span class="keyword">chan</span> any &#123; <span class="comment">// 创建一个被监控的闭包</span></span><br><span class="line">			intStream := <span class="built_in">make</span>(<span class="keyword">chan</span> any) <span class="comment">// 实例化 channel，与 goroutine 通信</span></span><br><span class="line">			heartbeat := <span class="built_in">make</span>(<span class="keyword">chan</span> any)</span><br><span class="line">			<span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">				<span class="keyword">defer</span> <span class="built_in">close</span>(intStream)</span><br><span class="line">				<span class="keyword">select</span> &#123;</span><br><span class="line">				<span class="keyword">case</span> intChanStream &lt;- intStream: <span class="comment">// 将用来通信的 channel 传递给 bridge</span></span><br><span class="line">				<span class="keyword">case</span> &lt;-done:</span><br><span class="line">					<span class="keyword">return</span></span><br><span class="line">				&#125;</span><br><span class="line">				<span class="keyword">for</span> &#123;</span><br><span class="line">					<span class="keyword">for</span> _, intVal := <span class="keyword">range</span> intList &#123;</span><br><span class="line">						<span class="keyword">if</span> intVal &lt; <span class="number">0</span> &#123;</span><br><span class="line">							log.Printf(<span class="string">&quot;negative value: %v\n&quot;</span>, intVal) <span class="comment">// 遇到负数时给出错误信息并从 goroutine 返回</span></span><br><span class="line">							<span class="keyword">return</span></span><br><span class="line">						&#125;</span><br><span class="line">						pulse := time.Tick(pulseInterval)</span><br><span class="line">						<span class="keyword">select</span> &#123;</span><br><span class="line">						<span class="keyword">case</span> &lt;-pulse:</span><br><span class="line">							<span class="keyword">select</span> &#123;</span><br><span class="line">							<span class="keyword">case</span> heartbeat &lt;- <span class="keyword">struct</span>&#123;&#125;&#123;&#125;:</span><br><span class="line">							<span class="keyword">default</span>:</span><br><span class="line">							&#125;</span><br><span class="line">						<span class="keyword">default</span>:</span><br><span class="line">						&#125;</span><br><span class="line">						<span class="keyword">select</span> &#123;</span><br><span class="line">						<span class="keyword">case</span> intStream &lt;- intVal:</span><br><span class="line">							<span class="keyword">break</span></span><br><span class="line">						<span class="keyword">case</span> &lt;-done:</span><br><span class="line">							<span class="keyword">return</span></span><br><span class="line">						&#125;</span><br><span class="line">					&#125;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;()</span><br><span class="line">			<span class="keyword">return</span> heartbeat</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> doWork, intStream</span><br><span class="line">	&#125;</span><br><span class="line">	log.SetFlags(log.Ltime | log.LUTC)</span><br><span class="line">	log.SetOutput(os.Stdout)</span><br><span class="line"></span><br><span class="line">	done := <span class="built_in">make</span>(<span class="keyword">chan</span> any)</span><br><span class="line">	<span class="keyword">defer</span> <span class="built_in">close</span>(done)</span><br><span class="line"></span><br><span class="line">	doWork, intStream := doWorkFn(done, <span class="number">1</span>, <span class="number">2</span>, <span class="number">-1</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>)</span><br><span class="line">	doWorkWithSteward := newSteward(<span class="number">1</span>*time.Millisecond, doWork)</span><br><span class="line">	doWorkWithSteward(done, <span class="number">1</span>*time.Hour)</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> intVal := <span class="keyword">range</span> take(done, intStream, <span class="number">6</span>) &#123;</span><br><span class="line">		fmt.Printf(<span class="string">&quot;Received: %v\n&quot;</span>, intVal)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Received: 1</span><br><span class="line">07:22:25 negative value: -1</span><br><span class="line">Received: 2</span><br><span class="line">07:22:25 steward: ward unhealthy; restarting</span><br><span class="line">Received: 1</span><br><span class="line">07:22:25 negative value: -1</span><br><span class="line">Received: 2</span><br><span class="line">07:22:25 steward: ward unhealthy; restarting</span><br><span class="line">Received: 1</span><br><span class="line">07:22:25 negative value: -1</span><br><span class="line">Received: 2</span><br></pre></td></tr></table></figure>
+
+<h2 id="第六章-goroutine-和-Go语言运行时"><a href="#第六章-goroutine-和-Go语言运行时" class="headerlink" title="第六章 - goroutine 和 Go语言运行时"></a>第六章 - goroutine 和 Go语言运行时</h2><h3 id="工作窃取"><a href="#工作窃取" class="headerlink" title="工作窃取"></a>工作窃取</h3><p>Go语言将调度多个goroutine,使其在系统线程上运行。它使用的算法被称为工作窃取策略。</p>
+<ol>
+<li>朴素策略（公平调度策略）<br>在所有可用处理器之间平均分配任务。但是在fork-join模型中，任务可能会相互依赖，导致处理器空闲等待。另外还可能导致缓存的位置偏差，因为调用这些数据的任务跑在其他处理器上。</li>
+<li>工作窃取算法：集中队列算法<br>使用一个集中化的FIFO队列来存储待处理的任务。处理器从队列中获取任务进行执行。但是反复进出临界区会导致较高的竞争开销。也有缓存偏移的问题，集中式队列需要频繁地加载到每个处理器的缓存中，影响缓存效率。</li>
+<li>工作窃取算法：分布式队列算法<br>每个处理器拥有独立的双端队列。解决了集中式队列的竞争问题，提高了并行度和缓存命中率。每个处理器有自己的队列，减少了竞争开销。任务在同一处理器上执行，提高了缓存命中率。</li>
+</ol>
+<p>在goroutine开始的时候fork,join点是两个或更多的goroutine通过channel或sync包中的类型进行同步时。<br>工作窃取算法遵循一些基本原则。对于给定的线程：</p>
+<ol>
+<li>在fork点，将任务添加到与线程关联的双端队列的尾部。</li>
+<li>如果线程空闲，则选取一个随机的线程，从它关联的双端队列头部窃取工作。</li>
+<li>如果在未准备好的join点（即与其同步的goroutine还没有完成），则将工作从线程的双端队列尾部出栈。</li>
+<li>如果线程的双端队列是空的，则：<ol>
+<li>暂停加入。</li>
+<li>从随机线程关联的双端队列中窃取工作。</li>
+</ol>
+</li>
+</ol>
+<p>正在执行的线程会在队列的尾部人栈或者（必要时）出栈一个任务。位于队列尾部的任务有这样几个有趣的特性：</p>
+<ul>
+<li>这是最有可能完成父进程join的任务。<br>更快地完成join意味着我们的程序性能会更好，在内存中停留的时间更少。</li>
+<li>这是最有可能存在于处理器缓存中的任务。<br>因为这是这个线程在开始当前工作前的最后一个任务。所以当前线程执行需要的信总可能仍然存在于CPU的缓存之中。这意味着缓存的命中率更高</li>
+</ul>
+<h4 id="窃取任务还是续体"><a href="#窃取任务还是续体" class="headerlink" title="窃取任务还是续体"></a>窃取任务还是续体</h4><p>什么样的任务进行排队和窃取。fork-join模式下两种选择：新任务和续体。</p>
+<p>窃取任务是指一个空闲的处理器从另一个忙碌的处理器的任务队列中获取任务进行执行。<br>窃取续体是指一个处理器从另一个处理器的任务队列中获取未完成的goroutine（或称为续体）并继续执行。</p>
+<p>G0语言的周度器有三个主要的概念：</p>
+<ul>
+<li>G goroutine.</li>
+<li>M OS线程（在源代码中也被称为机器）。 </li>
+<li>P 上下文（在源代码中也被称为处理器）。</li>
+</ul>
+<p>Go语言的工作窃取算法对续体进行入队和窃取。<br>当一个执行线程到达一个join point时，该线程必须暂停执行，等待回调以窃取任务。</p>
+<h3 id="向开发人员展示所有这些信息"><a href="#向开发人员展示所有这些信息" class="headerlink" title="向开发人员展示所有这些信息"></a>向开发人员展示所有这些信息</h3><p>关键字 go 连接所有的这些</p>
+<p>在函数或闭包之前敲上go,就会有一个会自动调度的任务，它将以最有效率的方式利用它所在的机器。<br>作为开发者，我们依旧使用我们最熟悉的原语：function。我们不必理解新的处理方式，复杂的数据结构或调度算法。</p>
+<h2 id="End"><a href="#End" class="headerlink" title="End"></a>End</h2><p>很好的书，有些从未见过的go代码。对于熟悉go并发的使用非常好。<br>最后一章关于go原理部分有些抽象，后续可能会单独写一篇关于go线程模型的文章以深入了解下。</p>
+<p>现在，该去重构我的聊天室应用了。</p>
+
+                </div>
+
+                
+                        
+<div class="post-copyright-info-container border-box">
+    <div class="copyright-info-content border-box">
+        <div class="copyright-info-top border-box">
+            <div class="copyright-post-title border-box text-ellipsis">
+                《go语言并发之道》读书笔记-大规模并发
+            </div>
+
+            <div class="copyright-post-link border-box text-ellipsis">
+                读书笔记/读书笔记/《go语言并发之道》读书笔记-大规模并发/
+            </div>
+        </div>
+
+        <div class="copyright-info-bottom border-box">
+            <div class="copyright-post-author bottom-item">
+                <div class="type">
+                    作者
+                </div>
+                <div class="content">咕咕咕</div>
+            </div>
+
+            <div class="post-time bottom-item">
+                <div class="type">
+                    发布于
+                </div>
+                <div class="content">2025-01-28 22:27</div>
+            </div>
+
+
+            <div class="post-license bottom-item">
+                <div class="type">
+                    许可
+                </div>
+                <div class="content tooltip" data-tooltip-content="CC BY-NC-SA 4.0">
+                    <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hans">
+                        <i class="fa-brands fa-creative-commons"></i>
+                        <i class="fa-brands fa-creative-commons-by"></i>
+                        <i class="fa-brands fa-creative-commons-nc"></i>
+                        <i class="fa-brands fa-creative-commons-sa"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <i class="copyright-bg fa-solid fa-copyright"></i>
+    </div>
+    <div class="copy-copyright-info flex-center tooltip" data-tooltip-content="复制版权信息" data-tooltip-offset-y="-2px">
+        <i class="fa-solid fa-copy"></i>
+    </div>
+</div>
+
+                
+
+                <div class="post-bottom-tags-and-share border-box">
+                    <div>
+                        
+                            <ul class="post-tags-box border-box">
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/go/">go</a>
+                                    </li>
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/%E5%B9%B6%E5%8F%91/">并发</a>
+                                    </li>
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/%E3%80%8Ago%E8%AF%AD%E8%A8%80%E5%B9%B6%E5%8F%91%E4%B9%8B%E9%81%93%E3%80%8B/">《go语言并发之道》</a>
+                                    </li>
+                                
+                            </ul>
+                        
+                    </div>
+                    <div>
+                        
+                            <div class="post-share-container border-box">
+    <ul class="share-list-wrap border-box">
+        <li class="qq share-item border-box flex-center tooltip"
+            data-tooltip-content="分享到 QQ"
+        >
+            <i class="fa-brands fa-qq"></i>
+        </li>
+        <li class="wechat share-item border-box flex-center tooltip tooltip-img"
+            data-tooltip-content="分享到微信"
+            data-tooltip-img-tip="微信扫一扫"
+            data-tooltip-img-style="background-color: #fff; top: -10px; padding: 0.6rem 0.6rem 0.1rem 0.6rem;"
+        >
+            <i class="fa-brands fa-weixin"></i>
+        </li>
+        <li class="weibo share-item border-box flex-center tooltip"
+            data-tooltip-content="分享到微博"
+        >
+            <i class="fa-brands fa-weibo"></i>
+        </li>
+    </ul>
+</div>
+
+                        
+                    </div>
+                </div>
+
+                
+                    <div class="reward-author-container border-box flex-center">
+    <div class="reward-btn keep-button border-box flex-center tooltip tooltip-img"
+            data-tooltip-content="谢谢你请我喝可乐~"
+            data-tooltip-img-url="/images/thanks.png"
+            data-tooltip-img-trigger="click"
+            data-tooltip-img-style="top: -8px;"
+    >
+        <i class="fa-solid fa-hand-holding-heart"></i>
+    </div>
+</div>
+
+                
+
+                
+                    <div class="post-nav border-box">
+                        
+                            <div class="prev-post">
+                                <a class="prev"
+                                   rel="prev"
+                                   href="/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E3%80%8Aapache%20Kafka%E5%AE%9E%E6%88%98%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/"
+                                   title="《apache Kafka实战》读书笔记-基本概念"
+                                >
+                                    <span class="left arrow-icon flex-center">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </span>
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">《apache Kafka实战》读书笔记-基本概念</span>
+                                        <span class="post-nav-item">上一篇</span>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                        
+                            <div class="next-post">
+                                <a class="next"
+                                   rel="next"
+                                   href="/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E3%80%8Ago%E8%AF%AD%E8%A8%80%E5%B9%B6%E5%8F%91%E4%B9%8B%E9%81%93%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-%E5%B9%B6%E5%8F%91%E6%A8%A1%E5%BC%8F/"
+                                   title="《go语言并发之道》读书笔记-并发模式"
+                                >
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">《go语言并发之道》读书笔记-并发模式</span>
+                                        <span class="post-nav-item">下一篇</span>
+                                    </span>
+                                    <span class="right arrow-icon flex-center">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                    </div>
+                
+
+                
+                    
+
+
+    <div class="comments-container border-box">
+        <div id="comments-anchor" class="comment-area-title border-box">
+            <i class="fas fa-comments"></i>&nbsp;评论
+        </div>
+        <div class="comment-plugin-fail border-box">
+    <span class="fail-tip">评论插件加载失败</span>
+    <button class="reload keep-button">点击重新加载</button>
+</div>
+<div class="comment-plugin-loading flex-center border-box">
+    <i class="loading-icon fa-solid fa-spinner fa-spin"></i>
+    <span class="load-tip">正在加载评论插件</span>
+</div>
+<script data-pjax>
+  window.KeepCommentPlugin = {}
+  window.KeepCommentPlugin.hideLoading = () => {
+    const cplDom = document.querySelector('.comments-container .comment-plugin-loading')
+    cplDom.style.display = 'none'
+  }
+  window.KeepCommentPlugin.loadFailHandle = () => {
+    window.KeepCommentPlugin.hideLoading()
+    const cpfDom = document.querySelector('.comments-container .comment-plugin-fail')
+    cpfDom.style.display = 'flex'
+    cpfDom.querySelector('.reload').addEventListener('click', () => {
+      window.location.reload()
+    })
+  }
+</script>
+
+        
+            
+
+    <div class="giscus-comments-container">
+        <div class="giscus" id="giscus"></div>
+        <script data-pjax
+                onerror="window.KeepCommentPlugin.loadFailHandle()"
+        >
+          if (!window.KeepCommentPlugin?.getGiscusTheme) {
+            window.KeepCommentPlugin.getGiscusTheme = () => {
+              return document.body.classList.contains('dark-mode') ? 'dark_dimmed' : 'light_tritanopia'
+            }
+          }
+
+          if (!window.KeepCommentPlugin?.changeGiscusTheme) {
+            window.KeepCommentPlugin.changeGiscusTheme = () => {
+              const iframe = document.querySelector('iframe.giscus-frame')
+              iframe && iframe.contentWindow.postMessage({
+                giscus: {
+                  setConfig: {
+                    theme: window.KeepCommentPlugin.getGiscusTheme()
+                  }
+                }
+              }, 'https://giscus.app')
+            }
+          }
+
+          if (!window.KeepCommentPlugin?.initGiscus) {
+            window.KeepCommentPlugin.initGiscus = () => {
+              const script = document.createElement('script')
+              script.async = true
+              script.src = 'https://giscus.app/client.js'
+              script.setAttribute('data-repo', 'Cooooing/Cooooing.github.io')
+              script.setAttribute('data-repo-id', 'R_kgDOHQal_w')
+              script.setAttribute('data-category', 'Announcements')
+              script.setAttribute('data-category-id', 'DIC_kwDOHQal_84CjZo6')
+              script.setAttribute('data-reactions-enabled', '1')
+              script.setAttribute('data-lang', 'zh-CN')
+              script.setAttribute('data-mapping', 'pathname')
+              script.setAttribute('data-strict', '0')
+              script.setAttribute('data-emit-metadata', '0')
+              script.setAttribute('data-input-position', 'top')
+              script.setAttribute('crossorigin', 'anonymous')
+              script.setAttribute('loading', 'lazy')
+              script.setAttribute('data-theme', window.KeepCommentPlugin.getGiscusTheme())
+              document.querySelector('.giscus-comments-container').appendChild(script)
+              script.onerror = () => {
+                window.KeepCommentPlugin.loadFailHandle()
+              }
+              script.onload = () => {
+                window.KeepCommentPlugin.hideLoading()
+              }
+              const toggleThemeBtn = document.querySelector('.tool-toggle-theme-mode')
+              toggleThemeBtn && toggleThemeBtn.addEventListener('click', () => {
+                window.KeepCommentPlugin.changeGiscusTheme()
+              })
+            }
+          }
+
+          if ('true' === "true") {
+            setTimeout(() => {
+              window.KeepCommentPlugin.initGiscus()
+            }, 1000)
+          } else {
+            window.addEventListener("DOMContentLoaded", window.KeepCommentPlugin.initGiscus)
+          }
+        </script>
+    </div>
+
+
+        
+    </div>
+
+
+
+
+
+                
+            </div>
+        </div>
+
+        
+            <div class="pc-post-toc left-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%BA%94%E7%AB%A0-%E5%A4%A7%E8%A7%84%E6%A8%A1%E5%B9%B6%E5%8F%91"><span class="nav-text">第五章 - 大规模并发</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%82%E5%B8%B8%E4%BC%A0%E9%80%92"><span class="nav-text">异常传递</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B6%85%E6%97%B6%E4%B8%8E%E5%8F%96%E6%B6%88"><span class="nav-text">超时与取消</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BF%83%E8%B7%B3"><span class="nav-text">心跳</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%8D%E5%88%B6%E8%AF%B7%E6%B1%82"><span class="nav-text">复制请求</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%9F%E7%8E%87%E9%99%90%E5%88%B6"><span class="nav-text">速率限制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B2%BB%E6%84%88%E5%BC%82%E5%B8%B8%E7%9A%84goroutine"><span class="nav-text">治愈异常的goroutine</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E5%85%AD%E7%AB%A0-goroutine-%E5%92%8C-Go%E8%AF%AD%E8%A8%80%E8%BF%90%E8%A1%8C%E6%97%B6"><span class="nav-text">第六章 - goroutine 和 Go语言运行时</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B7%A5%E4%BD%9C%E7%AA%83%E5%8F%96"><span class="nav-text">工作窃取</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AA%83%E5%8F%96%E4%BB%BB%E5%8A%A1%E8%BF%98%E6%98%AF%E7%BB%AD%E4%BD%93"><span class="nav-text">窃取任务还是续体</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%91%E5%BC%80%E5%8F%91%E4%BA%BA%E5%91%98%E5%B1%95%E7%A4%BA%E6%89%80%E6%9C%89%E8%BF%99%E4%BA%9B%E4%BF%A1%E6%81%AF"><span class="nav-text">向开发人员展示所有这些信息</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#End"><span class="nav-text">End</span></a></li></ol>
+    </div>
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom border-box">
+            
+<footer class="footer border-box">
+    <div class="border-box website-info-box default">
+        
+            <div class="copyright-info info-item default">
+                &copy;&nbsp;<span>2022</span>&nbsp;-&nbsp;2025
+                
+                    &nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;&nbsp;<a href="/">咕咕咕</a>
+                
+            </div>
+
+            <div class="theme-info info-item default">
+                由&nbsp;<a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;驱动&nbsp;&&nbsp;主题&nbsp;<a class="keep-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep</a>
+            </div>
+
+            
+
+            
+        
+
+        <div style="color:var(--text-color-4);"><span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>(～￣▽￣)～<script src="/js/lifeTime.js"></script></div>
+        <a href="https://icp.gov.moe/?keyword=20222450" target="_blank">萌ICP备20222450号</a>
+
+
+        <div class="count-item info-item default">
+            
+                <span class="count-box border-box word">
+                    <span class="item-type border-box">总字数</span>
+                    <span class="item-value border-box word">362.1k</span>
+                </span>
+            
+
+            
+                <span class="count-box border-box uv">
+                    <span class="item-type border-box">访客数</span>
+                    <span class="item-value border-box uv" id="busuanzi_value_site_uv"></span>
+                </span>
+            
+
+            
+                <span class="count-box border-box pv">
+                    <span class="item-type border-box">访问量</span>
+                    <span class="item-value border-box pv" id="busuanzi_value_site_pv"></span>
+                </span>
+            
+        </div>
+
+        <div id="aplayer">
+          <meting-js
+                  server="netease"
+                  type="playlist"
+                  id="7345595717"
+                  fixed="true"
+                  mini="true"
+                  autoplay="false"
+                  listFolded="true"
+                  order="random"
+                  preload="none">
+          </meting-js>
+        </div>
+            <br>
+            <br>
+            <br>
+    </div>
+
+</footer>
+
+        </div>
+    </div>
+
+    <!-- post tools -->
+    
+        <div class="post-tools left-toc">
+            <div class="post-tools-container border-box">
+    <ul class="tools-list border-box">
+        <!-- PC TOC show toggle -->
+        
+            <li class="tools-item flex-center toggle-show-toc">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        <!-- PC go comment -->
+        
+            <li class="tools-item flex-center go-to-comments">
+                <i class="fas fa-comment"></i>
+                <span class="post-comments-count"></span>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <!-- side tools -->
+    <div class="side-tools">
+        <div class="side-tools-container border-box ">
+    <ul class="side-tools-list side-tools-show-handle border-box">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-toggle-theme-mode flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+            <li class="tools-item rss flex-center">
+                <a class="flex-center"
+                   href="/atom.xml"
+                   target="_blank"
+                >
+                    <i class="fas fa-rss"></i>
+                </a>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list border-box">
+        
+            <li class="tools-item toggle-show-toc-tablet flex-center">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        
+            <li class="tools-item go-to-comments-tablet flex-center">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+
+        <li class="tools-item tool-scroll-to-top flex-center show-arrow">
+            <i class="arrow fas fa-arrow-up"></i>
+            <span class="percent"></span>
+        </li>
+    </ul>
+</div>
+
+    </div>
+
+    <!-- image mask -->
+    <div class="zoom-in-image-mask">
+    <img class="zoom-in-image">
+</div>
+
+
+    <!-- local search -->
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="搜索..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="close-popup-btn">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+    <!-- tablet toc -->
+    
+        <div class="tablet-post-toc-mask">
+            <div class="tablet-post-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%BA%94%E7%AB%A0-%E5%A4%A7%E8%A7%84%E6%A8%A1%E5%B9%B6%E5%8F%91"><span class="nav-text">第五章 - 大规模并发</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%82%E5%B8%B8%E4%BC%A0%E9%80%92"><span class="nav-text">异常传递</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B6%85%E6%97%B6%E4%B8%8E%E5%8F%96%E6%B6%88"><span class="nav-text">超时与取消</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BF%83%E8%B7%B3"><span class="nav-text">心跳</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%8D%E5%88%B6%E8%AF%B7%E6%B1%82"><span class="nav-text">复制请求</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%9F%E7%8E%87%E9%99%90%E5%88%B6"><span class="nav-text">速率限制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B2%BB%E6%84%88%E5%BC%82%E5%B8%B8%E7%9A%84goroutine"><span class="nav-text">治愈异常的goroutine</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E5%85%AD%E7%AB%A0-goroutine-%E5%92%8C-Go%E8%AF%AD%E8%A8%80%E8%BF%90%E8%A1%8C%E6%97%B6"><span class="nav-text">第六章 - goroutine 和 Go语言运行时</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B7%A5%E4%BD%9C%E7%AA%83%E5%8F%96"><span class="nav-text">工作窃取</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AA%83%E5%8F%96%E4%BB%BB%E5%8A%A1%E8%BF%98%E6%98%AF%E7%BB%AD%E4%BD%93"><span class="nav-text">窃取任务还是续体</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%91%E5%BC%80%E5%8F%91%E4%BA%BA%E5%91%98%E5%B1%95%E7%A4%BA%E6%89%80%E6%9C%89%E8%BF%99%E4%BA%9B%E4%BF%A1%E6%81%AF"><span class="nav-text">向开发人员展示所有这些信息</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#End"><span class="nav-text">End</span></a></li></ol>
+    </div>
+</div>
+
+            </div>
+        </div>
+    
+</main>
+
+
+
+<!-- common -->
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/toggle-theme.js"></script>
+
+<script src="/js/code-block.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+
+<!-- local-search -->
+
+    
+<script src="/js/local-search.js"></script>
+
+
+
+<!-- lazyload -->
+
+    
+<script src="/js/lazyload.js"></script>
+
+
+
+<div class="pjax">
+    
+        <!-- post-helper -->
+        
+<script src="/js/post/post-helper.js"></script>
+
+
+        <!-- toc -->
+        
+            
+<script src="/js/post/toc.js"></script>
+
+        
+
+        <!-- copyright-info -->
+        
+            
+<script src="/js/post/copyright-info.js"></script>
+
+        
+
+        <!-- share -->
+        
+            
+<script src="/js/post/share.js"></script>
+
+        
+    
+
+    <!-- category-page -->
+    
+
+    <!-- links-page -->
+    
+
+    <!-- photos-page -->
+    
+</div>
+
+<!-- mermaid -->
+
+
+<!-- pjax -->
+
+    
+<script src="/js/libs/pjax.min.js"></script>
+
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        window.pjax = new Pjax({
+            selectors: [
+                'head title',
+                '.page-container',
+                '.pjax',
+                '#aplayer',
+                '#canvas_sakura'
+            ],
+            history: true,
+            debug: false,
+            cacheBust: false,
+            timeout: 0,
+            analytics: false,
+            currentUrlFullReload: false,
+            scrollRestoration: false,
+        });
+
+        document.addEventListener('pjax:send', () => {
+            KEEP.utils.pjaxProgressBarStart()
+        });
+
+        document.addEventListener('pjax:complete', () => {
+            KEEP.utils.pjaxProgressBarEnd()
+            window.pjax.executeScripts(document.querySelectorAll('script[data-pjax], .pjax script'))
+            KEEP.initExecute()
+        });
+    });
+</script>
+
+
+
+
+    
+        
+            
+<script class="custom-inject-js" src="/js/APlayer.min.js" data-pjax></script>
+
+        
+    
+        
+            
+<script class="custom-inject-js" src="/js/Meting.min.js" data-pjax></script>
+
+        
+    
+        
+            
+<script class="custom-inject-js" src="/js/leaves.js" data-pjax></script>
+
+        
+    
+
+
+
+</body>
+</html>

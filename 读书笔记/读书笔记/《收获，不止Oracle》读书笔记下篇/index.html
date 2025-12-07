@@ -1,0 +1,1403 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="技术博客,后端开发,编程笔记,生活">
+    <meta name="description" content="Code | Systems | Life — 专注编程本质，也关心世界如何运转。">
+    <meta name="author" content="咕咕咕">
+
+    
+    <title>
+        
+            《收获，不止Oracle》读书笔记下篇 |
+        
+        咕咕咕的小破站
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+        <link rel="shortcut icon" href="/images/favicon.png">
+    
+    
+<link rel="stylesheet" href="/font/css/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/regular.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/solid.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/brands.min.css">
+
+    
+        
+            
+                
+<link rel="stylesheet" href="/css/APlayer.min.css">
+
+            
+        
+            
+                
+<link rel="stylesheet" href="/css/custom.css">
+
+            
+        
+    
+    <script class="keep-theme-configurations">
+    const KEEP = window.KEEP || {}
+    KEEP.hexo_config = {"hostname":"cooooing.github.io","root":"/","language":"zh-CN","path":"search.json"}
+    KEEP.theme_config = {"base_info":{"primary_color":"#0066cc","title":"咕咕咕的小破站","author":"咕咕咕","avatar":"/images/head.jpg","logo":"/images/head.jpg","favicon":"/images/favicon.png"},"menu":{"Archives":"/archives","Categories":"/categories","Tags":"/tags","日常":"/daily","Links":"/links","About":"/about"},"first_screen":{"enable":false,"background_img":"/images/bg.svg","background_img_dark":"/images/bg.svg","description":"Keep writing and Keep loving.","hitokoto":false},"social_contact":{"enable":false,"links":{"github":null,"weixin":null,"qq":null,"weibo":null,"zhihu":null,"twitter":null,"facebook":null,"email":null}},"scroll":{"progress_bar":false,"percent":false,"hide_header":true},"home":{"category":true,"tag":true,"announcement":null},"post":{"author_badge":{"enable":true,"level_badge":false,"custom_badge":["fishing"]},"word_count":{"wordcount":true,"min2read":true},"datetime_format":"YYYY-MM-DD HH:mm:ss","copyright_info":true,"share":true,"reward":{"enable":true,"img_link":"/images/thanks.png","text":"谢谢你请我喝可乐~"}},"code_block":{"tools":{"enable":true,"style":"default"},"highlight_theme":"default"},"toc":{"enable":true,"number":false,"expand_all":true,"init_open":true,"layout":"left"},"website_count":{"busuanzi_count":{"enable":true,"site_uv":true,"site_pv":true,"page_pv":true}},"local_search":{"enable":true,"preload":true},"comment":{"enable":true,"use":"giscus","valine":{"appid":null,"appkey":null,"server_urls":null,"placeholder":null},"gitalk":{"github_id":null,"github_admins":null,"repository":null,"client_id":null,"client_secret":null,"proxy":null},"twikoo":{"env_id":null,"region":null,"version":"1.6.21"},"waline":{"server_url":null,"reaction":false,"version":2},"giscus":{"repo":"Cooooing/Cooooing.github.io","repo_id":"R_kgDOHQal_w","category":"Announcements","category_id":"DIC_kwDOHQal_84CjZo6","reactions_enabled":true},"artalk":{"server":null},"disqus":{"shortname":null}},"rss":{"enable":true},"lazyload":{"enable":true},"cdn":{"enable":false,"provider":"cdnjs"},"pjax":{"enable":true},"footer":{"since":2022,"word_count":true,"icp":{"enable":false,"record_code":null,"url":"https://beian.miit.gov.cn"},"site_deploy":{"enable":false,"provider":"github","url":null},"shields_style":{"enable":false,"custom":[{"link_url":null,"img_url":null}]}},"inject":{"enable":true,"css":["/css/APlayer.min.css","/css/custom.css"],"js":["/js/APlayer.min.js","/js/Meting.min.js","/js/leaves.js"]},"root":"","links":[{"name":"鼠鼠在碎觉","link":"https://sszsj.com","avatar":"https://tmx.fishpi.cn/img/head.jpg","description":"我是不慎落入世界的一滴水墨"},{"name":"Gakkiyomi","link":"https://gakkiyomi.blog","avatar":"https://avatars.githubusercontent.com/u/41406557?v=4","description":"为往圣继绝学"},{"name":"Hancel's Blog","link":"https://my.hancel.org","avatar":"https://my.hancel.org/media/logo.jpg","description":"人生而自由，却无往不在枷锁之中。"},{"name":"Eastshann","link":"http://121.4.99.208/","avatar":"http://121.4.99.208/img/avatar.jpg","description":"冲和者，淡泊平和，谦冲守正"},{"name":"小于同学的异世界","link":"https://yby.zone","avatar":"https://yby-zone.obs.cn-east-3.myhuaweicloud.com/avatar.jpg","description":"为吾为枝，余地三尺，以己为棋，胜天半子。"},{"name":"Mlikiowa Home Village","link":"https://nanaeo.cn/","avatar":"https://q1.qlogo.cn/g?b=qq&nk=1627126029&s=100","description":"A litter Village With Mlikiowa"},{"name":"忘忧草","link":"https://owo.wyc.rest/","avatar":"https://owo.wyc.rest/img/%E4%B8%87%E5%8F%B6.jpg","description":"这只是一个小破站而已！"},{"name":"stillwarter","link":"https://stillwarter.github.io/","avatar":"https://file.fishpi.cn/2022/07/MOSHED2022621164630-1b1ec532.gif?imageView2/1/w/210/h/210/interlace/0/q/100","description":"光就是一切的意义"},{"name":"test12138","link":"http://你好.eu.org/","avatar":"https://file.fishpi.cn/2022/06/srchttpimgzcoolcncommunity0116405d84f975a801211d537707c9gifreferhttpimgzcool-0f2d09c9.gif?imageView2/1/w/48/h/48/interlace/0/q/100","description":"大丈夫生于天地之间，岂能郁郁久居人下。"},{"name":"呼呼呼","link":"https://bongbongbakudan.github.io/","avatar":"https://pwl.stackoverflow.wiki/2021/12/blob-28eb4b9f.png?imageView2/1/w/48/h/48/interlace/0/q/100","description":"去整点薯条"},{"name":"Plumbiu","link":"https://blog.plumbiu.top/","avatar":"https://avatars.githubusercontent.com/u/99574369?v=4","description":"这人很勤奋，啥都没留"},{"name":"hiRipple","link":"https://hiripple.com/","avatar":"https://avatars.githubusercontent.com/u/115361435?v=4","description":"超高校级的游戏玩家"}],"version":"4.0.6"}
+    KEEP.language_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"}
+    KEEP.language_code_block = {"copy":"复制代码","copied":"已复制","fold":"折叠代码块","folded":"已折叠"}
+    KEEP.language_copy_copyright = {"copy":"复制版权信息","copied":"已复制","title":"原文标题","author":"原文作者","link":"原文链接"}
+  </script>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-CLX32WF4R1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+
+      gtag('js', new Date());
+
+      gtag('config', 'G-CLX32WF4R1');
+    </script>
+
+    <!-- 51.la -->
+    <script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
+    <script>LA.init({id: "3JwPz6wbAloyTmMc", ck: "3JwPz6wbAloyTmMc", autoTrack: true})</script>
+
+<meta name="generator" content="Hexo 8.1.1"><link rel="alternate" href="/atom.xml" title="咕咕咕的小破站" type="application/atom+xml">
+</head>
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+        <span class="pjax-progress-bar"></span>
+        <i class="pjax-progress-icon fas fa-circle-notch fa-spin"></i>
+    
+</div>
+
+
+<main class="page-container border-box">
+
+    <!-- home first screen  -->
+    
+
+    <!-- page content -->
+    <div class="page-main-content border-box">
+        <div class="page-main-content-top">
+            
+<header class="header-wrapper">
+
+    <div class="border-box header-content">
+        <div class="left border-box">
+            
+                <a class="logo-image border-box" href="/">
+                    <img src="/images/head.jpg">
+                </a>
+            
+            <a class="site-name border-box" href="/">
+               咕咕咕的小破站
+            </a>
+        </div>
+
+        <div class="right border-box">
+            <div class="pc">
+                <ul class="menu-list">
+                    <li class="menu-item">
+                        <a class=""
+                           href="/"
+                        >首页</a>
+                    </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >归档</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/categories"
+                            >分类</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/tags"
+                            >标签</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/daily"
+                            >日常</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/links"
+                            >友链</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >关于</a>
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="fas search fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            <li class="drawer-menu-item flex-center">
+                <a class=""
+                   href="/"
+                >首页</a>
+            </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives"
+                    >归档</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/categories"
+                    >分类</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/tags"
+                    >标签</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/daily"
+                    >日常</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/links"
+                    >友链</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about"
+                    >关于</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle border-box">
+
+            <div class="main-content border-box">
+                
+
+                    
+<div class="fade-in-down-animation">
+    <div class="post-page-container border-box">
+        <div class="post-content-container border-box">
+            
+
+            <div class="post-content-bottom border-box">
+                
+                    <div class="post-title">
+                        《收获，不止Oracle》读书笔记下篇
+                    </div>
+                
+
+                
+                    <div class="post-header border-box">
+                        
+                            <div class="avatar-box border-box">
+                                <img src="/images/head.jpg">
+                            </div>
+                        
+                        <div class="info-box">
+                            <div class="author border-box">
+                                <span class="name">咕咕咕</span>
+                                
+                                    <span class="author-badge">fishing</span>
+                                
+                            </div>
+                            <div class="meta-info border-box">
+                                
+
+<div class="post-meta-info-container border-box post">
+    <div class="post-meta-info border-box">
+        
+
+        
+            <span class="meta-info-item post-create-date">
+                <i class="icon fa-solid fa-calendar-plus"></i>&nbsp;
+                <span class="datetime">2024-08-29 18:09:22</span>
+            </span>
+
+            <span class="meta-info-item post-update-date">
+                <i class="icon fa-solid fa-file-pen"></i>&nbsp;
+                <span class="datetime" data-updated="Thu Aug 29 2024 10:09:22 GMT+0000">2024-08-29 18:09:22</span>
+            </span>
+        
+
+        
+            <span class="meta-info-item post-category border-box"><i class="icon fas fa-folder"></i>&nbsp;
+                <ul class="post-category-ul">
+                    
+                            <li class="category-item"><a href="/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">读书笔记</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+            <span class="post-tag meta-info-item border-box">
+                <i class="icon fas fa-tags"></i>&nbsp;
+                <ul class="post-tag-ul">
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a></li>
+                        
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/%E3%80%8A%E6%94%B6%E8%8E%B7%EF%BC%8C%E4%B8%8D%E6%AD%A2Oracle%E3%80%8B/">《收获，不止Oracle》</a></li>
+                        
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/Oracle/">Oracle</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+        
+            <span class="meta-info-item post-wordcount">
+                <i class="icon fas fa-file-word"></i>&nbsp;<span>11.1k 字</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-min2read">
+                <i class="icon fas fa-clock"></i>&nbsp;<span>49 分钟</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-pv">
+                <i class="icon fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+            </span>
+        
+    </div>
+
+    
+</div>
+
+                            </div>
+                        </div>
+                    </div>
+                
+
+                <div class="post-content keep-markdown-body">
+                    
+
+                    <p>下篇的章节，主要是作者多年优化工作中的经验总结。<br>主要是关于解决问题的思路，如何定位问题等。技术相关的其实不多。我也觉得<strong>会发现问题比会解决问题的人更厉害</strong>。<br>这几章经典的优化操作，主要的思想就是以下这些。（我读完的总结，不一定全。）</p>
+<ol>
+<li>少做事，在可以满足需求的情况下，尽量不做无意义的事。毕竟再怎么优化也没有不做快。比如，排序是否需要，一定要的情况下是否可以走索引，所以是有序的，可以避免排序。</li>
+<li>提问的方式，描述问题要准确、有重点。避免太过简单或者太过复杂。另外，不要问以前问过的问题，勤用搜索引擎和动手实践独立解决问题。</li>
+<li>规范，学习、操作、流程、开发、设计等等方面都需要有规范，规范可以提高效率避免出错。</li>
+</ol>
+<p>下面是一些命令，用于排查问题等。</p>
+<h3 id="流程规范-保障问题快速解决"><a href="#流程规范-保障问题快速解决" class="headerlink" title="流程规范 保障问题快速解决"></a>流程规范 保障问题快速解决</h3><h4 id="动态整体"><a href="#动态整体" class="headerlink" title="动态整体"></a>动态整体</h4><p>主机动态情况检查</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">主机情况检查（数据库出问题，主机是首先要查看的，皮之不存，毛将焉附）</span></span><br><span class="line">uname -a</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">检查主机CPU等使用情况（重点关注时间最长的，同时也注意观察主机的内存的物理大小和CPU的个数)</span></span><br><span class="line">top </span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">报告虚拟内存统计信息以及其他与系统活动相关的信息 1 10 表示每秒输出一次统计信息，一共输出10次</span></span><br><span class="line">vmstat 1 10</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">统计所有包含 <span class="string">&quot;ora&quot;</span> 的进程数。</span></span><br><span class="line">ps -ef |grep ora |wc -l</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">统计所有既包含 <span class="string">&quot;ora&quot;</span> 又包含 <span class="string">&quot;LOCAL&quot;</span> 的进程数，这通常指本地监听器和数据库实例的进程。</span></span><br><span class="line">ps -ef |grep ora |grep LOCAL |wc -l</span><br></pre></td></tr></table></figure>
+
+<p>vmstat 命令输出结果含义：</p>
+<ul>
+<li><code>procs</code>:<ul>
+<li><code>r</code>: 当前运行和可运行（等待运行）的进程数。</li>
+<li><code>b</code>: 处于不可中断睡眠状态的进程数。</li>
+</ul>
+</li>
+<li><code>memory</code>:<ul>
+<li><code>swpd</code>: 使用的虚拟内存交换空间大小（KB）。</li>
+<li><code>free</code>: 空闲物理内存大小（KB）。</li>
+<li><code>buff</code>: 用作缓冲区的物理内存大小（KB）。</li>
+<li><code>cache</code>: 用作缓存的物理内存大小（KB）。</li>
+</ul>
+</li>
+<li><code>swap</code>:<ul>
+<li><code>si</code>: 每秒从磁盘交换到内存的大小（KB&#x2F;s）。</li>
+<li><code>so</code>: 每秒从内存交换到磁盘的大小（KB&#x2F;s）。</li>
+</ul>
+</li>
+<li><code>io</code>:<ul>
+<li><code>bi</code>: 每秒从块设备读取的数据量（KB&#x2F;s）。</li>
+<li><code>bo</code>: 每秒写入块设备的数据量（KB&#x2F;s）。</li>
+</ul>
+</li>
+<li><code>system</code>:<ul>
+<li><code>in</code>: 每秒发生的中断次数。</li>
+<li><code>cs</code>: 每秒上下文切换次数。</li>
+</ul>
+</li>
+<li><code>cpu</code>:<ul>
+<li><code>us</code>: 用户空间占用的 CPU 百分比。</li>
+<li><code>sy</code>: 内核空间占用的 CPU 百分比。</li>
+<li><code>id</code>: 空闲 CPU 百分比。</li>
+<li><code>wa</code>: 等待 I&#x2F;O 完成的 CPU 百分比。</li>
+<li><code>st</code>: 被窃取的时间百分比（仅在虚拟化环境中可见）。</li>
+</ul>
+</li>
+</ul>
+<p>输出示例：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">procs -----------memory---------- ---swap-- -----io---- -system-- ------cpu-----</span><br><span class="line"> r  b   swpd   free   buff  cache   si   so    bi    bo   in   cs us sy id wa st</span><br><span class="line"> 2  0      0 115444   6688 1897744    0    0   261    30    3    4  2  3 94  1  0</span><br><span class="line"> 0  0      0 114500   6688 1897792    0    0     0    32 1949 3657  3  3 94  0  0</span><br><span class="line"> 0  0      0 114648   6688 1897792    0    0     0     0 1642 2953  1  2 97  0  0</span><br><span class="line"> 0  0      0 114512   6688 1897792    0    0     0     0 2037 3806  3  3 94  0  0</span><br><span class="line"> 0  0      0 114512   6700 1897796    0    0    16    84 2148 3758  3  4 93  0  0</span><br><span class="line"> 0  0      0 114512   6700 1897808    0    0     0     0 2152 4052  3  4 94  0  0</span><br><span class="line"> 0  0      0 114512   6700 1897808    0    0     0     0 1784 3357  1  2 98  0  0</span><br><span class="line"> 0  0      0 115272   6724 1897812    0    0     0   160 2202 4116  3  4 93  0  0</span><br><span class="line"> 0  0      0 116028   6756 1897812    0    0     0   324 1835 3365  2  2 95  1  0</span><br><span class="line"> 0  0      0 116916   6756 1897812    0    0     0     0 2011 3854  2  4 95  0  0</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>性能视图备份</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br></pre></td><td class="code"><pre><span class="line">-- 考虑备份数据库性能视图（最好是在新建的非生产使用的单独用户下操作，比如 TEST_USER 用户）</span><br><span class="line">-- 此外在数据库需要重启时，更应考虑备份这些视图</span><br><span class="line">create table diag_session_&amp;yyyymmdd_seq_area nologging as</span><br><span class="line">select *</span><br><span class="line">from gv$session;</span><br><span class="line">create table diag_session_wait_&amp;yyyymmdd_seq_area nologging as</span><br><span class="line">select *</span><br><span class="line">from gv$session_wait;</span><br><span class="line">create table diag_process_&amp;yyyymmdd_seq_area nologging as</span><br><span class="line">select *</span><br><span class="line">from gv$process;</span><br><span class="line">create table diag_sql_&amp;yyyymmdd_seq_area nologging as</span><br><span class="line">select *</span><br><span class="line">from gv$sql;</span><br><span class="line">create table diag_sqlarea_&amp;yyyymmdd_seq_area nologging as</span><br><span class="line">select *</span><br><span class="line">from gv$sqlarea;</span><br><span class="line">create table diag_sql_plan_&amp;yyyymmdd_seq_area nologging as</span><br><span class="line">select *</span><br><span class="line">from gv$sql_plan; --耗性能</span><br><span class="line">create table diag_lock_&amp;yyyymmdd_seq_area nologging as</span><br><span class="line">select *</span><br><span class="line">from gv$lock;</span><br><span class="line">create table diag_locked_object_&amp;yyyymmdd_seq_area nologging as</span><br><span class="line">select *</span><br><span class="line">from gv$locked_object;</span><br><span class="line">create table diag_access_&amp;yyyymmdd_seq_area nologging as</span><br><span class="line">select *</span><br><span class="line">from gv$access;</span><br><span class="line">create table diag_latch_&amp;yyyymmdd_seq_area nologging as</span><br><span class="line">select *</span><br><span class="line">from gv$latch;</span><br><span class="line">create table diag_latch_children_&amp;yyyymmdd_seq_area nologging as</span><br><span class="line">select *</span><br><span class="line">from gv$latch_children;</span><br><span class="line">create table diag_Librarycache_&amp;yyyymmdd_seq_area nologging as</span><br><span class="line">select *</span><br><span class="line">from gv_$Librarycache;</span><br><span class="line">create table diag_rowcache_&amp;yyyymmdd_seq_area nologging as</span><br><span class="line">select *</span><br><span class="line">from gv_$rowcache;</span><br><span class="line">create table diag_sort_segment_&amp;yyyymmdd_seq_area nologging as</span><br><span class="line">select *</span><br><span class="line">from gv$sort_segment;</span><br><span class="line">create table diag_sort_usage_&amp;yyyymmdd_seq_area nologging as</span><br><span class="line">select *</span><br><span class="line">from gv$sort_usage;</span><br><span class="line">create table diag_log_history_&amp;yyyymmdd_seq_area nologging as</span><br><span class="line">select *</span><br><span class="line">from gv$log_history;</span><br><span class="line">create table diag_log_&amp;yyyymmdd_seq_area nologging as</span><br><span class="line">select *</span><br><span class="line">from gv$log;</span><br><span class="line">create table diag_logfile_&amp;yyyymmdd_seq_area nologging as</span><br><span class="line">select *</span><br><span class="line">from gv$logfile;</span><br><span class="line">create table diag_transaction_&amp;yyyymmdd_seq_area nologging as</span><br><span class="line">select *</span><br><span class="line">from gv$transaction;</span><br><span class="line">create table diag_parameter_&amp;yyyymmdd_seq_area nologging as</span><br><span class="line">select *</span><br><span class="line">from gv$parameter;</span><br><span class="line">create table diag_session_longops_&amp;yyyymmdd_seq_area nologging as</span><br><span class="line">select *</span><br><span class="line">from gv$session_longops;</span><br><span class="line">create table diag_bh_&amp;yyyymmdd_seq_area nologging as</span><br><span class="line">select *</span><br><span class="line">from gv$bh;</span><br><span class="line">create table diag_filestat_&amp;yyyymmdd_seq_area nologging as</span><br><span class="line">select *</span><br><span class="line">from gv$filestat;</span><br><span class="line">create table diag_segstat_&amp;yyyymmdd_seq_area nologging as</span><br><span class="line">select *</span><br><span class="line">from gv$segstat;</span><br><span class="line">create table diag_tempstat_&amp;yyyymmdd_seq_area nologging as</span><br><span class="line">select *</span><br><span class="line">from gv$tempstat;</span><br><span class="line">create table diag_datafile_&amp;yyyymmdd_seq_area nologging as</span><br><span class="line">select *</span><br><span class="line">from gv$datafile;</span><br><span class="line">create table diag_tempfile_&amp;yyyymmdd_seq_area nologging as</span><br><span class="line">select *</span><br><span class="line">from gv$tempfile;</span><br><span class="line">create table diag_open_cursors_&amp;yyyymmdd_seq_area nologging as</span><br><span class="line">select *</span><br><span class="line">from gv$open_cursors;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>获取基线<br>当系统觉得有问题时，可以考虑立即取一个断点基线，作为AWR报表的一个断点。<br><code>exec dbms_workload_repository.create_snapshot();</code></p>
+<hr>
+<p>观察临时表空间和回滚段表空间情况</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line">-- 查谁占用了undo表空间</span><br><span class="line">select r.name                      回滚段名</span><br><span class="line">     , rssize / 1024 / 1024 / 1024 &quot;rssize(g)&quot;</span><br><span class="line">     , s.sid</span><br><span class="line">     , s.serial#</span><br><span class="line">     , s.username                  用户名</span><br><span class="line">     , s.status</span><br><span class="line">     , s.sql_hash_value</span><br><span class="line">     , s.sql_address</span><br><span class="line">     , s.machine</span><br><span class="line">     , s.module</span><br><span class="line">     , substr(s.program, 1, 78)    操作程序</span><br><span class="line">     , r.usn</span><br><span class="line">     , hwmsize / 1024 / 1024 / 1024</span><br><span class="line">     , shrinks</span><br><span class="line">     , xacts</span><br><span class="line">from sys.v_$session S</span><br><span class="line">   , sys.v_$transaction t</span><br><span class="line">   , sys.v_$rollname r</span><br><span class="line">   , v$rollstat rs</span><br><span class="line">where t.addr = s.taddr</span><br><span class="line">  and t.xidusn = r.usn</span><br><span class="line">  and r.usn = rs.usn</span><br><span class="line">order by rssize desc;</span><br><span class="line"></span><br><span class="line">-- 查谁占用了temp表空间</span><br><span class="line">select t.blocks * 16 / 1024 / 1024</span><br><span class="line">     , s.username</span><br><span class="line">     , s.schemaname</span><br><span class="line">     , t.tablespace</span><br><span class="line">     , t.segtype</span><br><span class="line">     , t.extents</span><br><span class="line">     , s.program</span><br><span class="line">     , s.osuser</span><br><span class="line">     , s.terminal</span><br><span class="line">     , s.sid</span><br><span class="line">     , s.serial#</span><br><span class="line">from v$sort_usage t</span><br><span class="line">   , v$session s</span><br><span class="line">where t.session_addr = s.saddr;</span><br><span class="line"></span><br><span class="line">-- 还可查到具体SQL</span><br><span class="line">select sql.sql_id</span><br><span class="line">     , t.blocks * 16 / 1024 / 1024</span><br><span class="line">     , s.username</span><br><span class="line">     , s.schemaname</span><br><span class="line">     , t.tablespace</span><br><span class="line">     , t.segtype</span><br><span class="line">     , t.extents</span><br><span class="line">     , s.program</span><br><span class="line">     , s.osuser</span><br><span class="line">     , s.terminal</span><br><span class="line">     , s.sid</span><br><span class="line">     , s.serial#</span><br><span class="line">     , sql.sql_text</span><br><span class="line">from v$sort_usage t</span><br><span class="line">   , v$session s</span><br><span class="line">   , v$sql sql</span><br><span class="line">where t.session_addr = s.saddr</span><br><span class="line">  and t.sqladdr = sql.address</span><br><span class="line">  and t.sqlhash = sql.hash_value;</span><br></pre></td></tr></table></figure>
+
+<h4 id="动态局部"><a href="#动态局部" class="headerlink" title="动态局部"></a>动态局部</h4><p>通过主机进程PID查SQL<br>通过主机进程PID查SQL(这个步骤和之前的top命令紧密相连，就是为了直接分析这些耗CPU的进程和哪些SQL有关系)<br>本来可以用如下方法来查，但是系统出现问题时，一般不容易查出来，太慢（有时用 ordered 或者 no_merge 的 HINT 有效，有时无效)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">select /*+ ordered */</span><br><span class="line">    sql_text</span><br><span class="line">from v$sqltext a</span><br><span class="line">where (a.hash_value, a.address) in</span><br><span class="line">      (select decode(sql_hash_value, 0, prev_hash_value, sql_hash_value)</span><br><span class="line">            , decode(sql_hash_value, 0, prev_sql_addr, sql_address)</span><br><span class="line">       from v$session b</span><br><span class="line">       where b.paddr =</span><br><span class="line">             (select addr from v$process c where c.spid = &#x27;&amp;pid&#x27;))</span><br><span class="line">order by piece asc;</span><br></pre></td></tr></table></figure>
+
+<p>一般采用下面三步（可避免性能问题，返回结果会快）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">-- 1. 获取 addr</span><br><span class="line">select spid</span><br><span class="line">     , addr</span><br><span class="line">     , t.pga_used_mem</span><br><span class="line">     , t.pga_alloc_mem</span><br><span class="line">     , t.pga_freeable_mem</span><br><span class="line">     , t.pga_max_mem</span><br><span class="line">from v$process t</span><br><span class="line">where spid = &#x27;$pid&#x27;;</span><br><span class="line"></span><br><span class="line">-- 2. 根据 addr 获取 sql_id</span><br><span class="line">select t.sid</span><br><span class="line">     , t.program</span><br><span class="line">     , t.machine</span><br><span class="line">     , t.logon_time</span><br><span class="line">     , t.wait_class</span><br><span class="line">     , t.wait_time</span><br><span class="line">     , t.seconds_in_wait</span><br><span class="line">     , t.event</span><br><span class="line">     , t.sql_id</span><br><span class="line">     , t.prev_sql_id</span><br><span class="line">from v$session t</span><br><span class="line">where paddr = &#x27;$addr&#x27;;</span><br><span class="line"></span><br><span class="line">-- 3. 根据 sql_id 查询具体 SQL</span><br><span class="line">select t.sql_id</span><br><span class="line">     , t.sql_text</span><br><span class="line">     , t.executions</span><br><span class="line">     , t.first_load_time</span><br><span class="line">     , t.last_load_time</span><br><span class="line">     , t.buffer_gets</span><br><span class="line">     , t.rows_processed</span><br><span class="line">from v$sql t</span><br><span class="line">where sql_id in (&#x27;$sql_id&#x27;);</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>观察当前数据库的版本及等待情况，SQL基本情况。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br></pre></td><td class="code"><pre><span class="line">-- 等待事件（当前)</span><br><span class="line">select t.event, count(*)</span><br><span class="line">from v$session t</span><br><span class="line">group by event</span><br><span class="line">order by count(*) desc;</span><br><span class="line"></span><br><span class="line">-- 等待事件（历史汇集）</span><br><span class="line">select t.event, t.total_waits</span><br><span class="line">from v$system_event t</span><br><span class="line">order by total_waits desc;</span><br><span class="line"></span><br><span class="line">-- 游标使用情况</span><br><span class="line">select inst_id, sid, count(*)</span><br><span class="line">from gv$open_cursor</span><br><span class="line">group by inst_id, sid</span><br><span class="line">having count(*) &gt;= 1000</span><br><span class="line">order by count(*) desc;</span><br><span class="line"></span><br><span class="line">-- PGA占用最多的进程</span><br><span class="line">select p.spid</span><br><span class="line">     , p.pid</span><br><span class="line">     , s.sid</span><br><span class="line">     , s.serial#</span><br><span class="line">     , s.status</span><br><span class="line">     , p.pga_alloc_mem</span><br><span class="line">     , s.username</span><br><span class="line">     , s.osuser</span><br><span class="line">     , s.program</span><br><span class="line">from v$process p</span><br><span class="line">   , v$session s</span><br><span class="line">where s.paddr(+) = p.addr</span><br><span class="line">order by p.pga_alloc_mem desc;</span><br><span class="line"></span><br><span class="line">-- 登录时间最长的SESSION(同时获取到 spid ,方便在主机层面 ps-ef|grep spid 来查看)</span><br><span class="line">select *</span><br><span class="line">from (select t.sid</span><br><span class="line">           , t2.spid</span><br><span class="line">           , t.PROGRAM</span><br><span class="line">           , t.status</span><br><span class="line">           , t.sql_id</span><br><span class="line">           , t.PREV_SQL_ID</span><br><span class="line">           , t.event</span><br><span class="line">           , t.LOGON_TIME</span><br><span class="line">           , trunc(sysdate - logon_time)</span><br><span class="line">      from v$session t</span><br><span class="line">         , v$process t2</span><br><span class="line">      where t.paddr = t2.ADDR</span><br><span class="line">        and t.type &lt;&gt; &#x27;BACKGROUND&#x27;</span><br><span class="line">      order by logon_time)</span><br><span class="line">where rownum &lt; 20;</span><br><span class="line"></span><br><span class="line">-- 物理读和逻辑较多的5QL</span><br><span class="line">-- 逻辑读最多</span><br><span class="line">select *</span><br><span class="line">from (select sql_id</span><br><span class="line">           , sql_text</span><br><span class="line">           , s.executions</span><br><span class="line">           , s.last_load_time</span><br><span class="line">           , s.first_load_time</span><br><span class="line">           , s.disk_reads</span><br><span class="line">           , s.buffer_gets</span><br><span class="line">      from v$sql s</span><br><span class="line">      where s.buffer_gets &gt; 300</span><br><span class="line">      order by buffer_gets desc)</span><br><span class="line">where rownum &lt;= 20;</span><br><span class="line"></span><br><span class="line">-- 物理读最多</span><br><span class="line">select *</span><br><span class="line">from (select sql_id</span><br><span class="line">           , sql_text</span><br><span class="line">           , s.executions</span><br><span class="line">           , s.last_load_time</span><br><span class="line">           , s.first_load_time</span><br><span class="line">           , s.disk_reads</span><br><span class="line">           , s.buffer_gets</span><br><span class="line">           , s.parse_calls</span><br><span class="line">      from v$sql s</span><br><span class="line">      where s.disk_reads &gt; 300</span><br><span class="line">      order by disk_reads desc)</span><br><span class="line">where rownum &lt;= 20;</span><br><span class="line"></span><br><span class="line">-- 执行次数最多</span><br><span class="line">select *</span><br><span class="line">from (select sql_id</span><br><span class="line">           , sql_text</span><br><span class="line">           , s.executions</span><br><span class="line">           , s.last_load_time</span><br><span class="line">           , s.first_load_time</span><br><span class="line">           , s.disk_reads</span><br><span class="line">           , s.buffer_gets</span><br><span class="line">           , s.parse_calls</span><br><span class="line">      from v$sql s</span><br><span class="line">      order by s.executions desc)</span><br><span class="line">where rownum &lt;= 20;</span><br><span class="line"></span><br><span class="line">-- 解析次数最多</span><br><span class="line">select *</span><br><span class="line">from (select sql_id</span><br><span class="line">           , sql_text</span><br><span class="line">           , s.executions</span><br><span class="line">           , s.last_load_time</span><br><span class="line">           , s.first_load_time</span><br><span class="line">           , s.disk_reads</span><br><span class="line">           , s.buffer_gets</span><br><span class="line">           , s.parse_calls</span><br><span class="line">      from v$sql s</span><br><span class="line">      order by s.parse_calls desc)</span><br><span class="line">where rownum &lt; 20;</span><br><span class="line"></span><br><span class="line">-- 求 DISK SORT 严重的 SQL</span><br><span class="line">select sess.username, sql.sql_text, sql.address, sort1.blocks</span><br><span class="line">from v$session sess</span><br><span class="line">   , v$sqlarea sql</span><br><span class="line">   , v$sort_usage sort1</span><br><span class="line">where sess.serial# = sort1.session_num</span><br><span class="line">  and sort1.sqladdr = sql.address</span><br><span class="line">  and sort1.sqlhash = sql.hash_value</span><br><span class="line">  and sort1.blocks &gt; 200</span><br><span class="line">order by sort1.blocks desc;</span><br></pre></td></tr></table></figure>
+
+<p>补充：<br>在 Oracle SQL 中，<code>(+)</code> 符号用于指示外连接（outer join）。除了 <code>(+)</code> 符号之外，Oracle 还支持使用 <code>LEFT OUTER JOIN</code>,<br><code>RIGHT OUTER JOIN</code>, 和 <code>FULL OUTER JOIN</code> 语法来表达外连接。</p>
+<p>JOIN 的写法这里就省略了。下面说 <code>(+)</code> 的写法：</p>
+<ul>
+<li><code>(+)</code> 符号用于指示外连接，它可以出现在等式的一边或两边。</li>
+<li>如果 <code>(+)</code> 出现在等式的左边，则表示 LEFT OUTER JOIN。</li>
+<li>如果 <code>(+)</code> 出现在等式的右边，则表示 RIGHT OUTER JOIN。</li>
+<li>如果 <code>(+)</code> 出现在等式的两边，则表示 FULL OUTER JOIN。</li>
+</ul>
+<p>语法:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> left_table, right_table</span><br><span class="line"><span class="keyword">WHERE</span> left_table.column (<span class="operator">+</span>) <span class="operator">=</span> right_table.column</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p><strong>语法差异</strong>:</p>
+<ul>
+<li>使用 <code>LEFT OUTER JOIN</code>, <code>RIGHT OUTER JOIN</code>, 和 <code>FULL OUTER JOIN</code> 语法时，可以使用现代的 ANSI SQL 标准语法。</li>
+<li>使用 <code>(+)</code> 符号时，需要使用旧式的逗号连接语法，并在 <code>WHERE</code> 子句中指定外连接条件。</li>
+</ul>
+</li>
+<li><p><strong>性能</strong>:</p>
+<ul>
+<li>在大多数情况下，使用现代的外连接语法 (<code>LEFT OUTER JOIN</code>, <code>RIGHT OUTER JOIN</code>, 和 <code>FULL OUTER JOIN</code>) 可能会产生更好的执行计划和性能。</li>
+<li><code>(+)</code> 符号虽然仍然支持，但在新版本的 Oracle 数据库中可能不再推荐使用。</li>
+</ul>
+</li>
+<li><p><strong>版本兼容性</strong>:</p>
+<ul>
+<li>确保使用的外连接语法在当前 Oracle 数据库版本中可用。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<p>检查是否有过分提交的语句<br>检查是否有过分提交的语句，关键是得到 sid,代入 V$SESSION 就可知道是什么进程，接下来还可以知道 V$SQL</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">-- 提交次数最多的SESSION</span><br><span class="line">select t1.sid, t1.value, t2.name</span><br><span class="line">from v$sesstat t1</span><br><span class="line">   , v$statname t2</span><br><span class="line">--where t2.name like &#x27;%commit%&#x27;</span><br><span class="line">where t2.name like &#x27;%user commits?%&#x27; -- 可以只选user commits,其他系统级的先不关心</span><br><span class="line">  and t1.STATISTIC# = t2.STATISTIC#</span><br><span class="line">  and value &gt;= 10000</span><br><span class="line">order by value desc;</span><br><span class="line">-- 取得SID既可以代入到v$SESSION和v$SQL中去分析</span><br><span class="line">-- 得出SQL_ID</span><br><span class="line">select t.sid</span><br><span class="line">     , t.program</span><br><span class="line">     , t.machine</span><br><span class="line">     , t.logon_time</span><br><span class="line">     , t.wait_class</span><br><span class="line">     , t.wait_time</span><br><span class="line">     , t.seconds_in_wait</span><br><span class="line">     , t.event</span><br><span class="line">     , t.sql_id</span><br><span class="line">     , t.prev_sql_id</span><br><span class="line">from v$session t</span><br><span class="line">where sid in (&#x27;$sid&#x27;);</span><br><span class="line">-- 根据sql id或prev_sql_id代入得到SQL</span><br><span class="line">select t.sql_id</span><br><span class="line">     , t.sql_text</span><br><span class="line">     , t.executions</span><br><span class="line">     , t.first_load_time</span><br><span class="line">     , t.last_load_time</span><br><span class="line">     , t.buffer_gets</span><br><span class="line">     , t.rows_processed</span><br><span class="line">from v$sql t</span><br><span class="line">where sql_id in (&#x27;$sql_id&#x27;)</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>检查系统使用绑定变量的情况</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line">-- 查询共享内存占有率</span><br><span class="line">select count(*), round(sum(sharable_mem) / 1024 / 1024, 2)</span><br><span class="line">from v$db_object_cache a;</span><br><span class="line"></span><br><span class="line">-- 捕获出需要使用绑定变量的SQL(这里只能适配大多数语句)</span><br><span class="line">Drop table t1 purge;</span><br><span class="line">create table t1 as</span><br><span class="line">select sql_text, module</span><br><span class="line">from v$sqlarea;</span><br><span class="line">alter table t1</span><br><span class="line">    add sql_text_wo_constants varchar2(1000);</span><br><span class="line"></span><br><span class="line">CREATE OR REPLACE FUNCTION remove_constants(p_query IN VARCHAR2) RETURN VARCHAR2</span><br><span class="line">AS</span><br><span class="line">    l_query     LONG;</span><br><span class="line">    l_char      VARCHAR2(10);</span><br><span class="line">    l_in_quotes BOOLEAN DEFAULT FALSE;</span><br><span class="line">BEGIN</span><br><span class="line">    FOR i IN 1..LENGTH(p_query)</span><br><span class="line">        LOOP</span><br><span class="line">            l_char := SUBSTR(p_query, i, 1);</span><br><span class="line">            IF (l_char = &#x27;&#x27;&#x27;&#x27;) THEN</span><br><span class="line">                IF l_in_quotes THEN</span><br><span class="line">                    l_in_quotes := FALSE;</span><br><span class="line">                ELSE</span><br><span class="line">                    l_in_quotes := TRUE;</span><br><span class="line">                    l_query := l_query || &#x27;&#x27;&#x27;#&#x27;;</span><br><span class="line">                END IF;</span><br><span class="line">            ELSIF NOT l_in_quotes THEN</span><br><span class="line">                l_query := l_query || l_char;</span><br><span class="line">            END IF;</span><br><span class="line">        END LOOP;</span><br><span class="line"></span><br><span class="line">    -- 替换数字</span><br><span class="line">    l_query := TRANSLATE(l_query, &#x27;0123456789&#x27;, &#x27;@@@@@@@@@@&#x27;);</span><br><span class="line"></span><br><span class="line">    -- 移除多余的 @ 符号</span><br><span class="line">    FOR i IN 0..8</span><br><span class="line">        LOOP</span><br><span class="line">            l_query := REPLACE(l_query, LPAD(&#x27;@&#x27;, 10 - i, &#x27;@&#x27;), &#x27;@&#x27;);</span><br><span class="line">            l_query := REPLACE(l_query, LPAD(&#x27;&#x27;, 10 - i, &#x27;&#x27;), &#x27;&#x27;);</span><br><span class="line">        END LOOP;</span><br><span class="line"></span><br><span class="line">    RETURN UPPER(l_query);</span><br><span class="line">END;</span><br><span class="line">-- 编译函数</span><br><span class="line">    ALTER FUNCTION TEST_USER.remove_constants COMPILE;</span><br><span class="line">update TEST_USER.t1</span><br><span class="line">set sql_text_wo_constants = remove_constants(sql_text);</span><br><span class="line">commit;</span><br><span class="line"></span><br><span class="line">-- 执行完上述动作后，以下SQL语句可以完成未绑定变量语句的统计</span><br><span class="line">select sql_text_wo_constants, module, count(*)</span><br><span class="line">from t1</span><br><span class="line">group by sql_text_wo_constants, module</span><br><span class="line">having count(*) &gt; 100</span><br><span class="line">order by 3 desc;</span><br></pre></td></tr></table></figure>
+
+<h4 id="静态整体"><a href="#静态整体" class="headerlink" title="静态整体"></a>静态整体</h4><p>主机静态情况检查</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查看磁盘空间使用情况</span></span><br><span class="line">df -h</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">主机内存情况</span></span><br><span class="line">cat /proc/meminfo</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">主机CPU情况</span></span><br><span class="line">cat /proc/cpuinfo</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>记录下Oracle数据库的所有参数设置情况，并检查是否归档</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">-- 版本及所有参数情况</span><br><span class="line">-- 开启CRT的日志跟踪</span><br><span class="line">-- 版本</span><br><span class="line">select *</span><br><span class="line">from v$version;</span><br><span class="line">-- 所有参数</span><br><span class="line">show parameter</span><br><span class="line">-- 关闭CRT的日志跟踪，将文件取回</span><br><span class="line">-- 其中重点关注的是</span><br><span class="line">-- sga pga log_buffer processes open_cursors session_cached_cursors db_recovery_file_dest cluster_database</span><br><span class="line">-- SGA, PGA, 日志缓冲区, 进程数, 打开的游标数, 会话缓存的游标数, 数据库恢复文件目的地, 集群数据库设置相关的参数。</span><br><span class="line">-- 是否归档</span><br><span class="line">archive log list</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>检查数据库表和索引是否存在并行度设在其中的情况</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">-- 检查数据库表和索引是否存在并行度设在其中的情况（很多时候有人用parallel建了表或索引，忘记alter table xxx noparallel关闭了)。</span><br><span class="line">select t.owner, t.table_name, degree</span><br><span class="line">from dba_tables t</span><br><span class="line">where t.degree &gt; &#x27;1&#x27;;</span><br><span class="line">select t.owner, t.table_name, index_name, degree, status</span><br><span class="line">from dba_indexes t</span><br><span class="line">where owner in (&#x27;TEST_USER&#x27;)</span><br><span class="line">  and t.degree &gt; &#x27;1&#x27;;</span><br><span class="line">-- 有问题就要处理，比如索引有并行，就处理如下：</span><br><span class="line">select &#x27;alter index &#x27; || t.owner || &#x27;.&#x27; || index_name || &#x27;noparallel;&#x27;</span><br><span class="line">from dba_indexes t</span><br><span class="line">where owner in (&#x27;TEST_USER&#x27;)</span><br><span class="line">  and t.degree &gt; &#x27;1&#x27;;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>检查是否有失效的索引</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">-- 普通索引</span><br><span class="line">select t.index_name</span><br><span class="line">     , t.table_name</span><br><span class="line">     , blevel</span><br><span class="line">     , t.num_rows</span><br><span class="line">     , t.leaf_blocks</span><br><span class="line">     , t.distinct_keys</span><br><span class="line">from dba_indexes t</span><br><span class="line">where status = &#x27;INVALID&#x27;;</span><br><span class="line">-- 分区索引</span><br><span class="line">select t2.owner</span><br><span class="line">     , t1.blevel</span><br><span class="line">     , t1.leaf_blocks</span><br><span class="line">     , t1.index_name</span><br><span class="line">     , t2.table_name</span><br><span class="line">     , t1.partition_name</span><br><span class="line">     , t1.status</span><br><span class="line">from dba_ind_partitions t1</span><br><span class="line">   , dba_indexes t2</span><br><span class="line">where t1.index_name = t2.index_name</span><br><span class="line">  and t1.status = &#x27;UNUSABLE&#x27;</span><br><span class="line">  and t2.owner in (&#x27;TEST_USER&#x27;);</span><br><span class="line">-- 以下是所有失效对象的检查</span><br><span class="line">select &#x27;alter&#x27; ||</span><br><span class="line">       decode(object_type, &#x27;PACKAGE BODY&#x27;, &#x27;PACKAGE&#x27;, &#x27;TYPE BODY&#x27;, &#x27;TYPE&#x27;, object_type) || &#x27;&#x27; ||</span><br><span class="line">       owner || &#x27;.&#x27; || object_name || &#x27;&#x27; ||</span><br><span class="line">       decode(object_type, &#x27;PACKAGE BODY&#x27;, &#x27;compile body&#x27;, &#x27;compile&#x27;) || &#x27;;&#x27;</span><br><span class="line">     , t.*</span><br><span class="line">from dba_objects t</span><br><span class="line">where status = &#x27;INVALID&#x27;</span><br><span class="line">--owner not in (&#x27;PUBLIC&#x27;,&#x27;SYSTEM&#x27;,&#x27;SYS&#x27;)</span><br><span class="line">  and owner in (&#x27;TEST_USER&#x27;);</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>检查是否有显著未释放高水平位的表</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br></pre></td><td class="code"><pre><span class="line">select table_name, blocks, num_rows</span><br><span class="line">from user_tables</span><br><span class="line">where blocks / num_rows &gt;= 0.2</span><br><span class="line">  and num_rows is not null</span><br><span class="line">  and num_rows &lt;&gt; 0</span><br><span class="line">  and blocks &gt;= 10000;</span><br><span class="line">-- 这个就可以预测到哪些是高水平位没释放的表。</span><br><span class="line">-- 其中blocks&gt;:=10000是因为低于10000的块说明表的体积太小了，释放或不释放无所谓。</span><br><span class="line"></span><br><span class="line">-- 而 blocks / num_rows &gt;= 1 表示是严重有问题的。</span><br><span class="line">-- 而这个 blocks / num_rows &gt;= 0.2 表示至少一个块要装5行数据，如果装不了，那就很奇怪了，值得怀疑了，除非有LONG和CLOB字段或者一堆的VARCHAR2(4OOO)字段。</span><br><span class="line"></span><br><span class="line">-- 附（可以释放高水平位的脚本，在 Oracle 的 shrink 方法无效时可采纳）：</span><br><span class="line">create or replace package pkg_shrink</span><br><span class="line">    Authid Current_User</span><br><span class="line">as</span><br><span class="line">    /*</span><br><span class="line">    功能：将delete后的表降低高水平</span><br><span class="line">    */</span><br><span class="line">    procedure p_move_tab(p_tab varchar2);</span><br><span class="line">    procedure p_cal_bytes(p_status varchar2, p_tab varchar2);</span><br><span class="line">    procedure p_rebuid_idx(p_tab varchar2);</span><br><span class="line">    procedure p_main(p_table_name varchar2);</span><br><span class="line">end pkg_shrink;</span><br><span class="line">create or replace package body pkg_shrink</span><br><span class="line">as</span><br><span class="line">    v_sql varchar2(4000);</span><br><span class="line">    procedure p_cal_bytes(p_status varchar2, p_tab varchar2)</span><br><span class="line">    as</span><br><span class="line">        v_tab_bytes number;</span><br><span class="line">        v_idx_bytes number;</span><br><span class="line">        v_str_tab   varchar2(4000);</span><br><span class="line">        v_str_idx   varchar2(4000);</span><br><span class="line">    begin</span><br><span class="line">        select sum(bytes) / 1024 / 1024 into v_tab_bytes from user_segments where segment_name = upper(p_tab);</span><br><span class="line">        select sum(bytes) / 1024 / 1024</span><br><span class="line">        into v_idx_bytes</span><br><span class="line">        from user_segments</span><br><span class="line">        where segment_name IN (SELECT INDEX_NAME</span><br><span class="line">                               FROM USER_INDEXES</span><br><span class="line">                               WHERE TABLE_NAME = upper(p_tab));</span><br><span class="line">        v_str_tab := p_status || &#x27;表&#x27; || p_tab || &#x27;的大小为&#x27; || v_tab_bytes || &#x27;M&#x27;;</span><br><span class="line">        if v_idx_bytes is null then</span><br><span class="line">            v_str_idx := p_status || &#x27;无索引&#x27;;</span><br><span class="line">        else</span><br><span class="line">            v_str_idx := p_status || &#x27;索引的大小为&#x27; || v_idx_bytes || &#x27;M&#x27;;</span><br><span class="line">        end if;</span><br><span class="line">        dbms_output.put_line(v_str_tab || &#x27;;&#x27; || v_str_idx);</span><br><span class="line">    end p_cal_bytes;</span><br><span class="line"></span><br><span class="line">    procedure p_move_tab(p_tab varchar2)</span><br><span class="line">    as</span><br><span class="line">        V_IF_PART_TAB NUMBER;</span><br><span class="line">    begin</span><br><span class="line">        SELECT COUNT(*) INTO V_IF_PART_TAB FROM user_part_tables WHERE TABLE_NAME = upper(P_TAB);</span><br><span class="line">        IF V_IF_PART_TAB = 0 THEN --非分区表</span><br><span class="line">            v_sql := &#x27;alter table &#x27; || p_tab || &#x27; move&#x27;; -- 完成表的MOVE动作，从而做到降低高水平位，不过也带来了索引的失效！</span><br><span class="line">            DBMS_OUTPUT.put_line(v_sql);</span><br><span class="line">            execute immediate v_sql;</span><br><span class="line">        ELSE -- 分区表</span><br><span class="line">            for i in (SELECT * from USER_TAB_PARTITIONS WHERE TABLE_NAME = upper(p_tab))</span><br><span class="line">                loop</span><br><span class="line">                    v_sql := &#x27;alter table &#x27; || p_tab || &#x27; move partition &#x27; || i.partition_name; -- 完成分区表的MOVE动作，同样带来了索引失效！</span><br><span class="line">                    DBMS_OUTPUT.put_line(v_sql);</span><br><span class="line">                    execute immediate v_Sql;</span><br><span class="line">                end loop;</span><br><span class="line">        END IF;</span><br><span class="line">    end p_move_tab;</span><br><span class="line"></span><br><span class="line">    procedure p_rebuid_idx(p_tab varchar2)</span><br><span class="line">    as</span><br><span class="line">        V_NORMAL_IDX NUMBER;</span><br><span class="line">        V_PART_IDX   NUMBER;</span><br><span class="line">    begin</span><br><span class="line">        SELECT COUNT(*)</span><br><span class="line">        INTO V_NORMAL_IDX</span><br><span class="line">        FROM user_indexes</span><br><span class="line">        where table_name = &#x27;PART_TAB&#x27;</span><br><span class="line">          AND INDEX_NAME</span><br><span class="line">            NOT IN (SELECT INDEX_NAME FROM user_part_indexes);</span><br><span class="line">        IF V_NORMAL_IDX &gt;= 1 THEN -- 普通索引</span><br><span class="line">            for i in (select *</span><br><span class="line">                      from user_indexes</span><br><span class="line">                      where table_name = upper(p_tab)</span><br><span class="line">                        AND INDEX_NAME</span><br><span class="line">                          NOT IN (SELECT INDEX_NAME FROM user_part_indexes))</span><br><span class="line">                loop</span><br><span class="line">                    v_sql := &#x27;alter index &#x27; || i.index_name || &#x27; rebuild&#x27;; -- 将失效的普通索引重建</span><br><span class="line">                    DBMS_OUTPUT.put_line(v_sql);</span><br><span class="line">                    execute immediate v_sql;</span><br><span class="line">                end loop;</span><br><span class="line">        END IF;</span><br><span class="line">        SELECT COUNT(*) INTO V_PART_IDX FROM user_part_indexes WHERE TABLE_NAME = &#x27;PART_TAB&#x27;;</span><br><span class="line">        IF V_PART_IDX &gt;= 1 THEN -- 分区索引</span><br><span class="line">            for i in (SELECT *</span><br><span class="line">                      from User_Ind_Partitions</span><br><span class="line">                      WHERE index_name in (select index_name</span><br><span class="line">                                           from user_part_indexes</span><br><span class="line">                                           where table_name = upper(p_tab)))</span><br><span class="line">                loop</span><br><span class="line">                    v_sql := &#x27;alter index &#x27; || i.index_name || &#x27; rebuild partition &#x27; || i.partition_name; -- 将失效分区索引重建</span><br><span class="line">                    DBMS_OUTPUT.put_line(v_sql);</span><br><span class="line">                    execute immediate v_Sql;</span><br><span class="line">                end loop;</span><br><span class="line">        END IF;</span><br><span class="line">    end p_rebuid_idx;</span><br><span class="line"></span><br><span class="line">    procedure p_main(p_table_name varchar2)</span><br><span class="line">    as</span><br><span class="line">    begin</span><br><span class="line">        for i in (select *</span><br><span class="line">                  from (SELECT SUBSTR(s, INSTR(s, &#x27;,&#x27;, 1, ROWNUM) + 1,</span><br><span class="line">                                      INSTR(s, &#x27;,&#x27;, 1, ROWNUM + 1) - INSTR(s, &#x27;,&#x27;, 1, ROWNUM) - 1) AS TYPE_ID</span><br><span class="line">                        FROM (SELECT &#x27;,&#x27; || p_table_name || &#x27;,&#x27; AS s FROM DUAL)</span><br><span class="line">                        CONNECT BY ROWNUM &lt;= 100)</span><br><span class="line">                  WHERE type_id IS NOT NULL</span><br><span class="line">            )</span><br><span class="line">            loop</span><br><span class="line">                -- 在外面SELECT再套一层是必须的，否则只会循环一次。另外type_id IS NOT NULL是必须的，否则会多循环</span><br><span class="line">                DBMS_OUTPUT.put_line(&#x27;当前处理的表为&#x27; || i.TYPE_ID);</span><br><span class="line">                p_cal_bytes(&#x27;未降低高水平位前&#x27;, i.type_id);</span><br><span class="line">                p_move_tab(i.type_id);</span><br><span class="line">                p_rebuid_idx(I.TYPE_ID);</span><br><span class="line">                p_cal_bytes(&#x27;降低高水平位后&#x27;, i.type_id);</span><br><span class="line">            end loop;</span><br><span class="line">    end p_main;</span><br><span class="line">end pkg_shrink;</span><br><span class="line"></span><br><span class="line">-- 编译</span><br><span class="line">    alter package PKG_SHRINK compile reuse settings</span><br><span class="line"></span><br><span class="line">-- 执行</span><br><span class="line">BEGIN</span><br><span class="line">    pkg_shrink.p_main(&#x27;TABLE_NAME&#x27;);</span><br><span class="line">END;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>检查统计信息</p>
+<p>自动统计信息收集情况</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">-- 检查哪些对象的统计信息不够新，或者从未统计过（注意，让未统计过的在前面，即nulls first)。</span><br><span class="line">-- 检查统计信息是否被收集</span><br><span class="line">select t.JOB_NAME, t.PROGRAM_NAME, t.state, t.enabled</span><br><span class="line">from dba_scheduler_jobs t</span><br><span class="line">where job_name = &#x27;GATHER_STATS_JOB&#x27;;</span><br><span class="line"></span><br><span class="line">-- 检查哪些未被收集或者很久没收集</span><br><span class="line">select owner</span><br><span class="line">     , table_name</span><br><span class="line">     , t.last_analyzed</span><br><span class="line">     , t.num_rows</span><br><span class="line">     , t.blocks</span><br><span class="line">     , t.object_type</span><br><span class="line">from dba_tab_statistics t</span><br><span class="line">where owner in (&#x27;TEST_USER&#x27;)</span><br><span class="line">  and (t.last_analyzed is null or t.last_analyzed &lt; sysdate - 14)</span><br><span class="line">order by t.last_analyzed nulls first;</span><br><span class="line"></span><br><span class="line">-- 查看数量</span><br><span class="line">select count(*)</span><br><span class="line">from dba_tab_statistics t</span><br><span class="line">where owner in (&#x27;TEST_USER&#x27;)</span><br><span class="line">  and (t.last_analyzed is null or t.last_analyzed &lt; sysdate - 14);</span><br></pre></td></tr></table></figure>
+
+<p>全局临时表情况</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">-- 检查全局临时表有没有被收集统计信息</span><br><span class="line">select owner</span><br><span class="line">     , table_name</span><br><span class="line">     , t.last_analyzed</span><br><span class="line">     , t.num_rows</span><br><span class="line">     , t.blocks</span><br><span class="line">from dba_tables t</span><br><span class="line">where t.temporary = &#x27;Y&#x27;</span><br><span class="line">  and owner in (&#x27;TEST_USER&#x27;);</span><br><span class="line"></span><br><span class="line">-- 相应的处理措施</span><br><span class="line">BEGIN</span><br><span class="line">    DBMS_STATS.DELETE_TABLE_STATS(&#x27;TEST_USER&#x27;, &#x27;RN_IDENTIFICATION_BATCH&#x27;); -- 删除统计信息</span><br><span class="line">    DBMS_STATS.LOCK_TABLE_STATS(&#x27;TEST_USER&#x27;, &#x27;RN_IDENTIFICATION_BATCH&#x27;); -- 不收集统计信息</span><br><span class="line">END;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>awr addm ash awrddrpt awrsqrpt等方式观察数据库</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">exec dbms_workload_repository.create_snapshot();</span><br><span class="line">@?/rdbms/admin/awrrpt.sql</span><br><span class="line">@?/rdbms/admin/addmrpt.sql</span><br><span class="line">@7/rdbms/admin/ashrpt.sql</span><br><span class="line">@?/rdbms/admin/awrddrpt.sql</span><br><span class="line">@?/rdbms/admin/awrsqrpt.sql</span><br><span class="line">-- 注意：一般要考虑统计出问题的时间段的报表，顺序一般是 awr -&gt; addm -&gt; ash -&gt; awrdd -&gt; awrsq</span><br></pre></td></tr></table></figure>
+
+<p>这些命令和脚本用于生成和分析 Oracle 自动工作负载仓库 (AWR) 的报告。</p>
+<ol>
+<li><code>exec dbms_workload_repository.create_snapshot();</code>:<ul>
+<li>该命令用于创建一个新的 AWR 快照。AWR 快照包含了数据库在某一时间段内的性能统计数据，这些数据可用于后续的性能分析。</li>
+<li>创建快照有助于记录当前数据库的工作负载状况，并为后续的性能对比提供基准。</li>
+</ul>
+</li>
+<li><code>@?/rdbms/admin/awrrpt.sql</code>:<ul>
+<li>此命令用于执行 AWR 报告生成脚本 <code>awrrpt.sql</code>。该脚本会生成一份详细的 AWR 报告，这份报告包含了数据库在指定时间段内的性能指标和统计数据。</li>
+<li>AWR 报告是性能分析的基础，可以了解数据库的整体性能状况。</li>
+</ul>
+</li>
+<li><code>@?/rdbms/admin/addmrpt.sql</code>:<ul>
+<li>此命令用于执行 ADDM (自动数据库诊断监控器) 报告生成脚本 <code>addmrpt.sql</code>。该脚本会生成一份基于 AWR 数据的 ADDM 报告。</li>
+<li>ADDM 报告提供了更深入的性能分析，包括性能问题的根本原因分析和优化建议。</li>
+</ul>
+</li>
+<li><code>@7/rdbms/admin/ashrpt.sql</code>:<ul>
+<li>此命令用于执行 ASH (自动共享历史) 报告生成脚本 <code>ashrpt.sql</code>。该脚本会生成一份基于 ASH 数据的报告。</li>
+<li>ASH 报告提供了关于会话活动的详细信息，包括等待事件、SQL 执行等，这对于诊断性能瓶颈非常有用。</li>
+</ul>
+</li>
+<li><code>@?/rdbms/admin/awrddrpt.sql</code>:<ul>
+<li>此命令用于执行 AWR 数据字典报告生成脚本 <code>awrddrpt.sql</code>。该脚本会生成一份关于 AWR 数据字典的报告。</li>
+<li>AWR 数据字典报告提供了关于 AWR 表的详细信息，这有助于理解 AWR 数据的结构。</li>
+</ul>
+</li>
+<li><code>@?/rdbms/admin/awrsqrpt.sql</code>:<ul>
+<li>此命令用于执行 AWR SQL 报告生成脚本 <code>awrsqrpt.sql</code>。该脚本会生成一份关于 SQL 语句执行性能的报告。</li>
+<li>AWR SQL 报告提供了 SQL 语句的性能统计数据，包括执行次数、CPU 时间等，这对于优化 SQL 语句的性能非常有用。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<p>获取数据库告警和监听日志</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lsnrctl status # 可获取监听的路径</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">show parameter ump -- 可获取告警日志的路径</span><br><span class="line">-- 文件很大的情况下，可以考虑 tail -n 50000 alert* &gt; alert.log 的方式获取最近5万条记录</span><br><span class="line">-- 监听也是类似 tail -n 50000 list* &gt; listener.log</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>检查日志大小设置情况</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">-- 一般情况下，建议单个RED0设置为5GB大，如果发现告警日志切换频繁，则应该立即调整</span><br><span class="line">select inst_id, group#, member</span><br><span class="line">from gv$logfile;</span><br><span class="line"></span><br><span class="line">select group#, bytes, status</span><br><span class="line">from v$log;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>检查最大的对象是哪些、表空间的使用情况及回收站情况</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line">-- 用户的权限情况</span><br><span class="line">select *</span><br><span class="line">from dba_role_privs</span><br><span class="line">where grantee = &#x27;TEST_USER&#x27;;</span><br><span class="line"></span><br><span class="line">-- 最大的前20个对象（然后再进一步COUNT(*)统计其记录数）</span><br><span class="line">select *</span><br><span class="line">from (select owner</span><br><span class="line">           , segment_name</span><br><span class="line">           , segment_type</span><br><span class="line">           , sum(bytes) / 1024 / 1024 / 1024 object_size</span><br><span class="line">      from DBA_segments</span><br><span class="line">      WHERE owner in (&#x27;TEST_USER&#x27;)</span><br><span class="line">      group by owner, segment_name, segment_type</span><br><span class="line">      order by object_size desc)</span><br><span class="line">where rownum &lt; 50;</span><br><span class="line"></span><br><span class="line">-- 表空间使用情况</span><br><span class="line">select a.tablespace_name                                    &quot;表空间名&quot;</span><br><span class="line">     , a.total_space                                        &quot;总空间(g)&quot;</span><br><span class="line">     , nvl(b.free_space, 0)                                 &quot;剩余空间(g)&quot;</span><br><span class="line">     , a.total_space - nvl(b.free_space, 0)                 &quot;使用空间(g)&quot;</span><br><span class="line">     , trunc(nvl(b.free_space, 0) / a.total_space * 100, 2) &quot;剩余百分比%&quot;</span><br><span class="line">from (select tablespace_name</span><br><span class="line">           , trunc(sum(bytes) / 1024 / 1024 / 1024, 2) total_space</span><br><span class="line">      from dba_data_files</span><br><span class="line">      group by tablespace_name) a</span><br><span class="line">   , (select tablespace_name</span><br><span class="line">           , trunc(sum(bytes / 1024 / 1024 / 1024), 2) free_space</span><br><span class="line">      from dba_free_space</span><br><span class="line">      group by tablespace_name) b</span><br><span class="line">where a.tablespace_name = b.tablespace_name(+)</span><br><span class="line">order by 5;</span><br><span class="line"></span><br><span class="line">-- 整个用户有多大（比如 TEST_USER 用户）</span><br><span class="line">select sum(bytes) / 1024 / 1024 / 1024 &quot;G&quot;</span><br><span class="line">from dba_segments</span><br><span class="line">where owner = &#x27;TEST_USER&#x27;;</span><br><span class="line"></span><br><span class="line">-- 回收站情况</span><br><span class="line">select SUM(BYTES) / 1024 / 1024 / 1024</span><br><span class="line">from DBA_SEGMENTS</span><br><span class="line">WHERE owner = &#x27;TEST_USER&#x27;</span><br><span class="line">  AND SEGMENT_NAME LIKE &#x27;BINS%&#x27;;</span><br><span class="line"></span><br><span class="line">-- 分区最多的前20个对象（先知道表就可以大概了解了，索引可以后续再观察）</span><br><span class="line">select *</span><br><span class="line">from (select table_owner, table_name, count(*) cnt</span><br><span class="line">      from dba_tab_partitions</span><br><span class="line">      WHERE table_owner in (&#x27;TEST_USER&#x27;)</span><br><span class="line">      group by table_owner, table_name</span><br><span class="line">      order by cnt desc)</span><br><span class="line">where rownum &lt; 20;</span><br></pre></td></tr></table></figure>
+
+<h4 id="静态局部"><a href="#静态局部" class="headerlink" title="静态局部"></a>静态局部</h4><p>检查有哪些函数索引或者位图索引</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">-- 检查有哪些函数索引或者位图索引（大多数情况下开发人员对这两类索引是使用不当的，所以需要捞出来确认一下)</span><br><span class="line">select t.owner</span><br><span class="line">     , t.index_name</span><br><span class="line">     , t.index_type</span><br><span class="line">     , t.status</span><br><span class="line">     , t.blevel</span><br><span class="line">     , t.leaf_blocks</span><br><span class="line">from dba_indexes t</span><br><span class="line">where index_type in (&#x27;BITMAP&#x27;, &#x27;FUNCTION-BASED NORMAL&#x27;)</span><br><span class="line">  and owner in (&#x27;TEST_USER&#x27;);</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>检查CACHE小于20的序列</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">-- 检查序CACHE小于20的序列的情况（一般情况下可将其增至1000左右，序列默认的20太小）</span><br><span class="line">select t.sequence_name</span><br><span class="line">     , t.cache_size</span><br><span class="line">     , &#x27;alter sequence &#x27; || t.sequence_owner || &#x27;.&#x27; || t.sequence_name || &#x27; cache 1000;&#x27;</span><br><span class="line">from dba_sequences t</span><br><span class="line">where sequence_owner in (&#x27;TEST_USER&#x27;)</span><br><span class="line">  AND CACHE_SIZE &lt; 20;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>分析需要跟踪的表和索引的情况</p>
+<p>查看表大小情况</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">-- 记录的大小</span><br><span class="line">select count(*)</span><br><span class="line">from TANBLE_NAME;</span><br><span class="line"></span><br><span class="line">-- 物理的大小</span><br><span class="line">select segment_name, sum(bytes) / 1024 / 1024</span><br><span class="line">from user_segments</span><br><span class="line">where segment_name in (&#x27;TANBLE_NAME&#x27;)</span><br><span class="line">group by segment_name;</span><br></pre></td></tr></table></figure>
+
+<p>查看表结构情况</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">-- 查看表信息</span><br><span class="line">select t.table_name</span><br><span class="line">     , t.num_rows</span><br><span class="line">     , t.blocks</span><br><span class="line">     -- t.empty_blocks, --统计信息不收集这个字段，所以不需要这个字段了</span><br><span class="line">     , t.degree</span><br><span class="line">     , t.last_analyzed</span><br><span class="line">     , t.temporary</span><br><span class="line">     , t.partitioned</span><br><span class="line">     , t.pct_free</span><br><span class="line">     , t.tablespace_name</span><br><span class="line">from user_tables t</span><br><span class="line">where table_name in (&#x27;TABLE_NAME&#x27;);</span><br><span class="line"></span><br><span class="line">-- 查看分区表相关信息</span><br><span class="line">-- 查看分区表相关信息(user_part_tables记录分区的表的信息，user_tab_partitions记录表的分区的信息)</span><br><span class="line">-- 以下了解这些表的分区是什么类型的，有多少个分区</span><br><span class="line">select t.table_name</span><br><span class="line">     , t.partitioning_type</span><br><span class="line">     , t.partition_count</span><br><span class="line">from user_part_tables t</span><br><span class="line">where table_name in (&#x27;TABLE_NAME&#x27;);</span><br><span class="line"></span><br><span class="line">-- 以下了解这些表以什么列作为分区</span><br><span class="line">Select name</span><br><span class="line">     , object_type</span><br><span class="line">     , column_name</span><br><span class="line">from user_part_key_columns</span><br><span class="line">where name in (&#x27;TABLE_NAME&#x27;);</span><br><span class="line"></span><br><span class="line">-- 以下了解这些表的分区范围是多少</span><br><span class="line">SELECT table_name, partition_name, high_value, tablespace_name</span><br><span class="line">FROM user_tab_partitions t</span><br><span class="line">where table_name in (&#x27;TABLE_NAME&#x27;)</span><br><span class="line">order by table_name, t.partition_position;</span><br></pre></td></tr></table></figure>
+
+<p>每张表对应有多少个索引，物理多大</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">select t2.table_name</span><br><span class="line">     , t1.segment_name</span><br><span class="line">     , sum(t1.bytes) / 1024 / 1024</span><br><span class="line">from user_segments t1</span><br><span class="line">   , user_indexes t2</span><br><span class="line">where t1.segment_name = t2.index_name</span><br><span class="line">  and t1.segment_type like &#x27;%INDEX%&#x27;</span><br><span class="line">  and t2.table_name in (&#x27;T1&#x27;)</span><br><span class="line">group by t2.table_name, t1.segment_name</span><br><span class="line">order by table_name;</span><br><span class="line"></span><br><span class="line">-- 结构情况（高度、重复度、并行度、叶子高度、聚合因子、记录数、状态、最近分析时间...）</span><br><span class="line">select t.table_name</span><br><span class="line">     , t.index_name</span><br><span class="line">     , t.num_rows</span><br><span class="line">     , t.index_type</span><br><span class="line">     , t.status</span><br><span class="line">     , t.clustering_factor</span><br><span class="line">     , t.blevel</span><br><span class="line">     , t.distinct_keys</span><br><span class="line">     , t.leaf_blocks</span><br><span class="line">     , t.uniqueness</span><br><span class="line">     , t.degree</span><br><span class="line">     , t.last_analyzed</span><br><span class="line">from user_indexes t</span><br><span class="line">where table_name in (&#x27;TABLE_NAME&#x27;);</span><br></pre></td></tr></table></figure>
+
+<p>查看索引列信息</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">-- 以下可以查出来的是索引的列是什么（无论分区表和非分区表都可以查出）</span><br><span class="line">select t.table_name, t.index_name, t.column_name, t.column_position, t.DESCEND</span><br><span class="line">from user_ind_columns t</span><br><span class="line">where table_name in (&#x27;TABLE_NAME&#x27;)</span><br><span class="line">order by table_name, index_name, column_position;</span><br><span class="line"></span><br><span class="line">-- 以下查出的都是分区索引</span><br><span class="line">select table_name, index_name, partitioning_type, partition_count</span><br><span class="line">from user_part_indexes</span><br><span class="line">where table_name in (&#x27;TABLE_NAME&#x27;)</span><br><span class="line">order by table_name, index_name;</span><br><span class="line"></span><br><span class="line">select index_name, partition_name, status, blevel, leaf_blocks</span><br><span class="line">from user_ind_partitions</span><br><span class="line">where index_name in</span><br><span class="line">      (select index_name</span><br><span class="line">       from user_indexes</span><br><span class="line">       where table_name in (&#x27;TABLE_NAME&#x27;));</span><br></pre></td></tr></table></figure>
+
+<h3 id="开发规范-让开发者驾轻就熟"><a href="#开发规范-让开发者驾轻就熟" class="headerlink" title="开发规范 让开发者驾轻就熟"></a>开发规范 让开发者驾轻就熟</h3><h4 id="sql-编写规范"><a href="#sql-编写规范" class="headerlink" title="sql 编写规范"></a>sql 编写规范</h4><p>单条SQL长度不宜超过100行</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">-- 判断过长 sql</span><br><span class="line">select sql_id, count(*)</span><br><span class="line">from v$sqltext</span><br><span class="line">group by sql_id</span><br><span class="line">having count(*) &gt;= 100</span><br><span class="line">order by count(*) desc;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>SQL子查询嵌套不宜超过3层<br>一般来说，子查询嵌套如果超过3层，容易导致$QL语句的解析过于复杂，导致产生错误的执行计划。此外子查询嵌套过多，一般适宜分解成更简单的多条SQL。</p>
+<hr>
+<p>SQL表关联需考虑连接和限制条件的索引</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">drop table t purge;</span><br><span class="line">create table t as</span><br><span class="line">select *</span><br><span class="line">from v$sql_plan;</span><br><span class="line"></span><br><span class="line">-- 使用Nested Loops Join但是未用到索引的，比较可疑</span><br><span class="line">select *</span><br><span class="line">from t</span><br><span class="line">where sql_id not in (select sql_id</span><br><span class="line">                     from t</span><br><span class="line">                     where sql_id in (select sql_id from t where operation = &#x27;NESTED LOOPS&#x27;)</span><br><span class="line">                       and (operation like &#x27;%INDEX%&#x27; or object_owner like &#x27;%SYS%&#x27;))</span><br><span class="line">  and sql_id in (select sql_id from t where operation = &#x27;NESTED LOOPS&#x27;);</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>尽量避免HNT在代码中出现</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">-- 找出非SYS用户用HINT的所有SQL来分析</span><br><span class="line">select sql_text</span><br><span class="line">     , sql_id</span><br><span class="line">     , module</span><br><span class="line">     , t.service</span><br><span class="line">     , first_load_time</span><br><span class="line">     , last_load_time</span><br><span class="line">     , executions</span><br><span class="line">     , service</span><br><span class="line">from v$sql t</span><br><span class="line">where sql_text like &#x27;%/*+%&#x27;</span><br><span class="line">  and t.SERVICE not like &#x27;SYS$%&#x27;;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>同一SQL模块避免出现大量相似之处<br>这种SQL写法一般比较可疑，一般可以优化，比如 WITH 子句等等，所以出现后需引起注意。</p>
+<hr>
+<p>用到并行度需谨慎</p>
+<p>表和索引属性设置并行<br>找出被设置成并行属性的表和索引，并修正</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">select t.owner, t.table_name, degree</span><br><span class="line">from dba_tables t</span><br><span class="line">where t.degree &gt; &#x27;1&#x27;;</span><br><span class="line"></span><br><span class="line">select t.owner, t.table_name, index_name, degree, status</span><br><span class="line">from dba_indexes t</span><br><span class="line">where owner in (&#x27;TEST_USER&#x27;)</span><br><span class="line">  and t.degree &gt; &#x27;1&#x27;;</span><br><span class="line"></span><br><span class="line">-- 有问题就要处理，比如索引有并行，就处理如下：</span><br><span class="line">select &#x27;alter index &#x27; || t.owner || &#x27;.&#x27; || index_name || &#x27; noparallel;&#x27;</span><br><span class="line">from dba_indexes t</span><br><span class="line">where owner in (&#x27;TEST_USER&#x27;)</span><br><span class="line">  and t.degree &gt; &#x27;1&#x27;;</span><br></pre></td></tr></table></figure>
+
+<p>SQL中 HINT 的并行设置<br>属性未设并行，但是 HINT 设并行的SQL</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">select sql_text</span><br><span class="line">     , sql_id</span><br><span class="line">     , module</span><br><span class="line">     , service</span><br><span class="line">     , first_load_time</span><br><span class="line">     , last_load_time</span><br><span class="line">     , executions</span><br><span class="line">from v$sql t</span><br><span class="line">where sql_text like &#x27;%parall%&#x27;</span><br><span class="line">  and t.SERVICE not like &#x27;SYS$%&#x27;;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>尽量避免对列进行运算<br>捞取对列进行运算的SQL</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">select sql_text</span><br><span class="line">     , sql_id</span><br><span class="line">     , module</span><br><span class="line">     , t.service</span><br><span class="line">     , first_load_time</span><br><span class="line">     , last_load_time</span><br><span class="line">     , executions</span><br><span class="line">from v$sql t</span><br><span class="line">where (upper(sql_text) like &#x27;%TRUNC%&#x27;</span><br><span class="line">    or upper(sql_text) like &#x27;%TO_DATE%&#x27;</span><br><span class="line">    or upper(sql_text) like &#x27;%SUBSTR%&#x27;)</span><br><span class="line">  and t.SERVICE not like &#x27;SYS$%&#x27;;</span><br></pre></td></tr></table></figure>
+
+<h4 id="PL-SQL-编写规范"><a href="#PL-SQL-编写规范" class="headerlink" title="PL&#x2F;SQL 编写规范"></a>PL&#x2F;SQL 编写规范</h4><p>注释不少于代码的十分之一<br>注释如果过少，将容易导致开发者后续忘记代码的逻辑，尤其是对新人交接很不利，一般建议注释不少于代码的十分之一。<br>捞取注释少于代码十分之一的程序</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">select *</span><br><span class="line">from (select name</span><br><span class="line">           , t.type</span><br><span class="line">           , sum(case when text like &#x27;%--%&#x27; then 1 else 0 end) / count(*) rate</span><br><span class="line">      from user_source t</span><br><span class="line">      where type in (&#x27;package body&#x27;, &#x27;procedure&#x27;, &#x27;function&#x27;) -- 包头就算了</span><br><span class="line">      group by name, type</span><br><span class="line">      having sum(case when text like &#x27;%-%&#x27; then 1 else 0 end) / count(*) &lt;= 1 / 10)</span><br><span class="line">order by rate;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>代码必须提供最小化测试案例于注释中<br>这是一个值得推崇的好习惯，对新人接手熟悉程序尤为有用。</p>
+<hr>
+<p>绑定变量</p>
+<p>相似语句需考虑绑定变量<br>这里就不提供脚本了，在前面的“检查系统使用绑定变量的情况”中已提供代码。</p>
+<p>动态SQL最容易遗忘绑定变量<br>一般来说，动态SQL未用绑定变量的情况多半是因为未使用 USING 关键字，所以可用如下脚本来搜索可疑的未用绑定变量的动态SQL。<br>动态SQL未用 USING 有可能未用绑定变量</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">select *</span><br><span class="line">from user_source</span><br><span class="line">where name in</span><br><span class="line">      (select name</span><br><span class="line">       from user_source</span><br><span class="line">       where name in (select name from user_source where UPPER(text) like &#x27;%EXECUTE IMMEDIATE%&#x27;))</span><br><span class="line">  and name in</span><br><span class="line">      (select name from user_source where name in (select name from user_source where UPPER(text) like &#x27;%||%&#x27;))</span><br><span class="line">  and name not in</span><br><span class="line">      (select name from user_source where name in (select name from user_source where upper(text) not like &#x27;%USING%&#x27;));</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>尽量使用批量提交<br>未使用批量提交，一般都是因为将 commit 写到了循环内。以下语句可查出单个 session 提交次数超过10000次的情况，这么多次很可疑，应该捞取出来进行分析。<br>查询提交次数过多的 SESSION</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">select t1.sid, t1.value, t2.name</span><br><span class="line">from v$sesstat t1</span><br><span class="line">   , v$statname t2</span><br><span class="line">--where t2.name like &#x27;%commit%&#x27;</span><br><span class="line">where t2.name like &#x27;%user commits%&#x27; --可以只选user commits,其他系统级的先不关心</span><br><span class="line">  and t1.STATISTIC# = t2.STATISTIC#</span><br><span class="line">  and value &gt; 10000</span><br><span class="line">order by value desc;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>同一过程包中出现重复逻辑块需封装，统一调用<br>这是封装的概念，否则修改统一逻辑，代码可能需要修改多处，不利于维护。</p>
+<hr>
+<p>生产环境尽量使用包来封装过程和函数<br>一般来说，只要是正式的产品，就必须使用包。<br>查询未用包的程序逻辑</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">select distinct name, type</span><br><span class="line">from user_source</span><br><span class="line">where type in (&#x27;PROCEDURE&#x27;, &#x27;FUNCTION&#x27;)</span><br><span class="line">order by type;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>动态SQL编写需设法保存真实SQL<br>动态SQL编写最大的麻烦在于调试困难，因为语句是拼装组合而成的，无论是出现该语句的语法错误还是性能问题，都无法被有效跟踪到。<br>此时考虑将拼装成的$QL记录在某张表里，将会给调试跟踪带来极大的方便。</p>
+<h3 id="设计规范-助设计者运筹帷幄"><a href="#设计规范-助设计者运筹帷幄" class="headerlink" title="设计规范 助设计者运筹帷幄"></a>设计规范 助设计者运筹帷幄</h3><h4 id="表规范"><a href="#表规范" class="headerlink" title="表规范"></a>表规范</h4><p>范式</p>
+<ol>
+<li>绝大部分场景要遵循第三范式。减少数据冗余</li>
+<li>适当场景考虑反范式。为提高性能</li>
+</ol>
+<hr>
+<p>不同类表的要点差异</p>
+<ol>
+<li>小表（参数配置表）<ul>
+<li>一般需要有主键。</li>
+<li>一般需要有约束。</li>
+<li>尽量规划在同一表空间。</li>
+</ul>
+</li>
+<li>大表（业务表及日志表）<ul>
+<li>尺寸超过10GB需考虑建分区</li>
+<li>分区表中分区个数超过100要注意</li>
+<li>大表尽量要有明确的数据保留策略<ul>
+<li>体现在设计文档。</li>
+<li>实现步骤体现在维护脚本中。</li>
+<li>体现在表注释中。</li>
+</ul>
+</li>
+<li>大表坚决不允许有触发器</li>
+</ul>
+</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line">-- 表大小超过10GB未建分区的</span><br><span class="line">select owner</span><br><span class="line">     , segment_name</span><br><span class="line">     , segment_type</span><br><span class="line">     , sum(bytes) / 1024 / 1024 / 1024 object_size</span><br><span class="line">from dba_segments</span><br><span class="line">WHERE segment_type = &#x27;TABLE&#x27; -- 此处说明是普通表，不是分区表，如果是分区表，类型是TABLE PARTITION</span><br><span class="line">group by owner, segment_name, segment_type</span><br><span class="line">having sum(bytes) / 1024 / 1024 / 1024 &gt;= 10</span><br><span class="line">order by object_size desc;</span><br><span class="line"></span><br><span class="line">-- 分区个数超过100个的表</span><br><span class="line">select table_owner, table_name, count(*) cnt</span><br><span class="line">from dba_tab_partitions</span><br><span class="line">WHERE table_owner in (&#x27;TEST_USER&#x27;)</span><br><span class="line">having count(*) &gt;= 100</span><br><span class="line">group by table_owner, table_name</span><br><span class="line">order by cnt desc;</span><br><span class="line"></span><br><span class="line">-- 表大小超过10GB，有时间字段，可以考虑在该列上建立分区</span><br><span class="line">-- 超过10GB的大表没有时间字段</span><br><span class="line">select T1.*, t2.column_name, t2.data_type</span><br><span class="line">from (select segment_name</span><br><span class="line">           , segment_type</span><br><span class="line">           , sum(bytes) / 1024 / 1024 / 1024 object_size</span><br><span class="line">      from user_segments</span><br><span class="line">      WHERE segment_type = &#x27;TABLE&#x27; --此处说明是普通表，不是分区表，如果是分区表，类型是TABLE PARTITION</span><br><span class="line">      group by segment_name, segment_type</span><br><span class="line">      having sum(bytes) / 1024 / 1024 / 1024 &gt;= 0.01</span><br><span class="line">      order by object_size desc) t1</span><br><span class="line">   , user_tab_columns t2</span><br><span class="line">where t1.segment_name = t2.table_name(+)</span><br><span class="line">  and t2.DATA_TYPE = &#x27;DATE&#x27;</span><br><span class="line">-- 来说明这个大表有时间列</span><br><span class="line"></span><br><span class="line">-- 上述语句和下面的语句进行观察比较 下面只是过滤了大小</span><br><span class="line">select segment_name</span><br><span class="line">     , segment_type</span><br><span class="line">     , sum(bytes) / 1024 / 1024 / 1024 object_size</span><br><span class="line">from user_segments</span><br><span class="line">WHERE segment_type = &#x27;TABLE&#x27; -- 此处说明是普通表，不是分区表，如果是分区表，类型是TABLE PARTITION</span><br><span class="line">group by segment_name, segment_type</span><br><span class="line">having sum(bytes) / 1024 / 1024 / 1024 &gt;= 0.01</span><br><span class="line">order by object_size desc;</span><br><span class="line"></span><br><span class="line">-- 找出有建触发器的表，同时观察该表多大</span><br><span class="line">select trigger_name, table_name, tab_size</span><br><span class="line">from user_triggers t1</span><br><span class="line">   , (select segment_name, sum(bytes / 1024 / 1024 / 1024) tab_size</span><br><span class="line">      from user_segments t</span><br><span class="line">      where t.segment_type = &#x27;TABLE&#x27;</span><br><span class="line">      group by segment_name) t2</span><br><span class="line">where t1.TABLE_NAME = t2.segment_name;</span><br></pre></td></tr></table></figure>
+
+<p>注：<br>触发器是一种存储在数据库中的程序，它定义了一组SQL语句，当特定的事件发生时自动执行这组SQL语句。<br>这些事件通常是数据操作语言（DML）事件，如INSERT、UPDATE或DELETE操作。触发器可以用来强制执行复杂的业务规则或者维护数据完整性，例如级联更新或删除相关的行，或者记录审计日志等。</p>
+<p>为什么大表不要有触发器？</p>
+<ol>
+<li><strong>性能影响</strong>：<ul>
+<li>当对大表进行大量的DML操作时，触发器会在每个受影响的行上被执行，这会导致额外的CPU和I&#x2F;O负载。如果触发器内含有复杂的逻辑或者需要访问其他表，则性能影响会更加严重。</li>
+<li>在高并发环境下，多个事务同时尝试修改大表中的数据，触发器的执行可能导致更多的锁等待，从而增加事务处理的时间。</li>
+</ul>
+</li>
+<li><strong>可扩展性问题</strong>：<ul>
+<li>随着表的增长，触发器的开销也会变得越来越显著。对于大规模的数据修改操作，触发器可能导致长时间的锁定，进而影响整个系统的响应时间和吞吐量。</li>
+</ul>
+</li>
+<li><strong>维护复杂性</strong>：<ul>
+<li>触发器使得数据库逻辑变得复杂，特别是在涉及多表或多步骤操作的情况下。维护触发器代码的正确性和效率也变得更加困难。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<p>表结构</p>
+<ol>
+<li>注释<ul>
+<li>表必须要有注释</li>
+<li>列尽量要有注释</li>
+</ul>
+</li>
+<li>列类型<ul>
+<li>避免使用LONG字段。可以说，现在的应用中，LONG字段几乎是有百害而无一利，所以尽量要杜绝在设计中出现LONG,一般考虑CLOB字段来替代。</li>
+<li>避免用CHAR字段。CHAR字段的应用场合非常少，一般现在都考虑用VARCHAR2来替代。</li>
+<li>列类型和值尽量匹配<ul>
+<li>时间取值放入 date 列。</li>
+<li>数字取值放入 number 列。</li>
+<li>字符串取值放入 varchar2 列。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">-- 查询那些表未做注释</span><br><span class="line">select TABLE_NAME, T.TABLE_TYPE</span><br><span class="line">from USER_TAB_COMMENTS T</span><br><span class="line">where table_name not like &#x27;BIN$%&#x27;</span><br><span class="line">  and comments is null</span><br><span class="line">order by table_name;</span><br><span class="line"></span><br><span class="line">-- 查询哪些列未做注释（仅供参考)</span><br><span class="line">select TABLE_NAME, COLUMN_NAME</span><br><span class="line">from USER_COL_COMMENTS</span><br><span class="line">where table_name not like &#x27;BIN$%&#x27;</span><br><span class="line">  and comments is null</span><br><span class="line">order by table_name;</span><br><span class="line"></span><br><span class="line">-- 查询哪些列是LONG类型</span><br><span class="line">SELECT TABLE_NAME, COLUMN_NAME, DATA_TYPE</span><br><span class="line">FROM user_tab_columns</span><br><span class="line">WHERE DATA_TYPE = &#x27;LONG&#x27;</span><br><span class="line">ORDER BY 1, 2;</span><br><span class="line"></span><br><span class="line">-- 查询哪些列是CHAR类型</span><br><span class="line">SELECT TABLE_NAME, COLUMN_NAME, DATA_TYPE</span><br><span class="line">FROM user_tab_columns</span><br><span class="line">WHERE DATA_TYPE = &#x27;CHAR&#x27;</span><br><span class="line">ORDER BY 1, 2;</span><br></pre></td></tr></table></figure>
+
+<h4 id="索引规范"><a href="#索引规范" class="headerlink" title="索引规范"></a>索引规范</h4><p>用不上分区条件的局部索引不宜建<br>分区表建了分区索引后，如果在查询应用中无法用到这个分区索引列的条件，索引读将可能遍历所有的分区。<br>如果有100个分区，相当于遍历了100个小索引，将会严重影响性能，此时需要慎重考虑，判断是否需要修改为全局索引。</p>
+<hr>
+<p>函数索引大多用于列运算，一般需要避免<br>从实际应用情况来分析，应用函数索引大多是因为设计阶段考虑步骤，比如 trunc(时间列) 的写法，往往可以轻易转换成去掉 trunc<br>的写法，所以需要捞取出来验证。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">-- 查询哪些索引是函数索引</span><br><span class="line">select t.index_name</span><br><span class="line">     , t.index_type</span><br><span class="line">     , t.status</span><br><span class="line">     , t.blevel</span><br><span class="line">     , t.leaf_blocks</span><br><span class="line">from user_indexes t</span><br><span class="line">where index_type in (&#x27;FUNCTION-BASED NORMAL&#x27;);</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>位图索引遇到更新将是噩梦，需谨慎设计</p>
+<ol>
+<li>位图索引不适合用在表频繁更新的场合。</li>
+<li>位图索引不适合在所在列重复度很低的场合。</li>
+</ol>
+<p>因为位图索引的应用比较特殊，适用场合比较少，因此有必要捞取出系统中的位图索引，进行核对检测。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">-- 查询哪些索引是位图索引</span><br><span class="line">select t.index_name</span><br><span class="line">     , t.index_type</span><br><span class="line">     , t.status</span><br><span class="line">     , t.blevel</span><br><span class="line">     , t.leaf_blocks</span><br><span class="line">from user_indexes t</span><br><span class="line">where index_type in (&#x27;BITMAP&#x27;);</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>外键未建索引将引发死锁及影响表连接性能<br>外键未建索引，将有可能导致两个严重的问题：一是<strong>更新相关的表产生死锁</strong>；二是<strong>两表关联查询时性能低下</strong>。<br>因此设计中需要谨慎考虑。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">-- 查询外键未建索引的表有哪些</span><br><span class="line">select table_name</span><br><span class="line">     , constraint_name</span><br><span class="line">     , cname1 || nvl2(cname2, &#x27;,&#x27; || cname2, null) ||</span><br><span class="line">       nvl2(cname3, &#x27;,&#x27; || cname3, null) ||</span><br><span class="line">       nvl2(cname4, &#x27;,&#x27; || cname4, null) ||</span><br><span class="line">       nvl2(cname5, &#x27;,&#x27; || cname5, null) ||</span><br><span class="line">       nvl2(cname6, &#x27;,&#x27; || cname6, null) ||</span><br><span class="line">       nvl2(cname7, &#x27;,&#x27; || cname7, null) ||</span><br><span class="line">       nvl2(cname8, &#x27;,&#x27; || cname8, null) columns</span><br><span class="line">from (select b.table_name</span><br><span class="line">           , b.constraint_name</span><br><span class="line">           , max(decode(position, 1, column_name, null)) cname1</span><br><span class="line">           , max(decode(position, 2, column_name, null)) cname2</span><br><span class="line">           , max(decode(position, 3, column_name, null)) cname3</span><br><span class="line">           , max(decode(position, 4, column_name, null)) cname4</span><br><span class="line">           , max(decode(position, 5, column_name, null)) cname5</span><br><span class="line">           , max(decode(position, 6, column_name, null)) cname6</span><br><span class="line">           , max(decode(position, 7, column_name, null)) cname7</span><br><span class="line">           , max(decode(position, 8, column_name, null)) cname8</span><br><span class="line">           , count(*)                                    col_cnt</span><br><span class="line">      from (select substr(table_name, 1, 30)      table_name</span><br><span class="line">                 , substr(constraint_name, 1, 30) constraint_name</span><br><span class="line">                 , substr(column_name, 1, 30)     column_name</span><br><span class="line">                 , position</span><br><span class="line">            from user_cons_columns) a</span><br><span class="line">         , user_constraints b</span><br><span class="line">      where a.constraint_name = b.constraint_name</span><br><span class="line">        and b.constraint_type = &#x27;R&#x27;</span><br><span class="line">      group by b.table_name, b.constraint_name) cons</span><br><span class="line">where col_cnt &gt; ALL</span><br><span class="line">      (select count(*)</span><br><span class="line">       from user_ind_columns i</span><br><span class="line">       where i.table_name = cons.table_name</span><br><span class="line">         and i.column_name in (cname1, cname2, cname3, cname4, cname5,</span><br><span class="line">                               cname6, cname7, cname8)</span><br><span class="line">         and i.column_position &lt;= cons.col_cnt</span><br><span class="line">       group by i.index_name);</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>建联合索引需谨慎</p>
+<p>要结合单列查询考虑，决定前缀<br>如：既可以建立col1,col2的联合索引，又可以建立col2,col1的联合索引，此时如果存在col1列单独查询较多的情况下，一般倾向于建立col1,col2的联合索引。</p>
+<p>范围查询影响组合索引<br>组合查询中，如果有等值条件和范围条件组合的情况，等值条件在前，性能更高。<br>如：where col1&#x3D;2 and col2&gt;&#x3D;100 and col2&lt;&#x3D;120,此时是col1,col2的组合索引性能高过col2,col1的组合索引。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">-- 将有不等值查询的SQL捞取出来分析</span><br><span class="line">select sql_text</span><br><span class="line">     , sql_id</span><br><span class="line">     , service</span><br><span class="line">     , module</span><br><span class="line">     , t.first_load_time</span><br><span class="line">     , t.last_load_time</span><br><span class="line">from v$sql t</span><br><span class="line">where (sql_text like &#x27;%&gt;%&#x27; or sql_text like &#x27;%&lt;%&#x27; or sql_text like &#x27;%&lt;&gt;%&#x27;)</span><br><span class="line">  and sql_text not like &#x27;%=&gt;%&#x27;</span><br><span class="line">  and service not like &#x27;SYS$%&#x27;;</span><br></pre></td></tr></table></figure>
+
+<p>需考虑回表因素<br>一般情况下，如果建索引可以避免回表（在索引中即可完成检测），也可考虑对多列建组合索引，不过组合索引列不宜超过4个。</p>
+<p>超过4个字段的联合索引需注意</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">-- 捞取超过4个字段组合的联合索引</span><br><span class="line">select table_name, index_name, count(*)</span><br><span class="line">from user_ind_columns</span><br><span class="line">group by table_name, index_name</span><br><span class="line">having count(*) &gt;= 4</span><br><span class="line">order by count(*) desc;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>单表索引个数需控制</p>
+<p>索引个数超过5个以上的<br>超过5个以上的索引，在表的记录很大时，将会极大地影响该表的更新，因此在表中建索引时需要谨慎考虑。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">-- 单表的索引个数超过5个需注意</span><br><span class="line">select table_name, count(*)</span><br><span class="line">from user_indexes</span><br><span class="line">group by table_name</span><br><span class="line">having count(*) &gt;= 5</span><br><span class="line">order by count(*) desc;</span><br></pre></td></tr></table></figure>
+
+<p>建后2个月内从未使用过的索引<br>一般来说，在2个月内从未被用到的索引是多余的索引，可以考虑删除。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">-- 跟踪索引的使用情况，控制索引的数量</span><br><span class="line">select &#x27;alter index &#x27; || index_name || &#x27; monitoring usage;&#x27;</span><br><span class="line">from user_indexes;</span><br><span class="line"></span><br><span class="line">-- 然后观察：</span><br><span class="line">select *</span><br><span class="line">from v$object_usage;</span><br><span class="line"></span><br><span class="line">-- 停止对索引的监控，观察v$object_usage状态变化（以某索引IDX_OBJECT_ID为例）</span><br><span class="line">alter index IDX_OBJECT_ID nomonitoring usage;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>单表无任何索引需重视<br>单表无任何索引的情况一般比较少见，可以捞取出来，再结合SQL应用进行分析，观察该表的大小以及是否有时间字段及编码字段这样的适宜建索引的列。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">-- 查询无任何索引的表</span><br><span class="line">select table_name</span><br><span class="line">from user_tables</span><br><span class="line">where table_name not in (select table_name from user_indexes);</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>需注意索引的失效情况</p>
+<ol>
+<li>对表进行move操作，会导致索引失效，操作需考忠索引的重建。</li>
+<li>对分区表进行系列操作，如 split、drop、truncate 分区时，容易导致分区表的全局索引失效，需要考虑增加<code>update global indexes</code><br>的关键字进行操作，或者重建索引。</li>
+<li>分区表SPLIT的时候，如果MAX区中已经有记录了，这个时候SPLIT就会导致有记录的新增分区的局部索引失效。</li>
+</ol>
+<p>普通表及分区表的全局索引失效</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">-- 查询失效的普通索引</span><br><span class="line">select index_name, table_name, tablespace_name, index_type</span><br><span class="line">from user_indexes</span><br><span class="line">where status = &#x27;UNUSABLE&#x27;;</span><br></pre></td></tr></table></figure>
+
+<p>分区表局部索引失效</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">-- 查询失效的分区局部索引</span><br><span class="line">select t1.index_name</span><br><span class="line">     , t1.partition_name</span><br><span class="line">     , t1.global_stats</span><br><span class="line">     , t2.table_name</span><br><span class="line">     , t2.table_type</span><br><span class="line">from user_ind_partitions t1</span><br><span class="line">   , user_indexes t2</span><br><span class="line">where t2.index_name = t1.index_name</span><br><span class="line">and t1.status =&#x27;UNUSABLE&#x27;;</span><br></pre></td></tr></table></figure>
+
+<h4 id="环境参数规范"><a href="#环境参数规范" class="headerlink" title="环境参数规范"></a>环境参数规范</h4><p>数据库参数</p>
+<p>SGA及PGA参数</p>
+<p>OLTP应用是主机内存的80%分配数据库，其中 SGA80%,PGA20%。<br>OLAP应用是主机内存的80%分配数据库，其中 SGA50%,PGA50%。<br>如OLTP应用：主机内存30GB,SGA即是 30 X 0.8 X 0.8 &#x3D; 20GB 左右。<br>不过这里还是要注意：并没有什么黄金参数，这些还只能是参考。</p>
+<p>PROCESS&#x2F;SESSION</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">-- 默认连接数是150，这对大多数应用都无法满足，大型应用一般不少于1000个。</span><br><span class="line">show parameter process</span><br><span class="line">show parameter session</span><br><span class="line"></span><br><span class="line">select count(*)</span><br><span class="line">from v$process;</span><br><span class="line"></span><br><span class="line">select count(*)</span><br><span class="line">from v$session;</span><br></pre></td></tr></table></figure>
+
+
+<p>OPEN_CURSOR游标参数</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">-- 默认open_cursors是300，大型应用需设置1000以上，原则上不超过PROCESS设置。</span><br><span class="line">show parameter open_cursor</span><br></pre></td></tr></table></figure>
+
+<p>日志参数<br>一般来说，Oracle默认的日志参数是3组，大小为500MB,在实际较大的生产应用中往往不够，需要至少考虑在5组以上，大小在1GB以上。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">-- 生产系统大多需要开启归档。</span><br><span class="line">archive log list</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>表空间规划</p>
+<ol>
+<li>回滚表空间<ul>
+<li>自动管理。</li>
+<li>避免自动扩展。</li>
+<li>尽可能规划大一些。</li>
+</ul>
+</li>
+<li>临时表空间<ul>
+<li>避免自动扩展。</li>
+<li>尽可能大。</li>
+<li>尽可能使用临时表空间组。</li>
+</ul>
+</li>
+<li>业务表空间<ul>
+<li>控制个数，不超过6个为宜。</li>
+<li>尽量避免自动扩展，超阀值由监控来检查。</li>
+<li>根据自己的业务，固定表空间名。</li>
+<li>表空间需良好分类（参数配置表，业务数据表，历史记录表）。</li>
+<li>表空间需合理命名。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<p>RAC系统</p>
+<ol>
+<li>尽量采用BALANCE模式，保证两节点压力大致相当。</li>
+<li>可适当考虑不同类型的业务部署在不同的节点上，避免RAC的CACHE争用。</li>
+<li>尽量考虑不同的节点使用不同的临时表空间。</li>
+</ol>
+<h4 id="命名规范"><a href="#命名规范" class="headerlink" title="命名规范"></a>命名规范</h4><p>只是示范，一般都有自己的命名方式，但团队要有统一的规范。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br></pre></td><td class="code"><pre><span class="line">-- 查询表的前缀是否以t_开头</span><br><span class="line">select*</span><br><span class="line">from user_tables</span><br><span class="line">where substr(table_name, 1, 2) &lt;&gt; &#x27;T_&#x27;;</span><br><span class="line"></span><br><span class="line">-- 查询视图的前缀是否以v_开头</span><br><span class="line">select view_name</span><br><span class="line">from user_views</span><br><span class="line">where substr(view_name, 1, 2) &lt;&gt; &#x27;V_&#x27;;</span><br><span class="line"></span><br><span class="line">-- 查询同义词的前缀是否以s_开头</span><br><span class="line">select synonym_name, table_owner, table_name</span><br><span class="line">from user_synonyms</span><br><span class="line">where substr(synonym_name, 1, 2) &lt;&gt; &#x27;S_&#x27;;</span><br><span class="line"></span><br><span class="line">-- 查询簇表的前缀是否以c_开头</span><br><span class="line">select t.cluster_name, t.cluster_type</span><br><span class="line">from user_clusters t</span><br><span class="line">where substr(cluster_name, 1, 2) &lt;&gt; &#x27;C_&#x27;;</span><br><span class="line"></span><br><span class="line">-- 查询序列的前缀是否以seq开头或结尾</span><br><span class="line">select sequence_name, cache_size</span><br><span class="line">from user_sequences</span><br><span class="line">where sequence_name not like &#x27;%SEQ%&#x27;;</span><br><span class="line"></span><br><span class="line">-- 查询存储过程是否以p_开头</span><br><span class="line">select object_name, procedure_name</span><br><span class="line">from user_procedures</span><br><span class="line">where object_type = &#x27;PROCEDURE&#x27;</span><br><span class="line">  and substr(object_name, 1, 2) &lt;&gt; &#x27;P_&#x27;;</span><br><span class="line"></span><br><span class="line">-- 查询函数是否以f_开头</span><br><span class="line">select object_name, procedure_name</span><br><span class="line">from user_procedures</span><br><span class="line">where object_type = &#x27;FUNCTION&#x27;</span><br><span class="line">  and substr(object_name, 1, 2) &lt;&gt; &#x27;F_&#x27;;</span><br><span class="line"></span><br><span class="line">-- 查询包是否以pkg开头</span><br><span class="line">select object_name, procedure_name</span><br><span class="line">from user_procedures</span><br><span class="line">where object_type = &#x27;PACKAGE&#x27;</span><br><span class="line">  and substr(object_name, 1, 4) &lt;&gt; &#x27;PKG&#x27;;</span><br><span class="line"></span><br><span class="line">-- 查询类是否以typ开头</span><br><span class="line">select object_name, procedure_name</span><br><span class="line">from user_procedures</span><br><span class="line">where object_type = &#x27;TYPE&#x27;</span><br><span class="line">  and substr(object_name, 1, 4) &lt;&gt; &#x27;TYP&#x27;;</span><br><span class="line"></span><br><span class="line">-- 查询主键是否以pk_开头</span><br><span class="line">select constraint_name, table_name</span><br><span class="line">from user_constraints</span><br><span class="line">where constraint_type = &#x27;p&#x27;</span><br><span class="line">  and substr(constraint_name, 1, 3) &lt;&gt; &#x27;PK_&#x27;</span><br><span class="line">  and constraint_name not like &#x27;BINS%&#x27;;</span><br><span class="line"></span><br><span class="line">-- 查询外键是否以fk_开头</span><br><span class="line">select constraint_name, table_name</span><br><span class="line">from user_constraints</span><br><span class="line">where constraint_type = &#x27;R&#x27;</span><br><span class="line">  and substr(constraint_name, 1, 3) &lt;&gt; &#x27;FK_&#x27;</span><br><span class="line">  and constraint_name not like &#x27;BINS%&#x27;;</span><br><span class="line"></span><br><span class="line">-- 查询唯一索引是否以ux_开头</span><br><span class="line">select constraint_name, table_name</span><br><span class="line">from user_constraints</span><br><span class="line">where constraint_type = &#x27;U&#x27;</span><br><span class="line">  and substr(constraint_name, 1, 3) &lt;&gt; &#x27;UX_&#x27;</span><br><span class="line">  and table_name not like &#x27;BINS%&#x27;;</span><br><span class="line"></span><br><span class="line">-- 查询普通索引是否以idx_开头</span><br><span class="line">select index_name, table_name</span><br><span class="line">from user_indexes</span><br><span class="line">where index_type = &#x27;NORMAL&#x27;</span><br><span class="line">  and uniqueness = &#x27;NONUNIQUE&#x27;</span><br><span class="line">  and substr(index_name, 1, 4) &lt;&gt; &#x27;IDX_&#x27;</span><br><span class="line">  and table_name not like &#x27;BINS%&#x27;;</span><br><span class="line"></span><br><span class="line">-- 查询位图索引是否以bx_开头</span><br><span class="line">select index_name, table_name</span><br><span class="line">from user_indexes</span><br><span class="line">where index_type LIKE &#x27;%BIT%&#x27;</span><br><span class="line">  and substr(index_name, 1, 3) &lt;&gt; &#x27;BX_&#x27;</span><br><span class="line">  and table_name not like &#x27;BINS%&#x27;;</span><br><span class="line"></span><br><span class="line">-- 查询函数索引是否以fx_开头</span><br><span class="line">select index_name, table_name</span><br><span class="line">from user_indexes</span><br><span class="line">where index_type = &#x27;FUNCTION-BASED NORMAL&#x27;</span><br><span class="line">  and substr(index_name, 1, 3) &lt;&gt; &#x27;FX_&#x27;</span><br><span class="line">  and table_name not like &#x27;BINS%&#x27;;</span><br></pre></td></tr></table></figure>
+
+<h3 id="END"><a href="#END" class="headerlink" title="END"></a>END</h3><p>终于是结束了，算是第一本静下心来读完的技术相关的书。<br>从git提交记录也可以看出，读了快两个月，中间有半个多月的空窗。是有点看不到下去了，是最艰难的索引章节，一章就占了全书的四分之一还多。<br>前面体系结构、逻辑结构里的sql还能基本都在自己搭的测试环境中验证下，但到索引很多都没有去验证，实在是太多了。算是个偷懒的地方吧，不过最后还是读完了。</p>
+<p>这本书的作者 梁敬彬、梁敬弘 后面还写了一本 《收获，不止SQL优化》，等缓一缓，后面肯定会继续读的。<br>先整点非技术相关的书，或者非数据库相关的书调节一下。<br>就这样，Bye</p>
+
+                </div>
+
+                
+                        
+<div class="post-copyright-info-container border-box">
+    <div class="copyright-info-content border-box">
+        <div class="copyright-info-top border-box">
+            <div class="copyright-post-title border-box text-ellipsis">
+                《收获，不止Oracle》读书笔记下篇
+            </div>
+
+            <div class="copyright-post-link border-box text-ellipsis">
+                读书笔记/读书笔记/《收获，不止Oracle》读书笔记下篇/
+            </div>
+        </div>
+
+        <div class="copyright-info-bottom border-box">
+            <div class="copyright-post-author bottom-item">
+                <div class="type">
+                    作者
+                </div>
+                <div class="content">咕咕咕</div>
+            </div>
+
+            <div class="post-time bottom-item">
+                <div class="type">
+                    发布于
+                </div>
+                <div class="content">2024-08-29 18:09</div>
+            </div>
+
+
+            <div class="post-license bottom-item">
+                <div class="type">
+                    许可
+                </div>
+                <div class="content tooltip" data-tooltip-content="CC BY-NC-SA 4.0">
+                    <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hans">
+                        <i class="fa-brands fa-creative-commons"></i>
+                        <i class="fa-brands fa-creative-commons-by"></i>
+                        <i class="fa-brands fa-creative-commons-nc"></i>
+                        <i class="fa-brands fa-creative-commons-sa"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <i class="copyright-bg fa-solid fa-copyright"></i>
+    </div>
+    <div class="copy-copyright-info flex-center tooltip" data-tooltip-content="复制版权信息" data-tooltip-offset-y="-2px">
+        <i class="fa-solid fa-copy"></i>
+    </div>
+</div>
+
+                
+
+                <div class="post-bottom-tags-and-share border-box">
+                    <div>
+                        
+                            <ul class="post-tags-box border-box">
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+                                    </li>
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/%E3%80%8A%E6%94%B6%E8%8E%B7%EF%BC%8C%E4%B8%8D%E6%AD%A2Oracle%E3%80%8B/">《收获，不止Oracle》</a>
+                                    </li>
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/Oracle/">Oracle</a>
+                                    </li>
+                                
+                            </ul>
+                        
+                    </div>
+                    <div>
+                        
+                            <div class="post-share-container border-box">
+    <ul class="share-list-wrap border-box">
+        <li class="qq share-item border-box flex-center tooltip"
+            data-tooltip-content="分享到 QQ"
+        >
+            <i class="fa-brands fa-qq"></i>
+        </li>
+        <li class="wechat share-item border-box flex-center tooltip tooltip-img"
+            data-tooltip-content="分享到微信"
+            data-tooltip-img-tip="微信扫一扫"
+            data-tooltip-img-style="background-color: #fff; top: -10px; padding: 0.6rem 0.6rem 0.1rem 0.6rem;"
+        >
+            <i class="fa-brands fa-weixin"></i>
+        </li>
+        <li class="weibo share-item border-box flex-center tooltip"
+            data-tooltip-content="分享到微博"
+        >
+            <i class="fa-brands fa-weibo"></i>
+        </li>
+    </ul>
+</div>
+
+                        
+                    </div>
+                </div>
+
+                
+                    <div class="reward-author-container border-box flex-center">
+    <div class="reward-btn keep-button border-box flex-center tooltip tooltip-img"
+            data-tooltip-content="谢谢你请我喝可乐~"
+            data-tooltip-img-url="/images/thanks.png"
+            data-tooltip-img-trigger="click"
+            data-tooltip-img-style="top: -8px;"
+    >
+        <i class="fa-solid fa-hand-holding-heart"></i>
+    </div>
+</div>
+
+                
+
+                
+                    <div class="post-nav border-box">
+                        
+                            <div class="prev-post">
+                                <a class="prev"
+                                   rel="prev"
+                                   href="/%E7%BC%96%E7%A8%8B%E8%AE%B0%E5%BD%95/%E7%BC%96%E7%A8%8B%E8%AE%B0%E5%BD%95/%E8%AE%A1%E7%AE%97%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%9B%B8%E4%BC%BC%E5%BA%A6/"
+                                   title="计算字符串相似度"
+                                >
+                                    <span class="left arrow-icon flex-center">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </span>
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">计算字符串相似度</span>
+                                        <span class="post-nav-item">上一篇</span>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                        
+                            <div class="next-post">
+                                <a class="next"
+                                   rel="next"
+                                   href="/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E3%80%8A%E6%94%B6%E8%8E%B7%EF%BC%8C%E4%B8%8D%E6%AD%A2Oracle%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0%E4%B8%8A%E7%AF%87-%E8%A1%A8%E8%BF%9E%E6%8E%A5/"
+                                   title="《收获，不止Oracle》读书笔记上篇-表连接"
+                                >
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">《收获，不止Oracle》读书笔记上篇-表连接</span>
+                                        <span class="post-nav-item">下一篇</span>
+                                    </span>
+                                    <span class="right arrow-icon flex-center">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                    </div>
+                
+
+                
+                    
+
+
+    <div class="comments-container border-box">
+        <div id="comments-anchor" class="comment-area-title border-box">
+            <i class="fas fa-comments"></i>&nbsp;评论
+        </div>
+        <div class="comment-plugin-fail border-box">
+    <span class="fail-tip">评论插件加载失败</span>
+    <button class="reload keep-button">点击重新加载</button>
+</div>
+<div class="comment-plugin-loading flex-center border-box">
+    <i class="loading-icon fa-solid fa-spinner fa-spin"></i>
+    <span class="load-tip">正在加载评论插件</span>
+</div>
+<script data-pjax>
+  window.KeepCommentPlugin = {}
+  window.KeepCommentPlugin.hideLoading = () => {
+    const cplDom = document.querySelector('.comments-container .comment-plugin-loading')
+    cplDom.style.display = 'none'
+  }
+  window.KeepCommentPlugin.loadFailHandle = () => {
+    window.KeepCommentPlugin.hideLoading()
+    const cpfDom = document.querySelector('.comments-container .comment-plugin-fail')
+    cpfDom.style.display = 'flex'
+    cpfDom.querySelector('.reload').addEventListener('click', () => {
+      window.location.reload()
+    })
+  }
+</script>
+
+        
+            
+
+    <div class="giscus-comments-container">
+        <div class="giscus" id="giscus"></div>
+        <script data-pjax
+                onerror="window.KeepCommentPlugin.loadFailHandle()"
+        >
+          if (!window.KeepCommentPlugin?.getGiscusTheme) {
+            window.KeepCommentPlugin.getGiscusTheme = () => {
+              return document.body.classList.contains('dark-mode') ? 'dark_dimmed' : 'light_tritanopia'
+            }
+          }
+
+          if (!window.KeepCommentPlugin?.changeGiscusTheme) {
+            window.KeepCommentPlugin.changeGiscusTheme = () => {
+              const iframe = document.querySelector('iframe.giscus-frame')
+              iframe && iframe.contentWindow.postMessage({
+                giscus: {
+                  setConfig: {
+                    theme: window.KeepCommentPlugin.getGiscusTheme()
+                  }
+                }
+              }, 'https://giscus.app')
+            }
+          }
+
+          if (!window.KeepCommentPlugin?.initGiscus) {
+            window.KeepCommentPlugin.initGiscus = () => {
+              const script = document.createElement('script')
+              script.async = true
+              script.src = 'https://giscus.app/client.js'
+              script.setAttribute('data-repo', 'Cooooing/Cooooing.github.io')
+              script.setAttribute('data-repo-id', 'R_kgDOHQal_w')
+              script.setAttribute('data-category', 'Announcements')
+              script.setAttribute('data-category-id', 'DIC_kwDOHQal_84CjZo6')
+              script.setAttribute('data-reactions-enabled', '1')
+              script.setAttribute('data-lang', 'zh-CN')
+              script.setAttribute('data-mapping', 'pathname')
+              script.setAttribute('data-strict', '0')
+              script.setAttribute('data-emit-metadata', '0')
+              script.setAttribute('data-input-position', 'top')
+              script.setAttribute('crossorigin', 'anonymous')
+              script.setAttribute('loading', 'lazy')
+              script.setAttribute('data-theme', window.KeepCommentPlugin.getGiscusTheme())
+              document.querySelector('.giscus-comments-container').appendChild(script)
+              script.onerror = () => {
+                window.KeepCommentPlugin.loadFailHandle()
+              }
+              script.onload = () => {
+                window.KeepCommentPlugin.hideLoading()
+              }
+              const toggleThemeBtn = document.querySelector('.tool-toggle-theme-mode')
+              toggleThemeBtn && toggleThemeBtn.addEventListener('click', () => {
+                window.KeepCommentPlugin.changeGiscusTheme()
+              })
+            }
+          }
+
+          if ('true' === "true") {
+            setTimeout(() => {
+              window.KeepCommentPlugin.initGiscus()
+            }, 1000)
+          } else {
+            window.addEventListener("DOMContentLoaded", window.KeepCommentPlugin.initGiscus)
+          }
+        </script>
+    </div>
+
+
+        
+    </div>
+
+
+
+
+
+                
+            </div>
+        </div>
+
+        
+            <div class="pc-post-toc left-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B5%81%E7%A8%8B%E8%A7%84%E8%8C%83-%E4%BF%9D%E9%9A%9C%E9%97%AE%E9%A2%98%E5%BF%AB%E9%80%9F%E8%A7%A3%E5%86%B3"><span class="nav-text">流程规范 保障问题快速解决</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8A%A8%E6%80%81%E6%95%B4%E4%BD%93"><span class="nav-text">动态整体</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8A%A8%E6%80%81%E5%B1%80%E9%83%A8"><span class="nav-text">动态局部</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%9D%99%E6%80%81%E6%95%B4%E4%BD%93"><span class="nav-text">静态整体</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%9D%99%E6%80%81%E5%B1%80%E9%83%A8"><span class="nav-text">静态局部</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83-%E8%AE%A9%E5%BC%80%E5%8F%91%E8%80%85%E9%A9%BE%E8%BD%BB%E5%B0%B1%E7%86%9F"><span class="nav-text">开发规范 让开发者驾轻就熟</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#sql-%E7%BC%96%E5%86%99%E8%A7%84%E8%8C%83"><span class="nav-text">sql 编写规范</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#PL-SQL-%E7%BC%96%E5%86%99%E8%A7%84%E8%8C%83"><span class="nav-text">PL&#x2F;SQL 编写规范</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%BE%E8%AE%A1%E8%A7%84%E8%8C%83-%E5%8A%A9%E8%AE%BE%E8%AE%A1%E8%80%85%E8%BF%90%E7%AD%B9%E5%B8%B7%E5%B9%84"><span class="nav-text">设计规范 助设计者运筹帷幄</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%A1%A8%E8%A7%84%E8%8C%83"><span class="nav-text">表规范</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%B4%A2%E5%BC%95%E8%A7%84%E8%8C%83"><span class="nav-text">索引规范</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%E5%8F%82%E6%95%B0%E8%A7%84%E8%8C%83"><span class="nav-text">环境参数规范</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%91%BD%E5%90%8D%E8%A7%84%E8%8C%83"><span class="nav-text">命名规范</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#END"><span class="nav-text">END</span></a></li></ol>
+    </div>
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom border-box">
+            
+<footer class="footer border-box">
+    <div class="border-box website-info-box default">
+        
+            <div class="copyright-info info-item default">
+                &copy;&nbsp;<span>2022</span>&nbsp;-&nbsp;2025
+                
+                    &nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;&nbsp;<a href="/">咕咕咕</a>
+                
+            </div>
+
+            <div class="theme-info info-item default">
+                由&nbsp;<a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;驱动&nbsp;&&nbsp;主题&nbsp;<a class="keep-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep</a>
+            </div>
+
+            
+
+            
+        
+
+        <div style="color:var(--text-color-4);"><span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>(～￣▽￣)～<script src="/js/lifeTime.js"></script></div>
+        <a href="https://icp.gov.moe/?keyword=20222450" target="_blank">萌ICP备20222450号</a>
+
+
+        <div class="count-item info-item default">
+            
+                <span class="count-box border-box word">
+                    <span class="item-type border-box">总字数</span>
+                    <span class="item-value border-box word">362.1k</span>
+                </span>
+            
+
+            
+                <span class="count-box border-box uv">
+                    <span class="item-type border-box">访客数</span>
+                    <span class="item-value border-box uv" id="busuanzi_value_site_uv"></span>
+                </span>
+            
+
+            
+                <span class="count-box border-box pv">
+                    <span class="item-type border-box">访问量</span>
+                    <span class="item-value border-box pv" id="busuanzi_value_site_pv"></span>
+                </span>
+            
+        </div>
+
+        <div id="aplayer">
+          <meting-js
+                  server="netease"
+                  type="playlist"
+                  id="7345595717"
+                  fixed="true"
+                  mini="true"
+                  autoplay="false"
+                  listFolded="true"
+                  order="random"
+                  preload="none">
+          </meting-js>
+        </div>
+            <br>
+            <br>
+            <br>
+    </div>
+
+</footer>
+
+        </div>
+    </div>
+
+    <!-- post tools -->
+    
+        <div class="post-tools left-toc">
+            <div class="post-tools-container border-box">
+    <ul class="tools-list border-box">
+        <!-- PC TOC show toggle -->
+        
+            <li class="tools-item flex-center toggle-show-toc">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        <!-- PC go comment -->
+        
+            <li class="tools-item flex-center go-to-comments">
+                <i class="fas fa-comment"></i>
+                <span class="post-comments-count"></span>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <!-- side tools -->
+    <div class="side-tools">
+        <div class="side-tools-container border-box ">
+    <ul class="side-tools-list side-tools-show-handle border-box">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-toggle-theme-mode flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+            <li class="tools-item rss flex-center">
+                <a class="flex-center"
+                   href="/atom.xml"
+                   target="_blank"
+                >
+                    <i class="fas fa-rss"></i>
+                </a>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list border-box">
+        
+            <li class="tools-item toggle-show-toc-tablet flex-center">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        
+            <li class="tools-item go-to-comments-tablet flex-center">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+
+        <li class="tools-item tool-scroll-to-top flex-center show-arrow">
+            <i class="arrow fas fa-arrow-up"></i>
+            <span class="percent"></span>
+        </li>
+    </ul>
+</div>
+
+    </div>
+
+    <!-- image mask -->
+    <div class="zoom-in-image-mask">
+    <img class="zoom-in-image">
+</div>
+
+
+    <!-- local search -->
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="搜索..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="close-popup-btn">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+    <!-- tablet toc -->
+    
+        <div class="tablet-post-toc-mask">
+            <div class="tablet-post-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B5%81%E7%A8%8B%E8%A7%84%E8%8C%83-%E4%BF%9D%E9%9A%9C%E9%97%AE%E9%A2%98%E5%BF%AB%E9%80%9F%E8%A7%A3%E5%86%B3"><span class="nav-text">流程规范 保障问题快速解决</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8A%A8%E6%80%81%E6%95%B4%E4%BD%93"><span class="nav-text">动态整体</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8A%A8%E6%80%81%E5%B1%80%E9%83%A8"><span class="nav-text">动态局部</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%9D%99%E6%80%81%E6%95%B4%E4%BD%93"><span class="nav-text">静态整体</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%9D%99%E6%80%81%E5%B1%80%E9%83%A8"><span class="nav-text">静态局部</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83-%E8%AE%A9%E5%BC%80%E5%8F%91%E8%80%85%E9%A9%BE%E8%BD%BB%E5%B0%B1%E7%86%9F"><span class="nav-text">开发规范 让开发者驾轻就熟</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#sql-%E7%BC%96%E5%86%99%E8%A7%84%E8%8C%83"><span class="nav-text">sql 编写规范</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#PL-SQL-%E7%BC%96%E5%86%99%E8%A7%84%E8%8C%83"><span class="nav-text">PL&#x2F;SQL 编写规范</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%BE%E8%AE%A1%E8%A7%84%E8%8C%83-%E5%8A%A9%E8%AE%BE%E8%AE%A1%E8%80%85%E8%BF%90%E7%AD%B9%E5%B8%B7%E5%B9%84"><span class="nav-text">设计规范 助设计者运筹帷幄</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%A1%A8%E8%A7%84%E8%8C%83"><span class="nav-text">表规范</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%B4%A2%E5%BC%95%E8%A7%84%E8%8C%83"><span class="nav-text">索引规范</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%E5%8F%82%E6%95%B0%E8%A7%84%E8%8C%83"><span class="nav-text">环境参数规范</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%91%BD%E5%90%8D%E8%A7%84%E8%8C%83"><span class="nav-text">命名规范</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#END"><span class="nav-text">END</span></a></li></ol>
+    </div>
+</div>
+
+            </div>
+        </div>
+    
+</main>
+
+
+
+<!-- common -->
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/toggle-theme.js"></script>
+
+<script src="/js/code-block.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+
+<!-- local-search -->
+
+    
+<script src="/js/local-search.js"></script>
+
+
+
+<!-- lazyload -->
+
+    
+<script src="/js/lazyload.js"></script>
+
+
+
+<div class="pjax">
+    
+        <!-- post-helper -->
+        
+<script src="/js/post/post-helper.js"></script>
+
+
+        <!-- toc -->
+        
+            
+<script src="/js/post/toc.js"></script>
+
+        
+
+        <!-- copyright-info -->
+        
+            
+<script src="/js/post/copyright-info.js"></script>
+
+        
+
+        <!-- share -->
+        
+            
+<script src="/js/post/share.js"></script>
+
+        
+    
+
+    <!-- category-page -->
+    
+
+    <!-- links-page -->
+    
+
+    <!-- photos-page -->
+    
+</div>
+
+<!-- mermaid -->
+
+
+<!-- pjax -->
+
+    
+<script src="/js/libs/pjax.min.js"></script>
+
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        window.pjax = new Pjax({
+            selectors: [
+                'head title',
+                '.page-container',
+                '.pjax',
+                '#aplayer',
+                '#canvas_sakura'
+            ],
+            history: true,
+            debug: false,
+            cacheBust: false,
+            timeout: 0,
+            analytics: false,
+            currentUrlFullReload: false,
+            scrollRestoration: false,
+        });
+
+        document.addEventListener('pjax:send', () => {
+            KEEP.utils.pjaxProgressBarStart()
+        });
+
+        document.addEventListener('pjax:complete', () => {
+            KEEP.utils.pjaxProgressBarEnd()
+            window.pjax.executeScripts(document.querySelectorAll('script[data-pjax], .pjax script'))
+            KEEP.initExecute()
+        });
+    });
+</script>
+
+
+
+
+    
+        
+            
+<script class="custom-inject-js" src="/js/APlayer.min.js" data-pjax></script>
+
+        
+    
+        
+            
+<script class="custom-inject-js" src="/js/Meting.min.js" data-pjax></script>
+
+        
+    
+        
+            
+<script class="custom-inject-js" src="/js/leaves.js" data-pjax></script>
+
+        
+    
+
+
+
+</body>
+</html>

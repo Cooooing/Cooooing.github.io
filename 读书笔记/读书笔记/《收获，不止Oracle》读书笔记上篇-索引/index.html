@@ -1,0 +1,1158 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="技术博客,后端开发,编程笔记,生活">
+    <meta name="description" content="Code | Systems | Life — 专注编程本质，也关心世界如何运转。">
+    <meta name="author" content="咕咕咕">
+
+    
+    <title>
+        
+            《收获，不止Oracle》读书笔记上篇-索引 |
+        
+        咕咕咕的小破站
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+        <link rel="shortcut icon" href="/images/favicon.png">
+    
+    
+<link rel="stylesheet" href="/font/css/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/regular.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/solid.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/brands.min.css">
+
+    
+        
+            
+                
+<link rel="stylesheet" href="/css/APlayer.min.css">
+
+            
+        
+            
+                
+<link rel="stylesheet" href="/css/custom.css">
+
+            
+        
+    
+    <script class="keep-theme-configurations">
+    const KEEP = window.KEEP || {}
+    KEEP.hexo_config = {"hostname":"cooooing.github.io","root":"/","language":"zh-CN","path":"search.json"}
+    KEEP.theme_config = {"base_info":{"primary_color":"#0066cc","title":"咕咕咕的小破站","author":"咕咕咕","avatar":"/images/head.jpg","logo":"/images/head.jpg","favicon":"/images/favicon.png"},"menu":{"Archives":"/archives","Categories":"/categories","Tags":"/tags","日常":"/daily","Links":"/links","About":"/about"},"first_screen":{"enable":false,"background_img":"/images/bg.svg","background_img_dark":"/images/bg.svg","description":"Keep writing and Keep loving.","hitokoto":false},"social_contact":{"enable":false,"links":{"github":null,"weixin":null,"qq":null,"weibo":null,"zhihu":null,"twitter":null,"facebook":null,"email":null}},"scroll":{"progress_bar":false,"percent":false,"hide_header":true},"home":{"category":true,"tag":true,"announcement":null},"post":{"author_badge":{"enable":true,"level_badge":false,"custom_badge":["fishing"]},"word_count":{"wordcount":true,"min2read":true},"datetime_format":"YYYY-MM-DD HH:mm:ss","copyright_info":true,"share":true,"reward":{"enable":true,"img_link":"/images/thanks.png","text":"谢谢你请我喝可乐~"}},"code_block":{"tools":{"enable":true,"style":"default"},"highlight_theme":"default"},"toc":{"enable":true,"number":false,"expand_all":true,"init_open":true,"layout":"left"},"website_count":{"busuanzi_count":{"enable":true,"site_uv":true,"site_pv":true,"page_pv":true}},"local_search":{"enable":true,"preload":true},"comment":{"enable":true,"use":"giscus","valine":{"appid":null,"appkey":null,"server_urls":null,"placeholder":null},"gitalk":{"github_id":null,"github_admins":null,"repository":null,"client_id":null,"client_secret":null,"proxy":null},"twikoo":{"env_id":null,"region":null,"version":"1.6.21"},"waline":{"server_url":null,"reaction":false,"version":2},"giscus":{"repo":"Cooooing/Cooooing.github.io","repo_id":"R_kgDOHQal_w","category":"Announcements","category_id":"DIC_kwDOHQal_84CjZo6","reactions_enabled":true},"artalk":{"server":null},"disqus":{"shortname":null}},"rss":{"enable":true},"lazyload":{"enable":true},"cdn":{"enable":false,"provider":"cdnjs"},"pjax":{"enable":true},"footer":{"since":2022,"word_count":true,"icp":{"enable":false,"record_code":null,"url":"https://beian.miit.gov.cn"},"site_deploy":{"enable":false,"provider":"github","url":null},"shields_style":{"enable":false,"custom":[{"link_url":null,"img_url":null}]}},"inject":{"enable":true,"css":["/css/APlayer.min.css","/css/custom.css"],"js":["/js/APlayer.min.js","/js/Meting.min.js","/js/leaves.js"]},"root":"","links":[{"name":"鼠鼠在碎觉","link":"https://sszsj.com","avatar":"https://tmx.fishpi.cn/img/head.jpg","description":"我是不慎落入世界的一滴水墨"},{"name":"Gakkiyomi","link":"https://gakkiyomi.blog","avatar":"https://avatars.githubusercontent.com/u/41406557?v=4","description":"为往圣继绝学"},{"name":"Hancel's Blog","link":"https://my.hancel.org","avatar":"https://my.hancel.org/media/logo.jpg","description":"人生而自由，却无往不在枷锁之中。"},{"name":"Eastshann","link":"http://121.4.99.208/","avatar":"http://121.4.99.208/img/avatar.jpg","description":"冲和者，淡泊平和，谦冲守正"},{"name":"小于同学的异世界","link":"https://yby.zone","avatar":"https://yby-zone.obs.cn-east-3.myhuaweicloud.com/avatar.jpg","description":"为吾为枝，余地三尺，以己为棋，胜天半子。"},{"name":"Mlikiowa Home Village","link":"https://nanaeo.cn/","avatar":"https://q1.qlogo.cn/g?b=qq&nk=1627126029&s=100","description":"A litter Village With Mlikiowa"},{"name":"忘忧草","link":"https://owo.wyc.rest/","avatar":"https://owo.wyc.rest/img/%E4%B8%87%E5%8F%B6.jpg","description":"这只是一个小破站而已！"},{"name":"stillwarter","link":"https://stillwarter.github.io/","avatar":"https://file.fishpi.cn/2022/07/MOSHED2022621164630-1b1ec532.gif?imageView2/1/w/210/h/210/interlace/0/q/100","description":"光就是一切的意义"},{"name":"test12138","link":"http://你好.eu.org/","avatar":"https://file.fishpi.cn/2022/06/srchttpimgzcoolcncommunity0116405d84f975a801211d537707c9gifreferhttpimgzcool-0f2d09c9.gif?imageView2/1/w/48/h/48/interlace/0/q/100","description":"大丈夫生于天地之间，岂能郁郁久居人下。"},{"name":"呼呼呼","link":"https://bongbongbakudan.github.io/","avatar":"https://pwl.stackoverflow.wiki/2021/12/blob-28eb4b9f.png?imageView2/1/w/48/h/48/interlace/0/q/100","description":"去整点薯条"},{"name":"Plumbiu","link":"https://blog.plumbiu.top/","avatar":"https://avatars.githubusercontent.com/u/99574369?v=4","description":"这人很勤奋，啥都没留"},{"name":"hiRipple","link":"https://hiripple.com/","avatar":"https://avatars.githubusercontent.com/u/115361435?v=4","description":"超高校级的游戏玩家"}],"version":"4.0.6"}
+    KEEP.language_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"}
+    KEEP.language_code_block = {"copy":"复制代码","copied":"已复制","fold":"折叠代码块","folded":"已折叠"}
+    KEEP.language_copy_copyright = {"copy":"复制版权信息","copied":"已复制","title":"原文标题","author":"原文作者","link":"原文链接"}
+  </script>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-CLX32WF4R1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+
+      gtag('js', new Date());
+
+      gtag('config', 'G-CLX32WF4R1');
+    </script>
+
+    <!-- 51.la -->
+    <script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
+    <script>LA.init({id: "3JwPz6wbAloyTmMc", ck: "3JwPz6wbAloyTmMc", autoTrack: true})</script>
+
+<meta name="generator" content="Hexo 8.1.1"><link rel="alternate" href="/atom.xml" title="咕咕咕的小破站" type="application/atom+xml">
+</head>
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+        <span class="pjax-progress-bar"></span>
+        <i class="pjax-progress-icon fas fa-circle-notch fa-spin"></i>
+    
+</div>
+
+
+<main class="page-container border-box">
+
+    <!-- home first screen  -->
+    
+
+    <!-- page content -->
+    <div class="page-main-content border-box">
+        <div class="page-main-content-top">
+            
+<header class="header-wrapper">
+
+    <div class="border-box header-content">
+        <div class="left border-box">
+            
+                <a class="logo-image border-box" href="/">
+                    <img src="/images/head.jpg">
+                </a>
+            
+            <a class="site-name border-box" href="/">
+               咕咕咕的小破站
+            </a>
+        </div>
+
+        <div class="right border-box">
+            <div class="pc">
+                <ul class="menu-list">
+                    <li class="menu-item">
+                        <a class=""
+                           href="/"
+                        >首页</a>
+                    </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >归档</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/categories"
+                            >分类</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/tags"
+                            >标签</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/daily"
+                            >日常</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/links"
+                            >友链</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >关于</a>
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="fas search fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            <li class="drawer-menu-item flex-center">
+                <a class=""
+                   href="/"
+                >首页</a>
+            </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives"
+                    >归档</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/categories"
+                    >分类</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/tags"
+                    >标签</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/daily"
+                    >日常</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/links"
+                    >友链</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about"
+                    >关于</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle border-box">
+
+            <div class="main-content border-box">
+                
+
+                    
+<div class="fade-in-down-animation">
+    <div class="post-page-container border-box">
+        <div class="post-content-container border-box">
+            
+
+            <div class="post-content-bottom border-box">
+                
+                    <div class="post-title">
+                        《收获，不止Oracle》读书笔记上篇-索引
+                    </div>
+                
+
+                
+                    <div class="post-header border-box">
+                        
+                            <div class="avatar-box border-box">
+                                <img src="/images/head.jpg">
+                            </div>
+                        
+                        <div class="info-box">
+                            <div class="author border-box">
+                                <span class="name">咕咕咕</span>
+                                
+                                    <span class="author-badge">fishing</span>
+                                
+                            </div>
+                            <div class="meta-info border-box">
+                                
+
+<div class="post-meta-info-container border-box post">
+    <div class="post-meta-info border-box">
+        
+
+        
+            <span class="meta-info-item post-create-date">
+                <i class="icon fa-solid fa-calendar-plus"></i>&nbsp;
+                <span class="datetime">2024-08-02 18:05:52</span>
+            </span>
+
+            <span class="meta-info-item post-update-date">
+                <i class="icon fa-solid fa-file-pen"></i>&nbsp;
+                <span class="datetime" data-updated="Fri Aug 02 2024 10:05:52 GMT+0000">2024-08-02 18:05:52</span>
+            </span>
+        
+
+        
+            <span class="meta-info-item post-category border-box"><i class="icon fas fa-folder"></i>&nbsp;
+                <ul class="post-category-ul">
+                    
+                            <li class="category-item"><a href="/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">读书笔记</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+            <span class="post-tag meta-info-item border-box">
+                <i class="icon fas fa-tags"></i>&nbsp;
+                <ul class="post-tag-ul">
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a></li>
+                        
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/%E3%80%8A%E6%94%B6%E8%8E%B7%EF%BC%8C%E4%B8%8D%E6%AD%A2Oracle%E3%80%8B/">《收获，不止Oracle》</a></li>
+                        
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/Oracle/">Oracle</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+        
+            <span class="meta-info-item post-wordcount">
+                <i class="icon fas fa-file-word"></i>&nbsp;<span>8.6k 字</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-min2read">
+                <i class="icon fas fa-clock"></i>&nbsp;<span>31 分钟</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-pv">
+                <i class="icon fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+            </span>
+        
+    </div>
+
+    
+</div>
+
+                            </div>
+                        </div>
+                    </div>
+                
+
+                <div class="post-content keep-markdown-body">
+                    
+
+                    <h2 id="第五章-惊叹，索引天地妙不可言"><a href="#第五章-惊叹，索引天地妙不可言" class="headerlink" title="第五章 - 惊叹，索引天地妙不可言"></a>第五章 - 惊叹，索引天地妙不可言</h2><h3 id="BTREE-索引"><a href="#BTREE-索引" class="headerlink" title="BTREE 索引"></a>BTREE 索引</h3><h4 id="BTREE-索引结构图"><a href="#BTREE-索引结构图" class="headerlink" title="BTREE 索引结构图"></a>BTREE 索引结构图</h4><p>索引和表一样，都是前面描述的逻辑体系结构中的段的一种，当建一个T表，就产生一个T表的表SEGMENT，当在T表的某些列上建索引DXT，就产生一个DXT的索引SEGMENT。<br>索引是建在表的具体列上，其存在的目的是让表的查询更快，效率更高。表记录丢失关乎生死，而索引丢失只需重建即可，似乎听起来索引只是表的一个附属产品，可有可无。<br>但索引却是数据库学习中最实用的技术之一。</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E3%80%8A%E6%94%B6%E8%8E%B7%EF%BC%8C%E4%B8%8D%E6%AD%A2Oracle%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0%E4%B8%8A%E7%AF%87-%E7%B4%A2%E5%BC%95/%E7%B4%A2%E5%BC%95%E7%BB%93%E6%9E%84%E5%9B%BE.png"
+                        alt="索引结构图.png"
+                 ></p>
+<p>以上结构图说明索引是由Root(根块)，Branch(茎块)和Leaf(叶子块)三部分组成的。<br><strong>其中Leaf(叶子块)主要存储了key column value(索引列具体值)，以及能具体定位到数据块所在位置的rowid(注意区分索引块和数据块)。</strong><br>比如：<code>select * from t where id = 12;</code> 该test表的记录有10050条，而id&#x3D;12仅返回1条，test表的id列建了一个索引，索引是如何快速检索到数据的呢，接下来分析这个索引查询示例图</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E3%80%8A%E6%94%B6%E8%8E%B7%EF%BC%8C%E4%B8%8D%E6%AD%A2Oracle%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0%E4%B8%8A%E7%AF%87-%E7%B4%A2%E5%BC%95/%E7%B4%A2%E5%BC%95%E6%9F%A5%E8%AF%A2%E7%A4%BA%E4%BE%8B%E5%9B%BE.png"
+                        alt="索引结构图.png"
+                 ></p>
+<p>通过分析该图片，可以大致理解，定位到<code>select * from t where id = 12;</code>大致只需要3个IO(此处只是举个例子，1万多条记录实际情况可能只需要2个IO,这个和索引的高度有关，后续会深入讨论)。<br>首先查询定位到索引的根部，这里是第1次IO<br>接下来根据根块的数据分布，定位到索引的茎部（查询到12的值的大致范围，11..19的部分），这是第2次IO<br>然后定位到叶子块，找到 id&#x3D;12 的部分，此处为第3次IO。<br>假设Oracle在全表扫描记录，遍历所有的数据块，IO的数量必然将大大超过3次。有了这个索引，Oracle只会去扫描部分索引块，而非全部，少做事，必然能大大提升性能。</p>
+<p>根据id列上的索引来查询数据只需要访问索引块，不需要访问数据块吗？<br>显然不是的，这里的语句是<code>select * from t where id=12</code>，这个*表示要展现t表的所有字段，显然只访问索引是不可能包含表的所有字段的，因为该索引只是对id列建索引，也就存储了id列的信息而已。<br>因此上述查询访问完索引块后，必然要再访问数据块，比较快捷的方法是用索引块存储的rowid来快速检索数据块（具体在后续章节会描述）<br>所以3次IO显然是不对的，理应增加一次从索引块到数据块获取各个列信息的检索动作，至少是4次IO才对。</p>
+<p>什么情况下查询可以只访问索引而不访问表呢？<br>如果查询只检索索引列信息，就可以不访问表了，比如查询改成 <code>select id from t where id=12</code> 时就是这种情况。</p>
+<h4 id="建立索引的步骤"><a href="#建立索引的步骤" class="headerlink" title="建立索引的步骤"></a>建立索引的步骤</h4><p>有一张test表，该表有大致name(varchar22(20),id(number),height(number),age(number)等字段。<br>当前该表有记录，我们要对test表的id列建索引，<code>create index idx id on test(id);</code></p>
+<h5 id="要建索引先排序"><a href="#要建索引先排序" class="headerlink" title="要建索引先排序"></a>要建索引先排序</h5><p>未建索引的test表大致记录如下图所示，NULL表示该字段为空值，此外省略号表示略去不显示内容。注意rowid伪列，这个是每一行的唯一标记，每一行的rowid值绝对不重复，可定位到行的记录在数据库中的位置（具体在后续的章节中详细介绍)。</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E3%80%8A%E6%94%B6%E8%8E%B7%EF%BC%8C%E4%B8%8D%E6%AD%A2Oracle%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0%E4%B8%8A%E7%AF%87-%E7%B4%A2%E5%BC%95/%E6%9C%AA%E5%BB%BA%E7%B4%A2%E5%BC%95%E7%9A%84test%E8%A1%A8.png"
+                        alt="未建索引的test表.png"
+                 ></p>
+<p>建索引后，先从test表的id列的值顺序取出数据放在内存中（这里需注意，除了id列的值外，还要注意到取该列的值的同时，该行的rowid也被一并取出)，如下图所示。</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E3%80%8A%E6%94%B6%E8%8E%B7%EF%BC%8C%E4%B8%8D%E6%AD%A2Oracle%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0%E4%B8%8A%E7%AF%87-%E7%B4%A2%E5%BC%95/%E5%BB%BA%E7%B4%A2%E5%BC%95%E6%AD%A5%E9%AA%A4%E4%B8%80.png"
+                        alt="建索引步骤一.png"
+                 ></p>
+<h5 id="列值入块成索引"><a href="#列值入块成索引" class="headerlink" title="列值入块成索引"></a>列值入块成索引</h5><p>依次将内存中的顺序存放的列的值和对应的rowid存进Oracle空闲的BLOCK中，形成了索引块。</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E3%80%8A%E6%94%B6%E8%8E%B7%EF%BC%8C%E4%B8%8D%E6%AD%A2Oracle%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0%E4%B8%8A%E7%AF%87-%E7%B4%A2%E5%BC%95/%E5%BB%BA%E7%B4%A2%E5%BC%95%E6%AD%A5%E9%AA%A4%E4%BA%8C.png"
+                        alt="建索引步骤二.png"
+                 ></p>
+<h5 id="填满一块接一块"><a href="#填满一块接一块" class="headerlink" title="填满一块接一块"></a>填满一块接一块</h5><p>随着索引列的值的不断插入，index block1(L1)很快就被插满了，比如接下来取出的id&#x3D;9的记录无法插入index block1L1)中，就只有插入到新的Oracle块中，index block2(L2)。<br>与此同时，发生了一件非常重要的事情，就是新写数据到另一个块index block3(B1)，这是为啥呢？<br>原来L1和L2平起平坐，谁都不服谁，打起来了，不得了了，无组织无纪律哪能行，赶紧得有人管啊，于是index block3(B1)就担负起管理的角色，这个BLOCK记录了L1和L2的信息，并不记录具体的索引列的键值，目前只占用了B1一点点空间。<br>L3用于管理L2和L2的信息，用于快速定位。</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E3%80%8A%E6%94%B6%E8%8E%B7%EF%BC%8C%E4%B8%8D%E6%AD%A2Oracle%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0%E4%B8%8A%E7%AF%87-%E7%B4%A2%E5%BC%95/%E5%BB%BA%E7%B4%A2%E5%BC%95%E6%AD%A5%E9%AA%A4%E4%B8%89.png"
+                        alt="建索引步骤三.png"
+                 ></p>
+<h5 id="同级两块需人管"><a href="#同级两块需人管" class="headerlink" title="同级两块需人管"></a>同级两块需人管</h5><p>随着叶子块的不断增加，B1块中虽然仅是存放叶子块的标记，但也挡不住量大，最终也容纳不下了。<br>怎么办？接着装呗，到下一个块B2块去寻找空间容纳。这时B1和B2也平起平坐了。<br>这时又需要另一个块来记录B1、B2的信息，最上层的oot根块诞生了。<br>后续还会出现B3、B4…如果有一天，这些Bn把root块撑满了，root块就不是root块了，他的上面就又有别的块来记录它的信息。</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E3%80%8A%E6%94%B6%E8%8E%B7%EF%BC%8C%E4%B8%8D%E6%AD%A2Oracle%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0%E4%B8%8A%E7%AF%87-%E7%B4%A2%E5%BC%95/%E5%BB%BA%E7%B4%A2%E5%BC%95%E6%AD%A5%E9%AA%A4%E5%9B%9B.png"
+                        alt="建索引步骤四.png"
+                 ></p>
+<h4 id="索引结构的三大重要特点"><a href="#索引结构的三大重要特点" class="headerlink" title="索引结构的三大重要特点"></a>索引结构的三大重要特点</h4><h5 id="索引高度较低"><a href="#索引高度较低" class="headerlink" title="索引高度较低"></a>索引高度较低</h5><p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E3%80%8A%E6%94%B6%E8%8E%B7%EF%BC%8C%E4%B8%8D%E6%AD%A2Oracle%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0%E4%B8%8A%E7%AF%87-%E7%B4%A2%E5%BC%95/%E7%B4%A2%E5%BC%95%E4%BB%8E%E4%B8%8B%E5%BE%80%E4%B8%8A%E7%9C%8B.png"
+                        alt="索引从下往上看.png"
+                 ></p>
+<p>从下往上看，这个索引树的高度不会很高<br>最底层的叶子块index block因为装具体的数据，所以比较容易被填满，特别是对长度很长的列建索引时更是如此。<br>但是第1层之上的第2层的index block就很不容易装满了吧，因为第2层只是装第1层的指针而已，而第3层是装第2层的index block的指针，更不容易了…<br>因此，这个树如果有很多层，那么表的数据量应该非常大。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">-- 查询占用表空间最大的表（排序）</span><br><span class="line">select t.owner,t.segment_name,t.tablespace_name,bytes/1024/1024/1024 as sizes,q.num_rows,t.segment_type</span><br><span class="line">from dba_segments t</span><br><span class="line">         left join dba_tables q</span><br><span class="line">                   on t.segment_name=q.table_name</span><br><span class="line">                       and t.owner=q.owner</span><br><span class="line">where t.segment_type=&#x27;TABLE&#x27;</span><br><span class="line">  and t.tablespace_name=&#x27;TBS_FCCENTER_DATA&#x27;  --需要查看的表空间</span><br><span class="line">order by 4 desc</span><br><span class="line">-- 查询表索引的高度</span><br><span class="line">select index_name,</span><br><span class="line">       blevel,</span><br><span class="line">       leaf_blocks,</span><br><span class="line">       num_rows,</span><br><span class="line">       distinct_keys,</span><br><span class="line">       clustering_factor</span><br><span class="line">from user_ind_statistics</span><br><span class="line">where table_name in( &#x27;T&#x27;)</span><br><span class="line">order by blevel desc;</span><br></pre></td></tr></table></figure>
+
+<p>看了下测试环境最大的一张表28G大小，快六百万数据，某列索引才4层。<br>书中说有500G一张，记录有几百亿条，但是该表上某列索引的高度才不过6层而已。</p>
+<blockquote>
+<p>BLEVEL&#x3D;0这个层面表示只有叶子块，第1个索引块还没有装满，无须填入第2个块，所以没有上层块来管理，是1层高。<br>而BLEVEL&#x3D;1这个层面表示这个阶段已经到第2层了，同理，BLEVEL&#x3D;2表示已经到第3层，只是还没有将其填满。</p>
+</blockquote>
+<h5 id="索引存储列值"><a href="#索引存储列值" class="headerlink" title="索引存储列值"></a>索引存储列值</h5><p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E3%80%8A%E6%94%B6%E8%8E%B7%EF%BC%8C%E4%B8%8D%E6%AD%A2Oracle%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0%E4%B8%8A%E7%AF%87-%E7%B4%A2%E5%BC%95/%E7%B4%A2%E5%BC%95%E4%BB%94%E7%BB%86%E8%A7%82%E5%AF%9F%E5%8F%B6%E5%AD%90%E8%8A%82%E7%82%B9.png"
+                        alt="索引仔细观察叶子节点.png"
+                 ></p>
+<p>索引存储了表的索引所在列的具体信息，还包含了标记定位行数据在数据库中位置的rowid取值。</p>
+<h5 id="索引本身有序"><a href="#索引本身有序" class="headerlink" title="索引本身有序"></a>索引本身有序</h5><p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E3%80%8A%E6%94%B6%E8%8E%B7%EF%BC%8C%E4%B8%8D%E6%AD%A2Oracle%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0%E4%B8%8A%E7%AF%87-%E7%B4%A2%E5%BC%95/%E7%B4%A2%E5%BC%95%E4%BB%8E%E5%B7%A6%E5%90%91%E5%8F%B3%E7%9C%8B.png"
+                        alt="索引从左向右看.png"
+                 ></p>
+<p>索引是顺序从表里取出数据，再顺序插入到块里形成索引块的，所以说索引块是有序的。</p>
+<h4 id="索引高度较低的用处"><a href="#索引高度较低的用处" class="headerlink" title="索引高度较低的用处"></a>索引高度较低的用处</h4><p>这里实验省略，语言描述。<br>对于同样高度索引树的表进行查询，如果返回记录是1条。那么走索引查询的效率是差不多的。<br>因为索引高度一样，所以产生的IO次数一样。</p>
+<p>而在没有索引的情况下，查询则会全表扫描，数据量大的话，会十分缓慢。<br>索引的这个高度不高的特性给查询带来了巨大的便捷，<strong>但这里的查询只返回1条记录，如果查询返回绝大部分的数据，那用索引反而要慢得多。</strong><br>因为通过索引查到一条数据需要多次IO，取决于索引树的高度。通过索引查表的全量数据的话，需要的IO次数是全表扫描的数倍。<br>同时，全表扫描可以对块进行多块读，进一步提高速度。</p>
+<p>表字段数量也会影响查询的效率。<br><strong>如果表字段很少，同一个块中所能存放的数据也就越多，全表扫描的逻辑读也不会太多。所以会快。</strong><br><strong>相反，如果表字段很多，同一个块中存放的数据就会越少，全表扫描所需遍历的数据块也会增加，速度也就满下来了。</strong></p>
+<hr>
+<p>下面是分区索引的设计误区。<br>分区表的系分为两中，一种是局部索引，一种是全局索引。<br>局部索引等同于为每个分区段建分区的索引，从user_segment的数据字典中，可以观察到表有多少个分区，就有多少个分区索引的segment。段的类型为 TABLE PARTITION。每个分区索引也是一个段，每个段的类型为 INDEX PARTITION。<br>而全局索引，也就是普通索引。仅有一个段，段的类型为 INDEX。</p>
+<p>针对分区表的查询逻辑读相比于针对普通表的逻辑读会多好几倍，COST也一样。<br>因为分区表的索引等同于查询了多个小索引，而小索引虽然体积比整个大索引小很多，但是高度却相差无几。<br>这就导致单个小索引的查询和全局大索引的查询的IO数量差不多，而分区索引的IO个数还要乘以分区个数，所产生的IO会远大于全局索引产生的IO。<br>所以分区索引的性能会低。</p>
+<p>因此分区表索引的设计是有讲究的，如果设置了分区索引，但是却用不到分区条件，性能将继续下降。<br>如果建了分区索引，但是又根本无法加上分区字段的条件，那建议不要建分区索引。<br>但如果查询中使用了分区字段的条件，那么结果就不一样了。只需要遍历其中的几个分区即可，效率也大幅提升。</p>
+<h4 id="索引存储列值的用处"><a href="#索引存储列值的用处" class="headerlink" title="索引存储列值的用处"></a>索引存储列值的用处</h4><h5 id="count-优化"><a href="#count-优化" class="headerlink" title="count(*) 优化"></a>count(*) 优化</h5><p>下面介绍索引存储列值及rowid的特性，其实身边最常见的语句性能的提升却往往是基于对这个特点的认识。</p>
+<p><code>select count(*) from t;</code> 是否能用到索引？</p>
+<p>表的情况和索引情况的差别在于表是把整行的记录依次放进BLOCK形成DATA BLOCK，而索引是把所在列的记录排序后依次放进BLOCK里形成INDEX BLOCK。既然在没有索引的情况下，DATA BLOCK中可以统计出表记录数，那INDEX BLOCK肯定也可以。<br>方法就是前者汇总各个DATA BLOCK中的行的插入记录数，后者汇总各个INDEX BLOCK中的索引列的插入记录数。<br>最关键的是，INDEX BLOCK里存放的值是表的特定的索引列，一列或者就几列，所需容纳空间要比存放整行也就是所有列的DATA BLOCK要少得多，所以这个查询用索引会很高效。</p>
+<p>但Oracle并不会选择走索引，而是选择了全表扫描。<del>（实验略</del><br>主要原因是<strong>索引不能存储空记录</strong>，这样如果表的索引列有空的记录，那依据索引来统计表的记录数肯定是不对的，所以Oracle才会选择全表扫描的执行计划。<br>改变一下写法，<code>select count(*) from t where id is not null;</code>便可以让Oracle选择走索引。</p>
+<blockquote>
+<p><strong>将索引列设为非空</strong>、或者设为主键（主键是非空的），也可以解决这个问题。</p>
+</blockquote>
+<p>什么时候在表的非空列建有索引时，COUNT(*)语句用索引效率不如全表扫描？<br>如果一张表仅有一个字段，这个索引比表还大（多了rowid)，那从索引中查询，效率会不如全表扫描。</p>
+<p>什么时候COUNT(*)查询语句用索引扫描比全表扫描高效很多呢？<br>表的字段很多，并且字段长度大多都很长，其中有一个非空且长度很短的列建了一个索引，这时索引的体积相对表来说特别小，那索引读效率就高多了。</p>
+<h5 id="SUM-AVG-优化"><a href="#SUM-AVG-优化" class="headerlink" title="SUM&#x2F;AVG 优化"></a>SUM&#x2F;AVG 优化</h5><p><code>select sum(id) from t;</code> 是否能用到索引？<br>是不能的，原因和上面一样，空值的问题。</p>
+<p><code>select sum(id), avg(id), count(id) from t where id is not null;</code>只需要一次索引扫描即可完成。</p>
+<p>因为一次扫描索引块，可以同时解决三个问题，所以效率与单个分别执行时一样高。<br>不过列有空值理应不影响在索引中进行SUM和AVG等运算的，这里未指明非空则无法用到索引，其实是不应该的，这是优化器的缺陷。<del>不知道新版本有没有优化</del></p>
+<h5 id="MAX-MIN-优化"><a href="#MAX-MIN-优化" class="headerlink" title="MAX&#x2F;MIN 优化"></a>MAX&#x2F;MIN 优化</h5><p><code>select max(id) from t;</code> 是否能用到索引？<br>是可以的。<br>这个列的属性是否为空不应该影响能否使用索引作为‘瘦表’查询，但是奇怪的是MAX&#x2F;MIN时无论列是否为空都可以用到索引，而SUM&#x2F;AVG等聚合查询却必须要列为空方可用到索引。<br>其实此类语句在运算时有无加上<code>is not null</code>的取值都是等价查询的，而COUNT(*)则不一样，有无<code>is not null</code>的取值可是不等价的！<br><del>所以大概是优化器的问题</del></p>
+<p>执行计划中走索引的查询方式，索引的扫描方式会有很多种。这里先解释 <code>INDEX FULL SCAN(MIN/MAX)</code><br>这个<code>INDEX FULL SCAN (MIN/MAX)</code>只需要个位数的逻辑读就完成查询的秘密在于，MAX取值只需要往最右边的叶子块看一下，MAX的取值一定在最右边的块上，块里的最后一行就是。<br>而MIN取值，仅往最左边的块里去望一望即可了，最小值一定在里头，块里的第一行记录就是。<br>其中既包含了索引可以存储空值的技巧，又结合了索引是有序的技巧。<br>查询只与索引树的高度有关，无论记录如何增大，查询效率都不会太低。</p>
+<p>但是，<code>select min(id), max(id) from t;</code>就变成全表扫描了。是null值的问题吗？<br><code>select min(id), max(id) from t where id is not null;</code> 走索引了，但走的是 <code>INDEX FAST FULL SCAN</code>并不是<code>INDEX FULL SCAN (MIN/MAX)</code>。<br>改写成 <code>select max, min from(select max(object_id)max from t) a, (select min(object_id)min from t) b;</code> 就可以走<code>INDEX FULL SCAN (MIN/MAX)</code>了。虽然这种写法很奇怪。 </p>
+<h5 id="索引回表与优化"><a href="#索引回表与优化" class="headerlink" title="索引回表与优化"></a>索引回表与优化</h5><p>索引回表读(TABLE ACCESS BY INDEX ROWID)<br>它表示通过索引访问表中的数据行。当执行计划中出现这种操作时，意味着Oracle使用索引找到特定行的ROWID（行标识符），然后使用这个ROWID直接访问表中的行。</p>
+<p>从索引中可以读到索引列的信息，但是不可能读到该列以外的其他列的信息.<br>当查询是<code>select * from t where object_id &lt;= 5</code>时，这个*表示该表所有字段都需要返回。<br>因此必然是在扫描索引块中定位到具体object_id&lt;&#x3D;5这部分索引块后，再根据这部分索引块的rowid定位到t表所在的数据块，然后从数据块中获取到其他字段的记录。</p>
+<p><em><em>所以只返回需要的字段，而不是使用</em>。有时可以避免回表读，以提高性能。</em>*</p>
+<p>关于TABLE ACCESS BY INDEX ROWID最佳的优化方式是，如果业务允许，可以巧妙地消除这个动作的产生，但是如果存在有些非索引的字段必须展现，可是又不多的情况，该如何优化呢？<br>前面在业务允许的情况下，可以将<code>select * from t where object_id &lt;= 5</code>修正为<code>select object_id from t where object_id&lt;=5</code>从而消除回表，提升性能，假如有些字段必须展现，但又不多，该怎么办呢？<br>比如<code>select object_id,object_name from t where object_id &lt;= 5</code>这个写法，非得展现object_name。<br>可以考虑在object_id和object_name列建组合索引，即可消除回表动作。</p>
+<blockquote>
+<p>联合索引（Composite Index 或 Compound Index）是在多个列上创建的索引。它允许根据多个列的组合来对数据进行排序和快速访问。联合索引在Oracle数据库中非常常见，因为它们可以用于多种查询条件，从而提高查询效率。<br>联合索引基于多个列的组合来构建索引树。当创建联合索引时，Oracle会根据索引定义中列的顺序来生成键值。键值由索引定义中的所有列组成，按照定义的顺序进行排序。<br>联合索引的列顺序很重要。Oracle将按照列定义的顺序来构建键值。通常，将查询中最常用的列放在前面可以提高索引的利用率。</p>
+</blockquote>
+<p>建联合索引后，回表的动作TABLE ACCESS BY INDEX ROWID在执行计划中就没有了。<br>不过这里要注意平衡，·如果联合索引的联合列太多，必然导致索引过大，虽然消减了回表动作，但是索引块变多，在索引中的查询可能就要遍历更多的BLOCK了，所以要全面考虑，联合索引不宜列过多，一般超过3个字段组成的联合索引都是不合适的。</p>
+<p>实际上，回表查询的速度也是有差异的，这里引出一个重要概念叫聚合因子。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">-- 建立无序的表</span><br><span class="line">drop table t_colocated purge;</span><br><span class="line">create table t_colocated (id number,col2 varchar2(100));</span><br><span class="line">begin</span><br><span class="line">    for i in 1..100000</span><br><span class="line">        loop</span><br><span class="line">            insert into t_colocated(id,col2)</span><br><span class="line">            values (i,rpad(dbms_random.random,95,&#x27;*&#x27;));</span><br><span class="line">    end loop;</span><br><span class="line">end;</span><br><span class="line">alter table t_colocated add constraint pk_t_colocated primary key(id);</span><br><span class="line">-- </span><br><span class="line">-- 建立有序的表</span><br><span class="line">drop table t_disorganized purge;</span><br><span class="line">create table t_disorganized as select id,col2 from t_colocated order by col2;</span><br><span class="line">alter table t_disorganized add constraint pk_t_disorg primary key (id);</span><br></pre></td></tr></table></figure>
+
+<p>两张表中，id一个是按顺序插入的，一个是乱序的。而我们都知道，索引是有排列的，此时id列上的索引存放的数据也是有序的。<br>表和索引两者的排列顺序相似度很高，就称之为聚合因子比较低。<br>表和索引两者之间的排列顺序相似度差异明显，就称之为聚合因子比较高。</p>
+<p>通过数据字典来判断索引的聚合因子情况</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">SQL&gt; select index_name,blevel,leaf_blocks,num_rows,distinct_keys,clustering_factor from user_ind_statistics where table_name in(&#x27;T_COLOCATED&#x27;,&#x27;T_DISORGANIZED&#x27;);</span><br><span class="line"></span><br><span class="line">INDEX_NAME                                                                                                                           BLEVEL LEAF_BLOCKS   NUM_ROWS DISTINCT_KEYS CLUSTERING_FACTOR</span><br><span class="line">-------------------------------------------------------------------------------------------------------------------------------- ---------- ----------- ---------- ------------- -----------------</span><br><span class="line">PK_T_COLOCATED                                                                                                                            1         208     100000        100000              1469</span><br><span class="line">PK_T_DISORG                                                                                                                               1         208     100000        100000             99940</span><br></pre></td></tr></table></figure>
+
+<p>这里说明一下CLUSTERING_FACTOR的官方解释：表明有多少临近的索引条目指到不同的数据块。<br>取值99944接近表记录的100000，说明绝大部分的临近索引条目都指向了不同的数据块。<br>取值为1469说明总共只有1469个临近的索引条目指到了不同的数据块，总体还算不错。</p>
+<p>表的插入顺序和索引列的顺序基本一致，从索引中回表查找数据块将会更容易查找，其实通俗地说就是索引块A里装10行列信息及ROWID,这就可以理解为索引条目。<br>然后根据索引条目的ROWID找到表记录时，如果聚合因子很小，10行索引条目可以全部在数据块B块中完整地找到。<br>如果聚合因子很大，或许这10行索引条目对应的数据块的10行记录，分布在10个不同的数据块里。那就要访问了C块，D块，E块等等，回表查询的性能当然就低了。</p>
+<p>所以，当某列的读取频率远高于其他列，那就保证表的排列顺序和这列一致，按照这列的顺序，重组一下表记录来优化即可了。</p>
+<h4 id="索引有序的用处"><a href="#索引有序的用处" class="headerlink" title="索引有序的用处"></a>索引有序的用处</h4><h5 id="order-by-排序优化"><a href="#order-by-排序优化" class="headerlink" title="order by 排序优化"></a>order by 排序优化</h5><p>真正决定性能的是COST的高低和真实完成的时间，一般COST越小性能越高，Oracle执行计划的选择就是由COST来决定的。<br>而时间也是非常简单的衡量的方式，完成时间越短性能越高。<br>而逻辑读方面，是作为参考，在绝大部分情况下（甚至可以说90%以上的场合），逻辑读越少性能越快，但在这里却不适用了。<br>排序算法有些特别，内部的机制导致性能和逻辑读关系不是太大，主要是消耗在CPU性能上，开销极大。<br>此外如果PGA区无法容纳下排序的尺寸而进入磁盘排序，那将成为更大的性能杀手。</p>
+<p><strong>因为索引是有序的，所以排序的查询走索引的话，可以减少排序次数，从而提高性能。</strong></p>
+<h5 id="distinct-排重优化"><a href="#distinct-排重优化" class="headerlink" title="distinct 排重优化"></a>distinct 排重优化</h5><p>distinct 这个常见的排除重复数据的写法，会用到排序。排过序的数据更容易去重。</p>
+<p>从含有distinct的查询语句执行计划中，可以发现以及排序次数是0。<br>但TempSpe却是有值的。TempSpc是临时表空间。<br>实际上，DISTINCT是有排序的，只是在 AUTOTRACE 的 SORTS 关键字中不会显现而已。</p>
+<p>DISTINCT 会因为排序而影响性能，不过这里要注意一点，DISTINCT采用的是HASH UNIQUE的算法。<br>其实如果语句修改为<code>select distinct object id_from t where object_id=2</code>这样的等值查询而非范围查询时，将产生<code>SORT UNIQUE NOSORT</code>的算法。</p>
+<p>含有 distinct 的查询语句，走索引查询时，是可以消除其所产生的排序的。<br>不过现实中，DISTINCT语句靠索引来优化往往收效是不明显的，因为大多数情况用到DISTINCT都是因为表记录有重复，因此首要的是要考虑为什么重复。</p>
+<h5 id="索引全扫与快速扫描"><a href="#索引全扫与快速扫描" class="headerlink" title="索引全扫与快速扫描"></a>索引全扫与快速扫描</h5><p><code>INDEX FULL SCAN (MIN/MAX)</code>，是针对最大最小取值的一种特别的索引扫描方式。<br><code>INDEX RANGE SCAN</code>，是一种针对索引高度较低这个特性实现的一种范围扫描，在返回记录很少时相当高效。</p>
+<p><code>INDEX FULL SCAN</code>和<code>INDEX FAST FULL SCAN</code>的相同点，都是针对整个索引的全扫描，从头到尾遍历索引，而非局部的INDEX FULL SCAN(MIN&#x2F;MAX)和INDEX RANGE SCAN。<br>INDEX FAST FULL SCAN比INDEX FULL SCAN多了一个FAST，所以差别就是索引快速全扫描INDEX FAST FULL SCAN比索引全扫描INDEX FULL SCAN更快。<del>好像是废话</del><br>那么为什么INDEX FAST FULL SCAN会比INDEX FULL SCAN更快，<strong>是因为索引快速全扫描一次读取多个索引块，而索引全扫一次只读取一个块</strong>。<br>一次读取多个块不容易保证有序，而一次读取一个块可以保证有序，因此在有排序的场合，INDEX FULL SCAN的顺序读可以让排序消除，而INDEX FAST FULL SCAN虽然减少了逻辑读，但是排序这个动作却无法消除。</p>
+<p>所以说COUNT(*)和SUM之类的统计根本无须使用排序，一般都走INDEX FAST FULL SCAN，而涉及排序语句时，就要开始权衡利弊，也许使用INDEX FAST FULL SCAN更快，也许使用INDEX FULL SCAN更快，由Oracle的优化器计算出成本来选择。</p>
+<h5 id="UNION-合并的优化"><a href="#UNION-合并的优化" class="headerlink" title="UNION 合并的优化"></a>UNION 合并的优化</h5><p><strong>UNION 合并后没有重复数据，和 DISTINCT 类似，是有排序操作的。</strong><br><strong>UNION ALL 合并后有重复数据，只是简单的合并，不会有排序操作。</strong></p>
+<p>但是这里的 union 是不能利用索引消除排序的。这是因为 union 操作的是两个不同的结果集的筛选，各自的索引当然没法生效。<br>在某些业务场景下，两个 union 的表数据不可能出现重复时，使用 union all 而不使用 union，会提高查询效率。</p>
+<h4 id="主外键设计"><a href="#主外键设计" class="headerlink" title="主外键设计"></a>主外键设计</h4><p>主外键有三大特点：</p>
+<ol>
+<li>主键本身是一种索引</li>
+<li>可以保证表中主键所在列的唯一性</li>
+<li>可以有效地限制外键依赖的表的记录的完整性。</li>
+</ol>
+<p>其中前两个特点和<code>CREATE UNIQUE INDEX</code>建立的唯一性索引基本相同。</p>
+<p>外键建索引后，效率会更高，这和表连接的NESTED LOOPS连接方式有关，在后续表连接章节细说。</p>
+<p><strong>在外键上建索引，还能有效避免锁的竞争。</strong></p>
+<p>主外键最基本的一个功能：<strong>外键所在表的外键列取值必须在主表中的主键列有记录。</strong><br>否则会报错：<code>ORA-02292 integrity constraint (string.string) violated - child record found</code><br>Oracle提供的这些功能保证了多表记录之间记录的制约性。</p>
+<p>同样，如果子表中有记录，要删除主表中对应的主键记录，也会报错：<code>ORA-02292 integrity constraint (string.string) violated - child record found</code><br>级联删除的设置：<code>ALTER TABLE t_c ADD CONSTRAINT fk_t_c_id FOREIGN KEY (t_id) REFERENCES t (id) ON DELETE CASCADE;</code>。添加 ON DELETE CASCADE 关键字。<br><strong>设置级联删除后，删除主表的记录后，会自动将子表中对应的记录一起删除。慎用。</strong></p>
+<p>如果有一张表的某字段没有重复记录，并且只有一个普通索引，该如何改造为主键？<br>因为建主键的动作其实就是建了一个唯一性索引，再增加一个约束。<br>所以 <code>alter table t add constraint t_id_pk primary key(ID);</code> 即可。</p>
+<h4 id="组合索引设计"><a href="#组合索引设计" class="headerlink" title="组合索引设计"></a>组合索引设计</h4><p><strong>当查询的列在索引或组合索引中时，可以避免回表。</strong><br>回表在执行计划中叫 <code>TABLE ACCESS BY INDEX ROWID</code></p>
+<p><strong>当组合列返回的记录比较少时，组合索引的效率会比较高。</strong><br>类似 <code>select * from t where a = 1 and b = 2</code> 这种情况，如果在a和b字段建联合索引是不可能消除回表的，因为返回的是所有字段。<br>但是只要 a&#x3D;1 返回较多， b&#x3D;2 返回也较多，组合起来返回很少，就适合建联合索引。<br>但过多的字段建联合索引往往是不可取的，因为这样会导致索引过大，不仅影响了定位数据，更严重影响了更新性能，一般不超过三个字段。</p>
+<p>如果 a &#x3D; 1 and b &#x3D; 2 的返回和前面的单独 a &#x3D; 1 或者单独 b &#x3D; 2 的返回记录数差别不大，那组合索引的快速检索就失去意义了，单独建某列索引更好，因为单独建立的索引体积比组合索引要小，检索的索引块也更少。<br>但如果不是返回所有的列，就是回表的范畴了。组合索引可能更合适。</p>
+<hr>
+<p><strong>在等值查询的情况下，组合索引的列无论哪列在前，性能都一样。</strong><br>组合索引在第一字段进行排序，值相同的情况下，对第二个字段进行排序。<br>等值查询时，组合索引无论哪个在前都是一样的。查询到第一个条件的值后，查询第二个条件的值，因为是确定的值，同时索引是有序的，所以条件的顺序不影响查询效率。</p>
+<p><strong>组合索引的两列，当一列是范围查询，一列是等值查询的情况下，等值查询列在前，范围查询列在后，这样的索引最高效。</strong><br>但范围查询不同，范围条件在前时，需要逐个去查符合范围条件的第二个等值条件，它在每个符合范围的值中都是有序的（每个部分都是有序的）<br>而等值条件在前时，去查询符合等值条件的第二个范围条件，则要更简单。因为它整体是有序的。所以查询效率也更高。</p>
+<p><strong>范围查询改写为in查询，in查询的效率更高。因为in可以看作多个等值查询，定位到记录后可以停止继续搜索。</strong></p>
+<p><strong>如果单列的查询列和联合索引的前置列一样，那单列可以不建索引，直接利用联合索引来进行检索数据。</strong></p>
+<p>如果单列的取值不多，可能会用到索引，这种扫描被称为跳跃索引，不过应用场景不多。<br>跳跃索引（Index Skip Scan）是Oracle数据库中的一种特殊的索引访问方式，用于处理包含空值（NULL）的多列索引。跳跃索引可以提高查询性能，尤其是在索引列中存在大量空值的情况下。<br>跳跃索引的工作原理是让Oracle能够跳过那些不包含有效键值的节点，直接访问包含有效键值的节点。这样可以减少不必要的索引扫描，提高查询性能。</p>
+<hr>
+<p>不过索引也不是越多越好，虽然可以增加查询效率，减少查询的时间。但会影响更新效率，因为索引的维护需要时间。<br>特别是大量的无序插入，在索引很多的情况下会十分的慢。<br><strong>可以先将索引失效，插入完成后重建索引。可以提升性能。</strong></p>
+<ol>
+<li>对INSERT语句负面影响最大，有百害而无一利，只要有索引，插入就慢，越多越慢！</li>
+<li>对DELETE语句来说，有好有坏，在海量数据库定位删除少数记录时，这个条件列是索引列显然是必要的，但是过多列有索引还是会影响明显，因为其他列的索引也要因此被更新。在经常要删除大量记录的时候，危害加剧！</li>
+<li>对UPDATE语句的负面影响最小，快速定位少量记录并更新的场景和DELETE类似，但是具体修改某列时却有差别，不会触及其他索引列的维护。</li>
+</ol>
+<hr>
+<p>除了索引会影响更新语句外，建索引动作也需要谨慎。<strong>建索引会排序，而排序是非常耗CPU的一个动作</strong>，如果在系统繁忙时再增加大量排序，对系统来说无疑是雪上添霜。<br>另外<strong>建索引的过程会产生锁，而且不是行级锁，是把整个表锁住，任何该表的DML操作都将被阻止。</strong><br>建索引是需要把当前索引列的列值都取出来，排序后依次插入块中形成索引块的，加上锁是为了避免此时列值被更新，导致顺序又变化了，影响了建索引的工作。</p>
+<p><code>alter index index_name monitoring usage;</code> 对索引进行监控。<br><code>select * from v$object_usage;</code> 查询监控记录。其中 USED 字段表示索引是否被使用过。<br><code>alter index index_name nomonitoring usage;</code> 对索引解除监控。<br>另外，要注意监控也是有代价的。</p>
+<h3 id="位图索引"><a href="#位图索引" class="headerlink" title="位图索引"></a>位图索引</h3><p><code>create bitmap index index_name on table_name(field_name);</code> 创建位图索引。</p>
+<p>位图索引（Bitmap Index）是一种用于数据库中的特殊类型的索引结构。<br><strong>它主要用于低基数（low cardinality）的列，即那些具有相对较少不同值的列。</strong> 位图索引非常适合于数据仓库环境中的大量读取操作，因为它能够非常高效地处理选择查询。</p>
+<p>位图索引的工作原理：<br>位图索引使用一系列位图来表示数据表中的行。对于每一个不同的值，位图索引都会创建一个位图。位图中的每一位对应数据表中的一行记录，如果该行具有相应的值，则对应的位被设置为1；否则，位被设置为0。</p>
+<p>优点：</p>
+<ol>
+<li>位图索引非常节省空间，因为只存储0和1，每个值只占用1位。</li>
+<li>非常适合范围查询和过滤操作。可以通过位运算快速找到匹配的行。</li>
+<li>适合数据仓库中的复杂的、批处理式的查询。</li>
+</ol>
+<p>缺点：</p>
+<ol>
+<li>更新的成本高。低基数的列意味着包含同一值有大量的行，因此更新的影响很大。会导致锁等问题，影响并发。</li>
+<li>不适合高基数的列。对于具有大量不同值的列，位图索引会变得非常大且效率低下。</li>
+<li>对于较小的表，位图索引可能不会带来显著的性能提升，反而会增加额外的管理开销。</li>
+</ol>
+<p>COUNT(*)的性能，在非空列有BTREE索引的情况下，一般用到该索引性能远高于全表扫描。<br>不过性能最高的却是列上有位图索引的情况，甚至比用到普通非空列的BTREE索引时的性能又高出一大截。<br>另外，<strong>位图索引可以存储空值</strong>。</p>
+<p>位图索引的适合场景要满足两个条件：<strong>1. 位图索引列大量重复 2. 该表极少更新</strong></p>
+<h3 id="函数索引"><a href="#函数索引" class="headerlink" title="函数索引"></a>函数索引</h3><p><strong>对索引列做运算导致索引无法使用。</strong><br>比如 <code>select * from table_name where upper(field_name) = &#39;T&#39;;</code><br>当必须要对索引列做函数运算时，可以创建函数索引。</p>
+<p><code>create index index_name on table_name(upper(field_name));</code> 创建函数索引。</p>
+<p>函数索引（Function-Based Index）是一种特殊的索引类型，它允许在数据库中创建基于表达式或函数计算结果的索引。函数索引可以提高某些查询的性能，特别是在查询条件中包含复杂的表达式或函数时。<br>函数索引索的引键是基于表达式的结果，而不是表中的原始列值。当查询包含与函数索引表达式相同的表达式时，Oracle可以使用该索引来加速查询。这可以避免在查询执行时重复计算表达式。</p>
+<p>函数索引的性能介于普通索引和全表扫描之间。因此，能用普通索引就用普通索引。尽量避免列运算。</p>
+
+                </div>
+
+                
+                        
+<div class="post-copyright-info-container border-box">
+    <div class="copyright-info-content border-box">
+        <div class="copyright-info-top border-box">
+            <div class="copyright-post-title border-box text-ellipsis">
+                《收获，不止Oracle》读书笔记上篇-索引
+            </div>
+
+            <div class="copyright-post-link border-box text-ellipsis">
+                读书笔记/读书笔记/《收获，不止Oracle》读书笔记上篇-索引/
+            </div>
+        </div>
+
+        <div class="copyright-info-bottom border-box">
+            <div class="copyright-post-author bottom-item">
+                <div class="type">
+                    作者
+                </div>
+                <div class="content">咕咕咕</div>
+            </div>
+
+            <div class="post-time bottom-item">
+                <div class="type">
+                    发布于
+                </div>
+                <div class="content">2024-08-02 18:05</div>
+            </div>
+
+
+            <div class="post-license bottom-item">
+                <div class="type">
+                    许可
+                </div>
+                <div class="content tooltip" data-tooltip-content="CC BY-NC-SA 4.0">
+                    <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hans">
+                        <i class="fa-brands fa-creative-commons"></i>
+                        <i class="fa-brands fa-creative-commons-by"></i>
+                        <i class="fa-brands fa-creative-commons-nc"></i>
+                        <i class="fa-brands fa-creative-commons-sa"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <i class="copyright-bg fa-solid fa-copyright"></i>
+    </div>
+    <div class="copy-copyright-info flex-center tooltip" data-tooltip-content="复制版权信息" data-tooltip-offset-y="-2px">
+        <i class="fa-solid fa-copy"></i>
+    </div>
+</div>
+
+                
+
+                <div class="post-bottom-tags-and-share border-box">
+                    <div>
+                        
+                            <ul class="post-tags-box border-box">
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+                                    </li>
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/%E3%80%8A%E6%94%B6%E8%8E%B7%EF%BC%8C%E4%B8%8D%E6%AD%A2Oracle%E3%80%8B/">《收获，不止Oracle》</a>
+                                    </li>
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/Oracle/">Oracle</a>
+                                    </li>
+                                
+                            </ul>
+                        
+                    </div>
+                    <div>
+                        
+                            <div class="post-share-container border-box">
+    <ul class="share-list-wrap border-box">
+        <li class="qq share-item border-box flex-center tooltip"
+            data-tooltip-content="分享到 QQ"
+        >
+            <i class="fa-brands fa-qq"></i>
+        </li>
+        <li class="wechat share-item border-box flex-center tooltip tooltip-img"
+            data-tooltip-content="分享到微信"
+            data-tooltip-img-tip="微信扫一扫"
+            data-tooltip-img-style="background-color: #fff; top: -10px; padding: 0.6rem 0.6rem 0.1rem 0.6rem;"
+        >
+            <i class="fa-brands fa-weixin"></i>
+        </li>
+        <li class="weibo share-item border-box flex-center tooltip"
+            data-tooltip-content="分享到微博"
+        >
+            <i class="fa-brands fa-weibo"></i>
+        </li>
+    </ul>
+</div>
+
+                        
+                    </div>
+                </div>
+
+                
+                    <div class="reward-author-container border-box flex-center">
+    <div class="reward-btn keep-button border-box flex-center tooltip tooltip-img"
+            data-tooltip-content="谢谢你请我喝可乐~"
+            data-tooltip-img-url="/images/thanks.png"
+            data-tooltip-img-trigger="click"
+            data-tooltip-img-style="top: -8px;"
+    >
+        <i class="fa-solid fa-hand-holding-heart"></i>
+    </div>
+</div>
+
+                
+
+                
+                    <div class="post-nav border-box">
+                        
+                            <div class="prev-post">
+                                <a class="prev"
+                                   rel="prev"
+                                   href="/%E8%AE%B0%E5%BD%95%E7%94%9F%E6%B4%BB/%E8%AE%B0%E5%BD%95%E7%94%9F%E6%B4%BB/%E8%A8%80%E5%8F%B6%E4%B9%8B%E5%BA%AD/"
+                                   title="言叶之庭"
+                                >
+                                    <span class="left arrow-icon flex-center">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </span>
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">言叶之庭</span>
+                                        <span class="post-nav-item">上一篇</span>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                        
+                            <div class="next-post">
+                                <a class="next"
+                                   rel="next"
+                                   href="/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E3%80%8A%E6%94%B6%E8%8E%B7%EF%BC%8C%E4%B8%8D%E6%AD%A2Oracle%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0%E4%B8%8A%E7%AF%87-%E8%A1%A8%E8%AE%BE%E8%AE%A1/"
+                                   title="《收获，不止Oracle》读书笔记上篇-表设计"
+                                >
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">《收获，不止Oracle》读书笔记上篇-表设计</span>
+                                        <span class="post-nav-item">下一篇</span>
+                                    </span>
+                                    <span class="right arrow-icon flex-center">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                    </div>
+                
+
+                
+                    
+
+
+    <div class="comments-container border-box">
+        <div id="comments-anchor" class="comment-area-title border-box">
+            <i class="fas fa-comments"></i>&nbsp;评论
+        </div>
+        <div class="comment-plugin-fail border-box">
+    <span class="fail-tip">评论插件加载失败</span>
+    <button class="reload keep-button">点击重新加载</button>
+</div>
+<div class="comment-plugin-loading flex-center border-box">
+    <i class="loading-icon fa-solid fa-spinner fa-spin"></i>
+    <span class="load-tip">正在加载评论插件</span>
+</div>
+<script data-pjax>
+  window.KeepCommentPlugin = {}
+  window.KeepCommentPlugin.hideLoading = () => {
+    const cplDom = document.querySelector('.comments-container .comment-plugin-loading')
+    cplDom.style.display = 'none'
+  }
+  window.KeepCommentPlugin.loadFailHandle = () => {
+    window.KeepCommentPlugin.hideLoading()
+    const cpfDom = document.querySelector('.comments-container .comment-plugin-fail')
+    cpfDom.style.display = 'flex'
+    cpfDom.querySelector('.reload').addEventListener('click', () => {
+      window.location.reload()
+    })
+  }
+</script>
+
+        
+            
+
+    <div class="giscus-comments-container">
+        <div class="giscus" id="giscus"></div>
+        <script data-pjax
+                onerror="window.KeepCommentPlugin.loadFailHandle()"
+        >
+          if (!window.KeepCommentPlugin?.getGiscusTheme) {
+            window.KeepCommentPlugin.getGiscusTheme = () => {
+              return document.body.classList.contains('dark-mode') ? 'dark_dimmed' : 'light_tritanopia'
+            }
+          }
+
+          if (!window.KeepCommentPlugin?.changeGiscusTheme) {
+            window.KeepCommentPlugin.changeGiscusTheme = () => {
+              const iframe = document.querySelector('iframe.giscus-frame')
+              iframe && iframe.contentWindow.postMessage({
+                giscus: {
+                  setConfig: {
+                    theme: window.KeepCommentPlugin.getGiscusTheme()
+                  }
+                }
+              }, 'https://giscus.app')
+            }
+          }
+
+          if (!window.KeepCommentPlugin?.initGiscus) {
+            window.KeepCommentPlugin.initGiscus = () => {
+              const script = document.createElement('script')
+              script.async = true
+              script.src = 'https://giscus.app/client.js'
+              script.setAttribute('data-repo', 'Cooooing/Cooooing.github.io')
+              script.setAttribute('data-repo-id', 'R_kgDOHQal_w')
+              script.setAttribute('data-category', 'Announcements')
+              script.setAttribute('data-category-id', 'DIC_kwDOHQal_84CjZo6')
+              script.setAttribute('data-reactions-enabled', '1')
+              script.setAttribute('data-lang', 'zh-CN')
+              script.setAttribute('data-mapping', 'pathname')
+              script.setAttribute('data-strict', '0')
+              script.setAttribute('data-emit-metadata', '0')
+              script.setAttribute('data-input-position', 'top')
+              script.setAttribute('crossorigin', 'anonymous')
+              script.setAttribute('loading', 'lazy')
+              script.setAttribute('data-theme', window.KeepCommentPlugin.getGiscusTheme())
+              document.querySelector('.giscus-comments-container').appendChild(script)
+              script.onerror = () => {
+                window.KeepCommentPlugin.loadFailHandle()
+              }
+              script.onload = () => {
+                window.KeepCommentPlugin.hideLoading()
+              }
+              const toggleThemeBtn = document.querySelector('.tool-toggle-theme-mode')
+              toggleThemeBtn && toggleThemeBtn.addEventListener('click', () => {
+                window.KeepCommentPlugin.changeGiscusTheme()
+              })
+            }
+          }
+
+          if ('true' === "true") {
+            setTimeout(() => {
+              window.KeepCommentPlugin.initGiscus()
+            }, 1000)
+          } else {
+            window.addEventListener("DOMContentLoaded", window.KeepCommentPlugin.initGiscus)
+          }
+        </script>
+    </div>
+
+
+        
+    </div>
+
+
+
+
+
+                
+            </div>
+        </div>
+
+        
+            <div class="pc-post-toc left-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%BA%94%E7%AB%A0-%E6%83%8A%E5%8F%B9%EF%BC%8C%E7%B4%A2%E5%BC%95%E5%A4%A9%E5%9C%B0%E5%A6%99%E4%B8%8D%E5%8F%AF%E8%A8%80"><span class="nav-text">第五章 - 惊叹，索引天地妙不可言</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#BTREE-%E7%B4%A2%E5%BC%95"><span class="nav-text">BTREE 索引</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#BTREE-%E7%B4%A2%E5%BC%95%E7%BB%93%E6%9E%84%E5%9B%BE"><span class="nav-text">BTREE 索引结构图</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BB%BA%E7%AB%8B%E7%B4%A2%E5%BC%95%E7%9A%84%E6%AD%A5%E9%AA%A4"><span class="nav-text">建立索引的步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%A6%81%E5%BB%BA%E7%B4%A2%E5%BC%95%E5%85%88%E6%8E%92%E5%BA%8F"><span class="nav-text">要建索引先排序</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%88%97%E5%80%BC%E5%85%A5%E5%9D%97%E6%88%90%E7%B4%A2%E5%BC%95"><span class="nav-text">列值入块成索引</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%A1%AB%E6%BB%A1%E4%B8%80%E5%9D%97%E6%8E%A5%E4%B8%80%E5%9D%97"><span class="nav-text">填满一块接一块</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%90%8C%E7%BA%A7%E4%B8%A4%E5%9D%97%E9%9C%80%E4%BA%BA%E7%AE%A1"><span class="nav-text">同级两块需人管</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%B4%A2%E5%BC%95%E7%BB%93%E6%9E%84%E7%9A%84%E4%B8%89%E5%A4%A7%E9%87%8D%E8%A6%81%E7%89%B9%E7%82%B9"><span class="nav-text">索引结构的三大重要特点</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%B4%A2%E5%BC%95%E9%AB%98%E5%BA%A6%E8%BE%83%E4%BD%8E"><span class="nav-text">索引高度较低</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%B4%A2%E5%BC%95%E5%AD%98%E5%82%A8%E5%88%97%E5%80%BC"><span class="nav-text">索引存储列值</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%B4%A2%E5%BC%95%E6%9C%AC%E8%BA%AB%E6%9C%89%E5%BA%8F"><span class="nav-text">索引本身有序</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%B4%A2%E5%BC%95%E9%AB%98%E5%BA%A6%E8%BE%83%E4%BD%8E%E7%9A%84%E7%94%A8%E5%A4%84"><span class="nav-text">索引高度较低的用处</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%B4%A2%E5%BC%95%E5%AD%98%E5%82%A8%E5%88%97%E5%80%BC%E7%9A%84%E7%94%A8%E5%A4%84"><span class="nav-text">索引存储列值的用处</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#count-%E4%BC%98%E5%8C%96"><span class="nav-text">count(*) 优化</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#SUM-AVG-%E4%BC%98%E5%8C%96"><span class="nav-text">SUM&#x2F;AVG 优化</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#MAX-MIN-%E4%BC%98%E5%8C%96"><span class="nav-text">MAX&#x2F;MIN 优化</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%B4%A2%E5%BC%95%E5%9B%9E%E8%A1%A8%E4%B8%8E%E4%BC%98%E5%8C%96"><span class="nav-text">索引回表与优化</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%B4%A2%E5%BC%95%E6%9C%89%E5%BA%8F%E7%9A%84%E7%94%A8%E5%A4%84"><span class="nav-text">索引有序的用处</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#order-by-%E6%8E%92%E5%BA%8F%E4%BC%98%E5%8C%96"><span class="nav-text">order by 排序优化</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#distinct-%E6%8E%92%E9%87%8D%E4%BC%98%E5%8C%96"><span class="nav-text">distinct 排重优化</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%B4%A2%E5%BC%95%E5%85%A8%E6%89%AB%E4%B8%8E%E5%BF%AB%E9%80%9F%E6%89%AB%E6%8F%8F"><span class="nav-text">索引全扫与快速扫描</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#UNION-%E5%90%88%E5%B9%B6%E7%9A%84%E4%BC%98%E5%8C%96"><span class="nav-text">UNION 合并的优化</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%BB%E5%A4%96%E9%94%AE%E8%AE%BE%E8%AE%A1"><span class="nav-text">主外键设计</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BB%84%E5%90%88%E7%B4%A2%E5%BC%95%E8%AE%BE%E8%AE%A1"><span class="nav-text">组合索引设计</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%8D%E5%9B%BE%E7%B4%A2%E5%BC%95"><span class="nav-text">位图索引</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%87%BD%E6%95%B0%E7%B4%A2%E5%BC%95"><span class="nav-text">函数索引</span></a></li></ol></li></ol>
+    </div>
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom border-box">
+            
+<footer class="footer border-box">
+    <div class="border-box website-info-box default">
+        
+            <div class="copyright-info info-item default">
+                &copy;&nbsp;<span>2022</span>&nbsp;-&nbsp;2025
+                
+                    &nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;&nbsp;<a href="/">咕咕咕</a>
+                
+            </div>
+
+            <div class="theme-info info-item default">
+                由&nbsp;<a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;驱动&nbsp;&&nbsp;主题&nbsp;<a class="keep-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep</a>
+            </div>
+
+            
+
+            
+        
+
+        <div style="color:var(--text-color-4);"><span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>(～￣▽￣)～<script src="/js/lifeTime.js"></script></div>
+        <a href="https://icp.gov.moe/?keyword=20222450" target="_blank">萌ICP备20222450号</a>
+
+
+        <div class="count-item info-item default">
+            
+                <span class="count-box border-box word">
+                    <span class="item-type border-box">总字数</span>
+                    <span class="item-value border-box word">362.1k</span>
+                </span>
+            
+
+            
+                <span class="count-box border-box uv">
+                    <span class="item-type border-box">访客数</span>
+                    <span class="item-value border-box uv" id="busuanzi_value_site_uv"></span>
+                </span>
+            
+
+            
+                <span class="count-box border-box pv">
+                    <span class="item-type border-box">访问量</span>
+                    <span class="item-value border-box pv" id="busuanzi_value_site_pv"></span>
+                </span>
+            
+        </div>
+
+        <div id="aplayer">
+          <meting-js
+                  server="netease"
+                  type="playlist"
+                  id="7345595717"
+                  fixed="true"
+                  mini="true"
+                  autoplay="false"
+                  listFolded="true"
+                  order="random"
+                  preload="none">
+          </meting-js>
+        </div>
+            <br>
+            <br>
+            <br>
+    </div>
+
+</footer>
+
+        </div>
+    </div>
+
+    <!-- post tools -->
+    
+        <div class="post-tools left-toc">
+            <div class="post-tools-container border-box">
+    <ul class="tools-list border-box">
+        <!-- PC TOC show toggle -->
+        
+            <li class="tools-item flex-center toggle-show-toc">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        <!-- PC go comment -->
+        
+            <li class="tools-item flex-center go-to-comments">
+                <i class="fas fa-comment"></i>
+                <span class="post-comments-count"></span>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <!-- side tools -->
+    <div class="side-tools">
+        <div class="side-tools-container border-box ">
+    <ul class="side-tools-list side-tools-show-handle border-box">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-toggle-theme-mode flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+            <li class="tools-item rss flex-center">
+                <a class="flex-center"
+                   href="/atom.xml"
+                   target="_blank"
+                >
+                    <i class="fas fa-rss"></i>
+                </a>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list border-box">
+        
+            <li class="tools-item toggle-show-toc-tablet flex-center">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        
+            <li class="tools-item go-to-comments-tablet flex-center">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+
+        <li class="tools-item tool-scroll-to-top flex-center show-arrow">
+            <i class="arrow fas fa-arrow-up"></i>
+            <span class="percent"></span>
+        </li>
+    </ul>
+</div>
+
+    </div>
+
+    <!-- image mask -->
+    <div class="zoom-in-image-mask">
+    <img class="zoom-in-image">
+</div>
+
+
+    <!-- local search -->
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="搜索..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="close-popup-btn">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+    <!-- tablet toc -->
+    
+        <div class="tablet-post-toc-mask">
+            <div class="tablet-post-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%BA%94%E7%AB%A0-%E6%83%8A%E5%8F%B9%EF%BC%8C%E7%B4%A2%E5%BC%95%E5%A4%A9%E5%9C%B0%E5%A6%99%E4%B8%8D%E5%8F%AF%E8%A8%80"><span class="nav-text">第五章 - 惊叹，索引天地妙不可言</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#BTREE-%E7%B4%A2%E5%BC%95"><span class="nav-text">BTREE 索引</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#BTREE-%E7%B4%A2%E5%BC%95%E7%BB%93%E6%9E%84%E5%9B%BE"><span class="nav-text">BTREE 索引结构图</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BB%BA%E7%AB%8B%E7%B4%A2%E5%BC%95%E7%9A%84%E6%AD%A5%E9%AA%A4"><span class="nav-text">建立索引的步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%A6%81%E5%BB%BA%E7%B4%A2%E5%BC%95%E5%85%88%E6%8E%92%E5%BA%8F"><span class="nav-text">要建索引先排序</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%88%97%E5%80%BC%E5%85%A5%E5%9D%97%E6%88%90%E7%B4%A2%E5%BC%95"><span class="nav-text">列值入块成索引</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%A1%AB%E6%BB%A1%E4%B8%80%E5%9D%97%E6%8E%A5%E4%B8%80%E5%9D%97"><span class="nav-text">填满一块接一块</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%90%8C%E7%BA%A7%E4%B8%A4%E5%9D%97%E9%9C%80%E4%BA%BA%E7%AE%A1"><span class="nav-text">同级两块需人管</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%B4%A2%E5%BC%95%E7%BB%93%E6%9E%84%E7%9A%84%E4%B8%89%E5%A4%A7%E9%87%8D%E8%A6%81%E7%89%B9%E7%82%B9"><span class="nav-text">索引结构的三大重要特点</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%B4%A2%E5%BC%95%E9%AB%98%E5%BA%A6%E8%BE%83%E4%BD%8E"><span class="nav-text">索引高度较低</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%B4%A2%E5%BC%95%E5%AD%98%E5%82%A8%E5%88%97%E5%80%BC"><span class="nav-text">索引存储列值</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%B4%A2%E5%BC%95%E6%9C%AC%E8%BA%AB%E6%9C%89%E5%BA%8F"><span class="nav-text">索引本身有序</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%B4%A2%E5%BC%95%E9%AB%98%E5%BA%A6%E8%BE%83%E4%BD%8E%E7%9A%84%E7%94%A8%E5%A4%84"><span class="nav-text">索引高度较低的用处</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%B4%A2%E5%BC%95%E5%AD%98%E5%82%A8%E5%88%97%E5%80%BC%E7%9A%84%E7%94%A8%E5%A4%84"><span class="nav-text">索引存储列值的用处</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#count-%E4%BC%98%E5%8C%96"><span class="nav-text">count(*) 优化</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#SUM-AVG-%E4%BC%98%E5%8C%96"><span class="nav-text">SUM&#x2F;AVG 优化</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#MAX-MIN-%E4%BC%98%E5%8C%96"><span class="nav-text">MAX&#x2F;MIN 优化</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%B4%A2%E5%BC%95%E5%9B%9E%E8%A1%A8%E4%B8%8E%E4%BC%98%E5%8C%96"><span class="nav-text">索引回表与优化</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%B4%A2%E5%BC%95%E6%9C%89%E5%BA%8F%E7%9A%84%E7%94%A8%E5%A4%84"><span class="nav-text">索引有序的用处</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#order-by-%E6%8E%92%E5%BA%8F%E4%BC%98%E5%8C%96"><span class="nav-text">order by 排序优化</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#distinct-%E6%8E%92%E9%87%8D%E4%BC%98%E5%8C%96"><span class="nav-text">distinct 排重优化</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%B4%A2%E5%BC%95%E5%85%A8%E6%89%AB%E4%B8%8E%E5%BF%AB%E9%80%9F%E6%89%AB%E6%8F%8F"><span class="nav-text">索引全扫与快速扫描</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#UNION-%E5%90%88%E5%B9%B6%E7%9A%84%E4%BC%98%E5%8C%96"><span class="nav-text">UNION 合并的优化</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%BB%E5%A4%96%E9%94%AE%E8%AE%BE%E8%AE%A1"><span class="nav-text">主外键设计</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BB%84%E5%90%88%E7%B4%A2%E5%BC%95%E8%AE%BE%E8%AE%A1"><span class="nav-text">组合索引设计</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%8D%E5%9B%BE%E7%B4%A2%E5%BC%95"><span class="nav-text">位图索引</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%87%BD%E6%95%B0%E7%B4%A2%E5%BC%95"><span class="nav-text">函数索引</span></a></li></ol></li></ol>
+    </div>
+</div>
+
+            </div>
+        </div>
+    
+</main>
+
+
+
+<!-- common -->
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/toggle-theme.js"></script>
+
+<script src="/js/code-block.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+
+<!-- local-search -->
+
+    
+<script src="/js/local-search.js"></script>
+
+
+
+<!-- lazyload -->
+
+    
+<script src="/js/lazyload.js"></script>
+
+
+
+<div class="pjax">
+    
+        <!-- post-helper -->
+        
+<script src="/js/post/post-helper.js"></script>
+
+
+        <!-- toc -->
+        
+            
+<script src="/js/post/toc.js"></script>
+
+        
+
+        <!-- copyright-info -->
+        
+            
+<script src="/js/post/copyright-info.js"></script>
+
+        
+
+        <!-- share -->
+        
+            
+<script src="/js/post/share.js"></script>
+
+        
+    
+
+    <!-- category-page -->
+    
+
+    <!-- links-page -->
+    
+
+    <!-- photos-page -->
+    
+</div>
+
+<!-- mermaid -->
+
+
+<!-- pjax -->
+
+    
+<script src="/js/libs/pjax.min.js"></script>
+
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        window.pjax = new Pjax({
+            selectors: [
+                'head title',
+                '.page-container',
+                '.pjax',
+                '#aplayer',
+                '#canvas_sakura'
+            ],
+            history: true,
+            debug: false,
+            cacheBust: false,
+            timeout: 0,
+            analytics: false,
+            currentUrlFullReload: false,
+            scrollRestoration: false,
+        });
+
+        document.addEventListener('pjax:send', () => {
+            KEEP.utils.pjaxProgressBarStart()
+        });
+
+        document.addEventListener('pjax:complete', () => {
+            KEEP.utils.pjaxProgressBarEnd()
+            window.pjax.executeScripts(document.querySelectorAll('script[data-pjax], .pjax script'))
+            KEEP.initExecute()
+        });
+    });
+</script>
+
+
+
+
+    
+        
+            
+<script class="custom-inject-js" src="/js/APlayer.min.js" data-pjax></script>
+
+        
+    
+        
+            
+<script class="custom-inject-js" src="/js/Meting.min.js" data-pjax></script>
+
+        
+    
+        
+            
+<script class="custom-inject-js" src="/js/leaves.js" data-pjax></script>
+
+        
+    
+
+
+
+</body>
+</html>

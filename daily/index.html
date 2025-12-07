@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="技术博客,后端开发,编程笔记,生活">
+    <meta name="description" content="Code | Systems | Life — 专注编程本质，也关心世界如何运转。">
+    <meta name="author" content="咕咕咕">
+
+    
+    <title>
+        
+            日常 |
+        
+        咕咕咕的小破站
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+        <link rel="shortcut icon" href="/images/favicon.png">
+    
+    
+<link rel="stylesheet" href="/font/css/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/regular.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/solid.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/brands.min.css">
+
+    
+        
+            
+                
+<link rel="stylesheet" href="/css/APlayer.min.css">
+
+            
+        
+            
+                
+<link rel="stylesheet" href="/css/custom.css">
+
+            
+        
+    
+    <script class="keep-theme-configurations">
+    const KEEP = window.KEEP || {}
+    KEEP.hexo_config = {"hostname":"cooooing.github.io","root":"/","language":"zh-CN","path":"search.json"}
+    KEEP.theme_config = {"base_info":{"primary_color":"#0066cc","title":"咕咕咕的小破站","author":"咕咕咕","avatar":"/images/head.jpg","logo":"/images/head.jpg","favicon":"/images/favicon.png"},"menu":{"Archives":"/archives","Categories":"/categories","Tags":"/tags","日常":"/daily","Links":"/links","About":"/about"},"first_screen":{"enable":false,"background_img":"/images/bg.svg","background_img_dark":"/images/bg.svg","description":"Keep writing and Keep loving.","hitokoto":false},"social_contact":{"enable":false,"links":{"github":null,"weixin":null,"qq":null,"weibo":null,"zhihu":null,"twitter":null,"facebook":null,"email":null}},"scroll":{"progress_bar":false,"percent":false,"hide_header":true},"home":{"category":true,"tag":true,"announcement":null},"post":{"author_badge":{"enable":true,"level_badge":false,"custom_badge":["fishing"]},"word_count":{"wordcount":true,"min2read":true},"datetime_format":"YYYY-MM-DD HH:mm:ss","copyright_info":true,"share":true,"reward":{"enable":true,"img_link":"/images/thanks.png","text":"谢谢你请我喝可乐~"}},"code_block":{"tools":{"enable":true,"style":"default"},"highlight_theme":"default"},"toc":{"enable":true,"number":false,"expand_all":true,"init_open":true,"layout":"left"},"website_count":{"busuanzi_count":{"enable":true,"site_uv":true,"site_pv":true,"page_pv":true}},"local_search":{"enable":true,"preload":true},"comment":{"enable":true,"use":"giscus","valine":{"appid":null,"appkey":null,"server_urls":null,"placeholder":null},"gitalk":{"github_id":null,"github_admins":null,"repository":null,"client_id":null,"client_secret":null,"proxy":null},"twikoo":{"env_id":null,"region":null,"version":"1.6.21"},"waline":{"server_url":null,"reaction":false,"version":2},"giscus":{"repo":"Cooooing/Cooooing.github.io","repo_id":"R_kgDOHQal_w","category":"Announcements","category_id":"DIC_kwDOHQal_84CjZo6","reactions_enabled":true},"artalk":{"server":null},"disqus":{"shortname":null}},"rss":{"enable":true},"lazyload":{"enable":true},"cdn":{"enable":false,"provider":"cdnjs"},"pjax":{"enable":true},"footer":{"since":2022,"word_count":true,"icp":{"enable":false,"record_code":null,"url":"https://beian.miit.gov.cn"},"site_deploy":{"enable":false,"provider":"github","url":null},"shields_style":{"enable":false,"custom":[{"link_url":null,"img_url":null}]}},"inject":{"enable":true,"css":["/css/APlayer.min.css","/css/custom.css"],"js":["/js/APlayer.min.js","/js/Meting.min.js","/js/leaves.js"]},"root":"","links":[{"name":"鼠鼠在碎觉","link":"https://sszsj.com","avatar":"https://tmx.fishpi.cn/img/head.jpg","description":"我是不慎落入世界的一滴水墨"},{"name":"Gakkiyomi","link":"https://gakkiyomi.blog","avatar":"https://avatars.githubusercontent.com/u/41406557?v=4","description":"为往圣继绝学"},{"name":"Hancel's Blog","link":"https://my.hancel.org","avatar":"https://my.hancel.org/media/logo.jpg","description":"人生而自由，却无往不在枷锁之中。"},{"name":"Eastshann","link":"http://121.4.99.208/","avatar":"http://121.4.99.208/img/avatar.jpg","description":"冲和者，淡泊平和，谦冲守正"},{"name":"小于同学的异世界","link":"https://yby.zone","avatar":"https://yby-zone.obs.cn-east-3.myhuaweicloud.com/avatar.jpg","description":"为吾为枝，余地三尺，以己为棋，胜天半子。"},{"name":"Mlikiowa Home Village","link":"https://nanaeo.cn/","avatar":"https://q1.qlogo.cn/g?b=qq&nk=1627126029&s=100","description":"A litter Village With Mlikiowa"},{"name":"忘忧草","link":"https://owo.wyc.rest/","avatar":"https://owo.wyc.rest/img/%E4%B8%87%E5%8F%B6.jpg","description":"这只是一个小破站而已！"},{"name":"stillwarter","link":"https://stillwarter.github.io/","avatar":"https://file.fishpi.cn/2022/07/MOSHED2022621164630-1b1ec532.gif?imageView2/1/w/210/h/210/interlace/0/q/100","description":"光就是一切的意义"},{"name":"test12138","link":"http://你好.eu.org/","avatar":"https://file.fishpi.cn/2022/06/srchttpimgzcoolcncommunity0116405d84f975a801211d537707c9gifreferhttpimgzcool-0f2d09c9.gif?imageView2/1/w/48/h/48/interlace/0/q/100","description":"大丈夫生于天地之间，岂能郁郁久居人下。"},{"name":"呼呼呼","link":"https://bongbongbakudan.github.io/","avatar":"https://pwl.stackoverflow.wiki/2021/12/blob-28eb4b9f.png?imageView2/1/w/48/h/48/interlace/0/q/100","description":"去整点薯条"},{"name":"Plumbiu","link":"https://blog.plumbiu.top/","avatar":"https://avatars.githubusercontent.com/u/99574369?v=4","description":"这人很勤奋，啥都没留"},{"name":"hiRipple","link":"https://hiripple.com/","avatar":"https://avatars.githubusercontent.com/u/115361435?v=4","description":"超高校级的游戏玩家"}],"version":"4.0.6"}
+    KEEP.language_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"}
+    KEEP.language_code_block = {"copy":"复制代码","copied":"已复制","fold":"折叠代码块","folded":"已折叠"}
+    KEEP.language_copy_copyright = {"copy":"复制版权信息","copied":"已复制","title":"原文标题","author":"原文作者","link":"原文链接"}
+  </script>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-CLX32WF4R1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+
+      gtag('js', new Date());
+
+      gtag('config', 'G-CLX32WF4R1');
+    </script>
+
+    <!-- 51.la -->
+    <script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
+    <script>LA.init({id: "3JwPz6wbAloyTmMc", ck: "3JwPz6wbAloyTmMc", autoTrack: true})</script>
+
+<meta name="generator" content="Hexo 8.1.1"><link rel="alternate" href="/atom.xml" title="咕咕咕的小破站" type="application/atom+xml">
+</head>
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+        <span class="pjax-progress-bar"></span>
+        <i class="pjax-progress-icon fas fa-circle-notch fa-spin"></i>
+    
+</div>
+
+
+<main class="page-container border-box">
+
+    <!-- home first screen  -->
+    
+
+    <!-- page content -->
+    <div class="page-main-content border-box">
+        <div class="page-main-content-top">
+            
+<header class="header-wrapper">
+
+    <div class="border-box header-content">
+        <div class="left border-box">
+            
+                <a class="logo-image border-box" href="/">
+                    <img src="/images/head.jpg">
+                </a>
+            
+            <a class="site-name border-box" href="/">
+               咕咕咕的小破站
+            </a>
+        </div>
+
+        <div class="right border-box">
+            <div class="pc">
+                <ul class="menu-list">
+                    <li class="menu-item">
+                        <a class=""
+                           href="/"
+                        >首页</a>
+                    </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >归档</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/categories"
+                            >分类</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/tags"
+                            >标签</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class="active"
+                               href="/daily"
+                            >日常</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/links"
+                            >友链</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >关于</a>
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="fas search fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            <li class="drawer-menu-item flex-center">
+                <a class=""
+                   href="/"
+                >首页</a>
+            </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives"
+                    >归档</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/categories"
+                    >分类</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/tags"
+                    >标签</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class="active"
+                       href="/daily"
+                    >日常</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/links"
+                    >友链</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about"
+                    >关于</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle border-box">
+
+            <div class="main-content border-box">
+                
+
+                    
+<div class="fade-in-down-animation">
+    <div class="page-template-container border-box">
+        
+
+        <div class="page-template-bottom border-box">
+            
+            
+            <div class="page-content border-box keep-markdown-body">
+                
+                    <h1 id="日常"><a href="#日常" class="headerlink" title="日常"></a>日常</h1><h2 id="2025-08-23"><a href="#2025-08-23" class="headerlink" title="2025-08-23"></a>2025-08-23</h2><p><a class="link"   target="_blank" rel="noopener" href="https://www.seangoedecke.com/good-system-design/" >Everything I know about good system design<i class="fas fa-external-link-alt"></i></a></p>
+<blockquote>
+<p>What is system design?<br>In my view, <strong>if software design is how you assemble lines of code, system design is how you assemble services.</strong><br>The primitives of software design are variables, functions, classes, and so on.<br>The primitives of system design are app servers, databases, caches, queues, event buses, proxies, and so on.<br>什么是系统设计？在我看来，如果软件设计是组装代码的方式，那么系统设计就是组装服务的方式。<br>软件设计的原语是变量、函数、类等等。系统设计的原语是应用服务器、数据库、缓存、队列、事件总线、代理等等。</p>
+</blockquote>
+<h2 id="2025-06-28"><a href="#2025-06-28" class="headerlink" title="2025-06-28"></a>2025-06-28</h2><p>垃圾 mysql 居然连 full join 都不支持。</p>
+<h2 id="2024-12-28"><a href="#2024-12-28" class="headerlink" title="2024-12-28"></a>2024-12-28</h2><p>在阮大周刊上看到了一篇文章 <a class="link"   target="_blank" rel="noopener" href="https://ramsayleung.github.io/zh/post/2024/%E7%BC%96%E7%A8%8B%E5%8D%81%E5%B9%B4%E7%9A%84%E6%84%9F%E6%82%9F/" >Ramsay 编程十年的感悟<i class="fas fa-external-link-alt"></i></a><br>还是很有收获的。</p>
+<p>比如关于英语的重要性、对独立思考不随波逐流的判断力、不局限于具体技术，而是关注整体解决问题的能力、与人交流的能力，多认识厉害的大佬；<br>又比如关于代码质量的说法：</p>
+<blockquote>
+<p>make it run, make it fast, make it beautiful.</p>
+</blockquote>
+<h2 id="2024-12-21"><a href="#2024-12-21" class="headerlink" title="2024-12-21"></a>2024-12-21</h2><p>好！<br>今天第一次开源贡献。<br>聊天室用于分流的子节点，经过手工的暴力测试（指250个左右的客户端连接的负载非常流畅）（后续压测3000连接并发，CPU占用10%，非常流畅！2024-12-30）<br>也是第一次写多线程的东西，并且用于生产环境。要考虑锁，并发之类的，出问题也比较难排查。<br>项目地址：<a class="link"   target="_blank" rel="noopener" href="https://github.com/FishPiOffical/rhyus-golang" >https://github.com/FishPiOffical/rhyus-golang<i class="fas fa-external-link-alt"></i></a></p>
+<h2 id="2024-11-28"><a href="#2024-11-28" class="headerlink" title="2024-11-28"></a>2024-11-28</h2><p>2024-11-28 08:52 公司楼下美宜佳卖了一根放了很久的玉米给我。<br>太难吃了，再也不会去美宜佳了。望周知。</p>
+<h2 id="2024-11-17"><a href="#2024-11-17" class="headerlink" title="2024-11-17"></a>2024-11-17</h2><p>这两天体验了下cursor，虽然很久之前就用过了，不过那时候只是平常的代码补全。<br>现在代码补全算是基本操作了，很多编辑器、IDE都有这个功能了。<br>我重新把它下回来主要是它可以操作文件了，直接将生成好的代码放在文件中，然后和git一样显示出更改。<br>可以应用更改，也可以不应用。这也就意味着可以一行代码不敲，只跟AI聊天便可以完成开发。</p>
+<p>我用了一个下午，从零开始完成了一个前端项目的搭建。这时候还是挺满意的。<br>到晚上的时候，AI的能力就不太行了，应该是上下文到上限了。这时候就比较难受了。<br>不过AI展示出来的能力上限非常高，但这也很难被发挥出来。</p>
+<p><strong>沟通能力是非常重要的，如果能将需求描述地非常清楚，那么实现将不是问题。</strong><br>AI的提示词也是这样，和它沟通时，最好先明确它的身份、描述现状、描述目标、再然后是遇到的问题。<br>AI会给出他的解决思路，但如果你将解决办法也告诉他时，它将是你最得力的助手。<br>和一个懂的人沟通时，会非常舒服。这也是如果调研需求的人懂技术，那么很多问题都不会出现。<br>AI恰恰就是那个什么都懂的人，这时候上限就取决于我们自己。</p>
+<h2 id="2024-11-01"><a href="#2024-11-01" class="headerlink" title="2024-11-01"></a>2024-11-01</h2><p>犹犹豫豫，终究是买了小米15。赶在了首发的末尾<br>在线下没买到16+512的有些遗憾，不过线下有个礼盒，水杯、蓝牙耳机和双肩包。（不过质量不高<br>只争取到了给我修手机便宜点，sad。<br>小米手环9也没有，虽然后面说可以给我留，但还是以后再说吧。<br>还是要冷静消费，虽然感觉有些冲动。</p>
+<h2 id="2024-10-31"><a href="#2024-10-31" class="headerlink" title="2024-10-31"></a>2024-10-31</h2><p>有点讨厌下雨天了，淋了个遍。（不过下雨天适合睡觉</p>
+<h2 id="2024-09-08"><a href="#2024-09-08" class="headerlink" title="2024-09-08"></a>2024-09-08</h2><p>要是逃避，一切都不会有所改变的。必须稳稳看着眼前的一切，才能够继续向前走。<br>逃げたら、何も変わらないよ。目の前のすべてをしっかり見てこそ、前に進むことができる。</p>
+<h2 id="2024-08-23"><a href="#2024-08-23" class="headerlink" title="2024-08-23"></a>2024-08-23</h2><p>7月21日去修的手机，主板漏电，加上换了个电池。花了三百。<br>一个月后的今天，因为cpu烧了，彻底坏了。<br>返厂维修需要3-5天，又是三百多块。折价换新可以抵80。<br>2020年11月的 Redmi K30 5G 时光独白 8GB内存 256GB存储<br><strong>RIP！</strong></p>
+<p>暂时重新用起了六年前的 Redmi 6 Pro<br>界面流畅还是挺流畅的，但软件卡顿感十足，建议各个上来就小一个G安装包大小的软件反思。（说的就是你，微信<br>又要重装软件了，之前手机的数据也全部消失了。至少短时间内是不会回来了。</p>
+<p>这里产生了有一个做小文件同步软件的想法（又在挖坑了）。<br>管理各种密码（WIFI、服务器、各类软件等）、笔记、图片之类的小文件；内置一些贴合使用场景的小工具，比如密码生成器、快速帮填账密（？能实现吗）等。<br>基于硬件随时可能挂掉的想法，去中心化的同步（每个设备都维护一份，肯定涉及版本管理，如何去中心化、如何同步也是个问题）。<br>想法而已，挖坑挖坑。</p>
+<h2 id="2024-07-21"><a href="#2024-07-21" class="headerlink" title="2024-07-21"></a>2024-07-21</h2><p>花了一个周末重新租了房子，一百多平，比之前的舒服多了。<br>又花了一个周末搬家，搬家是真的累。六楼没电梯差点要了命。（<del>到底谁在租六楼没电梯的房子啊</del>）</p>
+<p>另外新买的键盘到了，准备放公司用。把笔记本架起来，用键盘打字。比原来的薄膜应该会舒服很多。<br><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/daily/2024-07-21-1.jpg"
+                        alt="2024-07-21-1"
+                 ></p>
+<p>然后，感谢和我一起租房的同事。把他主机的1050ti给我用了。终于不是用核显了，虽然只是1050ti。<br>他的cpu还是13490f的，没显卡开不了机。还得给他整个亮机卡。<del>在下单了</del><br>清灰，涂硅脂，也是整了好几个小时。毕竟他用了四年都没清理过。<del>翻新显卡了属于是</del><br><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/daily/2024-07-21-4.jpg"
+                        alt="2024-07-21-4"
+                 ></p>
+<p>批了点冰棍，已经挺久没有吃了。虽然只买了些便宜的。<br><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/daily/2024-07-21-2.jpg"
+                        alt="2024-07-21-2"
+                 ></p>
+<p>最后，把房东在房间里留的海信的网络电视给利用上了，也算是没浪费，当拓展显示器用了。<br>后面可以躺在床上，用手柄玩游戏了。虽然720p，但是比我的便携屏大多了。毕竟32寸的。<br><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/daily/2024-07-21-3.jpg"
+                        alt="2024-07-21-3"
+                 ></p>
+<h2 id="2024-05-31"><a href="#2024-05-31" class="headerlink" title="2024-05-31"></a>2024-05-31</h2><p>久违的没有这样看过日落了，在公交站台的晚风里，虽然只有那么几分钟，但全身心放空，什么都不去思考的惬意。<br>从去年上班开始，就没有体会过了。<br>上一次这样、应该还是在如皋实训时。晚上出门吃完饭回来路上。<br>晚风、日落、短暂且美丽的晚霞。<br><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/daily/2024-05-31.jpg"
+                        alt="2024-05-31"
+                 ></p>
+<h2 id="2024-03-27"><a href="#2024-03-27" class="headerlink" title="2024-03-27"></a>2024-03-27</h2><p>属于是跑遍江苏了<br><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/daily/2024-03-27.jpg"
+                        alt="2024-03-27"
+                 ></p>
+<h2 id="2024-03-14"><a href="#2024-03-14" class="headerlink" title="2024-03-14"></a>2024-03-14</h2><p>出差，但是久违地在星期四吃了肯德基（Crazy<br><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/daily/2024-03-14-1.jpg"
+                        alt="2024-03-14-1"
+                 ><br><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/daily/2024-03-14-2.jpg"
+                        alt="2024-03-14-2"
+                 ></p>
+<h2 id="2024-03-10"><a href="#2024-03-10" class="headerlink" title="2024-03-10"></a>2024-03-10</h2><p>吃吃吃<br><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/daily/2024-03-10.jpg"
+                        alt="2024-03-10"
+                 ></p>
+<h2 id="2024-03-01"><a href="#2024-03-01" class="headerlink" title="2024-03-01"></a>2024-03-01</h2><p>倒计时，两个月。</p>
+<h2 id="2024-02-29"><a href="#2024-02-29" class="headerlink" title="2024-02-29"></a>2024-02-29</h2><p>二十八年一遇的<strong>疯狂星期四</strong>！</p>
+<h2 id="2024-01-08"><a href="#2024-01-08" class="headerlink" title="2024-01-08"></a>2024-01-08</h2><p>大梦一场</p>
+<h2 id="2023-11-28"><a href="#2023-11-28" class="headerlink" title="2023-11-28"></a>2023-11-28</h2><p>还是加班<br>11月28日 22:21<br><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/daily/2023-11-28.jpg"
+                        alt="2023-11-28"
+                 ></p>
+<h2 id="2023-11-10"><a href="#2023-11-10" class="headerlink" title="2023-11-10"></a>2023-11-10</h2><p>加班<br>11月10日 00:12<br><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/daily/2023-11-10.jpg"
+                        alt="2023-11-10"
+                 ></p>
+<h2 id="2023-11-05"><a href="#2023-11-05" class="headerlink" title="2023-11-05"></a>2023-11-05</h2><p>这么多年终于完结了。<br>虽然知道不可能吧，但还是希望和平能长久一点。<br>毕竟乌克兰和俄罗斯、加沙和以色列还在战争中。害</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/daily/2023-11-05.png"
+                        alt="2023-11-05"
+                 ></p>
+<h2 id="2023-10-11"><a href="#2023-10-11" class="headerlink" title="2023-10-11"></a>2023-10-11</h2><p>都已经上五天班了，怎么才周三啊？<br>呜，库鲁西</p>
+<h2 id="2023-10-07"><a href="#2023-10-07" class="headerlink" title="2023-10-07"></a>2023-10-07</h2><p>今天是周一，明天是周一，后天还是周一！<br>啊————</p>
+<h2 id="2023-09-30"><a href="#2023-09-30" class="headerlink" title="2023-09-30"></a>2023-09-30</h2><p>中秋快乐，国庆快乐，生日快乐。</p>
+<h2 id="2023-07-07"><a href="#2023-07-07" class="headerlink" title="2023-07-07"></a>2023-07-07</h2><p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/daily/2023-07-07.jpg"
+                        alt="2023-07-07"
+                 ></p>
+<h2 id="2023-06-14"><a href="#2023-06-14" class="headerlink" title="2023-06-14"></a>2023-06-14</h2><p>卡在墙缝里一晚上的小三花。后腿断了，很凶很好看。<br>后来被它妈妈领走了，是校园里流浪的三花。（好想养三花，好好看<br><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/daily/2023-06-14.jpg"
+                        alt="2023-06-14"
+                 ></p>
+<h2 id="2023-06-04"><a href="#2023-06-04" class="headerlink" title="2023-06-04"></a>2023-06-04</h2><p>苏州灵岩山！有个灵岩寺<br>远处是太湖，几座山连在一起，连爬三座。<br><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/daily/2023-06-04-1.jpg"
+                        alt="2023-06-04-1"
+                 ><br><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/daily/2023-06-04-2.jpg"
+                        alt="2023-06-04-2"
+                 ><br>山上有山地摩托，似乎是平时训练。<br>陡的地方只能抓着绳子走，摩托就不一样了，直接就下去了。<br><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/daily/2023-06-04-3.jpg"
+                        alt="2023-06-04-3"
+                 ></p>
+<h2 id="2023-05-29"><a href="#2023-05-29" class="headerlink" title="2023-05-29"></a>2023-05-29</h2><p>店里新来的猫猫员工！取名汤姆<br><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/daily/2023-05-29-1.jpg"
+                        alt="2023-05-29-1"
+                 ><br><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/daily/2023-05-29-2.jpg"
+                        alt="2023-05-29-2"
+                 ><br><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/daily/2023-05-29-3.jpg"
+                        alt="2023-05-29-3"
+                 ></p>
+<h2 id="2023-05-24"><a href="#2023-05-24" class="headerlink" title="2023-05-24"></a>2023-05-24</h2><p>寄！<br><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/daily/2023-05-24.jpg"
+                        alt="2023-05-24"
+                 ></p>
+<h2 id="2023-05-17"><a href="#2023-05-17" class="headerlink" title="2023-05-17"></a>2023-05-17</h2><p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/daily/2023-05-17.jpg"
+                        alt="2023-05-17"
+                 ></p>
+<h2 id="2023-04-21"><a href="#2023-04-21" class="headerlink" title="2023-04-21"></a>2023-04-21</h2><p>这句话建议裱起来！<br><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/daily/2023-04-21.jpg"
+                        alt="2023-04-21"
+                 ></p>
+<h2 id="2023-04-20"><a href="#2023-04-20" class="headerlink" title="2023-04-20"></a>2023-04-20</h2><p>店里开始卖花了，可能是因为下个月情人节。<br>花很好看，就是刺太多了。<br><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/daily/2023-04-20-1.jpg"
+                        alt="2023-04-20-1"
+                 ><br><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/daily/2023-04-20-2.jpg"
+                        alt="2023-04-20-2"
+                 ><br><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/daily/2023-04-20-3.jpg"
+                        alt="2023-04-20-3"
+                 ></p>
+<h2 id="2023-04-06"><a href="#2023-04-06" class="headerlink" title="2023-04-06"></a>2023-04-06</h2><p>大学三年了，还是第一次去爬虞山（学校边上的山<br>临时起意，中午出发的。到山顶上面已经不让进了，4点结束卖票。（4点02分到的，大概<br><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/daily/2023-04-06-1.jpg"
+                        alt="2023-04-06-1"
+                 ><br><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/daily/2023-04-06-2.jpg"
+                        alt="2023-04-06-2"
+                 ><br><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/daily/2023-04-06-3.jpg"
+                        alt="2023-04-06-3"
+                 ></p>
+<h2 id="2023-03-09"><a href="#2023-03-09" class="headerlink" title="2023-03-09"></a>2023-03-09</h2><p>六十页的说明书，504鸽步骤，一千多个零件！<br>咔哒..咔哒…<br><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/daily/2023-03-09-1.jpg"
+                        alt="2023-03-09-1"
+                 ><br><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/daily/2023-03-09-2.jpg"
+                        alt="2023-03-09-2"
+                 ><br><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/daily/2023-03-09-3.jpg"
+                        alt="2023-03-09-3"
+                 ><br><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/daily/2023-03-09-4.jpg"
+                        alt="2023-03-09-4"
+                 ><br><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/daily/2023-03-09-5.jpg"
+                        alt="2023-03-09-5"
+                 ><br><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/daily/2023-03-09-6.jpg"
+                        alt="2023-03-09-6"
+                 ></p>
+<h2 id="2023-02-27"><a href="#2023-02-27" class="headerlink" title="2023-02-27"></a>2023-02-27</h2><p>今天来回坐了两个多小时公交<br>想吐，难受的不行。难受到这辈子不想再坐公交<br>yue————</p>
+<h2 id="2022-12-19"><a href="#2022-12-19" class="headerlink" title="2022-12-19"></a>2022-12-19</h2><p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/daily/2022-12-19.gif"
+                        alt="2022-12-19"
+                 ></p>
+<h2 id="2022-12-16"><a href="#2022-12-16" class="headerlink" title="2022-12-16"></a>2022-12-16</h2><p>“名人名言”<br><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/daily/2022-12-16.png"
+                        alt="2022-12-16"
+                 ></p>
+<h2 id="2022-12-09"><a href="#2022-12-09" class="headerlink" title="2022-12-09"></a>2022-12-09</h2><p>我下班了，蟹老板（9点）<br><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/daily/2022-12-9.jpg"
+                        alt="2022-12-9"
+                 ></p>
+<h2 id="2022-11-16"><a href="#2022-11-16" class="headerlink" title="2022-11-16"></a>2022-11-16</h2><p>不知不觉GTA5的主线已经结束了（意犹未尽）<br>异常期待GTA6<br><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/daily/2022-11-16-1.png"
+                        alt="2022-11-16-1"
+                 ><br><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/daily/2022-11-16-2.png"
+                        alt="2022-11-16-2"
+                 ></p>
+<h2 id="2022-11-14"><a href="#2022-11-14" class="headerlink" title="2022-11-14"></a>2022-11-14</h2><p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/daily/2022-11-14.gif"
+                        alt="2022-11-14"
+                 ><br>    ——山田凉《孤独摇滚！》</p>
+<h2 id="2022-10-20"><a href="#2022-10-20" class="headerlink" title="2022-10-20"></a>2022-10-20</h2><p>打印店第一个月的工资，真是个好数字。<br><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/daily/2022-10-20.jpg"
+                        alt="2022-10-20"
+                 ></p>
+<h2 id="2022-10-17"><a href="#2022-10-17" class="headerlink" title="2022-10-17"></a>2022-10-17</h2><p>新屏幕到了，真不错。可惜垃圾显卡跑不起来2k144hz。真可惜<br>稍微有点遗憾的就是屏幕右侧装着跟玩似的 micro usb 接口（摆设），以及属于听个响级别的内置音响。<br>对了，还漏发了螺丝。（虽然补发了）。<br>另外，顺便把上次键盘的图片补上。<br><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/daily/2022-10-17.jpg"
+                        alt="2022-10-17"
+                 ></p>
+<h2 id="2022-10-06"><a href="#2022-10-06" class="headerlink" title="2022-10-06"></a>2022-10-06</h2><p>怎么会有人在宿舍吃螺蛳粉啊？<br>算法有点看不下去了。</p>
+<blockquote>
+<p>有人相爱<br>有人夜里开车看海<br>有人leetcode第一题都做不出来</p>
+</blockquote>
+<p>どして？どうしよう？</p>
+<h2 id="2022-10-01"><a href="#2022-10-01" class="headerlink" title="2022-10-01"></a>2022-10-01</h2><p>还得是崔佛 <del>（真男人从不回头看爆炸）</del><br><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/daily/2022-10-01.png"
+                        alt="2022-10-01"
+                 ></p>
+<h2 id="2022-09-29"><a href="#2022-09-29" class="headerlink" title="2022-09-29"></a>2022-09-29</h2><p>晚上跑完步被一觉睡到晚上没吃晚饭的凡，拉去买夜宵。<br>我还没白名单出不去学校，在门口等了好久。<br><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/daily/2022-09-29-1.jpg"
+                        alt="2022-09-29-1"
+                 ><br>夜市还挺热闹（指因为城管在校门口，而在另一个十字路口摆摊）<br><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/daily/2022-09-29-2.jpg"
+                        alt="2022-09-29-2"
+                 ><br>好小子，还给我带了杯柠檬茶 <del>（还想带鸭屎香的？）</del><br>看在这杯柠檬茶的份上，就浅浅的写一下吧。</p>
+<h2 id="2022-09-27"><a href="#2022-09-27" class="headerlink" title="2022-09-27"></a>2022-09-27</h2><p>今天的天气非常好！如图：<br><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/daily/2022-09-27-1.jpg"
+                        alt="2022-09-27-1"
+                 ></p>
+<p>另外就是急救课了，因为问了个问题而被喊去趴在地上做示范的凡。<br><strong>惨 凡 惨</strong><br><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/daily/2022-09-27-2.jpg"
+                        alt="2022-09-27-2"
+                 ><br><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/daily/2022-09-27-3.jpg"
+                        alt="2022-09-27-3"
+                 ></p>
+<h2 id="2022-09-26"><a href="#2022-09-26" class="headerlink" title="2022-09-26"></a>2022-09-26</h2><blockquote>
+<p>你每天会忘记上千件事,何不把这件事也忘记?<br>You forget a thousand things every day，How about you make sure this is one of them?</p>
+</blockquote>
+<h2 id="2022-09-21"><a href="#2022-09-21" class="headerlink" title="2022-09-21"></a>2022-09-21</h2><p>下午去跑步，跑完休息的时候来了个四岁半的小孩子。<br>东问问西问问，真可爱。<del>是吧，凡</del><br><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/daily/2022-09-21.jpg"
+                        alt="2022-09-21"
+                 ><br>然后，关于死去的童年回忆（<del>丢手绢</del>）开始攻击我<br>最后，今天打印店晚上人有点小多。坏消息是我九点半才关门下班，好消息是那半个小时算工时。</p>
+<h2 id="2022-09-19"><a href="#2022-09-19" class="headerlink" title="2022-09-19"></a>2022-09-19</h2><p>今天的天气非常好！（但今天是大一新生军训的第二天。<del>看来学长学姐们太阳种的不错</del><br>今天也是操作系统线下的第一节课，zcy老师也算是我目前遇到的最有个性的老师了。课堂氛围还是很好的，除了课讲得有点慢？或许是因为ppt没有成功在电脑上方出来吧<del>（学校啊，多少年的老电脑了，该换了</del><br>唯一让人受不了的就是新的体育打卡软件，从各大软件商店的诸多差评可见一斑，不多说。<br>由于上个学期一整个学期都没来学校，我的键盘很脏很脏。这几天给清洗了下（126键拆装是真的考验耐心。另外，黑爵的蜻蜓点水是真得好看！<br>刚知道了灯光的调法（fn+home、end附近的六个键），真好看。<br>图晚点附上。<br><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/daily/2022-09-19.jpg"
+                        alt="2022-09-19"
+                 ></p>
+<h2 id="2022-09-14"><a href="#2022-09-14" class="headerlink" title="2022-09-14"></a>2022-09-14</h2><p>今天下了一天的雨，晚上还有台风。一整天都闷闷的，不是很舒服（除了自由的实验课<br>也是第一次碰matlab，处理图片也许蛮好的（但是交互不太行，甚至没有代码提示。<del>没有代码提示不会敲代码</del><br>另外强烈谴责中午坐在我对面吃螺蛳粉的两个人，我不理解。<br>我不理解为什么会有人喜欢吃螺蛳粉。<br>计组有点看不下去了，去看看算法。然后最近会有关于算法的文章吧（也许。<del>当然是简单的算法</del></p>
+<h2 id="2022-09-12"><a href="#2022-09-12" class="headerlink" title="2022-09-12"></a>2022-09-12</h2><p>今天有彩虹！但是拍的不好，就不放了。<br><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/daily/2022-09-12.jpg"
+                        alt="2022-09-12"
+                 ></p>
+<h2 id="2022-09-10"><a href="#2022-09-10" class="headerlink" title="2022-09-10"></a>2022-09-10</h2><p>中秋快乐！<br>中秋节和教师节在一起捏<br>很帅的月亮（<del>虽然不是我拍的</del>）<br><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/daily/2022-09-10.jpg"
+                        alt="2022-09-10"
+                 ></p>
+<h2 id="2022-09-09"><a href="#2022-09-09" class="headerlink" title="2022-09-09"></a>2022-09-09</h2><p>今天傍晚的云，有一朵像鱼一样！<br><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/daily/2022-09-09-1.jpg"
+                        alt="2022-09-09-1"
+                 ><br>打印店璐姐做的月饼！<br><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/daily/2022-09-09-2.jpg"
+                        alt="2022-09-09-2"
+                 ><br>以及，舍友送的五仁月饼（doge）<br><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/daily/2022-09-09-3.jpg"
+                        alt="2022-09-09-3"
+                 ></p>
+<h2 id="2022-09-05"><a href="#2022-09-05" class="headerlink" title="2022-09-05"></a>2022-09-05</h2><p>今天是去学校打印店兼职的第一天<br>啥也不会干，不过最后算是学会怎么打印身份证、用ps弄身份证图片以及排一寸（2.5cm*3.5cm，分辨率300）照片<br>后面找个人少的时候，练练怎么用裁照片切刀。（虽然说是对齐就行了<br>失误就是给人黑白打成彩色的了，pdf全选后打印没有设置选项，直接就开始打了（35页，也不知道打印店会不会亏）<br><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/daily/2022-09-05.jpg"
+                        alt="2022-09-05"
+                 ></p>
+<h2 id="2022-09-02"><a href="#2022-09-02" class="headerlink" title="2022-09-02"></a>2022-09-02</h2><p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/daily/2022-09-02.jpg"
+                        alt="2022-09-02"
+                 ></p>
+<h2 id="2022-09-01"><a href="#2022-09-01" class="headerlink" title="2022-09-01"></a>2022-09-01</h2><p>傍晚的操场<br><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/daily/2022-09-01-1.jpg"
+                        alt="2022-09-01-1"
+                 ><br><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/daily/2022-09-01-2.jpg"
+                        alt="2022-09-01-2"
+                 ></p>
+<h2 id="2021-12-28"><a href="#2021-12-28" class="headerlink" title="2021-12-28"></a>2021-12-28</h2><p>这是小米云文件夹中翻到的从前的落日</p>
+<p>回学校的公交车上<br><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/daily/2021-12-28-1.jpg"
+                        alt="2021-12-28-1"
+                 ><br>学校东门往北一小段路，小河的出口处<br><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/daily/2021-12-28-2.jpg"
+                        alt="2021-12-28-2"
+                 ></p>
+
+                
+            </div>
+
+            
+        </div>
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom border-box">
+            
+<footer class="footer border-box">
+    <div class="border-box website-info-box default">
+        
+            <div class="copyright-info info-item default">
+                &copy;&nbsp;<span>2022</span>&nbsp;-&nbsp;2025
+                
+                    &nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;&nbsp;<a href="/">咕咕咕</a>
+                
+            </div>
+
+            <div class="theme-info info-item default">
+                由&nbsp;<a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;驱动&nbsp;&&nbsp;主题&nbsp;<a class="keep-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep</a>
+            </div>
+
+            
+
+            
+        
+
+        <div style="color:var(--text-color-4);"><span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>(～￣▽￣)～<script src="/js/lifeTime.js"></script></div>
+        <a href="https://icp.gov.moe/?keyword=20222450" target="_blank">萌ICP备20222450号</a>
+
+
+        <div class="count-item info-item default">
+            
+                <span class="count-box border-box word">
+                    <span class="item-type border-box">总字数</span>
+                    <span class="item-value border-box word">362.1k</span>
+                </span>
+            
+
+            
+                <span class="count-box border-box uv">
+                    <span class="item-type border-box">访客数</span>
+                    <span class="item-value border-box uv" id="busuanzi_value_site_uv"></span>
+                </span>
+            
+
+            
+                <span class="count-box border-box pv">
+                    <span class="item-type border-box">访问量</span>
+                    <span class="item-value border-box pv" id="busuanzi_value_site_pv"></span>
+                </span>
+            
+        </div>
+
+        <div id="aplayer">
+          <meting-js
+                  server="netease"
+                  type="playlist"
+                  id="7345595717"
+                  fixed="true"
+                  mini="true"
+                  autoplay="false"
+                  listFolded="true"
+                  order="random"
+                  preload="none">
+          </meting-js>
+        </div>
+            <br>
+            <br>
+            <br>
+    </div>
+
+</footer>
+
+        </div>
+    </div>
+
+    <!-- post tools -->
+    
+
+    <!-- side tools -->
+    <div class="side-tools">
+        <div class="side-tools-container border-box ">
+    <ul class="side-tools-list side-tools-show-handle border-box">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-toggle-theme-mode flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+            <li class="tools-item rss flex-center">
+                <a class="flex-center"
+                   href="/atom.xml"
+                   target="_blank"
+                >
+                    <i class="fas fa-rss"></i>
+                </a>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list border-box">
+        
+
+        
+
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+
+        <li class="tools-item tool-scroll-to-top flex-center show-arrow">
+            <i class="arrow fas fa-arrow-up"></i>
+            <span class="percent"></span>
+        </li>
+    </ul>
+</div>
+
+    </div>
+
+    <!-- image mask -->
+    <div class="zoom-in-image-mask">
+    <img class="zoom-in-image">
+</div>
+
+
+    <!-- local search -->
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="搜索..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="close-popup-btn">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+    <!-- tablet toc -->
+    
+</main>
+
+
+
+<!-- common -->
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/toggle-theme.js"></script>
+
+<script src="/js/code-block.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+
+<!-- local-search -->
+
+    
+<script src="/js/local-search.js"></script>
+
+
+
+<!-- lazyload -->
+
+    
+<script src="/js/lazyload.js"></script>
+
+
+
+<div class="pjax">
+    
+
+    <!-- category-page -->
+    
+
+    <!-- links-page -->
+    
+
+    <!-- photos-page -->
+    
+</div>
+
+<!-- mermaid -->
+
+
+<!-- pjax -->
+
+    
+<script src="/js/libs/pjax.min.js"></script>
+
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        window.pjax = new Pjax({
+            selectors: [
+                'head title',
+                '.page-container',
+                '.pjax',
+                '#aplayer',
+                '#canvas_sakura'
+            ],
+            history: true,
+            debug: false,
+            cacheBust: false,
+            timeout: 0,
+            analytics: false,
+            currentUrlFullReload: false,
+            scrollRestoration: false,
+        });
+
+        document.addEventListener('pjax:send', () => {
+            KEEP.utils.pjaxProgressBarStart()
+        });
+
+        document.addEventListener('pjax:complete', () => {
+            KEEP.utils.pjaxProgressBarEnd()
+            window.pjax.executeScripts(document.querySelectorAll('script[data-pjax], .pjax script'))
+            KEEP.initExecute()
+        });
+    });
+</script>
+
+
+
+
+    
+        
+            
+<script class="custom-inject-js" src="/js/APlayer.min.js" data-pjax></script>
+
+        
+    
+        
+            
+<script class="custom-inject-js" src="/js/Meting.min.js" data-pjax></script>
+
+        
+    
+        
+            
+<script class="custom-inject-js" src="/js/leaves.js" data-pjax></script>
+
+        
+    
+
+
+
+</body>
+</html>

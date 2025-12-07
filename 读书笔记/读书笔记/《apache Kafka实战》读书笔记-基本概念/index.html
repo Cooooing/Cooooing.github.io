@@ -1,0 +1,1285 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="技术博客,后端开发,编程笔记,生活">
+    <meta name="description" content="Code | Systems | Life — 专注编程本质，也关心世界如何运转。">
+    <meta name="author" content="咕咕咕">
+
+    
+    <title>
+        
+            《apache Kafka实战》读书笔记-基本概念 |
+        
+        咕咕咕的小破站
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+        <link rel="shortcut icon" href="/images/favicon.png">
+    
+    
+<link rel="stylesheet" href="/font/css/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/regular.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/solid.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/brands.min.css">
+
+    
+        
+            
+                
+<link rel="stylesheet" href="/css/APlayer.min.css">
+
+            
+        
+            
+                
+<link rel="stylesheet" href="/css/custom.css">
+
+            
+        
+    
+    <script class="keep-theme-configurations">
+    const KEEP = window.KEEP || {}
+    KEEP.hexo_config = {"hostname":"cooooing.github.io","root":"/","language":"zh-CN","path":"search.json"}
+    KEEP.theme_config = {"base_info":{"primary_color":"#0066cc","title":"咕咕咕的小破站","author":"咕咕咕","avatar":"/images/head.jpg","logo":"/images/head.jpg","favicon":"/images/favicon.png"},"menu":{"Archives":"/archives","Categories":"/categories","Tags":"/tags","日常":"/daily","Links":"/links","About":"/about"},"first_screen":{"enable":false,"background_img":"/images/bg.svg","background_img_dark":"/images/bg.svg","description":"Keep writing and Keep loving.","hitokoto":false},"social_contact":{"enable":false,"links":{"github":null,"weixin":null,"qq":null,"weibo":null,"zhihu":null,"twitter":null,"facebook":null,"email":null}},"scroll":{"progress_bar":false,"percent":false,"hide_header":true},"home":{"category":true,"tag":true,"announcement":null},"post":{"author_badge":{"enable":true,"level_badge":false,"custom_badge":["fishing"]},"word_count":{"wordcount":true,"min2read":true},"datetime_format":"YYYY-MM-DD HH:mm:ss","copyright_info":true,"share":true,"reward":{"enable":true,"img_link":"/images/thanks.png","text":"谢谢你请我喝可乐~"}},"code_block":{"tools":{"enable":true,"style":"default"},"highlight_theme":"default"},"toc":{"enable":true,"number":false,"expand_all":true,"init_open":true,"layout":"left"},"website_count":{"busuanzi_count":{"enable":true,"site_uv":true,"site_pv":true,"page_pv":true}},"local_search":{"enable":true,"preload":true},"comment":{"enable":true,"use":"giscus","valine":{"appid":null,"appkey":null,"server_urls":null,"placeholder":null},"gitalk":{"github_id":null,"github_admins":null,"repository":null,"client_id":null,"client_secret":null,"proxy":null},"twikoo":{"env_id":null,"region":null,"version":"1.6.21"},"waline":{"server_url":null,"reaction":false,"version":2},"giscus":{"repo":"Cooooing/Cooooing.github.io","repo_id":"R_kgDOHQal_w","category":"Announcements","category_id":"DIC_kwDOHQal_84CjZo6","reactions_enabled":true},"artalk":{"server":null},"disqus":{"shortname":null}},"rss":{"enable":true},"lazyload":{"enable":true},"cdn":{"enable":false,"provider":"cdnjs"},"pjax":{"enable":true},"footer":{"since":2022,"word_count":true,"icp":{"enable":false,"record_code":null,"url":"https://beian.miit.gov.cn"},"site_deploy":{"enable":false,"provider":"github","url":null},"shields_style":{"enable":false,"custom":[{"link_url":null,"img_url":null}]}},"inject":{"enable":true,"css":["/css/APlayer.min.css","/css/custom.css"],"js":["/js/APlayer.min.js","/js/Meting.min.js","/js/leaves.js"]},"root":"","links":[{"name":"鼠鼠在碎觉","link":"https://sszsj.com","avatar":"https://tmx.fishpi.cn/img/head.jpg","description":"我是不慎落入世界的一滴水墨"},{"name":"Gakkiyomi","link":"https://gakkiyomi.blog","avatar":"https://avatars.githubusercontent.com/u/41406557?v=4","description":"为往圣继绝学"},{"name":"Hancel's Blog","link":"https://my.hancel.org","avatar":"https://my.hancel.org/media/logo.jpg","description":"人生而自由，却无往不在枷锁之中。"},{"name":"Eastshann","link":"http://121.4.99.208/","avatar":"http://121.4.99.208/img/avatar.jpg","description":"冲和者，淡泊平和，谦冲守正"},{"name":"小于同学的异世界","link":"https://yby.zone","avatar":"https://yby-zone.obs.cn-east-3.myhuaweicloud.com/avatar.jpg","description":"为吾为枝，余地三尺，以己为棋，胜天半子。"},{"name":"Mlikiowa Home Village","link":"https://nanaeo.cn/","avatar":"https://q1.qlogo.cn/g?b=qq&nk=1627126029&s=100","description":"A litter Village With Mlikiowa"},{"name":"忘忧草","link":"https://owo.wyc.rest/","avatar":"https://owo.wyc.rest/img/%E4%B8%87%E5%8F%B6.jpg","description":"这只是一个小破站而已！"},{"name":"stillwarter","link":"https://stillwarter.github.io/","avatar":"https://file.fishpi.cn/2022/07/MOSHED2022621164630-1b1ec532.gif?imageView2/1/w/210/h/210/interlace/0/q/100","description":"光就是一切的意义"},{"name":"test12138","link":"http://你好.eu.org/","avatar":"https://file.fishpi.cn/2022/06/srchttpimgzcoolcncommunity0116405d84f975a801211d537707c9gifreferhttpimgzcool-0f2d09c9.gif?imageView2/1/w/48/h/48/interlace/0/q/100","description":"大丈夫生于天地之间，岂能郁郁久居人下。"},{"name":"呼呼呼","link":"https://bongbongbakudan.github.io/","avatar":"https://pwl.stackoverflow.wiki/2021/12/blob-28eb4b9f.png?imageView2/1/w/48/h/48/interlace/0/q/100","description":"去整点薯条"},{"name":"Plumbiu","link":"https://blog.plumbiu.top/","avatar":"https://avatars.githubusercontent.com/u/99574369?v=4","description":"这人很勤奋，啥都没留"},{"name":"hiRipple","link":"https://hiripple.com/","avatar":"https://avatars.githubusercontent.com/u/115361435?v=4","description":"超高校级的游戏玩家"}],"version":"4.0.6"}
+    KEEP.language_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"}
+    KEEP.language_code_block = {"copy":"复制代码","copied":"已复制","fold":"折叠代码块","folded":"已折叠"}
+    KEEP.language_copy_copyright = {"copy":"复制版权信息","copied":"已复制","title":"原文标题","author":"原文作者","link":"原文链接"}
+  </script>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-CLX32WF4R1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+
+      gtag('js', new Date());
+
+      gtag('config', 'G-CLX32WF4R1');
+    </script>
+
+    <!-- 51.la -->
+    <script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
+    <script>LA.init({id: "3JwPz6wbAloyTmMc", ck: "3JwPz6wbAloyTmMc", autoTrack: true})</script>
+
+<meta name="generator" content="Hexo 8.1.1"><link rel="alternate" href="/atom.xml" title="咕咕咕的小破站" type="application/atom+xml">
+</head>
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+        <span class="pjax-progress-bar"></span>
+        <i class="pjax-progress-icon fas fa-circle-notch fa-spin"></i>
+    
+</div>
+
+
+<main class="page-container border-box">
+
+    <!-- home first screen  -->
+    
+
+    <!-- page content -->
+    <div class="page-main-content border-box">
+        <div class="page-main-content-top">
+            
+<header class="header-wrapper">
+
+    <div class="border-box header-content">
+        <div class="left border-box">
+            
+                <a class="logo-image border-box" href="/">
+                    <img src="/images/head.jpg">
+                </a>
+            
+            <a class="site-name border-box" href="/">
+               咕咕咕的小破站
+            </a>
+        </div>
+
+        <div class="right border-box">
+            <div class="pc">
+                <ul class="menu-list">
+                    <li class="menu-item">
+                        <a class=""
+                           href="/"
+                        >首页</a>
+                    </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >归档</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/categories"
+                            >分类</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/tags"
+                            >标签</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/daily"
+                            >日常</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/links"
+                            >友链</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >关于</a>
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="fas search fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            <li class="drawer-menu-item flex-center">
+                <a class=""
+                   href="/"
+                >首页</a>
+            </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives"
+                    >归档</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/categories"
+                    >分类</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/tags"
+                    >标签</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/daily"
+                    >日常</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/links"
+                    >友链</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about"
+                    >关于</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle border-box">
+
+            <div class="main-content border-box">
+                
+
+                    
+<div class="fade-in-down-animation">
+    <div class="post-page-container border-box">
+        <div class="post-content-container border-box">
+            
+
+            <div class="post-content-bottom border-box">
+                
+                    <div class="post-title">
+                        《apache Kafka实战》读书笔记-基本概念
+                    </div>
+                
+
+                
+                    <div class="post-header border-box">
+                        
+                            <div class="avatar-box border-box">
+                                <img src="/images/head.jpg">
+                            </div>
+                        
+                        <div class="info-box">
+                            <div class="author border-box">
+                                <span class="name">咕咕咕</span>
+                                
+                                    <span class="author-badge">fishing</span>
+                                
+                            </div>
+                            <div class="meta-info border-box">
+                                
+
+<div class="post-meta-info-container border-box post">
+    <div class="post-meta-info border-box">
+        
+
+        
+            <span class="meta-info-item post-create-date">
+                <i class="icon fa-solid fa-calendar-plus"></i>&nbsp;
+                <span class="datetime">2025-03-08 17:37:55</span>
+            </span>
+
+            <span class="meta-info-item post-update-date">
+                <i class="icon fa-solid fa-file-pen"></i>&nbsp;
+                <span class="datetime" data-updated="Sat Mar 08 2025 09:37:55 GMT+0000">2025-03-08 17:37:55</span>
+            </span>
+        
+
+        
+            <span class="meta-info-item post-category border-box"><i class="icon fas fa-folder"></i>&nbsp;
+                <ul class="post-category-ul">
+                    
+                            <li class="category-item"><a href="/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">读书笔记</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+            <span class="post-tag meta-info-item border-box">
+                <i class="icon fas fa-tags"></i>&nbsp;
+                <ul class="post-tag-ul">
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/%E3%80%8Aapache-Kafka%E5%AE%9E%E6%88%98%E3%80%8B/">《apache Kafka实战》</a></li>
+                        
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/kafka/">kafka</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+        
+            <span class="meta-info-item post-wordcount">
+                <i class="icon fas fa-file-word"></i>&nbsp;<span>8k 字</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-min2read">
+                <i class="icon fas fa-clock"></i>&nbsp;<span>28 分钟</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-pv">
+                <i class="icon fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+            </span>
+        
+    </div>
+
+    
+</div>
+
+                            </div>
+                        </div>
+                    </div>
+                
+
+                <div class="post-content keep-markdown-body">
+                    
+
+                    <h2 id="第一章-认识-Apache-Kafka"><a href="#第一章-认识-Apache-Kafka" class="headerlink" title="第一章 - 认识 Apache Kafka"></a>第一章 - 认识 Apache Kafka</h2><p>Kafka 的核心功能是什么？一言以蔽之，<strong>高性能的消息发送与高性能的消息消费</strong>。</p>
+<h3 id="消息引擎系统（Messaging-system）"><a href="#消息引擎系统（Messaging-system）" class="headerlink" title="消息引擎系统（Messaging system）"></a>消息引擎系统（Messaging system）</h3><p>用于在不同应用间传输消息的系统，消息引擎系统中的消息自然是最关键的因素之一。<br>其实，这里的消息可以是任何形式的数据，比如电子邮件、传真、即时消息，甚至是其他服务等，总之都是对企业有价值的数据。<br>在设计一个消息引擎系统时需要考虑的两个重要因素：</p>
+<ul>
+<li>消息设计。</li>
+<li>传输协议设计。</li>
+</ul>
+<h4 id="消息设计"><a href="#消息设计" class="headerlink" title="消息设计"></a>消息设计</h4><p><strong>消息引擎系统在设计消息时一定要考虑语义的清晰和格式上的通用性。</strong><br>一条消息要有能够完整清晰表达业务的能力，它不能是含糊不清、语义不明甚至无法处理的。同时，为了更好地表达语义以及最大限度地提高重用性，消息通常都采用结构化的方式进行设计。<br>比如SOAP协议中的消息就采用了XML格式，而Web Service也支持JSON格式的消息。Kafka的消息是用二进制方式来保存的，但依然是结构化的消息。</p>
+<h4 id="传输协议设计"><a href="#传输协议设计" class="headerlink" title="传输协议设计"></a>传输协议设计</h4><p><strong>消息传输协议指定了消息在不同系统之间传输的方式。</strong><br>这类协议可能包括任何能够在不同系统间传输消息或是执行语义操作的协议或框架。<br>比如现在主流的 RPC 及序列化框架，包括Google的Protocol Buffers、阿里系的Dubbo等。<br>Kafka自己设计了一套二进制的消息传输协议。</p>
+<h4 id="消息引擎范型"><a href="#消息引擎范型" class="headerlink" title="消息引擎范型"></a>消息引擎范型</h4><p>一个消息引擎范型是一个基于网络的架构范型，描述了消息引擎系统的两个不同的子部分是如何互连且交互的。<br>如果把消息引擎系统的这两个子系统比喻成两座城市，那么之前谈到的传输协议就是需要铺设的沥青公路，而引擎范型决定了来往穿梭于这两座城市的路线。</p>
+<p>最常见的两种消息引擎范型是消息队列模型和发布&#x2F;订阅模型。</p>
+<p>消息队列(message queue)模型是基于队列提供消息传输服务的，多用于进程间通信（inter-process communication,IPC)以及线程间通信。<br>该模型定义了消息队列(queue)、发送者(sender)和接收者(receiver)，提供了一种点对点(point-to-point,p2p)的消息传递方式，即发送者发送每条消息到队列的指定位置，接收者从指定位置获取消息。一旦消息被消费(consumed)，就会从队列中移除该消息。<br><strong>每条消息由一个发送者生产出来，且只被一个消费者(consumer)处理——发送者和消费者之间是一对一的关系。</strong><br>生活中接线生的工作就是一个典型的基于队列的消息引擎模型。每个打进来的电话都进入一个排队队列，然后只由一个接线生进行处理。同一个客户不会被第二个接线生处理。</p>
+<p>另一种模型就是发布&#x2F;订阅模型（publish&#x2F;subscribe，或简称为 pub&#x2F;sub），与前一种模型不同，它有主题（topic）的概念：一个 topic 可以理解为逻辑语义相近的消息的容器。<br>这种模型也定义了类似于生产者&#x2F;消费者这样的角色，即发布者（publisher）和订阅者（subscriber）。<strong>发布者将消息生产出来发送到指定的 topic 中，所有订阅了该 topic 的订阅者都可以接收到该topic下的所有消息。</strong><br>通常具有相同订阅 topic的所有订阅者将接收到同样的消息。生活中报纸的订阅就是一种典型的发布&#x2F;订阅模型：很多读者都会订阅同一个报社（类比于同一个 topic）出版的报纸，这样每当报纸更新（生产新的消息）时，这些读者都可以收到最新的报纸（接收最新的消息）。</p>
+<p>Kafka引入了消息组（consumer group）的概念来同时支持这两种模型。</p>
+<h3 id="Kafka-概要设计"><a href="#Kafka-概要设计" class="headerlink" title="Kafka 概要设计"></a>Kafka 概要设计</h3><p>Kafka的设计初衷就是为了解决互联网公司超大量级数据的实时传输。为了实现这个目标，Kafka在设计之初就需要考虑以下4个方面的问题。</p>
+<ul>
+<li>吞吐量&#x2F;延时。</li>
+<li>消息持久化。</li>
+<li>负载均衡和故障转移。</li>
+<li>伸缩性。</li>
+</ul>
+<h4 id="吞吐量-延时"><a href="#吞吐量-延时" class="headerlink" title="吞吐量&#x2F;延时"></a>吞吐量&#x2F;延时</h4><p>通常来说，吞吐量是某种处理能力的最大值。而对于 Kafka而言，<strong>它的吞吐量就是每秒能够处理的消息数或者每秒能够处理的字节数</strong>。很显然，我们自然希望消息引擎的吞吐量越大越好。<br>消息引擎系统还有一个名为延时的性能指标。它衡量的是一段时间间隔，可能是发出某个操作与接收到操作响应（response）之间的时间，或者是在系统中导致某些物理变更的起始时刻与变更正式生效时刻之间的间隔。<br>对于 Kafka而言， <strong>延时可以表示客户端发起请求与服务器处理请求并发送响应给客户端之间的这一段时间</strong>。显而易见，延时间隔越短越好。</p>
+<p>在实际使用场景中，这两个指标通常是一对矛盾体，即调优其中一个指标通常会使另一个指标变差。<br>Kafka而言它是如何做到高吞吐量、低延时的呢？首先，Kafka 的写入操作是很快的，这主要得益于它对磁盘的使用方法的不同。<br>虽然Kafka 会持久化所有数据到磁盘，但本质上每次写入操作其实都只是把数据写入到操作系统的页缓存（page cache）中，然后由操作系统自行决定什么时候把页缓存中的数据写回磁盘上。这样的设计有3个主要优势。</p>
+<ul>
+<li>操作系统页缓存是在内存中分配的，所以消息写入的速度非常快。</li>
+<li>Kafka不必直接与底层的文件系统打交道。所有烦琐的I&#x2F;O操作都交由操作系统来处理。</li>
+<li>Kafka写入操作采用追加写入（append）的方式，避免了磁盘随机写操作。（虽然通常认为物理磁盘读写操作是很慢的，但是磁盘的顺序读写速度还是非常快的）</li>
+</ul>
+<p>Kafka 在设计时采用了追加写入消息的方式，即只能在日志文件末尾追加写入新的消息，且不允许修改已写入的消息，因此它属于典型的磁盘顺序访问型操作，所以Kafka 消息发送的吞吐量是很高的。<br>在实际使用过程中可以很轻松地做到每秒写入几万甚至几十万条消息。</p>
+<p>Kafka是把消息写入操作系统的页缓存中的。那么同样地，Kafka 在读取消息时会首先尝试从 OS的页缓存中读取，如果命中便把消息经页缓存直接发送到网络的 Socket上。<br>这个过程就是利用 Linux 平台的 sendfile 系统调用做到的，而这种技术就是大名鼎鼎的<strong>零拷贝（Zero Copy）技术</strong>。</p>
+<p>关于 sendfile 与零拷贝<br>传统的Linux操作系统中的I&#x2F;O接口是依托于数据拷贝来实现的，但在零拷贝技术出现之前，一个I&#x2F;O操作会将同一份数据进行多次拷贝。<br>数据传输过程中还涉及内核态与用户态的上下文切换，CPU 的开销非常大，因此极大地限制了 OS 高效进行数据传输的能力。<br>零拷贝技术很好地改善了这个问题：首先在内核驱动程序处理 I&#x2F;O 数据的时候，它不再需要进行上下文的切换，节省了内核缓冲区与用户态应用程序缓冲区之间的数据拷贝，同时它利用直接存储器访问技术（Direct Memory Access,DMA）执行I&#x2F;O操作，因此也避免了OS内核缓冲区之间的数据拷贝，故而得名零拷贝。</p>
+<ul>
+<li><p>传统方式（没有零拷贝）：</p>
+<ul>
+<li><strong>步骤 1</strong>：内核调用 <code>read()</code> 从磁盘读取数据到 <strong>内核缓冲区</strong>（Page Cache）。</li>
+<li><strong>步骤 2</strong>：再调用 <code>write()</code> 将数据从 <strong>内核缓冲区</strong> 拷贝到 <strong>用户缓冲区</strong>（User Buffer）。</li>
+<li><strong>步骤 3</strong>：用户态再调用 <code>send()</code>，将数据拷贝回 <strong>内核缓冲区</strong>（Socket Buffer）。</li>
+<li><strong>步骤 4</strong>：内核将数据写入 <strong>网卡缓冲区</strong>，最终发送给消费者。</li>
+</ul>
+</li>
+<li><p>Kafka 采用 <code>sendfile()</code>（零拷贝）：</p>
+<ul>
+<li><strong>步骤 1</strong>：内核直接将数据从 <strong>磁盘 Page Cache</strong> 复制到 <strong>Socket Buffer</strong>，绕过用户态，不经过用户缓冲区。</li>
+<li><strong>步骤 2</strong>：数据从 <strong>Socket Buffer</strong> 直接发送到网卡，传输给 Consumer。</li>
+</ul>
+</li>
+</ul>
+<p>除了零拷贝技术，Kafka 由于大量使用页缓存，故读取消息时大部分消息很有可能依然保存在页缓存中，因此可以直接命中缓存，不用“穿透”到底层的物理磁盘上获取消息，从而极大地提升了消息读取的吞吐量。<br>事实上，如果我们监控一个经过良好调优的 Kafka生产集群便可以发现，即使是那些有负载的 Kafka服务器，其磁盘的读操作也很少，这是因为大部分的消息读取操作会直接命中页缓存。</p>
+<h4 id="消息持久化"><a href="#消息持久化" class="headerlink" title="消息持久化"></a>消息持久化</h4><p>Kafka是要持久化消息的，而且要把消息持久化到磁盘上。这样做的好处如下。</p>
+<ul>
+<li>解耦消息发送与消息消费 ：本质上来说，Kafka 最核心的功能就是提供了生产者-消费者模式的完整解决方案。通过将消息持久化使得生产者方不再需要直接和消费者方耦合，它只是简单地把消息生产出来并交由 Kafka 服务器保存即可，因此提升了整体的吞吐量。</li>
+<li>实现灵活的消息处理 ：很多 Kafka 的下游子系统（接收 Kafka 消息的系统）都有这样的需求——对于已经处理过的消息可能在未来的某个时间点重新处理一次，即所谓的消息重演（message replay）。消息持久化便可以很方便地实现这样的需求。</li>
+</ul>
+<p>另外，Kafka 实现持久化的设计也有新颖之处。<br>普通的系统在实现持久化时可能会先尽量使用内存，当内存资源耗尽时，再一次性地把数据“刷盘”；<br>而 Kafka 则反其道而行之，所有数据都会立即被写入文件系统的持久化日志中，之后Kafka服务器才会返回结果给客户端通知它们消息已被成功写入。<br>这样做既实时保存了数据，又减少了 Kafka程序对于内存的消耗，从而将节省出的内存留给页缓存使用，更进一步地提升了整体性能。</p>
+<h4 id="负载均衡和故障转移"><a href="#负载均衡和故障转移" class="headerlink" title="负载均衡和故障转移"></a>负载均衡和故障转移</h4><p>作为一个功能完备的分布式系统，Kafka 如果只提供了最基本的消息引擎功能肯定不足以帮助它脱颖而出。一套完整的消息引擎解决方案中必然要提供负载均衡（load balancing）和故障转移（fail-over）功能。</p>
+<p><strong>负载均衡就是让系统的负载根据一定的规则均衡地分配在所有参与工作的服务器上，从而最大限度地提升系统整体的运行效率。</strong><br>具体到Kafka来说，默认情况下 Kafka的每台服务器都有均等的机会为 Kafka 的客户提供服务，可以把负载分散到所有集群中的机器上，避免出现“耗尽某台服务器”的情况发生。<br>Kafka 实现负载均衡实际上是通过智能化的分区领导者选举（partition leader election）来实现的。</p>
+<p><strong>故障转移是指当服务器意外中止时，整个集群可以快速地检测到该失效（failure），并立即将该服务器上的应用或服务自动转移到其他服务器上。</strong><br>故障转移通常是以“心跳”或“会话”的机制来实现的，即只要主服务器与备份服务器之间的心跳无法维持或主服务器注册到服务中心的会话超时过期了，那么就认为主服务器已无法正常运行，集群会自动启动某个备份服务器来替代主服务器的工作。<br>Kafka 服务器支持故障转移的方式就是使用会话机制。每台 Kafka 服务器启动后会以会话的形式把自己注册到ZooKeeper 服务器上。一旦该服务器运转出现问题，与ZooKeeper 的会话便不能维持从而超时失效，此时 Kafka 集群会选举出另一台服务器来完全代替这台服务器继续提供服务。</p>
+<h4 id="伸缩性"><a href="#伸缩性" class="headerlink" title="伸缩性"></a>伸缩性</h4><p>伸缩性，英文名是 scalability。根据 Java 大神 Brian Goetz 在其经典著作 Java Concurrency in Practice 中的定义，<strong>伸缩性表示向分布式系统中增加额外的计算资源（比如CPU、内存、存储或带宽）时吞吐量提升的能力</strong>。<br>举一个例子来说，对于计算密集型（computation-intensive）的业务而言，CPU的消耗一定是最大的，这类系统上的操作我们称之为 CPU-bound。<br>那么如果一个 CPU 的运算能力是 U，我们自然希望两个 CPU 的运算能力是2U，即可以线性地扩容计算能力，这种线性伸缩性是最理想的状态，但在实际中几乎不可能达到，毕竟分布式系统中有很多隐藏的“单点”瓶颈制约了这种线性的计算能力扩容。</p>
+<p>阻碍线性扩容的一个很常见的因素就是状态的保存。<br>我们知道，不论是哪类分布式系统，集群中的每台服务器一定会维护很多内部状态。如果由服务器自己来保存这些状态信息，则必须要处理一致性的问题。<br>相反，如果服务器是无状态的，状态的保存和管理交于专门的协调服务来做（比如 ZooKeeper），那么整个集群的服务器之间就无须繁重的状态共享，这极大地降低了维护复杂度。<br>倘若要扩容集群节点，只需简单地启动新的节点机器进行自动负载均衡就可以了。</p>
+<p>Kafka服务器上的状态统一交由 ZooKeeper保管。但也并不是所有状态都不保存，它只保存了很轻量级的内部状态，因此在整个集群间维护状态一致性的代价是很低的。</p>
+<h3 id="Kafka-基本概念和术语"><a href="#Kafka-基本概念和术语" class="headerlink" title="Kafka 基本概念和术语"></a>Kafka 基本概念和术语</h3><p>Kafka 自推出伊始的确是以消息引擎的身份出现的，其强大的消息传输效率和完备的分布式解决方案，使它很快成为业界翘楚。<br>随着 Kafka 的不断演进，Kafka 开发团队日益发现经Kafka交由下游数据处理平台做的事情Kafka自己也可以做，因此在Kafka 0.10.0.0版本正式推出了Kafka Streams，即流式处理组件。<br>自此Kafka正式成为了一个流式处理框架，而不仅仅是消息引擎了。</p>
+<p>不管是消息引擎还是流式处理平台，它的处理流程并没有发生变化，核心架构也总是类似的，无非是生产一些消息然后再消费一些消息。如果总结起来那就是三句话：</p>
+<ul>
+<li>生产者发送消息给Kafka服务器。</li>
+<li>消费者从Kafka服务器读取消息。</li>
+<li>Kafka服务器依托ZooKeeper集群进行服务的协调管理。</li>
+</ul>
+<p>另外，Kafka 服务器有一个官方名字：broker。</p>
+<h4 id="消息"><a href="#消息" class="headerlink" title="消息"></a>消息</h4><p>Kafka 中的消息格式由很多字段组成，其中的很多字段都是用于管理消息的元数据字段，对用户来说是完全透明的。<br>Kafka 消息格式共经历过3次变迁，它们被分别称为 V0、V1和 V2版本。目前大部分用户使用的应该还是 V1版本的消息格式。</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E3%80%8AApache%20Kafka%E5%AE%9E%E6%88%98%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/V1%E7%89%88%E6%9C%AC%E7%9A%84%E6%B6%88%E6%81%AF%E6%A0%BC%E5%BC%8F.png"
+                        alt="V1版本的消息格式.png"
+                 ></p>
+<p>消息由消息头部、key和value组成。消息头部包括消息的CRC码、消息版本号、属性、时间戳、键长度和消息体长度等信息。</p>
+<ul>
+<li>Key：消息键，对消息做partition时使用，即决定消息被保存在某topic下的哪个partition。</li>
+<li>Value：消息体，保存实际的消息数据。</li>
+<li>Timestamp：消息发送时间戳，用于流式处理及其他依赖时间的处理语义。如果不指定则取当前时间。</li>
+</ul>
+<p>另外，消息的属性字段，Kafka 为该字段分配了1字节。目前只使用了最低的3位用于保存消息的压缩类型，1位保存时间戳类型，高4位尚未使用。</p>
+<ul>
+<li><strong>Bit 0-2（3 bits）</strong>：压缩类型（Compression Type）</li>
+<li><strong>Bit 3（1 bit）</strong>：时间戳类型（Timestamp Type）</li>
+<li><strong>Bit 4-7（4 bits）</strong>：未使用（保留为 <code>0</code>）</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th><code>Attributes</code> 值</th>
+<th>二进制表示</th>
+<th>时间戳类型</th>
+<th>压缩类型</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>0x00</code> (0)</td>
+<td><code>0000 0000</code></td>
+<td>CreateTime</td>
+<td>无压缩</td>
+</tr>
+<tr>
+<td><code>0x01</code> (1)</td>
+<td><code>0000 0001</code></td>
+<td>CreateTime</td>
+<td>Gzip</td>
+</tr>
+<tr>
+<td><code>0x02</code> (2)</td>
+<td><code>0000 0010</code></td>
+<td>CreateTime</td>
+<td>Snappy</td>
+</tr>
+<tr>
+<td><code>0x04</code> (4)</td>
+<td><code>0000 0100</code></td>
+<td>CreateTime</td>
+<td>Zstd</td>
+</tr>
+<tr>
+<td><code>0x08</code> (8)</td>
+<td><code>0000 1000</code></td>
+<td>LogAppendTime</td>
+<td>无压缩</td>
+</tr>
+<tr>
+<td><code>0x0A</code> (10)</td>
+<td><code>0000 1010</code></td>
+<td>LogAppendTime</td>
+<td>Snappy</td>
+</tr>
+</tbody></table>
+<ul>
+<li><strong>CreateTime</strong>（默认）：时间戳由 Producer 设置，适用于**事件时间（Event Time）**语义。</li>
+<li><strong>LogAppendTime</strong>：时间戳由 Broker 记录，适用于**写入时间（Processing Time）**语义。</li>
+</ul>
+<p>Kafka 使用紧凑的二进制字节数组来保存上面这些字段，也就是说没有任何多余的比特位浪费。让我想起了之前看的 Redis 内部用的数据结构，也是十分的紧凑，没有多余比特位的浪费。</p>
+<h4 id="topic-和-partition"><a href="#topic-和-partition" class="headerlink" title="topic 和 partition"></a>topic 和 partition</h4><p>topic 是一个逻辑概念，代表了一类消息，也可以认为是消息被发送到的地方。通常我们可以使用topic来区分实际业务，比如业务A使用一个topic，业务B使用另外一个topic。<br>Kafka中的 topic通常都会被多个消费者订阅，因此出于性能的考量，Kafka并不是 topic-message 的两级结构，而是采用了 topic-partition-message的三级结构来分散负载。从本质上说，每个Kafka topic都由若干个partition组成。</p>
+<p>topic是由多个partition组成的，而Kafka的partition是不可修改的有序消息序列，也可以说是有序的消息日志。<br>每个 partition 有自己专属的 partition 号，通常是从0开始的。用户对partition 唯一能做的操作就是在消息序列的尾部追加写入消息。<br>partition 上的每条消息都会被分配一个唯一的序列号——按照Kafka的术语来讲，该序列号被称为位移（offset）。该位移值是从0开始顺序递增的整数。<br>位移信息可以唯一定位到某partition下的一条消息。</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E3%80%8AApache%20Kafka%E5%AE%9E%E6%88%98%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/topic%E5%92%8Cpartition.png"
+                        alt="topic和partition.png"
+                 ></p>
+<p>Kafka 的 partition 实际上并没有太多的业务含义，它的引入就是单纯地为了提升系统的吞吐量，因此在创建 Kafka topic 的时候可以根据集群实际配置设置具体的partition数，实现整体性能的最大化。</p>
+<h4 id="offset"><a href="#offset" class="headerlink" title="offset"></a>offset</h4><p>topic partition 下的每条消息都被分配一个位移值。<br>实际上，Kafka 消费者端也有位移（offset）的概念，但这两个offset属于不同的概念</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E3%80%8AApache%20Kafka%E5%AE%9E%E6%88%98%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E6%B6%88%E6%81%AF%E4%BD%8D%E7%A7%BB%E4%B8%8E%E6%B6%88%E8%B4%B9%E8%80%85%E4%BD%8D%E7%A7%BB.png"
+                        alt="消息位移与消费者位移.png"
+                 ></p>
+<p>每条消息在某个 partition的位移是固定的，但消费该 partition的消费者的位移会随着消费进度不断前移，但终究不可能超过该分区最新一条消息的位移。<br><strong>Kafka 中的一条消息其实就是一个&lt;topic,partition,offset&gt;三元组（tuple），通过该元组值我们可以在 Kafka 集群中找到唯一对应的那条消息。</strong></p>
+<h4 id="replica"><a href="#replica" class="headerlink" title="replica"></a>replica</h4><p>分布式系统要实现高可靠性，就要通过冗余机制来保证。partition 的消息不能只保存一份，而是要保存多份，因此每个 partition 都会分配多个副本（replica），每个副本都保存着该 partition 的消息。</p>
+<p>副本分为两类：领导者副本（leader replica）和追随者副本（follower replica）。<br>follower replica 是不能提供服务给客户端的，也就是说不负责响应客户端发来的消息写入和消息消费请求。<br>它只是被动地向领导者副本（leader replica）获取数据，而一旦 leader replica 所在的broker宕机，Kafka会从剩余的 replica中选举出新的 leader继续提供服务。</p>
+<h4 id="leader-和-follower"><a href="#leader-和-follower" class="headerlink" title="leader 和 follower"></a>leader 和 follower</h4><p>Kafka的 replica分为两个角色：领导者（leader）和追随者（follower）。<br>如今这种角色设定几乎完全取代了过去的主备的提法（Master-Slave）。和传统主备系统（比如MySQL）不同的是，<strong>在这类 leader-follower系统中通常只有 leader对外提供服务，follower只是被动地追随 leader 的状态，保持与 leader 的同步。</strong><br><strong>follower 存在的唯一价值就是充当 leader的候补：一旦 leader 挂掉立即就会有一个追随者被选举成为新的 leader 接替它的工作。</strong><br><strong>Kafka保证同一个partition的多个replica一定不会分配在同一台broker上。</strong> 毕竟如果同一个broker上有同一个partition的多个replica，那么将无法实现备份冗余的效果。</p>
+<h4 id="ISR"><a href="#ISR" class="headerlink" title="ISR"></a>ISR</h4><p>ISR的全称是in-sync replica，翻译过来就是与leader replica保持同步的replica集合。</p>
+<p>Kafka为partition动态维护一个replica集合。该集合中的所有replica保存的消息日志都与leader replica保持同步状态。<br><strong>只有这个集合中的 replica才能被选举为 leader，也只有该集合中所有replica都接收到了同一条消息，Kafka才会将该消息置于“已提交”状态，即认为这条消息发送成功。</strong></p>
+<p>正常情况下，partition的所有replica（含leader replica）都应该与leader replica保持同步，即所有 replica都在 ISR中。<br>因为各种各样的原因，一小部分 replica开始落后于 leader replica的进度。当滞后到一定程度时，Kafka会将这些 replica“踢”出 ISR。<br>相反地，当这些 replica重新“追上”了 leader的进度时，那么 Kafka会将它们加回到 ISR中。<br>这一切都是自动维护的，不需要用户进行人工干预。</p>
+<h3 id="Kafka-使用场景"><a href="#Kafka-使用场景" class="headerlink" title="Kafka 使用场景"></a>Kafka 使用场景</h3><ol>
+<li>消息传输<br>Kafka非常适合替代传统的消息总线（message bus）或消息代理（message broker）。Kafka特别适合用于实现一个超大量级消息处理应用。</li>
+<li>网站行为日志追踪<br>Kafka 最早就是用于重建用户行为数据追踪系统的。很多网站上的用户操作都会以消息的形式发送到 Kafka 的某个对应的 topic 上。</li>
+<li>审计数据收集<br>对关键的操作和运维进行监控和审计。需要从各个运维应用程序处实时汇总操作步骤信息进行集中式管理。</li>
+<li>日志收集<br>对于大量分散在不同机器上的服务日志。我们可以使用 Kafka对它们进行全量收集，并集中送往下游的分布式存储中（比如 HDFS 等）。</li>
+<li>Event Sourcing<br>Event Sourcing实际上是领域驱动设计（Domain-Driven Design,DDD）的名词，它使用事件序列来表示状态变更，这种思想和 Kafka 的设计特性不谋而合。Kafka 也是用不可变更的消息序列来抽象化表示业务消息的，因此Kafka特别适合作为这种应用的后端存储。</li>
+<li>流式处理<br>自0.10.0.0版本开始，Kafka社区推出了一个全新的流式处理组件Kafka Streams。</li>
+</ol>
+<h2 id="第二章-Kafka-发展历史"><a href="#第二章-Kafka-发展历史" class="headerlink" title="第二章 - Kafka 发展历史"></a>第二章 - Kafka 发展历史</h2><p>挑选我感兴趣的内容，部分略过。</p>
+<p>Kafka这个名字的由来。应该是Kafka三位原作者之一Jay Kreps的这句话：</p>
+<blockquote>
+<p>I thought that since Kafka was a system optimized for writing using a writer’s name would make sense.<br>I had taken a lot of lit classes in college and liked Franz Kafka.Plus the name sounded cool for an open source project.<br>因为 Kafka 系统的写操作性能特别强，所以找个作家的名字来命名似乎是一个好主意。<br>我在大学时上了很多文学课，非常喜欢Franz Kafka。另外为开源项目起Kafka这个名字听上去很酷。</p>
+</blockquote>
+<p>Kafka三位原作者之一（另外两位分别是Jun Rao和Neha Narkhede）。</p>
+<p>以下是基于搜索结果的Kafka重要版本功能变化汇总表，结合多个来源信息整理而成：</p>
+<table>
+<thead>
+<tr>
+<th>版本</th>
+<th>功能变化</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0.8.x</td>
+<td>副本机制</td>
+<td>引入多副本机制（Replication），提升数据可靠性</td>
+</tr>
+<tr>
+<td></td>
+<td>新Producer API</td>
+<td>异步发送消息，提升客户端效率，但初期存在稳定性问题</td>
+</tr>
+<tr>
+<td></td>
+<td>Offset存储优化</td>
+<td>将消费者位移从ZooKeeper迁移至<code>__consumer_offsets</code>主题，减少ZooKeeper压力</td>
+</tr>
+<tr>
+<td>0.9.x</td>
+<td>安全认证</td>
+<td>支持SSL&#x2F;SASL认证、授权管理及数据加密，增强外网传输安全性</td>
+</tr>
+<tr>
+<td></td>
+<td>Kafka Connect</td>
+<td>引入高性能数据集成框架，支持与外部系统（如数据库、HDFS）对接</td>
+</tr>
+<tr>
+<td></td>
+<td>新Consumer API</td>
+<td>消费者自主管理Offset，支持多线程消费和细粒度控制，取代旧版High-level Consumer</td>
+</tr>
+<tr>
+<td>0.10.x</td>
+<td>Kafka Streams</td>
+<td>正式成为流处理平台，支持基于时间戳的流计算，但初期功能尚不完善</td>
+</tr>
+<tr>
+<td></td>
+<td>消息时间戳</td>
+<td>消息体中增加时间戳字段，支持基于时间的窗口操作和回溯查询</td>
+</tr>
+<tr>
+<td>0.11.x</td>
+<td>Exactly-Once语义</td>
+<td>支持生产者幂等性和事务功能，确保消息不重复处理（需配合Kafka Streams）</td>
+</tr>
+<tr>
+<td></td>
+<td>消息格式重构</td>
+<td>优化消息头结构，支持Header字段存储元数据，提升批量消息压缩效率</td>
+</tr>
+<tr>
+<td>1.0.x</td>
+<td>磁盘故障转移</td>
+<td>Broker单块磁盘损坏时，数据自动迁移至其他磁盘，提升可用性</td>
+</tr>
+<tr>
+<td></td>
+<td>跨磁盘副本迁移</td>
+<td>分区副本可在同一Broker的不同磁盘目录间迁移，优化磁盘负载均衡</td>
+</tr>
+<tr>
+<td>2.0.x</td>
+<td>安全增强</td>
+<td>支持前缀通配符ACL和OAuth2令牌认证，默认启用SSL主机名验证</td>
+</tr>
+<tr>
+<td></td>
+<td>消费者组管理优化</td>
+<td>默认Offset保留时间从1天延长至7天，减少消费者组重建时的数据丢失风险</td>
+</tr>
+<tr>
+<td>2.8.x</td>
+<td>KRaft模式</td>
+<td>引入Raft共识协议替代ZooKeeper管理元数据，简化架构（早期版本不建议生产使用）</td>
+</tr>
+<tr>
+<td>3.0.x</td>
+<td>移除ZooKeeper依赖</td>
+<td>KRaft模式正式支持，元数据完全由Kafka自身管理，提升云原生兼容性</td>
+</tr>
+<tr>
+<td></td>
+<td>默认交付保证增强</td>
+<td>生产者默认启用<code>acks=all</code>和幂等性（<code>enable.idempotence=true</code>），确保消息持久化与顺序性</td>
+</tr>
+</tbody></table>
+<ol>
+<li><strong>版本演进趋势</strong>：从消息队列逐步发展为流处理平台，核心改进集中在<strong>可靠性</strong>（副本、事务）、<strong>性能</strong>（异步发送、压缩优化）、<strong>云原生</strong>（KRaft、存储分离）和<strong>安全性</strong>（SSL、ACL）。</li>
+<li><strong>兼容性注意</strong>：<ul>
+<li>0.11.x后消息格式变更需客户端同步升级；</li>
+<li>3.0.x起弃用Java 8和Scala 2.12，计划在4.0移除。</li>
+</ul>
+</li>
+</ol>
+<h2 id="第三章-Kafka-线上环境部署"><a href="#第三章-Kafka-线上环境部署" class="headerlink" title="第三章 - Kafka 线上环境部署"></a>第三章 - Kafka 线上环境部署</h2><h3 id="集群环境规划"><a href="#集群环境规划" class="headerlink" title="集群环境规划"></a>集群环境规划</h3><p>操作系统优先选择Linux，这里考虑的主要是系统的IO模型、Kafka底层网络库的设计和网络传输效率。</p>
+<p>IO模型主流的有五种：阻塞 I&#x2F;O、非阻塞 I&#x2F;O、I&#x2F;O多路复用、信号驱动 I&#x2F;O和异步 I&#x2F;O。<br>linux epoll取消了轮询机制，取而代之的是回调机制（callback）。这样当底层连接 Socket 数较多时，可以避免很多无意义的 CPU 时间浪费。<br>windows IOCP是异步 I&#x2F;O的实现。</p>
+<p>Kafka新版本clients在设计底层网络库时采用了Java的Selector机制。<br>Java的Selector 在 Linux上的实现机制就是 epoll；<br>但是在 Windows平台上，Java NIO的 Selector底层是使用 select模型，在 Java NIO2才是使用 IOCP 实现的。</p>
+<p>网络与磁盘的数据传输 Kafka 通过 Java 的FileChannel.transferTo方法实现。<br>在Linux平台上该方法底层会调用sendfile系统调用，即采用了Linux提供的零拷贝（Zero Copy）技术。<br>对于Windows平台，虽然它也提供了TransmitFile函数来支持零拷贝技术，但是直到Java 8u60版本Windows平台才正式让FileChannel的transferTo方法调用该函数。</p>
+<h4 id="磁盘规划"><a href="#磁盘规划" class="headerlink" title="磁盘规划"></a>磁盘规划</h4><p>机械硬盘（HDD）和固态硬盘（SSD）对于Kafka没有太大的区别。（当然，SSD会有更好性能，HDD会有更好的性价比）<br>因为Kafka主要是顺序写磁盘，SSD顺序IO不需要频繁移动磁头。</p>
+<p>JBOD（Just Bunch Of Disks 普通磁盘集合） 与磁盘阵列（RAID）。普通磁盘性价比更高。<br>RAID会以容量为代价换来数据的冗余和负载均衡。但是Kafka集群本身可以设置副本数，是自带数据冗余的。<br>使用RAID会增加额外不需要的数据冗余，会是一笔很大的成本开销。</p>
+<p>但JBOD方案也会有缺陷：</p>
+<ol>
+<li>任意磁盘损坏都会导致 broker 宕机——普通磁盘损坏的概率是很大的，因此这个缺陷从某种程度上来说是致命的。</li>
+<li>JBOD 的管理需要更加细粒度化。</li>
+<li>JBOD 需要提供类似于负载均衡的功能。</li>
+</ol>
+<h4 id="磁盘容量规划"><a href="#磁盘容量规划" class="headerlink" title="磁盘容量规划"></a>磁盘容量规划</h4><p>Kafka的每条消息都保存在实际的物理磁盘中，这些消息默认会被broker保存一段时间之后清除。<br>这段时间是可以配置的，因此用户可以根据自身实际业务场景和存储需求来大致计算线上环境所需的磁盘容量。</p>
+<p>对于磁盘容量的规划和以下多个因素有关：</p>
+<ul>
+<li>新增消息数。</li>
+<li>消息留存时间。</li>
+<li>平均消息大小。</li>
+<li>副本数。</li>
+<li>是否启用压缩。</li>
+</ul>
+<h4 id="内存规划"><a href="#内存规划" class="headerlink" title="内存规划"></a>内存规划</h4><p>Kafka 虽然会持久化每条消息，但其实这个工作都是底层的文件系统来完成的，Kafka 仅仅将消息写入page cache而已，之后将消息“冲刷”到磁盘的任务完全交由操作系统来完成。<br>consumer 在读取消息时也会首先尝试从该区域中查找，如果直接命中则完全不用执行耗时的物理 I&#x2F;O 操作，从而提升了 consumer 的整体性能。</p>
+<p>Kafka对于Java堆内存的使用并不多，因为Kafka的消息很快就会被垃圾回收（GC）。<br>一般情况下，broker 所需的堆内存都不会超过6GB。但消息会占用大量系统的 page cache。</p>
+<p>对于内存规划的建议如下。</p>
+<ul>
+<li>尽量分配更多的内存给操作系统的page cache。</li>
+<li>不要为broker设置过大的堆内存，最好不超过6GB。</li>
+<li>page cache大小至少要大于一个日志段的大小。</li>
+</ul>
+<h4 id="CPU-规划"><a href="#CPU-规划" class="headerlink" title="CPU 规划"></a>CPU 规划</h4><p>Kafka不属于计算密集型（CPU-bound）的系统，属于IO密集型（I&#x2F;O-bound）的系统。<br>所以多核系统是最佳的选择。</p>
+<p>当然，如果启用了消息压缩，那么 broker 也可能需要大量的 CPU 资源。</p>
+<h4 id="带宽规划"><a href="#带宽规划" class="headerlink" title="带宽规划"></a>带宽规划</h4><p>对带宽资源规划的建议如下：</p>
+<ul>
+<li>尽量使用高速网络。</li>
+<li>根据自身网络条件和带宽来评估Kafka集群机器数量。</li>
+<li>避免使用跨机房网络。</li>
+</ul>
+<h3 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h3><p>这里使用 Docker 部署，关于集群与相关参数设置这里省略，使用的时候根据<a class="link"   target="_blank" rel="noopener" href="https://kafka.apache.org/documentation/" >官方文档<i class="fas fa-external-link-alt"></i></a>设置即可。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker pull apache/kafka:3.9.0</span><br><span class="line">docker run -p 9092:9092 apache/kafka:3.9.0</span><br></pre></td></tr></table></figure>
+
+
+                </div>
+
+                
+                        
+<div class="post-copyright-info-container border-box">
+    <div class="copyright-info-content border-box">
+        <div class="copyright-info-top border-box">
+            <div class="copyright-post-title border-box text-ellipsis">
+                《apache Kafka实战》读书笔记-基本概念
+            </div>
+
+            <div class="copyright-post-link border-box text-ellipsis">
+                读书笔记/读书笔记/《apache Kafka实战》读书笔记-基本概念/
+            </div>
+        </div>
+
+        <div class="copyright-info-bottom border-box">
+            <div class="copyright-post-author bottom-item">
+                <div class="type">
+                    作者
+                </div>
+                <div class="content">咕咕咕</div>
+            </div>
+
+            <div class="post-time bottom-item">
+                <div class="type">
+                    发布于
+                </div>
+                <div class="content">2025-03-08 17:37</div>
+            </div>
+
+
+            <div class="post-license bottom-item">
+                <div class="type">
+                    许可
+                </div>
+                <div class="content tooltip" data-tooltip-content="CC BY-NC-SA 4.0">
+                    <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hans">
+                        <i class="fa-brands fa-creative-commons"></i>
+                        <i class="fa-brands fa-creative-commons-by"></i>
+                        <i class="fa-brands fa-creative-commons-nc"></i>
+                        <i class="fa-brands fa-creative-commons-sa"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <i class="copyright-bg fa-solid fa-copyright"></i>
+    </div>
+    <div class="copy-copyright-info flex-center tooltip" data-tooltip-content="复制版权信息" data-tooltip-offset-y="-2px">
+        <i class="fa-solid fa-copy"></i>
+    </div>
+</div>
+
+                
+
+                <div class="post-bottom-tags-and-share border-box">
+                    <div>
+                        
+                            <ul class="post-tags-box border-box">
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/%E3%80%8Aapache-Kafka%E5%AE%9E%E6%88%98%E3%80%8B/">《apache Kafka实战》</a>
+                                    </li>
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/kafka/">kafka</a>
+                                    </li>
+                                
+                            </ul>
+                        
+                    </div>
+                    <div>
+                        
+                            <div class="post-share-container border-box">
+    <ul class="share-list-wrap border-box">
+        <li class="qq share-item border-box flex-center tooltip"
+            data-tooltip-content="分享到 QQ"
+        >
+            <i class="fa-brands fa-qq"></i>
+        </li>
+        <li class="wechat share-item border-box flex-center tooltip tooltip-img"
+            data-tooltip-content="分享到微信"
+            data-tooltip-img-tip="微信扫一扫"
+            data-tooltip-img-style="background-color: #fff; top: -10px; padding: 0.6rem 0.6rem 0.1rem 0.6rem;"
+        >
+            <i class="fa-brands fa-weixin"></i>
+        </li>
+        <li class="weibo share-item border-box flex-center tooltip"
+            data-tooltip-content="分享到微博"
+        >
+            <i class="fa-brands fa-weibo"></i>
+        </li>
+    </ul>
+</div>
+
+                        
+                    </div>
+                </div>
+
+                
+                    <div class="reward-author-container border-box flex-center">
+    <div class="reward-btn keep-button border-box flex-center tooltip tooltip-img"
+            data-tooltip-content="谢谢你请我喝可乐~"
+            data-tooltip-img-url="/images/thanks.png"
+            data-tooltip-img-trigger="click"
+            data-tooltip-img-style="top: -8px;"
+    >
+        <i class="fa-solid fa-hand-holding-heart"></i>
+    </div>
+</div>
+
+                
+
+                
+                    <div class="post-nav border-box">
+                        
+                            <div class="prev-post">
+                                <a class="prev"
+                                   rel="prev"
+                                   href="/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E3%80%8Aapache%20Kafka%E5%AE%9E%E6%88%98%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-producer%E3%80%81consumer%E5%92%8C%E8%AE%BE%E8%AE%A1%E5%8E%9F%E7%90%86/"
+                                   title="《apache Kafka实战》读书笔记-producer、consumer和设计原理"
+                                >
+                                    <span class="left arrow-icon flex-center">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </span>
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">《apache Kafka实战》读书笔记-producer、consumer和设计原理</span>
+                                        <span class="post-nav-item">上一篇</span>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                        
+                            <div class="next-post">
+                                <a class="next"
+                                   rel="next"
+                                   href="/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E3%80%8Ago%E8%AF%AD%E8%A8%80%E5%B9%B6%E5%8F%91%E4%B9%8B%E9%81%93%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-%E5%A4%A7%E8%A7%84%E6%A8%A1%E5%B9%B6%E5%8F%91/"
+                                   title="《go语言并发之道》读书笔记-大规模并发"
+                                >
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">《go语言并发之道》读书笔记-大规模并发</span>
+                                        <span class="post-nav-item">下一篇</span>
+                                    </span>
+                                    <span class="right arrow-icon flex-center">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                    </div>
+                
+
+                
+                    
+
+
+    <div class="comments-container border-box">
+        <div id="comments-anchor" class="comment-area-title border-box">
+            <i class="fas fa-comments"></i>&nbsp;评论
+        </div>
+        <div class="comment-plugin-fail border-box">
+    <span class="fail-tip">评论插件加载失败</span>
+    <button class="reload keep-button">点击重新加载</button>
+</div>
+<div class="comment-plugin-loading flex-center border-box">
+    <i class="loading-icon fa-solid fa-spinner fa-spin"></i>
+    <span class="load-tip">正在加载评论插件</span>
+</div>
+<script data-pjax>
+  window.KeepCommentPlugin = {}
+  window.KeepCommentPlugin.hideLoading = () => {
+    const cplDom = document.querySelector('.comments-container .comment-plugin-loading')
+    cplDom.style.display = 'none'
+  }
+  window.KeepCommentPlugin.loadFailHandle = () => {
+    window.KeepCommentPlugin.hideLoading()
+    const cpfDom = document.querySelector('.comments-container .comment-plugin-fail')
+    cpfDom.style.display = 'flex'
+    cpfDom.querySelector('.reload').addEventListener('click', () => {
+      window.location.reload()
+    })
+  }
+</script>
+
+        
+            
+
+    <div class="giscus-comments-container">
+        <div class="giscus" id="giscus"></div>
+        <script data-pjax
+                onerror="window.KeepCommentPlugin.loadFailHandle()"
+        >
+          if (!window.KeepCommentPlugin?.getGiscusTheme) {
+            window.KeepCommentPlugin.getGiscusTheme = () => {
+              return document.body.classList.contains('dark-mode') ? 'dark_dimmed' : 'light_tritanopia'
+            }
+          }
+
+          if (!window.KeepCommentPlugin?.changeGiscusTheme) {
+            window.KeepCommentPlugin.changeGiscusTheme = () => {
+              const iframe = document.querySelector('iframe.giscus-frame')
+              iframe && iframe.contentWindow.postMessage({
+                giscus: {
+                  setConfig: {
+                    theme: window.KeepCommentPlugin.getGiscusTheme()
+                  }
+                }
+              }, 'https://giscus.app')
+            }
+          }
+
+          if (!window.KeepCommentPlugin?.initGiscus) {
+            window.KeepCommentPlugin.initGiscus = () => {
+              const script = document.createElement('script')
+              script.async = true
+              script.src = 'https://giscus.app/client.js'
+              script.setAttribute('data-repo', 'Cooooing/Cooooing.github.io')
+              script.setAttribute('data-repo-id', 'R_kgDOHQal_w')
+              script.setAttribute('data-category', 'Announcements')
+              script.setAttribute('data-category-id', 'DIC_kwDOHQal_84CjZo6')
+              script.setAttribute('data-reactions-enabled', '1')
+              script.setAttribute('data-lang', 'zh-CN')
+              script.setAttribute('data-mapping', 'pathname')
+              script.setAttribute('data-strict', '0')
+              script.setAttribute('data-emit-metadata', '0')
+              script.setAttribute('data-input-position', 'top')
+              script.setAttribute('crossorigin', 'anonymous')
+              script.setAttribute('loading', 'lazy')
+              script.setAttribute('data-theme', window.KeepCommentPlugin.getGiscusTheme())
+              document.querySelector('.giscus-comments-container').appendChild(script)
+              script.onerror = () => {
+                window.KeepCommentPlugin.loadFailHandle()
+              }
+              script.onload = () => {
+                window.KeepCommentPlugin.hideLoading()
+              }
+              const toggleThemeBtn = document.querySelector('.tool-toggle-theme-mode')
+              toggleThemeBtn && toggleThemeBtn.addEventListener('click', () => {
+                window.KeepCommentPlugin.changeGiscusTheme()
+              })
+            }
+          }
+
+          if ('true' === "true") {
+            setTimeout(() => {
+              window.KeepCommentPlugin.initGiscus()
+            }, 1000)
+          } else {
+            window.addEventListener("DOMContentLoaded", window.KeepCommentPlugin.initGiscus)
+          }
+        </script>
+    </div>
+
+
+        
+    </div>
+
+
+
+
+
+                
+            </div>
+        </div>
+
+        
+            <div class="pc-post-toc left-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E7%AB%A0-%E8%AE%A4%E8%AF%86-Apache-Kafka"><span class="nav-text">第一章 - 认识 Apache Kafka</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B6%88%E6%81%AF%E5%BC%95%E6%93%8E%E7%B3%BB%E7%BB%9F%EF%BC%88Messaging-system%EF%BC%89"><span class="nav-text">消息引擎系统（Messaging system）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B6%88%E6%81%AF%E8%AE%BE%E8%AE%A1"><span class="nav-text">消息设计</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BC%A0%E8%BE%93%E5%8D%8F%E8%AE%AE%E8%AE%BE%E8%AE%A1"><span class="nav-text">传输协议设计</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B6%88%E6%81%AF%E5%BC%95%E6%93%8E%E8%8C%83%E5%9E%8B"><span class="nav-text">消息引擎范型</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Kafka-%E6%A6%82%E8%A6%81%E8%AE%BE%E8%AE%A1"><span class="nav-text">Kafka 概要设计</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%90%9E%E5%90%90%E9%87%8F-%E5%BB%B6%E6%97%B6"><span class="nav-text">吞吐量&#x2F;延时</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B6%88%E6%81%AF%E6%8C%81%E4%B9%85%E5%8C%96"><span class="nav-text">消息持久化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E5%92%8C%E6%95%85%E9%9A%9C%E8%BD%AC%E7%A7%BB"><span class="nav-text">负载均衡和故障转移</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BC%B8%E7%BC%A9%E6%80%A7"><span class="nav-text">伸缩性</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Kafka-%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5%E5%92%8C%E6%9C%AF%E8%AF%AD"><span class="nav-text">Kafka 基本概念和术语</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B6%88%E6%81%AF"><span class="nav-text">消息</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#topic-%E5%92%8C-partition"><span class="nav-text">topic 和 partition</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#offset"><span class="nav-text">offset</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#replica"><span class="nav-text">replica</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#leader-%E5%92%8C-follower"><span class="nav-text">leader 和 follower</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ISR"><span class="nav-text">ISR</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Kafka-%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="nav-text">Kafka 使用场景</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E7%AB%A0-Kafka-%E5%8F%91%E5%B1%95%E5%8E%86%E5%8F%B2"><span class="nav-text">第二章 - Kafka 发展历史</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%B8%89%E7%AB%A0-Kafka-%E7%BA%BF%E4%B8%8A%E7%8E%AF%E5%A2%83%E9%83%A8%E7%BD%B2"><span class="nav-text">第三章 - Kafka 线上环境部署</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9B%86%E7%BE%A4%E7%8E%AF%E5%A2%83%E8%A7%84%E5%88%92"><span class="nav-text">集群环境规划</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%A3%81%E7%9B%98%E8%A7%84%E5%88%92"><span class="nav-text">磁盘规划</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%A3%81%E7%9B%98%E5%AE%B9%E9%87%8F%E8%A7%84%E5%88%92"><span class="nav-text">磁盘容量规划</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%86%85%E5%AD%98%E8%A7%84%E5%88%92"><span class="nav-text">内存规划</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CPU-%E8%A7%84%E5%88%92"><span class="nav-text">CPU 规划</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B8%A6%E5%AE%BD%E8%A7%84%E5%88%92"><span class="nav-text">带宽规划</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%83%A8%E7%BD%B2"><span class="nav-text">部署</span></a></li></ol></li></ol>
+    </div>
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom border-box">
+            
+<footer class="footer border-box">
+    <div class="border-box website-info-box default">
+        
+            <div class="copyright-info info-item default">
+                &copy;&nbsp;<span>2022</span>&nbsp;-&nbsp;2025
+                
+                    &nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;&nbsp;<a href="/">咕咕咕</a>
+                
+            </div>
+
+            <div class="theme-info info-item default">
+                由&nbsp;<a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;驱动&nbsp;&&nbsp;主题&nbsp;<a class="keep-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep</a>
+            </div>
+
+            
+
+            
+        
+
+        <div style="color:var(--text-color-4);"><span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>(～￣▽￣)～<script src="/js/lifeTime.js"></script></div>
+        <a href="https://icp.gov.moe/?keyword=20222450" target="_blank">萌ICP备20222450号</a>
+
+
+        <div class="count-item info-item default">
+            
+                <span class="count-box border-box word">
+                    <span class="item-type border-box">总字数</span>
+                    <span class="item-value border-box word">362.1k</span>
+                </span>
+            
+
+            
+                <span class="count-box border-box uv">
+                    <span class="item-type border-box">访客数</span>
+                    <span class="item-value border-box uv" id="busuanzi_value_site_uv"></span>
+                </span>
+            
+
+            
+                <span class="count-box border-box pv">
+                    <span class="item-type border-box">访问量</span>
+                    <span class="item-value border-box pv" id="busuanzi_value_site_pv"></span>
+                </span>
+            
+        </div>
+
+        <div id="aplayer">
+          <meting-js
+                  server="netease"
+                  type="playlist"
+                  id="7345595717"
+                  fixed="true"
+                  mini="true"
+                  autoplay="false"
+                  listFolded="true"
+                  order="random"
+                  preload="none">
+          </meting-js>
+        </div>
+            <br>
+            <br>
+            <br>
+    </div>
+
+</footer>
+
+        </div>
+    </div>
+
+    <!-- post tools -->
+    
+        <div class="post-tools left-toc">
+            <div class="post-tools-container border-box">
+    <ul class="tools-list border-box">
+        <!-- PC TOC show toggle -->
+        
+            <li class="tools-item flex-center toggle-show-toc">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        <!-- PC go comment -->
+        
+            <li class="tools-item flex-center go-to-comments">
+                <i class="fas fa-comment"></i>
+                <span class="post-comments-count"></span>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <!-- side tools -->
+    <div class="side-tools">
+        <div class="side-tools-container border-box ">
+    <ul class="side-tools-list side-tools-show-handle border-box">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-toggle-theme-mode flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+            <li class="tools-item rss flex-center">
+                <a class="flex-center"
+                   href="/atom.xml"
+                   target="_blank"
+                >
+                    <i class="fas fa-rss"></i>
+                </a>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list border-box">
+        
+            <li class="tools-item toggle-show-toc-tablet flex-center">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        
+            <li class="tools-item go-to-comments-tablet flex-center">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+
+        <li class="tools-item tool-scroll-to-top flex-center show-arrow">
+            <i class="arrow fas fa-arrow-up"></i>
+            <span class="percent"></span>
+        </li>
+    </ul>
+</div>
+
+    </div>
+
+    <!-- image mask -->
+    <div class="zoom-in-image-mask">
+    <img class="zoom-in-image">
+</div>
+
+
+    <!-- local search -->
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="搜索..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="close-popup-btn">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+    <!-- tablet toc -->
+    
+        <div class="tablet-post-toc-mask">
+            <div class="tablet-post-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E7%AB%A0-%E8%AE%A4%E8%AF%86-Apache-Kafka"><span class="nav-text">第一章 - 认识 Apache Kafka</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B6%88%E6%81%AF%E5%BC%95%E6%93%8E%E7%B3%BB%E7%BB%9F%EF%BC%88Messaging-system%EF%BC%89"><span class="nav-text">消息引擎系统（Messaging system）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B6%88%E6%81%AF%E8%AE%BE%E8%AE%A1"><span class="nav-text">消息设计</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BC%A0%E8%BE%93%E5%8D%8F%E8%AE%AE%E8%AE%BE%E8%AE%A1"><span class="nav-text">传输协议设计</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B6%88%E6%81%AF%E5%BC%95%E6%93%8E%E8%8C%83%E5%9E%8B"><span class="nav-text">消息引擎范型</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Kafka-%E6%A6%82%E8%A6%81%E8%AE%BE%E8%AE%A1"><span class="nav-text">Kafka 概要设计</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%90%9E%E5%90%90%E9%87%8F-%E5%BB%B6%E6%97%B6"><span class="nav-text">吞吐量&#x2F;延时</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B6%88%E6%81%AF%E6%8C%81%E4%B9%85%E5%8C%96"><span class="nav-text">消息持久化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E5%92%8C%E6%95%85%E9%9A%9C%E8%BD%AC%E7%A7%BB"><span class="nav-text">负载均衡和故障转移</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BC%B8%E7%BC%A9%E6%80%A7"><span class="nav-text">伸缩性</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Kafka-%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5%E5%92%8C%E6%9C%AF%E8%AF%AD"><span class="nav-text">Kafka 基本概念和术语</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B6%88%E6%81%AF"><span class="nav-text">消息</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#topic-%E5%92%8C-partition"><span class="nav-text">topic 和 partition</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#offset"><span class="nav-text">offset</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#replica"><span class="nav-text">replica</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#leader-%E5%92%8C-follower"><span class="nav-text">leader 和 follower</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ISR"><span class="nav-text">ISR</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Kafka-%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="nav-text">Kafka 使用场景</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E7%AB%A0-Kafka-%E5%8F%91%E5%B1%95%E5%8E%86%E5%8F%B2"><span class="nav-text">第二章 - Kafka 发展历史</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%B8%89%E7%AB%A0-Kafka-%E7%BA%BF%E4%B8%8A%E7%8E%AF%E5%A2%83%E9%83%A8%E7%BD%B2"><span class="nav-text">第三章 - Kafka 线上环境部署</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9B%86%E7%BE%A4%E7%8E%AF%E5%A2%83%E8%A7%84%E5%88%92"><span class="nav-text">集群环境规划</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%A3%81%E7%9B%98%E8%A7%84%E5%88%92"><span class="nav-text">磁盘规划</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%A3%81%E7%9B%98%E5%AE%B9%E9%87%8F%E8%A7%84%E5%88%92"><span class="nav-text">磁盘容量规划</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%86%85%E5%AD%98%E8%A7%84%E5%88%92"><span class="nav-text">内存规划</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CPU-%E8%A7%84%E5%88%92"><span class="nav-text">CPU 规划</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B8%A6%E5%AE%BD%E8%A7%84%E5%88%92"><span class="nav-text">带宽规划</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%83%A8%E7%BD%B2"><span class="nav-text">部署</span></a></li></ol></li></ol>
+    </div>
+</div>
+
+            </div>
+        </div>
+    
+</main>
+
+
+
+<!-- common -->
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/toggle-theme.js"></script>
+
+<script src="/js/code-block.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+
+<!-- local-search -->
+
+    
+<script src="/js/local-search.js"></script>
+
+
+
+<!-- lazyload -->
+
+    
+<script src="/js/lazyload.js"></script>
+
+
+
+<div class="pjax">
+    
+        <!-- post-helper -->
+        
+<script src="/js/post/post-helper.js"></script>
+
+
+        <!-- toc -->
+        
+            
+<script src="/js/post/toc.js"></script>
+
+        
+
+        <!-- copyright-info -->
+        
+            
+<script src="/js/post/copyright-info.js"></script>
+
+        
+
+        <!-- share -->
+        
+            
+<script src="/js/post/share.js"></script>
+
+        
+    
+
+    <!-- category-page -->
+    
+
+    <!-- links-page -->
+    
+
+    <!-- photos-page -->
+    
+</div>
+
+<!-- mermaid -->
+
+
+<!-- pjax -->
+
+    
+<script src="/js/libs/pjax.min.js"></script>
+
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        window.pjax = new Pjax({
+            selectors: [
+                'head title',
+                '.page-container',
+                '.pjax',
+                '#aplayer',
+                '#canvas_sakura'
+            ],
+            history: true,
+            debug: false,
+            cacheBust: false,
+            timeout: 0,
+            analytics: false,
+            currentUrlFullReload: false,
+            scrollRestoration: false,
+        });
+
+        document.addEventListener('pjax:send', () => {
+            KEEP.utils.pjaxProgressBarStart()
+        });
+
+        document.addEventListener('pjax:complete', () => {
+            KEEP.utils.pjaxProgressBarEnd()
+            window.pjax.executeScripts(document.querySelectorAll('script[data-pjax], .pjax script'))
+            KEEP.initExecute()
+        });
+    });
+</script>
+
+
+
+
+    
+        
+            
+<script class="custom-inject-js" src="/js/APlayer.min.js" data-pjax></script>
+
+        
+    
+        
+            
+<script class="custom-inject-js" src="/js/Meting.min.js" data-pjax></script>
+
+        
+    
+        
+            
+<script class="custom-inject-js" src="/js/leaves.js" data-pjax></script>
+
+        
+    
+
+
+
+</body>
+</html>

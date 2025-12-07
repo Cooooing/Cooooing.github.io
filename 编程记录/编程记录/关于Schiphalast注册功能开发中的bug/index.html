@@ -1,0 +1,1069 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="技术博客,后端开发,编程笔记,生活">
+    <meta name="description" content="Code | Systems | Life — 专注编程本质，也关心世界如何运转。">
+    <meta name="author" content="咕咕咕">
+
+    
+    <title>
+        
+            关于Schiphalast注册功能开发中的bug |
+        
+        咕咕咕的小破站
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+        <link rel="shortcut icon" href="/images/favicon.png">
+    
+    
+<link rel="stylesheet" href="/font/css/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/regular.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/solid.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/brands.min.css">
+
+    
+        
+            
+                
+<link rel="stylesheet" href="/css/APlayer.min.css">
+
+            
+        
+            
+                
+<link rel="stylesheet" href="/css/custom.css">
+
+            
+        
+    
+    <script class="keep-theme-configurations">
+    const KEEP = window.KEEP || {}
+    KEEP.hexo_config = {"hostname":"cooooing.github.io","root":"/","language":"zh-CN","path":"search.json"}
+    KEEP.theme_config = {"base_info":{"primary_color":"#0066cc","title":"咕咕咕的小破站","author":"咕咕咕","avatar":"/images/head.jpg","logo":"/images/head.jpg","favicon":"/images/favicon.png"},"menu":{"Archives":"/archives","Categories":"/categories","Tags":"/tags","日常":"/daily","Links":"/links","About":"/about"},"first_screen":{"enable":false,"background_img":"/images/bg.svg","background_img_dark":"/images/bg.svg","description":"Keep writing and Keep loving.","hitokoto":false},"social_contact":{"enable":false,"links":{"github":null,"weixin":null,"qq":null,"weibo":null,"zhihu":null,"twitter":null,"facebook":null,"email":null}},"scroll":{"progress_bar":false,"percent":false,"hide_header":true},"home":{"category":true,"tag":true,"announcement":null},"post":{"author_badge":{"enable":true,"level_badge":false,"custom_badge":["fishing"]},"word_count":{"wordcount":true,"min2read":true},"datetime_format":"YYYY-MM-DD HH:mm:ss","copyright_info":true,"share":true,"reward":{"enable":true,"img_link":"/images/thanks.png","text":"谢谢你请我喝可乐~"}},"code_block":{"tools":{"enable":true,"style":"default"},"highlight_theme":"default"},"toc":{"enable":true,"number":false,"expand_all":true,"init_open":true,"layout":"left"},"website_count":{"busuanzi_count":{"enable":true,"site_uv":true,"site_pv":true,"page_pv":true}},"local_search":{"enable":true,"preload":true},"comment":{"enable":true,"use":"giscus","valine":{"appid":null,"appkey":null,"server_urls":null,"placeholder":null},"gitalk":{"github_id":null,"github_admins":null,"repository":null,"client_id":null,"client_secret":null,"proxy":null},"twikoo":{"env_id":null,"region":null,"version":"1.6.21"},"waline":{"server_url":null,"reaction":false,"version":2},"giscus":{"repo":"Cooooing/Cooooing.github.io","repo_id":"R_kgDOHQal_w","category":"Announcements","category_id":"DIC_kwDOHQal_84CjZo6","reactions_enabled":true},"artalk":{"server":null},"disqus":{"shortname":null}},"rss":{"enable":true},"lazyload":{"enable":true},"cdn":{"enable":false,"provider":"cdnjs"},"pjax":{"enable":true},"footer":{"since":2022,"word_count":true,"icp":{"enable":false,"record_code":null,"url":"https://beian.miit.gov.cn"},"site_deploy":{"enable":false,"provider":"github","url":null},"shields_style":{"enable":false,"custom":[{"link_url":null,"img_url":null}]}},"inject":{"enable":true,"css":["/css/APlayer.min.css","/css/custom.css"],"js":["/js/APlayer.min.js","/js/Meting.min.js","/js/leaves.js"]},"root":"","links":[{"name":"鼠鼠在碎觉","link":"https://sszsj.com","avatar":"https://tmx.fishpi.cn/img/head.jpg","description":"我是不慎落入世界的一滴水墨"},{"name":"Gakkiyomi","link":"https://gakkiyomi.blog","avatar":"https://avatars.githubusercontent.com/u/41406557?v=4","description":"为往圣继绝学"},{"name":"Hancel's Blog","link":"https://my.hancel.org","avatar":"https://my.hancel.org/media/logo.jpg","description":"人生而自由，却无往不在枷锁之中。"},{"name":"Eastshann","link":"http://121.4.99.208/","avatar":"http://121.4.99.208/img/avatar.jpg","description":"冲和者，淡泊平和，谦冲守正"},{"name":"小于同学的异世界","link":"https://yby.zone","avatar":"https://yby-zone.obs.cn-east-3.myhuaweicloud.com/avatar.jpg","description":"为吾为枝，余地三尺，以己为棋，胜天半子。"},{"name":"Mlikiowa Home Village","link":"https://nanaeo.cn/","avatar":"https://q1.qlogo.cn/g?b=qq&nk=1627126029&s=100","description":"A litter Village With Mlikiowa"},{"name":"忘忧草","link":"https://owo.wyc.rest/","avatar":"https://owo.wyc.rest/img/%E4%B8%87%E5%8F%B6.jpg","description":"这只是一个小破站而已！"},{"name":"stillwarter","link":"https://stillwarter.github.io/","avatar":"https://file.fishpi.cn/2022/07/MOSHED2022621164630-1b1ec532.gif?imageView2/1/w/210/h/210/interlace/0/q/100","description":"光就是一切的意义"},{"name":"test12138","link":"http://你好.eu.org/","avatar":"https://file.fishpi.cn/2022/06/srchttpimgzcoolcncommunity0116405d84f975a801211d537707c9gifreferhttpimgzcool-0f2d09c9.gif?imageView2/1/w/48/h/48/interlace/0/q/100","description":"大丈夫生于天地之间，岂能郁郁久居人下。"},{"name":"呼呼呼","link":"https://bongbongbakudan.github.io/","avatar":"https://pwl.stackoverflow.wiki/2021/12/blob-28eb4b9f.png?imageView2/1/w/48/h/48/interlace/0/q/100","description":"去整点薯条"},{"name":"Plumbiu","link":"https://blog.plumbiu.top/","avatar":"https://avatars.githubusercontent.com/u/99574369?v=4","description":"这人很勤奋，啥都没留"},{"name":"hiRipple","link":"https://hiripple.com/","avatar":"https://avatars.githubusercontent.com/u/115361435?v=4","description":"超高校级的游戏玩家"}],"version":"4.0.6"}
+    KEEP.language_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"}
+    KEEP.language_code_block = {"copy":"复制代码","copied":"已复制","fold":"折叠代码块","folded":"已折叠"}
+    KEEP.language_copy_copyright = {"copy":"复制版权信息","copied":"已复制","title":"原文标题","author":"原文作者","link":"原文链接"}
+  </script>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-CLX32WF4R1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+
+      gtag('js', new Date());
+
+      gtag('config', 'G-CLX32WF4R1');
+    </script>
+
+    <!-- 51.la -->
+    <script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
+    <script>LA.init({id: "3JwPz6wbAloyTmMc", ck: "3JwPz6wbAloyTmMc", autoTrack: true})</script>
+
+<meta name="generator" content="Hexo 8.1.1"><link rel="alternate" href="/atom.xml" title="咕咕咕的小破站" type="application/atom+xml">
+</head>
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+        <span class="pjax-progress-bar"></span>
+        <i class="pjax-progress-icon fas fa-circle-notch fa-spin"></i>
+    
+</div>
+
+
+<main class="page-container border-box">
+
+    <!-- home first screen  -->
+    
+
+    <!-- page content -->
+    <div class="page-main-content border-box">
+        <div class="page-main-content-top">
+            
+<header class="header-wrapper">
+
+    <div class="border-box header-content">
+        <div class="left border-box">
+            
+                <a class="logo-image border-box" href="/">
+                    <img src="/images/head.jpg">
+                </a>
+            
+            <a class="site-name border-box" href="/">
+               咕咕咕的小破站
+            </a>
+        </div>
+
+        <div class="right border-box">
+            <div class="pc">
+                <ul class="menu-list">
+                    <li class="menu-item">
+                        <a class=""
+                           href="/"
+                        >首页</a>
+                    </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >归档</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/categories"
+                            >分类</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/tags"
+                            >标签</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/daily"
+                            >日常</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/links"
+                            >友链</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >关于</a>
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="fas search fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            <li class="drawer-menu-item flex-center">
+                <a class=""
+                   href="/"
+                >首页</a>
+            </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives"
+                    >归档</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/categories"
+                    >分类</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/tags"
+                    >标签</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/daily"
+                    >日常</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/links"
+                    >友链</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about"
+                    >关于</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle border-box">
+
+            <div class="main-content border-box">
+                
+
+                    
+<div class="fade-in-down-animation">
+    <div class="post-page-container border-box">
+        <div class="post-content-container border-box">
+            
+
+            <div class="post-content-bottom border-box">
+                
+                    <div class="post-title">
+                        关于Schiphalast注册功能开发中的bug
+                    </div>
+                
+
+                
+                    <div class="post-header border-box">
+                        
+                            <div class="avatar-box border-box">
+                                <img src="/images/head.jpg">
+                            </div>
+                        
+                        <div class="info-box">
+                            <div class="author border-box">
+                                <span class="name">咕咕咕</span>
+                                
+                                    <span class="author-badge">fishing</span>
+                                
+                            </div>
+                            <div class="meta-info border-box">
+                                
+
+<div class="post-meta-info-container border-box post">
+    <div class="post-meta-info border-box">
+        
+
+        
+            <span class="meta-info-item post-create-date">
+                <i class="icon fa-solid fa-calendar-plus"></i>&nbsp;
+                <span class="datetime">2022-08-12 12:50:52</span>
+            </span>
+
+            <span class="meta-info-item post-update-date">
+                <i class="icon fa-solid fa-file-pen"></i>&nbsp;
+                <span class="datetime" data-updated="Fri Aug 12 2022 04:50:52 GMT+0000">2022-08-12 12:50:52</span>
+            </span>
+        
+
+        
+            <span class="meta-info-item post-category border-box"><i class="icon fas fa-folder"></i>&nbsp;
+                <ul class="post-category-ul">
+                    
+                            <li class="category-item"><a href="/categories/%E7%BC%96%E7%A8%8B%E8%AE%B0%E5%BD%95/">编程记录</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+            <span class="post-tag meta-info-item border-box">
+                <i class="icon fas fa-tags"></i>&nbsp;
+                <ul class="post-tag-ul">
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/java/">java</a></li>
+                        
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/session/">session</a></li>
+                        
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/bug/">bug</a></li>
+                        
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/MD5/">MD5</a></li>
+                        
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/ip/">ip</a></li>
+                        
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/mail/">mail</a></li>
+                        
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%9E%E6%8E%A5%E6%B1%A0/">数据库连接池</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+        
+            <span class="meta-info-item post-wordcount">
+                <i class="icon fas fa-file-word"></i>&nbsp;<span>2.7k 字</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-min2read">
+                <i class="icon fas fa-clock"></i>&nbsp;<span>11 分钟</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-pv">
+                <i class="icon fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+            </span>
+        
+    </div>
+
+    
+</div>
+
+                            </div>
+                        </div>
+                    </div>
+                
+
+                <div class="post-content keep-markdown-body">
+                    
+
+                    <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>这个功能写成了一个springboot项目，部署在taptap的云引擎上。<br><a class="link"   target="_blank" rel="noopener" href="https://developer.taptap.com/docs/sdk/engine/overview/" >taptap云引擎官方文档<i class="fas fa-external-link-alt"></i></a><br>使用了官方提供的命令行工具，创建项目和部署到云引擎。<a class="link"   target="_blank" rel="noopener" href="https://developer.taptap.com/docs/sdk/engine/cli/" >命令行文档<i class="fas fa-external-link-alt"></i></a><br>他生成的项目实际是springboot的改版，添加了一些他们独有的功能。比如云函数等。<br>实际开发与平时一致（<del>他们提供的功能其实基本没用到，或许以后会用到。</del></p>
+<p>另外，要吐槽的一个点就是：<br>项目生成默认配置使用的是Java11，但是部署到云引擎时，报错。<br>换成Java8后正常运行。<br>版本问题，影响不大。<del>新版任你发，我用Java 8。</del></p>
+<h2 id="可复用模块"><a href="#可复用模块" class="headerlink" title="可复用模块"></a>可复用模块</h2><h3 id="从请求中获取ip地址"><a href="#从请求中获取ip地址" class="headerlink" title="从请求中获取ip地址"></a>从请求中获取ip地址</h3><p>Remote Address：<br>Remote Address代表HTTP请求的远程地址，即请求的源地址。http协议在三次握手时时用的就是这个Remote Address地址，发送响应报文时也是使用的这个Remote Address地址。<br>所以，Remote Address地址是不能伪造的，否则请求者会收不到响应报文。</p>
+<blockquote>
+<p>但是，**http请求经过代理服务器转发时，用户真实ip会丢失。**所以有了<code>X-Forwarded-For</code>获取ip的方式。</p>
+</blockquote>
+<p>X-Forwarded-For：<br>为了避免真实ip的丢失，代理服务器会增加叫X-Forwarded-For的头信息。将客户端ip记录到其中，以保证服务器可以获取到客户端真实ip。<br>X-Forwarded-For是一个拓展头。虽然HTTP&#x2F;1.1（RFC 2616）协议并没有对它的定义，但它已经成为事实上的标准（都在用<br>X-Forwarded-For请求头格式：<code>X-Forwarded-For: client, proxy1, proxy2</code><br>第一个便是请求的原始ip，后面则是代理服务器的ip。</p>
+<blockquote>
+<p>由于请求头可以伪造，所以<strong>不要相信请求头中携带的ip信息</strong>。</p>
+</blockquote>
+<blockquote>
+<p>直接对外提供服务的 Web 应用，在进行与安全有关的操作时，只能通过 Remote Address 获取 IP，不能相信任何请求头；<br>使用 Nginx 等 Web Server 进行反向代理的 Web 应用，在配置正确的前提下，要用 X-Forwarded-For 最后一节 或 X-Real-IP 来获取 IP（因为 Remote Address 得到的是 Nginx 所在服务器的内网 IP）；同时还应该禁止 Web 应用直接对外提供服务；<br>在与安全无关的场景，例如通过 IP 显示所在地天气，可以从 X-Forwarded-For 靠前的位置获取 IP，但是需要校验 IP 格式合法性；</p>
+</blockquote>
+<p>参考文章：<br><a class="link"   target="_blank" rel="noopener" href="https://www.runoob.com/w3cnote/http-x-forwarded-for.html" >关于X-Forwarded-For的介绍<i class="fas fa-external-link-alt"></i></a><br><a class="link"   target="_blank" rel="noopener" href="https://imququ.com/post/x-forwarded-for-header-in-http.html" >HTTP 请求头中的 X-Forwarded-For<i class="fas fa-external-link-alt"></i></a></p>
+<p>代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 从HttpServletRequest中获取ip</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> request 请求</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> ip</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title function_">getIP</span><span class="params">(HttpServletRequest request)</span> &#123;</span><br><span class="line">    <span class="type">String</span> <span class="variable">ip</span> <span class="operator">=</span> request.getHeader(<span class="string">&quot;x-forwarded-for&quot;</span>);</span><br><span class="line">    <span class="keyword">if</span> (ip == <span class="literal">null</span> || ip.length() == <span class="number">0</span> || <span class="string">&quot;unknown&quot;</span>.equalsIgnoreCase(ip)) &#123;</span><br><span class="line">        ip = request.getHeader(<span class="string">&quot;Proxy-Client-IP&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (ip == <span class="literal">null</span> || ip.length() == <span class="number">0</span> || <span class="string">&quot;unknown&quot;</span>.equalsIgnoreCase(ip)) &#123;</span><br><span class="line">        ip = request.getHeader(<span class="string">&quot;X-Forwarded-For&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (ip == <span class="literal">null</span> || ip.length() == <span class="number">0</span> || <span class="string">&quot;unknown&quot;</span>.equalsIgnoreCase(ip)) &#123;</span><br><span class="line">        ip = request.getHeader(<span class="string">&quot;WL-Proxy-Client-IP&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (ip == <span class="literal">null</span> || ip.length() == <span class="number">0</span> || <span class="string">&quot;unknown&quot;</span>.equalsIgnoreCase(ip)) &#123;</span><br><span class="line">        ip = request.getHeader(<span class="string">&quot;X-Real-IP&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (ip == <span class="literal">null</span> || ip.length() == <span class="number">0</span> || <span class="string">&quot;unknown&quot;</span>.equalsIgnoreCase(ip)) &#123;</span><br><span class="line">        ip = request.getRemoteAddr();</span><br><span class="line">        <span class="keyword">if</span> (<span class="string">&quot;127.0.0.1&quot;</span>.equalsIgnoreCase(ip) || <span class="string">&quot;0:0:0:0:0:0:0:1&quot;</span>.equalsIgnoreCase(ip)) &#123;</span><br><span class="line">            <span class="comment">// 根据网卡取本机配置的 IP</span></span><br><span class="line">            <span class="type">InetAddress</span> <span class="variable">iNet</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                iNet = InetAddress.getLocalHost();</span><br><span class="line">            &#125; <span class="keyword">catch</span> (UnknownHostException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (iNet != <span class="literal">null</span>)</span><br><span class="line">                ip = iNet.getHostAddress();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 对于通过多个代理的情况，分割出第一个 IP</span></span><br><span class="line">    <span class="keyword">if</span> (ip != <span class="literal">null</span> &amp;&amp; ip.length() &gt; <span class="number">15</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (ip.indexOf(<span class="string">&quot;,&quot;</span>) &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            ip = ip.substring(<span class="number">0</span>, ip.indexOf(<span class="string">&quot;,&quot;</span>));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;0:0:0:0:0:0:0:1&quot;</span>.equals(ip) ? <span class="string">&quot;127.0.0.1&quot;</span> : ip;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="密码的md5加密"><a href="#密码的md5加密" class="headerlink" title="密码的md5加密"></a>密码的md5加密</h3><p>MD5，全称 消息摘要算法第五版（Message Digest Algorithm 5）<br>不多介绍，详见<a class="link"   target="_blank" rel="noopener" href="https://baike.baidu.com/item/MD5/212708" >MD5百度百科<i class="fas fa-external-link-alt"></i></a></p>
+<p>关于加密算法的改进：</p>
+<ol>
+<li>加盐<br> 即<strong>在原来的明文中加入一组随机串</strong>，再通过加密算法加密，将密文存入数据库。</li>
+<li>加次数<br> 即多加密几次，增加破解难度。不过会消耗更多计算资源。</li>
+</ol>
+<p>jdk自带api：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * md5加密</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> password 需要加密的字符串</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> 加密后的字符串</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title function_">md5</span><span class="params">(String password)</span>&#123;</span><br><span class="line">    <span class="type">String</span> <span class="variable">hashedPwd</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="comment">//生成MessageDigest对象，指定使用的消息摘要算法</span></span><br><span class="line">        <span class="type">MessageDigest</span> <span class="variable">md</span> <span class="operator">=</span> MessageDigest.getInstance(<span class="string">&quot;MD5&quot;</span>);</span><br><span class="line">        <span class="comment">//传入需要计算的字符串，传入参数为字节或字节数组</span></span><br><span class="line">        md.update(password.getBytes());</span><br><span class="line">        <span class="comment">/*</span></span><br><span class="line"><span class="comment">        digest()计算消息摘要，返回值为字节数组。16个字节，128bit</span></span><br><span class="line"><span class="comment">        通过BigInteger将其转换成32位的16进制数（每个字节用两个16进制数表示）</span></span><br><span class="line"><span class="comment">        或者16位16进制数，去掉32位前后各8位</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        hashedPwd = <span class="keyword">new</span> <span class="title class_">BigInteger</span>(<span class="number">1</span>, md.digest()).toString(<span class="number">16</span>);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (NoSuchAlgorithmException e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> hashedPwd;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>spring的DigestUtils工具类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title function_">md5</span><span class="params">(String password)</span> &#123;</span><br><span class="line">    <span class="comment">// 基于spring框架中的DigestUtils工具类进行密码加密</span></span><br><span class="line">    <span class="keyword">return</span> DigestUtils.md5DigestAsHex((password).getBytes());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="发送mail邮件"><a href="#发送mail邮件" class="headerlink" title="发送mail邮件"></a>发送mail邮件</h3><p>使用JavaMail发送邮件</p>
+<p>依赖：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--javamail的依赖--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>javax.mail<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>mail<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.4.7<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//邮件服务器地址（比如smtp.qq.com</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">mailHost</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line"><span class="comment">//邮件传输协议（通常为smtp</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">mailTransportProtocol</span> <span class="operator">=</span> <span class="string">&quot;smtp&quot;</span>;</span><br><span class="line"><span class="comment">//邮箱认证（即登录</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">mailSmtpAuth</span> <span class="operator">=</span> <span class="string">&quot;true&quot;</span>;</span><br><span class="line"><span class="comment">//发件人邮箱地址</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">fromEmail</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line"><span class="comment">//发件人邮箱密码</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">password</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 发送邮件</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> toEmail 发往邮箱地址</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">sendMail</span><span class="params">(String toEmail)</span>&#123;</span><br><span class="line">    <span class="comment">//发送的内容（可以是dom文档</span></span><br><span class="line">    <span class="type">String</span> <span class="variable">sendContent</span> <span class="operator">=</span> <span class="string">&quot;test mail&quot;</span>;</span><br><span class="line">    <span class="comment">//创建，发送邮件</span></span><br><span class="line">    <span class="type">Properties</span> <span class="variable">prop</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Properties</span>();</span><br><span class="line">    prop.setProperty(<span class="string">&quot;mail.host&quot;</span>, mailHost);</span><br><span class="line">    prop.setProperty(<span class="string">&quot;mail.transport.protocol&quot;</span>, mailTransportProtocol);</span><br><span class="line">    prop.setProperty(<span class="string">&quot;mail.smtp.auth&quot;</span>, mailSmtpAuth);</span><br><span class="line">    <span class="comment">//使用JavaMail发送邮件的5个步骤</span></span><br><span class="line">    <span class="comment">//1、创建session</span></span><br><span class="line">    <span class="type">Session</span> <span class="variable">session</span> <span class="operator">=</span> Session.getInstance(prop);</span><br><span class="line">    <span class="comment">//2、通过session得到transport对象</span></span><br><span class="line">    Transport ts;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        ts = session.getTransport();</span><br><span class="line">        <span class="comment">//3、使用邮箱的用户名和密码连上邮件服务器，发送邮件时，发件人需要提交邮箱的用户名和密码给smtp服务器，用户名和密码都通过验证之后才能够正常发送邮件给收件人。</span></span><br><span class="line">        ts.connect(mailHost, fromEmail, password);</span><br><span class="line">        <span class="comment">//4、创建邮件</span></span><br><span class="line">        <span class="type">MimeMessage</span> <span class="variable">message</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">MimeMessage</span>(session);</span><br><span class="line">        <span class="comment">//指明邮件的发件人</span></span><br><span class="line">        message.setFrom(<span class="keyword">new</span> <span class="title class_">InternetAddress</span>(fromEmail));</span><br><span class="line">        <span class="comment">//指明邮件的收件人</span></span><br><span class="line">        message.setRecipient(Message.RecipientType.TO, <span class="keyword">new</span> <span class="title class_">InternetAddress</span>(toEmail));</span><br><span class="line">        <span class="comment">//邮件的标题</span></span><br><span class="line">        message.setSubject(<span class="string">&quot;标题&quot;</span>);</span><br><span class="line">        <span class="comment">//邮件的文本内容</span></span><br><span class="line">        message.setContent(sendContent, <span class="string">&quot;text/html;charset=UTF-8&quot;</span>);</span><br><span class="line">        <span class="comment">//5、发送邮件</span></span><br><span class="line">        ts.sendMessage(message, message.getAllRecipients());</span><br><span class="line">        ts.close();</span><br><span class="line">    &#125; <span class="keyword">catch</span> (MessagingException e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>参考文章：<br><a class="link"   target="_blank" rel="noopener" href="https://www.cnblogs.com/xdp-gacl/p/4216311.html" >使用JavaMail创建邮件和发送邮件<i class="fas fa-external-link-alt"></i></a></p>
+<hr>
+<p>使用springboot集成的mail模块</p>
+<p>依赖：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-mail<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>配置：</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring.mail.protocol</span>=<span class="string"></span></span><br><span class="line"><span class="attr">spring.mail.host</span>=<span class="string"></span></span><br><span class="line"><span class="attr">spring.mail.username</span>=<span class="string"></span></span><br><span class="line"><span class="attr">spring.mail.password</span>=<span class="string"></span></span><br></pre></td></tr></table></figure>
+<p>代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Resource</span></span><br><span class="line"><span class="keyword">private</span> JavaMailSender javaMailSender;</span><br><span class="line"><span class="meta">@Value(&quot;$&#123;fromEmail&#125;&quot;)</span></span><br><span class="line"><span class="keyword">private</span> String fromEmail;</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 发送邮件</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> toEmail 发往邮箱地址</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">sendMail</span><span class="params">(String toEmail)</span>&#123;</span><br><span class="line">    <span class="comment">//发送的内容（可以是dom文档</span></span><br><span class="line">    <span class="type">String</span> <span class="variable">sendContent</span> <span class="operator">=</span> <span class="string">&quot;test mail&quot;</span>;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="type">MimeMessageHelper</span> <span class="variable">messageHelper</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">MimeMessageHelper</span>(javaMailSender.createMimeMessage(), <span class="literal">true</span>);</span><br><span class="line">        messageHelper.setFrom(fromEmail);</span><br><span class="line">        messageHelper.setTo(toEmail);</span><br><span class="line">        messageHelper.setSubject(<span class="string">&quot;标题&quot;</span>);</span><br><span class="line">        messageHelper.setText(sendContent, <span class="literal">true</span>);</span><br><span class="line">        javaMailSender.send(messageHelper.getMimeMessage());</span><br><span class="line">    &#125; <span class="keyword">catch</span> (MessagingException e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="jdbc数据库连接池（鸽了）"><a href="#jdbc数据库连接池（鸽了）" class="headerlink" title="jdbc数据库连接池（鸽了）"></a>jdbc数据库连接池（鸽了）</h3><p>因为建立数据库连接与关闭数据库连接是非常耗时的事情，如果每次查询都建立连接、关闭连接会产生很大的性能开销。<br>所以有了连接池的出现来解决这一问题。<br>即在程序启动时，初始化连接池（连接数据库，创建多个连接）。在需要使用时从连接池中获取连接，使用结束放回连接池。<br>以减少性能开销。</p>
+<p>代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">先鸽了</span><br></pre></td></tr></table></figure>
+
+<p>附DataSource的产出背景：<br><a class="link"   target="_blank" rel="noopener" href="https://www.51cto.com/article/663312.html" >DataSource，一个被严重低估的接口<i class="fas fa-external-link-alt"></i></a></p>
+<h2 id="bug及解决方案"><a href="#bug及解决方案" class="headerlink" title="bug及解决方案"></a>bug及解决方案</h2><h3 id="session变化"><a href="#session变化" class="headerlink" title="session变化"></a>session变化</h3><h4 id="现象"><a href="#现象" class="headerlink" title="现象"></a>现象</h4><p>ajax请求及其余请求在前几次请求时，session会发送变化。导致存在session中的数据获取不到。</p>
+<h4 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h4><p>通过HttpServletRequest获取session对象时，使用 <code>request.getSession()</code> 方法。<br>getSession方法会检测当前是否有session存在，默认<strong>不存在会创建一个新的session</strong>，存在则返回。</p>
+<p>ajax请求跨域请求默认不携带cookie信息。即获取不到session</p>
+<h4 id="解决方案（未解决）"><a href="#解决方案（未解决）" class="headerlink" title="解决方案（未解决）"></a>解决方案（未解决）</h4><p>调用getSession方法时传入参数false或true<br>例如：<code>request.getSession(false);</code><br>为true时，先查看请求时是否有sessionID。如果没有，则创建一个新的session对象。如果有则根据sessionID查找对应的session对象，找到了就返回该session对象，没找到就创建新的session对象。<br>为false时，先查看请求中是否有sessionID，没有则返回null。有则根据sessionID查找对应的session对象，找到了就返回该session对象，没找到就创建新的session对象。<br><strong>默认为true</strong></p>
+<p>建议：<br>往session中写入参数时使用 <code>request.getSession();</code><br>从session中读取参数时使用 <code>request.getSession(false);</code></p>
+<p>附session其他操作：<br>设置值：<code>session.setAttribute(String name,Object obj);</code><br>读取值：<code>session.getAttribute(String name);</code><br>删除session：<code>session.invalidate();</code></p>
+<hr>
+<p>让ajax请求携带参数<br>添加属性：<code>xhr.withCredentials=true</code></p>
+<p>附js原生实现ajax请求：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> <span class="title class_">Ajax</span> = &#123;</span><br><span class="line">        <span class="attr">get</span>: <span class="keyword">function</span> (<span class="params">url, callback</span>) &#123;</span><br><span class="line">            <span class="comment">// XMLHttpRequest对象用于在后台与服务器交换数据</span></span><br><span class="line">            <span class="keyword">var</span> xhr = <span class="keyword">new</span> <span class="title class_">XMLHttpRequest</span>();</span><br><span class="line">            xhr.<span class="title function_">open</span>(<span class="string">&#x27;GET&#x27;</span>, url, <span class="literal">false</span>);</span><br><span class="line">            xhr.<span class="property">onreadystatechange</span> = <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">                <span class="comment">// readyState == 4说明请求已完成</span></span><br><span class="line">                <span class="keyword">if</span> (xhr.<span class="property">readyState</span> == <span class="number">4</span>) &#123;</span><br><span class="line">                    <span class="keyword">if</span> (xhr.<span class="property">status</span> == <span class="number">200</span> || xhr.<span class="property">status</span> == <span class="number">304</span>) &#123;</span><br><span class="line">                        <span class="variable language_">console</span>.<span class="title function_">log</span>(xhr.<span class="property">responseText</span>);</span><br><span class="line">                        <span class="title function_">callback</span>(xhr.<span class="property">responseText</span>);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            xhr.<span class="title function_">send</span>();</span><br><span class="line">        &#125;,</span><br><span class="line"></span><br><span class="line">        <span class="comment">// data应为&#x27;a=a1&amp;b=b1&#x27;这种字符串格式，在jq里如果data为对象会自动将对象转成这种字符串格式</span></span><br><span class="line">        <span class="attr">post</span>: <span class="keyword">function</span> (<span class="params">url, data, callback</span>) &#123;</span><br><span class="line">            <span class="keyword">var</span> xhr = <span class="keyword">new</span> <span class="title class_">XMLHttpRequest</span>();</span><br><span class="line">            xhr.<span class="title function_">open</span>(<span class="string">&#x27;POST&#x27;</span>, url, <span class="literal">false</span>);</span><br><span class="line">            <span class="comment">// 跨域携带cookie</span></span><br><span class="line">            xhr.<span class="property">withCredentials</span>=<span class="literal">true</span></span><br><span class="line">            <span class="comment">// 添加http头，发送信息至服务器时内容编码类型</span></span><br><span class="line">            xhr.<span class="title function_">setRequestHeader</span>(<span class="string">&#x27;Content-Type&#x27;</span>, <span class="string">&#x27;application/x-www-form-urlencoded&#x27;</span>);</span><br><span class="line">            xhr.<span class="property">onreadystatechange</span> = <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">                <span class="keyword">if</span> (xhr.<span class="property">readyState</span> === <span class="number">4</span>) &#123;</span><br><span class="line">                    <span class="keyword">if</span> (xhr.<span class="property">status</span> === <span class="number">200</span> || xhr.<span class="property">status</span> === <span class="number">304</span>) &#123;</span><br><span class="line">                        <span class="comment">// console.log(xhr.responseText);</span></span><br><span class="line">                        <span class="title function_">callback</span>(xhr.<span class="property">responseText</span>);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            xhr.<span class="title function_">send</span>(data);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<p>说明：<br>这个bug其实并未解决，因为部署到tap云引擎时，是一个springboot项目。所有的请求应该都是同源的，不会出现跨域的情况。<br>而session变化原因，就是getSession会创建新的session对象。<br>将getSession传入false，同时改完ajax属性后，这个bug依旧会出现。<br>在部署到生产环境后，依旧有用户偶尔会出现了session为null的情况。</p>
+<blockquote>
+<p>2022-08-12 暂未解决。</p>
+</blockquote>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>第一次使用平台提供的自动化的部署和管理功能。<br>有部署状态（预备环境和生产环境）、请求统计、日志、及环境变量各种设置等。<br>taptap云服务还是很成熟的。相比自己在腾讯云服务器上使用要方便很多，不管是部署还是监控。<br>官方文档也相对很齐全，参看文档来使用是完全可以的。</p>
+
+                </div>
+
+                
+                        
+<div class="post-copyright-info-container border-box">
+    <div class="copyright-info-content border-box">
+        <div class="copyright-info-top border-box">
+            <div class="copyright-post-title border-box text-ellipsis">
+                关于Schiphalast注册功能开发中的bug
+            </div>
+
+            <div class="copyright-post-link border-box text-ellipsis">
+                编程记录/编程记录/关于Schiphalast注册功能开发中的bug/
+            </div>
+        </div>
+
+        <div class="copyright-info-bottom border-box">
+            <div class="copyright-post-author bottom-item">
+                <div class="type">
+                    作者
+                </div>
+                <div class="content">咕咕咕</div>
+            </div>
+
+            <div class="post-time bottom-item">
+                <div class="type">
+                    发布于
+                </div>
+                <div class="content">2022-08-12 12:50</div>
+            </div>
+
+
+            <div class="post-license bottom-item">
+                <div class="type">
+                    许可
+                </div>
+                <div class="content tooltip" data-tooltip-content="CC BY-NC-SA 4.0">
+                    <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hans">
+                        <i class="fa-brands fa-creative-commons"></i>
+                        <i class="fa-brands fa-creative-commons-by"></i>
+                        <i class="fa-brands fa-creative-commons-nc"></i>
+                        <i class="fa-brands fa-creative-commons-sa"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <i class="copyright-bg fa-solid fa-copyright"></i>
+    </div>
+    <div class="copy-copyright-info flex-center tooltip" data-tooltip-content="复制版权信息" data-tooltip-offset-y="-2px">
+        <i class="fa-solid fa-copy"></i>
+    </div>
+</div>
+
+                
+
+                <div class="post-bottom-tags-and-share border-box">
+                    <div>
+                        
+                            <ul class="post-tags-box border-box">
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/java/">java</a>
+                                    </li>
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/session/">session</a>
+                                    </li>
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/bug/">bug</a>
+                                    </li>
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/MD5/">MD5</a>
+                                    </li>
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/ip/">ip</a>
+                                    </li>
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/mail/">mail</a>
+                                    </li>
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%9E%E6%8E%A5%E6%B1%A0/">数据库连接池</a>
+                                    </li>
+                                
+                            </ul>
+                        
+                    </div>
+                    <div>
+                        
+                            <div class="post-share-container border-box">
+    <ul class="share-list-wrap border-box">
+        <li class="qq share-item border-box flex-center tooltip"
+            data-tooltip-content="分享到 QQ"
+        >
+            <i class="fa-brands fa-qq"></i>
+        </li>
+        <li class="wechat share-item border-box flex-center tooltip tooltip-img"
+            data-tooltip-content="分享到微信"
+            data-tooltip-img-tip="微信扫一扫"
+            data-tooltip-img-style="background-color: #fff; top: -10px; padding: 0.6rem 0.6rem 0.1rem 0.6rem;"
+        >
+            <i class="fa-brands fa-weixin"></i>
+        </li>
+        <li class="weibo share-item border-box flex-center tooltip"
+            data-tooltip-content="分享到微博"
+        >
+            <i class="fa-brands fa-weibo"></i>
+        </li>
+    </ul>
+</div>
+
+                        
+                    </div>
+                </div>
+
+                
+                    <div class="reward-author-container border-box flex-center">
+    <div class="reward-btn keep-button border-box flex-center tooltip tooltip-img"
+            data-tooltip-content="谢谢你请我喝可乐~"
+            data-tooltip-img-url="/images/thanks.png"
+            data-tooltip-img-trigger="click"
+            data-tooltip-img-style="top: -8px;"
+    >
+        <i class="fa-solid fa-hand-holding-heart"></i>
+    </div>
+</div>
+
+                
+
+                
+                    <div class="post-nav border-box">
+                        
+                            <div class="prev-post">
+                                <a class="prev"
+                                   rel="prev"
+                                   href="/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/RabbitMQ%E7%AC%94%E8%AE%B0/"
+                                   title="RabbitMQ笔记"
+                                >
+                                    <span class="left arrow-icon flex-center">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </span>
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">RabbitMQ笔记</span>
+                                        <span class="post-nav-item">上一篇</span>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                        
+                            <div class="next-post">
+                                <a class="next"
+                                   rel="next"
+                                   href="/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/FastDFS%E7%AC%94%E8%AE%B0/"
+                                   title="FastDFS笔记"
+                                >
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">FastDFS笔记</span>
+                                        <span class="post-nav-item">下一篇</span>
+                                    </span>
+                                    <span class="right arrow-icon flex-center">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                    </div>
+                
+
+                
+                    
+
+
+    <div class="comments-container border-box">
+        <div id="comments-anchor" class="comment-area-title border-box">
+            <i class="fas fa-comments"></i>&nbsp;评论
+        </div>
+        <div class="comment-plugin-fail border-box">
+    <span class="fail-tip">评论插件加载失败</span>
+    <button class="reload keep-button">点击重新加载</button>
+</div>
+<div class="comment-plugin-loading flex-center border-box">
+    <i class="loading-icon fa-solid fa-spinner fa-spin"></i>
+    <span class="load-tip">正在加载评论插件</span>
+</div>
+<script data-pjax>
+  window.KeepCommentPlugin = {}
+  window.KeepCommentPlugin.hideLoading = () => {
+    const cplDom = document.querySelector('.comments-container .comment-plugin-loading')
+    cplDom.style.display = 'none'
+  }
+  window.KeepCommentPlugin.loadFailHandle = () => {
+    window.KeepCommentPlugin.hideLoading()
+    const cpfDom = document.querySelector('.comments-container .comment-plugin-fail')
+    cpfDom.style.display = 'flex'
+    cpfDom.querySelector('.reload').addEventListener('click', () => {
+      window.location.reload()
+    })
+  }
+</script>
+
+        
+            
+
+    <div class="giscus-comments-container">
+        <div class="giscus" id="giscus"></div>
+        <script data-pjax
+                onerror="window.KeepCommentPlugin.loadFailHandle()"
+        >
+          if (!window.KeepCommentPlugin?.getGiscusTheme) {
+            window.KeepCommentPlugin.getGiscusTheme = () => {
+              return document.body.classList.contains('dark-mode') ? 'dark_dimmed' : 'light_tritanopia'
+            }
+          }
+
+          if (!window.KeepCommentPlugin?.changeGiscusTheme) {
+            window.KeepCommentPlugin.changeGiscusTheme = () => {
+              const iframe = document.querySelector('iframe.giscus-frame')
+              iframe && iframe.contentWindow.postMessage({
+                giscus: {
+                  setConfig: {
+                    theme: window.KeepCommentPlugin.getGiscusTheme()
+                  }
+                }
+              }, 'https://giscus.app')
+            }
+          }
+
+          if (!window.KeepCommentPlugin?.initGiscus) {
+            window.KeepCommentPlugin.initGiscus = () => {
+              const script = document.createElement('script')
+              script.async = true
+              script.src = 'https://giscus.app/client.js'
+              script.setAttribute('data-repo', 'Cooooing/Cooooing.github.io')
+              script.setAttribute('data-repo-id', 'R_kgDOHQal_w')
+              script.setAttribute('data-category', 'Announcements')
+              script.setAttribute('data-category-id', 'DIC_kwDOHQal_84CjZo6')
+              script.setAttribute('data-reactions-enabled', '1')
+              script.setAttribute('data-lang', 'zh-CN')
+              script.setAttribute('data-mapping', 'pathname')
+              script.setAttribute('data-strict', '0')
+              script.setAttribute('data-emit-metadata', '0')
+              script.setAttribute('data-input-position', 'top')
+              script.setAttribute('crossorigin', 'anonymous')
+              script.setAttribute('loading', 'lazy')
+              script.setAttribute('data-theme', window.KeepCommentPlugin.getGiscusTheme())
+              document.querySelector('.giscus-comments-container').appendChild(script)
+              script.onerror = () => {
+                window.KeepCommentPlugin.loadFailHandle()
+              }
+              script.onload = () => {
+                window.KeepCommentPlugin.hideLoading()
+              }
+              const toggleThemeBtn = document.querySelector('.tool-toggle-theme-mode')
+              toggleThemeBtn && toggleThemeBtn.addEventListener('click', () => {
+                window.KeepCommentPlugin.changeGiscusTheme()
+              })
+            }
+          }
+
+          if ('true' === "true") {
+            setTimeout(() => {
+              window.KeepCommentPlugin.initGiscus()
+            }, 1000)
+          } else {
+            window.addEventListener("DOMContentLoaded", window.KeepCommentPlugin.initGiscus)
+          }
+        </script>
+    </div>
+
+
+        
+    </div>
+
+
+
+
+
+                
+            </div>
+        </div>
+
+        
+            <div class="pc-post-toc left-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%80%E4%BB%8B"><span class="nav-text">简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%AF%E5%A4%8D%E7%94%A8%E6%A8%A1%E5%9D%97"><span class="nav-text">可复用模块</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%8E%E8%AF%B7%E6%B1%82%E4%B8%AD%E8%8E%B7%E5%8F%96ip%E5%9C%B0%E5%9D%80"><span class="nav-text">从请求中获取ip地址</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AF%86%E7%A0%81%E7%9A%84md5%E5%8A%A0%E5%AF%86"><span class="nav-text">密码的md5加密</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%91%E9%80%81mail%E9%82%AE%E4%BB%B6"><span class="nav-text">发送mail邮件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#jdbc%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%9E%E6%8E%A5%E6%B1%A0%EF%BC%88%E9%B8%BD%E4%BA%86%EF%BC%89"><span class="nav-text">jdbc数据库连接池（鸽了）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#bug%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="nav-text">bug及解决方案</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#session%E5%8F%98%E5%8C%96"><span class="nav-text">session变化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%8E%B0%E8%B1%A1"><span class="nav-text">现象</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8E%9F%E5%9B%A0"><span class="nav-text">原因</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%EF%BC%88%E6%9C%AA%E8%A7%A3%E5%86%B3%EF%BC%89"><span class="nav-text">解决方案（未解决）</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-text">总结</span></a></li></ol>
+    </div>
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom border-box">
+            
+<footer class="footer border-box">
+    <div class="border-box website-info-box default">
+        
+            <div class="copyright-info info-item default">
+                &copy;&nbsp;<span>2022</span>&nbsp;-&nbsp;2025
+                
+                    &nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;&nbsp;<a href="/">咕咕咕</a>
+                
+            </div>
+
+            <div class="theme-info info-item default">
+                由&nbsp;<a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;驱动&nbsp;&&nbsp;主题&nbsp;<a class="keep-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep</a>
+            </div>
+
+            
+
+            
+        
+
+        <div style="color:var(--text-color-4);"><span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>(～￣▽￣)～<script src="/js/lifeTime.js"></script></div>
+        <a href="https://icp.gov.moe/?keyword=20222450" target="_blank">萌ICP备20222450号</a>
+
+
+        <div class="count-item info-item default">
+            
+                <span class="count-box border-box word">
+                    <span class="item-type border-box">总字数</span>
+                    <span class="item-value border-box word">362.1k</span>
+                </span>
+            
+
+            
+                <span class="count-box border-box uv">
+                    <span class="item-type border-box">访客数</span>
+                    <span class="item-value border-box uv" id="busuanzi_value_site_uv"></span>
+                </span>
+            
+
+            
+                <span class="count-box border-box pv">
+                    <span class="item-type border-box">访问量</span>
+                    <span class="item-value border-box pv" id="busuanzi_value_site_pv"></span>
+                </span>
+            
+        </div>
+
+        <div id="aplayer">
+          <meting-js
+                  server="netease"
+                  type="playlist"
+                  id="7345595717"
+                  fixed="true"
+                  mini="true"
+                  autoplay="false"
+                  listFolded="true"
+                  order="random"
+                  preload="none">
+          </meting-js>
+        </div>
+            <br>
+            <br>
+            <br>
+    </div>
+
+</footer>
+
+        </div>
+    </div>
+
+    <!-- post tools -->
+    
+        <div class="post-tools left-toc">
+            <div class="post-tools-container border-box">
+    <ul class="tools-list border-box">
+        <!-- PC TOC show toggle -->
+        
+            <li class="tools-item flex-center toggle-show-toc">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        <!-- PC go comment -->
+        
+            <li class="tools-item flex-center go-to-comments">
+                <i class="fas fa-comment"></i>
+                <span class="post-comments-count"></span>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <!-- side tools -->
+    <div class="side-tools">
+        <div class="side-tools-container border-box ">
+    <ul class="side-tools-list side-tools-show-handle border-box">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-toggle-theme-mode flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+            <li class="tools-item rss flex-center">
+                <a class="flex-center"
+                   href="/atom.xml"
+                   target="_blank"
+                >
+                    <i class="fas fa-rss"></i>
+                </a>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list border-box">
+        
+            <li class="tools-item toggle-show-toc-tablet flex-center">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        
+            <li class="tools-item go-to-comments-tablet flex-center">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+
+        <li class="tools-item tool-scroll-to-top flex-center show-arrow">
+            <i class="arrow fas fa-arrow-up"></i>
+            <span class="percent"></span>
+        </li>
+    </ul>
+</div>
+
+    </div>
+
+    <!-- image mask -->
+    <div class="zoom-in-image-mask">
+    <img class="zoom-in-image">
+</div>
+
+
+    <!-- local search -->
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="搜索..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="close-popup-btn">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+    <!-- tablet toc -->
+    
+        <div class="tablet-post-toc-mask">
+            <div class="tablet-post-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%80%E4%BB%8B"><span class="nav-text">简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%AF%E5%A4%8D%E7%94%A8%E6%A8%A1%E5%9D%97"><span class="nav-text">可复用模块</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%8E%E8%AF%B7%E6%B1%82%E4%B8%AD%E8%8E%B7%E5%8F%96ip%E5%9C%B0%E5%9D%80"><span class="nav-text">从请求中获取ip地址</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AF%86%E7%A0%81%E7%9A%84md5%E5%8A%A0%E5%AF%86"><span class="nav-text">密码的md5加密</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%91%E9%80%81mail%E9%82%AE%E4%BB%B6"><span class="nav-text">发送mail邮件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#jdbc%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%9E%E6%8E%A5%E6%B1%A0%EF%BC%88%E9%B8%BD%E4%BA%86%EF%BC%89"><span class="nav-text">jdbc数据库连接池（鸽了）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#bug%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="nav-text">bug及解决方案</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#session%E5%8F%98%E5%8C%96"><span class="nav-text">session变化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%8E%B0%E8%B1%A1"><span class="nav-text">现象</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8E%9F%E5%9B%A0"><span class="nav-text">原因</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%EF%BC%88%E6%9C%AA%E8%A7%A3%E5%86%B3%EF%BC%89"><span class="nav-text">解决方案（未解决）</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-text">总结</span></a></li></ol>
+    </div>
+</div>
+
+            </div>
+        </div>
+    
+</main>
+
+
+
+<!-- common -->
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/toggle-theme.js"></script>
+
+<script src="/js/code-block.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+
+<!-- local-search -->
+
+    
+<script src="/js/local-search.js"></script>
+
+
+
+<!-- lazyload -->
+
+    
+<script src="/js/lazyload.js"></script>
+
+
+
+<div class="pjax">
+    
+        <!-- post-helper -->
+        
+<script src="/js/post/post-helper.js"></script>
+
+
+        <!-- toc -->
+        
+            
+<script src="/js/post/toc.js"></script>
+
+        
+
+        <!-- copyright-info -->
+        
+            
+<script src="/js/post/copyright-info.js"></script>
+
+        
+
+        <!-- share -->
+        
+            
+<script src="/js/post/share.js"></script>
+
+        
+    
+
+    <!-- category-page -->
+    
+
+    <!-- links-page -->
+    
+
+    <!-- photos-page -->
+    
+</div>
+
+<!-- mermaid -->
+
+
+<!-- pjax -->
+
+    
+<script src="/js/libs/pjax.min.js"></script>
+
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        window.pjax = new Pjax({
+            selectors: [
+                'head title',
+                '.page-container',
+                '.pjax',
+                '#aplayer',
+                '#canvas_sakura'
+            ],
+            history: true,
+            debug: false,
+            cacheBust: false,
+            timeout: 0,
+            analytics: false,
+            currentUrlFullReload: false,
+            scrollRestoration: false,
+        });
+
+        document.addEventListener('pjax:send', () => {
+            KEEP.utils.pjaxProgressBarStart()
+        });
+
+        document.addEventListener('pjax:complete', () => {
+            KEEP.utils.pjaxProgressBarEnd()
+            window.pjax.executeScripts(document.querySelectorAll('script[data-pjax], .pjax script'))
+            KEEP.initExecute()
+        });
+    });
+</script>
+
+
+
+
+    
+        
+            
+<script class="custom-inject-js" src="/js/APlayer.min.js" data-pjax></script>
+
+        
+    
+        
+            
+<script class="custom-inject-js" src="/js/Meting.min.js" data-pjax></script>
+
+        
+    
+        
+            
+<script class="custom-inject-js" src="/js/leaves.js" data-pjax></script>
+
+        
+    
+
+
+
+</body>
+</html>

@@ -1,0 +1,1334 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="技术博客,后端开发,编程笔记,生活">
+    <meta name="description" content="Code | Systems | Life — 专注编程本质，也关心世界如何运转。">
+    <meta name="author" content="咕咕咕">
+
+    
+    <title>
+        
+            Go内置时间常量格式（time包）对照表 |
+        
+        咕咕咕的小破站
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+        <link rel="shortcut icon" href="/images/favicon.png">
+    
+    
+<link rel="stylesheet" href="/font/css/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/regular.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/solid.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/brands.min.css">
+
+    
+        
+            
+                
+<link rel="stylesheet" href="/css/APlayer.min.css">
+
+            
+        
+            
+                
+<link rel="stylesheet" href="/css/custom.css">
+
+            
+        
+    
+    <script class="keep-theme-configurations">
+    const KEEP = window.KEEP || {}
+    KEEP.hexo_config = {"hostname":"cooooing.github.io","root":"/","language":"zh-CN","path":"search.json"}
+    KEEP.theme_config = {"base_info":{"primary_color":"#0066cc","title":"咕咕咕的小破站","author":"咕咕咕","avatar":"/images/head.jpg","logo":"/images/head.jpg","favicon":"/images/favicon.png"},"menu":{"Archives":"/archives","Categories":"/categories","Tags":"/tags","日常":"/daily","Links":"/links","About":"/about"},"first_screen":{"enable":false,"background_img":"/images/bg.svg","background_img_dark":"/images/bg.svg","description":"Keep writing and Keep loving.","hitokoto":false},"social_contact":{"enable":false,"links":{"github":null,"weixin":null,"qq":null,"weibo":null,"zhihu":null,"twitter":null,"facebook":null,"email":null}},"scroll":{"progress_bar":false,"percent":false,"hide_header":true},"home":{"category":true,"tag":true,"announcement":null},"post":{"author_badge":{"enable":true,"level_badge":false,"custom_badge":["fishing"]},"word_count":{"wordcount":true,"min2read":true},"datetime_format":"YYYY-MM-DD HH:mm:ss","copyright_info":true,"share":true,"reward":{"enable":true,"img_link":"/images/thanks.png","text":"谢谢你请我喝可乐~"}},"code_block":{"tools":{"enable":true,"style":"default"},"highlight_theme":"default"},"toc":{"enable":true,"number":false,"expand_all":true,"init_open":true,"layout":"left"},"website_count":{"busuanzi_count":{"enable":true,"site_uv":true,"site_pv":true,"page_pv":true}},"local_search":{"enable":true,"preload":true},"comment":{"enable":true,"use":"giscus","valine":{"appid":null,"appkey":null,"server_urls":null,"placeholder":null},"gitalk":{"github_id":null,"github_admins":null,"repository":null,"client_id":null,"client_secret":null,"proxy":null},"twikoo":{"env_id":null,"region":null,"version":"1.6.21"},"waline":{"server_url":null,"reaction":false,"version":2},"giscus":{"repo":"Cooooing/Cooooing.github.io","repo_id":"R_kgDOHQal_w","category":"Announcements","category_id":"DIC_kwDOHQal_84CjZo6","reactions_enabled":true},"artalk":{"server":null},"disqus":{"shortname":null}},"rss":{"enable":true},"lazyload":{"enable":true},"cdn":{"enable":false,"provider":"cdnjs"},"pjax":{"enable":true},"footer":{"since":2022,"word_count":true,"icp":{"enable":false,"record_code":null,"url":"https://beian.miit.gov.cn"},"site_deploy":{"enable":false,"provider":"github","url":null},"shields_style":{"enable":false,"custom":[{"link_url":null,"img_url":null}]}},"inject":{"enable":true,"css":["/css/APlayer.min.css","/css/custom.css"],"js":["/js/APlayer.min.js","/js/Meting.min.js","/js/leaves.js"]},"root":"","links":[{"name":"鼠鼠在碎觉","link":"https://sszsj.com","avatar":"https://tmx.fishpi.cn/img/head.jpg","description":"我是不慎落入世界的一滴水墨"},{"name":"Gakkiyomi","link":"https://gakkiyomi.blog","avatar":"https://avatars.githubusercontent.com/u/41406557?v=4","description":"为往圣继绝学"},{"name":"Hancel's Blog","link":"https://my.hancel.org","avatar":"https://my.hancel.org/media/logo.jpg","description":"人生而自由，却无往不在枷锁之中。"},{"name":"Eastshann","link":"http://121.4.99.208/","avatar":"http://121.4.99.208/img/avatar.jpg","description":"冲和者，淡泊平和，谦冲守正"},{"name":"小于同学的异世界","link":"https://yby.zone","avatar":"https://yby-zone.obs.cn-east-3.myhuaweicloud.com/avatar.jpg","description":"为吾为枝，余地三尺，以己为棋，胜天半子。"},{"name":"Mlikiowa Home Village","link":"https://nanaeo.cn/","avatar":"https://q1.qlogo.cn/g?b=qq&nk=1627126029&s=100","description":"A litter Village With Mlikiowa"},{"name":"忘忧草","link":"https://owo.wyc.rest/","avatar":"https://owo.wyc.rest/img/%E4%B8%87%E5%8F%B6.jpg","description":"这只是一个小破站而已！"},{"name":"stillwarter","link":"https://stillwarter.github.io/","avatar":"https://file.fishpi.cn/2022/07/MOSHED2022621164630-1b1ec532.gif?imageView2/1/w/210/h/210/interlace/0/q/100","description":"光就是一切的意义"},{"name":"test12138","link":"http://你好.eu.org/","avatar":"https://file.fishpi.cn/2022/06/srchttpimgzcoolcncommunity0116405d84f975a801211d537707c9gifreferhttpimgzcool-0f2d09c9.gif?imageView2/1/w/48/h/48/interlace/0/q/100","description":"大丈夫生于天地之间，岂能郁郁久居人下。"},{"name":"呼呼呼","link":"https://bongbongbakudan.github.io/","avatar":"https://pwl.stackoverflow.wiki/2021/12/blob-28eb4b9f.png?imageView2/1/w/48/h/48/interlace/0/q/100","description":"去整点薯条"},{"name":"Plumbiu","link":"https://blog.plumbiu.top/","avatar":"https://avatars.githubusercontent.com/u/99574369?v=4","description":"这人很勤奋，啥都没留"},{"name":"hiRipple","link":"https://hiripple.com/","avatar":"https://avatars.githubusercontent.com/u/115361435?v=4","description":"超高校级的游戏玩家"}],"version":"4.0.6"}
+    KEEP.language_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"}
+    KEEP.language_code_block = {"copy":"复制代码","copied":"已复制","fold":"折叠代码块","folded":"已折叠"}
+    KEEP.language_copy_copyright = {"copy":"复制版权信息","copied":"已复制","title":"原文标题","author":"原文作者","link":"原文链接"}
+  </script>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-CLX32WF4R1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+
+      gtag('js', new Date());
+
+      gtag('config', 'G-CLX32WF4R1');
+    </script>
+
+    <!-- 51.la -->
+    <script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
+    <script>LA.init({id: "3JwPz6wbAloyTmMc", ck: "3JwPz6wbAloyTmMc", autoTrack: true})</script>
+
+<meta name="generator" content="Hexo 8.1.1"><link rel="alternate" href="/atom.xml" title="咕咕咕的小破站" type="application/atom+xml">
+</head>
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+        <span class="pjax-progress-bar"></span>
+        <i class="pjax-progress-icon fas fa-circle-notch fa-spin"></i>
+    
+</div>
+
+
+<main class="page-container border-box">
+
+    <!-- home first screen  -->
+    
+
+    <!-- page content -->
+    <div class="page-main-content border-box">
+        <div class="page-main-content-top">
+            
+<header class="header-wrapper">
+
+    <div class="border-box header-content">
+        <div class="left border-box">
+            
+                <a class="logo-image border-box" href="/">
+                    <img src="/images/head.jpg">
+                </a>
+            
+            <a class="site-name border-box" href="/">
+               咕咕咕的小破站
+            </a>
+        </div>
+
+        <div class="right border-box">
+            <div class="pc">
+                <ul class="menu-list">
+                    <li class="menu-item">
+                        <a class=""
+                           href="/"
+                        >首页</a>
+                    </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >归档</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/categories"
+                            >分类</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/tags"
+                            >标签</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/daily"
+                            >日常</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/links"
+                            >友链</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >关于</a>
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="fas search fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            <li class="drawer-menu-item flex-center">
+                <a class=""
+                   href="/"
+                >首页</a>
+            </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives"
+                    >归档</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/categories"
+                    >分类</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/tags"
+                    >标签</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/daily"
+                    >日常</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/links"
+                    >友链</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about"
+                    >关于</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle border-box">
+
+            <div class="main-content border-box">
+                
+
+                    
+<div class="fade-in-down-animation">
+    <div class="post-page-container border-box">
+        <div class="post-content-container border-box">
+            
+
+            <div class="post-content-bottom border-box">
+                
+                    <div class="post-title">
+                        Go内置时间常量格式（time包）对照表
+                    </div>
+                
+
+                
+                    <div class="post-header border-box">
+                        
+                            <div class="avatar-box border-box">
+                                <img src="/images/head.jpg">
+                            </div>
+                        
+                        <div class="info-box">
+                            <div class="author border-box">
+                                <span class="name">咕咕咕</span>
+                                
+                                    <span class="author-badge">fishing</span>
+                                
+                            </div>
+                            <div class="meta-info border-box">
+                                
+
+<div class="post-meta-info-container border-box post">
+    <div class="post-meta-info border-box">
+        
+
+        
+            <span class="meta-info-item post-create-date">
+                <i class="icon fa-solid fa-calendar-plus"></i>&nbsp;
+                <span class="datetime">2025-09-06 13:43:56</span>
+            </span>
+
+            <span class="meta-info-item post-update-date">
+                <i class="icon fa-solid fa-file-pen"></i>&nbsp;
+                <span class="datetime" data-updated="Sat Sep 06 2025 05:43:56 GMT+0000">2025-09-06 13:43:56</span>
+            </span>
+        
+
+        
+            <span class="meta-info-item post-category border-box"><i class="icon fas fa-folder"></i>&nbsp;
+                <ul class="post-category-ul">
+                    
+                            <li class="category-item"><a href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+            <span class="post-tag meta-info-item border-box">
+                <i class="icon fas fa-tags"></i>&nbsp;
+                <ul class="post-tag-ul">
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/go/">go</a></li>
+                        
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/%E6%97%B6%E9%97%B4/">时间</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+        
+            <span class="meta-info-item post-wordcount">
+                <i class="icon fas fa-file-word"></i>&nbsp;<span>1.8k 字</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-min2read">
+                <i class="icon fas fa-clock"></i>&nbsp;<span>9 分钟</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-pv">
+                <i class="icon fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+            </span>
+        
+    </div>
+
+    
+</div>
+
+                            </div>
+                        </div>
+                    </div>
+                
+
+                <div class="post-content keep-markdown-body">
+                    
+
+                    <h2 id="Go-时间布局格式"><a href="#Go-时间布局格式" class="headerlink" title="Go 时间布局格式"></a>Go 时间布局格式</h2><p>Go 使用 <strong>参考时间</strong> <code>Mon Jan 2 15:04:05 MST 2006</code> 来定义格式，而不是像 C 语言或 Python 的 <code>%Y %m %d</code>。</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>标记</th>
+<th>含义</th>
+<th>示例（参考时间 2025-09-06 11:45:05.123456789）</th>
+<th>注意事项</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>年</strong></td>
+<td><code>2006</code></td>
+<td>四位年份</td>
+<td><code>2025</code></td>
+<td>常用于完整年份显示</td>
+</tr>
+<tr>
+<td></td>
+<td><code>06</code></td>
+<td>两位年份</td>
+<td><code>25</code></td>
+<td>适合老式格式或节省字符</td>
+</tr>
+<tr>
+<td><strong>月</strong></td>
+<td><code>01</code></td>
+<td>两位数字月份</td>
+<td><code>09</code></td>
+<td>0 填充</td>
+</tr>
+<tr>
+<td></td>
+<td><code>1</code></td>
+<td>数字月份（无前导零）</td>
+<td><code>9</code></td>
+<td>方便简写</td>
+</tr>
+<tr>
+<td></td>
+<td><code>Jan</code></td>
+<td>英文缩写月份</td>
+<td><code>Sep</code></td>
+<td>三个字母英文缩写</td>
+</tr>
+<tr>
+<td></td>
+<td><code>January</code></td>
+<td>英文全称月份</td>
+<td><code>September</code></td>
+<td>更易读，长度可变</td>
+</tr>
+<tr>
+<td><strong>日</strong></td>
+<td><code>02</code></td>
+<td>两位数字日</td>
+<td><code>06</code></td>
+<td>0 填充</td>
+</tr>
+<tr>
+<td></td>
+<td><code>_2</code></td>
+<td>空格填充日</td>
+<td><code> 6</code></td>
+<td>用于对齐，日&lt;10时左侧空格</td>
+</tr>
+<tr>
+<td><strong>小时</strong></td>
+<td><code>15</code></td>
+<td>24 小时制</td>
+<td><code>11</code></td>
+<td>0-23</td>
+</tr>
+<tr>
+<td></td>
+<td><code>03</code></td>
+<td>12 小时制</td>
+<td><code>11</code></td>
+<td>0-12，0 会显示为 12</td>
+</tr>
+<tr>
+<td></td>
+<td><code>3</code></td>
+<td>12 小时制，无前导零</td>
+<td><code>11</code></td>
+<td>0-12</td>
+</tr>
+<tr>
+<td><strong>分钟&#x2F;秒</strong></td>
+<td><code>04</code></td>
+<td>分钟</td>
+<td><code>45</code></td>
+<td>两位数字</td>
+</tr>
+<tr>
+<td></td>
+<td><code>05</code></td>
+<td>秒</td>
+<td><code>05</code></td>
+<td>两位数字</td>
+</tr>
+<tr>
+<td><strong>上下午</strong></td>
+<td><code>PM</code></td>
+<td>大写 AM&#x2F;PM</td>
+<td><code>AM</code></td>
+<td>12 小时制，区分大小写</td>
+</tr>
+<tr>
+<td></td>
+<td><code>pm</code></td>
+<td>小写 am&#x2F;pm</td>
+<td><code>am</code></td>
+<td>12 小时制，区分大小写</td>
+</tr>
+<tr>
+<td><strong>时区</strong></td>
+<td><code>MST</code></td>
+<td>时区缩写</td>
+<td><code>SGT</code> &#x2F; <code>CST</code> &#x2F; <code>UTC</code></td>
+<td>受系统时区影响，可能有歧义</td>
+</tr>
+<tr>
+<td></td>
+<td><code>-0700</code></td>
+<td>数值时区偏移（无冒号）</td>
+<td><code>+0800</code></td>
+<td>可解析性高，推荐用于存储&#x2F;传输</td>
+</tr>
+<tr>
+<td></td>
+<td><code>Z07:00</code></td>
+<td>数值时区偏移（含冒号）</td>
+<td><code>+08:00</code> 或 <code>Z</code>（UTC）</td>
+<td>RFC3339 常用</td>
+</tr>
+<tr>
+<td><strong>引号</strong></td>
+<td><code>&#39;...&#39;</code></td>
+<td>单引号内内容按字面量输出</td>
+<td><code>&quot;&#39;06&quot;</code> → <code>&#39;25</code></td>
+<td>可在格式中插入固定字符</td>
+</tr>
+<tr>
+<td><strong>小数秒</strong></td>
+<td><code>.000</code></td>
+<td>毫秒</td>
+<td><code>.123</code></td>
+<td>固定 3 位小数</td>
+</tr>
+<tr>
+<td></td>
+<td><code>.000000</code></td>
+<td>微秒</td>
+<td><code>.123456</code></td>
+<td>固定 6 位小数</td>
+</tr>
+<tr>
+<td></td>
+<td><code>.000000000</code></td>
+<td>纳秒</td>
+<td><code>.123456789</code></td>
+<td>固定 9 位小数</td>
+</tr>
+<tr>
+<td><strong>星期</strong></td>
+<td><code>Mon</code></td>
+<td>英文缩写星期</td>
+<td><code>Sat</code></td>
+<td>三个字母</td>
+</tr>
+<tr>
+<td></td>
+<td><code>Monday</code></td>
+<td>英文全称星期</td>
+<td><code>Saturday</code></td>
+<td>适合全名显示</td>
+</tr>
+<tr>
+<td><strong>其他符号</strong></td>
+<td><code>T</code></td>
+<td>ISO 8601 中的时间分隔符</td>
+<td><code>T</code></td>
+<td>直接输出字母 T</td>
+</tr>
+<tr>
+<td></td>
+<td><code>-</code> <code>/</code> <code>:</code> <code> </code></td>
+<td>直接输出</td>
+<td><code>-</code>、<code>/</code>、<code>:</code></td>
+<td>可以自由组合布局</td>
+</tr>
+</tbody></table>
+<p>注意事项</p>
+<ol>
+<li><strong>空格填充 vs 零填充</strong>：<ul>
+<li><code>_2</code> → 空格填充的日，<code>02</code> → 零填充。</li>
+</ul>
+</li>
+<li><strong>时区选择</strong>：<ul>
+<li><code>MST</code> → 缩写，易读但解析可能歧义。</li>
+<li><code>-0700</code>&#x2F;<code>Z07:00</code> → 数值偏移，更标准、更安全。</li>
+</ul>
+</li>
+<li><strong>12 小时制 vs 24 小时制</strong>：<ul>
+<li><code>3</code>&#x2F;<code>03</code> → 12 小时制，配合 <code>PM</code>&#x2F;<code>pm</code>。</li>
+<li><code>15</code> → 24 小时制。</li>
+</ul>
+</li>
+<li><strong>小数秒</strong>：<ul>
+<li><code>StampMilli</code> &#x2F; <code>StampMicro</code> &#x2F; <code>StampNano</code> 都基于 <code>.000</code>&#x2F;<code>.000000</code>&#x2F;<code>.000000000</code>。</li>
+</ul>
+</li>
+</ol>
+<h2 id="Go-time-包时间格式常量"><a href="#Go-time-包时间格式常量" class="headerlink" title="Go time 包时间格式常量"></a>Go time 包时间格式常量</h2><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> time</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> (</span><br><span class="line">	Layout      = <span class="string">&quot;01/02 03:04:05PM &#x27;06 -0700&quot;</span> <span class="comment">// The reference time, in numerical order.</span></span><br><span class="line">	ANSIC       = <span class="string">&quot;Mon Jan _2 15:04:05 2006&quot;</span></span><br><span class="line">	UnixDate    = <span class="string">&quot;Mon Jan _2 15:04:05 MST 2006&quot;</span></span><br><span class="line">	RubyDate    = <span class="string">&quot;Mon Jan 02 15:04:05 -0700 2006&quot;</span></span><br><span class="line">	RFC822      = <span class="string">&quot;02 Jan 06 15:04 MST&quot;</span></span><br><span class="line">	RFC822Z     = <span class="string">&quot;02 Jan 06 15:04 -0700&quot;</span> <span class="comment">// RFC822 with numeric zone</span></span><br><span class="line">	RFC850      = <span class="string">&quot;Monday, 02-Jan-06 15:04:05 MST&quot;</span></span><br><span class="line">	RFC1123     = <span class="string">&quot;Mon, 02 Jan 2006 15:04:05 MST&quot;</span></span><br><span class="line">	RFC1123Z    = <span class="string">&quot;Mon, 02 Jan 2006 15:04:05 -0700&quot;</span> <span class="comment">// RFC1123 with numeric zone</span></span><br><span class="line">	RFC3339     = <span class="string">&quot;2006-01-02T15:04:05Z07:00&quot;</span></span><br><span class="line">	RFC3339Nano = <span class="string">&quot;2006-01-02T15:04:05.999999999Z07:00&quot;</span></span><br><span class="line">	Kitchen     = <span class="string">&quot;3:04PM&quot;</span></span><br><span class="line">	<span class="comment">// Handy time stamps.</span></span><br><span class="line">	Stamp      = <span class="string">&quot;Jan _2 15:04:05&quot;</span></span><br><span class="line">	StampMilli = <span class="string">&quot;Jan _2 15:04:05.000&quot;</span></span><br><span class="line">	StampMicro = <span class="string">&quot;Jan _2 15:04:05.000000&quot;</span></span><br><span class="line">	StampNano  = <span class="string">&quot;Jan _2 15:04:05.000000000&quot;</span></span><br><span class="line">	DateTime   = <span class="string">&quot;2006-01-02 15:04:05&quot;</span></span><br><span class="line">	DateOnly   = <span class="string">&quot;2006-01-02&quot;</span></span><br><span class="line">	TimeOnly   = <span class="string">&quot;15:04:05&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="Go-time-包时间格式常量对照表"><a href="#Go-time-包时间格式常量对照表" class="headerlink" title="Go time 包时间格式常量对照表"></a>Go time 包时间格式常量对照表</h2><table>
+<thead>
+<tr>
+<th>名称</th>
+<th>布局字符串</th>
+<th>示例输出（2025-09-06 11:45:05 +08:00）</th>
+<th>典型用途</th>
+<th>注意事项</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Layout</strong></td>
+<td><code>01/02 03:04:05PM &#39;06 -0700</code></td>
+<td><code>09/06 11:45:05AM &#39;25 +0800</code></td>
+<td>Go 的参考布局示例，展示格式规则</td>
+<td>实际项目中较少直接使用</td>
+</tr>
+<tr>
+<td><strong>ANSIC</strong></td>
+<td><code>Mon Jan _2 15:04:05 2006</code></td>
+<td><code>Sat Sep  6 11:45:05 2025</code></td>
+<td>类 Unix 日志&#x2F;老式系统</td>
+<td><code>_2</code> 表示空格填充日期</td>
+</tr>
+<tr>
+<td><strong>UnixDate</strong></td>
+<td><code>Mon Jan _2 15:04:05 MST 2006</code></td>
+<td><code>Sat Sep  6 11:45:05 SGT 2025</code></td>
+<td>类 Unix 日期（带时区缩写）</td>
+<td><code>MST</code> 会替换为实际时区缩写，可能有歧义</td>
+</tr>
+<tr>
+<td><strong>RubyDate</strong></td>
+<td><code>Mon Jan 02 15:04:05 -0700 2006</code></td>
+<td><code>Sat Sep 06 11:45:05 +0800 2025</code></td>
+<td>Ruby 默认日期格式</td>
+<td>使用数值时区，无歧义</td>
+</tr>
+<tr>
+<td><strong>RFC822</strong></td>
+<td><code>02 Jan 06 15:04 MST</code></td>
+<td><code>06 Sep 25 11:45 SGT</code></td>
+<td>老邮件标准</td>
+<td>两位年份+时区缩写，解析不安全</td>
+</tr>
+<tr>
+<td><strong>RFC822Z</strong></td>
+<td><code>02 Jan 06 15:04 -0700</code></td>
+<td><code>06 Sep 25 11:45 +0800</code></td>
+<td>RFC822 数值时区版</td>
+<td>优于 RFC822，推荐</td>
+</tr>
+<tr>
+<td><strong>RFC850</strong></td>
+<td><code>Monday, 02-Jan-06 15:04:05 MST</code></td>
+<td><code>Saturday, 06-Sep-25 11:45:05 SGT</code></td>
+<td>早期 HTTP&#x2F;邮件日期</td>
+<td>已过时</td>
+</tr>
+<tr>
+<td><strong>RFC1123</strong></td>
+<td><code>Mon, 02 Jan 2006 15:04:05 MST</code></td>
+<td><code>Sat, 06 Sep 2025 11:45:05 SGT</code></td>
+<td>HTTP-date（旧版）</td>
+<td>通常用 <code>GMT</code>，时区缩写有歧义</td>
+</tr>
+<tr>
+<td><strong>RFC1123Z</strong></td>
+<td><code>Mon, 02 Jan 2006 15:04:05 -0700</code></td>
+<td><code>Sat, 06 Sep 2025 11:45:05 +0800</code></td>
+<td>HTTP-date（推荐版）</td>
+<td>更精确，兼容性好</td>
+</tr>
+<tr>
+<td><strong>RFC3339</strong></td>
+<td><code>2006-01-02T15:04:05Z07:00</code></td>
+<td><code>2025-09-06T11:45:05+08:00</code></td>
+<td>JSON &#x2F; API 常用</td>
+<td>UTC 时输出 <code>Z</code>，否则 <code>+HH:MM</code></td>
+</tr>
+<tr>
+<td><strong>RFC3339Nano</strong></td>
+<td><code>2006-01-02T15:04:05.999999999Z07:00</code></td>
+<td><code>2025-09-06T11:45:05.123456789+08:00</code></td>
+<td>高精度 API 日志</td>
+<td>输出到纳秒，0 的处理依版本不同</td>
+</tr>
+<tr>
+<td><strong>Kitchen</strong></td>
+<td><code>3:04PM</code></td>
+<td><code>11:45AM</code></td>
+<td>简洁 UI 时间显示</td>
+<td>无秒、无日期</td>
+</tr>
+<tr>
+<td><strong>Stamp</strong></td>
+<td><code>Jan _2 15:04:05</code></td>
+<td><code>Sep  6 11:45:05</code></td>
+<td>简洁日志时间戳</td>
+<td>无年、无时区</td>
+</tr>
+<tr>
+<td><strong>StampMilli</strong></td>
+<td><code>Jan _2 15:04:05.000</code></td>
+<td><code>Sep  6 11:45:05.000</code></td>
+<td>日志，带毫秒</td>
+<td>固定 3 位小数</td>
+</tr>
+<tr>
+<td><strong>StampMicro</strong></td>
+<td><code>Jan _2 15:04:05.000000</code></td>
+<td><code>Sep  6 11:45:05.000000</code></td>
+<td>日志，带微秒</td>
+<td>固定 6 位小数</td>
+</tr>
+<tr>
+<td><strong>StampNano</strong></td>
+<td><code>Jan _2 15:04:05.000000000</code></td>
+<td><code>Sep  6 11:45:05.000000000</code></td>
+<td>日志，带纳秒</td>
+<td>固定 9 位小数</td>
+</tr>
+<tr>
+<td><strong>DateTime</strong></td>
+<td><code>2006-01-02 15:04:05</code></td>
+<td><code>2025-09-06 11:45:05</code></td>
+<td>数据库&#x2F;日志常用</td>
+<td>无时区，解析时需额外设定</td>
+</tr>
+<tr>
+<td><strong>DateOnly</strong></td>
+<td><code>2006-01-02</code></td>
+<td><code>2025-09-06</code></td>
+<td>仅日期字段</td>
+<td>常见于表单、数据库</td>
+</tr>
+<tr>
+<td><strong>TimeOnly</strong></td>
+<td><code>15:04:05</code></td>
+<td><code>11:45:05</code></td>
+<td>仅时间字段</td>
+<td>无日期、无时区</td>
+</tr>
+</tbody></table>
+<h2 id="格式化输出测试"><a href="#格式化输出测试" class="headerlink" title="格式化输出测试"></a>格式化输出测试</h2><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> test</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">	<span class="string">&quot;testing&quot;</span></span><br><span class="line">	<span class="string">&quot;time&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">TestName</span><span class="params">(t *testing.T)</span></span> &#123;</span><br><span class="line">	now := time.Now()</span><br><span class="line">	layouts := <span class="keyword">map</span>[<span class="type">string</span>]<span class="type">string</span>&#123;</span><br><span class="line">		<span class="string">&quot;Layout&quot;</span>:      <span class="string">&quot;01/02 03:04:05PM &#x27;06 -0700&quot;</span>,</span><br><span class="line">		<span class="string">&quot;ANSIC&quot;</span>:       time.ANSIC,</span><br><span class="line">		<span class="string">&quot;UnixDate&quot;</span>:    time.UnixDate,</span><br><span class="line">		<span class="string">&quot;RubyDate&quot;</span>:    time.RubyDate,</span><br><span class="line">		<span class="string">&quot;RFC822&quot;</span>:      time.RFC822,</span><br><span class="line">		<span class="string">&quot;RFC822Z&quot;</span>:     time.RFC822Z,</span><br><span class="line">		<span class="string">&quot;RFC850&quot;</span>:      time.RFC850,</span><br><span class="line">		<span class="string">&quot;RFC1123&quot;</span>:     time.RFC1123,</span><br><span class="line">		<span class="string">&quot;RFC1123Z&quot;</span>:    time.RFC1123Z,</span><br><span class="line">		<span class="string">&quot;RFC3339&quot;</span>:     time.RFC3339,</span><br><span class="line">		<span class="string">&quot;RFC3339Nano&quot;</span>: time.RFC3339Nano,</span><br><span class="line">		<span class="string">&quot;Kitchen&quot;</span>:     time.Kitchen,</span><br><span class="line">		<span class="string">&quot;Stamp&quot;</span>:       time.Stamp,</span><br><span class="line">		<span class="string">&quot;StampMilli&quot;</span>:  time.StampMilli,</span><br><span class="line">		<span class="string">&quot;StampMicro&quot;</span>:  time.StampMicro,</span><br><span class="line">		<span class="string">&quot;StampNano&quot;</span>:   time.StampNano,</span><br><span class="line">		<span class="string">&quot;DateTime&quot;</span>:    <span class="string">&quot;2006-01-02 15:04:05&quot;</span>,</span><br><span class="line">		<span class="string">&quot;DateOnly&quot;</span>:    <span class="string">&quot;2006-01-02&quot;</span>,</span><br><span class="line">		<span class="string">&quot;TimeOnly&quot;</span>:    <span class="string">&quot;15:04:05&quot;</span>,</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> name, layout := <span class="keyword">range</span> layouts &#123;</span><br><span class="line">		fmt.Printf(<span class="string">&quot;%-12s : %s\n&quot;</span>, name, now.Format(layout))</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	fmt.Println(<span class="string">&quot;\n-- UTC 格式化 --&quot;</span>)</span><br><span class="line">	<span class="keyword">for</span> name, layout := <span class="keyword">range</span> layouts &#123;</span><br><span class="line">		fmt.Printf(<span class="string">&quot;%-12s : %s\n&quot;</span>, name, now.UTC().Format(layout))</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出结果：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">=== RUN   TestName</span><br><span class="line">ANSIC        : Sat Sep  6 14:03:17 2025</span><br><span class="line">UnixDate     : Sat Sep  6 14:03:17 CST 2025</span><br><span class="line">RubyDate     : Sat Sep 06 14:03:17 +0800 2025</span><br><span class="line">RFC822Z      : 06 Sep 25 14:03 +0800</span><br><span class="line">RFC850       : Saturday, 06-Sep-25 14:03:17 CST</span><br><span class="line">RFC1123Z     : Sat, 06 Sep 2025 14:03:17 +0800</span><br><span class="line">RFC3339      : 2025-09-06T14:03:17+08:00</span><br><span class="line">RFC3339Nano  : 2025-09-06T14:03:17.9708592+08:00</span><br><span class="line">Kitchen      : 2:03PM</span><br><span class="line">Stamp        : Sep  6 14:03:17</span><br><span class="line">StampNano    : Sep  6 14:03:17.970859200</span><br><span class="line">DateTime     : 2025-09-06 14:03:17</span><br><span class="line">DateOnly     : 2025-09-06</span><br><span class="line">TimeOnly     : 14:03:17</span><br><span class="line">Layout       : 09/06 02:03:17PM &#x27;25 +0800</span><br><span class="line">RFC822       : 06 Sep 25 14:03 CST</span><br><span class="line">RFC1123      : Sat, 06 Sep 2025 14:03:17 CST</span><br><span class="line">StampMilli   : Sep  6 14:03:17.970</span><br><span class="line">StampMicro   : Sep  6 14:03:17.970859</span><br><span class="line"></span><br><span class="line">-- UTC 格式化 --</span><br><span class="line">UnixDate     : Sat Sep  6 06:03:17 UTC 2025</span><br><span class="line">RubyDate     : Sat Sep 06 06:03:17 +0000 2025</span><br><span class="line">RFC822Z      : 06 Sep 25 06:03 +0000</span><br><span class="line">RFC850       : Saturday, 06-Sep-25 06:03:17 UTC</span><br><span class="line">RFC1123Z     : Sat, 06 Sep 2025 06:03:17 +0000</span><br><span class="line">RFC3339      : 2025-09-06T06:03:17Z</span><br><span class="line">RFC3339Nano  : 2025-09-06T06:03:17.9708592Z</span><br><span class="line">Kitchen      : 6:03AM</span><br><span class="line">Stamp        : Sep  6 06:03:17</span><br><span class="line">StampNano    : Sep  6 06:03:17.970859200</span><br><span class="line">DateTime     : 2025-09-06 06:03:17</span><br><span class="line">DateOnly     : 2025-09-06</span><br><span class="line">TimeOnly     : 06:03:17</span><br><span class="line">Layout       : 09/06 06:03:17AM &#x27;25 +0000</span><br><span class="line">RFC822       : 06 Sep 25 06:03 UTC</span><br><span class="line">RFC1123      : Sat, 06 Sep 2025 06:03:17 UTC</span><br><span class="line">StampMilli   : Sep  6 06:03:17.970</span><br><span class="line">StampMicro   : Sep  6 06:03:17.970859</span><br><span class="line">ANSIC        : Sat Sep  6 06:03:17 2025</span><br><span class="line">--- PASS: TestName (0.01s)</span><br><span class="line">PASS</span><br></pre></td></tr></table></figure>
+
+
+                </div>
+
+                
+                        
+<div class="post-copyright-info-container border-box">
+    <div class="copyright-info-content border-box">
+        <div class="copyright-info-top border-box">
+            <div class="copyright-post-title border-box text-ellipsis">
+                Go内置时间常量格式（time包）对照表
+            </div>
+
+            <div class="copyright-post-link border-box text-ellipsis">
+                学习笔记/学习笔记/Go内置时间常量格式（time包）对照表/
+            </div>
+        </div>
+
+        <div class="copyright-info-bottom border-box">
+            <div class="copyright-post-author bottom-item">
+                <div class="type">
+                    作者
+                </div>
+                <div class="content">咕咕咕</div>
+            </div>
+
+            <div class="post-time bottom-item">
+                <div class="type">
+                    发布于
+                </div>
+                <div class="content">2025-09-06 13:43</div>
+            </div>
+
+
+            <div class="post-license bottom-item">
+                <div class="type">
+                    许可
+                </div>
+                <div class="content tooltip" data-tooltip-content="CC BY-NC-SA 4.0">
+                    <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hans">
+                        <i class="fa-brands fa-creative-commons"></i>
+                        <i class="fa-brands fa-creative-commons-by"></i>
+                        <i class="fa-brands fa-creative-commons-nc"></i>
+                        <i class="fa-brands fa-creative-commons-sa"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <i class="copyright-bg fa-solid fa-copyright"></i>
+    </div>
+    <div class="copy-copyright-info flex-center tooltip" data-tooltip-content="复制版权信息" data-tooltip-offset-y="-2px">
+        <i class="fa-solid fa-copy"></i>
+    </div>
+</div>
+
+                
+
+                <div class="post-bottom-tags-and-share border-box">
+                    <div>
+                        
+                            <ul class="post-tags-box border-box">
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/go/">go</a>
+                                    </li>
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/%E6%97%B6%E9%97%B4/">时间</a>
+                                    </li>
+                                
+                            </ul>
+                        
+                    </div>
+                    <div>
+                        
+                            <div class="post-share-container border-box">
+    <ul class="share-list-wrap border-box">
+        <li class="qq share-item border-box flex-center tooltip"
+            data-tooltip-content="分享到 QQ"
+        >
+            <i class="fa-brands fa-qq"></i>
+        </li>
+        <li class="wechat share-item border-box flex-center tooltip tooltip-img"
+            data-tooltip-content="分享到微信"
+            data-tooltip-img-tip="微信扫一扫"
+            data-tooltip-img-style="background-color: #fff; top: -10px; padding: 0.6rem 0.6rem 0.1rem 0.6rem;"
+        >
+            <i class="fa-brands fa-weixin"></i>
+        </li>
+        <li class="weibo share-item border-box flex-center tooltip"
+            data-tooltip-content="分享到微博"
+        >
+            <i class="fa-brands fa-weibo"></i>
+        </li>
+    </ul>
+</div>
+
+                        
+                    </div>
+                </div>
+
+                
+                    <div class="reward-author-container border-box flex-center">
+    <div class="reward-btn keep-button border-box flex-center tooltip tooltip-img"
+            data-tooltip-content="谢谢你请我喝可乐~"
+            data-tooltip-img-url="/images/thanks.png"
+            data-tooltip-img-trigger="click"
+            data-tooltip-img-style="top: -8px;"
+    >
+        <i class="fa-solid fa-hand-holding-heart"></i>
+    </div>
+</div>
+
+                
+
+                
+                    <div class="post-nav border-box">
+                        
+                            <div class="prev-post">
+                                <a class="prev"
+                                   rel="prev"
+                                   href="/%E7%BC%96%E7%A8%8B%E8%AE%B0%E5%BD%95/%E7%BC%96%E7%A8%8B%E8%AE%B0%E5%BD%95/ArchLinux%E5%AE%89%E8%A3%85/"
+                                   title="ArchLinux安装"
+                                >
+                                    <span class="left arrow-icon flex-center">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </span>
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">ArchLinux安装</span>
+                                        <span class="post-nav-item">上一篇</span>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                        
+                            <div class="next-post">
+                                <a class="next"
+                                   rel="next"
+                                   href="/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/top%E5%91%BD%E4%BB%A4/"
+                                   title="top命令"
+                                >
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">top命令</span>
+                                        <span class="post-nav-item">下一篇</span>
+                                    </span>
+                                    <span class="right arrow-icon flex-center">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                    </div>
+                
+
+                
+                    
+
+
+    <div class="comments-container border-box">
+        <div id="comments-anchor" class="comment-area-title border-box">
+            <i class="fas fa-comments"></i>&nbsp;评论
+        </div>
+        <div class="comment-plugin-fail border-box">
+    <span class="fail-tip">评论插件加载失败</span>
+    <button class="reload keep-button">点击重新加载</button>
+</div>
+<div class="comment-plugin-loading flex-center border-box">
+    <i class="loading-icon fa-solid fa-spinner fa-spin"></i>
+    <span class="load-tip">正在加载评论插件</span>
+</div>
+<script data-pjax>
+  window.KeepCommentPlugin = {}
+  window.KeepCommentPlugin.hideLoading = () => {
+    const cplDom = document.querySelector('.comments-container .comment-plugin-loading')
+    cplDom.style.display = 'none'
+  }
+  window.KeepCommentPlugin.loadFailHandle = () => {
+    window.KeepCommentPlugin.hideLoading()
+    const cpfDom = document.querySelector('.comments-container .comment-plugin-fail')
+    cpfDom.style.display = 'flex'
+    cpfDom.querySelector('.reload').addEventListener('click', () => {
+      window.location.reload()
+    })
+  }
+</script>
+
+        
+            
+
+    <div class="giscus-comments-container">
+        <div class="giscus" id="giscus"></div>
+        <script data-pjax
+                onerror="window.KeepCommentPlugin.loadFailHandle()"
+        >
+          if (!window.KeepCommentPlugin?.getGiscusTheme) {
+            window.KeepCommentPlugin.getGiscusTheme = () => {
+              return document.body.classList.contains('dark-mode') ? 'dark_dimmed' : 'light_tritanopia'
+            }
+          }
+
+          if (!window.KeepCommentPlugin?.changeGiscusTheme) {
+            window.KeepCommentPlugin.changeGiscusTheme = () => {
+              const iframe = document.querySelector('iframe.giscus-frame')
+              iframe && iframe.contentWindow.postMessage({
+                giscus: {
+                  setConfig: {
+                    theme: window.KeepCommentPlugin.getGiscusTheme()
+                  }
+                }
+              }, 'https://giscus.app')
+            }
+          }
+
+          if (!window.KeepCommentPlugin?.initGiscus) {
+            window.KeepCommentPlugin.initGiscus = () => {
+              const script = document.createElement('script')
+              script.async = true
+              script.src = 'https://giscus.app/client.js'
+              script.setAttribute('data-repo', 'Cooooing/Cooooing.github.io')
+              script.setAttribute('data-repo-id', 'R_kgDOHQal_w')
+              script.setAttribute('data-category', 'Announcements')
+              script.setAttribute('data-category-id', 'DIC_kwDOHQal_84CjZo6')
+              script.setAttribute('data-reactions-enabled', '1')
+              script.setAttribute('data-lang', 'zh-CN')
+              script.setAttribute('data-mapping', 'pathname')
+              script.setAttribute('data-strict', '0')
+              script.setAttribute('data-emit-metadata', '0')
+              script.setAttribute('data-input-position', 'top')
+              script.setAttribute('crossorigin', 'anonymous')
+              script.setAttribute('loading', 'lazy')
+              script.setAttribute('data-theme', window.KeepCommentPlugin.getGiscusTheme())
+              document.querySelector('.giscus-comments-container').appendChild(script)
+              script.onerror = () => {
+                window.KeepCommentPlugin.loadFailHandle()
+              }
+              script.onload = () => {
+                window.KeepCommentPlugin.hideLoading()
+              }
+              const toggleThemeBtn = document.querySelector('.tool-toggle-theme-mode')
+              toggleThemeBtn && toggleThemeBtn.addEventListener('click', () => {
+                window.KeepCommentPlugin.changeGiscusTheme()
+              })
+            }
+          }
+
+          if ('true' === "true") {
+            setTimeout(() => {
+              window.KeepCommentPlugin.initGiscus()
+            }, 1000)
+          } else {
+            window.addEventListener("DOMContentLoaded", window.KeepCommentPlugin.initGiscus)
+          }
+        </script>
+    </div>
+
+
+        
+    </div>
+
+
+
+
+
+                
+            </div>
+        </div>
+
+        
+            <div class="pc-post-toc left-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Go-%E6%97%B6%E9%97%B4%E5%B8%83%E5%B1%80%E6%A0%BC%E5%BC%8F"><span class="nav-text">Go 时间布局格式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Go-time-%E5%8C%85%E6%97%B6%E9%97%B4%E6%A0%BC%E5%BC%8F%E5%B8%B8%E9%87%8F"><span class="nav-text">Go time 包时间格式常量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Go-time-%E5%8C%85%E6%97%B6%E9%97%B4%E6%A0%BC%E5%BC%8F%E5%B8%B8%E9%87%8F%E5%AF%B9%E7%85%A7%E8%A1%A8"><span class="nav-text">Go time 包时间格式常量对照表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A0%BC%E5%BC%8F%E5%8C%96%E8%BE%93%E5%87%BA%E6%B5%8B%E8%AF%95"><span class="nav-text">格式化输出测试</span></a></li></ol>
+    </div>
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom border-box">
+            
+<footer class="footer border-box">
+    <div class="border-box website-info-box default">
+        
+            <div class="copyright-info info-item default">
+                &copy;&nbsp;<span>2022</span>&nbsp;-&nbsp;2025
+                
+                    &nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;&nbsp;<a href="/">咕咕咕</a>
+                
+            </div>
+
+            <div class="theme-info info-item default">
+                由&nbsp;<a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;驱动&nbsp;&&nbsp;主题&nbsp;<a class="keep-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep</a>
+            </div>
+
+            
+
+            
+        
+
+        <div style="color:var(--text-color-4);"><span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>(～￣▽￣)～<script src="/js/lifeTime.js"></script></div>
+        <a href="https://icp.gov.moe/?keyword=20222450" target="_blank">萌ICP备20222450号</a>
+
+
+        <div class="count-item info-item default">
+            
+                <span class="count-box border-box word">
+                    <span class="item-type border-box">总字数</span>
+                    <span class="item-value border-box word">362.1k</span>
+                </span>
+            
+
+            
+                <span class="count-box border-box uv">
+                    <span class="item-type border-box">访客数</span>
+                    <span class="item-value border-box uv" id="busuanzi_value_site_uv"></span>
+                </span>
+            
+
+            
+                <span class="count-box border-box pv">
+                    <span class="item-type border-box">访问量</span>
+                    <span class="item-value border-box pv" id="busuanzi_value_site_pv"></span>
+                </span>
+            
+        </div>
+
+        <div id="aplayer">
+          <meting-js
+                  server="netease"
+                  type="playlist"
+                  id="7345595717"
+                  fixed="true"
+                  mini="true"
+                  autoplay="false"
+                  listFolded="true"
+                  order="random"
+                  preload="none">
+          </meting-js>
+        </div>
+            <br>
+            <br>
+            <br>
+    </div>
+
+</footer>
+
+        </div>
+    </div>
+
+    <!-- post tools -->
+    
+        <div class="post-tools left-toc">
+            <div class="post-tools-container border-box">
+    <ul class="tools-list border-box">
+        <!-- PC TOC show toggle -->
+        
+            <li class="tools-item flex-center toggle-show-toc">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        <!-- PC go comment -->
+        
+            <li class="tools-item flex-center go-to-comments">
+                <i class="fas fa-comment"></i>
+                <span class="post-comments-count"></span>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <!-- side tools -->
+    <div class="side-tools">
+        <div class="side-tools-container border-box ">
+    <ul class="side-tools-list side-tools-show-handle border-box">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-toggle-theme-mode flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+            <li class="tools-item rss flex-center">
+                <a class="flex-center"
+                   href="/atom.xml"
+                   target="_blank"
+                >
+                    <i class="fas fa-rss"></i>
+                </a>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list border-box">
+        
+            <li class="tools-item toggle-show-toc-tablet flex-center">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        
+            <li class="tools-item go-to-comments-tablet flex-center">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+
+        <li class="tools-item tool-scroll-to-top flex-center show-arrow">
+            <i class="arrow fas fa-arrow-up"></i>
+            <span class="percent"></span>
+        </li>
+    </ul>
+</div>
+
+    </div>
+
+    <!-- image mask -->
+    <div class="zoom-in-image-mask">
+    <img class="zoom-in-image">
+</div>
+
+
+    <!-- local search -->
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="搜索..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="close-popup-btn">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+    <!-- tablet toc -->
+    
+        <div class="tablet-post-toc-mask">
+            <div class="tablet-post-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Go-%E6%97%B6%E9%97%B4%E5%B8%83%E5%B1%80%E6%A0%BC%E5%BC%8F"><span class="nav-text">Go 时间布局格式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Go-time-%E5%8C%85%E6%97%B6%E9%97%B4%E6%A0%BC%E5%BC%8F%E5%B8%B8%E9%87%8F"><span class="nav-text">Go time 包时间格式常量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Go-time-%E5%8C%85%E6%97%B6%E9%97%B4%E6%A0%BC%E5%BC%8F%E5%B8%B8%E9%87%8F%E5%AF%B9%E7%85%A7%E8%A1%A8"><span class="nav-text">Go time 包时间格式常量对照表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A0%BC%E5%BC%8F%E5%8C%96%E8%BE%93%E5%87%BA%E6%B5%8B%E8%AF%95"><span class="nav-text">格式化输出测试</span></a></li></ol>
+    </div>
+</div>
+
+            </div>
+        </div>
+    
+</main>
+
+
+
+<!-- common -->
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/toggle-theme.js"></script>
+
+<script src="/js/code-block.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+
+<!-- local-search -->
+
+    
+<script src="/js/local-search.js"></script>
+
+
+
+<!-- lazyload -->
+
+    
+<script src="/js/lazyload.js"></script>
+
+
+
+<div class="pjax">
+    
+        <!-- post-helper -->
+        
+<script src="/js/post/post-helper.js"></script>
+
+
+        <!-- toc -->
+        
+            
+<script src="/js/post/toc.js"></script>
+
+        
+
+        <!-- copyright-info -->
+        
+            
+<script src="/js/post/copyright-info.js"></script>
+
+        
+
+        <!-- share -->
+        
+            
+<script src="/js/post/share.js"></script>
+
+        
+    
+
+    <!-- category-page -->
+    
+
+    <!-- links-page -->
+    
+
+    <!-- photos-page -->
+    
+</div>
+
+<!-- mermaid -->
+
+
+<!-- pjax -->
+
+    
+<script src="/js/libs/pjax.min.js"></script>
+
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        window.pjax = new Pjax({
+            selectors: [
+                'head title',
+                '.page-container',
+                '.pjax',
+                '#aplayer',
+                '#canvas_sakura'
+            ],
+            history: true,
+            debug: false,
+            cacheBust: false,
+            timeout: 0,
+            analytics: false,
+            currentUrlFullReload: false,
+            scrollRestoration: false,
+        });
+
+        document.addEventListener('pjax:send', () => {
+            KEEP.utils.pjaxProgressBarStart()
+        });
+
+        document.addEventListener('pjax:complete', () => {
+            KEEP.utils.pjaxProgressBarEnd()
+            window.pjax.executeScripts(document.querySelectorAll('script[data-pjax], .pjax script'))
+            KEEP.initExecute()
+        });
+    });
+</script>
+
+
+
+
+    
+        
+            
+<script class="custom-inject-js" src="/js/APlayer.min.js" data-pjax></script>
+
+        
+    
+        
+            
+<script class="custom-inject-js" src="/js/Meting.min.js" data-pjax></script>
+
+        
+    
+        
+            
+<script class="custom-inject-js" src="/js/leaves.js" data-pjax></script>
+
+        
+    
+
+
+
+</body>
+</html>

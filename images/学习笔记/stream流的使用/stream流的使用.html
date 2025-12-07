@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="技术博客,后端开发,编程笔记,生活">
+    <meta name="description" content="Code | Systems | Life — 专注编程本质，也关心世界如何运转。">
+    <meta name="author" content="咕咕咕">
+
+    
+    <title>
+        
+            stream流的使用 |
+        
+        咕咕咕的小破站
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+        <link rel="shortcut icon" href="/images/favicon.png">
+    
+    
+<link rel="stylesheet" href="/font/css/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/regular.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/solid.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/brands.min.css">
+
+    
+        
+            
+                
+<link rel="stylesheet" href="/css/APlayer.min.css">
+
+            
+        
+            
+                
+<link rel="stylesheet" href="/css/custom.css">
+
+            
+        
+    
+    <script class="keep-theme-configurations">
+    const KEEP = window.KEEP || {}
+    KEEP.hexo_config = {"hostname":"cooooing.github.io","root":"/","language":"zh-CN","path":"search.json"}
+    KEEP.theme_config = {"base_info":{"primary_color":"#0066cc","title":"咕咕咕的小破站","author":"咕咕咕","avatar":"/images/head.jpg","logo":"/images/head.jpg","favicon":"/images/favicon.png"},"menu":{"Archives":"/archives","Categories":"/categories","Tags":"/tags","日常":"/daily","Links":"/links","About":"/about"},"first_screen":{"enable":false,"background_img":"/images/bg.svg","background_img_dark":"/images/bg.svg","description":"Keep writing and Keep loving.","hitokoto":false},"social_contact":{"enable":false,"links":{"github":null,"weixin":null,"qq":null,"weibo":null,"zhihu":null,"twitter":null,"facebook":null,"email":null}},"scroll":{"progress_bar":false,"percent":false,"hide_header":true},"home":{"category":true,"tag":true,"announcement":null},"post":{"author_badge":{"enable":true,"level_badge":false,"custom_badge":["fishing"]},"word_count":{"wordcount":true,"min2read":true},"datetime_format":"YYYY-MM-DD HH:mm:ss","copyright_info":true,"share":true,"reward":{"enable":true,"img_link":"/images/thanks.png","text":"谢谢你请我喝可乐~"}},"code_block":{"tools":{"enable":true,"style":"default"},"highlight_theme":"default"},"toc":{"enable":true,"number":false,"expand_all":true,"init_open":true,"layout":"left"},"website_count":{"busuanzi_count":{"enable":true,"site_uv":true,"site_pv":true,"page_pv":true}},"local_search":{"enable":true,"preload":true},"comment":{"enable":true,"use":"giscus","valine":{"appid":null,"appkey":null,"server_urls":null,"placeholder":null},"gitalk":{"github_id":null,"github_admins":null,"repository":null,"client_id":null,"client_secret":null,"proxy":null},"twikoo":{"env_id":null,"region":null,"version":"1.6.21"},"waline":{"server_url":null,"reaction":false,"version":2},"giscus":{"repo":"Cooooing/Cooooing.github.io","repo_id":"R_kgDOHQal_w","category":"Announcements","category_id":"DIC_kwDOHQal_84CjZo6","reactions_enabled":true},"artalk":{"server":null},"disqus":{"shortname":null}},"rss":{"enable":true},"lazyload":{"enable":true},"cdn":{"enable":false,"provider":"cdnjs"},"pjax":{"enable":true},"footer":{"since":2022,"word_count":true,"icp":{"enable":false,"record_code":null,"url":"https://beian.miit.gov.cn"},"site_deploy":{"enable":false,"provider":"github","url":null},"shields_style":{"enable":false,"custom":[{"link_url":null,"img_url":null}]}},"inject":{"enable":true,"css":["/css/APlayer.min.css","/css/custom.css"],"js":["/js/APlayer.min.js","/js/Meting.min.js","/js/leaves.js"]},"root":"","links":[{"name":"鼠鼠在碎觉","link":"https://sszsj.com","avatar":"https://tmx.fishpi.cn/img/head.jpg","description":"我是不慎落入世界的一滴水墨"},{"name":"Gakkiyomi","link":"https://gakkiyomi.blog","avatar":"https://avatars.githubusercontent.com/u/41406557?v=4","description":"为往圣继绝学"},{"name":"Hancel's Blog","link":"https://my.hancel.org","avatar":"https://my.hancel.org/media/logo.jpg","description":"人生而自由，却无往不在枷锁之中。"},{"name":"Eastshann","link":"http://121.4.99.208/","avatar":"http://121.4.99.208/img/avatar.jpg","description":"冲和者，淡泊平和，谦冲守正"},{"name":"小于同学的异世界","link":"https://yby.zone","avatar":"https://yby-zone.obs.cn-east-3.myhuaweicloud.com/avatar.jpg","description":"为吾为枝，余地三尺，以己为棋，胜天半子。"},{"name":"Mlikiowa Home Village","link":"https://nanaeo.cn/","avatar":"https://q1.qlogo.cn/g?b=qq&nk=1627126029&s=100","description":"A litter Village With Mlikiowa"},{"name":"忘忧草","link":"https://owo.wyc.rest/","avatar":"https://owo.wyc.rest/img/%E4%B8%87%E5%8F%B6.jpg","description":"这只是一个小破站而已！"},{"name":"stillwarter","link":"https://stillwarter.github.io/","avatar":"https://file.fishpi.cn/2022/07/MOSHED2022621164630-1b1ec532.gif?imageView2/1/w/210/h/210/interlace/0/q/100","description":"光就是一切的意义"},{"name":"test12138","link":"http://你好.eu.org/","avatar":"https://file.fishpi.cn/2022/06/srchttpimgzcoolcncommunity0116405d84f975a801211d537707c9gifreferhttpimgzcool-0f2d09c9.gif?imageView2/1/w/48/h/48/interlace/0/q/100","description":"大丈夫生于天地之间，岂能郁郁久居人下。"},{"name":"呼呼呼","link":"https://bongbongbakudan.github.io/","avatar":"https://pwl.stackoverflow.wiki/2021/12/blob-28eb4b9f.png?imageView2/1/w/48/h/48/interlace/0/q/100","description":"去整点薯条"},{"name":"Plumbiu","link":"https://blog.plumbiu.top/","avatar":"https://avatars.githubusercontent.com/u/99574369?v=4","description":"这人很勤奋，啥都没留"},{"name":"hiRipple","link":"https://hiripple.com/","avatar":"https://avatars.githubusercontent.com/u/115361435?v=4","description":"超高校级的游戏玩家"}],"version":"4.0.6"}
+    KEEP.language_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"}
+    KEEP.language_code_block = {"copy":"复制代码","copied":"已复制","fold":"折叠代码块","folded":"已折叠"}
+    KEEP.language_copy_copyright = {"copy":"复制版权信息","copied":"已复制","title":"原文标题","author":"原文作者","link":"原文链接"}
+  </script>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-CLX32WF4R1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+
+      gtag('js', new Date());
+
+      gtag('config', 'G-CLX32WF4R1');
+    </script>
+
+    <!-- 51.la -->
+    <script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
+    <script>LA.init({id: "3JwPz6wbAloyTmMc", ck: "3JwPz6wbAloyTmMc", autoTrack: true})</script>
+
+<meta name="generator" content="Hexo 8.1.1"><link rel="alternate" href="/atom.xml" title="咕咕咕的小破站" type="application/atom+xml">
+</head>
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+        <span class="pjax-progress-bar"></span>
+        <i class="pjax-progress-icon fas fa-circle-notch fa-spin"></i>
+    
+</div>
+
+
+<main class="page-container border-box">
+
+    <!-- home first screen  -->
+    
+
+    <!-- page content -->
+    <div class="page-main-content border-box">
+        <div class="page-main-content-top">
+            
+<header class="header-wrapper">
+
+    <div class="border-box header-content">
+        <div class="left border-box">
+            
+                <a class="logo-image border-box" href="/">
+                    <img src="/images/head.jpg">
+                </a>
+            
+            <a class="site-name border-box" href="/">
+               咕咕咕的小破站
+            </a>
+        </div>
+
+        <div class="right border-box">
+            <div class="pc">
+                <ul class="menu-list">
+                    <li class="menu-item">
+                        <a class=""
+                           href="/"
+                        >首页</a>
+                    </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >归档</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/categories"
+                            >分类</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/tags"
+                            >标签</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/daily"
+                            >日常</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/links"
+                            >友链</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >关于</a>
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="fas search fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            <li class="drawer-menu-item flex-center">
+                <a class=""
+                   href="/"
+                >首页</a>
+            </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives"
+                    >归档</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/categories"
+                    >分类</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/tags"
+                    >标签</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/daily"
+                    >日常</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/links"
+                    >友链</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about"
+                    >关于</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle border-box">
+
+            <div class="main-content border-box">
+                
+
+                    
+<div class="fade-in-down-animation">
+    <div class="page-template-container border-box">
+        
+
+        <div class="page-template-bottom border-box">
+            
+            
+            <div class="page-content border-box keep-markdown-body">
+                
+                    <h2 id="stream-流的介绍和特点"><a href="#stream-流的介绍和特点" class="headerlink" title="stream 流的介绍和特点"></a>stream 流的介绍和特点</h2><p>stream 流不是某种数据结构，也不会保存数据，但是它负责相关计算。<br>像是一个<strong>高级的迭代器</strong>，只需要指定依次需要执行哪些操作，stream 流便会隐式地遍历并附加执行指定的操作。</p>
+<p>stream的使用流程：</p>
+<ol>
+<li>创建 stream 流</li>
+<li>调用 stream 流的中间方法，对数据进行处理</li>
+<li>调用 stream 流的终止方法，对结果进行处理，并结束 stream 流</li>
+</ol>
+<p>stream 流提供了<strong>惰性计算</strong>和<strong>并行计算</strong>的能力。<br>stream 流的实现类似一个双向链表，创建 stream 流实际是创建了这个双向链表的头节点。<br>调用中间方法时，stream 流会在链表尾部添加新的节点，并将需要执行的操作（函数）记录下来。（并不会立刻执行，这是惰性计算的原因<br>调用终止方法时，stream 流会从链表头部开始，依次执行链表中记录的操作，并返回结果。</p>
+<p>看了一下 Stream 的源码，它为了应对广泛的使用场景而进行了高度封装，抽象程度很高。<br>暂时不是我能看懂的。所以就记录下使用，不详细分析源码。<del>（看不懂怎么分析啊</del><br>下面是源码的结构（也许不全吧</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/stream%E6%B5%81%E7%9A%84%E4%BD%BF%E7%94%A8/stream%E7%B1%BB%E5%9B%BE.png"
+                        alt="stream类图.png"
+                 ></p>
+<p>在 jdk 源代码的结构中，Stream 只是一个接口，并没有操作的缺省实现。<br>最主要的实现是 ReferencePipeline，而 ReferencePipeline 继承自 AbstractPipeline ，AbstractPipeline 实现了 BaseStream 接口并实现了它的方法。<br>但 ReferencePipeline 仍然是一个抽象类，因为它并没有实现所有的抽象方法，比如 AbstractPipeline 中的 opWrapSink。<br>ReferencePipeline内部定义了三个静态内部类，分别是：Head，StatelessOp，StatefulOp，但只有 Head 不再是抽象类。</p>
+<p><strong>ReferencePipeline 包含了控制数据流入的 Head ，中间操作 StatelessOp（无状态操作），StatefulOp（有状态操作），终止操作 TerminalOp。</strong></p>
+<ol>
+<li>中间操作（Intermediate Operations）包含<strong>无状态操作与有状态操作</strong>：<ol>
+<li>无状态（Stateless）操作：每个数据的处理是独立的，不会影响或依赖之前的数据。<br>如 <code>filter()</code>、<code>flatMap()</code>、<code>flatMapToDouble()</code>、<code>flatMapToInt()</code>、<code>flatMapToLong()</code>、<code>map()</code>、<code>mapToDouble()</code>、<code>mapToInt()</code>、<code>mapToLong()</code>、<code>peek()</code>、<code>unordered()</code> 等</li>
+<li>有状态（Stateful）操作：处理时会记录状态，比如处理了几个。后面元素的处理会依赖前面记录的状态，或者拿到所有元素才能继续下去。<br>如 <code>distinct()</code>、<code>sorted()</code>、<code>sorted(comparator)</code>、<code>limit()</code>、<code>skip()</code> 等</li>
+</ol>
+</li>
+<li>终止操作（Terminal Operations）包含<strong>非短路操作与短路操作</strong>：<ol>
+<li>非短路操作：处理完所有数据才能得到结果。<br>如 <code>collect()</code>、<code>count()</code>、<code>forEach()</code>、<code>forEachOrdered()</code>、<code>max()</code>、<code>min()</code>、<code>reduce()</code>、<code>toArray()</code>等。</li>
+<li>短路（short-circuiting）操作：拿到符合预期的结果就会停下来，不一定会处理完所有数据。<br>如 <code>anyMatch()</code>、<code>allMatch()</code>、<code>noneMatch()</code>、<code>findFirst()</code>、<code>findAny()</code> 等。</li>
+</ol>
+</li>
+</ol>
+<h2 id="创建-stream-流"><a href="#创建-stream-流" class="headerlink" title="创建 stream 流"></a>创建 stream 流</h2><table>
+<thead>
+<tr>
+<th>方法</th>
+<th>用处</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>stream()</td>
+<td>创建出一个新的stream串行流对象</td>
+</tr>
+<tr>
+<td>parallelStream()</td>
+<td>创建出一个可并行执行的stream流对象</td>
+</tr>
+<tr>
+<td>Stream.of()</td>
+<td>通过给定的一系列元素创建一个新的Stream串行流对象</td>
+</tr>
+<tr>
+<td>Arrays.stream() &#x2F; Stream.of ();</td>
+<td>从数组获取流。</td>
+</tr>
+</tbody></table>
+<p>stream 流的创建最后都是通过 StreamSupport 类来实现的。<br>parallel 参数用来区分串行流和并行流。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">class</span> <span class="title class_">StreamSupport</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; Stream&lt;T&gt; <span class="title function_">stream</span><span class="params">(Spliterator&lt;T&gt; spliterator, <span class="type">boolean</span> parallel)</span> &#123;</span><br><span class="line">        Objects.requireNonNull(spliterator);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">ReferencePipeline</span>.Head&lt;&gt;(spliterator,</span><br><span class="line">                StreamOpFlag.fromCharacteristics(spliterator), </span><br><span class="line">                parallel);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>ReferencePipeline.Head&lt;&gt;() 方法一直 super 到父类 AbstractPipeline 中的实现，大致看得懂是个双向的链表结构。（也许</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">abstract</span> <span class="keyword">class</span> <span class="title class_">AbstractPipeline</span>&lt;E_IN, E_OUT, S <span class="keyword">extends</span> <span class="title class_">BaseStream</span>&lt;E_OUT, S&gt;&gt;</span><br><span class="line">        <span class="keyword">extends</span> <span class="title class_">PipelineHelper</span>&lt;E_OUT&gt; <span class="keyword">implements</span> <span class="title class_">BaseStream</span>&lt;E_OUT, S&gt; &#123;</span><br><span class="line">    AbstractPipeline(Spliterator&lt;?&gt; source,</span><br><span class="line">                     <span class="type">int</span> sourceFlags, <span class="type">boolean</span> parallel) &#123;</span><br><span class="line">        <span class="built_in">this</span>.previousStage = <span class="literal">null</span>;</span><br><span class="line">        <span class="built_in">this</span>.sourceSpliterator = source;</span><br><span class="line">        <span class="built_in">this</span>.sourceStage = <span class="built_in">this</span>;</span><br><span class="line">        <span class="built_in">this</span>.sourceOrOpFlags = sourceFlags &amp; StreamOpFlag.STREAM_MASK;</span><br><span class="line">        <span class="comment">// The following is an optimization of:</span></span><br><span class="line">        <span class="comment">// StreamOpFlag.combineOpFlags(sourceOrOpFlags, StreamOpFlag.INITIAL_OPS_VALUE);</span></span><br><span class="line">        <span class="built_in">this</span>.combinedFlags = (~(sourceOrOpFlags &lt;&lt; <span class="number">1</span>)) &amp; StreamOpFlag.INITIAL_OPS_VALUE;</span><br><span class="line">        <span class="built_in">this</span>.depth = <span class="number">0</span>;</span><br><span class="line">        <span class="built_in">this</span>.parallel = parallel;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="中间操作"><a href="#中间操作" class="headerlink" title="中间操作"></a>中间操作</h2><p>中间操作可以有很多，他们的返回值都是一个新的 stream 流对象，可以进行链式调用。<br>使用 stream 流时原始数据是不会发生改变的。<br>中间操作是惰性计算的，也就是调用后并不会立刻执行，只有进行终止操作时，这些中间操作才会一起被执行。<br><strong>如果没有终止操作，中间操作不会被执行！</strong><br>如果遍历没有完成，想要的结果已经获取到了（比如获取第一个值），会停止遍历，然后返回结果。（短路操作？<br>惰性计算可以显著提高运行效率。</p>
+<p>常用的中间操作见下表（列举部分）：</p>
+<table>
+<thead>
+<tr>
+<th>中间操作</th>
+<th>用处</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>filter(Predicate&lt;? super T&gt; predicate)</td>
+<td>过滤</td>
+</tr>
+<tr>
+<td>map(Function&lt;? super T, ? extends R&gt; mapper)</td>
+<td>映射</td>
+</tr>
+<tr>
+<td>distinct()</td>
+<td>去重</td>
+</tr>
+<tr>
+<td>sorted()</td>
+<td>排序</td>
+</tr>
+<tr>
+<td>limit(long maxSize)</td>
+<td>限制</td>
+</tr>
+<tr>
+<td>skip(long n)</td>
+<td>跳过</td>
+</tr>
+</tbody></table>
+<p>重点记录下映射的用法，映射有两种</p>
+<ol>
+<li>map 必须是<strong>一对一映射</strong>，将每个元素转换为一个新的元素（可以是一个新的集合）。</li>
+<li>flatMap 可以是<strong>一对多映射</strong>的，将每个元素转换为一个或多个元素（比 map 多了扁平化处理，将映射后的结果进行合并）。</li>
+</ol>
+<p>下面是例子，用来展示 map 和 flatMap 的用法和区别。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Main</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        Stream&lt;String&gt; stringStream = Stream.of(<span class="string">&quot;hello&quot;</span>, <span class="string">&quot;world&quot;</span>, <span class="string">&quot;java&quot;</span>, <span class="string">&quot;stream&quot;</span>);</span><br><span class="line">        <span class="comment">// 将流中每个元素变为大写（一对一</span></span><br><span class="line">        List&lt;String&gt; stringList1 = stringStream.map(String::toUpperCase).collect(Collectors.toList());</span><br><span class="line">        <span class="comment">// 流已经执行过终止操作，再执行其他操作会报错：</span></span><br><span class="line">        <span class="comment">// java.lang.IllegalStateException: stream has already been operated upon or closed</span></span><br><span class="line">        stringStream = Stream.of(<span class="string">&quot;hello&quot;</span>, <span class="string">&quot;world&quot;</span>, <span class="string">&quot;java&quot;</span>, <span class="string">&quot;stream&quot;</span>);</span><br><span class="line">        <span class="comment">// 将流中每个元素转换为字符数组（一对多</span></span><br><span class="line">        List&lt;String&gt; stringList2 = stringStream.flatMap(s -&gt; Stream.of(s.split(<span class="string">&quot;&quot;</span>))).collect(Collectors.toList());</span><br><span class="line"></span><br><span class="line">        System.out.println(stringList1);</span><br><span class="line">        <span class="comment">// [HELLO, WORLD, JAVA, STREAM]</span></span><br><span class="line">        System.out.println(stringList2);</span><br><span class="line">        <span class="comment">// [h, e, l, l, o, w, o, r, l, d, j, a, v, a, s, t, r, e, a, m]</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>flatmap 操作的时候其实是先每个元素处理并返回一个新的 Stream，然后将多个 Stream 展开合并为了一个完整的新的 Stream<br>即 flatmap 操作分为两步： map 和 flatten （扁平化）</p>
+</blockquote>
+<p>所以 flatmap 可以将 集合中的集合展开，变成一个新的大集合。例子：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Main</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        List&lt;List&lt;String&gt;&gt; list = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">        list.add(Arrays.asList(<span class="string">&quot;hello&quot;</span>, <span class="string">&quot;world&quot;</span>, <span class="string">&quot;java&quot;</span>, <span class="string">&quot;stream&quot;</span>));</span><br><span class="line">        list.add(Arrays.asList(<span class="string">&quot;hello&quot;</span>, <span class="string">&quot;world&quot;</span>, <span class="string">&quot;java&quot;</span>, <span class="string">&quot;stream&quot;</span>));</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 将流中每个元素变为大写（一对一</span></span><br><span class="line">        List&lt;List&lt;String&gt;&gt; stringList1 = list.stream().map(i -&gt; i.stream().map(String::toUpperCase).toList()).collect(Collectors.toList());</span><br><span class="line">        <span class="comment">// 将流中每个元素转换为大写（合并流</span></span><br><span class="line">        List&lt;String&gt; stringList2 = list.stream().flatMap(s -&gt; s.stream().map(String::toUpperCase)).collect(Collectors.toList());</span><br><span class="line"></span><br><span class="line">        System.out.println(stringList1);</span><br><span class="line">        <span class="comment">// [[HELLO, WORLD, JAVA, STREAM], [HELLO, WORLD, JAVA, STREAM]]</span></span><br><span class="line">        System.out.println(stringList2);</span><br><span class="line">        <span class="comment">// [HELLO, WORLD, JAVA, STREAM, HELLO, WORLD, JAVA, STREAM]</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<p>ReferencePipeline 中 map 的实现，返回了一个无状态操作。（其中的 opWrapSink 看不懂一点，大概是流水线上的一个节点，包裹了我们要执行的操作。 </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">abstract</span> <span class="keyword">class</span> <span class="title class_">ReferencePipeline</span>&lt;P_IN, P_OUT&gt;</span><br><span class="line">        <span class="keyword">extends</span> <span class="title class_">AbstractPipeline</span>&lt;P_IN, P_OUT, Stream&lt;P_OUT&gt;&gt;</span><br><span class="line">        <span class="keyword">implements</span> <span class="title class_">Stream</span>&lt;P_OUT&gt;  &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="meta">@SuppressWarnings(&quot;unchecked&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">final</span> &lt;R&gt; Stream&lt;R&gt; <span class="title function_">map</span><span class="params">(Function&lt;? <span class="built_in">super</span> P_OUT, ? extends R&gt; mapper)</span> &#123;</span><br><span class="line">        Objects.requireNonNull(mapper);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">StatelessOp</span>&lt;P_OUT, R&gt;(<span class="built_in">this</span>, StreamShape.REFERENCE,</span><br><span class="line">                                     StreamOpFlag.NOT_SORTED | StreamOpFlag.NOT_DISTINCT) &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            Sink&lt;P_OUT&gt; <span class="title function_">opWrapSink</span><span class="params">(<span class="type">int</span> flags, Sink&lt;R&gt; sink)</span> &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Sink</span>.ChainedReference&lt;P_OUT, R&gt;(sink) &#123;</span><br><span class="line">                    <span class="meta">@Override</span></span><br><span class="line">                    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">accept</span><span class="params">(P_OUT u)</span> &#123;</span><br><span class="line">                        downstream.accept(mapper.apply(u));</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这些中间操作（不管是无状态的 filter()，还是有状态的 sorted()）都只是返回了一个包含上一节点引用的中间节点。<br>像单向链表。就这样把一个个中间操作拼接到了控制数据流入的 Head 后面，但是并没有开始做任何数据处理的动作。（惰性计算</p>
+<p>在 StatelessOp 和 StatefulOp 初始化的时候还会将当前节点的引用传递给上一个节点。<br>下面源码中的 <code>previousStage.nextStage = this;</code><br>这个时候，这些节点组成了一个双向链表的结构。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">abstract</span> <span class="keyword">class</span> <span class="title class_">AbstractPipeline</span>&lt;E_IN, E_OUT, S <span class="keyword">extends</span> <span class="title class_">BaseStream</span>&lt;E_OUT, S&gt;&gt;</span><br><span class="line">        <span class="keyword">extends</span> <span class="title class_">PipelineHelper</span>&lt;E_OUT&gt; <span class="keyword">implements</span> <span class="title class_">BaseStream</span>&lt;E_OUT, S&gt; &#123;</span><br><span class="line">    AbstractPipeline(AbstractPipeline&lt;?, E_IN, ?&gt; previousStage, <span class="type">int</span> opFlags) &#123;</span><br><span class="line">        <span class="keyword">if</span> (previousStage.linkedOrConsumed)</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">IllegalStateException</span>(MSG_STREAM_LINKED);</span><br><span class="line">        previousStage.linkedOrConsumed = <span class="literal">true</span>;</span><br><span class="line">        previousStage.nextStage = <span class="built_in">this</span>;</span><br><span class="line"></span><br><span class="line">        <span class="built_in">this</span>.previousStage = previousStage;</span><br><span class="line">        <span class="built_in">this</span>.sourceOrOpFlags = opFlags &amp; StreamOpFlag.OP_MASK;</span><br><span class="line">        <span class="built_in">this</span>.combinedFlags = StreamOpFlag.combineOpFlags(opFlags, previousStage.combinedFlags);</span><br><span class="line">        <span class="built_in">this</span>.sourceStage = previousStage.sourceStage;</span><br><span class="line">        <span class="keyword">if</span> (opIsStateful())</span><br><span class="line">            sourceStage.sourceAnyStateful = <span class="literal">true</span>;</span><br><span class="line">        <span class="built_in">this</span>.depth = previousStage.depth + <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>其他的中间操作也都差不多，flatMap 会更加复杂一些，就不贴了。</p>
+<h2 id="终止操作"><a href="#终止操作" class="headerlink" title="终止操作"></a>终止操作</h2><p>终止操作会遍历 stream 流，并依次执行其中的中间操作，最后执行终止操作并返回结果。（当然有的终止操作并没有结果</p>
+<blockquote>
+<p>执行终止操作后，后续便不能对这个流进行任何操作了。上面中间操作 map 的例子中已经说明，继续操作已被终止或关闭的流会报错。</p>
+</blockquote>
+<p>简单的终止操作有 <code>count</code>、<code>max</code>、<code>min</code>、<code>findAny</code>、<code>findFirst</code>、<code>anyMatch</code>、<code>allMatch</code>、<code>noneMatch</code> 等方法。<br>他们之所以简单，是因为返回结果为布尔值、数字或者 Optional 对象。</p>
+<p>常用的终止操作 collect，用于将流转换为集合。因为大多数情况，数据处理完要获取一个集合类的结果对象，像是 List 或者 Map 等。<br>collect 上面中间操作 map 的例子中也有用到，就不再单独举例了。</p>
+<p>ReferencePipeline 中 collect 的实现。<br>if 判断中是并行流的处理（串行的的都没看懂，就不用看并行的了。毕竟涉及多线程的都不会简单。<br>else 中 container 是流最后计算得到的结果。见下文继续<br>return 返回结果。使用了 Collectors 收集器，也是 java8 的新特性，比较重要。<del>不过我看不懂</del></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">abstract</span> <span class="keyword">class</span> <span class="title class_">ReferencePipeline</span>&lt;P_IN, P_OUT&gt;</span><br><span class="line">        <span class="keyword">extends</span> <span class="title class_">AbstractPipeline</span>&lt;P_IN, P_OUT, Stream&lt;P_OUT&gt;&gt;</span><br><span class="line">        <span class="keyword">implements</span> <span class="title class_">Stream</span>&lt;P_OUT&gt;  &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="meta">@SuppressWarnings(&quot;unchecked&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">final</span> &lt;R, A&gt; R <span class="title function_">collect</span><span class="params">(Collector&lt;? <span class="built_in">super</span> P_OUT, A, R&gt; collector)</span> &#123;</span><br><span class="line">        A container;</span><br><span class="line">        <span class="keyword">if</span> (isParallel()</span><br><span class="line">                &amp;&amp; (collector.characteristics().contains(Collector.Characteristics.CONCURRENT))</span><br><span class="line">                &amp;&amp; (!isOrdered() || collector.characteristics().contains(Collector.Characteristics.UNORDERED))) &#123;</span><br><span class="line">            container = collector.supplier().get();</span><br><span class="line">            BiConsumer&lt;A, ? <span class="built_in">super</span> P_OUT&gt; accumulator = collector.accumulator();</span><br><span class="line">            forEach(u -&gt; accumulator.accept(container, u));</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            container = evaluate(ReduceOps.makeRef(collector));</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> collector.characteristics().contains(Collector.Characteristics.IDENTITY_FINISH)</span><br><span class="line">               ? (R) container</span><br><span class="line">               : collector.finisher().apply(container);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>ReduceOps.makeRef 接收此 collector 返回了一个 ReduceOp（实现了 TerminalOp 接口）的实例。（ReduceOps.makeRef 源码略<br>返回的 ReduceOp 实例又被传递给 AbstractPipeline 中的 evaluate() 方法。<br>在 evaluate 中，调用了 ReduceOp 实例的 evaluateSequential 方法，并将上流水线上最后一个节点的引用和 sourceSpliterator 传递进去。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">abstract</span> <span class="keyword">class</span> <span class="title class_">AbstractPipeline</span>&lt;E_IN, E_OUT, S <span class="keyword">extends</span> <span class="title class_">BaseStream</span>&lt;E_OUT, S&gt;&gt;</span><br><span class="line">        <span class="keyword">extends</span> <span class="title class_">PipelineHelper</span>&lt;E_OUT&gt; <span class="keyword">implements</span> <span class="title class_">BaseStream</span>&lt;E_OUT, S&gt; &#123;</span><br><span class="line">    <span class="keyword">final</span> &lt;R&gt; R <span class="title function_">evaluate</span><span class="params">(TerminalOp&lt;E_OUT, R&gt; terminalOp)</span> &#123;</span><br><span class="line">        <span class="keyword">assert</span> <span class="title function_">getOutputShape</span><span class="params">()</span> == terminalOp.inputShape();</span><br><span class="line">        <span class="keyword">if</span> (linkedOrConsumed)</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">IllegalStateException</span>(MSG_STREAM_LINKED);</span><br><span class="line">        linkedOrConsumed = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> isParallel()</span><br><span class="line">               ? terminalOp.evaluateParallel(<span class="built_in">this</span>, sourceSpliterator(terminalOp.getOpFlags()))</span><br><span class="line">               : terminalOp.evaluateSequential(<span class="built_in">this</span>, sourceSpliterator(terminalOp.getOpFlags()));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后调用 ReduceOp 实例的 makeSink() 方法返回其 makeRef() 方法内部类 ReducingSink 的实例。<br>接着 ReducingSink 的实例作为参数和 spliterator 一起传入最后一个节点的 wrapAndCopyInto() 方法，返回值是 Sink 。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">final</span> <span class="keyword">class</span> <span class="title class_">ReduceOps</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">abstract</span> <span class="keyword">class</span> <span class="title class_">ReduceOp</span>&lt;T, R, S <span class="keyword">extends</span> <span class="title class_">AccumulatingSink</span>&lt;T, R, S&gt;&gt;</span><br><span class="line">        <span class="keyword">implements</span> <span class="title class_">TerminalOp</span>&lt;T, R&gt; &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="keyword">public</span> &lt;P_IN&gt; R <span class="title function_">evaluateSequential</span><span class="params">(PipelineHelper&lt;T&gt; helper,</span></span><br><span class="line"><span class="params">                                           Spliterator&lt;P_IN&gt; spliterator)</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> helper.wrapAndCopyInto(makeSink(), spliterator).get();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>到这里都是构建最后一个节点的 Sink 。<br>然后 wrapAndCopyInto 做了两件事 <code>wrapSink()</code> 和 <code>copyInto()</code>。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">abstract</span> <span class="keyword">class</span> <span class="title class_">AbstractPipeline</span>&lt;E_IN, E_OUT, S <span class="keyword">extends</span> <span class="title class_">BaseStream</span>&lt;E_OUT, S&gt;&gt;</span><br><span class="line">        <span class="keyword">extends</span> <span class="title class_">PipelineHelper</span>&lt;E_OUT&gt; <span class="keyword">implements</span> <span class="title class_">BaseStream</span>&lt;E_OUT, S&gt; &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">final</span> &lt;P_IN, S <span class="keyword">extends</span> <span class="title class_">Sink</span>&lt;E_OUT&gt;&gt; S <span class="title function_">wrapAndCopyInto</span><span class="params">(S sink, Spliterator&lt;P_IN&gt; spliterator)</span> &#123;</span><br><span class="line">        copyInto(wrapSink(Objects.requireNonNull(sink)), spliterator);</span><br><span class="line">        <span class="keyword">return</span> sink;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>wrapSink()<br>将最后一个节点创建的 Sink 传入，并且看到里面有个 for 循环。<br>每个节点都记录了上一节点的引用 previousStage 和每一个节点的深度 depth。<br>所以这个 for 循环是从最后一个节点开始，到第二个节点结束。<br>每一次循环都是将上一节点的 combinedFlags 和当前的 Sink 包起来生成一个新的 Sink 。<br>这和前面拼接各个中间操作很类似，只不过拼接的是 Sink 的实现类的实例，方向相反。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">abstract</span> <span class="keyword">class</span> <span class="title class_">AbstractPipeline</span>&lt;E_IN, E_OUT, S <span class="keyword">extends</span> <span class="title class_">BaseStream</span>&lt;E_OUT, S&gt;&gt;</span><br><span class="line">        <span class="keyword">extends</span> <span class="title class_">PipelineHelper</span>&lt;E_OUT&gt; <span class="keyword">implements</span> <span class="title class_">BaseStream</span>&lt;E_OUT, S&gt; &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="meta">@SuppressWarnings(&quot;unchecked&quot;)</span></span><br><span class="line">    <span class="keyword">final</span> &lt;P_IN&gt; Sink&lt;P_IN&gt; <span class="title function_">wrapSink</span><span class="params">(Sink&lt;E_OUT&gt; sink)</span> &#123;</span><br><span class="line">        Objects.requireNonNull(sink);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> ( <span class="meta">@SuppressWarnings(&quot;rawtypes&quot;)</span> AbstractPipeline p=AbstractPipeline.<span class="built_in">this</span>; p.depth &gt; <span class="number">0</span>; p=p.previousStage) &#123;</span><br><span class="line">            sink = p.opWrapSink(p.previousStage.combinedFlags, sink);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> (Sink&lt;P_IN&gt;) sink;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>copyInto()<br>到了要真正开始迭代的地方，这个方法接收两个参数 Sink<P_IN> wrappedSink, Spliterator<P_IN> spliterator 。<br>wrappedSink 对应的是 Head 节点后面的第一个操作节点（它相当于这串 Sink 的头），spliterator 对应着数据源。</p>
+<p>回过头看一下 Sink 这个接口，它继承自 Consumer 接口，又定义了begin()、end()、cancellationRequested() 方法。<br>Sink 直译过来是水槽，如果把数据流比作水，那水槽就是水会流过的地方。<br>begin() 用于通知水槽的水要过来了，里面会做一些准备工作，同样 end() 是做一些收尾工作。cancellationRequested() 是原来判断是不是可以停下来了。Consumer 里的accept() 是消费数据的地方。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">abstract</span> <span class="keyword">class</span> <span class="title class_">AbstractPipeline</span>&lt;E_IN, E_OUT, S <span class="keyword">extends</span> <span class="title class_">BaseStream</span>&lt;E_OUT, S&gt;&gt;</span><br><span class="line">        <span class="keyword">extends</span> <span class="title class_">PipelineHelper</span>&lt;E_OUT&gt; <span class="keyword">implements</span> <span class="title class_">BaseStream</span>&lt;E_OUT, S&gt; &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">final</span> &lt;P_IN&gt; <span class="keyword">void</span> <span class="title function_">copyInto</span><span class="params">(Sink&lt;P_IN&gt; wrappedSink, Spliterator&lt;P_IN&gt; spliterator)</span> &#123;</span><br><span class="line">        Objects.requireNonNull(wrappedSink);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (!StreamOpFlag.SHORT_CIRCUIT.isKnown(getStreamAndOpFlags())) &#123;</span><br><span class="line">            wrappedSink.begin(spliterator.getExactSizeIfKnown());</span><br><span class="line">            spliterator.forEachRemaining(wrappedSink);</span><br><span class="line">            wrappedSink.end();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            copyIntoWithCancel(wrappedSink, spliterator);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>有了完整的水槽链，就可以让水流进去了。copyInto() 里做了三个动作:</p>
+<ol>
+<li>通知第一个水槽（Sink）水要来了，准备一下。</li>
+<li>让水流进水槽（Sink）里。</li>
+<li>通知第一个水槽（Sink）水流完了，该收尾了。</li>
+</ol>
+<p>最后数据流到终止节点，终止节点将数据收集起来就结束了。<br>然后就没有然后了，copyInto() 返回类型是 void ，没有返回值。<br>wrapAndCopyInto() 返回了 TerminalOps 创建的 Sink，这时候它里面已经包含了最终处理的结果。调用它的 get() 方法就获得了最终的结果。</p>
+<h2 id="关于并行流"><a href="#关于并行流" class="headerlink" title="关于并行流"></a>关于并行流</h2><p>Stream 的并行编程，底层是基于 ForkJoinPool 技术来实现的。<br>ForkJoinPool 是 Java 7 引入的用于并行执行的任务框架，核心思想是将一个大任务拆分成多个小任务（即fork），然后再将多个小任务的处理结果汇总到一个结果上（即join）。<br>此外，它也提供基本的线程池功能，譬如设置最大并发线程数，关闭线程池等。</p>
+<p>可能会存在死锁、线程安全等问题，多线程需要考虑的他应该也都需要考虑。<br>当然，如果不是很了解多线程。最好还是不要使用。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>使用也没有写多少，还是想分析源码是怎么实现。但奈何看不太懂，实在是太抽象了。<br>加之当中对很多场景进行了高度的封装，代码十分的多，还有类型的特化（减少频繁拆装箱操作造成的性能浪费。</p>
+<p>大体的实现思路是写出来了。就是双向链表的结构，套了很多封装。</p>
+<p>代码是跟着知乎大佬的文章看的，这篇关于源代码分析的部分大多也是知乎大佬文章中的。<br>那就在下面加粗一下，然后浅浅的佩服下大佬。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a class="link"   target="_blank" rel="noopener" href="https://www.cnblogs.com/softwarearch/p/16466235.html" >全面吃透JAVA Stream流操作，让代码更加的优雅 - 架构悟道 - 博客园 (cnblogs.com)<i class="fas fa-external-link-alt"></i></a><br><a class="link"   target="_blank" rel="noopener" href="https://juejin.cn/post/7003525665085456392#heading-16" >Java Stream 源码深入解析 - 掘金 (juejin.cn)<i class="fas fa-external-link-alt"></i></a><br><a class="link"   target="_blank" rel="noopener" href="https://www.wdbyte.com/2019/11/jdk/jdk8-stream/" >Java 8 Stream 流式操作 (wdbyte.com)<i class="fas fa-external-link-alt"></i></a><br><a class="link"   target="_blank" rel="noopener" href="https://juejin.cn/post/6934510249470590990" >JAVA Stream简单原理——手写一个Stream流 - 掘金 (juejin.cn)<i class="fas fa-external-link-alt"></i></a><br><strong><a class="link"   target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/47478339" >原来你是这样的 Stream —— 浅析 Java Stream 实现原理 - 知乎 (zhihu.com)<i class="fas fa-external-link-alt"></i></a></strong><br><a class="link"   target="_blank" rel="noopener" href="https://juejin.cn/post/7002396839928397855" >用了Stream后，代码反而越写越丑？ - 掘金 (juejin.cn)<i class="fas fa-external-link-alt"></i></a><br><a class="link"   target="_blank" rel="noopener" href="https://juejin.cn/post/6844903858137726984" >Java基础提高之Spliterator - 掘金 (juejin.cn)<i class="fas fa-external-link-alt"></i></a><br><a class="link"   target="_blank" rel="noopener" href="https://www.cnblogs.com/anyuanwai/p/15449206.html" >Java中的函数式编程（八）流Stream并行编程 - 安员外 - 博客园 (cnblogs.com)<i class="fas fa-external-link-alt"></i></a></p>
+
+                
+            </div>
+
+            
+        </div>
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom border-box">
+            
+<footer class="footer border-box">
+    <div class="border-box website-info-box default">
+        
+            <div class="copyright-info info-item default">
+                &copy;&nbsp;<span>2022</span>&nbsp;-&nbsp;2025
+                
+                    &nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;&nbsp;<a href="/">咕咕咕</a>
+                
+            </div>
+
+            <div class="theme-info info-item default">
+                由&nbsp;<a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;驱动&nbsp;&&nbsp;主题&nbsp;<a class="keep-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep</a>
+            </div>
+
+            
+
+            
+        
+
+        <div style="color:var(--text-color-4);"><span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>(～￣▽￣)～<script src="/js/lifeTime.js"></script></div>
+        <a href="https://icp.gov.moe/?keyword=20222450" target="_blank">萌ICP备20222450号</a>
+
+
+        <div class="count-item info-item default">
+            
+                <span class="count-box border-box word">
+                    <span class="item-type border-box">总字数</span>
+                    <span class="item-value border-box word">362.1k</span>
+                </span>
+            
+
+            
+                <span class="count-box border-box uv">
+                    <span class="item-type border-box">访客数</span>
+                    <span class="item-value border-box uv" id="busuanzi_value_site_uv"></span>
+                </span>
+            
+
+            
+                <span class="count-box border-box pv">
+                    <span class="item-type border-box">访问量</span>
+                    <span class="item-value border-box pv" id="busuanzi_value_site_pv"></span>
+                </span>
+            
+        </div>
+
+        <div id="aplayer">
+          <meting-js
+                  server="netease"
+                  type="playlist"
+                  id="7345595717"
+                  fixed="true"
+                  mini="true"
+                  autoplay="false"
+                  listFolded="true"
+                  order="random"
+                  preload="none">
+          </meting-js>
+        </div>
+            <br>
+            <br>
+            <br>
+    </div>
+
+</footer>
+
+        </div>
+    </div>
+
+    <!-- post tools -->
+    
+
+    <!-- side tools -->
+    <div class="side-tools">
+        <div class="side-tools-container border-box ">
+    <ul class="side-tools-list side-tools-show-handle border-box">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-toggle-theme-mode flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+            <li class="tools-item rss flex-center">
+                <a class="flex-center"
+                   href="/atom.xml"
+                   target="_blank"
+                >
+                    <i class="fas fa-rss"></i>
+                </a>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list border-box">
+        
+
+        
+
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+
+        <li class="tools-item tool-scroll-to-top flex-center show-arrow">
+            <i class="arrow fas fa-arrow-up"></i>
+            <span class="percent"></span>
+        </li>
+    </ul>
+</div>
+
+    </div>
+
+    <!-- image mask -->
+    <div class="zoom-in-image-mask">
+    <img class="zoom-in-image">
+</div>
+
+
+    <!-- local search -->
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="搜索..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="close-popup-btn">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+    <!-- tablet toc -->
+    
+</main>
+
+
+
+<!-- common -->
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/toggle-theme.js"></script>
+
+<script src="/js/code-block.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+
+<!-- local-search -->
+
+    
+<script src="/js/local-search.js"></script>
+
+
+
+<!-- lazyload -->
+
+    
+<script src="/js/lazyload.js"></script>
+
+
+
+<div class="pjax">
+    
+
+    <!-- category-page -->
+    
+
+    <!-- links-page -->
+    
+
+    <!-- photos-page -->
+    
+</div>
+
+<!-- mermaid -->
+
+
+<!-- pjax -->
+
+    
+<script src="/js/libs/pjax.min.js"></script>
+
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        window.pjax = new Pjax({
+            selectors: [
+                'head title',
+                '.page-container',
+                '.pjax',
+                '#aplayer',
+                '#canvas_sakura'
+            ],
+            history: true,
+            debug: false,
+            cacheBust: false,
+            timeout: 0,
+            analytics: false,
+            currentUrlFullReload: false,
+            scrollRestoration: false,
+        });
+
+        document.addEventListener('pjax:send', () => {
+            KEEP.utils.pjaxProgressBarStart()
+        });
+
+        document.addEventListener('pjax:complete', () => {
+            KEEP.utils.pjaxProgressBarEnd()
+            window.pjax.executeScripts(document.querySelectorAll('script[data-pjax], .pjax script'))
+            KEEP.initExecute()
+        });
+    });
+</script>
+
+
+
+
+    
+        
+            
+<script class="custom-inject-js" src="/js/APlayer.min.js" data-pjax></script>
+
+        
+    
+        
+            
+<script class="custom-inject-js" src="/js/Meting.min.js" data-pjax></script>
+
+        
+    
+        
+            
+<script class="custom-inject-js" src="/js/leaves.js" data-pjax></script>
+
+        
+    
+
+
+
+</body>
+</html>

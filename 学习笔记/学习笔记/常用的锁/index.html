@@ -1,0 +1,1134 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="技术博客,后端开发,编程笔记,生活">
+    <meta name="description" content="Code | Systems | Life — 专注编程本质，也关心世界如何运转。">
+    <meta name="author" content="咕咕咕">
+
+    
+    <title>
+        
+            常用的锁 |
+        
+        咕咕咕的小破站
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+        <link rel="shortcut icon" href="/images/favicon.png">
+    
+    
+<link rel="stylesheet" href="/font/css/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/regular.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/solid.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/brands.min.css">
+
+    
+        
+            
+                
+<link rel="stylesheet" href="/css/APlayer.min.css">
+
+            
+        
+            
+                
+<link rel="stylesheet" href="/css/custom.css">
+
+            
+        
+    
+    <script class="keep-theme-configurations">
+    const KEEP = window.KEEP || {}
+    KEEP.hexo_config = {"hostname":"cooooing.github.io","root":"/","language":"zh-CN","path":"search.json"}
+    KEEP.theme_config = {"base_info":{"primary_color":"#0066cc","title":"咕咕咕的小破站","author":"咕咕咕","avatar":"/images/head.jpg","logo":"/images/head.jpg","favicon":"/images/favicon.png"},"menu":{"Archives":"/archives","Categories":"/categories","Tags":"/tags","日常":"/daily","Links":"/links","About":"/about"},"first_screen":{"enable":false,"background_img":"/images/bg.svg","background_img_dark":"/images/bg.svg","description":"Keep writing and Keep loving.","hitokoto":false},"social_contact":{"enable":false,"links":{"github":null,"weixin":null,"qq":null,"weibo":null,"zhihu":null,"twitter":null,"facebook":null,"email":null}},"scroll":{"progress_bar":false,"percent":false,"hide_header":true},"home":{"category":true,"tag":true,"announcement":null},"post":{"author_badge":{"enable":true,"level_badge":false,"custom_badge":["fishing"]},"word_count":{"wordcount":true,"min2read":true},"datetime_format":"YYYY-MM-DD HH:mm:ss","copyright_info":true,"share":true,"reward":{"enable":true,"img_link":"/images/thanks.png","text":"谢谢你请我喝可乐~"}},"code_block":{"tools":{"enable":true,"style":"default"},"highlight_theme":"default"},"toc":{"enable":true,"number":false,"expand_all":true,"init_open":true,"layout":"left"},"website_count":{"busuanzi_count":{"enable":true,"site_uv":true,"site_pv":true,"page_pv":true}},"local_search":{"enable":true,"preload":true},"comment":{"enable":true,"use":"giscus","valine":{"appid":null,"appkey":null,"server_urls":null,"placeholder":null},"gitalk":{"github_id":null,"github_admins":null,"repository":null,"client_id":null,"client_secret":null,"proxy":null},"twikoo":{"env_id":null,"region":null,"version":"1.6.21"},"waline":{"server_url":null,"reaction":false,"version":2},"giscus":{"repo":"Cooooing/Cooooing.github.io","repo_id":"R_kgDOHQal_w","category":"Announcements","category_id":"DIC_kwDOHQal_84CjZo6","reactions_enabled":true},"artalk":{"server":null},"disqus":{"shortname":null}},"rss":{"enable":true},"lazyload":{"enable":true},"cdn":{"enable":false,"provider":"cdnjs"},"pjax":{"enable":true},"footer":{"since":2022,"word_count":true,"icp":{"enable":false,"record_code":null,"url":"https://beian.miit.gov.cn"},"site_deploy":{"enable":false,"provider":"github","url":null},"shields_style":{"enable":false,"custom":[{"link_url":null,"img_url":null}]}},"inject":{"enable":true,"css":["/css/APlayer.min.css","/css/custom.css"],"js":["/js/APlayer.min.js","/js/Meting.min.js","/js/leaves.js"]},"root":"","links":[{"name":"鼠鼠在碎觉","link":"https://sszsj.com","avatar":"https://tmx.fishpi.cn/img/head.jpg","description":"我是不慎落入世界的一滴水墨"},{"name":"Gakkiyomi","link":"https://gakkiyomi.blog","avatar":"https://avatars.githubusercontent.com/u/41406557?v=4","description":"为往圣继绝学"},{"name":"Hancel's Blog","link":"https://my.hancel.org","avatar":"https://my.hancel.org/media/logo.jpg","description":"人生而自由，却无往不在枷锁之中。"},{"name":"Eastshann","link":"http://121.4.99.208/","avatar":"http://121.4.99.208/img/avatar.jpg","description":"冲和者，淡泊平和，谦冲守正"},{"name":"小于同学的异世界","link":"https://yby.zone","avatar":"https://yby-zone.obs.cn-east-3.myhuaweicloud.com/avatar.jpg","description":"为吾为枝，余地三尺，以己为棋，胜天半子。"},{"name":"Mlikiowa Home Village","link":"https://nanaeo.cn/","avatar":"https://q1.qlogo.cn/g?b=qq&nk=1627126029&s=100","description":"A litter Village With Mlikiowa"},{"name":"忘忧草","link":"https://owo.wyc.rest/","avatar":"https://owo.wyc.rest/img/%E4%B8%87%E5%8F%B6.jpg","description":"这只是一个小破站而已！"},{"name":"stillwarter","link":"https://stillwarter.github.io/","avatar":"https://file.fishpi.cn/2022/07/MOSHED2022621164630-1b1ec532.gif?imageView2/1/w/210/h/210/interlace/0/q/100","description":"光就是一切的意义"},{"name":"test12138","link":"http://你好.eu.org/","avatar":"https://file.fishpi.cn/2022/06/srchttpimgzcoolcncommunity0116405d84f975a801211d537707c9gifreferhttpimgzcool-0f2d09c9.gif?imageView2/1/w/48/h/48/interlace/0/q/100","description":"大丈夫生于天地之间，岂能郁郁久居人下。"},{"name":"呼呼呼","link":"https://bongbongbakudan.github.io/","avatar":"https://pwl.stackoverflow.wiki/2021/12/blob-28eb4b9f.png?imageView2/1/w/48/h/48/interlace/0/q/100","description":"去整点薯条"},{"name":"Plumbiu","link":"https://blog.plumbiu.top/","avatar":"https://avatars.githubusercontent.com/u/99574369?v=4","description":"这人很勤奋，啥都没留"},{"name":"hiRipple","link":"https://hiripple.com/","avatar":"https://avatars.githubusercontent.com/u/115361435?v=4","description":"超高校级的游戏玩家"}],"version":"4.0.6"}
+    KEEP.language_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"}
+    KEEP.language_code_block = {"copy":"复制代码","copied":"已复制","fold":"折叠代码块","folded":"已折叠"}
+    KEEP.language_copy_copyright = {"copy":"复制版权信息","copied":"已复制","title":"原文标题","author":"原文作者","link":"原文链接"}
+  </script>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-CLX32WF4R1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+
+      gtag('js', new Date());
+
+      gtag('config', 'G-CLX32WF4R1');
+    </script>
+
+    <!-- 51.la -->
+    <script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
+    <script>LA.init({id: "3JwPz6wbAloyTmMc", ck: "3JwPz6wbAloyTmMc", autoTrack: true})</script>
+
+<meta name="generator" content="Hexo 8.1.1"><link rel="alternate" href="/atom.xml" title="咕咕咕的小破站" type="application/atom+xml">
+</head>
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+        <span class="pjax-progress-bar"></span>
+        <i class="pjax-progress-icon fas fa-circle-notch fa-spin"></i>
+    
+</div>
+
+
+<main class="page-container border-box">
+
+    <!-- home first screen  -->
+    
+
+    <!-- page content -->
+    <div class="page-main-content border-box">
+        <div class="page-main-content-top">
+            
+<header class="header-wrapper">
+
+    <div class="border-box header-content">
+        <div class="left border-box">
+            
+                <a class="logo-image border-box" href="/">
+                    <img src="/images/head.jpg">
+                </a>
+            
+            <a class="site-name border-box" href="/">
+               咕咕咕的小破站
+            </a>
+        </div>
+
+        <div class="right border-box">
+            <div class="pc">
+                <ul class="menu-list">
+                    <li class="menu-item">
+                        <a class=""
+                           href="/"
+                        >首页</a>
+                    </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >归档</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/categories"
+                            >分类</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/tags"
+                            >标签</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/daily"
+                            >日常</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/links"
+                            >友链</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >关于</a>
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="fas search fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            <li class="drawer-menu-item flex-center">
+                <a class=""
+                   href="/"
+                >首页</a>
+            </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives"
+                    >归档</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/categories"
+                    >分类</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/tags"
+                    >标签</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/daily"
+                    >日常</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/links"
+                    >友链</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about"
+                    >关于</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle border-box">
+
+            <div class="main-content border-box">
+                
+
+                    
+<div class="fade-in-down-animation">
+    <div class="post-page-container border-box">
+        <div class="post-content-container border-box">
+            
+
+            <div class="post-content-bottom border-box">
+                
+                    <div class="post-title">
+                        常用的锁
+                    </div>
+                
+
+                
+                    <div class="post-header border-box">
+                        
+                            <div class="avatar-box border-box">
+                                <img src="/images/head.jpg">
+                            </div>
+                        
+                        <div class="info-box">
+                            <div class="author border-box">
+                                <span class="name">咕咕咕</span>
+                                
+                                    <span class="author-badge">fishing</span>
+                                
+                            </div>
+                            <div class="meta-info border-box">
+                                
+
+<div class="post-meta-info-container border-box post">
+    <div class="post-meta-info border-box">
+        
+
+        
+            <span class="meta-info-item post-create-date">
+                <i class="icon fa-solid fa-calendar-plus"></i>&nbsp;
+                <span class="datetime">2025-07-31 14:22:54</span>
+            </span>
+
+            <span class="meta-info-item post-update-date">
+                <i class="icon fa-solid fa-file-pen"></i>&nbsp;
+                <span class="datetime" data-updated="Thu Jul 31 2025 06:22:54 GMT+0000">2025-07-31 14:22:54</span>
+            </span>
+        
+
+        
+            <span class="meta-info-item post-category border-box"><i class="icon fas fa-folder"></i>&nbsp;
+                <ul class="post-category-ul">
+                    
+                            <li class="category-item"><a href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+            <span class="post-tag meta-info-item border-box">
+                <i class="icon fas fa-tags"></i>&nbsp;
+                <ul class="post-tag-ul">
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/%E5%B9%B6%E5%8F%91/">并发</a></li>
+                        
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/%E9%94%81/">锁</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+        
+            <span class="meta-info-item post-wordcount">
+                <i class="icon fas fa-file-word"></i>&nbsp;<span>3.3k 字</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-min2read">
+                <i class="icon fas fa-clock"></i>&nbsp;<span>11 分钟</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-pv">
+                <i class="icon fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+            </span>
+        
+    </div>
+
+    
+</div>
+
+                            </div>
+                        </div>
+                    </div>
+                
+
+                <div class="post-content keep-markdown-body">
+                    
+
+                    <p>在并发编程中，锁是用于同步线程、避免数据竞争和确保线程安全的重要机制。</p>
+<h2 id="互斥锁（Mutex）"><a href="#互斥锁（Mutex）" class="headerlink" title="互斥锁（Mutex）"></a>互斥锁（Mutex）</h2><p>互斥锁是最基本的锁类型，确保同一时间只有一个线程可以访问共享资源。</p>
+<ul>
+<li>线程获取锁后，其他尝试获取锁的线程会被阻塞，直到锁被释放。</li>
+<li>通常用于保护临界区（Critical Section）。</li>
+<li>实现简单，但可能导致线程阻塞和上下文切换开销。</li>
+</ul>
+<blockquote>
+<p>用于需要确保独占访问共享资源的场景。</p>
+</blockquote>
+<h2 id="读写锁（Read-Write-Lock）"><a href="#读写锁（Read-Write-Lock）" class="headerlink" title="读写锁（Read-Write Lock）"></a>读写锁（Read-Write Lock）</h2><p>允许多个线程同时读取共享资源，但写操作需独占访问。</p>
+<ul>
+<li><strong>读锁</strong>：多个线程可同时持有读锁（共享锁）。</li>
+<li><strong>写锁</strong>：写锁是独占的，写时不允许其他读或写操作。</li>
+<li>提高并发性能，尤其在读多写少的场景。</li>
+</ul>
+<p>是互斥锁的一种扩展，区分读写操作以提升性能。</p>
+<blockquote>
+<p>用于读操作频繁、写操作较少的场景，如数据库缓存。</p>
+</blockquote>
+<h2 id="条件锁（Condition-Lock）"><a href="#条件锁（Condition-Lock）" class="headerlink" title="条件锁（Condition Lock）"></a>条件锁（Condition Lock）</h2><p>结合条件变量，用于线程间的协作，线程在特定条件满足时才继续执行。</p>
+<ul>
+<li>通常与互斥锁配合使用，线程等待条件满足时进入休眠，条件满足时被唤醒。</li>
+<li>提高效率，避免忙等待。</li>
+</ul>
+<p>条件锁依赖互斥锁，互斥锁保护共享条件变量。</p>
+<blockquote>
+<p>用于生产者-消费者模型、线程同步等待。</p>
+</blockquote>
+<h2 id="信号量（Semaphore）"><a href="#信号量（Semaphore）" class="headerlink" title="信号量（Semaphore）"></a>信号量（Semaphore）</h2><p>一种计数器机制，控制多个线程对有限资源的访问。</p>
+<ul>
+<li>允许指定数量的线程同时访问资源（计数&gt;1）。</li>
+<li>当计数为1时，行为类似于互斥锁。</li>
+</ul>
+<p>信号量是互斥锁的泛化，支持多线程并发访问。互斥锁限制为单一线程访问。</p>
+<blockquote>
+<p>用于限制并发访问数量，如连接池管理。</p>
+</blockquote>
+<h2 id="分布式锁"><a href="#分布式锁" class="headerlink" title="分布式锁"></a>分布式锁</h2><p>在分布式系统中，用于协调多个进程或节点对共享资源的访问。</p>
+<ul>
+<li>跨机器实现，通常基于外部存储（如Redis、ZooKeeper、Etcd）。</li>
+<li>需考虑网络延迟、节点故障等复杂情况。</li>
+</ul>
+<p>分布式锁是互斥锁的分布式扩展，适用于跨进程或跨机器场景。本地锁（如Mutex）仅限于单机多线程。</p>
+<blockquote>
+<p>用于分布式系统中协调跨进程或跨节点的资源访问，如分布式任务调度。</p>
+</blockquote>
+<h2 id="悲观锁和乐观锁（加锁策略）"><a href="#悲观锁和乐观锁（加锁策略）" class="headerlink" title="悲观锁和乐观锁（加锁策略）"></a>悲观锁和乐观锁（加锁策略）</h2><h3 id="悲观锁（Pessimistic-Lock）"><a href="#悲观锁（Pessimistic-Lock）" class="headerlink" title="悲观锁（Pessimistic Lock）"></a>悲观锁（Pessimistic Lock）</h3><p>悲观锁假设并发操作中冲突（数据竞争）发生的概率较高，因此<strong>在访问共享资源之前，总是先获取锁</strong>，确保独占访问。其他线程在锁被释放前会被阻塞。</p>
+<blockquote>
+<p>适用于写操作频繁、冲突概率高、数据一致性要求严格的场景。<br>如互斥锁、读写锁、数据库锁（行锁、表锁）。</p>
+</blockquote>
+<h3 id="乐观锁（Optimistic-Lock）"><a href="#乐观锁（Optimistic-Lock）" class="headerlink" title="乐观锁（Optimistic Lock）"></a>乐观锁（Optimistic Lock）</h3><p>乐观锁假设并发操作中冲突发生的概率较低，<strong>允许线程先执行操作，在提交时检查数据是否被修改</strong>。<br>如果未被修改，则提交成功；否则，回滚并重试。<strong>乐观锁通常不使用传统锁机制，而是依赖版本控制或原子操作</strong>。</p>
+<p>乐观锁是非阻塞的，线程直接操作共享资源，而无需等待锁。<br>通过版本号、时间戳或CAS（Compare-And-Swap）检查数据是否被修改。</p>
+<blockquote>
+<p>适用于读多场景，高并发低冲突。<br>如缓存更新、计数器</p>
+</blockquote>
+<h2 id="阻塞锁和非阻塞锁（等待机制）"><a href="#阻塞锁和非阻塞锁（等待机制）" class="headerlink" title="阻塞锁和非阻塞锁（等待机制）"></a>阻塞锁和非阻塞锁（等待机制）</h2><h3 id="阻塞锁（Blocking-Lock）"><a href="#阻塞锁（Blocking-Lock）" class="headerlink" title="阻塞锁（Blocking Lock）"></a>阻塞锁（Blocking Lock）</h3><p>阻塞锁是指当线程尝试获取锁时，如果锁已被其他线程占用，当前线程会进入阻塞状态（挂起），等待锁释放。<br>阻塞状态通常由操作系统管理，线程被放入等待队列，暂停执行，直到被唤醒。</p>
+<p><strong>锁不可用时，线程被挂起，释放CPU资源。</strong><br>但通常涉及线程的上下文切换（从用户态到内核态），开销较高。<br>线程唤醒和重新调度可能引入延迟。</p>
+<blockquote>
+<p>适用于需要强一致性、长时间持有锁或高冲突场景。<br>互斥锁、读写锁、条件锁都属于阻塞锁。</p>
+</blockquote>
+<h3 id="非阻塞锁（Non-Blocking-Lock）"><a href="#非阻塞锁（Non-Blocking-Lock）" class="headerlink" title="非阻塞锁（Non-Blocking Lock）"></a>非阻塞锁（Non-Blocking Lock）</h3><p>非阻塞锁是指当线程尝试获取锁时，如果锁不可用，线程不会进入阻塞状态，而是立即返回（失败）或通过忙等待（busy-waiting）继续尝试。<br>非阻塞锁通常基于原子操作实现，尽量避免操作系统介入。</p>
+<p><strong>锁不可用时，线程要么立即返回，要么短暂自旋（循环尝试）。</strong><br>基于原子操作（如CAS、Test-and-Set），通常在用户态完成。<br>自旋可能浪费CPU资源，但避免上下文切换。</p>
+<blockquote>
+<p>适用于需要高吞吐量、短锁持有时间、冲突概率较低的场景。<br>自旋锁、乐观锁属于非阻塞锁。TryLock机制用于快速失败（尝试获取锁，失败则立即返回）。</p>
+</blockquote>
+<h2 id="可重入锁和非可重入锁（重入性）"><a href="#可重入锁和非可重入锁（重入性）" class="headerlink" title="可重入锁和非可重入锁（重入性）"></a>可重入锁和非可重入锁（重入性）</h2><p><strong>基于锁是否允许同一线程多次获取的特性进行分类。</strong><br>它们在实现线程安全和避免死锁方面有显著差异。</p>
+<h3 id="可重入锁（Reentrant-Lock）"><a href="#可重入锁（Reentrant-Lock）" class="headerlink" title="可重入锁（Reentrant Lock）"></a>可重入锁（Reentrant Lock）</h3><p>可重入锁允许同一线程多次获取同一把锁而不会导致死锁。每次获取锁时，锁内部会记录重入次数，线程必须释放相同次数的锁才能完全解锁。</p>
+<p>同一线程可多次调用Lock()，每次增加锁的计数器。<br>释放时需调用Unlock()与Lock()次数相同，计数器减为0时锁被释放。</p>
+<blockquote>
+<p>适用于复杂逻辑中，同一线程多次进入临界区（递归函数或嵌套调用）的场景。</p>
+</blockquote>
+<h3 id="非可重入锁（Non-Reentrant-Lock）"><a href="#非可重入锁（Non-Reentrant-Lock）" class="headerlink" title="非可重入锁（Non-Reentrant Lock）"></a>非可重入锁（Non-Reentrant Lock）</h3><p>非可重入锁不允许同一线程多次获取同一把锁。如果线程尝试重复加锁，会导致死锁或异常。</p>
+<blockquote>
+<p>适用于简单互斥场景。</p>
+</blockquote>
+<h2 id="公平锁和非公平锁（分配策略）"><a href="#公平锁和非公平锁（分配策略）" class="headerlink" title="公平锁和非公平锁（分配策略）"></a>公平锁和非公平锁（分配策略）</h2><p><strong>根据锁的分配策略分类。</strong><br>区别在于当多个线程（或goroutine）竞争锁时，锁是否按照线程请求的顺序（通常是先到先得）分配。</p>
+<h3 id="公平锁（Fair-Lock）"><a href="#公平锁（Fair-Lock）" class="headerlink" title="公平锁（Fair Lock）"></a>公平锁（Fair Lock）</h3><p>公平锁确保线程按照请求锁的顺序获取锁，通常采用先到先得（FIFO，First-In-First-Out）策略。<br>当锁释放时，等待队列中最先请求的线程优先获得锁。</p>
+<p>线程按请求顺序获取锁，避免线程饥饿（某些线程长期无法获取锁）。<br>维护了一个队列，用于记录线程的请求顺序。在锁被释放时，唤醒队列头部的线程。</p>
+<blockquote>
+<p>适用于需要严格公平性、避免线程饥饿的场景。<br>需要维护队列，性能相对较低。</p>
+</blockquote>
+<h3 id="非公平锁（Non-Fair-Lock）"><a href="#非公平锁（Non-Fair-Lock）" class="headerlink" title="非公平锁（Non-Fair Lock）"></a>非公平锁（Non-Fair Lock）</h3><p><strong>非公平锁不保证线程按请求顺序获取锁。</strong><br>当锁释放时，等待线程和新请求线程竞争锁，操作系统或运行时决定哪个线程获得锁，可能导致后请求的线程优先获取。</p>
+<p>不保证FIFO，可能导致线程饥饿（某些线程长期无法获取锁）。</p>
+<blockquote>
+<p>适用于追求高性能、允许一定程度不公平的场景。</p>
+</blockquote>
+<h2 id="锁会引发的问题"><a href="#锁会引发的问题" class="headerlink" title="锁会引发的问题"></a>锁会引发的问题</h2><h3 id="死锁（deadlock）"><a href="#死锁（deadlock）" class="headerlink" title="死锁（deadlock）"></a>死锁（deadlock）</h3><p>多个线程互相持有对方需要的锁，导致所有线程无法继续执行。</p>
+<p>死锁产生的四个必要条件（梦回操作系统课）：</p>
+<ul>
+<li>互斥条件：一个资源每次只能被一个进程使用。</li>
+<li>请求与保持条件：一个进程因请求资源而阻塞时，对已获得的资源保持不放。</li>
+<li>不剥夺条件：进程已获得的资源，在没使用完之前，不能强行剥夺。</li>
+<li>循环等待条件：多个进程之间形成一种互相循环等待资源的关系。</li>
+</ul>
+<p>发生场景：</p>
+<ul>
+<li>多个锁的嵌套获取，且顺序不一致。</li>
+<li>非可重入锁（如sync.Mutex）在同一线程重复加锁。</li>
+</ul>
+<p>解决方法（破坏四个必要条件）：</p>
+<ul>
+<li>统一线程的请求锁的顺序，以保证线程能获取到所需的全部资源而不阻塞，进而保证不发生死锁。</li>
+<li>避免线程持有锁并等待锁。在请求锁时，如果锁被其他线程占用，不等待，而是将之前持有的锁释放，保证其他线程顺利执行。</li>
+</ul>
+<h3 id="活锁（Livelock）"><a href="#活锁（Livelock）" class="headerlink" title="活锁（Livelock）"></a>活锁（Livelock）</h3><p>线程不断尝试获取锁但无法成功，处于活跃但无进展的状态。<br>活锁其实是避免死锁的一种方式——避免线程持续尝试获取锁，而是通过等待或随机退避来避免。</p>
+<p>举个例子：<br>在一个比较窄但允许两人同行的马路上，两个人相对而行，如果两个人相撞<br>死锁是：两个人僵持不动，谁都无法往前走<br>活锁是：两个人都很客气的让路给对方，但是两人同时移动到另一侧，又继续相撞，再移动回来又相撞，一直这样持续下去，那么就会发生活锁</p>
+<p>活锁发生的概率是非常非常低的，两人的移动必须一直保持完全同步才可以，不然很快就可以解锁</p>
+<p>发生场景：</p>
+<ul>
+<li>非阻塞锁（如自旋锁）在高竞争下持续重试。</li>
+<li>两个线程互相礼让锁（如CAS失败后退避）。</li>
+</ul>
+<p>解决方法：</p>
+<ul>
+<li>引入随机退避（如指数退避）。</li>
+<li>限制重试次数，切换到阻塞锁。</li>
+</ul>
+<h3 id="线程饥饿（Starvation）"><a href="#线程饥饿（Starvation）" class="headerlink" title="线程饥饿（Starvation）"></a>线程饥饿（Starvation）</h3><p>死锁或活锁描述的是多个线程的整体状态，线程饥饿描述的是单个线程的状态。<br>饥饿是某些线程长期无法获取锁，导致无法执行。</p>
+<p>发生场景：</p>
+<ul>
+<li>非公平锁（如sync.Mutex）优先新请求线程。</li>
+<li>高优先级线程抢占锁。</li>
+</ul>
+<p>解决方法：</p>
+<ul>
+<li>使用公平锁。</li>
+<li>调整线程优先级或调度策略。</li>
+</ul>
+<h3 id="优先级反转（Priority-Inversion）"><a href="#优先级反转（Priority-Inversion）" class="headerlink" title="优先级反转（Priority Inversion）"></a>优先级反转（Priority Inversion）</h3><p>高优先级线程因等待低优先级线程释放共享资源（如锁）而被阻塞，而低优先级线程可能被其他中优先级线程抢占，导致高优先级线程的执行延迟。<br>这种现象违背了优先级调度原则，可能导致实时系统无法满足时间要求。</p>
+<p>发生场景：</p>
+<ul>
+<li>实时系统中，低优先级线程持有锁，高优先级线程被阻塞。</li>
+</ul>
+<p>解决方法：</p>
+<ul>
+<li>优先级继承（低优先级线程临时提升优先级，确保低优先级的线程优先于中优先级线程运行，尽快释放锁。）</li>
+<li>优先级提升（为每个锁设置最高优先级，持有锁的线程提升到该优先级）</li>
+</ul>
+<h3 id="伪唤醒（Spurious-Wakeup）"><a href="#伪唤醒（Spurious-Wakeup）" class="headerlink" title="伪唤醒（Spurious Wakeup）"></a>伪唤醒（Spurious Wakeup）</h3><p>伪唤醒是指线程在等待条件变量（如条件锁）时，被操作系统或运行时无故唤醒，而条件并未满足。</p>
+<p>伪唤醒是操作系统或并发库实现条件变量时的一种副作用，其原因主要与底层实现和优化相关。<br>操作系统可能设计为允许伪唤醒，在<code>Signal()</code>或<code>Broadcast()</code>时唤醒多个等待线程，而不是精确唤醒一个。以提高效率或简化同步原语的实现，防止复杂场景下的死锁或错误。<br>伪唤醒是条件变量实现的“不可避免副作用”，标准（如POSIX、C++）明确允许其存在。<br>设计上，条件变量不保证“仅当条件满足时唤醒”，因此在使用条件锁时需要额外的处理。</p>
+<p>解决方法：</p>
+<ul>
+<li>使用循环检查条件</li>
+</ul>
+<p>由单次检查条件改为循环检查条件：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mu.Lock()</span><br><span class="line"><span class="keyword">if</span> !condition() &#123;</span><br><span class="line">    cond.Wait()</span><br><span class="line">&#125;</span><br><span class="line">mu.Unlock()</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mu.Lock()</span><br><span class="line"><span class="keyword">for</span> !condition() &#123;</span><br><span class="line">    cond.Wait()</span><br><span class="line">&#125;</span><br><span class="line">mu.Unlock()</span><br></pre></td></tr></table></figure>
+
+<h3 id="ABA问题"><a href="#ABA问题" class="headerlink" title="ABA问题"></a>ABA问题</h3><p>ABA问题是指在并发环境中，线程读取共享变量的值为A，准备通过CAS更新时，变量可能被其他线程修改为B后再改回A。由于CAS只检查值是否为A，线程误认为变量未被修改，执行更新操作，导致逻辑错误。</p>
+<ul>
+<li>可能导致数据不一致（如无锁栈中重复使用已释放的内存）。</li>
+<li>破坏程序逻辑，尤其在涉及指针或资源管理的场景。</li>
+</ul>
+<p>任何基于CAS操作的并发控制机制，比如非阻塞锁（自旋锁、乐观锁）、无锁数据结构等，都会引发ABA问题。<br>涉及内存重用（如指针回收后重新分配相同地址）也会引发。</p>
+<p>ABA问题的核心是CAS无法区分“值未变”和“值变回原值”。</p>
+<p>解决方法：</p>
+<ul>
+<li>版本号&#x2F;时间戳：CAS检查值和版本，两次CAS，分别比较。</li>
+<li>双字CAS（Compare-And-Swap-Double），同时比较两个值（如值和版本号）：单次CAS，需要硬件支持DCAS。</li>
+<li>垃圾回收：垃圾回收可以避免指针立即重用，降低ABA问题风险。</li>
+<li>Tagged Pointers：在指针中嵌入版本信息，CAS操作检查整个指针（值+版本），避免ABA问题，复杂实现。</li>
+<li>避免指针重用：使用新分配内存或对象池，避免值恢复原状。</li>
+<li>阻塞锁：如sync.Mutex，完全避免ABA。</li>
+</ul>
+
+                </div>
+
+                
+                        
+<div class="post-copyright-info-container border-box">
+    <div class="copyright-info-content border-box">
+        <div class="copyright-info-top border-box">
+            <div class="copyright-post-title border-box text-ellipsis">
+                常用的锁
+            </div>
+
+            <div class="copyright-post-link border-box text-ellipsis">
+                学习笔记/学习笔记/常用的锁/
+            </div>
+        </div>
+
+        <div class="copyright-info-bottom border-box">
+            <div class="copyright-post-author bottom-item">
+                <div class="type">
+                    作者
+                </div>
+                <div class="content">咕咕咕</div>
+            </div>
+
+            <div class="post-time bottom-item">
+                <div class="type">
+                    发布于
+                </div>
+                <div class="content">2025-07-31 14:22</div>
+            </div>
+
+
+            <div class="post-license bottom-item">
+                <div class="type">
+                    许可
+                </div>
+                <div class="content tooltip" data-tooltip-content="CC BY-NC-SA 4.0">
+                    <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hans">
+                        <i class="fa-brands fa-creative-commons"></i>
+                        <i class="fa-brands fa-creative-commons-by"></i>
+                        <i class="fa-brands fa-creative-commons-nc"></i>
+                        <i class="fa-brands fa-creative-commons-sa"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <i class="copyright-bg fa-solid fa-copyright"></i>
+    </div>
+    <div class="copy-copyright-info flex-center tooltip" data-tooltip-content="复制版权信息" data-tooltip-offset-y="-2px">
+        <i class="fa-solid fa-copy"></i>
+    </div>
+</div>
+
+                
+
+                <div class="post-bottom-tags-and-share border-box">
+                    <div>
+                        
+                            <ul class="post-tags-box border-box">
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/%E5%B9%B6%E5%8F%91/">并发</a>
+                                    </li>
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/%E9%94%81/">锁</a>
+                                    </li>
+                                
+                            </ul>
+                        
+                    </div>
+                    <div>
+                        
+                            <div class="post-share-container border-box">
+    <ul class="share-list-wrap border-box">
+        <li class="qq share-item border-box flex-center tooltip"
+            data-tooltip-content="分享到 QQ"
+        >
+            <i class="fa-brands fa-qq"></i>
+        </li>
+        <li class="wechat share-item border-box flex-center tooltip tooltip-img"
+            data-tooltip-content="分享到微信"
+            data-tooltip-img-tip="微信扫一扫"
+            data-tooltip-img-style="background-color: #fff; top: -10px; padding: 0.6rem 0.6rem 0.1rem 0.6rem;"
+        >
+            <i class="fa-brands fa-weixin"></i>
+        </li>
+        <li class="weibo share-item border-box flex-center tooltip"
+            data-tooltip-content="分享到微博"
+        >
+            <i class="fa-brands fa-weibo"></i>
+        </li>
+    </ul>
+</div>
+
+                        
+                    </div>
+                </div>
+
+                
+                    <div class="reward-author-container border-box flex-center">
+    <div class="reward-btn keep-button border-box flex-center tooltip tooltip-img"
+            data-tooltip-content="谢谢你请我喝可乐~"
+            data-tooltip-img-url="/images/thanks.png"
+            data-tooltip-img-trigger="click"
+            data-tooltip-img-style="top: -8px;"
+    >
+        <i class="fa-solid fa-hand-holding-heart"></i>
+    </div>
+</div>
+
+                
+
+                
+                    <div class="post-nav border-box">
+                        
+                            <div class="prev-post">
+                                <a class="prev"
+                                   rel="prev"
+                                   href="/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/top%E5%91%BD%E4%BB%A4/"
+                                   title="top命令"
+                                >
+                                    <span class="left arrow-icon flex-center">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </span>
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">top命令</span>
+                                        <span class="post-nav-item">上一篇</span>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                        
+                            <div class="next-post">
+                                <a class="next"
+                                   rel="next"
+                                   href="/%E7%BC%96%E7%A8%8B%E8%AE%B0%E5%BD%95/%E7%BC%96%E7%A8%8B%E8%AE%B0%E5%BD%95/%E6%97%B6%E9%97%B4%E8%BD%AE/"
+                                   title="时间轮"
+                                >
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">时间轮</span>
+                                        <span class="post-nav-item">下一篇</span>
+                                    </span>
+                                    <span class="right arrow-icon flex-center">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                    </div>
+                
+
+                
+                    
+
+
+    <div class="comments-container border-box">
+        <div id="comments-anchor" class="comment-area-title border-box">
+            <i class="fas fa-comments"></i>&nbsp;评论
+        </div>
+        <div class="comment-plugin-fail border-box">
+    <span class="fail-tip">评论插件加载失败</span>
+    <button class="reload keep-button">点击重新加载</button>
+</div>
+<div class="comment-plugin-loading flex-center border-box">
+    <i class="loading-icon fa-solid fa-spinner fa-spin"></i>
+    <span class="load-tip">正在加载评论插件</span>
+</div>
+<script data-pjax>
+  window.KeepCommentPlugin = {}
+  window.KeepCommentPlugin.hideLoading = () => {
+    const cplDom = document.querySelector('.comments-container .comment-plugin-loading')
+    cplDom.style.display = 'none'
+  }
+  window.KeepCommentPlugin.loadFailHandle = () => {
+    window.KeepCommentPlugin.hideLoading()
+    const cpfDom = document.querySelector('.comments-container .comment-plugin-fail')
+    cpfDom.style.display = 'flex'
+    cpfDom.querySelector('.reload').addEventListener('click', () => {
+      window.location.reload()
+    })
+  }
+</script>
+
+        
+            
+
+    <div class="giscus-comments-container">
+        <div class="giscus" id="giscus"></div>
+        <script data-pjax
+                onerror="window.KeepCommentPlugin.loadFailHandle()"
+        >
+          if (!window.KeepCommentPlugin?.getGiscusTheme) {
+            window.KeepCommentPlugin.getGiscusTheme = () => {
+              return document.body.classList.contains('dark-mode') ? 'dark_dimmed' : 'light_tritanopia'
+            }
+          }
+
+          if (!window.KeepCommentPlugin?.changeGiscusTheme) {
+            window.KeepCommentPlugin.changeGiscusTheme = () => {
+              const iframe = document.querySelector('iframe.giscus-frame')
+              iframe && iframe.contentWindow.postMessage({
+                giscus: {
+                  setConfig: {
+                    theme: window.KeepCommentPlugin.getGiscusTheme()
+                  }
+                }
+              }, 'https://giscus.app')
+            }
+          }
+
+          if (!window.KeepCommentPlugin?.initGiscus) {
+            window.KeepCommentPlugin.initGiscus = () => {
+              const script = document.createElement('script')
+              script.async = true
+              script.src = 'https://giscus.app/client.js'
+              script.setAttribute('data-repo', 'Cooooing/Cooooing.github.io')
+              script.setAttribute('data-repo-id', 'R_kgDOHQal_w')
+              script.setAttribute('data-category', 'Announcements')
+              script.setAttribute('data-category-id', 'DIC_kwDOHQal_84CjZo6')
+              script.setAttribute('data-reactions-enabled', '1')
+              script.setAttribute('data-lang', 'zh-CN')
+              script.setAttribute('data-mapping', 'pathname')
+              script.setAttribute('data-strict', '0')
+              script.setAttribute('data-emit-metadata', '0')
+              script.setAttribute('data-input-position', 'top')
+              script.setAttribute('crossorigin', 'anonymous')
+              script.setAttribute('loading', 'lazy')
+              script.setAttribute('data-theme', window.KeepCommentPlugin.getGiscusTheme())
+              document.querySelector('.giscus-comments-container').appendChild(script)
+              script.onerror = () => {
+                window.KeepCommentPlugin.loadFailHandle()
+              }
+              script.onload = () => {
+                window.KeepCommentPlugin.hideLoading()
+              }
+              const toggleThemeBtn = document.querySelector('.tool-toggle-theme-mode')
+              toggleThemeBtn && toggleThemeBtn.addEventListener('click', () => {
+                window.KeepCommentPlugin.changeGiscusTheme()
+              })
+            }
+          }
+
+          if ('true' === "true") {
+            setTimeout(() => {
+              window.KeepCommentPlugin.initGiscus()
+            }, 1000)
+          } else {
+            window.addEventListener("DOMContentLoaded", window.KeepCommentPlugin.initGiscus)
+          }
+        </script>
+    </div>
+
+
+        
+    </div>
+
+
+
+
+
+                
+            </div>
+        </div>
+
+        
+            <div class="pc-post-toc left-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%92%E6%96%A5%E9%94%81%EF%BC%88Mutex%EF%BC%89"><span class="nav-text">互斥锁（Mutex）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%BB%E5%86%99%E9%94%81%EF%BC%88Read-Write-Lock%EF%BC%89"><span class="nav-text">读写锁（Read-Write Lock）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9D%A1%E4%BB%B6%E9%94%81%EF%BC%88Condition-Lock%EF%BC%89"><span class="nav-text">条件锁（Condition Lock）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BF%A1%E5%8F%B7%E9%87%8F%EF%BC%88Semaphore%EF%BC%89"><span class="nav-text">信号量（Semaphore）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81"><span class="nav-text">分布式锁</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%82%B2%E8%A7%82%E9%94%81%E5%92%8C%E4%B9%90%E8%A7%82%E9%94%81%EF%BC%88%E5%8A%A0%E9%94%81%E7%AD%96%E7%95%A5%EF%BC%89"><span class="nav-text">悲观锁和乐观锁（加锁策略）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%82%B2%E8%A7%82%E9%94%81%EF%BC%88Pessimistic-Lock%EF%BC%89"><span class="nav-text">悲观锁（Pessimistic Lock）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B9%90%E8%A7%82%E9%94%81%EF%BC%88Optimistic-Lock%EF%BC%89"><span class="nav-text">乐观锁（Optimistic Lock）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%98%BB%E5%A1%9E%E9%94%81%E5%92%8C%E9%9D%9E%E9%98%BB%E5%A1%9E%E9%94%81%EF%BC%88%E7%AD%89%E5%BE%85%E6%9C%BA%E5%88%B6%EF%BC%89"><span class="nav-text">阻塞锁和非阻塞锁（等待机制）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%98%BB%E5%A1%9E%E9%94%81%EF%BC%88Blocking-Lock%EF%BC%89"><span class="nav-text">阻塞锁（Blocking Lock）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9D%9E%E9%98%BB%E5%A1%9E%E9%94%81%EF%BC%88Non-Blocking-Lock%EF%BC%89"><span class="nav-text">非阻塞锁（Non-Blocking Lock）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%AF%E9%87%8D%E5%85%A5%E9%94%81%E5%92%8C%E9%9D%9E%E5%8F%AF%E9%87%8D%E5%85%A5%E9%94%81%EF%BC%88%E9%87%8D%E5%85%A5%E6%80%A7%EF%BC%89"><span class="nav-text">可重入锁和非可重入锁（重入性）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%AF%E9%87%8D%E5%85%A5%E9%94%81%EF%BC%88Reentrant-Lock%EF%BC%89"><span class="nav-text">可重入锁（Reentrant Lock）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9D%9E%E5%8F%AF%E9%87%8D%E5%85%A5%E9%94%81%EF%BC%88Non-Reentrant-Lock%EF%BC%89"><span class="nav-text">非可重入锁（Non-Reentrant Lock）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%AC%E5%B9%B3%E9%94%81%E5%92%8C%E9%9D%9E%E5%85%AC%E5%B9%B3%E9%94%81%EF%BC%88%E5%88%86%E9%85%8D%E7%AD%96%E7%95%A5%EF%BC%89"><span class="nav-text">公平锁和非公平锁（分配策略）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%AC%E5%B9%B3%E9%94%81%EF%BC%88Fair-Lock%EF%BC%89"><span class="nav-text">公平锁（Fair Lock）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9D%9E%E5%85%AC%E5%B9%B3%E9%94%81%EF%BC%88Non-Fair-Lock%EF%BC%89"><span class="nav-text">非公平锁（Non-Fair Lock）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%94%81%E4%BC%9A%E5%BC%95%E5%8F%91%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-text">锁会引发的问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%BB%E9%94%81%EF%BC%88deadlock%EF%BC%89"><span class="nav-text">死锁（deadlock）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B4%BB%E9%94%81%EF%BC%88Livelock%EF%BC%89"><span class="nav-text">活锁（Livelock）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BA%BF%E7%A8%8B%E9%A5%A5%E9%A5%BF%EF%BC%88Starvation%EF%BC%89"><span class="nav-text">线程饥饿（Starvation）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BC%98%E5%85%88%E7%BA%A7%E5%8F%8D%E8%BD%AC%EF%BC%88Priority-Inversion%EF%BC%89"><span class="nav-text">优先级反转（Priority Inversion）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BC%AA%E5%94%A4%E9%86%92%EF%BC%88Spurious-Wakeup%EF%BC%89"><span class="nav-text">伪唤醒（Spurious Wakeup）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ABA%E9%97%AE%E9%A2%98"><span class="nav-text">ABA问题</span></a></li></ol></li></ol>
+    </div>
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom border-box">
+            
+<footer class="footer border-box">
+    <div class="border-box website-info-box default">
+        
+            <div class="copyright-info info-item default">
+                &copy;&nbsp;<span>2022</span>&nbsp;-&nbsp;2025
+                
+                    &nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;&nbsp;<a href="/">咕咕咕</a>
+                
+            </div>
+
+            <div class="theme-info info-item default">
+                由&nbsp;<a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;驱动&nbsp;&&nbsp;主题&nbsp;<a class="keep-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep</a>
+            </div>
+
+            
+
+            
+        
+
+        <div style="color:var(--text-color-4);"><span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>(～￣▽￣)～<script src="/js/lifeTime.js"></script></div>
+        <a href="https://icp.gov.moe/?keyword=20222450" target="_blank">萌ICP备20222450号</a>
+
+
+        <div class="count-item info-item default">
+            
+                <span class="count-box border-box word">
+                    <span class="item-type border-box">总字数</span>
+                    <span class="item-value border-box word">362.1k</span>
+                </span>
+            
+
+            
+                <span class="count-box border-box uv">
+                    <span class="item-type border-box">访客数</span>
+                    <span class="item-value border-box uv" id="busuanzi_value_site_uv"></span>
+                </span>
+            
+
+            
+                <span class="count-box border-box pv">
+                    <span class="item-type border-box">访问量</span>
+                    <span class="item-value border-box pv" id="busuanzi_value_site_pv"></span>
+                </span>
+            
+        </div>
+
+        <div id="aplayer">
+          <meting-js
+                  server="netease"
+                  type="playlist"
+                  id="7345595717"
+                  fixed="true"
+                  mini="true"
+                  autoplay="false"
+                  listFolded="true"
+                  order="random"
+                  preload="none">
+          </meting-js>
+        </div>
+            <br>
+            <br>
+            <br>
+    </div>
+
+</footer>
+
+        </div>
+    </div>
+
+    <!-- post tools -->
+    
+        <div class="post-tools left-toc">
+            <div class="post-tools-container border-box">
+    <ul class="tools-list border-box">
+        <!-- PC TOC show toggle -->
+        
+            <li class="tools-item flex-center toggle-show-toc">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        <!-- PC go comment -->
+        
+            <li class="tools-item flex-center go-to-comments">
+                <i class="fas fa-comment"></i>
+                <span class="post-comments-count"></span>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <!-- side tools -->
+    <div class="side-tools">
+        <div class="side-tools-container border-box ">
+    <ul class="side-tools-list side-tools-show-handle border-box">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-toggle-theme-mode flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+            <li class="tools-item rss flex-center">
+                <a class="flex-center"
+                   href="/atom.xml"
+                   target="_blank"
+                >
+                    <i class="fas fa-rss"></i>
+                </a>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list border-box">
+        
+            <li class="tools-item toggle-show-toc-tablet flex-center">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        
+            <li class="tools-item go-to-comments-tablet flex-center">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+
+        <li class="tools-item tool-scroll-to-top flex-center show-arrow">
+            <i class="arrow fas fa-arrow-up"></i>
+            <span class="percent"></span>
+        </li>
+    </ul>
+</div>
+
+    </div>
+
+    <!-- image mask -->
+    <div class="zoom-in-image-mask">
+    <img class="zoom-in-image">
+</div>
+
+
+    <!-- local search -->
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="搜索..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="close-popup-btn">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+    <!-- tablet toc -->
+    
+        <div class="tablet-post-toc-mask">
+            <div class="tablet-post-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%92%E6%96%A5%E9%94%81%EF%BC%88Mutex%EF%BC%89"><span class="nav-text">互斥锁（Mutex）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%BB%E5%86%99%E9%94%81%EF%BC%88Read-Write-Lock%EF%BC%89"><span class="nav-text">读写锁（Read-Write Lock）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9D%A1%E4%BB%B6%E9%94%81%EF%BC%88Condition-Lock%EF%BC%89"><span class="nav-text">条件锁（Condition Lock）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BF%A1%E5%8F%B7%E9%87%8F%EF%BC%88Semaphore%EF%BC%89"><span class="nav-text">信号量（Semaphore）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81"><span class="nav-text">分布式锁</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%82%B2%E8%A7%82%E9%94%81%E5%92%8C%E4%B9%90%E8%A7%82%E9%94%81%EF%BC%88%E5%8A%A0%E9%94%81%E7%AD%96%E7%95%A5%EF%BC%89"><span class="nav-text">悲观锁和乐观锁（加锁策略）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%82%B2%E8%A7%82%E9%94%81%EF%BC%88Pessimistic-Lock%EF%BC%89"><span class="nav-text">悲观锁（Pessimistic Lock）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B9%90%E8%A7%82%E9%94%81%EF%BC%88Optimistic-Lock%EF%BC%89"><span class="nav-text">乐观锁（Optimistic Lock）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%98%BB%E5%A1%9E%E9%94%81%E5%92%8C%E9%9D%9E%E9%98%BB%E5%A1%9E%E9%94%81%EF%BC%88%E7%AD%89%E5%BE%85%E6%9C%BA%E5%88%B6%EF%BC%89"><span class="nav-text">阻塞锁和非阻塞锁（等待机制）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%98%BB%E5%A1%9E%E9%94%81%EF%BC%88Blocking-Lock%EF%BC%89"><span class="nav-text">阻塞锁（Blocking Lock）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9D%9E%E9%98%BB%E5%A1%9E%E9%94%81%EF%BC%88Non-Blocking-Lock%EF%BC%89"><span class="nav-text">非阻塞锁（Non-Blocking Lock）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%AF%E9%87%8D%E5%85%A5%E9%94%81%E5%92%8C%E9%9D%9E%E5%8F%AF%E9%87%8D%E5%85%A5%E9%94%81%EF%BC%88%E9%87%8D%E5%85%A5%E6%80%A7%EF%BC%89"><span class="nav-text">可重入锁和非可重入锁（重入性）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%AF%E9%87%8D%E5%85%A5%E9%94%81%EF%BC%88Reentrant-Lock%EF%BC%89"><span class="nav-text">可重入锁（Reentrant Lock）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9D%9E%E5%8F%AF%E9%87%8D%E5%85%A5%E9%94%81%EF%BC%88Non-Reentrant-Lock%EF%BC%89"><span class="nav-text">非可重入锁（Non-Reentrant Lock）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%AC%E5%B9%B3%E9%94%81%E5%92%8C%E9%9D%9E%E5%85%AC%E5%B9%B3%E9%94%81%EF%BC%88%E5%88%86%E9%85%8D%E7%AD%96%E7%95%A5%EF%BC%89"><span class="nav-text">公平锁和非公平锁（分配策略）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%AC%E5%B9%B3%E9%94%81%EF%BC%88Fair-Lock%EF%BC%89"><span class="nav-text">公平锁（Fair Lock）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9D%9E%E5%85%AC%E5%B9%B3%E9%94%81%EF%BC%88Non-Fair-Lock%EF%BC%89"><span class="nav-text">非公平锁（Non-Fair Lock）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%94%81%E4%BC%9A%E5%BC%95%E5%8F%91%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-text">锁会引发的问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%BB%E9%94%81%EF%BC%88deadlock%EF%BC%89"><span class="nav-text">死锁（deadlock）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B4%BB%E9%94%81%EF%BC%88Livelock%EF%BC%89"><span class="nav-text">活锁（Livelock）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BA%BF%E7%A8%8B%E9%A5%A5%E9%A5%BF%EF%BC%88Starvation%EF%BC%89"><span class="nav-text">线程饥饿（Starvation）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BC%98%E5%85%88%E7%BA%A7%E5%8F%8D%E8%BD%AC%EF%BC%88Priority-Inversion%EF%BC%89"><span class="nav-text">优先级反转（Priority Inversion）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BC%AA%E5%94%A4%E9%86%92%EF%BC%88Spurious-Wakeup%EF%BC%89"><span class="nav-text">伪唤醒（Spurious Wakeup）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ABA%E9%97%AE%E9%A2%98"><span class="nav-text">ABA问题</span></a></li></ol></li></ol>
+    </div>
+</div>
+
+            </div>
+        </div>
+    
+</main>
+
+
+
+<!-- common -->
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/toggle-theme.js"></script>
+
+<script src="/js/code-block.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+
+<!-- local-search -->
+
+    
+<script src="/js/local-search.js"></script>
+
+
+
+<!-- lazyload -->
+
+    
+<script src="/js/lazyload.js"></script>
+
+
+
+<div class="pjax">
+    
+        <!-- post-helper -->
+        
+<script src="/js/post/post-helper.js"></script>
+
+
+        <!-- toc -->
+        
+            
+<script src="/js/post/toc.js"></script>
+
+        
+
+        <!-- copyright-info -->
+        
+            
+<script src="/js/post/copyright-info.js"></script>
+
+        
+
+        <!-- share -->
+        
+            
+<script src="/js/post/share.js"></script>
+
+        
+    
+
+    <!-- category-page -->
+    
+
+    <!-- links-page -->
+    
+
+    <!-- photos-page -->
+    
+</div>
+
+<!-- mermaid -->
+
+
+<!-- pjax -->
+
+    
+<script src="/js/libs/pjax.min.js"></script>
+
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        window.pjax = new Pjax({
+            selectors: [
+                'head title',
+                '.page-container',
+                '.pjax',
+                '#aplayer',
+                '#canvas_sakura'
+            ],
+            history: true,
+            debug: false,
+            cacheBust: false,
+            timeout: 0,
+            analytics: false,
+            currentUrlFullReload: false,
+            scrollRestoration: false,
+        });
+
+        document.addEventListener('pjax:send', () => {
+            KEEP.utils.pjaxProgressBarStart()
+        });
+
+        document.addEventListener('pjax:complete', () => {
+            KEEP.utils.pjaxProgressBarEnd()
+            window.pjax.executeScripts(document.querySelectorAll('script[data-pjax], .pjax script'))
+            KEEP.initExecute()
+        });
+    });
+</script>
+
+
+
+
+    
+        
+            
+<script class="custom-inject-js" src="/js/APlayer.min.js" data-pjax></script>
+
+        
+    
+        
+            
+<script class="custom-inject-js" src="/js/Meting.min.js" data-pjax></script>
+
+        
+    
+        
+            
+<script class="custom-inject-js" src="/js/leaves.js" data-pjax></script>
+
+        
+    
+
+
+
+</body>
+</html>

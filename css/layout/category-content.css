@@ -1,0 +1,14 @@
+.category-container {
+  background: rgba(255,255,255,0.1); /*白色半透明*/
+}
+.category-container .category-name {
+  margin-bottom: var(--components-spacing);
+  color: var(--text-color-2);
+  font-weight: 600;
+  font-size: 1.5rem;
+keep-tablet()
+keep-mobile()
+}
+.category-container .category-name i {
+  color: var(--text-color-2);
+}

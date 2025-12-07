@@ -1,0 +1,1411 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="技术博客,后端开发,编程笔记,生活">
+    <meta name="description" content="Code | Systems | Life — 专注编程本质，也关心世界如何运转。">
+    <meta name="author" content="咕咕咕">
+
+    
+    <title>
+        
+            HTTP协议详解 |
+        
+        咕咕咕的小破站
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+        <link rel="shortcut icon" href="/images/favicon.png">
+    
+    
+<link rel="stylesheet" href="/font/css/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/regular.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/solid.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/brands.min.css">
+
+    
+        
+            
+                
+<link rel="stylesheet" href="/css/APlayer.min.css">
+
+            
+        
+            
+                
+<link rel="stylesheet" href="/css/custom.css">
+
+            
+        
+    
+    <script class="keep-theme-configurations">
+    const KEEP = window.KEEP || {}
+    KEEP.hexo_config = {"hostname":"cooooing.github.io","root":"/","language":"zh-CN","path":"search.json"}
+    KEEP.theme_config = {"base_info":{"primary_color":"#0066cc","title":"咕咕咕的小破站","author":"咕咕咕","avatar":"/images/head.jpg","logo":"/images/head.jpg","favicon":"/images/favicon.png"},"menu":{"Archives":"/archives","Categories":"/categories","Tags":"/tags","日常":"/daily","Links":"/links","About":"/about"},"first_screen":{"enable":false,"background_img":"/images/bg.svg","background_img_dark":"/images/bg.svg","description":"Keep writing and Keep loving.","hitokoto":false},"social_contact":{"enable":false,"links":{"github":null,"weixin":null,"qq":null,"weibo":null,"zhihu":null,"twitter":null,"facebook":null,"email":null}},"scroll":{"progress_bar":false,"percent":false,"hide_header":true},"home":{"category":true,"tag":true,"announcement":null},"post":{"author_badge":{"enable":true,"level_badge":false,"custom_badge":["fishing"]},"word_count":{"wordcount":true,"min2read":true},"datetime_format":"YYYY-MM-DD HH:mm:ss","copyright_info":true,"share":true,"reward":{"enable":true,"img_link":"/images/thanks.png","text":"谢谢你请我喝可乐~"}},"code_block":{"tools":{"enable":true,"style":"default"},"highlight_theme":"default"},"toc":{"enable":true,"number":false,"expand_all":true,"init_open":true,"layout":"left"},"website_count":{"busuanzi_count":{"enable":true,"site_uv":true,"site_pv":true,"page_pv":true}},"local_search":{"enable":true,"preload":true},"comment":{"enable":true,"use":"giscus","valine":{"appid":null,"appkey":null,"server_urls":null,"placeholder":null},"gitalk":{"github_id":null,"github_admins":null,"repository":null,"client_id":null,"client_secret":null,"proxy":null},"twikoo":{"env_id":null,"region":null,"version":"1.6.21"},"waline":{"server_url":null,"reaction":false,"version":2},"giscus":{"repo":"Cooooing/Cooooing.github.io","repo_id":"R_kgDOHQal_w","category":"Announcements","category_id":"DIC_kwDOHQal_84CjZo6","reactions_enabled":true},"artalk":{"server":null},"disqus":{"shortname":null}},"rss":{"enable":true},"lazyload":{"enable":true},"cdn":{"enable":false,"provider":"cdnjs"},"pjax":{"enable":true},"footer":{"since":2022,"word_count":true,"icp":{"enable":false,"record_code":null,"url":"https://beian.miit.gov.cn"},"site_deploy":{"enable":false,"provider":"github","url":null},"shields_style":{"enable":false,"custom":[{"link_url":null,"img_url":null}]}},"inject":{"enable":true,"css":["/css/APlayer.min.css","/css/custom.css"],"js":["/js/APlayer.min.js","/js/Meting.min.js","/js/leaves.js"]},"root":"","links":[{"name":"鼠鼠在碎觉","link":"https://sszsj.com","avatar":"https://tmx.fishpi.cn/img/head.jpg","description":"我是不慎落入世界的一滴水墨"},{"name":"Gakkiyomi","link":"https://gakkiyomi.blog","avatar":"https://avatars.githubusercontent.com/u/41406557?v=4","description":"为往圣继绝学"},{"name":"Hancel's Blog","link":"https://my.hancel.org","avatar":"https://my.hancel.org/media/logo.jpg","description":"人生而自由，却无往不在枷锁之中。"},{"name":"Eastshann","link":"http://121.4.99.208/","avatar":"http://121.4.99.208/img/avatar.jpg","description":"冲和者，淡泊平和，谦冲守正"},{"name":"小于同学的异世界","link":"https://yby.zone","avatar":"https://yby-zone.obs.cn-east-3.myhuaweicloud.com/avatar.jpg","description":"为吾为枝，余地三尺，以己为棋，胜天半子。"},{"name":"Mlikiowa Home Village","link":"https://nanaeo.cn/","avatar":"https://q1.qlogo.cn/g?b=qq&nk=1627126029&s=100","description":"A litter Village With Mlikiowa"},{"name":"忘忧草","link":"https://owo.wyc.rest/","avatar":"https://owo.wyc.rest/img/%E4%B8%87%E5%8F%B6.jpg","description":"这只是一个小破站而已！"},{"name":"stillwarter","link":"https://stillwarter.github.io/","avatar":"https://file.fishpi.cn/2022/07/MOSHED2022621164630-1b1ec532.gif?imageView2/1/w/210/h/210/interlace/0/q/100","description":"光就是一切的意义"},{"name":"test12138","link":"http://你好.eu.org/","avatar":"https://file.fishpi.cn/2022/06/srchttpimgzcoolcncommunity0116405d84f975a801211d537707c9gifreferhttpimgzcool-0f2d09c9.gif?imageView2/1/w/48/h/48/interlace/0/q/100","description":"大丈夫生于天地之间，岂能郁郁久居人下。"},{"name":"呼呼呼","link":"https://bongbongbakudan.github.io/","avatar":"https://pwl.stackoverflow.wiki/2021/12/blob-28eb4b9f.png?imageView2/1/w/48/h/48/interlace/0/q/100","description":"去整点薯条"},{"name":"Plumbiu","link":"https://blog.plumbiu.top/","avatar":"https://avatars.githubusercontent.com/u/99574369?v=4","description":"这人很勤奋，啥都没留"},{"name":"hiRipple","link":"https://hiripple.com/","avatar":"https://avatars.githubusercontent.com/u/115361435?v=4","description":"超高校级的游戏玩家"}],"version":"4.0.6"}
+    KEEP.language_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"}
+    KEEP.language_code_block = {"copy":"复制代码","copied":"已复制","fold":"折叠代码块","folded":"已折叠"}
+    KEEP.language_copy_copyright = {"copy":"复制版权信息","copied":"已复制","title":"原文标题","author":"原文作者","link":"原文链接"}
+  </script>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-CLX32WF4R1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+
+      gtag('js', new Date());
+
+      gtag('config', 'G-CLX32WF4R1');
+    </script>
+
+    <!-- 51.la -->
+    <script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
+    <script>LA.init({id: "3JwPz6wbAloyTmMc", ck: "3JwPz6wbAloyTmMc", autoTrack: true})</script>
+
+<meta name="generator" content="Hexo 8.1.1"><link rel="alternate" href="/atom.xml" title="咕咕咕的小破站" type="application/atom+xml">
+</head>
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+        <span class="pjax-progress-bar"></span>
+        <i class="pjax-progress-icon fas fa-circle-notch fa-spin"></i>
+    
+</div>
+
+
+<main class="page-container border-box">
+
+    <!-- home first screen  -->
+    
+
+    <!-- page content -->
+    <div class="page-main-content border-box">
+        <div class="page-main-content-top">
+            
+<header class="header-wrapper">
+
+    <div class="border-box header-content">
+        <div class="left border-box">
+            
+                <a class="logo-image border-box" href="/">
+                    <img src="/images/head.jpg">
+                </a>
+            
+            <a class="site-name border-box" href="/">
+               咕咕咕的小破站
+            </a>
+        </div>
+
+        <div class="right border-box">
+            <div class="pc">
+                <ul class="menu-list">
+                    <li class="menu-item">
+                        <a class=""
+                           href="/"
+                        >首页</a>
+                    </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >归档</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/categories"
+                            >分类</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/tags"
+                            >标签</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/daily"
+                            >日常</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/links"
+                            >友链</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >关于</a>
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="fas search fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            <li class="drawer-menu-item flex-center">
+                <a class=""
+                   href="/"
+                >首页</a>
+            </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives"
+                    >归档</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/categories"
+                    >分类</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/tags"
+                    >标签</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/daily"
+                    >日常</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/links"
+                    >友链</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about"
+                    >关于</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle border-box">
+
+            <div class="main-content border-box">
+                
+
+                    
+<div class="fade-in-down-animation">
+    <div class="post-page-container border-box">
+        <div class="post-content-container border-box">
+            
+
+            <div class="post-content-bottom border-box">
+                
+                    <div class="post-title">
+                        HTTP协议详解
+                    </div>
+                
+
+                
+                    <div class="post-header border-box">
+                        
+                            <div class="avatar-box border-box">
+                                <img src="/images/head.jpg">
+                            </div>
+                        
+                        <div class="info-box">
+                            <div class="author border-box">
+                                <span class="name">咕咕咕</span>
+                                
+                                    <span class="author-badge">fishing</span>
+                                
+                            </div>
+                            <div class="meta-info border-box">
+                                
+
+<div class="post-meta-info-container border-box post">
+    <div class="post-meta-info border-box">
+        
+
+        
+            <span class="meta-info-item post-create-date">
+                <i class="icon fa-solid fa-calendar-plus"></i>&nbsp;
+                <span class="datetime">2023-02-13 15:55:32</span>
+            </span>
+
+            <span class="meta-info-item post-update-date">
+                <i class="icon fa-solid fa-file-pen"></i>&nbsp;
+                <span class="datetime" data-updated="Mon Feb 13 2023 07:55:32 GMT+0000">2023-02-13 15:55:32</span>
+            </span>
+        
+
+        
+            <span class="meta-info-item post-category border-box"><i class="icon fas fa-folder"></i>&nbsp;
+                <ul class="post-category-ul">
+                    
+                            <li class="category-item"><a href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+            <span class="post-tag meta-info-item border-box">
+                <i class="icon fas fa-tags"></i>&nbsp;
+                <ul class="post-tag-ul">
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/HTTP%E5%8D%8F%E8%AE%AE/">HTTP协议</a></li>
+                        
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/socket/">socket</a></li>
+                        
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/%E7%8A%B6%E6%80%81%E7%A0%81/">状态码</a></li>
+                        
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/URI/">URI</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+        
+            <span class="meta-info-item post-wordcount">
+                <i class="icon fas fa-file-word"></i>&nbsp;<span>4.2k 字</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-min2read">
+                <i class="icon fas fa-clock"></i>&nbsp;<span>15 分钟</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-pv">
+                <i class="icon fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+            </span>
+        
+    </div>
+
+    
+</div>
+
+                            </div>
+                        </div>
+                    </div>
+                
+
+                <div class="post-content keep-markdown-body">
+                    
+
+                    <h2 id="HTTP协议介绍"><a href="#HTTP协议介绍" class="headerlink" title="HTTP协议介绍"></a>HTTP协议介绍</h2><p>超文本传输协议（英文：HyperText Transfer Protocol，缩写：HTTP）是一种用于分布式、协作式和超媒体信息系统的<strong>应用层协议</strong>，用于如何封装数据。<br>HTTP是万维网的数据通信的基础，它和TCP&#x2F;IP协议簇的其他协议一样，也是用于客户端和服务端的通信。</p>
+<blockquote>
+<p>TCP&#x2F;UDP 是传输层协议，主要解决数据在网络中的传输。<br>IP 是网络层协议，同样解决数据在网络中的传输。</p>
+</blockquote>
+<p><a class="link"   target="_blank" rel="noopener" href="https://www.runoob.com/http/http-intro.html" >菜鸟教程-http简介<i class="fas fa-external-link-alt"></i></a></p>
+<p>HTTP 是一个客户端终端（用户）和服务器端（网站）<strong>请求和应答</strong>的标准协议。协议，即规定了通信<strong>信息的格式</strong>。<br>我们通过使用网页浏览器或者其它的工具发起 HTTP 请求，这个客户端为我们称之为用户代理程序（user agent）。<br>服务器上存储着一些资源，比如 HTML 文件和图像。我们称这个应答服务器为源服务器（origin server）。</p>
+<p>通常，由 HTTP 客户端发起一个请求，此时创建一个到服务器指定端口（默认是80端口）的 tcp 连接。<br>HTTP 服务器则在那个端口监听客户端的请求。一旦收到请求，服务器会向客户端返回一个状态，比如” HTTP&#x2F;1.1 200 OK”，以及返回的内容，如请求的文件、错误消息、或者其它信息。</p>
+<blockquote>
+<p>常见的 HTTP 服务器有 IIS、nginx、apache、tomcat 等。</p>
+</blockquote>
+<h2 id="HTTP-工作原理"><a href="#HTTP-工作原理" class="headerlink" title="HTTP 工作原理"></a>HTTP 工作原理</h2><p>以下是 HTTP 请求&#x2F;响应的步骤：</p>
+<ol>
+<li>客户端连接到 Web 服务器<br>浏览器向 DNS 服务器请求解析 URL 中的域名对应的 ip 地址，然后 HTTP 客户端与目标服务器建立一个 tcp 连接。</li>
+<li>发送 HTTP 请求<br>通过 tcp 连接，客户端向服务器发送一个 HTTP 请求。请求报文包括 <strong>请求行、请求头、空行、请求数据</strong> 四部分组成。</li>
+<li>服务器接受请求，处理后返回 HTTP 响应<br>服务器 <strong>解析请求、获取资源</strong> ，然后将资源写进响应数据。响应由 <strong>状态行、响应头、空行、响应数据</strong> 四部分组成。</li>
+<li>服务器释放 tcp 连接<br>若 connection 模式为 close，则服务器主动关闭 tcp 连接，客户端被动关闭连接，释放 tcp 连接。<br>若 connection 模式为 keepalive，则该连接会保持一段时间，在该时间内可以继续接收请求。无论如何都会释放。</li>
+<li>客户端解析响应<br>客户端浏览器首先解析状态行，查看表明请求是否成功的状态代码。<br>然后解析每一个响应头，响应头告知以下为若干字节的 HTML 文档和文档的字符集。<br>客户端浏览器读取响应数据HTML，根据 HTML 的语法对其进行格式化，并在浏览器窗口中显示。</li>
+</ol>
+<p>所以，从上面的过程来看：</p>
+<ol>
+<li>HTTP 是无连接的：无连接的含义是限制每次连接只处理一个请求，服务器处理完客户的请求，并收到客户的应答后，即断开连接，采用这种方式可以节省传输时间。</li>
+<li>HTTP 是媒体独立的：只要客户端和服务器知道如何处理的数据内容，任何类型的数据都可以通过HTTP发送，客户端以及服务器指定使用适合的<br>MIME-type 内容类型。</li>
+<li>HTTP 是无状态：HTTP<br>协议是无状态协议，无状态是指协议对于事务处理没有记忆能力，缺少状态意味着如果后续处理需要前面的信息，则它必须重传，这样可能导致每次连接传送的数据量增大，另一方面，在服务器不需要先前信息时它的应答就较快。</li>
+</ol>
+<h2 id="HTTP-报文格式"><a href="#HTTP-报文格式" class="headerlink" title="HTTP 报文格式"></a>HTTP 报文格式</h2><p>一个完整的HTTP协议的报文主要由以下三个部分组成：</p>
+<ol>
+<li>起始行（请求行、响应行）：描述请求或响应的基本信息。</li>
+<li>首部字段（请求头、响应头）：使用key-value的形式更加详细的说明报文。</li>
+<li>消息正文（请求体、响应体）：实际的传输数据，不一定是文本，也有可能是图片、音频、视频等二进制数据。</li>
+</ol>
+<p>因为HTTP协议是基于 TCP&#x2F;IP 的，所以我们可以写个简单的 socket 程序来获取请求报文。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">HttpSocketTest</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException &#123;</span><br><span class="line">        <span class="comment">// 创建 ServerSocket 监听8080端口</span></span><br><span class="line">        <span class="type">ServerSocket</span> <span class="variable">server</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ServerSocket</span>(<span class="number">8000</span>);</span><br><span class="line">        <span class="type">Socket</span> <span class="variable">socket</span> <span class="operator">=</span> server.accept();</span><br><span class="line">        <span class="comment">// 读取请求报文</span></span><br><span class="line">        <span class="type">InputStream</span> <span class="variable">in</span> <span class="operator">=</span> socket.getInputStream();</span><br><span class="line">        <span class="type">byte</span>[] bytes = <span class="keyword">new</span> <span class="title class_">byte</span>[in.available()];</span><br><span class="line">        <span class="type">int</span> <span class="variable">result</span> <span class="operator">=</span> in.read(bytes);</span><br><span class="line">        <span class="keyword">if</span> (result != -<span class="number">1</span>)</span><br><span class="line">            System.out.println(<span class="keyword">new</span> <span class="title class_">String</span>(bytes));</span><br><span class="line">        System.out.println();</span><br><span class="line">        <span class="comment">// 返回响应报文</span></span><br><span class="line">        <span class="type">OutputStream</span> <span class="variable">out</span> <span class="operator">=</span> socket.getOutputStream();</span><br><span class="line">        <span class="type">StringBuffer</span> <span class="variable">response</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">StringBuffer</span>();</span><br><span class="line">        response.append(<span class="string">&quot;HTTP/1.1 200 OK\r\n&quot;</span>);</span><br><span class="line">        response.append(<span class="string">&quot;Content-type:text/html\r\n\r\n&quot;</span>);</span><br><span class="line">        response.append(<span class="string">&quot;CurrentTime: &quot;</span>).append(<span class="keyword">new</span> <span class="title class_">SimpleDateFormat</span>(<span class="string">&quot;yyyy-MM-dd HH:mm:ss&quot;</span>).format(<span class="keyword">new</span> <span class="title class_">Date</span>()));</span><br><span class="line">        System.out.println(response);</span><br><span class="line">        out.write(response.toString().getBytes());</span><br><span class="line">        out.flush();</span><br><span class="line">        out.close();</span><br><span class="line">        in.close();</span><br><span class="line">        socket.close();</span><br><span class="line">        server.close();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用浏览器访问： <a class="link"   target="_blank" rel="noopener" href="http://localhost:8000/" >http://localhost:8000/<i class="fas fa-external-link-alt"></i></a> 即可得到请求报文及我们自己构建的响应报文</p>
+<p>get 请求报文：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">GET /test HTTP/1.1</span><br><span class="line">Host: localhost:8000</span><br><span class="line">Connection: keep-alive</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<p>post 请求报文</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">POST / HTTP/1.1</span><br><span class="line">Host: localhost:8000</span><br><span class="line">Content-Type: application/json</span><br><span class="line">Connection: keep-alive</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">    &quot;name&quot;:&quot;zs&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>响应报文：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">HTTP/1.1 200 OK</span><br><span class="line">Content-type:text/html</span><br><span class="line"></span><br><span class="line">CurrentTime: 2023-02-13 18:37:31</span><br></pre></td></tr></table></figure>
+
+<p>所以，从上面的例子可以得出 http 报文的格式：</p>
+<p>请求报文格式：<br><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/HTTP%E5%8D%8F%E8%AE%AE%E8%AF%A6%E8%A7%A3/%E8%AF%B7%E6%B1%82%E6%8A%A5%E6%96%87%E6%A0%BC%E5%BC%8F.png"
+                        alt="请求报文格式"
+                 ></p>
+<p>响应报文格式：<br><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/HTTP%E5%8D%8F%E8%AE%AE%E8%AF%A6%E8%A7%A3/%E5%93%8D%E5%BA%94%E6%8A%A5%E6%96%87%E6%A0%BC%E5%BC%8F.png"
+                        alt="响应报文格式"
+                 ></p>
+<h2 id="HTTP-请求方法"><a href="#HTTP-请求方法" class="headerlink" title="HTTP 请求方法"></a>HTTP 请求方法</h2><p>HTTP1.0定义了三种请求方法： GET, POST 和 HEAD方法。<br>HTTP&#x2F;1.1 协议中共定义了八种方法来以不同方式操作指定的资源。<br>我们目前最常见的有两种一种get，另外一种叫post。这两种方法理论上就足够我们进行所有的资源操作了。<br>但还是细分下比较好，细分后可以使用 RESTful 风格的 API （在<a href="/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/SpringBoot%E7%AC%94%E8%AE%B0/" title="SpringBoot笔记">SpringBoot笔记</a>中有写过）</p>
+<p>首先来列举下这八种请求方法：</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>GET</strong></td>
+<td>请求指定的页面信息，并返回实体主体。</td>
+</tr>
+<tr>
+<td>HEAD</td>
+<td>类似于 GET 请求，只不过返回的响应中没有具体的内容，用于获取报头</td>
+</tr>
+<tr>
+<td><strong>POST</strong></td>
+<td>向指定资源提交数据进行处理请求（例如提交表单或者上传文件）。数据被包含在请求体中。POST 请求可能会导致新的资源的建立和&#x2F;或已有资源的修改。</td>
+</tr>
+<tr>
+<td><strong>PUT</strong></td>
+<td>从客户端向服务器传送的数据取代指定的文档的内容。</td>
+</tr>
+<tr>
+<td><strong>DELETE</strong></td>
+<td>请求服务器删除指定的页面。</td>
+</tr>
+<tr>
+<td>CONNECT</td>
+<td>HTTP&#x2F;1.1 协议中预留给能够将连接改为管道方式的代理服务器。</td>
+</tr>
+<tr>
+<td>OPTIONS</td>
+<td>允许客户端查看服务器的性能。</td>
+</tr>
+<tr>
+<td>TRACE</td>
+<td>回显服务器收到的请求，主要用于测试或诊断。</td>
+</tr>
+<tr>
+<td><strong>PATCH</strong></td>
+<td>是对 PUT 方法的补充，用来对已知资源进行局部更新 。</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>GET 提交的数据会放在 URL 之后，也就是请求行里面，以?分割 URL 和传输数据，参数之间以&amp;相连，如 user?name&#x3D;zs&amp;id&#x3D;114514 。POST方法是把提交的数据放在 HTTP 包的请求体中。<br>GET 提交的数据大小有限制（因为浏览器对 URL 的长度有限制，比如 IE 的限制是2083个字符，火狐是65536个字符，<del>大概</del>），而 POST 方法提交的数据没有限制。</p>
+</blockquote>
+<h2 id="URI"><a href="#URI" class="headerlink" title="URI"></a>URI</h2><p>URI（uniform resource identifier），统一资源标识符，用来唯一的标识一个资源。<br>它包含了 URL 和 URN 的概念，是它们的超集。</p>
+<p>URI 的组成：<br><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/HTTP%E5%8D%8F%E8%AE%AE%E8%AF%A6%E8%A7%A3/URI%E7%9A%84%E7%BB%84%E6%88%90.png"
+                        alt="URI的组成"
+                 ></p>
+<ol>
+<li>Scheme 指的就是方案，比如 HTTP，HTTPS，FTP 等，我们也可以自定义协议，只要服务器支持即可。<br>Scheme可以是由 <strong>字母</strong>、<strong>数字</strong>、<strong>+</strong>、<strong>-</strong>、<strong>.</strong> 都是允许的<blockquote>
+<p>在Scheme之后，必须使用 :&#x2F;&#x2F; 把 Scheme 与后面的部分区分开来</p>
+</blockquote>
+</li>
+<li>authority 包含了用户名和密码（user information），还有主机和端口号。<br>用户名密码在 URI 中明文传输非常不安全，所以除了 ftp 很少使用。通常只使用 host:port</li>
+<li>path 为路径 </li>
+<li>query 为查询参数 为可选参数，以 ? 开头，参数以 &amp; 分隔，再以 &#x3D; 分开参数名称与数据</li>
+<li>fragment 为段落 为可选参数 以 # 开头，该标识符为辅助资源提供方向。</li>
+</ol>
+<p>URL（uniform resource locator），统一资源定位器，它是一种具体的 URI，即URL可以用来标识一个资源，而且还指明了如何 locate 这个资源。</p>
+<p>通过定位来获取资源。所以当目标资源位置发生变化，比如服务器宕机，或者位置变了，URL 就失效了。<br>举个例子： <a class="link"   target="_blank" rel="noopener" href="http://localhost:8080/query?id=114514" >http://localhost:8080/query?id=114514<i class="fas fa-external-link-alt"></i></a> 来介绍它的格式，基本上是 URI 的简化（省去了部分）</p>
+<ol>
+<li>协议：一般为 http 或 https。</li>
+<li>主机：通常为域名，有时为 IP 地址。</li>
+<li>端口号：以数字方式表示，若为 http 的默认值 :80 可省略，https 的默认值 :443 端口号数字范围为 0~65536。</li>
+<li>path：以 &#x2F; 字符区别路径中的每一个目录名称，根路径为 &#x2F; 。</li>
+<li>查询：GET模式的窗体参数，以 ? 开头，参数以 &amp; 分隔，再以 &#x3D; 分开参数名称与数据，通常以 UTF-8 的 URL 编码，避开字符冲突的问题。</li>
+</ol>
+<p>URN（uniform resource name），统一资源命名，是通过名字来标识资源，比如 C4D038B4BED09FDB1471EF51EC3A32CD</p>
+<p>根据名字就可以找到对应的资源，相比 URL 的好处就是不论资源位置怎么变，都可以找到。<br>但这明显是不现实的，因为这样就需要一个解析器去根据名字找到对应资源。<br>这个解析器相当于 URL 解析域名的根服务器，不过资源与域名相比，不管是类型还是数量，URN的解析器都不太可能实际实现并投入实际使用。<br>所以我们见到的 URI 主要以 URL 为主，基本上可以说 URL 约等于 URI 。</p>
+<h2 id="状态码"><a href="#状态码" class="headerlink" title="状态码"></a>状态码</h2><ol>
+<li>1xx 信息，服务器收到请求，需要请求者继续执行操作</li>
+<li>2xx 成功，操作被成功接收并处理</li>
+<li>3xx 重定向，需要进一步的操作以完成请求</li>
+<li>4xx 客户端错误，请求包含语法错误或无法完成请求</li>
+<li>5xx 服务器错误，服务器在处理请求的过程中发生了错误</li>
+</ol>
+<p>一些常见的状态码：</p>
+<table>
+<thead>
+<tr>
+<th>状态码</th>
+<th>状态码英文名称</th>
+<th>中文描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>200</td>
+<td>OK</td>
+<td>请求成功。一般用于GET与POST请求</td>
+</tr>
+<tr>
+<td>204</td>
+<td>No Content</td>
+<td>无内容。服务器成功处理，但未返回内容。在未更新网页的情况下，可确保浏览器继续显示当前文档</td>
+</tr>
+<tr>
+<td>301</td>
+<td>Moved Permanently</td>
+<td>永久移动。请求的资源已被永久的移动到新URI，返回信息会包括新的URI，浏览器会自动定向到新URI。今后任何新的请求都应使用新的URI代替</td>
+</tr>
+<tr>
+<td>302</td>
+<td>Moved Temporarily</td>
+<td>临时移动。与301类似。但资源只是临时被移动。客户端应继续使用原有URI</td>
+</tr>
+<tr>
+<td>400</td>
+<td>Bad Request</td>
+<td>客户端请求的语法错误，服务器无法理解</td>
+</tr>
+<tr>
+<td>401</td>
+<td>Unauthorized</td>
+<td>请求要求用户的身份认证</td>
+</tr>
+<tr>
+<td>403</td>
+<td>Forbidden</td>
+<td>服务器理解请求客户端的请求，但是拒绝执行此请求（可能因为权限问题）</td>
+</tr>
+<tr>
+<td>404</td>
+<td>Not Found</td>
+<td>服务器无法根据客户端的请求找到资源（网页）。通过此代码，网站设计人员可设置”您所请求的资源无法找到”的个性页面</td>
+</tr>
+<tr>
+<td>500</td>
+<td>Internal server Error</td>
+<td>服务器内部错误，无法完成请求</td>
+</tr>
+</tbody></table>
+<p>更多状态码可以参考<a class="link"   target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Status" >文档<i class="fas fa-external-link-alt"></i></a></p>
+<h2 id="HTTP-首部字段"><a href="#HTTP-首部字段" class="headerlink" title="HTTP 首部字段"></a>HTTP 首部字段</h2><p>HTTP 首部字段是构成 HTTP 报文的要素之一，在客户端与服务器之间以 HTTP 协议进行通信的过程中，无论是请求还是响应都会使用首部字段，它能起到传递额外重要信息的作用，比如报文主体大小、所使用的语言、认证信息、是否缓存、Cookie 等。<br>HTTP&#x2F;1.1 规范定义了如下 47 种首部字段，分为四大类。还有一个其他扩展。</p>
+<p>通用首部字段：请求报文和响应报文都可以使用的首部字段。9个</p>
+<table>
+<thead>
+<tr>
+<th>首部字段名</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Cache-Control</td>
+<td>控制缓存的行为</td>
+</tr>
+<tr>
+<td>Connection</td>
+<td>连接的管理</td>
+</tr>
+<tr>
+<td>Date</td>
+<td>创建报文的日期时间</td>
+</tr>
+<tr>
+<td>Pragma</td>
+<td>报文指令</td>
+</tr>
+<tr>
+<td>Trailer</td>
+<td>报文末端的首部一览</td>
+</tr>
+<tr>
+<td>Transfer-Encoding</td>
+<td>指定报文主体的传输编码方式</td>
+</tr>
+<tr>
+<td>Upgrade</td>
+<td>升级为其他协议</td>
+</tr>
+<tr>
+<td>Via</td>
+<td>代理服务器的相关信息</td>
+</tr>
+<tr>
+<td>Warning</td>
+<td>错误通知</td>
+</tr>
+</tbody></table>
+<p>请求首部字段：从客户端向服务器发送请求报文时使用的首部字段。18个</p>
+<table>
+<thead>
+<tr>
+<th>首部字段名</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Accept</td>
+<td>用户代理可处理的媒体类型</td>
+</tr>
+<tr>
+<td>Accept-Charset</td>
+<td>优先的字符集</td>
+</tr>
+<tr>
+<td>Accept-Encoding</td>
+<td>优先的内容编码</td>
+</tr>
+<tr>
+<td>Accept-Language</td>
+<td>优先的语言（自然语言）</td>
+</tr>
+<tr>
+<td>AuthorizationWeb</td>
+<td>认证信息</td>
+</tr>
+<tr>
+<td>Expect</td>
+<td>期待服务器的特定行为</td>
+</tr>
+<tr>
+<td>From</td>
+<td>用户的电子邮箱地址</td>
+</tr>
+<tr>
+<td>Host</td>
+<td>请求资源所在服务器</td>
+</tr>
+<tr>
+<td>If-Match</td>
+<td>比较实体标记（ETag）</td>
+</tr>
+<tr>
+<td>If-Modified-Since</td>
+<td>比较资源的更新时间</td>
+</tr>
+<tr>
+<td>If-None-Match</td>
+<td>比较实体标记（与 If-Match 相反）</td>
+</tr>
+<tr>
+<td>If-Range</td>
+<td>资源未更新时发送实体 Byte 的范围请求</td>
+</tr>
+<tr>
+<td>If-Unmodified-Since</td>
+<td>比较资源的更新时间（与If-Modified-Since相反）</td>
+</tr>
+<tr>
+<td>Max-Forwards</td>
+<td>最大传输逐跳数</td>
+</tr>
+<tr>
+<td>Proxy-Authorization</td>
+<td>代理服务器要求客户端的认证信息</td>
+</tr>
+<tr>
+<td>Range</td>
+<td>实体的字节范围请求</td>
+</tr>
+<tr>
+<td>Referer</td>
+<td>对请求中 URI 的原始获取方</td>
+</tr>
+<tr>
+<td>TE</td>
+<td>传输编码的优先级</td>
+</tr>
+<tr>
+<td>User-Agent</td>
+<td>客户端程序的信息</td>
+</tr>
+</tbody></table>
+<p>响应首部字段：从服务器端向向客户端返回响应报文时使用的首部字段。9个</p>
+<table>
+<thead>
+<tr>
+<th>首部字段名</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Accept-Ranges</td>
+<td>是否接受字节范围请求</td>
+</tr>
+<tr>
+<td>Age</td>
+<td>推算资源创建经过时间</td>
+</tr>
+<tr>
+<td>ETag</td>
+<td>资源的匹配信息</td>
+</tr>
+<tr>
+<td>Location</td>
+<td>令客户端重定向至指定URI</td>
+</tr>
+<tr>
+<td>Proxy-Authenticate</td>
+<td>代理服务器对客户端的认证信息</td>
+</tr>
+<tr>
+<td>Retry-After</td>
+<td>对再次发起请求的时机要求</td>
+</tr>
+<tr>
+<td>Server</td>
+<td>HTTP服务器的安装信息</td>
+</tr>
+<tr>
+<td>Vary</td>
+<td>代理服务器缓存的管理信息</td>
+</tr>
+<tr>
+<td>WWW-Authenticate</td>
+<td>服务器对客户端的认证信息</td>
+</tr>
+</tbody></table>
+<p>实体首部字段：针对请求报文和响应报文的实体部分使用的首部字段。10个</p>
+<table>
+<thead>
+<tr>
+<th>首部字段名</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Allow</td>
+<td>资源可支持的HTTP方法</td>
+</tr>
+<tr>
+<td>Content-Encoding</td>
+<td>实体主体适用的编码方式</td>
+</tr>
+<tr>
+<td>Content-Language</td>
+<td>实体主体的自然语言</td>
+</tr>
+<tr>
+<td>Content-Length</td>
+<td>实体主体的大小（单位：字节）</td>
+</tr>
+<tr>
+<td>Content-Location</td>
+<td>替代对应资源的URI</td>
+</tr>
+<tr>
+<td>Content-MD5	实体主体的报文摘要</td>
+<td></td>
+</tr>
+<tr>
+<td>Content-Range</td>
+<td>实体主体的位置范围</td>
+</tr>
+<tr>
+<td>Content-Type</td>
+<td>实体主体的媒体类型</td>
+</tr>
+<tr>
+<td>Expires</td>
+<td>实体主体过期的日期时间</td>
+</tr>
+<tr>
+<td>Last-Modified</td>
+<td>资源的最后修改日期时间</td>
+</tr>
+</tbody></table>
+<p>扩展首部字段：非 HTTP 协议标准规定的首部字段，通常由开发者创建，用于某些特殊用途，比如 Cookie、Set-Cookie。</p>
+<p>详细具体的作用就不一一列举了，不然太多了，就成文档了。<br>具体用时可以再根据这些去查具体参数及用法。</p>
+<h2 id="content-type-与-MIME"><a href="#content-type-与-MIME" class="headerlink" title="content-type 与 MIME"></a>content-type 与 MIME</h2><p>Content-Type（内容类型），一般是指网页中存在的 Content-Type，用于定义网络文件的类型和网页的编码，决定浏览器将以什么形式、什么编码读取这个文件。<br>Content-Type 标头告诉客户端实际返回的内容的内容类型。也是客户端告诉服务端请求体中内容的内容形式。</p>
+<p>详细媒体格式可以参考<a class="link"   target="_blank" rel="noopener" href="https://www.runoob.com/http/http-content-type.html" >菜鸟教程<i class="fas fa-external-link-alt"></i></a></p>
+<p>MIME (Multipurpose Internet Mail Extensions) 是描述消息内容类型的标准，用来表示文档、文件或字节流的性质和格式。<br>因为因特网上有非常多不同类型的数据，HTTP 会为每种要通过 web 传输的对象都打上 MIME 类型的<strong>数据格式标签</strong>。</p>
+<p>比较常用的几种：<br>HTML 格式的文本文档由 text&#x2F;html  类型来标记<br>普通的 ASCII 文本文档由  text&#x2F;plain  类型来标<br>JPEG 版本的图片为  image&#x2F;jpeg  类型<br>GIF 格式的图片为 image&#x2F;gif  类型<br>Apple 的 QuickTime 电影为 video&#x2F;quicktime  类型<br>微软的 PowerPoint 演示文件为 application&#x2F;vnd.ms-powerpoint 类型</p>
+<p>其他更多的 MIME 类型可以参考<a class="link"   target="_blank" rel="noopener" href="https://www.runoob.com/http/mime-types.html" >菜鸟教程<i class="fas fa-external-link-alt"></i></a></p>
+<h2 id="结尾"><a href="#结尾" class="headerlink" title="结尾"></a>结尾</h2><p>上文中实现的简单的 socket 程序接受浏览器的 http 请求。<br>如果它加上线程池，便可以同时处理多个请求。<br>另外在对其 http 请求和响应进行封装，便可以实现一个功能简单的 http服务器。</p>
+
+                </div>
+
+                
+                        
+<div class="post-copyright-info-container border-box">
+    <div class="copyright-info-content border-box">
+        <div class="copyright-info-top border-box">
+            <div class="copyright-post-title border-box text-ellipsis">
+                HTTP协议详解
+            </div>
+
+            <div class="copyright-post-link border-box text-ellipsis">
+                学习笔记/学习笔记/HTTP协议详解/
+            </div>
+        </div>
+
+        <div class="copyright-info-bottom border-box">
+            <div class="copyright-post-author bottom-item">
+                <div class="type">
+                    作者
+                </div>
+                <div class="content">咕咕咕</div>
+            </div>
+
+            <div class="post-time bottom-item">
+                <div class="type">
+                    发布于
+                </div>
+                <div class="content">2023-02-13 15:55</div>
+            </div>
+
+
+            <div class="post-license bottom-item">
+                <div class="type">
+                    许可
+                </div>
+                <div class="content tooltip" data-tooltip-content="CC BY-NC-SA 4.0">
+                    <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hans">
+                        <i class="fa-brands fa-creative-commons"></i>
+                        <i class="fa-brands fa-creative-commons-by"></i>
+                        <i class="fa-brands fa-creative-commons-nc"></i>
+                        <i class="fa-brands fa-creative-commons-sa"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <i class="copyright-bg fa-solid fa-copyright"></i>
+    </div>
+    <div class="copy-copyright-info flex-center tooltip" data-tooltip-content="复制版权信息" data-tooltip-offset-y="-2px">
+        <i class="fa-solid fa-copy"></i>
+    </div>
+</div>
+
+                
+
+                <div class="post-bottom-tags-and-share border-box">
+                    <div>
+                        
+                            <ul class="post-tags-box border-box">
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/HTTP%E5%8D%8F%E8%AE%AE/">HTTP协议</a>
+                                    </li>
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/socket/">socket</a>
+                                    </li>
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/%E7%8A%B6%E6%80%81%E7%A0%81/">状态码</a>
+                                    </li>
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/URI/">URI</a>
+                                    </li>
+                                
+                            </ul>
+                        
+                    </div>
+                    <div>
+                        
+                            <div class="post-share-container border-box">
+    <ul class="share-list-wrap border-box">
+        <li class="qq share-item border-box flex-center tooltip"
+            data-tooltip-content="分享到 QQ"
+        >
+            <i class="fa-brands fa-qq"></i>
+        </li>
+        <li class="wechat share-item border-box flex-center tooltip tooltip-img"
+            data-tooltip-content="分享到微信"
+            data-tooltip-img-tip="微信扫一扫"
+            data-tooltip-img-style="background-color: #fff; top: -10px; padding: 0.6rem 0.6rem 0.1rem 0.6rem;"
+        >
+            <i class="fa-brands fa-weixin"></i>
+        </li>
+        <li class="weibo share-item border-box flex-center tooltip"
+            data-tooltip-content="分享到微博"
+        >
+            <i class="fa-brands fa-weibo"></i>
+        </li>
+    </ul>
+</div>
+
+                        
+                    </div>
+                </div>
+
+                
+                    <div class="reward-author-container border-box flex-center">
+    <div class="reward-btn keep-button border-box flex-center tooltip tooltip-img"
+            data-tooltip-content="谢谢你请我喝可乐~"
+            data-tooltip-img-url="/images/thanks.png"
+            data-tooltip-img-trigger="click"
+            data-tooltip-img-style="top: -8px;"
+    >
+        <i class="fa-solid fa-hand-holding-heart"></i>
+    </div>
+</div>
+
+                
+
+                
+                    <div class="post-nav border-box">
+                        
+                            <div class="prev-post">
+                                <a class="prev"
+                                   rel="prev"
+                                   href="/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/Tomcat%E6%89%A7%E8%A1%8C%E6%B5%81%E7%A8%8B%E4%B8%8EServlet/"
+                                   title="Tomcat执行流程与Servlet"
+                                >
+                                    <span class="left arrow-icon flex-center">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </span>
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">Tomcat执行流程与Servlet</span>
+                                        <span class="post-nav-item">上一篇</span>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                        
+                            <div class="next-post">
+                                <a class="next"
+                                   rel="next"
+                                   href="/%E7%BC%96%E7%A8%8B%E8%AE%B0%E5%BD%95/%E7%BC%96%E7%A8%8B%E8%AE%B0%E5%BD%95/tomcat%E8%AF%B7%E6%B1%82%E6%8E%A5%E5%8F%A3%E6%97%A0%E6%95%88%E5%AD%97%E7%AC%A6%E9%97%AE%E9%A2%98/"
+                                   title="tomcat请求接口无效字符问题"
+                                >
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">tomcat请求接口无效字符问题</span>
+                                        <span class="post-nav-item">下一篇</span>
+                                    </span>
+                                    <span class="right arrow-icon flex-center">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                    </div>
+                
+
+                
+                    
+
+
+    <div class="comments-container border-box">
+        <div id="comments-anchor" class="comment-area-title border-box">
+            <i class="fas fa-comments"></i>&nbsp;评论
+        </div>
+        <div class="comment-plugin-fail border-box">
+    <span class="fail-tip">评论插件加载失败</span>
+    <button class="reload keep-button">点击重新加载</button>
+</div>
+<div class="comment-plugin-loading flex-center border-box">
+    <i class="loading-icon fa-solid fa-spinner fa-spin"></i>
+    <span class="load-tip">正在加载评论插件</span>
+</div>
+<script data-pjax>
+  window.KeepCommentPlugin = {}
+  window.KeepCommentPlugin.hideLoading = () => {
+    const cplDom = document.querySelector('.comments-container .comment-plugin-loading')
+    cplDom.style.display = 'none'
+  }
+  window.KeepCommentPlugin.loadFailHandle = () => {
+    window.KeepCommentPlugin.hideLoading()
+    const cpfDom = document.querySelector('.comments-container .comment-plugin-fail')
+    cpfDom.style.display = 'flex'
+    cpfDom.querySelector('.reload').addEventListener('click', () => {
+      window.location.reload()
+    })
+  }
+</script>
+
+        
+            
+
+    <div class="giscus-comments-container">
+        <div class="giscus" id="giscus"></div>
+        <script data-pjax
+                onerror="window.KeepCommentPlugin.loadFailHandle()"
+        >
+          if (!window.KeepCommentPlugin?.getGiscusTheme) {
+            window.KeepCommentPlugin.getGiscusTheme = () => {
+              return document.body.classList.contains('dark-mode') ? 'dark_dimmed' : 'light_tritanopia'
+            }
+          }
+
+          if (!window.KeepCommentPlugin?.changeGiscusTheme) {
+            window.KeepCommentPlugin.changeGiscusTheme = () => {
+              const iframe = document.querySelector('iframe.giscus-frame')
+              iframe && iframe.contentWindow.postMessage({
+                giscus: {
+                  setConfig: {
+                    theme: window.KeepCommentPlugin.getGiscusTheme()
+                  }
+                }
+              }, 'https://giscus.app')
+            }
+          }
+
+          if (!window.KeepCommentPlugin?.initGiscus) {
+            window.KeepCommentPlugin.initGiscus = () => {
+              const script = document.createElement('script')
+              script.async = true
+              script.src = 'https://giscus.app/client.js'
+              script.setAttribute('data-repo', 'Cooooing/Cooooing.github.io')
+              script.setAttribute('data-repo-id', 'R_kgDOHQal_w')
+              script.setAttribute('data-category', 'Announcements')
+              script.setAttribute('data-category-id', 'DIC_kwDOHQal_84CjZo6')
+              script.setAttribute('data-reactions-enabled', '1')
+              script.setAttribute('data-lang', 'zh-CN')
+              script.setAttribute('data-mapping', 'pathname')
+              script.setAttribute('data-strict', '0')
+              script.setAttribute('data-emit-metadata', '0')
+              script.setAttribute('data-input-position', 'top')
+              script.setAttribute('crossorigin', 'anonymous')
+              script.setAttribute('loading', 'lazy')
+              script.setAttribute('data-theme', window.KeepCommentPlugin.getGiscusTheme())
+              document.querySelector('.giscus-comments-container').appendChild(script)
+              script.onerror = () => {
+                window.KeepCommentPlugin.loadFailHandle()
+              }
+              script.onload = () => {
+                window.KeepCommentPlugin.hideLoading()
+              }
+              const toggleThemeBtn = document.querySelector('.tool-toggle-theme-mode')
+              toggleThemeBtn && toggleThemeBtn.addEventListener('click', () => {
+                window.KeepCommentPlugin.changeGiscusTheme()
+              })
+            }
+          }
+
+          if ('true' === "true") {
+            setTimeout(() => {
+              window.KeepCommentPlugin.initGiscus()
+            }, 1000)
+          } else {
+            window.addEventListener("DOMContentLoaded", window.KeepCommentPlugin.initGiscus)
+          }
+        </script>
+    </div>
+
+
+        
+    </div>
+
+
+
+
+
+                
+            </div>
+        </div>
+
+        
+            <div class="pc-post-toc left-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#HTTP%E5%8D%8F%E8%AE%AE%E4%BB%8B%E7%BB%8D"><span class="nav-text">HTTP协议介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HTTP-%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="nav-text">HTTP 工作原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HTTP-%E6%8A%A5%E6%96%87%E6%A0%BC%E5%BC%8F"><span class="nav-text">HTTP 报文格式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HTTP-%E8%AF%B7%E6%B1%82%E6%96%B9%E6%B3%95"><span class="nav-text">HTTP 请求方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#URI"><span class="nav-text">URI</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%8A%B6%E6%80%81%E7%A0%81"><span class="nav-text">状态码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HTTP-%E9%A6%96%E9%83%A8%E5%AD%97%E6%AE%B5"><span class="nav-text">HTTP 首部字段</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#content-type-%E4%B8%8E-MIME"><span class="nav-text">content-type 与 MIME</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%93%E5%B0%BE"><span class="nav-text">结尾</span></a></li></ol>
+    </div>
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom border-box">
+            
+<footer class="footer border-box">
+    <div class="border-box website-info-box default">
+        
+            <div class="copyright-info info-item default">
+                &copy;&nbsp;<span>2022</span>&nbsp;-&nbsp;2025
+                
+                    &nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;&nbsp;<a href="/">咕咕咕</a>
+                
+            </div>
+
+            <div class="theme-info info-item default">
+                由&nbsp;<a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;驱动&nbsp;&&nbsp;主题&nbsp;<a class="keep-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep</a>
+            </div>
+
+            
+
+            
+        
+
+        <div style="color:var(--text-color-4);"><span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>(～￣▽￣)～<script src="/js/lifeTime.js"></script></div>
+        <a href="https://icp.gov.moe/?keyword=20222450" target="_blank">萌ICP备20222450号</a>
+
+
+        <div class="count-item info-item default">
+            
+                <span class="count-box border-box word">
+                    <span class="item-type border-box">总字数</span>
+                    <span class="item-value border-box word">362.1k</span>
+                </span>
+            
+
+            
+                <span class="count-box border-box uv">
+                    <span class="item-type border-box">访客数</span>
+                    <span class="item-value border-box uv" id="busuanzi_value_site_uv"></span>
+                </span>
+            
+
+            
+                <span class="count-box border-box pv">
+                    <span class="item-type border-box">访问量</span>
+                    <span class="item-value border-box pv" id="busuanzi_value_site_pv"></span>
+                </span>
+            
+        </div>
+
+        <div id="aplayer">
+          <meting-js
+                  server="netease"
+                  type="playlist"
+                  id="7345595717"
+                  fixed="true"
+                  mini="true"
+                  autoplay="false"
+                  listFolded="true"
+                  order="random"
+                  preload="none">
+          </meting-js>
+        </div>
+            <br>
+            <br>
+            <br>
+    </div>
+
+</footer>
+
+        </div>
+    </div>
+
+    <!-- post tools -->
+    
+        <div class="post-tools left-toc">
+            <div class="post-tools-container border-box">
+    <ul class="tools-list border-box">
+        <!-- PC TOC show toggle -->
+        
+            <li class="tools-item flex-center toggle-show-toc">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        <!-- PC go comment -->
+        
+            <li class="tools-item flex-center go-to-comments">
+                <i class="fas fa-comment"></i>
+                <span class="post-comments-count"></span>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <!-- side tools -->
+    <div class="side-tools">
+        <div class="side-tools-container border-box ">
+    <ul class="side-tools-list side-tools-show-handle border-box">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-toggle-theme-mode flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+            <li class="tools-item rss flex-center">
+                <a class="flex-center"
+                   href="/atom.xml"
+                   target="_blank"
+                >
+                    <i class="fas fa-rss"></i>
+                </a>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list border-box">
+        
+            <li class="tools-item toggle-show-toc-tablet flex-center">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        
+            <li class="tools-item go-to-comments-tablet flex-center">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+
+        <li class="tools-item tool-scroll-to-top flex-center show-arrow">
+            <i class="arrow fas fa-arrow-up"></i>
+            <span class="percent"></span>
+        </li>
+    </ul>
+</div>
+
+    </div>
+
+    <!-- image mask -->
+    <div class="zoom-in-image-mask">
+    <img class="zoom-in-image">
+</div>
+
+
+    <!-- local search -->
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="搜索..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="close-popup-btn">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+    <!-- tablet toc -->
+    
+        <div class="tablet-post-toc-mask">
+            <div class="tablet-post-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#HTTP%E5%8D%8F%E8%AE%AE%E4%BB%8B%E7%BB%8D"><span class="nav-text">HTTP协议介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HTTP-%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="nav-text">HTTP 工作原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HTTP-%E6%8A%A5%E6%96%87%E6%A0%BC%E5%BC%8F"><span class="nav-text">HTTP 报文格式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HTTP-%E8%AF%B7%E6%B1%82%E6%96%B9%E6%B3%95"><span class="nav-text">HTTP 请求方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#URI"><span class="nav-text">URI</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%8A%B6%E6%80%81%E7%A0%81"><span class="nav-text">状态码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HTTP-%E9%A6%96%E9%83%A8%E5%AD%97%E6%AE%B5"><span class="nav-text">HTTP 首部字段</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#content-type-%E4%B8%8E-MIME"><span class="nav-text">content-type 与 MIME</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%93%E5%B0%BE"><span class="nav-text">结尾</span></a></li></ol>
+    </div>
+</div>
+
+            </div>
+        </div>
+    
+</main>
+
+
+
+<!-- common -->
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/toggle-theme.js"></script>
+
+<script src="/js/code-block.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+
+<!-- local-search -->
+
+    
+<script src="/js/local-search.js"></script>
+
+
+
+<!-- lazyload -->
+
+    
+<script src="/js/lazyload.js"></script>
+
+
+
+<div class="pjax">
+    
+        <!-- post-helper -->
+        
+<script src="/js/post/post-helper.js"></script>
+
+
+        <!-- toc -->
+        
+            
+<script src="/js/post/toc.js"></script>
+
+        
+
+        <!-- copyright-info -->
+        
+            
+<script src="/js/post/copyright-info.js"></script>
+
+        
+
+        <!-- share -->
+        
+            
+<script src="/js/post/share.js"></script>
+
+        
+    
+
+    <!-- category-page -->
+    
+
+    <!-- links-page -->
+    
+
+    <!-- photos-page -->
+    
+</div>
+
+<!-- mermaid -->
+
+
+<!-- pjax -->
+
+    
+<script src="/js/libs/pjax.min.js"></script>
+
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        window.pjax = new Pjax({
+            selectors: [
+                'head title',
+                '.page-container',
+                '.pjax',
+                '#aplayer',
+                '#canvas_sakura'
+            ],
+            history: true,
+            debug: false,
+            cacheBust: false,
+            timeout: 0,
+            analytics: false,
+            currentUrlFullReload: false,
+            scrollRestoration: false,
+        });
+
+        document.addEventListener('pjax:send', () => {
+            KEEP.utils.pjaxProgressBarStart()
+        });
+
+        document.addEventListener('pjax:complete', () => {
+            KEEP.utils.pjaxProgressBarEnd()
+            window.pjax.executeScripts(document.querySelectorAll('script[data-pjax], .pjax script'))
+            KEEP.initExecute()
+        });
+    });
+</script>
+
+
+
+
+    
+        
+            
+<script class="custom-inject-js" src="/js/APlayer.min.js" data-pjax></script>
+
+        
+    
+        
+            
+<script class="custom-inject-js" src="/js/Meting.min.js" data-pjax></script>
+
+        
+    
+        
+            
+<script class="custom-inject-js" src="/js/leaves.js" data-pjax></script>
+
+        
+    
+
+
+
+</body>
+</html>
