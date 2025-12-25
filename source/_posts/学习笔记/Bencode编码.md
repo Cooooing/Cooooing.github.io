@@ -3,7 +3,7 @@ layout: post
 title: Bencode编码
 date: 2024-10-12 10:46:02
 tags:
-  - java
+  - Java
   - Bencode编码
   - BitTorrent
   - p2p

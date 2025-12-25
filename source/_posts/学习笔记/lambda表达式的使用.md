@@ -3,7 +3,7 @@ layout: post
 title: lambda表达式的使用
 date: 2023-07-27 13:58:18
 tags:
-- java
+- Java
 - lambda
 - 函数式编程
 categories:
