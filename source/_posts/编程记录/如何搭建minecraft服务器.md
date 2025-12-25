@@ -5,7 +5,7 @@ date: 2023-03-09 09:26:24
 tags:
 - minecraft
 - 服务器
-- java
+- Java
 categories:
 - 编程记录
 ---

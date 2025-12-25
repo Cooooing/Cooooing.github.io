@@ -4,7 +4,7 @@ title: 关于Schiphalast注册功能开发中的bug
 date: 2022-08-12 12:50:52
 tags:
 - bug
-- java
+- Java
 - MD5
 - ip
 - session

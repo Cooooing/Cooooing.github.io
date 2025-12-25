@@ -6,7 +6,7 @@ categories:
   - 读书笔记
 tags:
   - 《go语言并发之道》
-  - go
+  - Go
   - 并发
 mathjax: true
 ---

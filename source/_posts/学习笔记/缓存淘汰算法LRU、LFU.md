@@ -3,7 +3,7 @@ layout: post
 title: 缓存淘汰算法LRU、LFU
 date: 2025-03-31 11:50:57
 tags:
-  - go
+  - Go
   - 算法
   - 缓存
   - LRU

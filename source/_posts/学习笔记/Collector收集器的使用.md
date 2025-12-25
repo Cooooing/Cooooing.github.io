@@ -3,7 +3,7 @@ layout: post
 title: Collector收集器的使用
 date: 2024-05-27 17:05:59
 tags:
-  - java
+  - Java
   - stream
 categories:
   - 学习笔记

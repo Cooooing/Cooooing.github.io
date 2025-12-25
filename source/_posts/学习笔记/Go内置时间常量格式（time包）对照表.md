@@ -3,7 +3,7 @@ layout: post
 title: Go内置时间常量格式（time包）对照表
 date: 2025-09-06 13:43:56
 tags:
-  - go
+  - Go
   - 时间
 categories:
   - 学习笔记
