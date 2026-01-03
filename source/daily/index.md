@@ -8,6 +8,10 @@ top_img: https://dev.iw233.cn/api.php?sort=pc&type=jpg&5
 
 # 日常
 
+## 2026-01-03
+
+会变成无聊的大人吗？
+
 ## 2025-08-23
 
 [Everything I know about good system design](https://www.seangoedecke.com/good-system-design/)
