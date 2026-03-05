@@ -130,7 +130,7 @@ post:
     level_badge: false    # Option values: true | false
 
     # Custom badge array, You can be fill one or more item
-    custom_badge: ["fishing"]
+    custom_badge: [ "fishing" ]
 
   # Post word count
   # Depend on Hexo Plugin: hexo-wordcount (`npm install hexo-wordcount`)
@@ -154,6 +154,16 @@ post:
     img_link: /images/thanks.png           # Image link for the payment QR code
     text: 谢谢你请我喝可乐~               # Custom reward text, Can be null
 
+# ---------------------------------------------------------------------------------------
+# Docs: https://keep-docs.xpoet.cn/writing/mathjax.html
+# ---------------------------------------------------------------------------------------
+mathjax:
+  tags: all               # or 'ams' or 'all'
+  single_dollars: true     # enable single dollar signs as in-line math delimiters
+  cjk_width: 0.9           # relative CJK char width
+  normal_width: 0.6        # relative normal (monospace) width
+  append_css: true         # add CSS to every page
+  every_page: false        # if true, every page will be rendered by mathjax regardless the `mathjax` setting in Front-matter of each article
 
 # ---------------------------------------------------------------------------------------
 # Docs: https://keep-docs.xpoet.cn/basis/configuration-guide/code_block.html
