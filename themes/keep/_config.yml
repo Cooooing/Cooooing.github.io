@@ -18,10 +18,10 @@ base_info:
   author: 咕咕咕
 
   # Author avatar, You can use local image path or image link
-  avatar: /images/head.jpg
+  avatar: https://avatars.githubusercontent.com/u/75006169?v=4
 
   # Website LOGO, You can use local image path or image link
-  logo: /images/head.jpg
+  logo: https://avatars.githubusercontent.com/u/75006169?v=4
 
   # Website favicon, You can use local image path or image link
   favicon: /images/favicon.png
