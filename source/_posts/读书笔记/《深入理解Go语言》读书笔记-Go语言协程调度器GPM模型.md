@@ -382,8 +382,6 @@ hello world
 5. execute G 真正运行
 6. park/exit/preempt 阻塞、退出、抢占
 
-#### 创建阶段(newproc)
-
 ~~~
 go f():编译器会调用 newproc,newproc 流程如下
 ↓
