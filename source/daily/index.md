@@ -8,6 +8,13 @@ top_img: https://dev.iw233.cn/api.php?sort=pc&type=jpg&5
 
 # 日常
 
+## 2026-03--20
+
+[2016 年，我做过一次 AI 写代码创业](https://blog.youxu.info/2026/01/14/ai-codes-retrospective/)
+
+> 未来并不是线性展开的。
+> 所以，焦虑并不能真正帮助我们接近未来。更重要的是，在你当下所能看到的边界之内，做一个对得起自己的选择；至于剩下的部分，就交给时间。
+
 ## 2026-01-03
 
 会变成无聊的大人吗？
@@ -16,9 +23,9 @@ top_img: https://dev.iw233.cn/api.php?sort=pc&type=jpg&5
 
 [Everything I know about good system design](https://www.seangoedecke.com/good-system-design/)
 
-> What is system design? 
-> In my view, **if software design is how you assemble lines of code, system design is how you assemble services.** 
-> The primitives of software design are variables, functions, classes, and so on. 
+> What is system design?
+> In my view, **if software design is how you assemble lines of code, system design is how you assemble services.**
+> The primitives of software design are variables, functions, classes, and so on.
 > The primitives of system design are app servers, databases, caches, queues, event buses, proxies, and so on.
 > 什么是系统设计？在我看来，如果软件设计是组装代码的方式，那么系统设计就是组装服务的方式。
 > 软件设计的原语是变量、函数、类等等。系统设计的原语是应用服务器、数据库、缓存、队列、事件总线、代理等等。
@@ -113,14 +120,12 @@ AI恰恰就是那个什么都懂的人，这时候上限就取决于我们自己
 清灰，涂硅脂，也是整了好几个小时。毕竟他用了四年都没清理过。~~翻新显卡了属于是~~
 ![2024-07-21-4](https://cooooing.github.io/images/daily/2024-07-21-4.jpg)
 
-
 批了点冰棍，已经挺久没有吃了。虽然只买了些便宜的。
 ![2024-07-21-2](https://cooooing.github.io/images/daily/2024-07-21-2.jpg)
 
 最后，把房东在房间里留的海信的网络电视给利用上了，也算是没浪费，当拓展显示器用了。
 后面可以躺在床上，用手柄玩游戏了。虽然720p，但是比我的便携屏大多了。毕竟32寸的。
 ![2024-07-21-3](https://cooooing.github.io/images/daily/2024-07-21-3.jpg)
-
 
 ## 2024-05-31
 
@@ -260,8 +265,6 @@ AI恰恰就是那个什么都懂的人，这时候上限就取决于我们自己
 ![2023-03-09-5](https://cooooing.github.io/images/daily/2023-03-09-5.jpg)
 ![2023-03-09-6](https://cooooing.github.io/images/daily/2023-03-09-6.jpg)
 
-
-
 ## 2023-02-27
 
 今天来回坐了两个多小时公交
@@ -292,7 +295,7 @@ yue————
 ## 2022-11-14
 
 ![2022-11-14](https://cooooing.github.io/images/daily/2022-11-14.gif)
-    ——山田凉《孤独摇滚！》
+——山田凉《孤独摇滚！》
 
 ## 2022-10-20
 
@@ -412,7 +415,6 @@ yue————
 傍晚的操场
 ![2022-09-01-1](https://cooooing.github.io/images/daily/2022-09-01-1.jpg)
 ![2022-09-01-2](https://cooooing.github.io/images/daily/2022-09-01-2.jpg)
-
 
 ## 2021-12-28
 
