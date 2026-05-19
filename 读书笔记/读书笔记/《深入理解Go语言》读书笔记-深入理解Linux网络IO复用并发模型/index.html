@@ -1,0 +1,1294 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="技术博客,后端开发,编程笔记,生活">
+    <meta name="description" content="Code | Systems | Life — 专注编程本质，也关心世界如何运转。">
+    <meta name="author" content="咕咕咕">
+
+    
+    <title>
+        
+            《深入理解Go语言》读书笔记 - 深入理解 Linux 网络 I/O 复用并发模型 |
+        
+        咕咕咕的小破站
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+        <link rel="shortcut icon" href="/images/favicon.png">
+    
+    
+<link rel="stylesheet" href="/font/css/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/regular.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/solid.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/brands.min.css">
+
+    
+        
+            
+                
+<link rel="stylesheet" href="/css/APlayer.min.css">
+
+            
+        
+            
+                
+<link rel="stylesheet" href="/css/custom.css">
+
+            
+        
+    
+    <script class="keep-theme-configurations">
+    const KEEP = window.KEEP || {}
+    KEEP.hexo_config = {"hostname":"cooooing.github.io","root":"/","language":"zh-CN","path":"search.json"}
+    KEEP.theme_config = {"base_info":{"primary_color":"#0066cc","title":"咕咕咕的小破站","author":"咕咕咕","avatar":"https://avatars.githubusercontent.com/u/75006169?v=4","logo":"https://avatars.githubusercontent.com/u/75006169?v=4","favicon":"/images/favicon.png"},"menu":{"Archives":"/archives","Categories":"/categories","Tags":"/tags","日常":"/daily","Links":"/links","About":"/about"},"first_screen":{"enable":false,"background_img":"/images/bg.svg","background_img_dark":"/images/bg.svg","description":"Keep writing and Keep loving.","hitokoto":false},"social_contact":{"enable":false,"links":{"github":null,"weixin":null,"qq":null,"weibo":null,"zhihu":null,"twitter":null,"facebook":null,"email":null}},"scroll":{"progress_bar":false,"percent":false,"hide_header":true},"home":{"category":true,"tag":true,"announcement":null},"post":{"author_badge":{"enable":true,"level_badge":false,"custom_badge":["fishing"]},"word_count":{"wordcount":true,"min2read":true},"datetime_format":"YYYY-MM-DD HH:mm:ss","copyright_info":true,"share":true,"reward":{"enable":true,"img_link":"/images/thanks.png","text":"谢谢你请我喝可乐~"}},"mathjax":{"tags":"all","single_dollars":true,"cjk_width":0.9,"normal_width":0.6,"append_css":true,"every_page":false},"code_block":{"tools":{"enable":true,"style":"default"},"highlight_theme":"default"},"toc":{"enable":true,"number":false,"expand_all":true,"init_open":true,"layout":"left"},"website_count":{"busuanzi_count":{"enable":true,"site_uv":true,"site_pv":true,"page_pv":true}},"local_search":{"enable":true,"preload":true},"comment":{"enable":true,"use":"giscus","valine":{"appid":null,"appkey":null,"server_urls":null,"placeholder":null},"gitalk":{"github_id":null,"github_admins":null,"repository":null,"client_id":null,"client_secret":null,"proxy":null},"twikoo":{"env_id":null,"region":null,"version":"1.6.21"},"waline":{"server_url":null,"reaction":false,"version":2},"giscus":{"repo":"Cooooing/Cooooing.github.io","repo_id":"R_kgDOHQal_w","category":"Announcements","category_id":"DIC_kwDOHQal_84CjZo6","reactions_enabled":true},"artalk":{"server":null},"disqus":{"shortname":null}},"rss":{"enable":true},"lazyload":{"enable":true},"cdn":{"enable":false,"provider":"cdnjs"},"pjax":{"enable":true},"footer":{"since":2022,"word_count":true,"icp":{"enable":false,"record_code":null,"url":"https://beian.miit.gov.cn"},"site_deploy":{"enable":false,"provider":"github","url":null},"shields_style":{"enable":false,"custom":[{"link_url":null,"img_url":null}]}},"inject":{"enable":true,"css":["/css/APlayer.min.css","/css/custom.css"],"js":["/js/APlayer.min.js","/js/Meting.min.js","/js/leaves.js"]},"root":"","links":[{"name":"鼠鼠在碎觉","link":"https://sszsj.com","avatar":"https://tmx.fishpi.cn/img/head.jpg","description":"我是不慎落入世界的一滴水墨"},{"name":"Gakkiyomi","link":"https://gakkiyomi.blog","avatar":"https://avatars.githubusercontent.com/u/41406557?v=4","description":"为往圣继绝学"},{"name":"Hancel's Blog","link":"https://my.hancel.org","avatar":"https://my.hancel.org/media/logo.jpg","description":"人生而自由，却无往不在枷锁之中。"},{"name":"Eastshann","link":"https://eastshann.github.io/","avatar":"https://avatars.githubusercontent.com/u/87764431?v=4","description":"冲和者，淡泊平和，谦冲守正"},{"name":"小于同学的异世界","link":"https://yby.zone","avatar":"https://yby-zone.obs.cn-east-3.myhuaweicloud.com/avatar.jpg","description":"为吾为枝，余地三尺，以己为棋，胜天半子。"},{"name":"Mlikiowa Home Village","link":"https://nanaeo.cn/","avatar":"https://q1.qlogo.cn/g?b=qq&nk=1627126029&s=100","description":"A litter Village With Mlikiowa"},{"name":"忘忧草","link":"https://owo.wyc.rest/","avatar":"https://owo.wyc.rest/img/%E4%B8%87%E5%8F%B6.jpg","description":"这只是一个小破站而已！"},{"name":"stillwarter","link":"https://stillwarter.github.io/","avatar":"https://file.fishpi.cn/2022/07/MOSHED2022621164630-1b1ec532.gif?imageView2/1/w/210/h/210/interlace/0/q/100","description":"光就是一切的意义"},{"name":"test12138","link":"http://你好.eu.org/","avatar":"https://file.fishpi.cn/2022/06/srchttpimgzcoolcncommunity0116405d84f975a801211d537707c9gifreferhttpimgzcool-0f2d09c9.gif?imageView2/1/w/48/h/48/interlace/0/q/100","description":"大丈夫生于天地之间，岂能郁郁久居人下。"},{"name":"呼呼呼","link":"https://bongbongbakudan.github.io/","avatar":"https://pwl.stackoverflow.wiki/2021/12/blob-28eb4b9f.png?imageView2/1/w/48/h/48/interlace/0/q/100","description":"去整点薯条"},{"name":"Plumbiu","link":"https://blog.plumbiu.top/","avatar":"https://avatars.githubusercontent.com/u/99574369?v=4","description":"这人很勤奋，啥都没留"},{"name":"hiRipple","link":"https://hiripple.com/","avatar":"https://avatars.githubusercontent.com/u/115361435?v=4","description":"超高校级的游戏玩家"}],"version":"4.0.6"}
+    KEEP.language_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"}
+    KEEP.language_code_block = {"copy":"复制代码","copied":"已复制","fold":"折叠代码块","folded":"已折叠"}
+    KEEP.language_copy_copyright = {"copy":"复制版权信息","copied":"已复制","title":"原文标题","author":"原文作者","link":"原文链接"}
+  </script>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-CLX32WF4R1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+
+      gtag('js', new Date());
+
+      gtag('config', 'G-CLX32WF4R1');
+    </script>
+
+    <!-- 51.la -->
+    <script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
+    <script>LA.init({id: "3JwPz6wbAloyTmMc", ck: "3JwPz6wbAloyTmMc", autoTrack: true})</script>
+
+    <!-- Cloudflare Web Analytics -->
+    <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "281999cc46a948d3b8199c1eb621f11e"}'></script>
+    <!-- End Cloudflare Web Analytics -->
+
+<meta name="generator" content="Hexo 8.1.2"><link rel="alternate" href="/atom.xml" title="咕咕咕的小破站" type="application/atom+xml">
+</head>
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+        <span class="pjax-progress-bar"></span>
+        <i class="pjax-progress-icon fas fa-circle-notch fa-spin"></i>
+    
+</div>
+
+
+<main class="page-container border-box">
+
+    <!-- home first screen  -->
+    
+
+    <!-- page content -->
+    <div class="page-main-content border-box">
+        <div class="page-main-content-top">
+            
+<header class="header-wrapper">
+
+    <div class="border-box header-content">
+        <div class="left border-box">
+            
+                <a class="logo-image border-box" href="/">
+                    <img src="https://avatars.githubusercontent.com/u/75006169?v=4">
+                </a>
+            
+            <a class="site-name border-box" href="/">
+               咕咕咕的小破站
+            </a>
+        </div>
+
+        <div class="right border-box">
+            <div class="pc">
+                <ul class="menu-list">
+                    <li class="menu-item">
+                        <a class=""
+                           href="/"
+                        >首页</a>
+                    </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >归档</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/categories"
+                            >分类</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/tags"
+                            >标签</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/daily"
+                            >日常</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/links"
+                            >友链</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >关于</a>
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="fas search fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            <li class="drawer-menu-item flex-center">
+                <a class=""
+                   href="/"
+                >首页</a>
+            </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives"
+                    >归档</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/categories"
+                    >分类</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/tags"
+                    >标签</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/daily"
+                    >日常</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/links"
+                    >友链</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about"
+                    >关于</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle border-box">
+
+            <div class="main-content border-box">
+                
+
+                    
+<div class="fade-in-down-animation">
+    <div class="post-page-container border-box">
+        <div class="post-content-container border-box">
+            
+
+            <div class="post-content-bottom border-box">
+                
+                    <div class="post-title">
+                        《深入理解Go语言》读书笔记 - 深入理解 Linux 网络 I/O 复用并发模型
+                    </div>
+                
+
+                
+                    <div class="post-header border-box">
+                        
+                            <div class="avatar-box border-box">
+                                <img src="https://avatars.githubusercontent.com/u/75006169?v=4">
+                            </div>
+                        
+                        <div class="info-box">
+                            <div class="author border-box">
+                                <span class="name">咕咕咕</span>
+                                
+                                    <span class="author-badge">fishing</span>
+                                
+                            </div>
+                            <div class="meta-info border-box">
+                                
+
+<div class="post-meta-info-container border-box post">
+    <div class="post-meta-info border-box">
+        
+
+        
+            <span class="meta-info-item post-create-date">
+                <i class="icon fa-solid fa-calendar-plus"></i>&nbsp;
+                <span class="datetime">2026-01-08 20:22:26</span>
+            </span>
+
+            <span class="meta-info-item post-update-date">
+                <i class="icon fa-solid fa-file-pen"></i>&nbsp;
+                <span class="datetime" data-updated="Thu Jan 08 2026 12:22:26 GMT+0000">2026-01-08 20:22:26</span>
+            </span>
+        
+
+        
+            <span class="meta-info-item post-category border-box"><i class="icon fas fa-folder"></i>&nbsp;
+                <ul class="post-category-ul">
+                    
+                            <li class="category-item"><a href="/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">读书笔记</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+            <span class="post-tag meta-info-item border-box">
+                <i class="icon fas fa-tags"></i>&nbsp;
+                <ul class="post-tag-ul">
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/%E3%80%8A%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Go%E8%AF%AD%E8%A8%80%E3%80%8B/">《深入理解Go语言》</a></li>
+                        
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/Linux/">Linux</a></li>
+                        
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/I-O%E5%A4%8D%E7%94%A8/">I/O复用</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+        
+            <span class="meta-info-item post-wordcount">
+                <i class="icon fas fa-file-word"></i>&nbsp;<span>2.8k 字</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-min2read">
+                <i class="icon fas fa-clock"></i>&nbsp;<span>10 分钟</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-pv">
+                <i class="icon fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+            </span>
+        
+    </div>
+
+    
+</div>
+
+                            </div>
+                        </div>
+                    </div>
+                
+
+                <div class="post-content keep-markdown-body">
+                    
+
+                    <h2 id="第四章-深入理解-Linux-网络-I-O-复用并发模型"><a href="#第四章-深入理解-Linux-网络-I-O-复用并发模型" class="headerlink" title="第四章 深入理解 Linux 网络 I&#x2F;O 复用并发模型"></a>第四章 深入理解 Linux 网络 I&#x2F;O 复用并发模型</h2><h3 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h3><h4 id="流-Stream"><a href="#流-Stream" class="headerlink" title="流 (Stream)"></a>流 (Stream)</h4><p>在开发中,流通常具有以下三个特征:</p>
+<ol>
+<li>可以进行 I&#x2F;O 操作的<strong>内核对象</strong>。</li>
+<li>数据传输的载体,如文件、管道、套接字(Socket)等。</li>
+<li>数据的入口通过<strong>文件描述符 (fd)</strong> 来进行描述和识别。</li>
+</ol>
+<h4 id="I-O-操作"><a href="#I-O-操作" class="headerlink" title="I&#x2F;O 操作"></a>I&#x2F;O 操作</h4><p>所有对“流”的读写行为都称为 I&#x2F;O 操作。</p>
+<ul>
+<li><strong>写阻塞</strong>:当传输媒介已满(如缓冲区满)时,继续写入会导致阻塞。</li>
+<li><strong>读阻塞</strong>:当传输媒介为空(如没有新数据)时,尝试读取会导致阻塞。</li>
+</ul>
+<h4 id="阻塞等待-Blocking"><a href="#阻塞等待-Blocking" class="headerlink" title="阻塞等待 (Blocking)"></a>阻塞等待 (Blocking)</h4><p><strong>在等待某个资源(如数据到达)时,程序执行逻辑完全暂停。</strong></p>
+<h4 id="非阻塞忙轮询-Non-blocking-Busy-Polling"><a href="#非阻塞忙轮询-Non-blocking-Busy-Polling" class="headerlink" title="非阻塞忙轮询 (Non-blocking Busy Polling)"></a>非阻塞忙轮询 (Non-blocking Busy Polling)</h4><p><strong>不间断地询问资源是否就绪。</strong></p>
+<h4 id="阻塞与非阻塞对比"><a href="#阻塞与非阻塞对比" class="headerlink" title="阻塞与非阻塞对比"></a>阻塞与非阻塞对比</h4><ol>
+<li><strong>阻塞等待</strong>:<ul>
+<li><strong>优点</strong>:不占用 CPU 时间片,节省系统资源(小 G 可以去睡觉)。</li>
+<li><strong>缺点</strong>:无法同一时刻处理多个 I&#x2F;O 请求(同一时间只能等一个快递)。</li>
+</ul>
+</li>
+<li><strong>非阻塞忙轮询</strong>:<ul>
+<li><strong>优点</strong>:宏观上能同时监控多个 I&#x2F;O。</li>
+<li><strong>缺点</strong>:极度浪费 CPU 资源和通信成本(反复打电话)。</li>
+</ul>
+</li>
+</ol>
+<h3 id="解决阻塞等待缺点的办法"><a href="#解决阻塞等待缺点的办法" class="headerlink" title="解决阻塞等待缺点的办法"></a>解决阻塞等待缺点的办法</h3><h4 id="阻塞死等待的缺点"><a href="#阻塞死等待的缺点" class="headerlink" title="阻塞死等待的缺点"></a>阻塞死等待的缺点</h4><p>主要矛盾在于:<strong>无法在同一时刻解决多个 I&#x2F;O 的读写请求</strong>。当处理一个请求时,其他请求会被拒绝或等待。</p>
+<h4 id="办法-1-多线程-多进程"><a href="#办法-1-多线程-多进程" class="headerlink" title="办法 1:多线程 &#x2F; 多进程"></a>办法 1:多线程 &#x2F; 多进程</h4><ul>
+<li><strong>策略</strong>:通过增加资源,为每个 I&#x2F;O 请求开启一个独立的线程或进程。</li>
+<li><strong>局限性</strong>:<ul>
+<li>资源消耗大(进程占内存高)。</li>
+<li>系统线程&#x2F;进程数量有上限,无法应对超高并发。</li>
+</ul>
+</li>
+</ul>
+<h4 id="办法-2-非阻塞忙轮询-伪代码实现"><a href="#办法-2-非阻塞忙轮询-伪代码实现" class="headerlink" title="办法 2:非阻塞忙轮询(伪代码实现)"></a>办法 2:非阻塞忙轮询(伪代码实现)</h4><ul>
+<li><strong>策略</strong>:通过 <code>while(true)</code> 循环不断遍历所有流。</li>
+<li><strong>伪代码逻辑</strong>:<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span>(<span class="literal">true</span>) &#123;</span><br><span class="line">    <span class="keyword">for</span> (stream : all_streams) &#123;</span><br><span class="line">        <span class="keyword">if</span> (stream has data) &#123;</span><br><span class="line">            process(stream);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><strong>缺点</strong>:即便没有任何流有数据,CPU 也会不停地执行循环判断,导致 <strong>CPU 占用率过高</strong>。</li>
+</ul>
+<h4 id="办法-3-select-I-O-多路复用"><a href="#办法-3-select-I-O-多路复用" class="headerlink" title="办法 3:select (I&#x2F;O 多路复用)"></a>办法 3:select (I&#x2F;O 多路复用)</h4><ul>
+<li><strong>原理</strong>:引入一个代理(管理员 select)。select 会阻塞等待,直到监听的多个流中<strong>至少有一个</strong>变得可读写。</li>
+<li><strong>伪代码逻辑</strong>:<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span>(<span class="literal">true</span>) &#123;</span><br><span class="line">    select(all_streams); <span class="comment">// 阻塞点:直到有流就绪才返回</span></span><br><span class="line">    <span class="keyword">for</span> (stream : all_streams) &#123; <span class="comment">// 遍历全量流集合</span></span><br><span class="line">        <span class="keyword">if</span> (stream has data) &#123;</span><br><span class="line">            process(stream);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><strong>缺点</strong>:<ol>
+<li><strong>全量返回</strong>:select 只告诉你有流就绪,但不告诉你是哪一个。开发者必须手动 <code>for</code> 循环<strong>遍历所有流</strong>来确认。</li>
+<li><strong>数量限制</strong>:select 能够监听的 fd 数量通常较小且固定(如 1024)。</li>
+</ol>
+</li>
+</ul>
+<h4 id="办法-4-epoll-进阶版-I-O-多路复用"><a href="#办法-4-epoll-进阶版-I-O-多路复用" class="headerlink" title="办法 4:epoll (进阶版 I&#x2F;O 多路复用)"></a>办法 4:epoll (进阶版 I&#x2F;O 多路复用)</h4><ul>
+<li><strong>原理</strong>:升级版的代理模式。它不仅通知有数据到达,还会<strong>明确告知哪些流</strong>是可以操作的。</li>
+<li><strong>伪代码逻辑</strong>:<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span>(<span class="literal">true</span>) &#123;</span><br><span class="line">    active_streams = epoll_wait(all_streams); <span class="comment">// 阻塞点</span></span><br><span class="line">    <span class="keyword">for</span> (stream : active_streams) &#123; <span class="comment">// 只遍历就绪的流</span></span><br><span class="line">        process(stream);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><strong>优点</strong>:<ol>
+<li><strong>高效率</strong>:只返回就绪的流,减少了无效遍历。</li>
+<li><strong>高性能</strong>:监听的 I&#x2F;O 数量上限由操作系统内存决定(非常大)。</li>
+<li><strong>系统开销小</strong>:在大规模并发下,性能优势极其明显。</li>
+</ol>
+</li>
+</ul>
+<h3 id="epoll"><a href="#epoll" class="headerlink" title="epoll"></a>epoll</h3><p><code>epoll</code> 是 Linux 下高性能的 I&#x2F;O 多路复用技术,其核心优势在于<strong>只关心活跃连接</strong>,无需像 <code>select/poll</code> 那样遍历整个描述符集合。</p>
+<h4 id="epoll-的三步开发流程与内核原理"><a href="#epoll-的三步开发流程与内核原理" class="headerlink" title="epoll 的三步开发流程与内核原理"></a>epoll 的三步开发流程与内核原理</h4><ol>
+<li><strong>创建 epoll (<code>epoll_create</code>)</strong><ul>
+<li><strong>接口</strong>:<code>int epoll_create(int size);</code></li>
+<li><strong>内核动作</strong>:在内核中创建一棵<strong>红黑树 (Red-Black Tree)</strong>。</li>
+<li><strong>作用</strong>:红黑树的根节点对应 <code>epfd</code>,用于高效管理(增删改)数以万计的文件描述符 (fd)。</li>
+</ul>
+</li>
+<li><strong>控制 epoll (<code>epoll_ctl</code>)</strong><ul>
+<li><strong>接口</strong>:<code>int epoll_ctl(int epfd, int op, int fd, struct epoll_event *event);</code></li>
+<li><strong>内核动作</strong>:向红黑树中添加、删除或修改 fd 及其对应的事件(如 <code>EPOLLIN</code> 读事件)。</li>
+</ul>
+</li>
+<li><strong>等待 epoll (<code>epoll_wait</code>)</strong><ul>
+<li><strong>接口</strong>:<code>int epoll_wait(int epfd, struct epoll_event *events, int maxevents, int timeout);</code></li>
+<li><strong>机制</strong>:这是一个阻塞调用。当内核检测到红黑树中有 fd 触发了 I&#x2F;O 事件,会将其移入一个<strong>就绪链表</strong>,并抛给用户态。</li>
+<li><strong>结果</strong>:开发者直接得到一个“活跃事件集合”,只需遍历这个集合即可处理,效率极高。</li>
+</ul>
+</li>
+</ol>
+<h4 id="epoll-的触发模式"><a href="#epoll-的触发模式" class="headerlink" title="epoll 的触发模式"></a>epoll 的触发模式</h4><h4 id="水平触发-Level-Triggered-LT-——-默认模式"><a href="#水平触发-Level-Triggered-LT-——-默认模式" class="headerlink" title="水平触发 (Level Triggered, LT) —— 默认模式"></a>水平触发 (Level Triggered, LT) —— 默认模式</h4><ul>
+<li><strong>机制</strong>:只要内核缓冲区中有数据,<code>epoll_wait</code> 就会不断通知用户。</li>
+<li><strong>优点</strong>:<strong>安全</strong>。即使一次没读完,下次还会提醒,不容易丢数据。</li>
+<li><strong>缺点</strong>:若数据未及时处理,会产生大量重复的内核到用户态的切换,影响性能。</li>
+</ul>
+<h4 id="边缘触发-Edge-Triggered-ET-——-高性能模式"><a href="#边缘触发-Edge-Triggered-ET-——-高性能模式" class="headerlink" title="边缘触发 (Edge Triggered, ET) —— 高性能模式"></a>边缘触发 (Edge Triggered, ET) —— 高性能模式</h4><ul>
+<li><strong>机制</strong>:仅在状态发生变化时(如数据从无到有)通知一次。</li>
+<li><strong>优点</strong>:<strong>高性能</strong>。减少了 <code>epoll_wait</code> 的触发次数。</li>
+<li><strong>缺点</strong>:<strong>风险高</strong>。开发者必须一次性将缓冲区数据读完(通常配合非阻塞 I&#x2F;O 使用循环读取),否则未读完的数据可能永远不会再通知。</li>
+</ul>
+<h3 id="Linux-常见网络-I-O-复用并发模型"><a href="#Linux-常见网络-I-O-复用并发模型" class="headerlink" title="Linux 常见网络 I&#x2F;O 复用并发模型"></a>Linux 常见网络 I&#x2F;O 复用并发模型</h3><h3 id="模型-1-单线程-Accept-无-I-O-复用"><a href="#模型-1-单线程-Accept-无-I-O-复用" class="headerlink" title="模型 1:单线程 Accept(无 I&#x2F;O 复用)"></a>模型 1:单线程 Accept(无 I&#x2F;O 复用)</h3><p>这是最原始的服务器模型,所有操作都在一个线程内线性执行。</p>
+<ul>
+<li><strong>详细步骤:</strong><ol>
+<li><strong>初始化</strong>:主线程创建 <code>ListenFd</code>,绑定(Bind)IP和端口,调用 <code>Listen</code> 进入监听状态。</li>
+<li><strong>阻塞监听</strong>:主线程调用 <code>accept()</code> 函数,线程进入阻塞状态,死等客户端连接。</li>
+<li><strong>建立连接</strong>:客户端 Connect 请求到达,<code>accept()</code> 返回一个新的 <code>ConnFd</code>。</li>
+<li><strong>业务处理</strong>:主线程继续执行 <code>read()</code> 读取数据,进行逻辑计算,最后 <code>write()</code> 返回结果。</li>
+<li><strong>循环</strong>:业务处理完后,主线程回到步骤 2,处理下一个请求。</li>
+</ol>
+</li>
+<li><strong>致命伤</strong>:<strong>串行化</strong>。如果 Client 1 正在处理业务,Client 2 的连接请求会被挂起,无法响应。</li>
+</ul>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="/../../images/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E3%80%8A%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Go%E8%AF%AD%E8%A8%80%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Linux%E7%BD%91%E7%BB%9CIO%E5%A4%8D%E7%94%A8%E5%B9%B6%E5%8F%91%E6%A8%A1%E5%9E%8B/%E7%BD%91%E7%BB%9C%E5%B9%B6%E5%8F%91%E6%A8%A1%E5%9E%8B1:%E5%8D%95%E7%BA%BF%E7%A8%8BAccept.png"
+                        alt="网络并发模型1:单线程Accept.png"
+                 ></p>
+<h3 id="模型-2-单线程-Accept-多线程读写-无-I-O-复用"><a href="#模型-2-单线程-Accept-多线程读写-无-I-O-复用" class="headerlink" title="模型 2:单线程 Accept + 多线程读写(无 I&#x2F;O 复用)"></a>模型 2:单线程 Accept + 多线程读写(无 I&#x2F;O 复用)</h3><p>为了解决模型 1 的串行问题,引入了多线程。</p>
+<ul>
+<li><strong>详细步骤:</strong><ol>
+<li><strong>初始化</strong>:主线程创建 <code>ListenFd</code> 并监听。</li>
+<li><strong>主线程阻塞</strong>:主线程调用 <code>accept()</code> 等待连接。</li>
+<li><strong>分发任务</strong>:一旦 <code>accept()</code> 返回 <code>ConnFd</code>,主线程立即 <code>pthread_create</code> <strong>创建一个新线程</strong>(或从池中取),并将 <code>ConnFd</code> 交给新线程。</li>
+<li><strong>并发执行</strong>:<ul>
+<li><strong>子线程</strong>:负责该 <code>ConnFd</code> 的全部生命周期(Read -&gt; 业务 -&gt; Write -&gt; Close)。</li>
+<li><strong>主线程</strong>:立即回到步骤 2,继续等待下一个客户端连接。</li>
+</ul>
+</li>
+</ol>
+</li>
+<li><strong>优缺点</strong>:实现了并发,但 <strong>1:1 的线程开销</strong>在面对成千上万连接时,会因内存耗尽和 CPU 上下文切换频繁而崩溃。</li>
+</ul>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="/../../images/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E3%80%8A%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Go%E8%AF%AD%E8%A8%80%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Linux%E7%BD%91%E7%BB%9CIO%E5%A4%8D%E7%94%A8%E5%B9%B6%E5%8F%91%E6%A8%A1%E5%9E%8B/%E7%BD%91%E7%BB%9C%E5%B9%B6%E5%8F%91%E6%A8%A1%E5%9E%8B2:%E5%8D%95%E7%BA%BF%E7%A8%8BAccept+%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%AF%BB%E5%86%991.png"
+                        alt="网络并发模型2:单线程Accept+多线程读写1.png"
+                 ><br><img  
+                       lazyload
+                       alt="image"
+                       data-src="/../../images/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E3%80%8A%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Go%E8%AF%AD%E8%A8%80%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Linux%E7%BD%91%E7%BB%9CIO%E5%A4%8D%E7%94%A8%E5%B9%B6%E5%8F%91%E6%A8%A1%E5%9E%8B/%E7%BD%91%E7%BB%9C%E5%B9%B6%E5%8F%91%E6%A8%A1%E5%9E%8B2:%E5%8D%95%E7%BA%BF%E7%A8%8BAccept+%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%AF%BB%E5%86%992.png"
+                        alt="网络并发模型2:单线程Accept+多线程读写2.png"
+                 ></p>
+<h3 id="模型-3-单线程多路-I-O-复用"><a href="#模型-3-单线程多路-I-O-复用" class="headerlink" title="模型 3:单线程多路 I&#x2F;O 复用"></a>模型 3:单线程多路 I&#x2F;O 复用</h3><p>不使用多线程,而是利用内核提供的 <code>select/epoll</code> 同时监控多个连接。</p>
+<ul>
+<li><strong>详细步骤:</strong><ol>
+<li><strong>初始化</strong>:创建 <code>ListenFd</code>,并将其加入 <code>epoll</code> 监听集合。</li>
+<li><strong>事件阻塞</strong>:调用 <code>epoll_wait()</code>,线程进入阻塞,等待内核通知。</li>
+<li><strong>响应分发</strong>:当 <code>epoll_wait</code> 返回活跃 fd 集合时:<ul>
+<li><strong>如果是 ListenFd</strong>:执行 <code>accept()</code>,并将新生成的 <code>ConnFd</code> 也加入 <code>epoll</code> 集合。</li>
+<li><strong>如果是 ConnFd</strong>:在当前线程执行 Read -&gt; 业务处理 -&gt; Write。</li>
+</ul>
+</li>
+<li><strong>循环</strong>:处理完当前所有活跃 fd 后,回到步骤 2。</li>
+</ol>
+</li>
+<li><strong>局限</strong>:虽然能监听万级连接,但<strong>业务逻辑仍在主线程</strong>。如果某个业务逻辑(如复杂计算)太慢,会导致所有其他连接的 I&#x2F;O 被阻塞。</li>
+</ul>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="/../../images/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E3%80%8A%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Go%E8%AF%AD%E8%A8%80%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Linux%E7%BD%91%E7%BB%9CIO%E5%A4%8D%E7%94%A8%E5%B9%B6%E5%8F%91%E6%A8%A1%E5%9E%8B/%E7%BD%91%E7%BB%9C%E5%B9%B6%E5%8F%91%E6%A8%A1%E5%9E%8B3:%E5%8D%95%E7%BA%BF%E7%A8%8BAccept%E5%A4%9A%E8%B7%AFIO%E5%A4%8D%E7%94%A81.png"
+                        alt="网络并发模型3:单线程Accept多路IO复用1.png"
+                 ><br><img  
+                       lazyload
+                       alt="image"
+                       data-src="/../../images/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E3%80%8A%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Go%E8%AF%AD%E8%A8%80%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Linux%E7%BD%91%E7%BB%9CIO%E5%A4%8D%E7%94%A8%E5%B9%B6%E5%8F%91%E6%A8%A1%E5%9E%8B/%E7%BD%91%E7%BB%9C%E5%B9%B6%E5%8F%91%E6%A8%A1%E5%9E%8B3:%E5%8D%95%E7%BA%BF%E7%A8%8BAccept%E5%A4%9A%E8%B7%AFIO%E5%A4%8D%E7%94%A82.png"
+                        alt="网络并发模型3:单线程Accept多路IO复用2.png"
+                 ><br><img  
+                       lazyload
+                       alt="image"
+                       data-src="/../../images/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E3%80%8A%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Go%E8%AF%AD%E8%A8%80%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Linux%E7%BD%91%E7%BB%9CIO%E5%A4%8D%E7%94%A8%E5%B9%B6%E5%8F%91%E6%A8%A1%E5%9E%8B/%E7%BD%91%E7%BB%9C%E5%B9%B6%E5%8F%91%E6%A8%A1%E5%9E%8B3:%E5%8D%95%E7%BA%BF%E7%A8%8BAccept%E5%A4%9A%E8%B7%AFIO%E5%A4%8D%E7%94%A83.png"
+                        alt="网络并发模型3:单线程Accept多路IO复用3.png"
+                 ></p>
+<h3 id="模型-4-单线程多路-I-O-复用-业务工作池"><a href="#模型-4-单线程多路-I-O-复用-业务工作池" class="headerlink" title="模型 4:单线程多路 I&#x2F;O 复用 + 业务工作池"></a>模型 4:单线程多路 I&#x2F;O 复用 + 业务工作池</h3><p>将模型 3 的业务处理部分剥离出来,交给专门的线程池。</p>
+<ul>
+<li><strong>详细步骤:</strong><ol>
+<li><strong>初始化</strong>:主线程创建 <code>epoll</code>,并启动一个 <strong>Worker Pool(工作线程池)</strong>。</li>
+<li><strong>I&#x2F;O 监听</strong>:主线程通过 <code>epoll_wait</code> 监控所有 fd。</li>
+<li><strong>读写分发</strong>:<ul>
+<li><strong>连接事件</strong>:主线程 <code>accept</code>。</li>
+<li><strong>读事件</strong>:主线程 <code>read</code> 完整的数据包,封装成一个“任务(Task)”,丢进 <strong>Worker Pool</strong> 的任务队列。</li>
+</ul>
+</li>
+<li><strong>并行计算</strong>:Worker 线程池中的某个空闲线程取出 Task,执行业务逻辑,计算出结果。</li>
+<li><strong>回写数据</strong>:Worker 线程处理完后,通知主线程(或直接)通过 <code>ConnFd</code> 将结果 <code>write</code> 给客户端。</li>
+</ol>
+</li>
+<li><strong>进步点</strong>:业务逻辑不再阻塞 I&#x2F;O 监控。但<strong>所有读写操作</strong>仍由主线程一人承担,读写带宽存在瓶颈。</li>
+</ul>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="/../../images/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E3%80%8A%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Go%E8%AF%AD%E8%A8%80%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Linux%E7%BD%91%E7%BB%9CIO%E5%A4%8D%E7%94%A8%E5%B9%B6%E5%8F%91%E6%A8%A1%E5%9E%8B/%E7%BD%91%E7%BB%9C%E5%B9%B6%E5%8F%91%E6%A8%A1%E5%9E%8B4:%E5%8D%95%E7%BA%BF%E7%A8%8B%E5%A4%9A%E8%B7%AFIO%E5%A4%8D%E7%94%A8+%E4%B8%9A%E5%8A%A1%E5%B7%A5%E4%BD%9C%E6%B1%A01.png"
+                        alt="网络并发模型4:单线程多路IO复用+业务工作池1.png"
+                 ><br><img  
+                       lazyload
+                       alt="image"
+                       data-src="/../../images/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E3%80%8A%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Go%E8%AF%AD%E8%A8%80%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Linux%E7%BD%91%E7%BB%9CIO%E5%A4%8D%E7%94%A8%E5%B9%B6%E5%8F%91%E6%A8%A1%E5%9E%8B/%E7%BD%91%E7%BB%9C%E5%B9%B6%E5%8F%91%E6%A8%A1%E5%9E%8B4:%E5%8D%95%E7%BA%BF%E7%A8%8B%E5%A4%9A%E8%B7%AFIO%E5%A4%8D%E7%94%A8+%E4%B8%9A%E5%8A%A1%E5%B7%A5%E4%BD%9C%E6%B1%A02.png"
+                        alt="网络并发模型4:单线程多路IO复用+业务工作池2.png"
+                 ><br><img  
+                       lazyload
+                       alt="image"
+                       data-src="/../../images/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E3%80%8A%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Go%E8%AF%AD%E8%A8%80%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Linux%E7%BD%91%E7%BB%9CIO%E5%A4%8D%E7%94%A8%E5%B9%B6%E5%8F%91%E6%A8%A1%E5%9E%8B/%E7%BD%91%E7%BB%9C%E5%B9%B6%E5%8F%91%E6%A8%A1%E5%9E%8B4:%E5%8D%95%E7%BA%BF%E7%A8%8B%E5%A4%9A%E8%B7%AFIO%E5%A4%8D%E7%94%A8+%E4%B8%9A%E5%8A%A1%E5%B7%A5%E4%BD%9C%E6%B1%A03.png"
+                        alt="网络并发模型4:单线程多路IO复用+业务工作池3.png"
+                 ><br><img  
+                       lazyload
+                       alt="image"
+                       data-src="/../../images/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E3%80%8A%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Go%E8%AF%AD%E8%A8%80%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Linux%E7%BD%91%E7%BB%9CIO%E5%A4%8D%E7%94%A8%E5%B9%B6%E5%8F%91%E6%A8%A1%E5%9E%8B/%E7%BD%91%E7%BB%9C%E5%B9%B6%E5%8F%91%E6%A8%A1%E5%9E%8B4:%E5%8D%95%E7%BA%BF%E7%A8%8B%E5%A4%9A%E8%B7%AFIO%E5%A4%8D%E7%94%A8+%E4%B8%9A%E5%8A%A1%E5%B7%A5%E4%BD%9C%E6%B1%A04.png"
+                        alt="网络并发模型4:单线程多路IO复用+业务工作池4.png"
+                 ></p>
+<h3 id="模型-5-单线程-I-O-复用-多线程-I-O-复用-连接线程池-——-主流方案"><a href="#模型-5-单线程-I-O-复用-多线程-I-O-复用-连接线程池-——-主流方案" class="headerlink" title="模型 5:单线程 I&#x2F;O 复用 + 多线程 I&#x2F;O 复用(连接线程池)—— 主流方案"></a>模型 5:单线程 I&#x2F;O 复用 + 多线程 I&#x2F;O 复用(连接线程池)—— 主流方案</h3><p>这就是著名的 <strong>Reactor 多线程模型</strong>(如 Netty 的 Boss&#x2F;Worker 机制)。</p>
+<ul>
+<li><strong>详细步骤:</strong><ol>
+<li><strong>初始化</strong>:主线程(MainReactor)建立,同时开启 <strong>线程池(SubReactors)</strong>,每个子线程都有自己的 <code>epoll</code> 实例。</li>
+<li><strong>主线程监听</strong>:主线程只负责监听 <code>ListenFd</code>,执行 <code>accept</code>。</li>
+<li><strong>连接分发</strong>:主线程将 <code>accept</code> 得到的 <code>ConnFd</code> 轮询分发给某个子线程(SubThread)。</li>
+<li><strong>子线程监听</strong>:子线程将分配到的 <code>ConnFd</code> 加入自己的 <code>epoll</code> 集合,负责该连接后续的<strong>所有</strong>读、写、业务。</li>
+</ol>
+</li>
+<li><strong>核心优势</strong>:读写并行通道从 1 扩展到了 N(线程数),极大地提升了吞吐量。</li>
+</ul>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="/../../images/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E3%80%8A%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Go%E8%AF%AD%E8%A8%80%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Linux%E7%BD%91%E7%BB%9CIO%E5%A4%8D%E7%94%A8%E5%B9%B6%E5%8F%91%E6%A8%A1%E5%9E%8B/%E7%BD%91%E7%BB%9C%E5%B9%B6%E5%8F%91%E6%A8%A1%E5%9E%8B5:%E5%8D%95%E7%BA%BF%E7%A8%8BIO%E5%A4%8D%E7%94%A8+%E5%A4%9A%E7%BA%BF%E7%A8%8BIO%E5%A4%8D%E7%94%A81.png"
+                        alt="网络并发模型5:单线程IO复用+多线程IO复用1.png"
+                 ><br><img  
+                       lazyload
+                       alt="image"
+                       data-src="/../../images/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E3%80%8A%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Go%E8%AF%AD%E8%A8%80%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Linux%E7%BD%91%E7%BB%9CIO%E5%A4%8D%E7%94%A8%E5%B9%B6%E5%8F%91%E6%A8%A1%E5%9E%8B/%E7%BD%91%E7%BB%9C%E5%B9%B6%E5%8F%91%E6%A8%A1%E5%9E%8B5:%E5%8D%95%E7%BA%BF%E7%A8%8BIO%E5%A4%8D%E7%94%A8+%E5%A4%9A%E7%BA%BF%E7%A8%8BIO%E5%A4%8D%E7%94%A82.png"
+                        alt="网络并发模型5:单线程IO复用+多线程IO复用2.png"
+                 ><br><img  
+                       lazyload
+                       alt="image"
+                       data-src="/../../images/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E3%80%8A%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Go%E8%AF%AD%E8%A8%80%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Linux%E7%BD%91%E7%BB%9CIO%E5%A4%8D%E7%94%A8%E5%B9%B6%E5%8F%91%E6%A8%A1%E5%9E%8B/%E7%BD%91%E7%BB%9C%E5%B9%B6%E5%8F%91%E6%A8%A1%E5%9E%8B5:%E5%8D%95%E7%BA%BF%E7%A8%8BIO%E5%A4%8D%E7%94%A8+%E5%A4%9A%E7%BA%BF%E7%A8%8BIO%E5%A4%8D%E7%94%A83.png"
+                        alt="网络并发模型5:单线程IO复用+多线程IO复用3.png"
+                 ></p>
+<h3 id="模型-5-进程版-多进程-I-O-复用-——-稳定方案"><a href="#模型-5-进程版-多进程-I-O-复用-——-稳定方案" class="headerlink" title="模型 5(进程版):多进程 I&#x2F;O 复用 —— 稳定方案"></a>模型 5(进程版):多进程 I&#x2F;O 复用 —— 稳定方案</h3><p>典型代表:<strong>Nginx</strong>。</p>
+<ul>
+<li><strong>详细步骤:</strong><ol>
+<li><strong>Master 初始化</strong>:主进程创建 <code>ListenFd</code>,但不 <code>accept</code>。</li>
+<li><strong>Fork 进程池</strong>:创建多个 Worker 进程。</li>
+<li><strong>竞争 Accept</strong>:<ul>
+<li>所有 Worker 进程通过 <strong>Accept_Mutex(互斥锁)</strong> 或内核的 <code>SO_REUSEPORT</code> 竞争处理新连接。</li>
+<li>胜出的 Worker 执行 <code>accept</code> 得到 <code>ConnFd</code>。</li>
+</ul>
+</li>
+<li><strong>独立监听</strong>:该 Worker 进程将 <code>ConnFd</code> 加入自己的 <code>epoll</code> 集合,独立处理读写业务。</li>
+</ol>
+</li>
+<li><strong>特点</strong>:进程间内存隔离,稳定性极强,一个 Worker 挂了不影响整体。</li>
+</ul>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="/../../images/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E3%80%8A%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Go%E8%AF%AD%E8%A8%80%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Linux%E7%BD%91%E7%BB%9CIO%E5%A4%8D%E7%94%A8%E5%B9%B6%E5%8F%91%E6%A8%A1%E5%9E%8B/%E7%BD%91%E7%BB%9C%E5%B9%B6%E5%8F%91%E6%A8%A1%E5%9E%8B6:1.png"
+                        alt="网络并发模型6:1.png"
+                 ><br><img  
+                       lazyload
+                       alt="image"
+                       data-src="/../../images/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E3%80%8A%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Go%E8%AF%AD%E8%A8%80%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Linux%E7%BD%91%E7%BB%9CIO%E5%A4%8D%E7%94%A8%E5%B9%B6%E5%8F%91%E6%A8%A1%E5%9E%8B/%E7%BD%91%E7%BB%9C%E5%B9%B6%E5%8F%91%E6%A8%A1%E5%9E%8B6:2.png"
+                        alt="网络并发模型6:2.png"
+                 ><br><img  
+                       lazyload
+                       alt="image"
+                       data-src="/../../images/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E3%80%8A%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Go%E8%AF%AD%E8%A8%80%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Linux%E7%BD%91%E7%BB%9CIO%E5%A4%8D%E7%94%A8%E5%B9%B6%E5%8F%91%E6%A8%A1%E5%9E%8B/%E7%BD%91%E7%BB%9C%E5%B9%B6%E5%8F%91%E6%A8%A1%E5%9E%8B6:3.png"
+                        alt="网络并发模型6:3.png"
+                 ></p>
+<h3 id="模型-6-单线程-I-O-复用-多线程-I-O-复用-临时多线程"><a href="#模型-6-单线程-I-O-复用-多线程-I-O-复用-临时多线程" class="headerlink" title="模型 6:单线程 I&#x2F;O 复用 + 多线程 I&#x2F;O 复用 + 临时多线程"></a>模型 6:单线程 I&#x2F;O 复用 + 多线程 I&#x2F;O 复用 + 临时多线程</h3><p>这是模型 5 的极端增强版。</p>
+<ul>
+<li><strong>详细步骤:</strong><ol>
+<li><strong>前三步同模型 5</strong>(主线程分发给子线程)。</li>
+<li><strong>动态触发</strong>:子线程在 <code>epoll_wait</code> 收到某个 <code>ConnFd</code> 的读写事件。</li>
+<li><strong>即时开辟</strong>:子线程<strong>不亲自读写</strong>,而是立即开启(或调度)一个<strong>临时线程</strong>来专门处理这次读写。</li>
+<li><strong>任务结束</strong>:读写和业务完成后,该临时线程销毁或回池。</li>
+</ol>
+</li>
+<li><strong>评价</strong>:这是理论上的“最大并发”,但在目前的硬件下,<strong>频繁创建&#x2F;调度线程的开销</strong>远大于其带来的并发收益,容易导致系统负载过高,属于“过度设计”。</li>
+</ul>
+<h3 id="总结对比表"><a href="#总结对比表" class="headerlink" title="总结对比表"></a>总结对比表</h3><table>
+<thead>
+<tr>
+<th align="left">模型</th>
+<th align="left">并发点</th>
+<th align="left">核心角色</th>
+<th align="left">适用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>模型 1</strong></td>
+<td align="left">无</td>
+<td align="left">主线程</td>
+<td align="left">教学示例</td>
+</tr>
+<tr>
+<td align="left"><strong>模型 2</strong></td>
+<td align="left">业务+读写</td>
+<td align="left">每连接一线程</td>
+<td align="left">低频长连接</td>
+</tr>
+<tr>
+<td align="left"><strong>模型 3</strong></td>
+<td align="left">I&#x2F;O 监听</td>
+<td align="left">单 epoll</td>
+<td align="left">简单请求(如 Redis)</td>
+</tr>
+<tr>
+<td align="left"><strong>模型 4</strong></td>
+<td align="left">业务逻辑</td>
+<td align="left">epoll + Worker池</td>
+<td align="left">逻辑复杂的计算型服务</td>
+</tr>
+<tr>
+<td align="left"><strong>模型 5</strong></td>
+<td align="left"><strong>I&#x2F;O 读写 + 业务</strong></td>
+<td align="left"><strong>多 epoll (Reactor)</strong></td>
+<td align="left"><strong>主流高性能服务器</strong></td>
+</tr>
+<tr>
+<td align="left"><strong>模型 6</strong></td>
+<td align="left">全流程极致并行</td>
+<td align="left">动态线程</td>
+<td align="left">极高性能的特殊硬件环境</td>
+</tr>
+</tbody></table>
+
+                </div>
+
+                
+                        
+<div class="post-copyright-info-container border-box">
+    <div class="copyright-info-content border-box">
+        <div class="copyright-info-top border-box">
+            <div class="copyright-post-title border-box text-ellipsis">
+                《深入理解Go语言》读书笔记 - 深入理解 Linux 网络 I/O 复用并发模型
+            </div>
+
+            <div class="copyright-post-link border-box text-ellipsis">
+                读书笔记/读书笔记/《深入理解Go语言》读书笔记-深入理解Linux网络IO复用并发模型/
+            </div>
+        </div>
+
+        <div class="copyright-info-bottom border-box">
+            <div class="copyright-post-author bottom-item">
+                <div class="type">
+                    作者
+                </div>
+                <div class="content">咕咕咕</div>
+            </div>
+
+            <div class="post-time bottom-item">
+                <div class="type">
+                    发布于
+                </div>
+                <div class="content">2026-01-08 20:22</div>
+            </div>
+
+
+            <div class="post-license bottom-item">
+                <div class="type">
+                    许可
+                </div>
+                <div class="content tooltip" data-tooltip-content="CC BY-NC-SA 4.0">
+                    <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hans">
+                        <i class="fa-brands fa-creative-commons"></i>
+                        <i class="fa-brands fa-creative-commons-by"></i>
+                        <i class="fa-brands fa-creative-commons-nc"></i>
+                        <i class="fa-brands fa-creative-commons-sa"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <i class="copyright-bg fa-solid fa-copyright"></i>
+    </div>
+    <div class="copy-copyright-info flex-center tooltip" data-tooltip-content="复制版权信息" data-tooltip-offset-y="-2px">
+        <i class="fa-solid fa-copy"></i>
+    </div>
+</div>
+
+                
+
+                <div class="post-bottom-tags-and-share border-box">
+                    <div>
+                        
+                            <ul class="post-tags-box border-box">
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/%E3%80%8A%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Go%E8%AF%AD%E8%A8%80%E3%80%8B/">《深入理解Go语言》</a>
+                                    </li>
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/Linux/">Linux</a>
+                                    </li>
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/I-O%E5%A4%8D%E7%94%A8/">I/O复用</a>
+                                    </li>
+                                
+                            </ul>
+                        
+                    </div>
+                    <div>
+                        
+                            <div class="post-share-container border-box">
+    <ul class="share-list-wrap border-box">
+        <li class="qq share-item border-box flex-center tooltip"
+            data-tooltip-content="分享到 QQ"
+        >
+            <i class="fa-brands fa-qq"></i>
+        </li>
+        <li class="wechat share-item border-box flex-center tooltip tooltip-img"
+            data-tooltip-content="分享到微信"
+            data-tooltip-img-tip="微信扫一扫"
+            data-tooltip-img-style="background-color: #fff; top: -10px; padding: 0.6rem 0.6rem 0.1rem 0.6rem;"
+        >
+            <i class="fa-brands fa-weixin"></i>
+        </li>
+        <li class="weibo share-item border-box flex-center tooltip"
+            data-tooltip-content="分享到微博"
+        >
+            <i class="fa-brands fa-weibo"></i>
+        </li>
+    </ul>
+</div>
+
+                        
+                    </div>
+                </div>
+
+                
+                    <div class="reward-author-container border-box flex-center">
+    <div class="reward-btn keep-button border-box flex-center tooltip tooltip-img"
+            data-tooltip-content="谢谢你请我喝可乐~"
+            data-tooltip-img-url="/images/thanks.png"
+            data-tooltip-img-trigger="click"
+            data-tooltip-img-style="top: -8px;"
+    >
+        <i class="fa-solid fa-hand-holding-heart"></i>
+    </div>
+</div>
+
+                
+
+                
+                    <div class="post-nav border-box">
+                        
+                            <div class="prev-post">
+                                <a class="prev"
+                                   rel="prev"
+                                   href="/uncategorized/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E3%80%8A%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Go%E8%AF%AD%E8%A8%80%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-Go%E8%AF%AD%E8%A8%80%E7%89%B9%E6%80%A7%E7%9A%84%E8%BF%9B%E9%98%B6%E7%9F%A5%E8%AF%86/"
+                                   title="《深入理解Go语言》读书笔记 - Go 语言特性的进阶知识"
+                                >
+                                    <span class="left arrow-icon flex-center">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </span>
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">《深入理解Go语言》读书笔记 - Go 语言特性的进阶知识</span>
+                                        <span class="post-nav-item">上一篇</span>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                        
+                            <div class="next-post">
+                                <a class="next"
+                                   rel="next"
+                                   href="/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E3%80%8A%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Go%E8%AF%AD%E8%A8%80%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-Go%E8%AF%AD%E8%A8%80%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/"
+                                   title="《深入理解Go语言》读书笔记 - Go 语言内存管理"
+                                >
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">《深入理解Go语言》读书笔记 - Go 语言内存管理</span>
+                                        <span class="post-nav-item">下一篇</span>
+                                    </span>
+                                    <span class="right arrow-icon flex-center">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                    </div>
+                
+
+                
+                    
+
+
+    <div class="comments-container border-box">
+        <div id="comments-anchor" class="comment-area-title border-box">
+            <i class="fas fa-comments"></i>&nbsp;评论
+        </div>
+        <div class="comment-plugin-fail border-box">
+    <span class="fail-tip">评论插件加载失败</span>
+    <button class="reload keep-button">点击重新加载</button>
+</div>
+<div class="comment-plugin-loading flex-center border-box">
+    <i class="loading-icon fa-solid fa-spinner fa-spin"></i>
+    <span class="load-tip">正在加载评论插件</span>
+</div>
+<script data-pjax>
+  window.KeepCommentPlugin = {}
+  window.KeepCommentPlugin.hideLoading = () => {
+    const cplDom = document.querySelector('.comments-container .comment-plugin-loading')
+    cplDom.style.display = 'none'
+  }
+  window.KeepCommentPlugin.loadFailHandle = () => {
+    window.KeepCommentPlugin.hideLoading()
+    const cpfDom = document.querySelector('.comments-container .comment-plugin-fail')
+    cpfDom.style.display = 'flex'
+    cpfDom.querySelector('.reload').addEventListener('click', () => {
+      window.location.reload()
+    })
+  }
+</script>
+
+        
+            
+
+    <div class="giscus-comments-container">
+        <div class="giscus" id="giscus"></div>
+        <script data-pjax
+                onerror="window.KeepCommentPlugin.loadFailHandle()"
+        >
+          if (!window.KeepCommentPlugin?.getGiscusTheme) {
+            window.KeepCommentPlugin.getGiscusTheme = () => {
+              return document.body.classList.contains('dark-mode') ? 'dark_dimmed' : 'light_tritanopia'
+            }
+          }
+
+          if (!window.KeepCommentPlugin?.changeGiscusTheme) {
+            window.KeepCommentPlugin.changeGiscusTheme = () => {
+              const iframe = document.querySelector('iframe.giscus-frame')
+              iframe && iframe.contentWindow.postMessage({
+                giscus: {
+                  setConfig: {
+                    theme: window.KeepCommentPlugin.getGiscusTheme()
+                  }
+                }
+              }, 'https://giscus.app')
+            }
+          }
+
+          if (!window.KeepCommentPlugin?.initGiscus) {
+            window.KeepCommentPlugin.initGiscus = () => {
+              const script = document.createElement('script')
+              script.async = true
+              script.src = 'https://giscus.app/client.js'
+              script.setAttribute('data-repo', 'Cooooing/Cooooing.github.io')
+              script.setAttribute('data-repo-id', 'R_kgDOHQal_w')
+              script.setAttribute('data-category', 'Announcements')
+              script.setAttribute('data-category-id', 'DIC_kwDOHQal_84CjZo6')
+              script.setAttribute('data-reactions-enabled', '1')
+              script.setAttribute('data-lang', 'zh-CN')
+              script.setAttribute('data-mapping', 'pathname')
+              script.setAttribute('data-strict', '0')
+              script.setAttribute('data-emit-metadata', '0')
+              script.setAttribute('data-input-position', 'top')
+              script.setAttribute('crossorigin', 'anonymous')
+              script.setAttribute('loading', 'lazy')
+              script.setAttribute('data-theme', window.KeepCommentPlugin.getGiscusTheme())
+              document.querySelector('.giscus-comments-container').appendChild(script)
+              script.onerror = () => {
+                window.KeepCommentPlugin.loadFailHandle()
+              }
+              script.onload = () => {
+                window.KeepCommentPlugin.hideLoading()
+              }
+              const toggleThemeBtn = document.querySelector('.tool-toggle-theme-mode')
+              toggleThemeBtn && toggleThemeBtn.addEventListener('click', () => {
+                window.KeepCommentPlugin.changeGiscusTheme()
+              })
+            }
+          }
+
+          if ('true' === "true") {
+            setTimeout(() => {
+              window.KeepCommentPlugin.initGiscus()
+            }, 1000)
+          } else {
+            window.addEventListener("DOMContentLoaded", window.KeepCommentPlugin.initGiscus)
+          }
+        </script>
+    </div>
+
+
+        
+    </div>
+
+
+
+
+
+                
+            </div>
+        </div>
+
+        
+            <div class="pc-post-toc left-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3-Linux-%E7%BD%91%E7%BB%9C-I-O-%E5%A4%8D%E7%94%A8%E5%B9%B6%E5%8F%91%E6%A8%A1%E5%9E%8B"><span class="nav-text">第四章 深入理解 Linux 网络 I&#x2F;O 复用并发模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="nav-text">基本概念</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B5%81-Stream"><span class="nav-text">流 (Stream)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#I-O-%E6%93%8D%E4%BD%9C"><span class="nav-text">I&#x2F;O 操作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%98%BB%E5%A1%9E%E7%AD%89%E5%BE%85-Blocking"><span class="nav-text">阻塞等待 (Blocking)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%9D%9E%E9%98%BB%E5%A1%9E%E5%BF%99%E8%BD%AE%E8%AF%A2-Non-blocking-Busy-Polling"><span class="nav-text">非阻塞忙轮询 (Non-blocking Busy Polling)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%98%BB%E5%A1%9E%E4%B8%8E%E9%9D%9E%E9%98%BB%E5%A1%9E%E5%AF%B9%E6%AF%94"><span class="nav-text">阻塞与非阻塞对比</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E9%98%BB%E5%A1%9E%E7%AD%89%E5%BE%85%E7%BC%BA%E7%82%B9%E7%9A%84%E5%8A%9E%E6%B3%95"><span class="nav-text">解决阻塞等待缺点的办法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%98%BB%E5%A1%9E%E6%AD%BB%E7%AD%89%E5%BE%85%E7%9A%84%E7%BC%BA%E7%82%B9"><span class="nav-text">阻塞死等待的缺点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8A%9E%E6%B3%95-1-%E5%A4%9A%E7%BA%BF%E7%A8%8B-%E5%A4%9A%E8%BF%9B%E7%A8%8B"><span class="nav-text">办法 1:多线程 &#x2F; 多进程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8A%9E%E6%B3%95-2-%E9%9D%9E%E9%98%BB%E5%A1%9E%E5%BF%99%E8%BD%AE%E8%AF%A2-%E4%BC%AA%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0"><span class="nav-text">办法 2:非阻塞忙轮询(伪代码实现)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8A%9E%E6%B3%95-3-select-I-O-%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8"><span class="nav-text">办法 3:select (I&#x2F;O 多路复用)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8A%9E%E6%B3%95-4-epoll-%E8%BF%9B%E9%98%B6%E7%89%88-I-O-%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8"><span class="nav-text">办法 4:epoll (进阶版 I&#x2F;O 多路复用)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#epoll"><span class="nav-text">epoll</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#epoll-%E7%9A%84%E4%B8%89%E6%AD%A5%E5%BC%80%E5%8F%91%E6%B5%81%E7%A8%8B%E4%B8%8E%E5%86%85%E6%A0%B8%E5%8E%9F%E7%90%86"><span class="nav-text">epoll 的三步开发流程与内核原理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#epoll-%E7%9A%84%E8%A7%A6%E5%8F%91%E6%A8%A1%E5%BC%8F"><span class="nav-text">epoll 的触发模式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B0%B4%E5%B9%B3%E8%A7%A6%E5%8F%91-Level-Triggered-LT-%E2%80%94%E2%80%94-%E9%BB%98%E8%AE%A4%E6%A8%A1%E5%BC%8F"><span class="nav-text">水平触发 (Level Triggered, LT) —— 默认模式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BE%B9%E7%BC%98%E8%A7%A6%E5%8F%91-Edge-Triggered-ET-%E2%80%94%E2%80%94-%E9%AB%98%E6%80%A7%E8%83%BD%E6%A8%A1%E5%BC%8F"><span class="nav-text">边缘触发 (Edge Triggered, ET) —— 高性能模式</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Linux-%E5%B8%B8%E8%A7%81%E7%BD%91%E7%BB%9C-I-O-%E5%A4%8D%E7%94%A8%E5%B9%B6%E5%8F%91%E6%A8%A1%E5%9E%8B"><span class="nav-text">Linux 常见网络 I&#x2F;O 复用并发模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B-1-%E5%8D%95%E7%BA%BF%E7%A8%8B-Accept-%E6%97%A0-I-O-%E5%A4%8D%E7%94%A8"><span class="nav-text">模型 1:单线程 Accept(无 I&#x2F;O 复用)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B-2-%E5%8D%95%E7%BA%BF%E7%A8%8B-Accept-%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%AF%BB%E5%86%99-%E6%97%A0-I-O-%E5%A4%8D%E7%94%A8"><span class="nav-text">模型 2:单线程 Accept + 多线程读写(无 I&#x2F;O 复用)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B-3-%E5%8D%95%E7%BA%BF%E7%A8%8B%E5%A4%9A%E8%B7%AF-I-O-%E5%A4%8D%E7%94%A8"><span class="nav-text">模型 3:单线程多路 I&#x2F;O 复用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B-4-%E5%8D%95%E7%BA%BF%E7%A8%8B%E5%A4%9A%E8%B7%AF-I-O-%E5%A4%8D%E7%94%A8-%E4%B8%9A%E5%8A%A1%E5%B7%A5%E4%BD%9C%E6%B1%A0"><span class="nav-text">模型 4:单线程多路 I&#x2F;O 复用 + 业务工作池</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B-5-%E5%8D%95%E7%BA%BF%E7%A8%8B-I-O-%E5%A4%8D%E7%94%A8-%E5%A4%9A%E7%BA%BF%E7%A8%8B-I-O-%E5%A4%8D%E7%94%A8-%E8%BF%9E%E6%8E%A5%E7%BA%BF%E7%A8%8B%E6%B1%A0-%E2%80%94%E2%80%94-%E4%B8%BB%E6%B5%81%E6%96%B9%E6%A1%88"><span class="nav-text">模型 5:单线程 I&#x2F;O 复用 + 多线程 I&#x2F;O 复用(连接线程池)—— 主流方案</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B-5-%E8%BF%9B%E7%A8%8B%E7%89%88-%E5%A4%9A%E8%BF%9B%E7%A8%8B-I-O-%E5%A4%8D%E7%94%A8-%E2%80%94%E2%80%94-%E7%A8%B3%E5%AE%9A%E6%96%B9%E6%A1%88"><span class="nav-text">模型 5(进程版):多进程 I&#x2F;O 复用 —— 稳定方案</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B-6-%E5%8D%95%E7%BA%BF%E7%A8%8B-I-O-%E5%A4%8D%E7%94%A8-%E5%A4%9A%E7%BA%BF%E7%A8%8B-I-O-%E5%A4%8D%E7%94%A8-%E4%B8%B4%E6%97%B6%E5%A4%9A%E7%BA%BF%E7%A8%8B"><span class="nav-text">模型 6:单线程 I&#x2F;O 复用 + 多线程 I&#x2F;O 复用 + 临时多线程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93%E5%AF%B9%E6%AF%94%E8%A1%A8"><span class="nav-text">总结对比表</span></a></li></ol></li></ol>
+    </div>
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom border-box">
+            
+<footer class="footer border-box">
+    <div class="border-box website-info-box default">
+        
+            <div class="copyright-info info-item default">
+                &copy;&nbsp;<span>2022</span>&nbsp;-&nbsp;2026
+                
+                    &nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;&nbsp;<a href="/">咕咕咕</a>
+                
+            </div>
+
+            <div class="theme-info info-item default">
+                由&nbsp;<a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;驱动&nbsp;&&nbsp;主题&nbsp;<a class="keep-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep</a>
+            </div>
+
+            
+
+            
+        
+
+        <div style="color:var(--text-color-4);"><span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>(～￣▽￣)～<script src="/js/lifeTime.js"></script></div>
+        <a href="https://icp.gov.moe/?keyword=20222450" target="_blank">萌ICP备20222450号</a>
+
+
+        <div class="count-item info-item default">
+            
+                <span class="count-box border-box word">
+                    <span class="item-type border-box">总字数</span>
+                    <span class="item-value border-box word">446k</span>
+                </span>
+            
+
+            
+                <span class="count-box border-box uv">
+                    <span class="item-type border-box">访客数</span>
+                    <span class="item-value border-box uv" id="busuanzi_value_site_uv"></span>
+                </span>
+            
+
+            
+                <span class="count-box border-box pv">
+                    <span class="item-type border-box">访问量</span>
+                    <span class="item-value border-box pv" id="busuanzi_value_site_pv"></span>
+                </span>
+            
+        </div>
+
+        <div id="aplayer">
+          <meting-js
+                  server="netease"
+                  type="playlist"
+                  id="7345595717"
+                  fixed="true"
+                  mini="true"
+                  autoplay="false"
+                  listFolded="true"
+                  order="random"
+                  preload="none">
+          </meting-js>
+        </div>
+            <br>
+            <br>
+            <br>
+    </div>
+
+</footer>
+
+        </div>
+    </div>
+
+    <!-- post tools -->
+    
+        <div class="post-tools left-toc">
+            <div class="post-tools-container border-box">
+    <ul class="tools-list border-box">
+        <!-- PC TOC show toggle -->
+        
+            <li class="tools-item flex-center toggle-show-toc">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        <!-- PC go comment -->
+        
+            <li class="tools-item flex-center go-to-comments">
+                <i class="fas fa-comment"></i>
+                <span class="post-comments-count"></span>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <!-- side tools -->
+    <div class="side-tools">
+        <div class="side-tools-container border-box ">
+    <ul class="side-tools-list side-tools-show-handle border-box">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-toggle-theme-mode flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+            <li class="tools-item rss flex-center">
+                <a class="flex-center"
+                   href="/atom.xml"
+                   target="_blank"
+                >
+                    <i class="fas fa-rss"></i>
+                </a>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list border-box">
+        
+            <li class="tools-item toggle-show-toc-tablet flex-center">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        
+            <li class="tools-item go-to-comments-tablet flex-center">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+
+        <li class="tools-item tool-scroll-to-top flex-center show-arrow">
+            <i class="arrow fas fa-arrow-up"></i>
+            <span class="percent"></span>
+        </li>
+    </ul>
+</div>
+
+    </div>
+
+    <!-- image mask -->
+    <div class="zoom-in-image-mask">
+    <img class="zoom-in-image">
+</div>
+
+
+    <!-- local search -->
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="搜索..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="close-popup-btn">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+    <!-- tablet toc -->
+    
+        <div class="tablet-post-toc-mask">
+            <div class="tablet-post-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E5%9B%9B%E7%AB%A0-%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3-Linux-%E7%BD%91%E7%BB%9C-I-O-%E5%A4%8D%E7%94%A8%E5%B9%B6%E5%8F%91%E6%A8%A1%E5%9E%8B"><span class="nav-text">第四章 深入理解 Linux 网络 I&#x2F;O 复用并发模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="nav-text">基本概念</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B5%81-Stream"><span class="nav-text">流 (Stream)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#I-O-%E6%93%8D%E4%BD%9C"><span class="nav-text">I&#x2F;O 操作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%98%BB%E5%A1%9E%E7%AD%89%E5%BE%85-Blocking"><span class="nav-text">阻塞等待 (Blocking)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%9D%9E%E9%98%BB%E5%A1%9E%E5%BF%99%E8%BD%AE%E8%AF%A2-Non-blocking-Busy-Polling"><span class="nav-text">非阻塞忙轮询 (Non-blocking Busy Polling)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%98%BB%E5%A1%9E%E4%B8%8E%E9%9D%9E%E9%98%BB%E5%A1%9E%E5%AF%B9%E6%AF%94"><span class="nav-text">阻塞与非阻塞对比</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E9%98%BB%E5%A1%9E%E7%AD%89%E5%BE%85%E7%BC%BA%E7%82%B9%E7%9A%84%E5%8A%9E%E6%B3%95"><span class="nav-text">解决阻塞等待缺点的办法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%98%BB%E5%A1%9E%E6%AD%BB%E7%AD%89%E5%BE%85%E7%9A%84%E7%BC%BA%E7%82%B9"><span class="nav-text">阻塞死等待的缺点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8A%9E%E6%B3%95-1-%E5%A4%9A%E7%BA%BF%E7%A8%8B-%E5%A4%9A%E8%BF%9B%E7%A8%8B"><span class="nav-text">办法 1:多线程 &#x2F; 多进程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8A%9E%E6%B3%95-2-%E9%9D%9E%E9%98%BB%E5%A1%9E%E5%BF%99%E8%BD%AE%E8%AF%A2-%E4%BC%AA%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0"><span class="nav-text">办法 2:非阻塞忙轮询(伪代码实现)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8A%9E%E6%B3%95-3-select-I-O-%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8"><span class="nav-text">办法 3:select (I&#x2F;O 多路复用)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8A%9E%E6%B3%95-4-epoll-%E8%BF%9B%E9%98%B6%E7%89%88-I-O-%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8"><span class="nav-text">办法 4:epoll (进阶版 I&#x2F;O 多路复用)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#epoll"><span class="nav-text">epoll</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#epoll-%E7%9A%84%E4%B8%89%E6%AD%A5%E5%BC%80%E5%8F%91%E6%B5%81%E7%A8%8B%E4%B8%8E%E5%86%85%E6%A0%B8%E5%8E%9F%E7%90%86"><span class="nav-text">epoll 的三步开发流程与内核原理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#epoll-%E7%9A%84%E8%A7%A6%E5%8F%91%E6%A8%A1%E5%BC%8F"><span class="nav-text">epoll 的触发模式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B0%B4%E5%B9%B3%E8%A7%A6%E5%8F%91-Level-Triggered-LT-%E2%80%94%E2%80%94-%E9%BB%98%E8%AE%A4%E6%A8%A1%E5%BC%8F"><span class="nav-text">水平触发 (Level Triggered, LT) —— 默认模式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BE%B9%E7%BC%98%E8%A7%A6%E5%8F%91-Edge-Triggered-ET-%E2%80%94%E2%80%94-%E9%AB%98%E6%80%A7%E8%83%BD%E6%A8%A1%E5%BC%8F"><span class="nav-text">边缘触发 (Edge Triggered, ET) —— 高性能模式</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Linux-%E5%B8%B8%E8%A7%81%E7%BD%91%E7%BB%9C-I-O-%E5%A4%8D%E7%94%A8%E5%B9%B6%E5%8F%91%E6%A8%A1%E5%9E%8B"><span class="nav-text">Linux 常见网络 I&#x2F;O 复用并发模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B-1-%E5%8D%95%E7%BA%BF%E7%A8%8B-Accept-%E6%97%A0-I-O-%E5%A4%8D%E7%94%A8"><span class="nav-text">模型 1:单线程 Accept(无 I&#x2F;O 复用)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B-2-%E5%8D%95%E7%BA%BF%E7%A8%8B-Accept-%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%AF%BB%E5%86%99-%E6%97%A0-I-O-%E5%A4%8D%E7%94%A8"><span class="nav-text">模型 2:单线程 Accept + 多线程读写(无 I&#x2F;O 复用)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B-3-%E5%8D%95%E7%BA%BF%E7%A8%8B%E5%A4%9A%E8%B7%AF-I-O-%E5%A4%8D%E7%94%A8"><span class="nav-text">模型 3:单线程多路 I&#x2F;O 复用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B-4-%E5%8D%95%E7%BA%BF%E7%A8%8B%E5%A4%9A%E8%B7%AF-I-O-%E5%A4%8D%E7%94%A8-%E4%B8%9A%E5%8A%A1%E5%B7%A5%E4%BD%9C%E6%B1%A0"><span class="nav-text">模型 4:单线程多路 I&#x2F;O 复用 + 业务工作池</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B-5-%E5%8D%95%E7%BA%BF%E7%A8%8B-I-O-%E5%A4%8D%E7%94%A8-%E5%A4%9A%E7%BA%BF%E7%A8%8B-I-O-%E5%A4%8D%E7%94%A8-%E8%BF%9E%E6%8E%A5%E7%BA%BF%E7%A8%8B%E6%B1%A0-%E2%80%94%E2%80%94-%E4%B8%BB%E6%B5%81%E6%96%B9%E6%A1%88"><span class="nav-text">模型 5:单线程 I&#x2F;O 复用 + 多线程 I&#x2F;O 复用(连接线程池)—— 主流方案</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B-5-%E8%BF%9B%E7%A8%8B%E7%89%88-%E5%A4%9A%E8%BF%9B%E7%A8%8B-I-O-%E5%A4%8D%E7%94%A8-%E2%80%94%E2%80%94-%E7%A8%B3%E5%AE%9A%E6%96%B9%E6%A1%88"><span class="nav-text">模型 5(进程版):多进程 I&#x2F;O 复用 —— 稳定方案</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B-6-%E5%8D%95%E7%BA%BF%E7%A8%8B-I-O-%E5%A4%8D%E7%94%A8-%E5%A4%9A%E7%BA%BF%E7%A8%8B-I-O-%E5%A4%8D%E7%94%A8-%E4%B8%B4%E6%97%B6%E5%A4%9A%E7%BA%BF%E7%A8%8B"><span class="nav-text">模型 6:单线程 I&#x2F;O 复用 + 多线程 I&#x2F;O 复用 + 临时多线程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93%E5%AF%B9%E6%AF%94%E8%A1%A8"><span class="nav-text">总结对比表</span></a></li></ol></li></ol>
+    </div>
+</div>
+
+            </div>
+        </div>
+    
+</main>
+
+
+
+<!-- common -->
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/toggle-theme.js"></script>
+
+<script src="/js/code-block.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+
+<!-- local-search -->
+
+    
+<script src="/js/local-search.js"></script>
+
+
+
+<!-- lazyload -->
+
+    
+<script src="/js/lazyload.js"></script>
+
+
+
+<div class="pjax">
+    
+        <!-- post-helper -->
+        
+<script src="/js/post/post-helper.js"></script>
+
+
+        <!-- toc -->
+        
+            
+<script src="/js/post/toc.js"></script>
+
+        
+
+        <!-- copyright-info -->
+        
+            
+<script src="/js/post/copyright-info.js"></script>
+
+        
+
+        <!-- share -->
+        
+            
+<script src="/js/post/share.js"></script>
+
+        
+    
+
+    <!-- category-page -->
+    
+
+    <!-- links-page -->
+    
+
+    <!-- photos-page -->
+    
+</div>
+
+<!-- mermaid -->
+
+
+<!-- pjax -->
+
+    
+<script src="/js/libs/pjax.min.js"></script>
+
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        window.pjax = new Pjax({
+            selectors: [
+                'head title',
+                '.page-container',
+                '.pjax',
+                '#aplayer',
+                '#canvas_sakura'
+            ],
+            history: true,
+            debug: false,
+            cacheBust: false,
+            timeout: 0,
+            analytics: false,
+            currentUrlFullReload: false,
+            scrollRestoration: false,
+        });
+
+        document.addEventListener('pjax:send', () => {
+            KEEP.utils.pjaxProgressBarStart()
+        });
+
+        document.addEventListener('pjax:complete', () => {
+            KEEP.utils.pjaxProgressBarEnd()
+            window.pjax.executeScripts(document.querySelectorAll('script[data-pjax], .pjax script'))
+            KEEP.initExecute()
+        });
+    });
+</script>
+
+
+
+
+    
+        
+            
+<script class="custom-inject-js" src="/js/APlayer.min.js" data-pjax></script>
+
+        
+    
+        
+            
+<script class="custom-inject-js" src="/js/Meting.min.js" data-pjax></script>
+
+        
+    
+        
+            
+<script class="custom-inject-js" src="/js/leaves.js" data-pjax></script>
+
+        
+    
+
+
+
+</body>
+</html>

@@ -1,0 +1,1546 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="技术博客,后端开发,编程笔记,生活">
+    <meta name="description" content="Code | Systems | Life — 专注编程本质，也关心世界如何运转。">
+    <meta name="author" content="咕咕咕">
+
+    
+    <title>
+        
+            《深入理解Go语言》读书笔记 - Go 语言特性的进阶知识 |
+        
+        咕咕咕的小破站
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+        <link rel="shortcut icon" href="/images/favicon.png">
+    
+    
+<link rel="stylesheet" href="/font/css/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/regular.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/solid.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/brands.min.css">
+
+    
+        
+            
+                
+<link rel="stylesheet" href="/css/APlayer.min.css">
+
+            
+        
+            
+                
+<link rel="stylesheet" href="/css/custom.css">
+
+            
+        
+    
+    <script class="keep-theme-configurations">
+    const KEEP = window.KEEP || {}
+    KEEP.hexo_config = {"hostname":"cooooing.github.io","root":"/","language":"zh-CN","path":"search.json"}
+    KEEP.theme_config = {"base_info":{"primary_color":"#0066cc","title":"咕咕咕的小破站","author":"咕咕咕","avatar":"https://avatars.githubusercontent.com/u/75006169?v=4","logo":"https://avatars.githubusercontent.com/u/75006169?v=4","favicon":"/images/favicon.png"},"menu":{"Archives":"/archives","Categories":"/categories","Tags":"/tags","日常":"/daily","Links":"/links","About":"/about"},"first_screen":{"enable":false,"background_img":"/images/bg.svg","background_img_dark":"/images/bg.svg","description":"Keep writing and Keep loving.","hitokoto":false},"social_contact":{"enable":false,"links":{"github":null,"weixin":null,"qq":null,"weibo":null,"zhihu":null,"twitter":null,"facebook":null,"email":null}},"scroll":{"progress_bar":false,"percent":false,"hide_header":true},"home":{"category":true,"tag":true,"announcement":null},"post":{"author_badge":{"enable":true,"level_badge":false,"custom_badge":["fishing"]},"word_count":{"wordcount":true,"min2read":true},"datetime_format":"YYYY-MM-DD HH:mm:ss","copyright_info":true,"share":true,"reward":{"enable":true,"img_link":"/images/thanks.png","text":"谢谢你请我喝可乐~"}},"mathjax":{"tags":"all","single_dollars":true,"cjk_width":0.9,"normal_width":0.6,"append_css":true,"every_page":false},"code_block":{"tools":{"enable":true,"style":"default"},"highlight_theme":"default"},"toc":{"enable":true,"number":false,"expand_all":true,"init_open":true,"layout":"left"},"website_count":{"busuanzi_count":{"enable":true,"site_uv":true,"site_pv":true,"page_pv":true}},"local_search":{"enable":true,"preload":true},"comment":{"enable":true,"use":"giscus","valine":{"appid":null,"appkey":null,"server_urls":null,"placeholder":null},"gitalk":{"github_id":null,"github_admins":null,"repository":null,"client_id":null,"client_secret":null,"proxy":null},"twikoo":{"env_id":null,"region":null,"version":"1.6.21"},"waline":{"server_url":null,"reaction":false,"version":2},"giscus":{"repo":"Cooooing/Cooooing.github.io","repo_id":"R_kgDOHQal_w","category":"Announcements","category_id":"DIC_kwDOHQal_84CjZo6","reactions_enabled":true},"artalk":{"server":null},"disqus":{"shortname":null}},"rss":{"enable":true},"lazyload":{"enable":true},"cdn":{"enable":false,"provider":"cdnjs"},"pjax":{"enable":true},"footer":{"since":2022,"word_count":true,"icp":{"enable":false,"record_code":null,"url":"https://beian.miit.gov.cn"},"site_deploy":{"enable":false,"provider":"github","url":null},"shields_style":{"enable":false,"custom":[{"link_url":null,"img_url":null}]}},"inject":{"enable":true,"css":["/css/APlayer.min.css","/css/custom.css"],"js":["/js/APlayer.min.js","/js/Meting.min.js","/js/leaves.js"]},"root":"","links":[{"name":"鼠鼠在碎觉","link":"https://sszsj.com","avatar":"https://tmx.fishpi.cn/img/head.jpg","description":"我是不慎落入世界的一滴水墨"},{"name":"Gakkiyomi","link":"https://gakkiyomi.blog","avatar":"https://avatars.githubusercontent.com/u/41406557?v=4","description":"为往圣继绝学"},{"name":"Hancel's Blog","link":"https://my.hancel.org","avatar":"https://my.hancel.org/media/logo.jpg","description":"人生而自由，却无往不在枷锁之中。"},{"name":"Eastshann","link":"https://eastshann.github.io/","avatar":"https://avatars.githubusercontent.com/u/87764431?v=4","description":"冲和者，淡泊平和，谦冲守正"},{"name":"小于同学的异世界","link":"https://yby.zone","avatar":"https://yby-zone.obs.cn-east-3.myhuaweicloud.com/avatar.jpg","description":"为吾为枝，余地三尺，以己为棋，胜天半子。"},{"name":"Mlikiowa Home Village","link":"https://nanaeo.cn/","avatar":"https://q1.qlogo.cn/g?b=qq&nk=1627126029&s=100","description":"A litter Village With Mlikiowa"},{"name":"忘忧草","link":"https://owo.wyc.rest/","avatar":"https://owo.wyc.rest/img/%E4%B8%87%E5%8F%B6.jpg","description":"这只是一个小破站而已！"},{"name":"stillwarter","link":"https://stillwarter.github.io/","avatar":"https://file.fishpi.cn/2022/07/MOSHED2022621164630-1b1ec532.gif?imageView2/1/w/210/h/210/interlace/0/q/100","description":"光就是一切的意义"},{"name":"test12138","link":"http://你好.eu.org/","avatar":"https://file.fishpi.cn/2022/06/srchttpimgzcoolcncommunity0116405d84f975a801211d537707c9gifreferhttpimgzcool-0f2d09c9.gif?imageView2/1/w/48/h/48/interlace/0/q/100","description":"大丈夫生于天地之间，岂能郁郁久居人下。"},{"name":"呼呼呼","link":"https://bongbongbakudan.github.io/","avatar":"https://pwl.stackoverflow.wiki/2021/12/blob-28eb4b9f.png?imageView2/1/w/48/h/48/interlace/0/q/100","description":"去整点薯条"},{"name":"Plumbiu","link":"https://blog.plumbiu.top/","avatar":"https://avatars.githubusercontent.com/u/99574369?v=4","description":"这人很勤奋，啥都没留"},{"name":"hiRipple","link":"https://hiripple.com/","avatar":"https://avatars.githubusercontent.com/u/115361435?v=4","description":"超高校级的游戏玩家"}],"version":"4.0.6"}
+    KEEP.language_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"}
+    KEEP.language_code_block = {"copy":"复制代码","copied":"已复制","fold":"折叠代码块","folded":"已折叠"}
+    KEEP.language_copy_copyright = {"copy":"复制版权信息","copied":"已复制","title":"原文标题","author":"原文作者","link":"原文链接"}
+  </script>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-CLX32WF4R1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+
+      gtag('js', new Date());
+
+      gtag('config', 'G-CLX32WF4R1');
+    </script>
+
+    <!-- 51.la -->
+    <script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
+    <script>LA.init({id: "3JwPz6wbAloyTmMc", ck: "3JwPz6wbAloyTmMc", autoTrack: true})</script>
+
+    <!-- Cloudflare Web Analytics -->
+    <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "281999cc46a948d3b8199c1eb621f11e"}'></script>
+    <!-- End Cloudflare Web Analytics -->
+
+<meta name="generator" content="Hexo 8.1.2"><link rel="alternate" href="/atom.xml" title="咕咕咕的小破站" type="application/atom+xml">
+</head>
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+        <span class="pjax-progress-bar"></span>
+        <i class="pjax-progress-icon fas fa-circle-notch fa-spin"></i>
+    
+</div>
+
+
+<main class="page-container border-box">
+
+    <!-- home first screen  -->
+    
+
+    <!-- page content -->
+    <div class="page-main-content border-box">
+        <div class="page-main-content-top">
+            
+<header class="header-wrapper">
+
+    <div class="border-box header-content">
+        <div class="left border-box">
+            
+                <a class="logo-image border-box" href="/">
+                    <img src="https://avatars.githubusercontent.com/u/75006169?v=4">
+                </a>
+            
+            <a class="site-name border-box" href="/">
+               咕咕咕的小破站
+            </a>
+        </div>
+
+        <div class="right border-box">
+            <div class="pc">
+                <ul class="menu-list">
+                    <li class="menu-item">
+                        <a class=""
+                           href="/"
+                        >首页</a>
+                    </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >归档</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/categories"
+                            >分类</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/tags"
+                            >标签</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/daily"
+                            >日常</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/links"
+                            >友链</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >关于</a>
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="fas search fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            <li class="drawer-menu-item flex-center">
+                <a class=""
+                   href="/"
+                >首页</a>
+            </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives"
+                    >归档</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/categories"
+                    >分类</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/tags"
+                    >标签</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/daily"
+                    >日常</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/links"
+                    >友链</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about"
+                    >关于</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle border-box">
+
+            <div class="main-content border-box">
+                
+
+                    
+<div class="fade-in-down-animation">
+    <div class="post-page-container border-box">
+        <div class="post-content-container border-box">
+            
+
+            <div class="post-content-bottom border-box">
+                
+                    <div class="post-title">
+                        《深入理解Go语言》读书笔记 - Go 语言特性的进阶知识
+                    </div>
+                
+
+                
+                    <div class="post-header border-box">
+                        
+                            <div class="avatar-box border-box">
+                                <img src="https://avatars.githubusercontent.com/u/75006169?v=4">
+                            </div>
+                        
+                        <div class="info-box">
+                            <div class="author border-box">
+                                <span class="name">咕咕咕</span>
+                                
+                                    <span class="author-badge">fishing</span>
+                                
+                            </div>
+                            <div class="meta-info border-box">
+                                
+
+<div class="post-meta-info-container border-box post">
+    <div class="post-meta-info border-box">
+        
+
+        
+            <span class="meta-info-item post-create-date">
+                <i class="icon fa-solid fa-calendar-plus"></i>&nbsp;
+                <span class="datetime">2026-01-08 22:27:01</span>
+            </span>
+
+            <span class="meta-info-item post-update-date">
+                <i class="icon fa-solid fa-file-pen"></i>&nbsp;
+                <span class="datetime" data-updated="Thu Jan 08 2026 14:27:01 GMT+0000">2026-01-08 22:27:01</span>
+            </span>
+        
+
+        
+
+        
+            <span class="post-tag meta-info-item border-box">
+                <i class="icon fas fa-tags"></i>&nbsp;
+                <ul class="post-tag-ul">
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/Go/">Go</a></li>
+                        
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/%E3%80%8A%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Go%E8%AF%AD%E8%A8%80%E3%80%8B/">《深入理解Go语言》</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+        
+            <span class="meta-info-item post-wordcount">
+                <i class="icon fas fa-file-word"></i>&nbsp;<span>8.1k 字</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-min2read">
+                <i class="icon fas fa-clock"></i>&nbsp;<span>30 分钟</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-pv">
+                <i class="icon fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+            </span>
+        
+    </div>
+
+    
+</div>
+
+                            </div>
+                        </div>
+                    </div>
+                
+
+                <div class="post-content keep-markdown-body">
+                    
+
+                    <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>这本书前四章篇幅超过三分之一<br>五到十二章共八章 和 十三到二十一共九章 大约各占三分之一<br>这章节内容量差的有点大</p>
+<p>第三部分是关于 Zinx 框架的，跳过。 </p>
+<h2 id="第五章-有关Goroutine⽆限创建的分析"><a href="#第五章-有关Goroutine⽆限创建的分析" class="headerlink" title="第五章 - 有关Goroutine⽆限创建的分析"></a>第五章 - 有关Goroutine⽆限创建的分析</h2><h3 id="进程、线程与协程的本质区别"><a href="#进程、线程与协程的本质区别" class="headerlink" title="进程、线程与协程的本质区别"></a>进程、线程与协程的本质区别</h3><h4 id="进程-Process-——-资源分配的最小单位"><a href="#进程-Process-——-资源分配的最小单位" class="headerlink" title="进程 (Process) —— 资源分配的最小单位"></a>进程 (Process) —— 资源分配的最小单位</h4><ul>
+<li><strong>内存空间</strong>：每个进程拥有独立的虚拟地址空间（32位系统为 4GB，64位更大）。</li>
+<li><strong>组成部分</strong>：拥有独立的堆、栈、全局变量区、代码区等。</li>
+<li><strong>调度机制</strong>：直接由操作系统内核调度，通过 PCB（进程控制块）管理。</li>
+<li><strong>特点</strong>：隔离性强，一个进程崩溃不影响其他进程；但资源消耗最重。</li>
+</ul>
+<h4 id="线程-Thread-——-CPU-调度的最小单位"><a href="#线程-Thread-——-CPU-调度的最小单位" class="headerlink" title="线程 (Thread) —— CPU 调度的最小单位"></a>线程 (Thread) —— CPU 调度的最小单位</h4><ul>
+<li><strong>轻量级进程 (Light Weight Process，LWP)</strong>：线程是“寄生”在进程之上的执行流。</li>
+<li><strong>资源共享</strong>：线程拥有<strong>独立栈空间</strong>，但共享所属进程的堆区、全局区等内存。</li>
+<li><strong>通信与风险</strong>：通信简单（加锁访问共享内存），但由于关联性强，一个线程的非法操作可能导致整个进程崩溃。</li>
+</ul>
+<h4 id="执行单元与-CPU-调度原理"><a href="#执行单元与-CPU-调度原理" class="headerlink" title="执行单元与 CPU 调度原理"></a>执行单元与 CPU 调度原理</h4><ul>
+<li><strong>调度策略</strong>：Linux 内核不严格区分进程和线程，统一视为执行单元。CPU 会平均分配时间片。</li>
+<li><strong>性能欺骗</strong>：增加线程数可以获得更多 CPU 时间片比例（如进程 A 1个线程，进程 B 3个线程，B 获得的 CPU 资源更多），但这并非无限制。<br>切换内核栈和切换硬件上下⽂都会触发性能的开销，切换时会保存寄存器中的内容，将之前的执⾏流程状态保存，也会导致CPU⾼速缓存失效。</li>
+</ul>
+<h3 id="切换成本"><a href="#切换成本" class="headerlink" title="切换成本"></a>切换成本</h3><p>协程（Goroutine）之所以在并发表现上远超传统线程，核心原因在于其<strong>切换效率</strong>极高。其快的主要原因可归纳为两点：</p>
+<ol>
+<li><strong>空间差异</strong>：协程切换完全在<strong>用户空间</strong>完成；而线程切换涉及<strong>特权模式切换</strong>，必须进入内核空间。</li>
+<li><strong>工作量差异</strong>：协程切换需要保存和恢复的数据量极小。</li>
+</ol>
+<h4 id="协程切换成本"><a href="#协程切换成本" class="headerlink" title="协程切换成本"></a>协程切换成本</h4><p>协程的上下文切换过程非常精简，仅涉及最核心的寄存器操作：</p>
+<ul>
+<li><strong>切换机制</strong>：<ol>
+<li>保存当前协程的 <strong>CPU 寄存器状态</strong>。</li>
+<li>将即将执行的协程的寄存器状态加载到 CPU 中。</li>
+</ol>
+</li>
+<li><strong>执行环境</strong>：完全在用户态进行，不触发系统调用（System Call）。</li>
+<li><strong>性能表现</strong>：一次典型的协程上下文切换耗时仅需 <strong>几十纳秒 (ns)</strong>。</li>
+</ul>
+<h4 id="线程切换成本"><a href="#线程切换成本" class="headerlink" title="线程切换成本"></a>线程切换成本</h4><p>线程是操作系统内核调度的基本单元，其切换过程沉重得多：</p>
+<ul>
+<li><strong>权限切换</strong>：线程调度由具有最高权限的<strong>内核空间</strong>完成。因此，线程切换必然涉及<strong>用户态与内核态的切换</strong>（即特权模式切换）。</li>
+<li><strong>复杂流程</strong>：<ol>
+<li>触发系统调用过程。</li>
+<li>由操作系统调度模块介入。</li>
+</ol>
+</li>
+<li><strong>上下文负载</strong>：除了和协程相同的 CPU 寄存器状态外，还包含<strong>线程私有的栈</strong>、硬件上下文以及更多内核管理数据。</li>
+<li><strong>间接影响</strong>：频繁的内核切换会导致 CPU 高速缓存（Cache）失效，页表查找变慢，从而拖慢程序整体运行速度。</li>
+</ul>
+<h3 id="为什么不能无限创建-Goroutine？"><a href="#为什么不能无限创建-Goroutine？" class="headerlink" title="为什么不能无限创建 Goroutine？"></a>为什么不能无限创建 Goroutine？</h3><p>尽管 Goroutine 轻量，但“无限”创建会导致：</p>
+<ol>
+<li><strong>CPU 飙升</strong>：大量协程即使在切换时开销小，但由于基数过大，调度器压力激增，导致 CPU 满负荷。</li>
+<li><strong>内存占用上涨</strong>：虽然每个协程占用内存很小，但协程量大后容易触发 OOM（内存溢出）。</li>
+<li><strong>主进程崩溃</strong>：操作系统感知到资源异常，发送 <code>kill</code> 信号，或触发 Go 运行时 Panic。</li>
+</ol>
+<h4 id="控制-Goroutine-数量的方案"><a href="#控制-Goroutine-数量的方案" class="headerlink" title="控制 Goroutine 数量的方案"></a>控制 Goroutine 数量的方案</h4><h5 id="使用带缓冲的-Channel"><a href="#使用带缓冲的-Channel" class="headerlink" title="使用带缓冲的 Channel"></a>使用带缓冲的 Channel</h5><ul>
+<li><strong>逻辑</strong>：创建容量为 N 的 Channel，开启协程前向其写入，结束后读取。</li>
+<li><strong>优点</strong>：能利用 Channel 的阻塞特性天然限制并发速率。</li>
+<li><strong>缺点</strong>：若主进程退出太快，未完成的协程会随之销毁，导致结果不准确。</li>
+</ul>
+<h5 id="使用-sync-WaitGroup"><a href="#使用-sync-WaitGroup" class="headerlink" title="使用 sync.WaitGroup"></a>使用 <code>sync.WaitGroup</code></h5><ul>
+<li><strong>逻辑</strong>：<code>Add()</code> 增加计数，<code>Done()</code> 减少。</li>
+<li><strong>失败分析</strong>：虽然能保证所有协程执行完，但<strong>无法限制创建瞬间的并发量</strong>。如果任务生产极快，系统会瞬间因创建过多协程而崩溃。</li>
+</ul>
+<h5 id="Channel-sync-WaitGroup-组合"><a href="#Channel-sync-WaitGroup-组合" class="headerlink" title="Channel + sync.WaitGroup 组合"></a>Channel + <code>sync.WaitGroup</code> 组合</h5><ul>
+<li><strong>逻辑</strong>：<ol>
+<li>用缓冲 Channel 限制最大并发数。</li>
+<li>用 <code>sync.WaitGroup</code> 确保主进程在所有任务完成后才退出。</li>
+</ol>
+</li>
+<li><strong>结论</strong>：这是最常用的基础并发控制手段。</li>
+</ul>
+<h5 id="发送-执行分离方式"><a href="#发送-执行分离方式" class="headerlink" title="发送&#x2F;执行分离方式"></a>发送&#x2F;执行分离方式</h5><ul>
+<li><strong>逻辑</strong>：将“生产任务”和“消费任务”解耦。</li>
+<li><strong>结构</strong>：<ol>
+<li>固定 M 个 Worker 协程长期运行。</li>
+<li>任务通过无缓冲 Channel 发送。</li>
+<li>当 M 个 Worker 全忙时，发送端自然阻塞。</li>
+</ol>
+</li>
+<li><strong>优点</strong>：灵活性最高，是<strong>Worker 工作池</strong>的设计蓝本。</li>
+</ul>
+<h3 id="小节"><a href="#小节" class="headerlink" title="小节"></a>小节</h3><ul>
+<li>Go 的垃圾回收只能回收<strong>不再被引用</strong>的内存，无法回收<strong>正在阻塞运行</strong>或<strong>逻辑泄漏</strong>的 Goroutine。</li>
+<li>Goroutine 泄漏是内存泄漏的一种严重表现形式。<strong>必须从代码逻辑上确保协程能正常退出</strong>。</li>
+</ul>
+<h2 id="第六章-Go-语言中的逃逸现象：变量“何时在栈、何时在堆”"><a href="#第六章-Go-语言中的逃逸现象：变量“何时在栈、何时在堆”" class="headerlink" title="第六章 - Go 语言中的逃逸现象：变量“何时在栈、何时在堆”"></a>第六章 - Go 语言中的逃逸现象：变量“何时在栈、何时在堆”</h2><h3 id="Go-语言中的逃逸现象"><a href="#Go-语言中的逃逸现象" class="headerlink" title="Go 语言中的逃逸现象"></a>Go 语言中的逃逸现象</h3><h4 id="Go-语言中访问子函数的局部变量"><a href="#Go-语言中访问子函数的局部变量" class="headerlink" title="Go 语言中访问子函数的局部变量"></a>Go 语言中访问子函数的局部变量</h4><p>在 Go 语言中，函数可以安全地返回局部变量的地址（指针），供外部函数使用。<br>程序能正常运行并输出正确值，不会报编译错误或运行错误。</p>
+<p>Go 编译器会自动检测变量生命周期，如果发现局部变量在函数退出后仍被引用，会将其从“栈”转移到“堆”上。</p>
+<h4 id="C-C-中访问子函数的局部变量"><a href="#C-C-中访问子函数的局部变量" class="headerlink" title="C&#x2F;C++ 中访问子函数的局部变量"></a>C&#x2F;C++ 中访问子函数的局部变量</h4><p>在 C&#x2F;C++ 中，局部变量分配在栈上，函数退出后栈空间被回收。如果返回局部变量地址，外部访问将指向已销毁的内存。<br>编译器会发出警告（Returning address of local variable），运行后通常会导致 <strong>段错误（Segmentation Fault）</strong> 或获取到随机垃圾值。<br>Go 通过“逃逸分析”机制，消除了开发者手动管理堆栈内存的负担。</p>
+<h3 id="逃逸分析过程示例"><a href="#逃逸分析过程示例" class="headerlink" title="逃逸分析过程示例"></a>逃逸分析过程示例</h3><h4 id="示例过程"><a href="#示例过程" class="headerlink" title="示例过程"></a>示例过程</h4><ul>
+<li><strong>逃逸分析定义</strong>：Go编译器在编译阶段通过静态分析，判断变量的作用域。若变量生命周期超过函数范围，则产生“逃逸”。</li>
+<li><strong>检测工具</strong>：<ol>
+<li><strong>编译分析</strong>：使用 <code>go tool compile -m pro.go</code>。若看到 <code>moved to heap: x</code>，说明变量发生了逃逸。</li>
+<li><strong>汇编分析</strong>：使用 <code>go tool compile -S pro.go</code>。搜索 <code>runtime.newobject</code> 关键字。在堆上开辟空间必须调用此内核函数，而栈空间分配通常只是简单的地址偏移。</li>
+</ol>
+</li>
+<li><strong>成本考量</strong>：分配在堆上的变量需要由 GC（垃圾回收）进行跟踪、标记和回收，会消耗额外的计算资源。</li>
+</ul>
+<h4 id="new-的变量在栈还是堆"><a href="#new-的变量在栈还是堆" class="headerlink" title="new 的变量在栈还是堆"></a>new 的变量在栈还是堆</h4><p>在C++中 <code>new</code> 一定在堆上，但在Go中，<strong><code>new</code> 出来的变量不一定在堆上</strong>。</p>
+<ul>
+<li><strong>判断准则</strong>：<ul>
+<li>即使使用 <code>new</code> 申请内存，如果变量<strong>没有逃逸</strong>（仅在函数内部使用且未返回地址），编译器仍会将其分配在<strong>栈</strong>上。</li>
+<li>只有当编译器分析出该变量被外部引用时，才会将其分配到堆。</li>
+</ul>
+</li>
+</ul>
+<h3 id="普遍的逃逸规则"><a href="#普遍的逃逸规则" class="headerlink" title="普遍的逃逸规则"></a>普遍的逃逸规则</h3><p>逃逸的普遍的规则就是如果变量需要使⽤堆空间，就应该进⾏逃逸。</p>
+<p>多级间接赋值（引用对象中的成员又是引用类型）极易导致逃逸。<br>引用类型包括 <code>func</code>、<code>interface</code>、<code>slice</code>、<code>map</code>、<code>channel</code> 和 <code>指针</code> 等。</p>
+<p>常见逃逸范例清单：</p>
+<ol>
+<li><strong>[]any 类型</strong>：给切片元素赋值必定逃逸（如 <code>data[0] = 100</code>）。</li>
+<li><strong>map[string]any 类型</strong>：赋值时对应的 value 必定逃逸。</li>
+<li><strong>map[any]any 类型</strong>：赋值时 key 和 value 均会发生逃逸。</li>
+<li><strong>map[string][]string 类型</strong>：赋值时内部的切片 <code>[]string</code> 会发生逃逸。</li>
+<li><strong>[]*int 类型</strong>：切片内存储的是指针，赋值时该指针指向的原始变量会发生逃逸。</li>
+<li><strong>func(*int) 类型</strong>：作为函数参数传递指针时，形参对应的实参会逃逸。</li>
+<li><strong>func([]string) 类型</strong>：作为函数参数传递切片时，实参切片会逃逸。</li>
+<li><strong>chan []string 类型</strong>：向管道中发送切片数据，该切片会发生逃逸。</li>
+</ol>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><ul>
+<li>变量在堆还是栈，完全由<strong>编译器</strong>根据逃逸分析决定，与变量是否通过 <code>new</code> 创建无关。<ol>
+<li><strong>减少指针使用</strong>：多级间接访问（指针嵌套）会增加逃逸概率。在高性能场景下，应有意识地减少不必要的指针传递。</li>
+<li><strong>关注引用类型</strong>：<code>map</code>、<code>slice</code>、<code>any</code> 等类型本身就是引用类型，结合赋值操作时要留意其逃逸行为。</li>
+</ol>
+</li>
+<li>逃逸分析并非完美。有时编译器会“保守”地将本可以留在栈上的变量移动到堆中。</li>
+<li>深入理解逃逸分析，可以写出更高效的代码，减轻GC压力，提升程序整体性能。</li>
+</ul>
+<h2 id="第七章-interface-剖析与-Go-语言面向对象思想"><a href="#第七章-interface-剖析与-Go-语言面向对象思想" class="headerlink" title="第七章 - interface 剖析与 Go 语言面向对象思想"></a>第七章 - interface 剖析与 Go 语言面向对象思想</h2><h3 id="interface-的基本概念与赋值问题"><a href="#interface-的基本概念与赋值问题" class="headerlink" title="interface 的基本概念与赋值问题"></a>interface 的基本概念与赋值问题</h3><ol>
+<li>interface 的核心特征<ul>
+<li><strong>方法集合</strong>：interface 是一组方法声明的集合。</li>
+<li><strong>隐式实现</strong>：无需 <code>implements</code> 关键字。只要一个类型实现了接口要求的所有方法，就自动实现了该接口（Duck Typing 思想）。</li>
+<li><strong>多态性</strong>：接口变量可以存储任何实现了该接口的实例。</li>
+</ul>
+</li>
+<li>interface 赋值中的多态要素，实现多态需满足：<ol>
+<li>定义 <strong>interface 接口</strong>及方法。</li>
+<li><strong>子类（结构体）重写</strong>接口中的所有方法。</li>
+<li><strong>父类指针（接口变量）指向子类对象</strong>。</li>
+</ol>
+</li>
+</ol>
+<h3 id="接口的内部构造"><a href="#接口的内部构造" class="headerlink" title="接口的内部构造"></a>接口的内部构造</h3><p>Go 根据接口是否包含方法，将其底层结构分为两种：<code>eface</code> 和 <code>iface</code>。</p>
+<h4 id="空接口-eface"><a href="#空接口-eface" class="headerlink" title="空接口 eface"></a>空接口 eface</h4><p>空接口 <code>interface{}</code> 不包含任何方法。</p>
+<ul>
+<li>结构定义：<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> eface <span class="keyword">struct</span> &#123;</span><br><span class="line">    _type *_type          <span class="comment">// 类型信息</span></span><br><span class="line">    data  unsafe.Pointer  <span class="comment">// 指向具体实例数据的指针</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>可以指向任何类型。<code>_type</code> 决定了如何解释 <code>data</code> 里的内容。</li>
+</ul>
+<h4 id="非空接口-iface"><a href="#非空接口-iface" class="headerlink" title="非空接口 iface"></a>非空接口 iface</h4><p>带有一组方法的接口。</p>
+<ul>
+<li><strong>结构定义</strong>：<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> iface <span class="keyword">struct</span> &#123;</span><br><span class="line">    tab  *itab            <span class="comment">// 核心：存放接口类型、具体类型及方法地址</span></span><br><span class="line">    data unsafe.Pointer   <span class="comment">// 具体实例数据的指针</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> ITab <span class="keyword">struct</span> &#123;</span><br><span class="line">    Inter *InterfaceType  <span class="comment">// 接口自身元数据信息</span></span><br><span class="line">    Type  *Type</span><br><span class="line">    Hash  <span class="type">uint32</span>     <span class="comment">// copy of Type.Hash. Used for type switches.</span></span><br><span class="line">    Fun   [<span class="number">1</span>]<span class="type">uintptr</span> <span class="comment">// variable sized. fun[0]==0 means Type does not implement Inter.</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><strong>itab 结构</strong>（占32字节）：<ul>
+<li><code>interfacetype</code>：接口本身的定义信息。</li>
+<li><code>type</code>：具体实现类的类型信息。</li>
+<li><code>hash</code>：具体类型的哈希值，用于快速判断类型是否一致。Go 语⾔的 interface 的 Duck-typing 机制也依赖这个字段实现。</li>
+<li><code>fun</code>：<strong>函数指针数组</strong>。保存具体实现方法的地址。是⼀个动态⼤⼩的数组，虽然声明时固定⼤⼩为 1，但在使⽤时会直接通过 fun 指针获取其中的数据，并且不会检查数组的边界，所以该数组中保存的元素数量是不确定的。</li>
+</ul>
+</li>
+</ul>
+<h4 id="接口为-nil-的判定陷阱"><a href="#接口为-nil-的判定陷阱" class="headerlink" title="接口为 nil 的判定陷阱"></a>接口为 nil 的判定陷阱</h4><p><strong>一个接口变量只有在 <code>类型(type/tab)</code> 和 <code>数据(data)</code> 同时为 <code>nil</code> 时，才等于 <code>nil</code>。</strong></p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> test</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;testing&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> People1 <span class="keyword">interface</span> &#123;</span><br><span class="line">	Name() <span class="type">string</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> People2 <span class="keyword">interface</span> &#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> Student <span class="keyword">struct</span> &#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(s *Student)</span></span> Name() <span class="type">string</span> &#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="string">&quot;Student&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">live1</span><span class="params">()</span></span> People1 &#123;</span><br><span class="line">	<span class="keyword">var</span> s *Student</span><br><span class="line">	<span class="keyword">return</span> s</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">live2</span><span class="params">()</span></span> People2 &#123;</span><br><span class="line">	<span class="keyword">var</span> s People2</span><br><span class="line">	<span class="keyword">return</span> s</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">TestNil</span><span class="params">(t *testing.T)</span></span> &#123;</span><br><span class="line">	<span class="keyword">if</span> live1() == <span class="literal">nil</span> &#123;</span><br><span class="line">		t.Log(<span class="string">&quot;live1() is nil&quot;</span>)</span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		t.Log(<span class="string">&quot;live1() is not nil&quot;</span>)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> live2() == <span class="literal">nil</span> &#123;</span><br><span class="line">		t.Log(<span class="string">&quot;live2() is nil&quot;</span>)</span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		t.Log(<span class="string">&quot;live2() is not nil&quot;</span>)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">=== RUN   TestNil</span><br><span class="line">    test_test.go:32: live1() is not nil</span><br><span class="line">    test_test.go:35: live2() is nil</span><br><span class="line">--- PASS: TestNil (0.00s)</span><br><span class="line">PASS</span><br></pre></td></tr></table></figure>
+
+<h4 id="interface-与-interface"><a href="#interface-与-interface" class="headerlink" title="interface{} 与 *interface{}"></a>interface{} 与 *interface{}</h4><ul>
+<li><strong>interface{}</strong>：万能类型，可以接收任何值。</li>
+<li><strong>*interface{}</strong>：指向接口变量的 <strong>指针</strong>。它不再是万能类型，只能接收 <code>*interface{}</code> 类型的地址。在开发中极少使用，通常是逻辑错误。</li>
+</ul>
+<h3 id="小结-1"><a href="#小结-1" class="headerlink" title="小结"></a>小结</h3><ul>
+<li>区分 <code>eface</code> 和 <code>iface</code> 是理解 Go 内存管理和类型系统的基础。</li>
+<li>警惕“接口不为 nil 但底层指向 nil 指针”的问题。</li>
+<li>尽量<strong>面向抽象编程</strong>。</li>
+<li>遵循<strong>开闭原则</strong>（通过扩展而非修改来应对需求变化）。</li>
+<li>遵循<strong>依赖倒转原则</strong>（高层不依赖低层，两者都依赖抽象）。</li>
+</ul>
+<h2 id="第八章-defer-践行中必备的要领"><a href="#第八章-defer-践行中必备的要领" class="headerlink" title="第八章 - defer 践行中必备的要领"></a>第八章 - defer 践行中必备的要领</h2><p><code>defer</code> 是 Go 语言中极具特色的关键字，用于确保资源回收、状态重置或业务闭环在函数结束前执行。<br>虽然语法简单，但在复合场景（如配合 <code>return</code>、<code>panic</code>、有名返回值）下存在特定逻辑。</p>
+<h3 id="defer-的执行顺序：栈结构"><a href="#defer-的执行顺序：栈结构" class="headerlink" title="defer 的执行顺序：栈结构"></a>defer 的执行顺序：栈结构</h3><p>多个 <code>defer</code> 语句遵循 <strong>后进先出 (LIFO)</strong> 的原则。</p>
+<ol>
+<li>遇到 <code>defer</code>：将表达式压入栈中（不立即执行）。</li>
+<li>函数结束（遇到 <code>return</code> 或执行完毕）：从栈顶弹出 <code>defer</code> 表达式并依次执行。</li>
+</ol>
+<h3 id="defer-与-return-的顺序关系"><a href="#defer-与-return-的顺序关系" class="headerlink" title="defer 与 return 的顺序关系"></a>defer 与 return 的顺序关系</h3><p><strong><code>return</code> 后的表达式先执行，<code>defer</code> 后面的语句后执行。</strong></p>
+<ul>
+<li>触发时机：<code>defer</code> 触发的出栈时机是函数作用域结束。由于 <code>return</code> 语句是函数内部的最后一条指令，它必须先于函数销毁前完成计算和赋值。</li>
+<li>简单理解：<code>return</code> 负责“设定返回值”，<code>defer</code> 负责“清理工作”，最后函数彻底退出。</li>
+</ul>
+<h3 id="函数返回值的初始化"><a href="#函数返回值的初始化" class="headerlink" title="函数返回值的初始化"></a>函数返回值的初始化</h3><p>Go 允许在函数定义时为返回值命名（有名返回值）。</p>
+<ul>
+<li>初始化时机：有名返回值（如 <code>t int</code>）会在函数起始处被自动初始化为对应类型的零值（如 0）。</li>
+<li>作用域：该变量的生命周期贯穿整个函数，并在函数结束时作为最终结果返回。</li>
+</ul>
+<h3 id="有名函数返回值遇见-defer"><a href="#有名函数返回值遇见-defer" class="headerlink" title="有名函数返回值遇见 defer"></a>有名函数返回值遇见 defer</h3><p>由于有名返回值的变量作用域覆盖了整个函数，且 <code>defer</code> 执行晚于 <code>return</code> 的赋值动作，因此 <strong><code>defer</code> 里的逻辑可以直接修改已设定的返回值内容。</strong></p>
+<p><strong>示例分析</strong>：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">test</span><span class="params">()</span></span> (t <span class="type">int</span>) &#123;</span><br><span class="line">    <span class="keyword">defer</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">        t *= <span class="number">10</span> </span><br><span class="line">    &#125;()</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span> </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>t 初始化为 0</li>
+<li>先 return，t 赋值为 1</li>
+<li>再 defer ，t 赋值为 10</li>
+<li>最后函数返回 10</li>
+</ol>
+<h3 id="defer-遇见-panic"><a href="#defer-遇见-panic" class="headerlink" title="defer 遇见 panic"></a>defer 遇见 panic</h3><p><code>panic</code> 会触发当前协程已压栈的所有 <code>defer</code>。</p>
+<ul>
+<li>处理流程：<ol>
+<li>发生 <code>panic</code>。</li>
+<li>逆序遍历并执行本协程的 <code>defer</code> 链表。</li>
+<li><strong>捕获</strong>：若某个 <code>defer</code> 包含 <code>recover()</code>，则 <code>panic</code> 停止，程序恢复。</li>
+<li><strong>未捕获</strong>：遍历完所有 <code>defer</code> 后，向 stderr 抛出异常信息并崩溃。</li>
+</ol>
+</li>
+<li><strong>关键点</strong>：在 <code>panic</code> 语句之后定义的 <code>defer</code> 不会被压栈，因此也就不会执行。</li>
+</ul>
+<h3 id="defer-中包含-panic"><a href="#defer-中包含-panic" class="headerlink" title="defer 中包含 panic"></a>defer 中包含 panic</h3><ul>
+<li><strong>冲突规则</strong>：如果在执行 <code>defer</code> 过程中产生新的 <code>panic</code>，它会<strong>覆盖</strong>之前的 <code>panic</code>。</li>
+<li><strong>捕获原则</strong>：<code>recover()</code> 仅能捕获到最后一个发生的 <code>panic</code>。</li>
+</ul>
+<h3 id="defer-下的函数参数包含子函数"><a href="#defer-下的函数参数包含子函数" class="headerlink" title="defer 下的函数参数包含子函数"></a>defer 下的函数参数包含子函数</h3><ul>
+<li><strong>求值规则</strong>：<strong><code>defer</code> 函数的参数在压栈时就会被立即求值</strong>，而不是在函数最终执行时。</li>
+<li><strong>示例流程</strong>：<code>defer func1(arg1, func2())</code><ol>
+<li>计算 <code>func2()</code> 的值（立即执行）。</li>
+<li>将结果和 <code>func1</code> 的地址压栈。</li>
+<li>函数结束时再弹出并执行 <code>func1</code>。</li>
+</ol>
+</li>
+</ul>
+<h3 id="章节小结"><a href="#章节小结" class="headerlink" title="章节小结"></a>章节小结</h3><ol>
+<li><strong>栈序</strong>：后进先出。</li>
+<li><strong>先赋值，后 defer</strong>：<code>return</code> 设置返回值的动作早于 <code>defer</code> 执行。</li>
+<li><strong>参数立即求值</strong>：传给 <code>defer</code> 函数的参数在压栈那一刻就确定了。</li>
+<li><strong>保活功能</strong>：<code>defer</code> 配合 <code>recover</code> 是防范程序因 <code>panic</code> 崩溃的最后防线。</li>
+<li><strong>变量影响</strong>：能否修改返回值，取决于该返回值是否有名字（有名返回值）以及 <code>defer</code> 是如何引用该变量的（传参还是闭包）。</li>
+</ol>
+<h2 id="第九章-Go-语言常用问题及性能调试实践方法"><a href="#第九章-Go-语言常用问题及性能调试实践方法" class="headerlink" title="第九章 - Go 语言常用问题及性能调试实践方法"></a>第九章 - Go 语言常用问题及性能调试实践方法</h2><h3 id="如何分析程序运行时间与-CPU-利用率"><a href="#如何分析程序运行时间与-CPU-利用率" class="headerlink" title="如何分析程序运行时间与 CPU 利用率"></a>如何分析程序运行时间与 CPU 利用率</h3><h4 id="Shell-内置-time-指令"><a href="#Shell-内置-time-指令" class="headerlink" title="Shell 内置 time 指令"></a>Shell 内置 time 指令</h4><p>在 Linux&#x2F;Unix 中直接使用 <code>time</code> 命令运行程序。</p>
+<p>指标说明：</p>
+<ol>
+<li><strong>real</strong>：实际消耗时间（从开始到结束）。</li>
+<li><strong>user</strong>：程序在用户态消耗的 CPU 时间。</li>
+<li><strong>sys</strong>：程序在内核态消耗的 CPU 时间（系统调用等）。</li>
+</ol>
+<p><strong>通常 <code>real &gt;= user + sys</code>，差值部分是系统调度其他进程的时间。</strong></p>
+<h4 id="usr-bin-time-指令"><a href="#usr-bin-time-指令" class="headerlink" title="/usr/bin/time 指令"></a><code>/usr/bin/time</code> 指令</h4><p>使用绝对路径调用可以获得更丰富的信息，建议配合 <code>-v</code> 参数。<br>除了三种时间外，还提供 <strong>CPU 占用率</strong>、<strong>内存使用峰值</strong>、<strong>页错误 (Page Fault)</strong>、<strong>进程切换次数</strong>、<strong>文件 I&#x2F;O</strong> 和 <strong>Socket 使用情况</strong>等。</p>
+<h3 id="如何分析-Go-语言内存使用情况"><a href="#如何分析-Go-语言内存使用情况" class="headerlink" title="如何分析 Go 语言内存使用情况"></a>如何分析 Go 语言内存使用情况</h3><h4 id="系统层查看：top-命令"><a href="#系统层查看：top-命令" class="headerlink" title="系统层查看：top 命令"></a>系统层查看：top 命令</h4><p>通过 <code>top -p $(pidof 程序名)</code> 查看进程的内存占用。<br>有时程序逻辑执行完，<code>top</code> 显示内存依然很高。这不一定是泄露，可能是 Go 垃圾回收后尚未将内存归还给操作系统。</p>
+<h4 id="GODEBUG-与-gctrace（追踪-GC）"><a href="#GODEBUG-与-gctrace（追踪-GC）" class="headerlink" title="GODEBUG 与 gctrace（追踪 GC）"></a>GODEBUG 与 gctrace（追踪 GC）</h4><p>通过设置环境变量启动程序：<code>GODEBUG=&#39;gctrace=1&#39;</code>。<br>设置<code>gctrace=1</code>会使垃圾回收器在每次回收时汇总所回收内存的⼤⼩及耗时，并将这些内容汇总成单⾏内容打印到标准错误输出中。</p>
+<p>输出：<code>gc 1 @0.010s 1%: 0+0.53+0 ms clock, 0+1.0/2.6/0+0 ms cpu, 3-&gt;4-&gt;1 MB, 4 MB goal, 0 MB stacks, 0 MB globals, 20 P</code></p>
+<p>输出格式解读：</p>
+<ul>
+<li><code>gc 1</code>：GC 编号。</li>
+<li><code>@0.010s</code>：程序开始后的时间。</li>
+<li><code>1%</code>：GC 占用的时间比例。</li>
+<li><code>3-&gt;4-&gt;1MB</code>：GC 开始前堆大小 -&gt; GC 结束后堆大小 -&gt; 当前活跃堆大小。</li>
+</ul>
+<p>如果 <code>top</code> 很高但 <code>gctrace</code> 显示活跃堆很小，说明内存已在应用层回收，但仍被 Go 进程持有。</p>
+<h4 id="runtime-ReadMemStats"><a href="#runtime-ReadMemStats" class="headerlink" title="runtime.ReadMemStats"></a>runtime.ReadMemStats</h4><p>在代码中主动读取内存状态，适合自动化监控。</p>
+<ol>
+<li>基础统计 (General Statistics) 这部分反映了程序内存分配的宏观数据。<ul>
+<li><strong>Alloc &#x2F; HeapAlloc</strong>: 当前堆上<strong>活跃对象</strong>占用的字节数。该值会随 GC 释放对象而减小。<strong>反映业务数据量</strong></li>
+<li>TotalAlloc: 累计分配的堆内存字节数。<strong>只增不减</strong>，即使对象被释放，该值也记录总量。</li>
+<li><strong>Sys</strong>: 从操作系统获取的<strong>虚拟内存总额</strong>。包含堆、栈、及其它内部数据结构。注意：这是虚拟地址空间，不一定全部对应物理内存。</li>
+<li>Mallocs: 累计分配的对象总数。</li>
+<li>Frees: 累计释放的对象总数。</li>
+<li><strong>活跃对象数</strong> &#x3D; <code>Mallocs - Frees</code>。</li>
+</ul>
+</li>
+<li>堆内存详情 (Heap Statistics) Go 将堆内存划分为 <strong>Span</strong>（8K 或更大的连续区域），Span 分为：<code>空闲(Idle)</code>、<code>使用中(In-use)</code>、<code>栈(Stack)</code>。<ul>
+<li>HeapSys: 为堆申请的虚拟内存字节数。包括已使用、未使用（Idle）以及已归还给系统的内存。</li>
+<li><strong>HeapInuse</strong>: 正在使用的 Span 占用的字节数（至少包含一个对象）。<ul>
+<li><em>碎片估算</em>：<code>HeapInuse - HeapAlloc</code> 是已预留给特定大小对象但当前未使用的字节数（内部碎片）。</li>
+</ul>
+</li>
+<li>HeapIdle: 空闲 Span 占用的字节数。可以被重新用于分配对象、转为栈内存，或归还给 OS。</li>
+<li><strong>HeapReleased</strong>: <strong>已归还给操作系统的物理内存</strong>。这些内存属于空闲 Span，OS 可以回收其物理页面。<ul>
+<li><em>待回收内存估算</em>：<code>HeapIdle - HeapReleased</code> 表示运行时保留的、用于未来扩展堆的空闲内存，尚未归还给 OS。</li>
+</ul>
+</li>
+<li>HeapObjects: 当前堆上的对象总数。</li>
+</ul>
+</li>
+<li>栈与内部结构 (Stack &amp; Off-heap)<ul>
+<li>StackInuse: 协程栈（Goroutine Stacks）占用的字节数。</li>
+<li>StackSys: 从 OS 获取的用于栈的内存（通常等于 <code>StackInuse</code>，但在 CGO 环境下包含线程栈）。</li>
+<li>MSpanInuse &#x2F; MSpanSys: 用于存放 <code>mspan</code> 结构体（元数据）的内存。</li>
+<li>MCacheInuse &#x2F; MCacheSys: 用于存放 <code>mcache</code> 结构体（元数据）的内存。</li>
+<li>GCSys: 垃圾回收元数据（如位图、标记位）占用的内存。</li>
+<li>OtherSys: 运行时内部其它分配（如 profiling 记录）占用的内存。</li>
+</ul>
+</li>
+<li>垃圾回收统计 (GC Statistics)<ul>
+<li>NextGC: 下一次触发 GC 的目标堆大小。目标是保持 <code>HeapAlloc ≤ NextGC</code>。</li>
+<li>LastGC: 上次 GC 完成的时间戳（纳秒）。</li>
+<li>PauseTotalNs: 程序启动以来 GC 累计导致的 STW（Stop-The-World）总时间。</li>
+<li><strong>PauseNs</strong> [256]: 循环缓冲区，存储最近 256 次 GC 的 STW 停顿时间。<strong>衡量程序卡顿（抖动）的关键</strong></li>
+<li>PauseEnd [256]: 循环缓冲区，存储最近 256 次 GC 结束的时间戳。</li>
+<li>NumGC: 已完成的 GC 次数。</li>
+<li>NumForcedGC: 用户手动调用 <code>runtime.GC()</code> 触发的次数。</li>
+<li><strong>GCCPUFraction</strong>: GC 消耗的 CPU 时间占总可用 CPU 时间的比例（0.0 到 1.0）。<strong>反映 GC 对业务性能的侵占程度</strong></li>
+</ul>
+</li>
+<li>分级分配统计 (Size Class Statistics)<ul>
+<li>BySize [61]: 一个数组，记录了 Go 内部 61 种不同“大小级别”（Size Class）的分配情况。<ul>
+<li><code>Size</code>: 该级别对象的最大字节数。</li>
+<li><code>Mallocs / Frees</code>: 该特定大小级别累计的分配&#x2F;释放次数。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h4 id="pprof-工具（Web-界面查看内存）"><a href="#pprof-工具（Web-界面查看内存）" class="headerlink" title="pprof 工具（Web 界面查看内存）"></a>pprof 工具（Web 界面查看内存）</h4><p>在代码中引入 <code>_ &quot;net/http/pprof&quot;</code> 并启动一个 HTTP 监听。<br>可以直观展示当前的堆内存分配详情。</p>
+<h3 id="如何获取-CPU-性能情况"><a href="#如何获取-CPU-性能情况" class="headerlink" title="如何获取 CPU 性能情况"></a>如何获取 CPU 性能情况</h3><p>性能分析的前置条件（环境稳定性）</p>
+<ol>
+<li>机器必须闲置，关闭省电和过热模式。</li>
+<li>避免在虚拟机或共享云主机上进行高精度的测试。</li>
+<li>多次测试以取相对一致的结果。</li>
+</ol>
+<h4 id="使用-go-tool-pprof-分析数据"><a href="#使用-go-tool-pprof-分析数据" class="headerlink" title="使用 go tool pprof 分析数据"></a>使用 go tool pprof 分析数据</h4><p>两种方式获取 Profile 文件：</p>
+<ol>
+<li>访问 <code>http://127.0.0.1:端口/debug/pprof/profile</code>，默认等待 30s 后会下载一个采样文件。</li>
+<li><code>go tool pprof http://localhost:端口/debug/pprof/profile?seconds=60</code>（采样 60 秒）。</li>
+</ol>
+<p>命令行格式：<code>go tool pprof [二进制文件] [profile文件]</code>。</p>
+<ul>
+<li>常用内部指令：</li>
+<li>top：列出最耗 CPU 的函数。<ul>
+<li><code>flat</code>：当前函数本身的耗时。</li>
+<li><code>cum</code>：当前函数及其调用的子函数总耗时。</li>
+</ul>
+</li>
+<li><strong>list [函数名]</strong>：定位到代码具体的某一行。</li>
+</ul>
+<h2 id="第十章-make-和-new-的原理性区别"><a href="#第十章-make-和-new-的原理性区别" class="headerlink" title="第十章 - make 和 new 的原理性区别"></a>第十章 - make 和 new 的原理性区别</h2><h3 id="变量的声明与初始化基础"><a href="#变量的声明与初始化基础" class="headerlink" title="变量的声明与初始化基础"></a>变量的声明与初始化基础</h3><p>零值机制：使用 <code>var</code> 声明变量而不指定初始值时，Go 会自动赋予其“零值”。</p>
+<ul>
+<li><code>int</code> -&gt; <code>0</code></li>
+<li><code>string</code> -&gt; <code>&quot;&quot;</code></li>
+<li><strong>引用类型&#x2F;指针</strong> -&gt; <code>nil</code></li>
+</ul>
+<p>对于引用类型（指针、切片、映射、通道），仅声明而不分配内存就进行操作，会导致 <code>panic: runtime error: invalid memory address or nil pointer dereference</code>。<br>值类型声明即分配空间；引用类型必须经过<strong>显式内存分配</strong>才能使用。</p>
+<h3 id="new-与-make-的深度区别"><a href="#new-与-make-的深度区别" class="headerlink" title="new 与 make 的深度区别"></a>new 与 make 的深度区别</h3><h4 id="new-函数"><a href="#new-函数" class="headerlink" title="new 函数"></a>new 函数</h4><ul>
+<li><strong>函数原型</strong>：<code>func new(Type) *Type</code><ol>
+<li><strong>参数</strong>：只接受一个参数，即类型。</li>
+<li><strong>动作</strong>：在堆上分配一块该类型的内存，并将内存<strong>置零</strong>（设为该类型的零值）。</li>
+<li><strong>返回值</strong>：返回指向该内存地址的<strong>指针</strong>（即 <code>*Type</code>）。</li>
+</ol>
+</li>
+<li><strong>应用场景</strong>：常用于结构体。由于 <code>new</code> 会自动初始化零值，结构体中的同步锁（如 <code>sync.Mutex</code>）或其它字段无需额外初始化即可直接使用，不会出现无效引用的异常。</li>
+</ul>
+<h4 id="make-函数"><a href="#make-函数" class="headerlink" title="make 函数"></a>make 函数</h4><ul>
+<li><strong>函数原型</strong>：<code>func make(t Type, size ...IntegerType) Type</code><ol>
+<li><strong>限定类型</strong>：<strong>仅用于</strong> <code>slice</code>（切片）、<code>map</code>（映射）和 <code>chan</code>（通道）。</li>
+<li><strong>动作</strong>：内存分配并进行<strong>初始化</strong>（分配底层数据结构，如设置切片的长度、容量，创建 map 的哈希桶等）。</li>
+<li><strong>返回值</strong>：返回<strong>类型本身</strong>（<code>Type</code>），而不是指针。</li>
+</ol>
+</li>
+<li><strong>为什么不返回指针？</strong> 因为这三种类型本身就是引用类型（内部封装了指针），返回指针没有意义。</li>
+</ul>
+<h4 id="扩展：Map-使用中的经典坑点"><a href="#扩展：Map-使用中的经典坑点" class="headerlink" title="扩展：Map 使用中的经典坑点"></a>扩展：Map 使用中的经典坑点</h4><ol>
+<li><strong>Value 赋值问题</strong>：<ul>
+<li>如果 map 的值是结构体（如 <code>map[string]Student</code>），不能直接修改 <code>map[&quot;key&quot;].Name</code>。因为 map 的元素不可寻址（只读引用）。</li>
+<li><strong>解决方案</strong>：将 map 定义为指针类型 <code>map[string]*Student</code>，这样修改指针指向的结构体内容是合法的。</li>
+</ul>
+</li>
+<li><strong>遍历赋值问题</strong>：<ul>
+<li>在 <code>for range</code> 循环中，循环变量（如 <code>stu</code>）是一个副本。</li>
+<li>如果在循环内取 <code>&amp;stu</code> 存入 map，会导致 map 中所有的 key 最后都指向同一个地址（即循环变量的地址，其值为遍历的最后一个元素）。</li>
+<li><strong>解决方案</strong>：使用索引直接取原数组元素的地址，如 <code>&amp;students[i]</code>。</li>
+</ul>
+</li>
+</ol>
+<h3 id="make-与-new-的异同点总结"><a href="#make-与-new-的异同点总结" class="headerlink" title="make 与 new 的异同点总结"></a>make 与 new 的异同点总结</h3><table>
+<thead>
+<tr>
+<th align="left">特性</th>
+<th align="left">new</th>
+<th align="left">make</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>适用范围</strong></td>
+<td align="left">任意类型</td>
+<td align="left"><strong>仅限</strong> slice, map, channel</td>
+</tr>
+<tr>
+<td align="left"><strong>分配空间</strong></td>
+<td align="left">堆空间</td>
+<td align="left">堆空间</td>
+</tr>
+<tr>
+<td align="left"><strong>内存状态</strong></td>
+<td align="left">置零（Zeroed）</td>
+<td align="left">初始化（Initialized）</td>
+</tr>
+<tr>
+<td align="left"><strong>返回值</strong></td>
+<td align="left">指针 (<code>*T</code>)</td>
+<td align="left">类型本身 (<code>T</code>)</td>
+</tr>
+<tr>
+<td align="left"><strong>常用替代</strong></td>
+<td align="left">短变量声明 <code>i := 0</code> 或字面量 <code>u := user{}</code></td>
+<td align="left">必须使用 <code>make</code> 初始化这三类引用类型</td>
+</tr>
+</tbody></table>
+<h3 id="特殊情况：用-new-初始化切片"><a href="#特殊情况：用-new-初始化切片" class="headerlink" title="特殊情况：用 new 初始化切片"></a>特殊情况：用 new 初始化切片</h3><ul>
+<li>代码现象：执行 <code>list := new([]int)</code> 得到的是一个<strong>切片指针</strong>（指向 <code>nil</code> 切片的指针）。</li>
+<li>编译错误：不能直接 <code>append(list, 1)</code>，因为 <code>append</code> 的第一个参数必须是切片而非指针。</li>
+<li>解决建议：除非业务明确需要切片指针，否则应统一使用 <code>make([]int, 0)</code>。</li>
+</ul>
+<h3 id="小结-2"><a href="#小结-2" class="headerlink" title="小结"></a>小结</h3><ul>
+<li><strong>new</strong> 是为了“分配内存并置零”，返回指针。虽然它能分配任何类型的内存，但在实际编程中，对于普通变量或结构体，更倾向于使用字面量初始化。</li>
+<li><strong>make</strong> 是为了“创建并初始化”引用类型，返回对象。它是使用切片、映射和通道前的<strong>强制性步骤</strong>。</li>
+</ul>
+<h2 id="第十一章-精通-Go-Modules-项目依赖管理（过时，可略）"><a href="#第十一章-精通-Go-Modules-项目依赖管理（过时，可略）" class="headerlink" title="第十一章 - 精通 Go Modules 项目依赖管理（过时，可略）"></a>第十一章 - 精通 Go Modules 项目依赖管理（过时，可略）</h2><h3 id="GOPATH-工作模式"><a href="#GOPATH-工作模式" class="headerlink" title="GOPATH 工作模式"></a>GOPATH 工作模式</h3><h4 id="什么是-GOPATH"><a href="#什么是-GOPATH" class="headerlink" title="什么是 GOPATH"></a>什么是 GOPATH</h4><p>在 Go 1.11 之前，所有的开发工作必须在 <code>GOPATH</code> 环境变量指定的目录下进行。其目录结构包含：</p>
+<ul>
+<li><strong>bin</strong>：存放编译后的二进制可执行文件。</li>
+<li><strong>pkg</strong>：存放预编译的目标文件（<code>.a</code> 文件），加速编译。</li>
+<li><strong>src</strong>：存放源代码（项目必须存放在 <code>$GOPATH/src</code> 下）。</li>
+</ul>
+<h4 id="GOPATH-模式的弊端"><a href="#GOPATH-模式的弊端" class="headerlink" title="GOPATH 模式的弊端"></a>GOPATH 模式的弊端</h4><ol>
+<li><strong>无版本控制概念</strong>：执行 <code>go get</code> 总是拉取最新代码，无法指定特定版本。</li>
+<li><strong>无法同步第三方库版本</strong>：不同开发者的本地环境可能依赖了不同版本的库，导致编译结果不一致。</li>
+<li><strong>引用路径冲突</strong>：无法在同一环境中处理同一个库的不同大版本（如 v1 和 v2）。</li>
+</ol>
+<h3 id="Go-Modules-核心配置"><a href="#Go-Modules-核心配置" class="headerlink" title="Go Modules 核心配置"></a>Go Modules 核心配置</h3><h4 id="常用命令-go-mod"><a href="#常用命令-go-mod" class="headerlink" title="常用命令 (go mod)"></a>常用命令 (go mod)</h4><table>
+<thead>
+<tr>
+<th align="left">命令</th>
+<th align="left">作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>go mod init</strong></td>
+<td align="left">初始化当前文件夹，创建 <code>go.mod</code> 文件</td>
+</tr>
+<tr>
+<td align="left"><strong>go mod download</strong></td>
+<td align="left">下载依赖包到本地缓存</td>
+</tr>
+<tr>
+<td align="left"><strong>go mod tidy</strong></td>
+<td align="left">增加缺失的模块，移除未使用的模块（<strong>常用</strong>）</td>
+</tr>
+<tr>
+<td align="left"><strong>go mod edit</strong></td>
+<td align="left">编辑 <code>go.mod</code> 文件（如替换版本）</td>
+</tr>
+<tr>
+<td align="left"><strong>go mod graph</strong></td>
+<td align="left">打印模块依赖图</td>
+</tr>
+<tr>
+<td align="left"><strong>go mod vendor</strong></td>
+<td align="left">创建 <code>vendor</code> 目录，将所有依赖包复制到该目录下</td>
+</tr>
+<tr>
+<td align="left"><strong>go mod verify</strong></td>
+<td align="left">校验依赖是否被篡改</td>
+</tr>
+<tr>
+<td align="left"><strong>go mod why</strong></td>
+<td align="left">解释为什么需要依赖某个模块</td>
+</tr>
+</tbody></table>
+<h4 id="关键环境变量"><a href="#关键环境变量" class="headerlink" title="关键环境变量"></a>关键环境变量</h4><ol>
+<li><strong>GO111MODULE</strong>：<ul>
+<li><code>off</code>：禁用模块支持，沿用 GOPATH。</li>
+<li><code>on</code>：强制开启模块支持（推荐）。</li>
+<li><code>auto</code>：默认值，根据目录下是否有 <code>go.mod</code> 自动决定。</li>
+</ul>
+</li>
+<li><strong>GOPROXY</strong>：<ul>
+<li>设置代理以加速依赖下载。</li>
+<li>推荐：<code>https://goproxy.cn,direct</code>。</li>
+<li><strong>direct</strong>：特殊指示符，当代理返回 404 等错误时，强制回源（如 GitHub）抓取。</li>
+</ul>
+</li>
+<li><strong>GOSUMDB</strong>：<ul>
+<li>校验和数据库，确保拉取的代码未被篡改。</li>
+</ul>
+</li>
+<li><strong>GOPRIVATE</strong>：<ul>
+<li>设置私有仓库路径（如公司 GitLab）。</li>
+<li>设置后，匹配的路径将不经过代理和校验数据库。</li>
+</ul>
+</li>
+</ol>
+<h3 id="项目初始化与管理"><a href="#项目初始化与管理" class="headerlink" title="项目初始化与管理"></a>项目初始化与管理</h3><h4 id="初始化流程"><a href="#初始化流程" class="headerlink" title="初始化流程"></a>初始化流程</h4><ol>
+<li>开启模块：<code>go env -w GO111MODULE=on</code></li>
+<li>创建项目并进入：<code>mkdir project &amp;&amp; cd project</code></li>
+<li>初始化模块：<code>go mod init &lt;模块路径&gt;</code> (如 <code>github.com/user/repo</code>)</li>
+</ol>
+<h4 id="go-mod-文件结构"><a href="#go-mod-文件结构" class="headerlink" title="go.mod 文件结构"></a>go.mod 文件结构</h4><ul>
+<li><strong>module</strong>：定义当前模块的路径。</li>
+<li><strong>go</strong>：标识初始化时的 Go 版本。</li>
+<li><strong>require</strong>：列出项目依赖的具体模块及版本。</li>
+<li><strong>&#x2F;&#x2F;indirect</strong>：间接依赖（当前项目未直接 import，但依赖的库引用了它）。</li>
+</ul>
+<h4 id="go-sum-文件的作用"><a href="#go-sum-文件的作用" class="headerlink" title="go.sum 文件的作用"></a>go.sum 文件的作用</h4><ul>
+<li>详细罗列所有直接和间接依赖的 <strong>SHA-256 哈希值</strong>。</li>
+<li><strong>h1 hash</strong>：包内所有文件的总哈希，用于检测代码是否被篡改。</li>
+<li><strong>go.mod hash</strong>：仅对 <code>go.mod</code> 文件进行哈希。</li>
+</ul>
+<h3 id="版本修改与替换-replace"><a href="#版本修改与替换-replace" class="headerlink" title="版本修改与替换 (replace)"></a>版本修改与替换 (replace)</h3><h4 id="更新依赖"><a href="#更新依赖" class="headerlink" title="更新依赖"></a>更新依赖</h4><p>使用 <code>go get</code> 可以拉取或更新版本：</p>
+<ul>
+<li><code>go get &lt;path&gt;@v1.2.3</code>：指定特定版本。</li>
+<li><code>go get &lt;path&gt;@latest</code>：拉取最新版本。</li>
+</ul>
+<h4 id="使用-replace-关键字"><a href="#使用-replace-关键字" class="headerlink" title="使用 replace 关键字"></a>使用 replace 关键字</h4><p>在某些特殊情况下（如无法访问某个库，或需要调试本地库），可以使用 <code>replace</code>：</p>
+<ul>
+<li><strong>语法</strong>：<code>go mod edit -replace=旧模块@版本=新模块/路径@版本</code></li>
+<li><strong>场景</strong>：<ol>
+<li>替换因网络问题无法下载的模块。</li>
+<li>强制锁定某个具体的补丁版本。</li>
+<li>将依赖指向本地磁盘的开发代码。</li>
+</ol>
+</li>
+</ul>
+<h2 id="第十二章-ACID、CAP、BASE-分布式理论推进"><a href="#第十二章-ACID、CAP、BASE-分布式理论推进" class="headerlink" title="第十二章 - ACID、CAP、BASE 分布式理论推进"></a>第十二章 - ACID、CAP、BASE 分布式理论推进</h2><h3 id="事务的基本概念"><a href="#事务的基本概念" class="headerlink" title="事务的基本概念"></a>事务的基本概念</h3><p>分布式研究的核心起点是<strong>事务（Transaction）</strong>。</p>
+<ul>
+<li><strong>定义</strong>：将一组操作纳入一个不可分割的执行单元。</li>
+<li><strong>机制</strong>：<strong>“要么全做，要么全不做” (All or Nothing)</strong>。</li>
+<li><strong>回滚</strong>：任一操作失败，整个单元的操作全部撤销，恢复到初始状态。</li>
+</ul>
+<h3 id="ACID-理论（本地事务的基石）"><a href="#ACID-理论（本地事务的基石）" class="headerlink" title="ACID 理论（本地事务的基石）"></a>ACID 理论（本地事务的基石）</h3><p>数据库事务正确执行的四个基本特性：</p>
+<ol>
+<li><strong>原子性 (Atomicity)</strong>：事务中的操作是不可分割的整体，要么全部成功，要么全部失败。</li>
+<li><strong>一致性 (Consistency)</strong>：事务前后，数据库的完整性约束不被破坏（如转账前后总金额不变）。</li>
+<li><strong>隔离性 (Isolation)</strong>：并发事务之间互不干扰，未提交的修改对其他事务不可见。</li>
+<li><strong>持久性 (Durability)</strong>：一旦事务提交，对数据的修改是永久性的，即使系统故障也不会丢失。</li>
+</ol>
+<h3 id="CAP-理论（分布式系统的抉择）"><a href="#CAP-理论（分布式系统的抉择）" class="headerlink" title="CAP 理论（分布式系统的抉择）"></a>CAP 理论（分布式系统的抉择）</h3><p>在大规模分布式环境下，三个特性无法同时满足，只能<strong>三选二</strong>。</p>
+<h4 id="三大特性定义"><a href="#三大特性定义" class="headerlink" title="三大特性定义"></a>三大特性定义</h4><ol>
+<li><strong>一致性 (Consistency)</strong>：所有节点在同一时间看到相同的数据。写操作后，任何节点读取到的都是最新值。</li>
+<li><strong>可用性 (Availability)</strong>：每个请求都能在合理时间内获得正常响应（不是错误或超时）。</li>
+<li><strong>分区容错性 (Partition Tolerance)</strong>：当网络分区（节点间通信失败）发生时，系统仍能继续运行。</li>
+</ol>
+<h4 id="“三选二”的必然性"><a href="#“三选二”的必然性" class="headerlink" title="“三选二”的必然性"></a>“三选二”的必然性</h4><p>在分布式系统中，<strong>P（分区容错性）是必须保证的</strong>基础，因此设计者通常在 C 和 A 之间权衡：</p>
+<ul>
+<li><strong>CA (放弃 P)</strong>：不拆分分区。传统的单机关系型数据库。不是严格意义上的分布式系统。</li>
+<li><strong>CP (放弃 A)</strong>：追求强一致性。网络故障时，为了保证数据一致，系统会拒绝服务或阻塞。<strong>典型应用：Redis、HBase、Zookeeper。</strong></li>
+<li><strong>AP (放弃 C)</strong>：追求高可用性。网络故障时，节点使用本地旧数据提供服务。<strong>典型应用：12306 买票、淘宝订单、多数 NoSQL。</strong></li>
+</ul>
+<h3 id="分布式-BASE-理论"><a href="#分布式-BASE-理论" class="headerlink" title="分布式 BASE 理论"></a>分布式 BASE 理论</h3><p>BASE 是对 CAP 中一致性和可用性权衡的结果，是大型互联网分布式实践的总结。</p>
+<h4 id="核心内容"><a href="#核心内容" class="headerlink" title="核心内容"></a>核心内容</h4><ol>
+<li><strong>基本可用 (Basically Available)</strong>：在故障发生时，损失部分性能或功能。<ul>
+<li><em>响应时间妥协</em>：由 0.5s 增加到 2s。</li>
+<li><em>功能损失妥协</em>：高峰期引导至“降级页面”。</li>
+</ul>
+</li>
+<li><strong>软状态 (Soft State)</strong>：允许数据存在中间状态（数据同步延迟），且不影响系统整体可用性。</li>
+<li><strong>最终一致性 (Eventually Consistent)</strong>：经过一段时间后，所有副本数据最终都能达到一致状态。</li>
+</ol>
+<h4 id="ACID-vs-BASE"><a href="#ACID-vs-BASE" class="headerlink" title="ACID vs BASE"></a>ACID vs BASE</h4><ul>
+<li><strong>ACID</strong>：追求<strong>强一致性</strong>模型，适合传统金融交易。</li>
+<li><strong>BASE</strong>：通过牺牲强一致性获得<strong>高可用性</strong>，适合互联网高并发大规模系统。</li>
+</ul>
+<h3 id="综合案例：电商系统的-CAP-设计"><a href="#综合案例：电商系统的-CAP-设计" class="headerlink" title="综合案例：电商系统的 CAP 设计"></a>综合案例：电商系统的 CAP 设计</h3><p>电商系统不同模块对 CAP 的要求不同：</p>
+<table>
+<thead>
+<tr>
+<th align="left">模块</th>
+<th align="left">CAP 选择</th>
+<th align="left">原因</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>用户&#x2F;搜索&#x2F;收藏夹</strong></td>
+<td align="left"><strong>AP</strong></td>
+<td align="left">短时间数据不一致不影响核心体验，高可用更重要。</td>
+</tr>
+<tr>
+<td align="left"><strong>订单&#x2F;扣减库存</strong></td>
+<td align="left"><strong>CP &#x2F; CA</strong></td>
+<td align="left">核心业务，必须保证数据准确，极端下可牺牲可用性。</td>
+</tr>
+<tr>
+<td align="left"><strong>商品上下架</strong></td>
+<td align="left"><strong>CP</strong></td>
+<td align="left">保证库存管理和状态的同步准确。</td>
+</tr>
+<tr>
+<td align="left"><strong>支付模块</strong></td>
+<td align="left"><strong>C 必选</strong></td>
+<td align="left">金钱相关必须强一致，AP 中 A 也很重要，通常由第三方保证。</td>
+</tr>
+</tbody></table>
+<h3 id="小结-3"><a href="#小结-3" class="headerlink" title="小结"></a>小结</h3><ul>
+<li><strong>分布式核心</strong>：在不可避免的网络分区（P）下，通过 BASE 理论牺牲强一致性（C），追求基本可用（BA）和最终一致性（E）。</li>
+<li><strong>架构建议</strong>：不要盲目追求全系统强一致性，应根据业务场景（如电商不同模块）灵活配置不同的分布式策略。</li>
+</ul>
+
+                </div>
+
+                
+                        
+<div class="post-copyright-info-container border-box">
+    <div class="copyright-info-content border-box">
+        <div class="copyright-info-top border-box">
+            <div class="copyright-post-title border-box text-ellipsis">
+                《深入理解Go语言》读书笔记 - Go 语言特性的进阶知识
+            </div>
+
+            <div class="copyright-post-link border-box text-ellipsis">
+                uncategorized/读书笔记/《深入理解Go语言》读书笔记-Go语言特性的进阶知识/
+            </div>
+        </div>
+
+        <div class="copyright-info-bottom border-box">
+            <div class="copyright-post-author bottom-item">
+                <div class="type">
+                    作者
+                </div>
+                <div class="content">咕咕咕</div>
+            </div>
+
+            <div class="post-time bottom-item">
+                <div class="type">
+                    发布于
+                </div>
+                <div class="content">2026-01-08 22:27</div>
+            </div>
+
+
+            <div class="post-license bottom-item">
+                <div class="type">
+                    许可
+                </div>
+                <div class="content tooltip" data-tooltip-content="CC BY-NC-SA 4.0">
+                    <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hans">
+                        <i class="fa-brands fa-creative-commons"></i>
+                        <i class="fa-brands fa-creative-commons-by"></i>
+                        <i class="fa-brands fa-creative-commons-nc"></i>
+                        <i class="fa-brands fa-creative-commons-sa"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <i class="copyright-bg fa-solid fa-copyright"></i>
+    </div>
+    <div class="copy-copyright-info flex-center tooltip" data-tooltip-content="复制版权信息" data-tooltip-offset-y="-2px">
+        <i class="fa-solid fa-copy"></i>
+    </div>
+</div>
+
+                
+
+                <div class="post-bottom-tags-and-share border-box">
+                    <div>
+                        
+                            <ul class="post-tags-box border-box">
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/Go/">Go</a>
+                                    </li>
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/%E3%80%8A%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Go%E8%AF%AD%E8%A8%80%E3%80%8B/">《深入理解Go语言》</a>
+                                    </li>
+                                
+                            </ul>
+                        
+                    </div>
+                    <div>
+                        
+                            <div class="post-share-container border-box">
+    <ul class="share-list-wrap border-box">
+        <li class="qq share-item border-box flex-center tooltip"
+            data-tooltip-content="分享到 QQ"
+        >
+            <i class="fa-brands fa-qq"></i>
+        </li>
+        <li class="wechat share-item border-box flex-center tooltip tooltip-img"
+            data-tooltip-content="分享到微信"
+            data-tooltip-img-tip="微信扫一扫"
+            data-tooltip-img-style="background-color: #fff; top: -10px; padding: 0.6rem 0.6rem 0.1rem 0.6rem;"
+        >
+            <i class="fa-brands fa-weixin"></i>
+        </li>
+        <li class="weibo share-item border-box flex-center tooltip"
+            data-tooltip-content="分享到微博"
+        >
+            <i class="fa-brands fa-weibo"></i>
+        </li>
+    </ul>
+</div>
+
+                        
+                    </div>
+                </div>
+
+                
+                    <div class="reward-author-container border-box flex-center">
+    <div class="reward-btn keep-button border-box flex-center tooltip tooltip-img"
+            data-tooltip-content="谢谢你请我喝可乐~"
+            data-tooltip-img-url="/images/thanks.png"
+            data-tooltip-img-trigger="click"
+            data-tooltip-img-style="top: -8px;"
+    >
+        <i class="fa-solid fa-hand-holding-heart"></i>
+    </div>
+</div>
+
+                
+
+                
+                    <div class="post-nav border-box">
+                        
+                            <div class="prev-post">
+                                <a class="prev"
+                                   rel="prev"
+                                   href="/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E3%80%8Ahello%20agents%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-%E6%99%BA%E8%83%BD%E4%BD%93%E4%B8%8E%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B%E5%9F%BA%E7%A1%80/"
+                                   title="《hello agents》读书笔记 - 智能体与语言模型基础"
+                                >
+                                    <span class="left arrow-icon flex-center">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </span>
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">《hello agents》读书笔记 - 智能体与语言模型基础</span>
+                                        <span class="post-nav-item">上一篇</span>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                        
+                            <div class="next-post">
+                                <a class="next"
+                                   rel="next"
+                                   href="/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E3%80%8A%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Go%E8%AF%AD%E8%A8%80%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Linux%E7%BD%91%E7%BB%9CIO%E5%A4%8D%E7%94%A8%E5%B9%B6%E5%8F%91%E6%A8%A1%E5%9E%8B/"
+                                   title="《深入理解Go语言》读书笔记 - 深入理解 Linux 网络 I/O 复用并发模型"
+                                >
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">《深入理解Go语言》读书笔记 - 深入理解 Linux 网络 I/O 复用并发模型</span>
+                                        <span class="post-nav-item">下一篇</span>
+                                    </span>
+                                    <span class="right arrow-icon flex-center">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                    </div>
+                
+
+                
+                    
+
+
+    <div class="comments-container border-box">
+        <div id="comments-anchor" class="comment-area-title border-box">
+            <i class="fas fa-comments"></i>&nbsp;评论
+        </div>
+        <div class="comment-plugin-fail border-box">
+    <span class="fail-tip">评论插件加载失败</span>
+    <button class="reload keep-button">点击重新加载</button>
+</div>
+<div class="comment-plugin-loading flex-center border-box">
+    <i class="loading-icon fa-solid fa-spinner fa-spin"></i>
+    <span class="load-tip">正在加载评论插件</span>
+</div>
+<script data-pjax>
+  window.KeepCommentPlugin = {}
+  window.KeepCommentPlugin.hideLoading = () => {
+    const cplDom = document.querySelector('.comments-container .comment-plugin-loading')
+    cplDom.style.display = 'none'
+  }
+  window.KeepCommentPlugin.loadFailHandle = () => {
+    window.KeepCommentPlugin.hideLoading()
+    const cpfDom = document.querySelector('.comments-container .comment-plugin-fail')
+    cpfDom.style.display = 'flex'
+    cpfDom.querySelector('.reload').addEventListener('click', () => {
+      window.location.reload()
+    })
+  }
+</script>
+
+        
+            
+
+    <div class="giscus-comments-container">
+        <div class="giscus" id="giscus"></div>
+        <script data-pjax
+                onerror="window.KeepCommentPlugin.loadFailHandle()"
+        >
+          if (!window.KeepCommentPlugin?.getGiscusTheme) {
+            window.KeepCommentPlugin.getGiscusTheme = () => {
+              return document.body.classList.contains('dark-mode') ? 'dark_dimmed' : 'light_tritanopia'
+            }
+          }
+
+          if (!window.KeepCommentPlugin?.changeGiscusTheme) {
+            window.KeepCommentPlugin.changeGiscusTheme = () => {
+              const iframe = document.querySelector('iframe.giscus-frame')
+              iframe && iframe.contentWindow.postMessage({
+                giscus: {
+                  setConfig: {
+                    theme: window.KeepCommentPlugin.getGiscusTheme()
+                  }
+                }
+              }, 'https://giscus.app')
+            }
+          }
+
+          if (!window.KeepCommentPlugin?.initGiscus) {
+            window.KeepCommentPlugin.initGiscus = () => {
+              const script = document.createElement('script')
+              script.async = true
+              script.src = 'https://giscus.app/client.js'
+              script.setAttribute('data-repo', 'Cooooing/Cooooing.github.io')
+              script.setAttribute('data-repo-id', 'R_kgDOHQal_w')
+              script.setAttribute('data-category', 'Announcements')
+              script.setAttribute('data-category-id', 'DIC_kwDOHQal_84CjZo6')
+              script.setAttribute('data-reactions-enabled', '1')
+              script.setAttribute('data-lang', 'zh-CN')
+              script.setAttribute('data-mapping', 'pathname')
+              script.setAttribute('data-strict', '0')
+              script.setAttribute('data-emit-metadata', '0')
+              script.setAttribute('data-input-position', 'top')
+              script.setAttribute('crossorigin', 'anonymous')
+              script.setAttribute('loading', 'lazy')
+              script.setAttribute('data-theme', window.KeepCommentPlugin.getGiscusTheme())
+              document.querySelector('.giscus-comments-container').appendChild(script)
+              script.onerror = () => {
+                window.KeepCommentPlugin.loadFailHandle()
+              }
+              script.onload = () => {
+                window.KeepCommentPlugin.hideLoading()
+              }
+              const toggleThemeBtn = document.querySelector('.tool-toggle-theme-mode')
+              toggleThemeBtn && toggleThemeBtn.addEventListener('click', () => {
+                window.KeepCommentPlugin.changeGiscusTheme()
+              })
+            }
+          }
+
+          if ('true' === "true") {
+            setTimeout(() => {
+              window.KeepCommentPlugin.initGiscus()
+            }, 1000)
+          } else {
+            window.addEventListener("DOMContentLoaded", window.KeepCommentPlugin.initGiscus)
+          }
+        </script>
+    </div>
+
+
+        
+    </div>
+
+
+
+
+
+                
+            </div>
+        </div>
+
+        
+            <div class="pc-post-toc left-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%BA%94%E7%AB%A0-%E6%9C%89%E5%85%B3Goroutine%E2%BD%86%E9%99%90%E5%88%9B%E5%BB%BA%E7%9A%84%E5%88%86%E6%9E%90"><span class="nav-text">第五章 - 有关Goroutine⽆限创建的分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%9B%E7%A8%8B%E3%80%81%E7%BA%BF%E7%A8%8B%E4%B8%8E%E5%8D%8F%E7%A8%8B%E7%9A%84%E6%9C%AC%E8%B4%A8%E5%8C%BA%E5%88%AB"><span class="nav-text">进程、线程与协程的本质区别</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BF%9B%E7%A8%8B-Process-%E2%80%94%E2%80%94-%E8%B5%84%E6%BA%90%E5%88%86%E9%85%8D%E7%9A%84%E6%9C%80%E5%B0%8F%E5%8D%95%E4%BD%8D"><span class="nav-text">进程 (Process) —— 资源分配的最小单位</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BA%BF%E7%A8%8B-Thread-%E2%80%94%E2%80%94-CPU-%E8%B0%83%E5%BA%A6%E7%9A%84%E6%9C%80%E5%B0%8F%E5%8D%95%E4%BD%8D"><span class="nav-text">线程 (Thread) —— CPU 调度的最小单位</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%89%A7%E8%A1%8C%E5%8D%95%E5%85%83%E4%B8%8E-CPU-%E8%B0%83%E5%BA%A6%E5%8E%9F%E7%90%86"><span class="nav-text">执行单元与 CPU 调度原理</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%87%E6%8D%A2%E6%88%90%E6%9C%AC"><span class="nav-text">切换成本</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8D%8F%E7%A8%8B%E5%88%87%E6%8D%A2%E6%88%90%E6%9C%AC"><span class="nav-text">协程切换成本</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BA%BF%E7%A8%8B%E5%88%87%E6%8D%A2%E6%88%90%E6%9C%AC"><span class="nav-text">线程切换成本</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%8D%E8%83%BD%E6%97%A0%E9%99%90%E5%88%9B%E5%BB%BA-Goroutine%EF%BC%9F"><span class="nav-text">为什么不能无限创建 Goroutine？</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8E%A7%E5%88%B6-Goroutine-%E6%95%B0%E9%87%8F%E7%9A%84%E6%96%B9%E6%A1%88"><span class="nav-text">控制 Goroutine 数量的方案</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E5%B8%A6%E7%BC%93%E5%86%B2%E7%9A%84-Channel"><span class="nav-text">使用带缓冲的 Channel</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-sync-WaitGroup"><span class="nav-text">使用 sync.WaitGroup</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Channel-sync-WaitGroup-%E7%BB%84%E5%90%88"><span class="nav-text">Channel + sync.WaitGroup 组合</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8F%91%E9%80%81-%E6%89%A7%E8%A1%8C%E5%88%86%E7%A6%BB%E6%96%B9%E5%BC%8F"><span class="nav-text">发送&#x2F;执行分离方式</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B0%8F%E8%8A%82"><span class="nav-text">小节</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E5%85%AD%E7%AB%A0-Go-%E8%AF%AD%E8%A8%80%E4%B8%AD%E7%9A%84%E9%80%83%E9%80%B8%E7%8E%B0%E8%B1%A1%EF%BC%9A%E5%8F%98%E9%87%8F%E2%80%9C%E4%BD%95%E6%97%B6%E5%9C%A8%E6%A0%88%E3%80%81%E4%BD%95%E6%97%B6%E5%9C%A8%E5%A0%86%E2%80%9D"><span class="nav-text">第六章 - Go 语言中的逃逸现象：变量“何时在栈、何时在堆”</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Go-%E8%AF%AD%E8%A8%80%E4%B8%AD%E7%9A%84%E9%80%83%E9%80%B8%E7%8E%B0%E8%B1%A1"><span class="nav-text">Go 语言中的逃逸现象</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Go-%E8%AF%AD%E8%A8%80%E4%B8%AD%E8%AE%BF%E9%97%AE%E5%AD%90%E5%87%BD%E6%95%B0%E7%9A%84%E5%B1%80%E9%83%A8%E5%8F%98%E9%87%8F"><span class="nav-text">Go 语言中访问子函数的局部变量</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#C-C-%E4%B8%AD%E8%AE%BF%E9%97%AE%E5%AD%90%E5%87%BD%E6%95%B0%E7%9A%84%E5%B1%80%E9%83%A8%E5%8F%98%E9%87%8F"><span class="nav-text">C&#x2F;C++ 中访问子函数的局部变量</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%83%E9%80%B8%E5%88%86%E6%9E%90%E8%BF%87%E7%A8%8B%E7%A4%BA%E4%BE%8B"><span class="nav-text">逃逸分析过程示例</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8B%E8%BF%87%E7%A8%8B"><span class="nav-text">示例过程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#new-%E7%9A%84%E5%8F%98%E9%87%8F%E5%9C%A8%E6%A0%88%E8%BF%98%E6%98%AF%E5%A0%86"><span class="nav-text">new 的变量在栈还是堆</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%99%AE%E9%81%8D%E7%9A%84%E9%80%83%E9%80%B8%E8%A7%84%E5%88%99"><span class="nav-text">普遍的逃逸规则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B0%8F%E7%BB%93"><span class="nav-text">小结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%B8%83%E7%AB%A0-interface-%E5%89%96%E6%9E%90%E4%B8%8E-Go-%E8%AF%AD%E8%A8%80%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E6%80%9D%E6%83%B3"><span class="nav-text">第七章 - interface 剖析与 Go 语言面向对象思想</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#interface-%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5%E4%B8%8E%E8%B5%8B%E5%80%BC%E9%97%AE%E9%A2%98"><span class="nav-text">interface 的基本概念与赋值问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8E%A5%E5%8F%A3%E7%9A%84%E5%86%85%E9%83%A8%E6%9E%84%E9%80%A0"><span class="nav-text">接口的内部构造</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%A9%BA%E6%8E%A5%E5%8F%A3-eface"><span class="nav-text">空接口 eface</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%9D%9E%E7%A9%BA%E6%8E%A5%E5%8F%A3-iface"><span class="nav-text">非空接口 iface</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8E%A5%E5%8F%A3%E4%B8%BA-nil-%E7%9A%84%E5%88%A4%E5%AE%9A%E9%99%B7%E9%98%B1"><span class="nav-text">接口为 nil 的判定陷阱</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#interface-%E4%B8%8E-interface"><span class="nav-text">interface{} 与 *interface{}</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B0%8F%E7%BB%93-1"><span class="nav-text">小结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E5%85%AB%E7%AB%A0-defer-%E8%B7%B5%E8%A1%8C%E4%B8%AD%E5%BF%85%E5%A4%87%E7%9A%84%E8%A6%81%E9%A2%86"><span class="nav-text">第八章 - defer 践行中必备的要领</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#defer-%E7%9A%84%E6%89%A7%E8%A1%8C%E9%A1%BA%E5%BA%8F%EF%BC%9A%E6%A0%88%E7%BB%93%E6%9E%84"><span class="nav-text">defer 的执行顺序：栈结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#defer-%E4%B8%8E-return-%E7%9A%84%E9%A1%BA%E5%BA%8F%E5%85%B3%E7%B3%BB"><span class="nav-text">defer 与 return 的顺序关系</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%87%BD%E6%95%B0%E8%BF%94%E5%9B%9E%E5%80%BC%E7%9A%84%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="nav-text">函数返回值的初始化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%89%E5%90%8D%E5%87%BD%E6%95%B0%E8%BF%94%E5%9B%9E%E5%80%BC%E9%81%87%E8%A7%81-defer"><span class="nav-text">有名函数返回值遇见 defer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#defer-%E9%81%87%E8%A7%81-panic"><span class="nav-text">defer 遇见 panic</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#defer-%E4%B8%AD%E5%8C%85%E5%90%AB-panic"><span class="nav-text">defer 中包含 panic</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#defer-%E4%B8%8B%E7%9A%84%E5%87%BD%E6%95%B0%E5%8F%82%E6%95%B0%E5%8C%85%E5%90%AB%E5%AD%90%E5%87%BD%E6%95%B0"><span class="nav-text">defer 下的函数参数包含子函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AB%A0%E8%8A%82%E5%B0%8F%E7%BB%93"><span class="nav-text">章节小结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%B9%9D%E7%AB%A0-Go-%E8%AF%AD%E8%A8%80%E5%B8%B8%E7%94%A8%E9%97%AE%E9%A2%98%E5%8F%8A%E6%80%A7%E8%83%BD%E8%B0%83%E8%AF%95%E5%AE%9E%E8%B7%B5%E6%96%B9%E6%B3%95"><span class="nav-text">第九章 - Go 语言常用问题及性能调试实践方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F%E8%BF%90%E8%A1%8C%E6%97%B6%E9%97%B4%E4%B8%8E-CPU-%E5%88%A9%E7%94%A8%E7%8E%87"><span class="nav-text">如何分析程序运行时间与 CPU 利用率</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Shell-%E5%86%85%E7%BD%AE-time-%E6%8C%87%E4%BB%A4"><span class="nav-text">Shell 内置 time 指令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#usr-bin-time-%E6%8C%87%E4%BB%A4"><span class="nav-text">&#x2F;usr&#x2F;bin&#x2F;time 指令</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%88%86%E6%9E%90-Go-%E8%AF%AD%E8%A8%80%E5%86%85%E5%AD%98%E4%BD%BF%E7%94%A8%E6%83%85%E5%86%B5"><span class="nav-text">如何分析 Go 语言内存使用情况</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%B3%BB%E7%BB%9F%E5%B1%82%E6%9F%A5%E7%9C%8B%EF%BC%9Atop-%E5%91%BD%E4%BB%A4"><span class="nav-text">系统层查看：top 命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#GODEBUG-%E4%B8%8E-gctrace%EF%BC%88%E8%BF%BD%E8%B8%AA-GC%EF%BC%89"><span class="nav-text">GODEBUG 与 gctrace（追踪 GC）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#runtime-ReadMemStats"><span class="nav-text">runtime.ReadMemStats</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#pprof-%E5%B7%A5%E5%85%B7%EF%BC%88Web-%E7%95%8C%E9%9D%A2%E6%9F%A5%E7%9C%8B%E5%86%85%E5%AD%98%EF%BC%89"><span class="nav-text">pprof 工具（Web 界面查看内存）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E8%8E%B7%E5%8F%96-CPU-%E6%80%A7%E8%83%BD%E6%83%85%E5%86%B5"><span class="nav-text">如何获取 CPU 性能情况</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-go-tool-pprof-%E5%88%86%E6%9E%90%E6%95%B0%E6%8D%AE"><span class="nav-text">使用 go tool pprof 分析数据</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E5%8D%81%E7%AB%A0-make-%E5%92%8C-new-%E7%9A%84%E5%8E%9F%E7%90%86%E6%80%A7%E5%8C%BA%E5%88%AB"><span class="nav-text">第十章 - make 和 new 的原理性区别</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%98%E9%87%8F%E7%9A%84%E5%A3%B0%E6%98%8E%E4%B8%8E%E5%88%9D%E5%A7%8B%E5%8C%96%E5%9F%BA%E7%A1%80"><span class="nav-text">变量的声明与初始化基础</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#new-%E4%B8%8E-make-%E7%9A%84%E6%B7%B1%E5%BA%A6%E5%8C%BA%E5%88%AB"><span class="nav-text">new 与 make 的深度区别</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#new-%E5%87%BD%E6%95%B0"><span class="nav-text">new 函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#make-%E5%87%BD%E6%95%B0"><span class="nav-text">make 函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%89%A9%E5%B1%95%EF%BC%9AMap-%E4%BD%BF%E7%94%A8%E4%B8%AD%E7%9A%84%E7%BB%8F%E5%85%B8%E5%9D%91%E7%82%B9"><span class="nav-text">扩展：Map 使用中的经典坑点</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#make-%E4%B8%8E-new-%E7%9A%84%E5%BC%82%E5%90%8C%E7%82%B9%E6%80%BB%E7%BB%93"><span class="nav-text">make 与 new 的异同点总结</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%89%B9%E6%AE%8A%E6%83%85%E5%86%B5%EF%BC%9A%E7%94%A8-new-%E5%88%9D%E5%A7%8B%E5%8C%96%E5%88%87%E7%89%87"><span class="nav-text">特殊情况：用 new 初始化切片</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B0%8F%E7%BB%93-2"><span class="nav-text">小结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E5%8D%81%E4%B8%80%E7%AB%A0-%E7%B2%BE%E9%80%9A-Go-Modules-%E9%A1%B9%E7%9B%AE%E4%BE%9D%E8%B5%96%E7%AE%A1%E7%90%86%EF%BC%88%E8%BF%87%E6%97%B6%EF%BC%8C%E5%8F%AF%E7%95%A5%EF%BC%89"><span class="nav-text">第十一章 - 精通 Go Modules 项目依赖管理（过时，可略）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#GOPATH-%E5%B7%A5%E4%BD%9C%E6%A8%A1%E5%BC%8F"><span class="nav-text">GOPATH 工作模式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF-GOPATH"><span class="nav-text">什么是 GOPATH</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#GOPATH-%E6%A8%A1%E5%BC%8F%E7%9A%84%E5%BC%8A%E7%AB%AF"><span class="nav-text">GOPATH 模式的弊端</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Go-Modules-%E6%A0%B8%E5%BF%83%E9%85%8D%E7%BD%AE"><span class="nav-text">Go Modules 核心配置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4-go-mod"><span class="nav-text">常用命令 (go mod)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%B3%E9%94%AE%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F"><span class="nav-text">关键环境变量</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A1%B9%E7%9B%AE%E5%88%9D%E5%A7%8B%E5%8C%96%E4%B8%8E%E7%AE%A1%E7%90%86"><span class="nav-text">项目初始化与管理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96%E6%B5%81%E7%A8%8B"><span class="nav-text">初始化流程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#go-mod-%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84"><span class="nav-text">go.mod 文件结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#go-sum-%E6%96%87%E4%BB%B6%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="nav-text">go.sum 文件的作用</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%89%88%E6%9C%AC%E4%BF%AE%E6%94%B9%E4%B8%8E%E6%9B%BF%E6%8D%A2-replace"><span class="nav-text">版本修改与替换 (replace)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9B%B4%E6%96%B0%E4%BE%9D%E8%B5%96"><span class="nav-text">更新依赖</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-replace-%E5%85%B3%E9%94%AE%E5%AD%97"><span class="nav-text">使用 replace 关键字</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E5%8D%81%E4%BA%8C%E7%AB%A0-ACID%E3%80%81CAP%E3%80%81BASE-%E5%88%86%E5%B8%83%E5%BC%8F%E7%90%86%E8%AE%BA%E6%8E%A8%E8%BF%9B"><span class="nav-text">第十二章 - ACID、CAP、BASE 分布式理论推进</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8B%E5%8A%A1%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="nav-text">事务的基本概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ACID-%E7%90%86%E8%AE%BA%EF%BC%88%E6%9C%AC%E5%9C%B0%E4%BA%8B%E5%8A%A1%E7%9A%84%E5%9F%BA%E7%9F%B3%EF%BC%89"><span class="nav-text">ACID 理论（本地事务的基石）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CAP-%E7%90%86%E8%AE%BA%EF%BC%88%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F%E7%9A%84%E6%8A%89%E6%8B%A9%EF%BC%89"><span class="nav-text">CAP 理论（分布式系统的抉择）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%89%E5%A4%A7%E7%89%B9%E6%80%A7%E5%AE%9A%E4%B9%89"><span class="nav-text">三大特性定义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E2%80%9C%E4%B8%89%E9%80%89%E4%BA%8C%E2%80%9D%E7%9A%84%E5%BF%85%E7%84%B6%E6%80%A7"><span class="nav-text">“三选二”的必然性</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F-BASE-%E7%90%86%E8%AE%BA"><span class="nav-text">分布式 BASE 理论</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E5%86%85%E5%AE%B9"><span class="nav-text">核心内容</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ACID-vs-BASE"><span class="nav-text">ACID vs BASE</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%BC%E5%90%88%E6%A1%88%E4%BE%8B%EF%BC%9A%E7%94%B5%E5%95%86%E7%B3%BB%E7%BB%9F%E7%9A%84-CAP-%E8%AE%BE%E8%AE%A1"><span class="nav-text">综合案例：电商系统的 CAP 设计</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B0%8F%E7%BB%93-3"><span class="nav-text">小结</span></a></li></ol></li></ol>
+    </div>
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom border-box">
+            
+<footer class="footer border-box">
+    <div class="border-box website-info-box default">
+        
+            <div class="copyright-info info-item default">
+                &copy;&nbsp;<span>2022</span>&nbsp;-&nbsp;2026
+                
+                    &nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;&nbsp;<a href="/">咕咕咕</a>
+                
+            </div>
+
+            <div class="theme-info info-item default">
+                由&nbsp;<a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;驱动&nbsp;&&nbsp;主题&nbsp;<a class="keep-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep</a>
+            </div>
+
+            
+
+            
+        
+
+        <div style="color:var(--text-color-4);"><span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>(～￣▽￣)～<script src="/js/lifeTime.js"></script></div>
+        <a href="https://icp.gov.moe/?keyword=20222450" target="_blank">萌ICP备20222450号</a>
+
+
+        <div class="count-item info-item default">
+            
+                <span class="count-box border-box word">
+                    <span class="item-type border-box">总字数</span>
+                    <span class="item-value border-box word">446k</span>
+                </span>
+            
+
+            
+                <span class="count-box border-box uv">
+                    <span class="item-type border-box">访客数</span>
+                    <span class="item-value border-box uv" id="busuanzi_value_site_uv"></span>
+                </span>
+            
+
+            
+                <span class="count-box border-box pv">
+                    <span class="item-type border-box">访问量</span>
+                    <span class="item-value border-box pv" id="busuanzi_value_site_pv"></span>
+                </span>
+            
+        </div>
+
+        <div id="aplayer">
+          <meting-js
+                  server="netease"
+                  type="playlist"
+                  id="7345595717"
+                  fixed="true"
+                  mini="true"
+                  autoplay="false"
+                  listFolded="true"
+                  order="random"
+                  preload="none">
+          </meting-js>
+        </div>
+            <br>
+            <br>
+            <br>
+    </div>
+
+</footer>
+
+        </div>
+    </div>
+
+    <!-- post tools -->
+    
+        <div class="post-tools left-toc">
+            <div class="post-tools-container border-box">
+    <ul class="tools-list border-box">
+        <!-- PC TOC show toggle -->
+        
+            <li class="tools-item flex-center toggle-show-toc">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        <!-- PC go comment -->
+        
+            <li class="tools-item flex-center go-to-comments">
+                <i class="fas fa-comment"></i>
+                <span class="post-comments-count"></span>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <!-- side tools -->
+    <div class="side-tools">
+        <div class="side-tools-container border-box ">
+    <ul class="side-tools-list side-tools-show-handle border-box">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-toggle-theme-mode flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+            <li class="tools-item rss flex-center">
+                <a class="flex-center"
+                   href="/atom.xml"
+                   target="_blank"
+                >
+                    <i class="fas fa-rss"></i>
+                </a>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list border-box">
+        
+            <li class="tools-item toggle-show-toc-tablet flex-center">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        
+            <li class="tools-item go-to-comments-tablet flex-center">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+
+        <li class="tools-item tool-scroll-to-top flex-center show-arrow">
+            <i class="arrow fas fa-arrow-up"></i>
+            <span class="percent"></span>
+        </li>
+    </ul>
+</div>
+
+    </div>
+
+    <!-- image mask -->
+    <div class="zoom-in-image-mask">
+    <img class="zoom-in-image">
+</div>
+
+
+    <!-- local search -->
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="搜索..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="close-popup-btn">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+    <!-- tablet toc -->
+    
+        <div class="tablet-post-toc-mask">
+            <div class="tablet-post-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%BA%94%E7%AB%A0-%E6%9C%89%E5%85%B3Goroutine%E2%BD%86%E9%99%90%E5%88%9B%E5%BB%BA%E7%9A%84%E5%88%86%E6%9E%90"><span class="nav-text">第五章 - 有关Goroutine⽆限创建的分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%9B%E7%A8%8B%E3%80%81%E7%BA%BF%E7%A8%8B%E4%B8%8E%E5%8D%8F%E7%A8%8B%E7%9A%84%E6%9C%AC%E8%B4%A8%E5%8C%BA%E5%88%AB"><span class="nav-text">进程、线程与协程的本质区别</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BF%9B%E7%A8%8B-Process-%E2%80%94%E2%80%94-%E8%B5%84%E6%BA%90%E5%88%86%E9%85%8D%E7%9A%84%E6%9C%80%E5%B0%8F%E5%8D%95%E4%BD%8D"><span class="nav-text">进程 (Process) —— 资源分配的最小单位</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BA%BF%E7%A8%8B-Thread-%E2%80%94%E2%80%94-CPU-%E8%B0%83%E5%BA%A6%E7%9A%84%E6%9C%80%E5%B0%8F%E5%8D%95%E4%BD%8D"><span class="nav-text">线程 (Thread) —— CPU 调度的最小单位</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%89%A7%E8%A1%8C%E5%8D%95%E5%85%83%E4%B8%8E-CPU-%E8%B0%83%E5%BA%A6%E5%8E%9F%E7%90%86"><span class="nav-text">执行单元与 CPU 调度原理</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%87%E6%8D%A2%E6%88%90%E6%9C%AC"><span class="nav-text">切换成本</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8D%8F%E7%A8%8B%E5%88%87%E6%8D%A2%E6%88%90%E6%9C%AC"><span class="nav-text">协程切换成本</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BA%BF%E7%A8%8B%E5%88%87%E6%8D%A2%E6%88%90%E6%9C%AC"><span class="nav-text">线程切换成本</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%8D%E8%83%BD%E6%97%A0%E9%99%90%E5%88%9B%E5%BB%BA-Goroutine%EF%BC%9F"><span class="nav-text">为什么不能无限创建 Goroutine？</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8E%A7%E5%88%B6-Goroutine-%E6%95%B0%E9%87%8F%E7%9A%84%E6%96%B9%E6%A1%88"><span class="nav-text">控制 Goroutine 数量的方案</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E5%B8%A6%E7%BC%93%E5%86%B2%E7%9A%84-Channel"><span class="nav-text">使用带缓冲的 Channel</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-sync-WaitGroup"><span class="nav-text">使用 sync.WaitGroup</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Channel-sync-WaitGroup-%E7%BB%84%E5%90%88"><span class="nav-text">Channel + sync.WaitGroup 组合</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8F%91%E9%80%81-%E6%89%A7%E8%A1%8C%E5%88%86%E7%A6%BB%E6%96%B9%E5%BC%8F"><span class="nav-text">发送&#x2F;执行分离方式</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B0%8F%E8%8A%82"><span class="nav-text">小节</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E5%85%AD%E7%AB%A0-Go-%E8%AF%AD%E8%A8%80%E4%B8%AD%E7%9A%84%E9%80%83%E9%80%B8%E7%8E%B0%E8%B1%A1%EF%BC%9A%E5%8F%98%E9%87%8F%E2%80%9C%E4%BD%95%E6%97%B6%E5%9C%A8%E6%A0%88%E3%80%81%E4%BD%95%E6%97%B6%E5%9C%A8%E5%A0%86%E2%80%9D"><span class="nav-text">第六章 - Go 语言中的逃逸现象：变量“何时在栈、何时在堆”</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Go-%E8%AF%AD%E8%A8%80%E4%B8%AD%E7%9A%84%E9%80%83%E9%80%B8%E7%8E%B0%E8%B1%A1"><span class="nav-text">Go 语言中的逃逸现象</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Go-%E8%AF%AD%E8%A8%80%E4%B8%AD%E8%AE%BF%E9%97%AE%E5%AD%90%E5%87%BD%E6%95%B0%E7%9A%84%E5%B1%80%E9%83%A8%E5%8F%98%E9%87%8F"><span class="nav-text">Go 语言中访问子函数的局部变量</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#C-C-%E4%B8%AD%E8%AE%BF%E9%97%AE%E5%AD%90%E5%87%BD%E6%95%B0%E7%9A%84%E5%B1%80%E9%83%A8%E5%8F%98%E9%87%8F"><span class="nav-text">C&#x2F;C++ 中访问子函数的局部变量</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%83%E9%80%B8%E5%88%86%E6%9E%90%E8%BF%87%E7%A8%8B%E7%A4%BA%E4%BE%8B"><span class="nav-text">逃逸分析过程示例</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8B%E8%BF%87%E7%A8%8B"><span class="nav-text">示例过程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#new-%E7%9A%84%E5%8F%98%E9%87%8F%E5%9C%A8%E6%A0%88%E8%BF%98%E6%98%AF%E5%A0%86"><span class="nav-text">new 的变量在栈还是堆</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%99%AE%E9%81%8D%E7%9A%84%E9%80%83%E9%80%B8%E8%A7%84%E5%88%99"><span class="nav-text">普遍的逃逸规则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B0%8F%E7%BB%93"><span class="nav-text">小结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%B8%83%E7%AB%A0-interface-%E5%89%96%E6%9E%90%E4%B8%8E-Go-%E8%AF%AD%E8%A8%80%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E6%80%9D%E6%83%B3"><span class="nav-text">第七章 - interface 剖析与 Go 语言面向对象思想</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#interface-%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5%E4%B8%8E%E8%B5%8B%E5%80%BC%E9%97%AE%E9%A2%98"><span class="nav-text">interface 的基本概念与赋值问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8E%A5%E5%8F%A3%E7%9A%84%E5%86%85%E9%83%A8%E6%9E%84%E9%80%A0"><span class="nav-text">接口的内部构造</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%A9%BA%E6%8E%A5%E5%8F%A3-eface"><span class="nav-text">空接口 eface</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%9D%9E%E7%A9%BA%E6%8E%A5%E5%8F%A3-iface"><span class="nav-text">非空接口 iface</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8E%A5%E5%8F%A3%E4%B8%BA-nil-%E7%9A%84%E5%88%A4%E5%AE%9A%E9%99%B7%E9%98%B1"><span class="nav-text">接口为 nil 的判定陷阱</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#interface-%E4%B8%8E-interface"><span class="nav-text">interface{} 与 *interface{}</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B0%8F%E7%BB%93-1"><span class="nav-text">小结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E5%85%AB%E7%AB%A0-defer-%E8%B7%B5%E8%A1%8C%E4%B8%AD%E5%BF%85%E5%A4%87%E7%9A%84%E8%A6%81%E9%A2%86"><span class="nav-text">第八章 - defer 践行中必备的要领</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#defer-%E7%9A%84%E6%89%A7%E8%A1%8C%E9%A1%BA%E5%BA%8F%EF%BC%9A%E6%A0%88%E7%BB%93%E6%9E%84"><span class="nav-text">defer 的执行顺序：栈结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#defer-%E4%B8%8E-return-%E7%9A%84%E9%A1%BA%E5%BA%8F%E5%85%B3%E7%B3%BB"><span class="nav-text">defer 与 return 的顺序关系</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%87%BD%E6%95%B0%E8%BF%94%E5%9B%9E%E5%80%BC%E7%9A%84%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="nav-text">函数返回值的初始化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%89%E5%90%8D%E5%87%BD%E6%95%B0%E8%BF%94%E5%9B%9E%E5%80%BC%E9%81%87%E8%A7%81-defer"><span class="nav-text">有名函数返回值遇见 defer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#defer-%E9%81%87%E8%A7%81-panic"><span class="nav-text">defer 遇见 panic</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#defer-%E4%B8%AD%E5%8C%85%E5%90%AB-panic"><span class="nav-text">defer 中包含 panic</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#defer-%E4%B8%8B%E7%9A%84%E5%87%BD%E6%95%B0%E5%8F%82%E6%95%B0%E5%8C%85%E5%90%AB%E5%AD%90%E5%87%BD%E6%95%B0"><span class="nav-text">defer 下的函数参数包含子函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AB%A0%E8%8A%82%E5%B0%8F%E7%BB%93"><span class="nav-text">章节小结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%B9%9D%E7%AB%A0-Go-%E8%AF%AD%E8%A8%80%E5%B8%B8%E7%94%A8%E9%97%AE%E9%A2%98%E5%8F%8A%E6%80%A7%E8%83%BD%E8%B0%83%E8%AF%95%E5%AE%9E%E8%B7%B5%E6%96%B9%E6%B3%95"><span class="nav-text">第九章 - Go 语言常用问题及性能调试实践方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%88%86%E6%9E%90%E7%A8%8B%E5%BA%8F%E8%BF%90%E8%A1%8C%E6%97%B6%E9%97%B4%E4%B8%8E-CPU-%E5%88%A9%E7%94%A8%E7%8E%87"><span class="nav-text">如何分析程序运行时间与 CPU 利用率</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Shell-%E5%86%85%E7%BD%AE-time-%E6%8C%87%E4%BB%A4"><span class="nav-text">Shell 内置 time 指令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#usr-bin-time-%E6%8C%87%E4%BB%A4"><span class="nav-text">&#x2F;usr&#x2F;bin&#x2F;time 指令</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%88%86%E6%9E%90-Go-%E8%AF%AD%E8%A8%80%E5%86%85%E5%AD%98%E4%BD%BF%E7%94%A8%E6%83%85%E5%86%B5"><span class="nav-text">如何分析 Go 语言内存使用情况</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%B3%BB%E7%BB%9F%E5%B1%82%E6%9F%A5%E7%9C%8B%EF%BC%9Atop-%E5%91%BD%E4%BB%A4"><span class="nav-text">系统层查看：top 命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#GODEBUG-%E4%B8%8E-gctrace%EF%BC%88%E8%BF%BD%E8%B8%AA-GC%EF%BC%89"><span class="nav-text">GODEBUG 与 gctrace（追踪 GC）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#runtime-ReadMemStats"><span class="nav-text">runtime.ReadMemStats</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#pprof-%E5%B7%A5%E5%85%B7%EF%BC%88Web-%E7%95%8C%E9%9D%A2%E6%9F%A5%E7%9C%8B%E5%86%85%E5%AD%98%EF%BC%89"><span class="nav-text">pprof 工具（Web 界面查看内存）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E8%8E%B7%E5%8F%96-CPU-%E6%80%A7%E8%83%BD%E6%83%85%E5%86%B5"><span class="nav-text">如何获取 CPU 性能情况</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-go-tool-pprof-%E5%88%86%E6%9E%90%E6%95%B0%E6%8D%AE"><span class="nav-text">使用 go tool pprof 分析数据</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E5%8D%81%E7%AB%A0-make-%E5%92%8C-new-%E7%9A%84%E5%8E%9F%E7%90%86%E6%80%A7%E5%8C%BA%E5%88%AB"><span class="nav-text">第十章 - make 和 new 的原理性区别</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%98%E9%87%8F%E7%9A%84%E5%A3%B0%E6%98%8E%E4%B8%8E%E5%88%9D%E5%A7%8B%E5%8C%96%E5%9F%BA%E7%A1%80"><span class="nav-text">变量的声明与初始化基础</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#new-%E4%B8%8E-make-%E7%9A%84%E6%B7%B1%E5%BA%A6%E5%8C%BA%E5%88%AB"><span class="nav-text">new 与 make 的深度区别</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#new-%E5%87%BD%E6%95%B0"><span class="nav-text">new 函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#make-%E5%87%BD%E6%95%B0"><span class="nav-text">make 函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%89%A9%E5%B1%95%EF%BC%9AMap-%E4%BD%BF%E7%94%A8%E4%B8%AD%E7%9A%84%E7%BB%8F%E5%85%B8%E5%9D%91%E7%82%B9"><span class="nav-text">扩展：Map 使用中的经典坑点</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#make-%E4%B8%8E-new-%E7%9A%84%E5%BC%82%E5%90%8C%E7%82%B9%E6%80%BB%E7%BB%93"><span class="nav-text">make 与 new 的异同点总结</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%89%B9%E6%AE%8A%E6%83%85%E5%86%B5%EF%BC%9A%E7%94%A8-new-%E5%88%9D%E5%A7%8B%E5%8C%96%E5%88%87%E7%89%87"><span class="nav-text">特殊情况：用 new 初始化切片</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B0%8F%E7%BB%93-2"><span class="nav-text">小结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E5%8D%81%E4%B8%80%E7%AB%A0-%E7%B2%BE%E9%80%9A-Go-Modules-%E9%A1%B9%E7%9B%AE%E4%BE%9D%E8%B5%96%E7%AE%A1%E7%90%86%EF%BC%88%E8%BF%87%E6%97%B6%EF%BC%8C%E5%8F%AF%E7%95%A5%EF%BC%89"><span class="nav-text">第十一章 - 精通 Go Modules 项目依赖管理（过时，可略）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#GOPATH-%E5%B7%A5%E4%BD%9C%E6%A8%A1%E5%BC%8F"><span class="nav-text">GOPATH 工作模式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF-GOPATH"><span class="nav-text">什么是 GOPATH</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#GOPATH-%E6%A8%A1%E5%BC%8F%E7%9A%84%E5%BC%8A%E7%AB%AF"><span class="nav-text">GOPATH 模式的弊端</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Go-Modules-%E6%A0%B8%E5%BF%83%E9%85%8D%E7%BD%AE"><span class="nav-text">Go Modules 核心配置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4-go-mod"><span class="nav-text">常用命令 (go mod)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%B3%E9%94%AE%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F"><span class="nav-text">关键环境变量</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A1%B9%E7%9B%AE%E5%88%9D%E5%A7%8B%E5%8C%96%E4%B8%8E%E7%AE%A1%E7%90%86"><span class="nav-text">项目初始化与管理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96%E6%B5%81%E7%A8%8B"><span class="nav-text">初始化流程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#go-mod-%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84"><span class="nav-text">go.mod 文件结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#go-sum-%E6%96%87%E4%BB%B6%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="nav-text">go.sum 文件的作用</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%89%88%E6%9C%AC%E4%BF%AE%E6%94%B9%E4%B8%8E%E6%9B%BF%E6%8D%A2-replace"><span class="nav-text">版本修改与替换 (replace)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9B%B4%E6%96%B0%E4%BE%9D%E8%B5%96"><span class="nav-text">更新依赖</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-replace-%E5%85%B3%E9%94%AE%E5%AD%97"><span class="nav-text">使用 replace 关键字</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E5%8D%81%E4%BA%8C%E7%AB%A0-ACID%E3%80%81CAP%E3%80%81BASE-%E5%88%86%E5%B8%83%E5%BC%8F%E7%90%86%E8%AE%BA%E6%8E%A8%E8%BF%9B"><span class="nav-text">第十二章 - ACID、CAP、BASE 分布式理论推进</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8B%E5%8A%A1%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="nav-text">事务的基本概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ACID-%E7%90%86%E8%AE%BA%EF%BC%88%E6%9C%AC%E5%9C%B0%E4%BA%8B%E5%8A%A1%E7%9A%84%E5%9F%BA%E7%9F%B3%EF%BC%89"><span class="nav-text">ACID 理论（本地事务的基石）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CAP-%E7%90%86%E8%AE%BA%EF%BC%88%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F%E7%9A%84%E6%8A%89%E6%8B%A9%EF%BC%89"><span class="nav-text">CAP 理论（分布式系统的抉择）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%89%E5%A4%A7%E7%89%B9%E6%80%A7%E5%AE%9A%E4%B9%89"><span class="nav-text">三大特性定义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E2%80%9C%E4%B8%89%E9%80%89%E4%BA%8C%E2%80%9D%E7%9A%84%E5%BF%85%E7%84%B6%E6%80%A7"><span class="nav-text">“三选二”的必然性</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F-BASE-%E7%90%86%E8%AE%BA"><span class="nav-text">分布式 BASE 理论</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E5%86%85%E5%AE%B9"><span class="nav-text">核心内容</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ACID-vs-BASE"><span class="nav-text">ACID vs BASE</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%BC%E5%90%88%E6%A1%88%E4%BE%8B%EF%BC%9A%E7%94%B5%E5%95%86%E7%B3%BB%E7%BB%9F%E7%9A%84-CAP-%E8%AE%BE%E8%AE%A1"><span class="nav-text">综合案例：电商系统的 CAP 设计</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B0%8F%E7%BB%93-3"><span class="nav-text">小结</span></a></li></ol></li></ol>
+    </div>
+</div>
+
+            </div>
+        </div>
+    
+</main>
+
+
+
+<!-- common -->
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/toggle-theme.js"></script>
+
+<script src="/js/code-block.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+
+<!-- local-search -->
+
+    
+<script src="/js/local-search.js"></script>
+
+
+
+<!-- lazyload -->
+
+    
+<script src="/js/lazyload.js"></script>
+
+
+
+<div class="pjax">
+    
+        <!-- post-helper -->
+        
+<script src="/js/post/post-helper.js"></script>
+
+
+        <!-- toc -->
+        
+            
+<script src="/js/post/toc.js"></script>
+
+        
+
+        <!-- copyright-info -->
+        
+            
+<script src="/js/post/copyright-info.js"></script>
+
+        
+
+        <!-- share -->
+        
+            
+<script src="/js/post/share.js"></script>
+
+        
+    
+
+    <!-- category-page -->
+    
+
+    <!-- links-page -->
+    
+
+    <!-- photos-page -->
+    
+</div>
+
+<!-- mermaid -->
+
+
+<!-- pjax -->
+
+    
+<script src="/js/libs/pjax.min.js"></script>
+
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        window.pjax = new Pjax({
+            selectors: [
+                'head title',
+                '.page-container',
+                '.pjax',
+                '#aplayer',
+                '#canvas_sakura'
+            ],
+            history: true,
+            debug: false,
+            cacheBust: false,
+            timeout: 0,
+            analytics: false,
+            currentUrlFullReload: false,
+            scrollRestoration: false,
+        });
+
+        document.addEventListener('pjax:send', () => {
+            KEEP.utils.pjaxProgressBarStart()
+        });
+
+        document.addEventListener('pjax:complete', () => {
+            KEEP.utils.pjaxProgressBarEnd()
+            window.pjax.executeScripts(document.querySelectorAll('script[data-pjax], .pjax script'))
+            KEEP.initExecute()
+        });
+    });
+</script>
+
+
+
+
+    
+        
+            
+<script class="custom-inject-js" src="/js/APlayer.min.js" data-pjax></script>
+
+        
+    
+        
+            
+<script class="custom-inject-js" src="/js/Meting.min.js" data-pjax></script>
+
+        
+    
+        
+            
+<script class="custom-inject-js" src="/js/leaves.js" data-pjax></script>
+
+        
+    
+
+
+
+</body>
+</html>
