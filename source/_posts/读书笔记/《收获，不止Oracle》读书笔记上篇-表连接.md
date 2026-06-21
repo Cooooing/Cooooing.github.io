@@ -56,6 +56,7 @@ tags:
 #### 嵌套循环的表访问次数
 
 准备表和数据
+
 ~~~oraclesqlplus
 DROP TABLE t1 CASCADE CONSTRAINTS PURGE;
 DROP TABLE t2 CASCADE CONSTRAINTS PURGE;
@@ -78,6 +79,7 @@ ORDER BY dbms_random.random;
 ~~~
 
 查看嵌套循环的连接次数。
+
 ~~~text
 SQL> set linesize 1000
 SQL> alter session set statistics_level = all;
@@ -292,6 +294,7 @@ PLAN_TABLE_OUTPUT
 一般在驱动表的过滤条件加索引、在被驱动表的连接条件加索引比较合理。
 
 适合嵌套循环连接的场景
+
 1. 两表关联返回的记录不多，最佳情况是驱动表结果集仅返回1条或少量几条记录，而被驱动表仅匹配到1条或少量几条记录，这种情况即便T1表和T2表的记录奇大无比，也是非常迅速的。
 2. 遇到一些不等值查询导致哈希和排序合并连接被限制使用，不得不使用L连接。
 3. 驱动表的限制条件所在的列有索引。

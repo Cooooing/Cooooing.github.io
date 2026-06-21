@@ -3,15 +3,15 @@ layout: post
 title: 关于Schiphalast注册功能开发中的bug
 date: 2022-08-12 12:50:52
 tags:
-- bug
-- Java
-- MD5
-- ip
-- session
-- mail
-- 数据库连接池
+  - bug
+  - Java
+  - MD5
+  - ip
+  - session
+  - mail
+  - 数据库连接池
 categories:
-- 编程记录
+  - 编程记录
 ---
 
 ## 简介
@@ -51,7 +51,8 @@ X-Forwarded-For请求头格式：`X-Forwarded-For: client, proxy1, proxy2`
 [关于X-Forwarded-For的介绍](https://www.runoob.com/w3cnote/http-x-forwarded-for.html)
 [HTTP 请求头中的 X-Forwarded-For](https://imququ.com/post/x-forwarded-for-header-in-http.html)
 
-代码：
+下面这段代码适合记录日志、展示归属地这类非安全场景。涉及限流、封禁、审计等安全场景时，不能直接信任客户端传入的请求头，只能信任已配置好的反向代理转发的信息。
+
 ~~~java
     /**
      * 从HttpServletRequest中获取ip
@@ -96,26 +97,29 @@ X-Forwarded-For请求头格式：`X-Forwarded-For: client, proxy1, proxy2`
     }
 ~~~
 
-### 密码的md5加密
+### 密码的 MD5 摘要
 
 MD5，全称 消息摘要算法第五版（Message Digest Algorithm 5）
 不多介绍，详见[MD5百度百科](https://baike.baidu.com/item/MD5/212708)
 
-关于加密算法的改进：
+MD5 是摘要算法，不是加密算法，也不适合直接用于密码存储。密码存储更应该使用 bcrypt、scrypt、PBKDF2、Argon2 这类专门的密码哈希方案。
+
+关于密码哈希方案的改进：
+
 1. 加盐
-    即**在原来的明文中加入一组随机串**，再通过加密算法加密，将密文存入数据库。
+   即**在原来的明文中加入一组随机串**，再通过哈希算法计算摘要，将摘要存入数据库。
 2. 加次数
-    即多加密几次，增加破解难度。不过会消耗更多计算资源。
+   即多迭代几次，增加破解难度。不过会消耗更多计算资源。
 
 jdk自带api：
+
 ~~~java
     /**
-     * md5加密
-     * @param password 需要加密的字符串
-     * @return 加密后的字符串
+     * md5 摘要
+     * @param password 需要计算摘要的字符串
+     * @return 摘要后的字符串
      */
     public static String md5(String password){
-        String hashedPwd = null;
         try {
             //生成MessageDigest对象，指定使用的消息摘要算法
             MessageDigest md = MessageDigest.getInstance("MD5");
@@ -123,21 +127,25 @@ jdk自带api：
             md.update(password.getBytes());
             /*
             digest()计算消息摘要，返回值为字节数组。16个字节，128bit
-            通过BigInteger将其转换成32位的16进制数（每个字节用两个16进制数表示）
-            或者16位16进制数，去掉32位前后各8位
+            每个字节用两个16进制数表示，长度固定为32位
              */
-            hashedPwd = new BigInteger(1, md.digest()).toString(16);
+            StringBuilder builder = new StringBuilder();
+            for (byte b : md.digest()) {
+                builder.append(String.format("%02x", b & 0xff));
+            }
+            return builder.toString();
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
-        return hashedPwd;
+        return null;
     }
 ~~~
 
 spring的DigestUtils工具类
+
 ~~~java
     public static String md5(String password) {
-        // 基于spring框架中的DigestUtils工具类进行密码加密
+        // 基于spring框架中的DigestUtils工具类计算 MD5 摘要
         return DigestUtils.md5DigestAsHex((password).getBytes());
     }
 ~~~
@@ -147,6 +155,7 @@ spring的DigestUtils工具类
 使用JavaMail发送邮件
 
 依赖：
+
 ~~~xml
         <!--javamail的依赖-->
         <dependency>
@@ -155,7 +164,9 @@ spring的DigestUtils工具类
             <version>1.4.7</version>
         </dependency>
 ~~~
+
 代码：
+
 ~~~java
     //邮件服务器地址（比如smtp.qq.com
     private static final String mailHost = null;
@@ -171,7 +182,7 @@ spring的DigestUtils工具类
      * 发送邮件
      * @param toEmail 发往邮箱地址
      */
-    public static void sendMail(String toEmail){
+    public void sendMail(String toEmail){
         //发送的内容（可以是dom文档
         String sendContent = "test mail";
         //创建，发送邮件
@@ -215,20 +226,25 @@ spring的DigestUtils工具类
 使用springboot集成的mail模块
 
 依赖：
+
 ~~~xml
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-mail</artifactId>
         </dependency>
 ~~~
+
 配置：
+
 ~~~properties
 spring.mail.protocol=
 spring.mail.host=
 spring.mail.username=
 spring.mail.password=
 ~~~
+
 代码：
+
 ~~~java
     @Resource
     private JavaMailSender javaMailSender;
@@ -262,6 +278,7 @@ spring.mail.password=
 以减少性能开销。
 
 代码：
+
 ~~~
 先鸽了
 ~~~
@@ -274,9 +291,11 @@ spring.mail.password=
 ### session变化
 
 #### 现象
+
 ajax请求及其余请求在前几次请求时，session会发送变化。导致存在session中的数据获取不到。
 
 #### 原因
+
 通过HttpServletRequest获取session对象时，使用 `request.getSession()` 方法。
 getSession方法会检测当前是否有session存在，默认**不存在会创建一个新的session**，存在则返回。
 
@@ -287,7 +306,7 @@ ajax请求跨域请求默认不携带cookie信息。即获取不到session
 调用getSession方法时传入参数false或true
 例如：`request.getSession(false);`
 为true时，先查看请求时是否有sessionID。如果没有，则创建一个新的session对象。如果有则根据sessionID查找对应的session对象，找到了就返回该session对象，没找到就创建新的session对象。
-为false时，先查看请求中是否有sessionID，没有则返回null。有则根据sessionID查找对应的session对象，找到了就返回该session对象，没找到就创建新的session对象。
+为false时，先查看请求中是否有sessionID，没有则返回null。有则根据sessionID查找对应的session对象，找到了就返回该session对象，没找到也返回null。
 **默认为true**
 
 建议：
@@ -305,6 +324,7 @@ ajax请求跨域请求默认不携带cookie信息。即获取不到session
 添加属性：`xhr.withCredentials=true`
 
 附js原生实现ajax请求：
+
 ~~~javascript
 var Ajax = {
         get: function (url, callback) {
@@ -343,6 +363,7 @@ var Ajax = {
         }
     }
 ~~~
+
 ---
 
 说明：

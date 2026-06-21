@@ -24,7 +24,8 @@ cookie：
 
 Session机制存放过程：
 每次请求浏览器都会将Cookie数据传给Tomcat
-每次服务器响应请求都会携带一个Cookie数据，将SessionId写入浏览器（已有则会覆盖。 
+每次服务器响应请求都会携带一个Cookie数据，将SessionId写入浏览器（已有则会覆盖。
+
 * tomcat接受用户请求后，会从cookie中寻找name为sessionid的数据。
     * 如果Cookie中没有，则服务器需要创建一个新的Session对象及sessionid。
     * 如果有，则tomcat会获取这个数据，然后在Session容器中，根据sessionid获取数据。
@@ -39,26 +40,28 @@ tomcat容器关闭或重启，也会导致session会话失效。
 ### session会话共享方案
 
 1. 使用容器扩展插件来实现，比如就tomcat的tomcat-redis-session-manager插件，基于jetty的jetty-session-redis插件、memcatched-session-manager插件；
-    好处：无需改动代码
-    坏处：过于依赖容器，容器升级或更换，需要重新配置。底层是复制session到其他服务器，会有一定延迟，不能部署太多服务器。
-2. 使用Nginx负载均衡的ip hash策略，实现用户每次访问都绑定到同一tomcat服务器，实现session总是存在。
-    局限性：ip不可变。其次，负载均衡时，如果某个服务器发生故障，会重新定位，也会跳到别的服务器。
+   好处：无需改动代码
+   坏处：过于依赖容器，容器升级或更换，需要重新配置。底层是复制session到其他服务器，会有一定延迟，不能部署太多服务器。
+2. 使用Nginx负载均衡的 `ip_hash` 策略，实现用户每次访问都绑定到同一tomcat服务器，实现session总是存在。
+   局限性：ip不可变。其次，负载均衡时，如果某个服务器发生故障，会重新定位，也会跳到别的服务器。
 3. 自己写一套session会话管理工具类。
-    比较灵活，但开发需要一些额外时间，同时功能可能较弱。（不要重复造轮子
+   比较灵活，但开发需要一些额外时间，同时功能可能较弱。（不要重复造轮子
 4. 使用框架的会话管理工具，SpringSession。
-    不依赖容器，不惜要改代码。较为完美的方案
-    
+   不依赖容器，不惜要改代码。较为完美的方案
+
 ## SpringSession简介
 
 SpringSession是Spring家族中的一个子项目，提供了一组Api和实现，用于管理用户Session信息。
 它将servlet容器实现的httpSession替换为spring-session，专注于解决session管理问题，Session信息存储在Redis中，可简单快速且无缝的集成到应用中。
 
 SpringSession特性：
+
 1. 提供用户session管理的api和实现
 2. 提供HttpSession，以中立的方式取代web容器中的session
 3. 支持集群的session处理，不必绑定到具体的web容器去解决集群下的session共享问题
 
 SpringSession redis依赖
+
 ~~~xml
 <dependency>
     <groupId>org.springframework.session</groupId>

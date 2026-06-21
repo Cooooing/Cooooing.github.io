@@ -18,8 +18,8 @@ categories:
 更让人想知道，Collectors 返回的 Collector 收集器到底怎么使用？
 
 另外，toList() 与 Collectors.toList() 是有区别的。
-查看源码，可以看到 toList() 返回的是**不可变**的 list。
-而 Collectors.toList() 返回的是**可变**的 list。
+查看源码，可以看到 `Stream.toList()` 返回的是**不可变**的 list。
+而 `Collectors.toList()` 的规范不保证返回集合的具体类型、可变性、可序列化性或线程安全性。当前常见 JDK 实现通常返回 `ArrayList`，但不应该依赖这个实现细节。
 
 ~~~java
    default List<T> toList() {
@@ -101,7 +101,7 @@ Collector 接口定义了 3 个泛型、5 个接口方法、2个静态方法、3
 
 1. UNORDERED：声明此收集器的汇总归约结果与 Stream 流元素遍历顺序无关，不受元素处理顺序影响。但是如果容器本身是有序的，那么这个收集器会保证元素顺序不变。
 2. CONCURRENT：声明此收集器可以多个线程并行处理，允许并行流中进行处理。即 **supplier 方法只会被调用一次，只创建一个结果容器，并且 combiner 方法不会被执行，这个容器必须是线程安全的**。
-3. IDENTITY_FINISH：声明此收集器的 finisher 方法是一个恒等操作，可以跳过。**默认值**。
+3. IDENTITY_FINISH：声明此收集器的 finisher 方法是一个恒等操作，可以跳过。它不是默认值，只有收集器显式声明时才具备该特征。
 
 > 需要注意的是
 > 即使 collector 被标记为 UNORDERED 如果数据源或操作本身是有序的，那么系统的执行策略通常仍会保持这些元素的出现顺序。
@@ -114,6 +114,7 @@ Collector 接口定义了 3 个泛型、5 个接口方法、2个静态方法、3
 同时，通过打印信息区分串行流与并行流的执行区别。
 
 串行流（单线程顺序执行）
+
 ~~~java
     public static void main(String[] args) {
         Map<String, Integer> res = Stream.of("a", "b", "c", "d", "e", "f", "g")
@@ -137,6 +138,7 @@ Collector 接口定义了 3 个泛型、5 个接口方法、2个静态方法、3
 ~~~
 
 串行流输出结果：
+
 ~~~
 main supplier...
 main accumulator: a
@@ -158,6 +160,7 @@ g:103
 可以看到串行流中 supplier 方法只执行一次，并且 combiner 方法没有执行。
 
 并行流
+
 ~~~java
     public static void main(String[] args) {
         Map<String, Integer> res = Stream.of("a", "b", "c", "d", "e", "f", "g").parallel()
@@ -181,6 +184,7 @@ g:103
 ~~~
 
 并行流输出结果：
+
 ~~~
 main supplier...
 ForkJoinPool.commonPool-worker-1 supplier...
@@ -212,6 +216,7 @@ g:103
 ~~~
 
 可以看出并行流的执行逻辑。
+
 1. spliterator 分割迭代器 会将数据分割成多个片段，分割过程通常采用递归的方式动态进行，以平衡子任务的工作负载，提高资源利用率。
 2. Fork/Join 框架将这些数据片段分配到多个线程和处理器核心上进行并行处理。
 3. 处理完成后，结果会被汇总合并。合并过程通常也是递归进行的。
@@ -222,4 +227,3 @@ Collectors 提供了一系列的静态方法，一般情况下足够正常使用
 
 方法比较多，很多我也没用过。这里就不一一列举用法了。
 用的时候查文档吧。~~不然我和写文档有什么区别~~
-

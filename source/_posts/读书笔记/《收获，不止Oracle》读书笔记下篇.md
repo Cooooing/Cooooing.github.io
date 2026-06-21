@@ -440,9 +440,9 @@ order by sort1.blocks desc;
 JOIN 的写法这里就省略了。下面说 `(+)` 的写法：
 
 - `(+)` 符号用于指示外连接，它可以出现在等式的一边或两边。
-- 如果 `(+)` 出现在等式的左边，则表示 LEFT OUTER JOIN。
-- 如果 `(+)` 出现在等式的右边，则表示 RIGHT OUTER JOIN。
-- 如果 `(+)` 出现在等式的两边，则表示 FULL OUTER JOIN。
+- 如果写作 `a.col = b.col(+)`，表示保留左表 `a` 的行，等价于 `a LEFT OUTER JOIN b`。
+- 如果写作 `a.col(+) = b.col`，表示保留右表 `b` 的行，等价于 `a RIGHT OUTER JOIN b`。
+- 旧式 `(+)` 语法不能通过两边同时标记来表达 `FULL OUTER JOIN`，需要使用 ANSI `FULL OUTER JOIN`。
 
 语法:
 
@@ -861,7 +861,7 @@ awr addm ash awrddrpt awrsqrpt等方式观察数据库
 exec dbms_workload_repository.create_snapshot();
 @?/rdbms/admin/awrrpt.sql
 @?/rdbms/admin/addmrpt.sql
-@7/rdbms/admin/ashrpt.sql
+@?/rdbms/admin/ashrpt.sql
 @?/rdbms/admin/awrddrpt.sql
 @?/rdbms/admin/awrsqrpt.sql
 -- 注意：一般要考虑统计出问题的时间段的报表，顺序一般是 awr -> addm -> ash -> awrdd -> awrsq
@@ -878,7 +878,7 @@ exec dbms_workload_repository.create_snapshot();
 3. `@?/rdbms/admin/addmrpt.sql`:
     - 此命令用于执行 ADDM (自动数据库诊断监控器) 报告生成脚本 `addmrpt.sql`。该脚本会生成一份基于 AWR 数据的 ADDM 报告。
     - ADDM 报告提供了更深入的性能分析，包括性能问题的根本原因分析和优化建议。
-4. `@7/rdbms/admin/ashrpt.sql`:
+4. `@?/rdbms/admin/ashrpt.sql`:
     - 此命令用于执行 ASH (自动共享历史) 报告生成脚本 `ashrpt.sql`。该脚本会生成一份基于 ASH 数据的报告。
     - ASH 报告提供了关于会话活动的详细信息，包括等待事件、SQL 执行等，这对于诊断性能瓶颈非常有用。
 5. `@?/rdbms/admin/awrddrpt.sql`:
@@ -1700,7 +1700,6 @@ select count(*)
 from v$session;
 ~~~
 
-
 OPEN_CURSOR游标参数
 
 ~~~oraclesqlplus
@@ -1721,19 +1720,19 @@ archive log list
 表空间规划
 
 1. 回滚表空间
-   - 自动管理。
-   - 避免自动扩展。
-   - 尽可能规划大一些。 
+    - 自动管理。
+    - 避免自动扩展。
+    - 尽可能规划大一些。
 2. 临时表空间
-   - 避免自动扩展。
-   - 尽可能大。
-   - 尽可能使用临时表空间组。 
+    - 避免自动扩展。
+    - 尽可能大。
+    - 尽可能使用临时表空间组。
 3. 业务表空间
-   - 控制个数，不超过6个为宜。
-   - 尽量避免自动扩展，超阀值由监控来检查。
-   - 根据自己的业务，固定表空间名。
-   - 表空间需良好分类（参数配置表，业务数据表，历史记录表）。
-   - 表空间需合理命名。
+    - 控制个数，不超过6个为宜。
+    - 尽量避免自动扩展，超阀值由监控来检查。
+    - 根据自己的业务，固定表空间名。
+    - 表空间需良好分类（参数配置表，业务数据表，历史记录表）。
+    - 表空间需合理命名。
 
 ---
 

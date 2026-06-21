@@ -3,11 +3,11 @@ layout: post
 title: 关于使用反射时，因lambda产生的bug
 date: 2023-09-01 19:22:53
 categories:
-- 编程记录
+  - 编程记录
 tags:
-- bug
-- lambda
-- 反射
+  - bug
+  - lambda
+  - 反射
 ---
 
 ## 场景
@@ -62,12 +62,13 @@ class Lambda {
 
     public void lambda2() {
         Runnable lambda2 = () -> System.out.println("lambda2 test method");
-        lambda2.run();·
+        lambda2.run();
     }
 }
 ~~~
 
 结果：
+
 ~~~text
 public void com.xiamo.wowmsbackend.Lambda.lambda2()
 private static void com.xiamo.wowmsbackend.Lambda.lambda$lambda2$0()
@@ -88,7 +89,9 @@ public final native void java.lang.Object.notifyAll()
 进程已结束,退出代码0
 ~~~
 
-可以看出 lambda 是这个类的私有静态方法。（至少编译成 class 之后，是这样的
+可以看出，这里的 lambda 在当前编译结果中生成了一个私有静态方法。这属于编译器实现细节，不应该作为业务逻辑依赖。
+
+用反射扫描 Controller 方法时，可以过滤 `method.isSynthetic()` 这类编译器生成的方法，或者只处理带有目标注解的方法。
 
 详细的反编译结果可以看这篇文章：
 [深入底层原理—带你看透Lambda表达式的本质](https://blog.csdn.net/weixin_57907028/article/details/117367380)

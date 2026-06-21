@@ -41,7 +41,7 @@ where LONGITUDE is null
 
 ~~~oraclesqlplus
 alter table T_GIS
-    add POINT_GEOMETRY SDO_GEOMETRY
+    add POINT_GEOMETRY SDO_GEOMETRY;
 ~~~
 
 将转换后的经纬度存储到这个字段中。
@@ -117,6 +117,7 @@ WGS84（**World Geodetic System 1984**）是目前全球最广泛使用的 **大
 | **地心引力常数（GM）**  | 3.986004418 × 10¹⁴ m³/s² | 用于卫星轨道计算          |
 
 ### 坐标表示
+
 WGS84 使用 **经度（Longitude）、纬度（Latitude）、高程（Height）** 表示位置：
 
 - **经度（λ）**：东经（0°~180°E）或西经（0°~180°W）。
@@ -126,16 +127,16 @@ WGS84 使用 **经度（Longitude）、纬度（Latitude）、高程（Height）
 ### WGS84 的常见用途
 
 1. GPS 定位
-   - 全球定位系统（GPS）默认使用 WGS84 坐标系。
-   - 手机、车载导航、无人机等设备的定位数据通常基于 WGS84。
+    - 全球定位系统（GPS）默认使用 WGS84 坐标系。
+    - 手机、车载导航、无人机等设备的定位数据通常基于 WGS84。
 2. 地图服务
-   - **Google Maps、百度地图、高德地图** 等在线地图的底层数据采用 WGS84。
-   - 但部分地图（如中国 GCJ-02）会对 WGS84 进行加密偏移。
+    - **Google Maps、百度地图、高德地图** 等在线地图的底层数据采用 WGS84。
+    - 但部分地图（如中国 GCJ-02）会对 WGS84 进行加密偏移。
 3. GIS 和空间数据库
-   - **Oracle Spatial、PostGIS、ArcGIS** 等支持 WGS84 坐标系。
-   - 在 Oracle 中，WGS84 的 SRID（空间参考 ID）通常为：
-       - **4326**（标准 WGS84，经纬度顺序：纬度, 经度）
-       - **8307**（WGS84，经纬度顺序：经度, 纬度）
+    - **Oracle Spatial、PostGIS、ArcGIS** 等支持 WGS84 坐标系。
+    - 在 Oracle 中，WGS84 的 SRID（空间参考 ID）通常为：
+        - **4326**（WGS84 longitude/latitude，通常按 X=经度、Y=纬度构造）
+        - **8307**（Oracle 常用 WGS84 SRID，同样通常按 X=经度、Y=纬度构造）
 
 ### WGS84 与其他坐标系的区别
 
@@ -144,7 +145,6 @@ GCJ-02 对 WGS84 进行非线性偏移。在中国国内使用，高德地图、
 CGCS2000 是中国标准，中国官方测绘。
 
 > 注：CGCS2000 和 WGS84 在 **厘米级精度** 下可以视为一致，但在高精度测量（如卫星定位）时需转换。
-
 
 ## Oracle Spatial 函数（部分）
 
@@ -231,8 +231,8 @@ SDO_WITHIN_DISTANCE(
 参数说明
 
 - `params` 格式：`'distance=<数值> unit=<单位>'`
-	- `distance`：距离值
-	- `unit`：单位(默认为坐标系单位，WGS84为米)
+    - `distance`：距离值
+    - `unit`：单位(默认为坐标系单位，WGS84为米)
 
 查询某点1公里范围内的所有商店
 
@@ -267,9 +267,8 @@ AND SDO_WITHIN_DISTANCE(
 
 ~~~oraclesqlplus
 SDO_INSIDE(
-    geometry1  SDO_GEOMETRY,  -- 要检查的几何对象
-    geometry2  SDO_GEOMETRY,  -- 容器几何对象
-    tol        NUMBER         -- 容差
+    geometry1,  -- 要检查的几何对象
+    geometry2   -- 容器几何对象
 ) RETURN VARCHAR2;
 ~~~
 
@@ -301,4 +300,3 @@ SELECT
 FROM administrative_areas
 WHERE area_id = 101;
 ~~~
-

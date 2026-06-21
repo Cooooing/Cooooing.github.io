@@ -3,14 +3,14 @@ layout: post
 title: Cookie的SameSite跨站限制
 date: 2023-07-23 15:01:37
 tags:
-- cookie
-- 跨域
-- 跨站
-- CSRF攻击
-- nginx
-- 反向代理
+  - cookie
+  - 跨域
+  - 跨站
+  - CSRF攻击
+  - nginx
+  - 反向代理
 categories:
-- 编程记录
+  - 编程记录
 ---
 
 ## 场景
@@ -30,7 +30,7 @@ categories:
 
 cookies 机制一直被认为是不安全的。
 SameSite 属性是谷歌浏览器为完善 cookies 安全机制出的特性之一。
-Chrome 80 于 2020 年 2 月发布，引入了新的 Cookie 值 SameSite，并默认实施 Cookie 策略。 
+Chrome 80 于 2020 年 2 月发布，引入了新的 Cookie 值 SameSite，并默认实施 Cookie 策略。
 SameSite 属性有三个可选值 **Strict、Lax 或 None**。 如果未指定，则 Cookie SameSite 属性**默认采用值 SameSite=Lax**。
 ameSite 属性用来限制第三方 Cookie的行为。
 
@@ -40,7 +40,7 @@ ameSite 属性用来限制第三方 Cookie的行为。
 | Strict | **完全禁止第三方Cookie**，当当前站点与请求目标站点是跨站关系时，总是不会发送Cookie。换言之，只有当前站点与请求目标站点是同站关系时，才会带上Cookie。            | 可选                   | 	Set-Cookie:key=value;SameSite=Strict      |
 | None   | 	允许第三方Cookie，始终发送。站点选择显式关闭SameSite属性时，在将其值设为None的同时。必须同时设置Secure属性（表示Cookie只能通过HTTPS协议发送），否则无效。	 | 可选，但如果设置，则需要HTTPS协议。 | 	Set-Cookie:key=value;SameSite=None;Secure |
 
-默认值为 Lax，基本只有只读请求（资源请求和Get，不会改变服务器资源）会携带 Cookie。其他POST（会执行数据库 insert、update和delete）的请求不会携带 Cookie
+默认值为 Lax 时，同站请求会携带 Cookie；跨站请求通常只在顶级导航且使用安全方法（例如 GET）时携带 Cookie。其他跨站 POST 请求通常不会携带 Cookie。
 更加详细地，关于 http 和 https 等情况 Cookie 的携带情况可以参考下面这篇博客园的文章
 
 [Cookies的SameSite属性](https://www.cnblogs.com/weixsun/p/14676371.html)
@@ -56,12 +56,12 @@ ameSite 属性用来限制第三方 Cookie的行为。
 
 前端项目放在 docker 中，docker 跑在本地，浏览器访问本地 127.0.0.1
 后端服务跑在服务器，浏览器访问公网ip
-这肯定是跨站的，由于所使用的浏览器比较新，Cookie 的 SameSite 属性默认值为 Laz，所以不会携带 Cookie。
+这肯定是跨站的，由于所使用的浏览器比较新，Cookie 的 SameSite 属性默认值为 Lax，所以不会携带 Cookie。
 后端服务会认为这些请求都是新用户发起，因为没有获得 SessionId ，所以每次都会新建一个 Session，并将 SessionId 设置进 cookie 中。
 
 而部署在同一个服务器上的前端项目则不会有这个问题。因为是同站的。
 
-也没有什么好的解决方案，因为我的服务器没有配置域名，所以没有是用不了 https 协议。以至于无法设置 SameSite 属性为 None。
+也没有什么好的解决方案，因为我的服务器没有配置域名，所以用不了 https 协议，以至于无法设置 SameSite 属性为 None。
 因为是在开发测试阶段，所以影响不大。使用低版本的浏览器访问或许可以。
 
 然后就是查阅的博客和资料中都提到了 CSRF攻击，后面记录下。
@@ -90,6 +90,7 @@ CSRF（Cross-Site Request Forgery），也被称为 one-click attack 或者 sess
 ## nginx 反向代理
 
 vue 中将所有请求加上前缀
+
 ~~~js
 import axios from 'axios';
 
@@ -104,6 +105,7 @@ export default app;
 这时，vue 中所有 axios 请求都会请求 ip:host/api/真实后端请求
 
 然后，在 nginx 中配置反向代理
+
 ~~~nginx configuration
 server {
     listen       80;

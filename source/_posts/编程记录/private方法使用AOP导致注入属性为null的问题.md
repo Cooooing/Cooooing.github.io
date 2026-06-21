@@ -3,12 +3,12 @@ layout: post
 title: private 方法使用 AOP 导致注入属性为 null 的问题
 date: 2024-02-04 19:41:36
 categories:
-- 编程记录
+  - 编程记录
 tags:
-- aop
-- spring
-- 动态代理
-- cglib
+  - aop
+  - spring
+  - 动态代理
+  - cglib
 ---
 
 ## 问题描述
@@ -16,6 +16,7 @@ tags:
 项目中使用 aop 实现多数据源切换，如下：
 
 自定义注解：
+
 ~~~java
 @Target({ElementType.METHOD, ElementType.TYPE, ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
@@ -26,6 +27,7 @@ public @interface DataSource {
 ~~~
 
 aop 方法：
+
 ~~~java
 @Aspect
 @Configuration
@@ -48,6 +50,7 @@ public class DataSourceAspect {
 ~~~
 
 使用：
+
 ~~~java
 @RestController
 @RequiredArgsConstructor
@@ -68,6 +71,7 @@ public class TestController {
 具体切换方法省略。
 
 问题代码：
+
 ~~~java
 @RestController
 @RequiredArgsConstructor
@@ -128,7 +132,7 @@ public class TestController {
 说明 bean 是被正常注入进 spring 容器中的。
 调用 selectPublic 是可以正常返回的，注入也是正常。
 调用 selectPrivate 则会报错：`java.lang.NullPointerException`，service 没有成功注入。
-> 这里的 private 方法是被 AOP 拦截的。普通的 private 方法，如果没有 AOP，bean 的注入是正常的，不会出现 NPE 报错。
+> 这里的问题不是 private 方法被 AOP 成功拦截，而是请求最终落到了代理相关调用链中。普通的 private 方法如果没有进入这类代理调用场景，bean 的注入通常不会因此出现 NPE 报错。
 
 在 org.springframework.web.method.support 中 InvocableHandlerMethod 类的 doInvoke 方法上打断点。
 可以发现，不管是 public 方法还是 private 方法， cglib 创建的代理类中，service 属性为 null。
@@ -136,11 +140,12 @@ public class TestController {
 ![private代理类service属性.png](https://cooooing.github.io/images/编程记录/private方法使用AOP导致注入属性为null的问题/private代理类service属性.png)
 
 但是，当在 AOP 的拦截方法上打断点，可以发现，public 方法是可以停在断点上的，但 private 方法则直接结束，并没有执行 AOP 的方法。
-**所以 private 方法是没有被 AOP 所拦截的。会继续使用代理类，而代理类中的 service 并没有注入，是 null 。从而导致 NPE 报错。**
+**所以 private 方法没有被 Spring AOP 增强。当前调用继续落在代理对象相关路径上，而代理类中的 service 并没有注入，是 null，从而导致 NPE 报错。**
 
 那么，为什么 public 没有报错呢？想必 AOP 中做了些处理，注入了所需要的 bean。
 
 org.springframework.aop.framework 的 CglibAopProxy 类中有个内部类 CglibMethodInvocation 如下：
+
 ~~~java
     private static class CglibMethodInvocation extends ReflectiveMethodInvocation {
         @Nullable
@@ -179,7 +184,6 @@ protected 方法执行 super.invokeJoinpoint()
 CglibAopProxy 下执行的时候，上面无论哪个方法都会用实际对象来进行反射调用。
 而实际对象的 bean 属性值在 spring 启动时便已经注入了。因此代理对象会被重新赋值，即：用实际对象来代替原有的代理对象。
 > super.invokeJoinpoint() 方法主要调用了 method.setAccessible(true); 取消 Java 语言访问检查。
-
 
 ## 总结
 
