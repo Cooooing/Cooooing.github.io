@@ -17,7 +17,6 @@ tags:
 token 是令牌，是服务器生成的一串**用于标记用户的字符串**。
 每次请求时携带，让服务器知道请求是哪个用户发出的。（有状态的请求）
 
-
 ### Web 1.0
 
 早期的网站大多是展示自己的内容，以期望更多人可以看到。
@@ -51,9 +50,8 @@ session 是基于 cookie 实现的，他会在请求后携带一个 cookie JSESS
 
 1. 首先不同的浏览器对 cookie 是有不同的限制的，比如数量和大小上。
 2. 其次就是，用户信息都存储在服务端的 session 中，用户量大的话，对服务器的压力也会大起来。
-那么为什么 token 同样是标记用户的字符串，不会有这个问题呢？
-因为 token 这个字符串是将用户信息进行加密所得到的字符串。服务端并不存储。
-有加密就有解密，所以 **token 中不要写入敏感信息**。
+   那么为什么 token 同样是标记用户的字符串，不会有这个问题呢？
+   以 JWT 为例，默认是对 Header 和 Payload 做签名防篡改，不是加密。Payload 可以被 Base64URL 解码，所以 **token 中不要写入敏感信息**。
 3. 最后，cookie 是存在跨域等问题的。而 token 可以写在请求头、请求体，甚至是 url 路径中传给服务端。简单点说，就是使用更加自由。
 
 另外，用户信息存在 token 中，还有个优点就是在分布式系统中，不需要同步用户信息。
@@ -71,6 +69,7 @@ JWT 全称 JSON Web Token。
 JWT 可以使用密钥〈使用 HMAC 算法）或使用 RSA 或 ECDSA 的公钥/私钥对进行签名。
 
 JWT 生成的 token 由三部分组成：
+
 1. 标头（Header）
 2. 有效载荷（Payload）
 3. 签名（Signature）
@@ -101,7 +100,7 @@ public class JWTUtil {
      */    
     public String createToken(User user) {
         return JWT.create()
-                .withExpiresAt(Instant.ofEpochMilli(System.currentTimeMillis() + 30 * 60 * 60 * 1000))  // 设置过期时间 30分钟
+                .withExpiresAt(Instant.ofEpochMilli(System.currentTimeMillis() + 30 * 60 * 1000))  // 设置过期时间 30分钟
                 .withAudience(user.getUsername()) // 设置用户信息。可以放很多，但不要放敏感信息
                 .sign(Algorithm.HMAC256(secret)); // 指定签名算法
     }
@@ -138,11 +137,11 @@ public class JWTUtil {
 单点登录，指在多系统应用群中登录一个系统，便可在其他所有系统中得到授权而无需再次登录，包括单点登录与单点注销两部分。
 [什么是单点登录（SSO）](https://zhuanlan.zhihu.com/p/66037342)
 
-
 实现单点登录，就需要多个系统共享用户信息。
 用户在系统A上登录了，系统A获取到的用户信息需要同步给系统B、系统C... 以达到用户访问系统B的时候，不需要再次登录。
 
 使用 session 的话，就是 session 同步的问题。
+
 1. 使用 tomcat 集群 session 全局复制。每个 tomcat 里的 session 会完全同步。比较影响性能。
 2. 将请求的 ip 进行哈希映射到对应的机器。就是同一用户的多次请求都请求的同一个服务器。只需要简单的配置，不要用额外的中间件。但他绕过了问题，并没有解决。
 3. 使用中间件，比如 redis 存储 session。然后多服务器共享。
@@ -192,7 +191,6 @@ access_token 每次请求都会携带。当他过期时，前端需要使用 ref
 
 这个世界没那么多复杂需求。哪个合适用哪个。
 点名批评我自己关于墨夏的出入库系统的设计。
-
 
 
 

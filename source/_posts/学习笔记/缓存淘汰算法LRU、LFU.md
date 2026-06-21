@@ -105,6 +105,8 @@ func (l *LRUCache[K, V]) Put(key K, value V) bool {
 
 // Len 返回缓存中元素的数量
 func (l *LRUCache[K, V]) Len() int {
+	l.mu.RLock()
+	defer l.mu.RUnlock()
 	return l.list.Len()
 }
 
@@ -405,6 +407,8 @@ func (l *LFUCache[K, V]) removeMinFreqItem() {
 
 // Len 返回缓存中元素的数量
 func (l *LFUCache[K, V]) Len() int {
+	l.mu.RLock()
+	defer l.mu.RUnlock()
 	return len(l.items)
 }
 

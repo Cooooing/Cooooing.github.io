@@ -63,7 +63,7 @@ MMU 集成在 CPU 内部,其核心逻辑如下:
 * **硬件加速:** MMU 内部拥有高速缓存 **TLB(快表)**,能够极大地降低地址转换的延迟。
 * **权限检查:** 在映射的同时,MMU 还会检查进程是否有权读、写或执行该段内存,从而保障了系统的安全性。
 
-![MMU内存管理单元.png](../../images/读书笔记/《深入理解Go语言》读书笔记-Go语言内存管理/MMU内存管理单元.png)
+![MMU内存管理单元.png](https://cooooing.github.io/images/读书笔记/《深入理解Go语言》读书笔记-Go语言内存管理/MMU内存管理单元.png)
 
 这种设计使得进程可以拥有独立且连续的虚拟空间,而底层的物理内存则可以被离散、动态地高效利用。
 
@@ -76,13 +76,13 @@ MMU 集成在 CPU 内部,其核心逻辑如下:
 2. ⻚表
    ⻚表实际上就是⻚的集合,即基于⻚的一个数组。⻚只表示内存的大小,而⻚表条目(PTE)才是⻚表数组中的一个元素。
 
-![页、页表、PTE直接的关系.png](../../images/读书笔记/《深入理解Go语言》读书笔记-Go语言内存管理/页、页表、PTE直接的关系.png)
+![页、页表、PTE直接的关系.png](https://cooooing.github.io/images/读书笔记/《深入理解Go语言》读书笔记-Go语言内存管理/页、页表、PTE直接的关系.png)
 
 虚拟内存的实现方式,大多数是通过⻚表实现的,实则是一个数组。
 操作系统虚拟内存空间被分成一⻚一⻚来管理,每⻚的大小为 4KB(当然这是可以配置的,不同操作系统不一样)。
 **磁盘和主内存之间的置换也是以⻚为单位来操作的。4KB 算是通过实践折中出来的通用值,太小了会出现频繁置换,太大了又会浪费内存。**
 
-![PTE内部构造.png](../../images/读书笔记/《深入理解Go语言》读书笔记-Go语言内存管理/PTE内部构造.png)
+![PTE内部构造.png](https://cooooing.github.io/images/读书笔记/《深入理解Go语言》读书笔记-Go语言内存管理/PTE内部构造.png)
 
 ⻚是一次读取的内存单元,但是真正到虚拟内存寻址的是PTE,也就是⻚表中的一个元素。
 可以看出每个 PTE 是由一个有效位和一个物理⻚号或者磁盘地址组成,有效位表示当前虚拟⻚是否已经被缓存在主内存中(或者CPU的高速缓存Cache中)。
@@ -91,7 +91,7 @@ MMU 集成在 CPU 内部,其核心逻辑如下:
 虚拟⻚表(简称⻚表)虽然作为虚拟内存与物理内存的映射关系,但是本身也需要存放在某个位置上,所以自身也占用一定内存,所以⻚表本身也被操作系统放在物理内存的指定位置。
 CPU 把虚拟地址给 MMU,MMU 去物理内存中查询⻚表,得到实际的物理地址。当然 MMU 不会每次都去查询,它自己也有一份缓存,叫作 快表 Translation Lookaside Buffer(TLB),是为了加速地址翻译。
 
-![CPU、MMU、TLB交互关系.png](../../images/读书笔记/《深入理解Go语言》读书笔记-Go语言内存管理/CPU、MMU、TLB交互关系.png)
+![CPU、MMU、TLB交互关系.png](https://cooooing.github.io/images/读书笔记/《深入理解Go语言》读书笔记-Go语言内存管理/CPU、MMU、TLB交互关系.png)
 
 内存访问完整流程:当 CPU 需要读取一个虚拟地址的数据时,遵循以下逻辑路径:
 
@@ -118,7 +118,7 @@ CPU 把虚拟地址给 MMU,MMU 去物理内存中查询⻚表,得到实际的物
 * **VPN (Virtual Page Number)**:虚拟页号,用于定位页表中的条目(索引)。
 * **VPO (Virtual Page Offset)**:虚拟页偏移量,表示数据在页内的具体位置。
 
-![一次CPU访问内存详细流程.png](../../images/读书笔记/《深入理解Go语言》读书笔记-Go语言内存管理/一次CPU访问内存详细流程.png)
+![一次CPU访问内存详细流程.png](https://cooooing.github.io/images/读书笔记/《深入理解Go语言》读书笔记-Go语言内存管理/一次CPU访问内存详细流程.png)
 
 **正常访问流程(命中路径:Steps 1-9)**
 
@@ -394,7 +394,7 @@ TCMalloc 为每个线程预分配独立缓存。其结构包含三层:
 2. **CentralCache (中心缓存)**:所有线程共享。当 ThreadCache 内存不足时,从这里补给;内存过多时,退还给这里。由于共享,访问需加锁。
 3. **PageHeap (页堆)**:最底层的全局共享缓存,负责中大对象分配及向操作系统申请内存。
 
-![TCMalloc中ThreadCache、CentralCache、PageHeap结构关系.png](../../images/读书笔记/《深入理解Go语言》读书笔记-Go语言内存管理/TCMalloc中ThreadCache、CentralCache、PageHeap结构关系.png)
+![TCMalloc中ThreadCache、CentralCache、PageHeap结构关系.png](https://cooooing.github.io/images/读书笔记/《深入理解Go语言》读书笔记-Go语言内存管理/TCMalloc中ThreadCache、CentralCache、PageHeap结构关系.png)
 
 #### TCMalloc 基础结构
 
@@ -410,7 +410,7 @@ TCMalloc 为每个线程预分配独立缓存。其结构包含三层:
     * 对于小对象,TCMalloc 将其划分为多个刻度(如 8B, 16B...)。
     * 每个 Size Class 对应一个由多个等空间 Page 组成的 Span。
 
-![TCMalloc中Page、Span、SizeClass结构关系.png](../../images/读书笔记/《深入理解Go语言》读书笔记-Go语言内存管理/TCMalloc中Page、Span、SizeClass结构关系.png)
+![TCMalloc中Page、Span、SizeClass结构关系.png](https://cooooing.github.io/images/读书笔记/《深入理解Go语言》读书笔记-Go语言内存管理/TCMalloc中Page、Span、SizeClass结构关系.png)
 
 #### TCMalloc 缓存结构
 
@@ -420,7 +420,7 @@ TCMalloc 为每个线程预分配独立缓存。其结构包含三层:
 * **分配/回收**:直接从对应的 `FreeList` 返回或插入对象。
 * **特性**:无锁操作。只有当 `FreeList` 为空时,才向 CentralCache 申请。
 
-![TCMalloc中的ThreadCache.png](../../images/读书笔记/《深入理解Go语言》读书笔记-Go语言内存管理/TCMalloc中的ThreadCache.png)
+![TCMalloc中的ThreadCache.png](https://cooooing.github.io/images/读书笔记/《深入理解Go语言》读书笔记-Go语言内存管理/TCMalloc中的ThreadCache.png)
 
 ##### CentralCache
 
@@ -428,7 +428,7 @@ TCMalloc 为每个线程预分配独立缓存。其结构包含三层:
 * **职责**:作为 ThreadCache 的二级缓存。
 * **特性**:全局共享,访问需加锁。
 
-![TCMalloc中的CentralCache.png](../../images/读书笔记/《深入理解Go语言》读书笔记-Go语言内存管理/TCMalloc中的CentralCache.png)
+![TCMalloc中的CentralCache.png](https://cooooing.github.io/images/读书笔记/《深入理解Go语言》读书笔记-Go语言内存管理/TCMalloc中的CentralCache.png)
 
 ##### PageHeap
 
@@ -437,7 +437,7 @@ TCMalloc 为每个线程预分配独立缓存。其结构包含三层:
 * **128 个 Page 以内**:按 Page 刻度(1, 2, 3...128)使用链表缓存。
 * **128 个 Page 以上**:使用**有序集合 (Set)** 存放。
 
-![TCMalloc中的PageHeap.png](../../images/读书笔记/《深入理解Go语言》读书笔记-Go语言内存管理/TCMalloc中的PageHeap.png)
+![TCMalloc中的PageHeap.png](https://cooooing.github.io/images/读书笔记/《深入理解Go语言》读书笔记-Go语言内存管理/TCMalloc中的PageHeap.png)
 
 #### 对象分配流程
 
@@ -450,7 +450,7 @@ TCMalloc 为每个线程预分配独立缓存。其结构包含三层:
 5. `CentralCache` 若有空闲,返回一批对象给 `ThreadCache`,并将其中一个返回给线程。
 6. `CentralCache` 若无空闲,向 `PageHeap` 申请 Span,拆分成对应规格填入 `CentralFreeList`。
 
-![TCMalloc小对象分配流程.png](../../images/读书笔记/《深入理解Go语言》读书笔记-Go语言内存管理/TCMalloc小对象分配流程.png)
+![TCMalloc小对象分配流程.png](https://cooooing.github.io/images/读书笔记/《深入理解Go语言》读书笔记-Go语言内存管理/TCMalloc小对象分配流程.png)
 
 ##### 中对象分配流程 (256KB ~ 1MB)
 
@@ -459,7 +459,7 @@ TCMalloc 为每个线程预分配独立缓存。其结构包含三层:
 3. 若对应的 个 Page 链表为空,则继续向下遍历(最多到 128),找到第一个非空链表。
 4. **切分**:将找到的 个 Page 拆分为 (返回用户)和 (退还给 PageHeap 对应链表)。
 
-![TCMalloc中对象分配流程.png](../../images/读书笔记/《深入理解Go语言》读书笔记-Go语言内存管理/TCMalloc中对象分配流程.png)
+![TCMalloc中对象分配流程.png](https://cooooing.github.io/images/读书笔记/《深入理解Go语言》读书笔记-Go语言内存管理/TCMalloc中对象分配流程.png)
 
 ##### 大对象分配流程 (> 1MB)
 
@@ -519,7 +519,7 @@ PageHeap 内部维护了 **128 个单向链表**。
 
 Go 的内存管理在逻辑上分为三层,与 TCMalloc 极其相似,但与 Go 的调度模型(GPM)进行了深度耦合。
 
-![Go语言内存管理模块关系.png](../../images/读书笔记/《深入理解Go语言》读书笔记-Go语言内存管理/Go语言内存管理模块关系.png)
+![Go语言内存管理模块关系.png](https://cooooing.github.io/images/读书笔记/《深入理解Go语言》读书笔记-Go语言内存管理/Go语言内存管理模块关系.png)
 
 #### 核心概念与单位
 
@@ -530,11 +530,11 @@ Go 延续并细化了 TCMalloc 的 Page、Span 等概念。
 3. **Object (对象)**:
     * **定义**:mSpan 初始化时会被切割成多个 Object。它是内存分配给应用的最终基本单元。
     * **关系**:NumOfObject = mSpanSize / ObjectSize。
-      ![ObjectSize与Span的关系.png](../../images/读书笔记/《深入理解Go语言》读书笔记-Go语言内存管理/ObjectSize与Span的关系.png)
+      ![ObjectSize与Span的关系.png](https://cooooing.github.io/images/读书笔记/《深入理解Go语言》读书笔记-Go语言内存管理/ObjectSize与Span的关系.png)
 4. **Size Class**:Object 大小的级别(如等级 1 对应 8B,等级 2 对应 16B ...)。
 5. **Span Class (Go 额外定义)**:
     * 每个 Size Class 对应两个 Span Class。
-      ![SpanClass与SizeClass的逻辑结构关系.png](../../images/读书笔记/《深入理解Go语言》读书笔记-Go语言内存管理/SpanClass与SizeClass的逻辑结构关系.png)
+      ![SpanClass与SizeClass的逻辑结构关系.png](https://cooooing.github.io/images/读书笔记/《深入理解Go语言》读书笔记-Go语言内存管理/SpanClass与SizeClass的逻辑结构关系.png)
     * **scan**:存放包含指针的对象(GC 需扫描)。
     * **noscan**:存放不含指针的对象(GC 无需扫描,提速)。
     * **计算公式**:`SpanClass = SizeClass << 1 | (noscan ? 1 : 0)`。
@@ -547,10 +547,10 @@ Todo
 #### MCache (本地缓存)
 
 * **绑定关系**:与 TCMalloc 绑定线程不同,Go 的 MCache 与 **P (Processor)** 绑定。
-  ![ThreadCache与MCache的绑定关系区别.png](../../images/读书笔记/《深入理解Go语言》读书笔记-Go语言内存管理/ThreadCache与MCache的绑定关系区别.png)
+  ![ThreadCache与MCache的绑定关系区别.png](https://cooooing.github.io/images/读书笔记/《深入理解Go语言》读书笔记-Go语言内存管理/ThreadCache与MCache的绑定关系区别.png)
 * **无锁分配**:同一时间一个 P 只运行一个 M,因此 Goroutine 在 MCache 申请内存**无须加锁**。
 * **内部构造**:包含 134 个 Span Class 对应的 mSpan 指针(67个级别 2)。
-  ![MCache内部构造.png](../../images/读书笔记/《深入理解Go语言》读书笔记-Go语言内存管理/MCache内部构造.png)
+  ![MCache内部构造.png](https://cooooing.github.io/images/读书笔记/《深入理解Go语言》读书笔记-Go语言内存管理/MCache内部构造.png)
 * **ZeroBase**:申请 0 字节内存(如 `struct{}`)时,Go 直接返回 `zerobase` 地址,不走正常分配逻辑。
    ~~~go
    package test
@@ -587,12 +587,12 @@ Todo
 
 * **地位**:所有 P 共享,访问需**加锁**。
 * **内存交换单位**:
-  ![Go语言内存管理各层级内存交换单位.png](../../images/读书笔记/《深入理解Go语言》读书笔记-Go语言内存管理/Go语言内存管理各层级内存交换单位.png)
+  ![Go语言内存管理各层级内存交换单位.png](https://cooooing.github.io/images/读书笔记/《深入理解Go语言》读书笔记-Go语言内存管理/Go语言内存管理各层级内存交换单位.png)
     * 与协程层交换 **Object**。
     * 与 MCache 交换 **mSpan**。
     * 与 MHeap 交换 **Page**。
 
-![MCentral内部构造.png](../../images/读书笔记/《深入理解Go语言》读书笔记-Go语言内存管理/MCentral内部构造.png)
+![MCentral内部构造.png](https://cooooing.github.io/images/读书笔记/《深入理解Go语言》读书笔记-Go语言内存管理/MCentral内部构造.png)
 
 * **内部构造**:每个 Span Class 对应一个 MCentral。
 * **NonEmpty (Partial Set)**:有空闲 Object 的 mSpan 集合。
@@ -603,8 +603,8 @@ Todo
 * **地位**:进程全局唯一,访问需**加锁**。
 * **管理单位**:**HeapArena**(每个 64MB)。包含 `bitmap`(记录内存使用及 GC 标记情况)和 `ArenaHint`。
 
-![MHeap内部逻辑层构造.png](../../images/读书笔记/《深入理解Go语言》读书笔记-Go语言内存管理/MHeap内部逻辑层构造.png)
-![MHeap数据结构引用依赖.png](../../images/读书笔记/《深入理解Go语言》读书笔记-Go语言内存管理/MHeap数据结构引用依赖.png)
+![MHeap内部逻辑层构造.png](https://cooooing.github.io/images/读书笔记/《深入理解Go语言》读书笔记-Go语言内存管理/MHeap内部逻辑层构造.png)
+![MHeap数据结构引用依赖.png](https://cooooing.github.io/images/读书笔记/《深入理解Go语言》读书笔记-Go语言内存管理/MHeap数据结构引用依赖.png)
 
 #### 对象分配流程
 
@@ -620,7 +620,7 @@ Todo
 
 * **收益**:相比传统对齐方式,平均节省约 **20%** 的内存。
 
-![MCache中Tiny微小对象分配流程.png](../../images/读书笔记/《深入理解Go语言》读书笔记-Go语言内存管理/MCache中Tiny微小对象分配流程.png)
+![MCache中Tiny微小对象分配流程.png](https://cooooing.github.io/images/读书笔记/《深入理解Go语言》读书笔记-Go语言内存管理/MCache中Tiny微小对象分配流程.png)
 
 ##### 小对象分配流程 ( 16B ~ 32KB )
 
@@ -630,7 +630,7 @@ Todo
 4. 若 MCache 耗尽,向 MCentral 申请一个 mSpan。
 5. 若 MCentral 耗尽,向 MHeap 申请 Page 组成新的 mSpan。
 
-![MCache中小对象分配流程.png](../../images/读书笔记/《深入理解Go语言》读书笔记-Go语言内存管理/MCache中小对象分配流程.png)
+![MCache中小对象分配流程.png](https://cooooing.github.io/images/读书笔记/《深入理解Go语言》读书笔记-Go语言内存管理/MCache中小对象分配流程.png)
 
 ##### 大对象分配流程 ( > 32KB )
 
@@ -640,5 +640,5 @@ Todo
 2. 绕过缓存,直接向 **MHeap 的 Arenas** 申请。
 3. 若 Arenas 不足,向操作系统(OS)申请新的虚拟内存。
 
-![MCache中大对象分配流程.png](../../images/读书笔记/《深入理解Go语言》读书笔记-Go语言内存管理/MCache中大对象分配流程.png)
+![MCache中大对象分配流程.png](https://cooooing.github.io/images/读书笔记/《深入理解Go语言》读书笔记-Go语言内存管理/MCache中大对象分配流程.png)
 

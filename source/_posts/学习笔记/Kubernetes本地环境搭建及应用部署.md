@@ -322,7 +322,7 @@ nginx-96b9d695-gfjvq   1/1     Running   0          25s
 nginx-96b9d695-w5qxx   1/1     Running   0          25s
 ~~~
 
-可以看到 Deployment 创建 Pod 的命名规则：`${DeploymentName}-${DeploymentUid}-${Hash}`。
+可以看到 Deployment 管理的 Pod 名称通常来自 ReplicaSet，格式类似：`${DeploymentName}-${ReplicaSetHash}-${PodRandomSuffix}`。
 
 使用 `kubectl get pod -o wide` 查看 Pod 运行状态和 IP 地址，可以看到 nginx 被创建了两个 Pod 副本，分别部署在了 worker1 和 worker2 上面：
 
@@ -417,6 +417,7 @@ BBS
 基于这个目录结构，来修改 应用构建文件`Makefile`、Docker镜像构建文件`Dockerfile`、github action 文件`user-build.yaml`。
 
 首先是 `Makefile` 文件：
+
 ~~~makefile
 # 全局变量定义
 GOHOSTOS := $(shell go env GOHOSTOS)
@@ -502,6 +503,7 @@ all: init api config build generate
 这里的 VERSION 暂时选择写死了，正常会通过 `VERSION := $(shell git describe --tags --always)` git 命令来获取最新的标签（tag）或提交哈希（commit hash）。
 
 然后是 DockerFile 文件：
+
 ~~~dockerfile
 # 第一阶段：构建Go应用
 FROM golang:1.23 as builder
@@ -541,6 +543,7 @@ CMD ["/app/server", "-conf", "/app/configs/config.yaml"]
 ~~~
 
 最后是 github action 文件：
+
 ~~~yaml
 name: Docker Build and Push for Go User App
 
@@ -602,6 +605,7 @@ jobs:
 目前配置的是手动触发，后续可修改为 push 或者 release 时触发。自动构建最新的镜像推送到阿里的镜像仓库。
 
 最后回到 kubernetes ，通过 yaml 文件创建 deployment：
+
 ~~~yaml
 apiVersion: apps/v1
 kind: Deployment
@@ -707,7 +711,7 @@ traefik-crd     kube-system     1               2025-04-25 08:22:02.482297704 +0
 使用 Kubernetes 的 Ingress 来创建一个统一的负载均衡器，从而实现当用户访问不同的域名时，访问后端不同的服务。
 **Ingress 的功能其实很容易理解：所谓 Ingress 就是 Service 的“Service”，这就是它们两者的关系。**
 
-在 Kubernetes（K8s）中，Ingress Controller 默认是 Traefik，它为云原生和动态环境设计，可以监听k8s的资源变化。
+Kubernetes 本身没有默认的 Ingress Controller。这里使用的是 k3s，k3s 默认安装 Traefik，它为云原生和动态环境设计，可以监听k8s的资源变化。
 但这里还是使用 Nginx 作为流量入口管理器，虽然它比较偏静态。
 
 首先卸载默认的 Traefik：

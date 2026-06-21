@@ -175,7 +175,7 @@ mount /dev/sda1 /mnt/boot
 ### 安装基础系统
 
 ~~~bash
-pacstrap /mnt base linux linux-firmware vim nano networkmanager
+pacstrap /mnt base linux linux-firmware vim nano networkmanager sudo
 ~~~
 
 安装完成后生成 fstab：
@@ -221,7 +221,7 @@ grub-mkconfig -o /boot/grub/grub.cfg
     sed -i 's/^#en_US.UTF-8/en_US.UTF-8/' /etc/locale.gen
     locale-gen
     echo LANG=zh_CN.UTF-8 > /etc/locale.conf
-    echo KEYMAP=us > /etc/vconsole.conf   # 如需中文控制台可改为 zh_CN
+    echo KEYMAP=us > /etc/vconsole.conf   # 控制台键盘布局，中文环境由 locale 和输入法配置
     ~~~
 3. 主机名与 hosts：
     ~~~bash
@@ -278,5 +278,4 @@ export LANG=zh_CN.UTF-8
 export LC_ALL=zh_CN.UTF-8
 export QT_QPA_PLATFORMTHEME=kde
 ~~~
-
 
