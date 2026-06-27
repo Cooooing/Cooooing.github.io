@@ -6,7 +6,10 @@ categories:
   - 读书笔记
 tags:
   - 《apache Kafka实战》
-  - kafka
+  - Kafka
+  - Producer
+  - Consumer
+  - 消息语义
 ---
 
 springboot 开发参考 [Spring for Apache Kafka\Introduction\Quick Tour](https://docs.spring.io/spring-kafka/reference/quick-tour.html)

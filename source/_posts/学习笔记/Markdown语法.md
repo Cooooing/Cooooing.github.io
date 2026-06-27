@@ -1,11 +1,12 @@
 ---
 layout: post
-title: Markdown语法 
-date: 2022-03-19 22:23:35 
+title: Markdown语法
+date: 2022-03-19 22:23:35
+categories:
+  - 学习笔记
 tags:
-    - markdown 
-categories: 
-    - 学习笔记
+  - Markdown
+  - 写作
 ---
 
 ## 关于Markdown

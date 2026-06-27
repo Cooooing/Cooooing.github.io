@@ -2,12 +2,13 @@
 layout: post
 title: Ventoy！多系统启动u盘
 date: 2024-03-22 19:25:48
-updated: 2024-03-22 19:25:48
 categories:
   - 记录生活
 tags:
+  - 工具
   - 系统
-  - 攒机
+  - 装机
+  - 工作
 ---
 
 ## 推荐

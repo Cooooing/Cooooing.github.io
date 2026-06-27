@@ -2,12 +2,12 @@
 layout: post
 title: stream流的使用
 date: 2023-07-31 14:47:26
-tags:
-- Java
-- stream
-- 源码
 categories:
-- 学习笔记
+  - 学习笔记
+tags:
+  - Java
+  - Stream
+  - 源码
 ---
 
 ## stream 流的介绍和特点

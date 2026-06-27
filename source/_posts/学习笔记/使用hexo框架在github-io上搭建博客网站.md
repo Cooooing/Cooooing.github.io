@@ -2,10 +2,12 @@
 layout: post
 title: 使用hexo框架在github.io上搭建博客网站.
 date: 2022-03-12 13:54:21
+categories:
+  - 学习笔记
 tags:
-    - hexo
-categories: 
-    - 学习笔记
+  - Hexo
+  - GitHub Pages
+  - 博客
 ---
 
 ## 安装相关软件

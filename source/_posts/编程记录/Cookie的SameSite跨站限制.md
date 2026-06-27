@@ -2,15 +2,13 @@
 layout: post
 title: Cookie的SameSite跨站限制
 date: 2023-07-23 15:01:37
-tags:
-  - cookie
-  - 跨域
-  - 跨站
-  - CSRF攻击
-  - nginx
-  - 反向代理
 categories:
   - 编程记录
+tags:
+  - Cookie
+  - SameSite
+  - 跨域
+  - CSRF
 ---
 
 ## 场景

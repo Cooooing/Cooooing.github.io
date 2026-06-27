@@ -2,10 +2,11 @@
 layout: post
 title: Nginx笔记
 date: 2022-06-24 19:28:18
-tags:
-- Nginx
 categories:
-- 学习笔记
+  - 学习笔记
+tags:
+  - Nginx
+  - 反向代理
 ---
 
 ## 关于Nginx

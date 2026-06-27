@@ -7,7 +7,8 @@ categories:
 tags:
   - 《收获，不止Oracle》
   - Oracle
-  - 数据库
+  - 索引
+  - SQL优化
 ---
 
 ## 第五章 - 惊叹，索引天地妙不可言

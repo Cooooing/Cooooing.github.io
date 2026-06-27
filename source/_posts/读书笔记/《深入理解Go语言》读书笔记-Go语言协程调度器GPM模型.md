@@ -6,8 +6,9 @@ categories:
   - 读书笔记
 tags:
   - 《深入理解Go语言》
-  - Go
-  - GPM
+  - Go语言
+  - GPM模型
+  - 协程调度
 ---
 
 ## 前言

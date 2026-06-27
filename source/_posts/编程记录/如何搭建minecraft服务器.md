@@ -2,12 +2,12 @@
 layout: post
 title: 如何搭建minecraft服务器
 date: 2023-03-09 09:26:24
-tags:
-- minecraft
-- 服务器
-- Java
 categories:
-- 编程记录
+  - 编程记录
+tags:
+  - Minecraft
+  - 服务器
+  - Java
 ---
 
 ## 前言

@@ -5,9 +5,10 @@ date: 2023-09-01 19:22:53
 categories:
   - 编程记录
 tags:
-  - bug
-  - lambda
+  - Java
   - 反射
+  - Lambda
+  - 问题排查
 ---
 
 ## 场景

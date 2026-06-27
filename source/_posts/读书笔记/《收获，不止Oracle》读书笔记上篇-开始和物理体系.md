@@ -2,13 +2,14 @@
 layout: post
 title: 《收获，不止Oracle》读书笔记上篇-开始和物理体系
 date: 2024-07-11 10:31:50
-updated: 2024-07-11 10:31:50
 categories:
   - 读书笔记
 tags:
   - 《收获，不止Oracle》
   - Oracle
-  - 数据库
+  - 物理结构
+  - 事务
+  - SQL性能
 ---
 
 ## 前言

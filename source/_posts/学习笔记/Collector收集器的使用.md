@@ -2,11 +2,12 @@
 layout: post
 title: Collector收集器的使用
 date: 2024-05-27 17:05:59
-tags:
-  - Java
-  - stream
 categories:
   - 学习笔记
+tags:
+  - Java
+  - Stream
+  - Collector
 ---
 
 ## 前言

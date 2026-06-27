@@ -3,13 +3,13 @@ layout: post
 title: Token机制
 date: 2023-09-04 16:32:08
 categories:
-- 学习笔记
+  - 学习笔记
 tags:
-- token
-- cookie
-- session
-- 单点登录
-- JWT
+  - Token
+  - JWT
+  - Cookie
+  - Session
+  - 单点登录
 ---
 
 ## Token 是什么

@@ -2,10 +2,12 @@
 layout: post
 title: sql多条件排序并去重
 date: 2023-02-27 18:30:51
-tags:
-  - sql
 categories:
   - 编程记录
+tags:
+  - SQL
+  - 排序
+  - 去重
 ---
 
 ## 需求描述

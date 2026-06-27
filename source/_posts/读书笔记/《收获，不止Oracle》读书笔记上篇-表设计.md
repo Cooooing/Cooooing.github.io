@@ -7,7 +7,8 @@ categories:
 tags:
   - 《收获，不止Oracle》
   - Oracle
-  - 数据库
+  - 表设计
+  - 分区表
 ---
 
 ## 第四章 - 祝贺，表设计成就英雄

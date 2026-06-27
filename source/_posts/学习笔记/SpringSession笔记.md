@@ -2,11 +2,12 @@
 layout: post
 title: SpringSession笔记
 date: 2022-08-08 13:54:27
-tags:
-- spring
-- session
 categories:
-- 学习笔记
+  - 学习笔记
+tags:
+  - Spring Session
+  - Session
+  - Java
 ---
 
 ## Session会话管理

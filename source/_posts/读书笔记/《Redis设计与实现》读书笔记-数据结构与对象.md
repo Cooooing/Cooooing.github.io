@@ -7,7 +7,8 @@ categories:
 tags:
   - 《Redis设计与实现》
   - Redis
-  - 数据库
+  - 数据结构
+  - 对象系统
 ---
 
 ## 前言

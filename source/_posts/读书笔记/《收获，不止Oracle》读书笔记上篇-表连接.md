@@ -7,7 +7,8 @@ categories:
 tags:
   - 《收获，不止Oracle》
   - Oracle
-  - 数据库
+  - 表连接
+  - SQL优化
 ---
 
 ## 第六章 - 经典，表的连接学以致用

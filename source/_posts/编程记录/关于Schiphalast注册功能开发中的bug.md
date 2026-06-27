@@ -2,16 +2,13 @@
 layout: post
 title: 关于Schiphalast注册功能开发中的bug
 date: 2022-08-12 12:50:52
-tags:
-  - bug
-  - Java
-  - MD5
-  - ip
-  - session
-  - mail
-  - 数据库连接池
 categories:
   - 编程记录
+tags:
+  - Java
+  - 问题排查
+  - Session
+  - 数据库连接池
 ---
 
 ## 简介

@@ -2,13 +2,14 @@
 layout: post
 title: 《收获，不止Oracle》读书笔记上篇-逻辑体系
 date: 2024-07-28 14:07:40
-updated: 2024-07-28 14:07:40
 categories:
   - 读书笔记
 tags:
   - 《收获，不止Oracle》
   - Oracle
-  - 数据库
+  - 逻辑结构
+  - 表空间
+  - 索引维护
 ---
 
 ## 第三章 - 神奇，走进逻辑体系世界

@@ -5,10 +5,10 @@ date: 2024-02-04 19:41:36
 categories:
   - 编程记录
 tags:
-  - aop
-  - spring
+  - Spring
+  - AOP
   - 动态代理
-  - cglib
+  - CGLIB
 ---
 
 ## 问题描述

@@ -2,11 +2,12 @@
 layout: post
 title: tomcat请求接口无效字符问题
 date: 2023-01-17 17:59:41
-tags:
-  - bug
-  - tomcat
 categories:
   - 编程记录
+tags:
+  - Tomcat
+  - HTTP
+  - 问题排查
 ---
 
 ## 场景

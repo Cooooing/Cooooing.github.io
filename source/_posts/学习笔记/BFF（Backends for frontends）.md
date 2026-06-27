@@ -2,13 +2,12 @@
 layout: post
 title: BFF（Backends for frontends）
 date: 2026-06-21 18:55:52
-tags:
-  - BFF
-  - Backends for frontends
-  - 架构设计
-  - 前后端协作
 categories:
   - 学习笔记
+tags:
+  - BFF
+  - 架构设计
+  - 前后端协作
 ---
 
 ## 问题背景

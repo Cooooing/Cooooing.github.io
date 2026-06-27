@@ -2,12 +2,13 @@
 layout: post
 title: KMP和Manacher算法
 date: 2022-10-02 13:47:53
-tags:
-- 字符串
-- 模式匹配
-- 回文
 categories:
-- 学习笔记
+  - 学习笔记
+tags:
+  - 算法
+  - 字符串
+  - KMP
+  - Manacher
 ---
 
 ## 字符串匹配（模式匹配）
