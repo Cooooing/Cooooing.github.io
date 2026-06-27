@@ -2,13 +2,13 @@
 layout: post
 title: oracle通过经纬度过滤范围内数据
 date: 2025-03-26 10:54:15
-tags:
-  - oracle
-  - 经纬度
-  - 地图
-  - WGS84坐标系
 categories:
   - 编程记录
+tags:
+  - Oracle
+  - SQL
+  - 经纬度
+  - 地图
 ---
 
 ## Start

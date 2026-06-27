@@ -2,14 +2,13 @@
 layout: post
 title: HTTP协议详解
 date: 2023-02-13 15:55:32
-tags:
-- HTTP协议
-- socket
-- 状态码
-- URI
 categories:
-- 学习笔记
-
+  - 学习笔记
+tags:
+  - HTTP
+  - 网络协议
+  - 状态码
+  - URI
 ---
 
 ## HTTP协议介绍

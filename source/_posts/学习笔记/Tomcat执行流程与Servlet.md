@@ -2,12 +2,12 @@
 layout: post
 title: Tomcat执行流程与Servlet
 date: 2023-02-14 13:15:13
-tags:
-- tomcat
-- servlet
-- jsp
 categories:
-- 学习笔记
+  - 学习笔记
+tags:
+  - Tomcat
+  - Servlet
+  - JSP
 ---
 
 ## Tomcat 简介

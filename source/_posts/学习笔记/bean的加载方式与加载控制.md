@@ -2,11 +2,12 @@
 layout: post
 title: bean的加载方式与加载控制
 date: 2023-04-07 15:28:18
-tags:
-- spring
-- Java
 categories:
-- 学习笔记
+  - 学习笔记
+tags:
+  - Spring
+  - Java
+  - Bean
 ---
 
 ## bean 加载方式

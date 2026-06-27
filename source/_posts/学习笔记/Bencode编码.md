@@ -2,13 +2,12 @@
 layout: post
 title: Bencode编码
 date: 2024-10-12 10:46:02
-tags:
-  - Java
-  - Bencode编码
-  - BitTorrent
-  - p2p
 categories:
   - 学习笔记
+tags:
+  - Bencode
+  - BitTorrent
+  - P2P
 ---
 
 ## Bencode

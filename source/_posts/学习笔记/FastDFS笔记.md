@@ -2,10 +2,11 @@
 layout: post
 title: FastDFS笔记
 date: 2022-08-09 13:24:08
-tags:
-- FastDFS
 categories:
-- 学习笔记
+  - 学习笔记
+tags:
+  - FastDFS
+  - 文件存储
 ---
 
 ## 简介

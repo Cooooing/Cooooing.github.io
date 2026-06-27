@@ -2,11 +2,12 @@
 layout: post
 title: SpringBoot笔记
 date: 2022-05-09 09:12:18
-tags:
-    - SpringBoot
-    - Java
 categories:
-    - 学习笔记
+  - 学习笔记
+tags:
+  - SpringBoot
+  - Java
+  - Spring
 ---
 
 # 第一章 xml与JavaConfig

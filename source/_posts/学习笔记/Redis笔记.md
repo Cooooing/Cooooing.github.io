@@ -2,11 +2,12 @@
 layout: post
 title: Redis笔记
 date: 2022-05-07 21:38:10
-tags:
-    - Redis
-    - 数据库
 categories:
-    - 学习笔记
+  - 学习笔记
+tags:
+  - Redis
+  - 数据库
+  - 缓存
 ---
 
 ## 关于Redis

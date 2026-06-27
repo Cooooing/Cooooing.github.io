@@ -6,6 +6,8 @@ categories:
   - 学习笔记
 tags:
   - Kubernetes
+  - 容器
+  - 应用部署
 ---
 
 ## 基础环境准备（可选）

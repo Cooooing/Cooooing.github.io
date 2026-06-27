@@ -6,8 +6,10 @@ categories:
   - 读书笔记
 tags:
   - 《go语言并发之道》
-  - Go
-  - 并发
+  - Go语言
+  - 并发编程
+  - Channel
+  - sync
 ---
 
 ## 第三章 - Go语言并发组件

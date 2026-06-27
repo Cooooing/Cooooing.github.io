@@ -2,11 +2,11 @@
 layout: post
 title: RabbitMQ笔记
 date: 2022-08-20 13:19:48
-tags:
-- RabbitMQ
-- 消息队列
 categories:
-- 学习笔记
+  - 学习笔记
+tags:
+  - RabbitMQ
+  - 消息队列
 ---
 
 ## 概述

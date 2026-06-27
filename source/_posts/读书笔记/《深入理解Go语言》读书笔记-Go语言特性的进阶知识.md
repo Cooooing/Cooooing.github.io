@@ -2,11 +2,14 @@
 layout: post
 title: 《深入理解Go语言》读书笔记 - Go 语言特性的进阶知识
 date: 2026-01-08 22:27:01
-tags:
-  - 《深入理解Go语言》
-  - Go
 categories:
   - 读书笔记
+tags:
+  - 《深入理解Go语言》
+  - Go语言
+  - Goroutine
+  - 逃逸分析
+  - 性能调试
 ---
 
 ## 前言

@@ -6,9 +6,10 @@ categories:
   - 读书笔记
 tags:
   - 《go语言并发之道》
-  - Go
-  - 并发
-mathjax: true
+  - Go语言
+  - 并发模式
+  - Pipeline
+  - context
 ---
 
 ## 第四章 - Go语言的并发模式

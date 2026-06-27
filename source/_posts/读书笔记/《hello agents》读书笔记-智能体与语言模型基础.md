@@ -1,14 +1,14 @@
 ---
 layout: post
 title: 《hello agents》读书笔记 - 智能体与语言模型基础
-mathjax: true
 date: 2026-03-05 21:21:27
 categories:
   - 读书笔记
 tags:
   - 《hello agents》
-  - AI
-  - Agent
+  - 智能体
+  - 大语言模型
+  - Transformer
 ---
 
 ## 第一章 - 初识智能体

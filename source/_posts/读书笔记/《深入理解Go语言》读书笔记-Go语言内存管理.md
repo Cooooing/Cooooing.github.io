@@ -6,8 +6,9 @@ categories:
   - 读书笔记
 tags:
   - 《深入理解Go语言》
-  - Go
+  - Go语言
   - 内存管理
+  - TCMalloc
 ---
 
 ## 第三章 Go 语言内存管理洗髓经

@@ -2,10 +2,12 @@
 layout: post
 title: top命令
 date: 2025-09-03 10:01:14
-tags:
-  - linux
 categories:
   - 学习笔记
+tags:
+  - Linux
+  - top
+  - 性能分析
 ---
 
 ## top 命令

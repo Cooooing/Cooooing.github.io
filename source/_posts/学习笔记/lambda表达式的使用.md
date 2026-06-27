@@ -2,12 +2,12 @@
 layout: post
 title: lambda表达式的使用
 date: 2023-07-27 13:58:18
-tags:
-- Java
-- lambda
-- 函数式编程
 categories:
-- 学习笔记
+  - 学习笔记
+tags:
+  - Java
+  - Lambda
+  - 函数式编程
 ---
 
 ## 函数式编程

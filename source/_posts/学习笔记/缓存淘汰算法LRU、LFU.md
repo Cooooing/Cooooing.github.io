@@ -2,14 +2,13 @@
 layout: post
 title: 缓存淘汰算法LRU、LFU
 date: 2025-03-31 11:50:57
+categories:
+  - 学习笔记
 tags:
-  - Go
-  - 算法
   - 缓存
   - LRU
   - LFU
-categories:
-  - 学习笔记
+  - Go
 ---
 
 ## 缓存淘汰算法概述

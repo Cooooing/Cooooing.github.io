@@ -2,13 +2,13 @@
 layout: post
 title: Go 应用部署：UPX 压缩与 Docker Scratch 镜像
 date: 2025-12-25 19:05:13
-tags:
-  - Go
-  - CI/CD
-  - Docker
-  - UPX
 categories:
   - 编程记录
+tags:
+  - Go
+  - Docker
+  - UPX
+  - CI/CD
 ---
 
 ## 前言：减小 Go 应用产物体积

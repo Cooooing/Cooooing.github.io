@@ -6,7 +6,9 @@ categories:
   - 读书笔记
 tags:
   - 《apache Kafka实战》
-  - kafka
+  - Kafka
+  - 消息系统
+  - 集群部署
 ---
 
 ## 第一章 - 认识 Apache Kafka

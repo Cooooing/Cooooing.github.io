@@ -2,11 +2,12 @@
 layout: post
 title: APlayer和MetingJS的使用
 date: 2022-08-15 15:25:36
-tags:
-- APlayer
-- MetingJS
 categories:
-- 学习笔记
+  - 学习笔记
+tags:
+  - APlayer
+  - MetingJS
+  - 博客
 ---
 
 ## 简介

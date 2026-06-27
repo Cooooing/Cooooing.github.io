@@ -1,14 +1,15 @@
 ---
 layout: post
 title: 《hello agents》读书笔记 - 构建你的大语言模型智能体
-mathjax: true
 date: 2026-03-06 22:08:00
 categories:
   - 读书笔记
 tags:
   - 《hello agents》
-  - AI
-  - Agent
+  - 智能体
+  - 大语言模型
+  - Agent框架
+  - 低代码
 ---
 
 ## 第四章 - 智能体经典范式构建

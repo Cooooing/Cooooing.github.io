@@ -2,12 +2,12 @@
 layout: post
 title: BitTorrent协议
 date: 2024-10-12 11:24:13
-tags:
-  - Bencode编码
-  - BitTorrent
-  - p2p
 categories:
   - 学习笔记
+tags:
+  - BitTorrent
+  - P2P
+  - 协议
 ---
 
 ## BitTorrent协议规范

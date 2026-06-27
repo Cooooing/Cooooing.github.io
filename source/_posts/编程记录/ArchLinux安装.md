@@ -6,6 +6,8 @@ categories:
   - 编程记录
 tags:
   - Arch Linux
+  - Linux
+  - 系统安装
 ---
 
 ## 前言
