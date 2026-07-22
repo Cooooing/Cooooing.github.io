@@ -1,0 +1,1205 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="技术博客,后端开发,编程笔记,生活">
+    <meta name="description" content="Code | Systems | Life — 专注编程本质，也关心世界如何运转。">
+    <meta name="author" content="咕咕咕">
+
+    
+    <title>
+        
+            《深入理解Go语言》读书笔记 - Go 语言协程调度器 GPM 模型 |
+        
+        咕咕咕的小破站
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+        <link rel="shortcut icon" href="/images/favicon.png">
+    
+    
+<link rel="stylesheet" href="/font/css/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/regular.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/solid.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/brands.min.css">
+
+    
+        
+            
+                
+<link rel="stylesheet" href="/css/APlayer.min.css">
+
+            
+        
+            
+                
+<link rel="stylesheet" href="/css/custom.css">
+
+            
+        
+    
+    <script class="keep-theme-configurations">
+    const KEEP = window.KEEP || {}
+    KEEP.hexo_config = {"hostname":"cooooing.github.io","root":"/","language":"zh-CN","path":"search.json"}
+    KEEP.theme_config = {"base_info":{"primary_color":"#0066cc","title":"咕咕咕的小破站","author":"咕咕咕","avatar":"https://avatars.githubusercontent.com/u/75006169?v=4","logo":"https://avatars.githubusercontent.com/u/75006169?v=4","favicon":"/images/favicon.png"},"menu":{"Archives":"/archives","Categories":"/categories","Tags":"/tags","日常":"/daily","Links":"/links","About":"/about"},"first_screen":{"enable":false,"background_img":"/images/bg.svg","background_img_dark":"/images/bg.svg","description":"Keep writing and Keep loving.","hitokoto":false},"social_contact":{"enable":false,"links":{"github":null,"weixin":null,"qq":null,"weibo":null,"zhihu":null,"twitter":null,"facebook":null,"email":null}},"scroll":{"progress_bar":false,"percent":false,"hide_header":true},"home":{"category":true,"tag":true,"announcement":null},"post":{"author_badge":{"enable":true,"level_badge":false,"custom_badge":["fishing"]},"word_count":{"wordcount":true,"min2read":true},"datetime_format":"YYYY-MM-DD HH:mm:ss","copyright_info":true,"share":true,"reward":{"enable":true,"img_link":"/images/thanks.png","text":"谢谢你请我喝可乐~"}},"mathjax":{"tags":"all","single_dollars":true,"cjk_width":0.9,"normal_width":0.6,"append_css":true,"every_page":false},"code_block":{"tools":{"enable":true,"style":"default"},"highlight_theme":"default"},"toc":{"enable":true,"number":false,"expand_all":true,"init_open":true,"layout":"left"},"website_count":{"busuanzi_count":{"enable":true,"site_uv":true,"site_pv":true,"page_pv":true}},"local_search":{"enable":true,"preload":true},"comment":{"enable":true,"use":"giscus","valine":{"appid":null,"appkey":null,"server_urls":null,"placeholder":null},"gitalk":{"github_id":null,"github_admins":null,"repository":null,"client_id":null,"client_secret":null,"proxy":null},"twikoo":{"env_id":null,"region":null,"version":"1.6.21"},"waline":{"server_url":null,"reaction":false,"version":2},"giscus":{"repo":"Cooooing/Cooooing.github.io","repo_id":"R_kgDOHQal_w","category":"Announcements","category_id":"DIC_kwDOHQal_84CjZo6","reactions_enabled":true},"artalk":{"server":null},"disqus":{"shortname":null}},"rss":{"enable":true},"lazyload":{"enable":true},"cdn":{"enable":false,"provider":"cdnjs"},"pjax":{"enable":true},"footer":{"since":2022,"word_count":true,"icp":{"enable":false,"record_code":null,"url":"https://beian.miit.gov.cn"},"site_deploy":{"enable":false,"provider":"github","url":null},"shields_style":{"enable":false,"custom":[{"link_url":null,"img_url":null}]}},"inject":{"enable":true,"css":["/css/APlayer.min.css","/css/custom.css"],"js":["/js/APlayer.min.js","/js/Meting.min.js","/js/leaves.js"]},"root":"","links":[{"name":"鼠鼠在碎觉","link":"https://sszsj.com","avatar":"https://tmx.fishpi.cn/img/head.jpg","description":"我是不慎落入世界的一滴水墨"},{"name":"Gakkiyomi","link":"https://gakkiyomi.blog","avatar":"https://avatars.githubusercontent.com/u/41406557?v=4","description":"为往圣继绝学"},{"name":"Hancel's Blog","link":"https://my.hancel.org","avatar":"https://my.hancel.org/media/logo.jpg","description":"人生而自由，却无往不在枷锁之中。"},{"name":"Eastshann","link":"https://eastshann.github.io/","avatar":"https://avatars.githubusercontent.com/u/87764431?v=4","description":"冲和者，淡泊平和，谦冲守正"},{"name":"小于同学的异世界","link":"https://yby.zone","avatar":"https://yby-zone.obs.cn-east-3.myhuaweicloud.com/avatar.jpg","description":"为吾为枝，余地三尺，以己为棋，胜天半子。"},{"name":"Mlikiowa Home Village","link":"https://nanaeo.cn/","avatar":"https://q1.qlogo.cn/g?b=qq&nk=1627126029&s=100","description":"A litter Village With Mlikiowa"},{"name":"忘忧草","link":"https://owo.wyc.rest/","avatar":"https://owo.wyc.rest/img/%E4%B8%87%E5%8F%B6.jpg","description":"这只是一个小破站而已！"},{"name":"stillwarter","link":"https://stillwarter.github.io/","avatar":"https://file.fishpi.cn/2022/07/MOSHED2022621164630-1b1ec532.gif?imageView2/1/w/210/h/210/interlace/0/q/100","description":"光就是一切的意义"},{"name":"test12138","link":"http://你好.eu.org/","avatar":"https://file.fishpi.cn/2022/06/srchttpimgzcoolcncommunity0116405d84f975a801211d537707c9gifreferhttpimgzcool-0f2d09c9.gif?imageView2/1/w/48/h/48/interlace/0/q/100","description":"大丈夫生于天地之间，岂能郁郁久居人下。"},{"name":"呼呼呼","link":"https://bongbongbakudan.github.io/","avatar":"https://pwl.stackoverflow.wiki/2021/12/blob-28eb4b9f.png?imageView2/1/w/48/h/48/interlace/0/q/100","description":"去整点薯条"},{"name":"Plumbiu","link":"https://blog.plumbiu.top/","avatar":"https://avatars.githubusercontent.com/u/99574369?v=4","description":"这人很勤奋，啥都没留"},{"name":"hiRipple","link":"https://hiripple.com/","avatar":"https://avatars.githubusercontent.com/u/115361435?v=4","description":"超高校级的游戏玩家"},{"name":"零糖加辣（drda）","link":"https://drda-x.github.io/drda-blog/","avatar":"https://drda-x.github.io/drda-blog/avatar/avatar.webp","description":"奶茶少糖，喜欢吃辣"},{"name":"ncc的个人网站","link":"https://www.zqcnc.cn","avatar":"https://www.zqcnc.cn/favicon.ico","description":"keep trying!"},{"name":"Yui","link":"https://yuis.cc/","avatar":"https://file.fishpi.cn/storage/%E9%B1%BC%E6%8E%92%E4%BA%BA%E7%89%A9/yui.png","description":"世界那么大，等我赚钱一定去看看"}],"version":"4.0.6"}
+    KEEP.language_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"}
+    KEEP.language_code_block = {"copy":"复制代码","copied":"已复制","fold":"折叠代码块","folded":"已折叠"}
+    KEEP.language_copy_copyright = {"copy":"复制版权信息","copied":"已复制","title":"原文标题","author":"原文作者","link":"原文链接"}
+  </script>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-CLX32WF4R1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+
+      gtag('js', new Date());
+
+      gtag('config', 'G-CLX32WF4R1');
+    </script>
+
+    <!-- 51.la -->
+    <script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
+    <script>LA.init({id: "3JwPz6wbAloyTmMc", ck: "3JwPz6wbAloyTmMc", autoTrack: true})</script>
+
+    <!-- Cloudflare Web Analytics -->
+    <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "281999cc46a948d3b8199c1eb621f11e"}'></script>
+    <!-- End Cloudflare Web Analytics -->
+
+<meta name="generator" content="Hexo 8.1.2"><link rel="alternate" href="/atom.xml" title="咕咕咕的小破站" type="application/atom+xml">
+</head>
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+        <span class="pjax-progress-bar"></span>
+        <i class="pjax-progress-icon fas fa-circle-notch fa-spin"></i>
+    
+</div>
+
+
+<main class="page-container border-box">
+
+    <!-- home first screen  -->
+    
+
+    <!-- page content -->
+    <div class="page-main-content border-box">
+        <div class="page-main-content-top">
+            
+<header class="header-wrapper">
+
+    <div class="border-box header-content">
+        <div class="left border-box">
+            
+                <a class="logo-image border-box" href="/">
+                    <img src="https://avatars.githubusercontent.com/u/75006169?v=4">
+                </a>
+            
+            <a class="site-name border-box" href="/">
+               咕咕咕的小破站
+            </a>
+        </div>
+
+        <div class="right border-box">
+            <div class="pc">
+                <ul class="menu-list">
+                    <li class="menu-item">
+                        <a class=""
+                           href="/"
+                        >首页</a>
+                    </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >归档</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/categories"
+                            >分类</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/tags"
+                            >标签</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/daily"
+                            >日常</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/links"
+                            >友链</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >关于</a>
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="fas search fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            <li class="drawer-menu-item flex-center">
+                <a class=""
+                   href="/"
+                >首页</a>
+            </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives"
+                    >归档</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/categories"
+                    >分类</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/tags"
+                    >标签</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/daily"
+                    >日常</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/links"
+                    >友链</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about"
+                    >关于</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle border-box">
+
+            <div class="main-content border-box">
+                
+
+                    
+<div class="fade-in-down-animation">
+    <div class="post-page-container border-box">
+        <div class="post-content-container border-box">
+            
+
+            <div class="post-content-bottom border-box">
+                
+                    <div class="post-title">
+                        《深入理解Go语言》读书笔记 - Go 语言协程调度器 GPM 模型
+                    </div>
+                
+
+                
+                    <div class="post-header border-box">
+                        
+                            <div class="avatar-box border-box">
+                                <img src="https://avatars.githubusercontent.com/u/75006169?v=4">
+                            </div>
+                        
+                        <div class="info-box">
+                            <div class="author border-box">
+                                <span class="name">咕咕咕</span>
+                                
+                                    <span class="author-badge">fishing</span>
+                                
+                            </div>
+                            <div class="meta-info border-box">
+                                
+
+<div class="post-meta-info-container border-box post">
+    <div class="post-meta-info border-box">
+        
+
+        
+            <span class="meta-info-item post-create-date">
+                <i class="icon fa-solid fa-calendar-plus"></i>&nbsp;
+                <span class="datetime">2025-12-27 14:33:28</span>
+            </span>
+
+            <span class="meta-info-item post-update-date">
+                <i class="icon fa-solid fa-file-pen"></i>&nbsp;
+                <span class="datetime" data-updated="Sat Dec 27 2025 06:33:28 GMT+0000">2025-12-27 14:33:28</span>
+            </span>
+        
+
+        
+            <span class="meta-info-item post-category border-box"><i class="icon fas fa-folder"></i>&nbsp;
+                <ul class="post-category-ul">
+                    
+                            <li class="category-item"><a href="/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">读书笔记</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+            <span class="post-tag meta-info-item border-box">
+                <i class="icon fas fa-tags"></i>&nbsp;
+                <ul class="post-tag-ul">
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/Go%E8%AF%AD%E8%A8%80/">Go语言</a></li>
+                        
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/%E3%80%8A%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Go%E8%AF%AD%E8%A8%80%E3%80%8B/">《深入理解Go语言》</a></li>
+                        
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/GPM%E6%A8%A1%E5%9E%8B/">GPM模型</a></li>
+                        
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/%E5%8D%8F%E7%A8%8B%E8%B0%83%E5%BA%A6/">协程调度</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+        
+            <span class="meta-info-item post-wordcount">
+                <i class="icon fas fa-file-word"></i>&nbsp;<span>6.8k 字</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-min2read">
+                <i class="icon fas fa-clock"></i>&nbsp;<span>30 分钟</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-pv">
+                <i class="icon fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+            </span>
+        
+    </div>
+
+    
+</div>
+
+                            </div>
+                        </div>
+                    </div>
+                
+
+                <div class="post-content keep-markdown-body">
+                    
+
+                    <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>想深入下 Go 的底层,主要是并发模型、GC和内存管理相关内容。</p>
+<p>刘丹冰老师的这本书分为3篇21章<br>第一篇(1~4章)主要讲 GMP 模型、GC、内存管理和 IO 复用并发模型,是比较核心的内容,会详细阅读。<br>第二篇(5~12章)主要讲 Go 语言特性和一些进阶知识,会选择性地详细阅读。<br>第三篇(13~21章)主要是项目实战,通过 Zinx 框架了解 TCP&#x2F;IP 网络服务器架构,这篇大概率会跳过。</p>
+<h2 id="第一章-深入理解-Go-语言协程调度器-GPM-模型"><a href="#第一章-深入理解-Go-语言协程调度器-GPM-模型" class="headerlink" title="第一章 深入理解 Go 语言协程调度器 GPM 模型"></a>第一章 深入理解 Go 语言协程调度器 GPM 模型</h2><h3 id="调度器由来"><a href="#调度器由来" class="headerlink" title="调度器由来"></a>调度器由来</h3><h4 id="单进程时代不需要调度器"><a href="#单进程时代不需要调度器" class="headerlink" title="单进程时代不需要调度器"></a>单进程时代不需要调度器</h4><p>单进程时代过于久远,现在应该不会有这样的系统了,估计只存在于计算机组成原理的课上了。</p>
+<p>单一的执行流程,计算机只能一个任务一个任务处理,所有的程序都是阻塞的。<br>因为在一个进程的完整生命周期中,所需要访问的物理部分包括 CPU、Cache、主内存、磁盘、网络等。<br><strong>不同的硬件媒介处理计算的能力相差甚大,可能几个数量级。如果将这些处理速度不同的处理媒介通过一个进程串在一起,则会出现高速度媒介等待和浪费的现象。</strong><br>如当一个程序加载一个磁盘数据的时候,在读写的过程中,CPU处于等待状态,那么对于单进程的操作系统来讲,很明显会造成CPU运算能力的浪费,因为CPU此刻本应该被合理地分配到其他进程上去做高层的计算。</p>
+<h4 id="多进程-多线程时代的调度器"><a href="#多进程-多线程时代的调度器" class="headerlink" title="多进程&#x2F;多线程时代的调度器"></a>多进程&#x2F;多线程时代的调度器</h4><p>当一个进程阻塞 CPU 可以立刻切换到其他进程中去执行,而且调度CPU的算法可以保证在运行的进程都可以被分配到CPU的运行时间片。从宏观来看,似乎多个进程是在同时被运行。</p>
+<blockquote>
+<p>时间片(Timeslice)又称为“量子(Quantum)”或“处理器片(Processor Slice)”<br>是分时操作系统分配给每个正在运行的进程微观上的一段CPU时间(在抢占内核中是从进程开始运行直到被抢占的时间)。</p>
+</blockquote>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E3%80%8A%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Go%E8%AF%AD%E8%A8%80%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-Go%E8%AF%AD%E8%A8%80%E5%8D%8F%E7%A8%8B%E8%B0%83%E5%BA%A6%E5%99%A8GPM%E6%A8%A1%E5%9E%8B/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%A4%9A%E8%BF%9B%E7%A8%8B%E6%89%A7%E8%A1%8C%E9%A1%BA%E5%BA%8F.png"
+                        alt="多线程多进程执行顺序.png"
+                 ></p>
+<p>这是会带来新的问题,当进程越来越多,每个进程又拥有太多的资源时,进程的创建、切换、销毁都会占用很多 CPU 性能。<br>即进程切换和调度带来的性能消耗可能会超过进程本身的性能消耗,这时候就很不划算了。</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E3%80%8A%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Go%E8%AF%AD%E8%A8%80%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-Go%E8%AF%AD%E8%A8%80%E5%8D%8F%E7%A8%8B%E8%B0%83%E5%BA%A6%E5%99%A8GPM%E6%A8%A1%E5%9E%8B/CPU%E8%B0%83%E5%BA%A6%E5%88%87%E6%8D%A2%E7%9A%84%E6%88%90%E6%9C%AC.png"
+                        alt="CPU调度切换的成本.png"
+                 ></p>
+<h4 id="协程提供-CPU-利用率"><a href="#协程提供-CPU-利用率" class="headerlink" title="协程提供 CPU 利用率"></a>协程提供 CPU 利用率</h4><p>一个线程可以分为“内核态”和“用户态”两种形态的线程。<br>所谓<strong>用户态线程就是把内核态的线程在用户态实现了一遍而已</strong>,目的是更轻量化(更少的内存占用、更少的隔离、更快的调度)和更高的可控性(可以自己控制调度器)。<br>用户态中的所有东⻄内核态都看得⻅,只是对于内核而言用户态线程只是一堆内存数据而已。</p>
+<p>一个用户态线程必须绑定一个内核态线程,但是CPU并不知道有用户态线程的存在,它只知道它运行的是一个内核态线程(Linux的PCB进程控制块)。<br>如果将线程再进行细化,内核线程依然叫线程(Thread),而用户线程则叫协程(Co-routine)。操作系统层面的线程就是所谓的内核态线程,用户态线程则多种多样,只要能满足在同一个内核线程上执行多个任务,例如Co-routine、Go的Goroutine、C#的Task等。</p>
+<p>协程和线程的映射关系有三种,它们分别是 N:1 关系、1:1 关系和 M:N 关系。</p>
+<ol>
+<li>N:1 关系<br>N个协程绑定1个线程,优点就是协程在用户态线程即完成切换,不会陷入内核态,这种切换非常轻量快速,但缺点也很明显。1个进程的所有协程都绑定在1个线程上。<br>这种情况下,<strong>单个程序只能利用一个核,即使是多核CPU</strong>;<strong>某一个协程阻塞,会造成线程阻塞,本进程的其他协程都无法执行了,进而导致没有任何并发能力</strong>。</li>
+<li>1:1 关系<br>1个协程绑定1个线程,这种方式最容易实现。协程的调度都由CPU完成了,和直接使用线程没有太大区别。</li>
+<li>M:N 关系<br>M个协程绑定1个线程,实现起来最为复杂。同一个调度器上挂载M个协程,调度器下游则是多个CPU核心资源。<br>协程跟线程是有区别的,线程由CPU调度是抢占式的,协程由用户态调度是协作式的,一个协程让出CPU后,才执行下一个协程,所以针对M:N模型的中间层的调度器设计就变得尤为重要,提高线程和协程的绑定关系和执行效率也变为不同语言在设计调度器时的优先目标。</li>
+</ol>
+<h4 id="Go-语言的协程-Goroutine"><a href="#Go-语言的协程-Goroutine" class="headerlink" title="Go 语言的协程 Goroutine"></a>Go 语言的协程 Goroutine</h4><p>Go语言为了提供更容易使用的并发方法,使用了Goroutine和Channel。<br>Goroutine来自协程的概念,让一组可复用的函数运行在一组线程之上,即使有协程阻塞,该线程的其他协程也可以被 runtime 调度,从而转移到其他可运行的线程上。<br>Goroutine的特点,占用内存更小(几KB)和调度更灵活(runtime调度)。</p>
+<h4 id="被废弃的-Goroutine-调度器"><a href="#被废弃的-Goroutine-调度器" class="headerlink" title="被废弃的 Goroutine 调度器"></a>被废弃的 Goroutine 调度器</h4><p>Go 的调度器在 2012 年重新设计了。</p>
+<blockquote>
+<p>G 表示 Goroutine<br>M 表示 线程</p>
+</blockquote>
+<p>早期的调度器是基于 M:N 的基础上实现的。<br>所有的协程(G)都会被放在一个全局的Go协程队列中,在全局队列的外面由于是多个 M 的共享资源,所以会加上一个用于同步及互斥作用的锁。<br>M 想要执行、放回 G 都必须访问全局 G 队列,并且 M 有多个,即多线程访问同一资源需要加锁进行保证互斥&#x2F;同步,所以全局 G 队列是由互斥锁进行保护的。</p>
+<p><strong>这会带来激烈的锁竞争</strong>,因为创建、销毁、调度 G 都需要每个 M 获取锁。<br><strong>M 转移 G 会造成延迟和额外的系统负载</strong>。例如当 G 中包含创建新协程的时候,M 创建了 G′,为了继续执行 G,需要把 G′ 交给 M2 执行,<strong>也造成了很差的局部性(共享数据、共享栈索引、可能访问相同内存)</strong>,因为 G′ 和 G 是相关的,最好放在M上执行,而不是其他 M2。<br>系统调用(CPU在M之间的切换)导致频繁的线程阻塞和取消阻塞操作增加了系统开销。</p>
+<h3 id="Go语言调度器GPM模型的设计思想"><a href="#Go语言调度器GPM模型的设计思想" class="headerlink" title="Go语言调度器GPM模型的设计思想"></a>Go语言调度器GPM模型的设计思想</h3><p>面对之前调度器的问题,新的调度器引入了 P (处理器)。<br>处理器包含了运行 Goroutine 的资源,如果线程想运行 Goroutine,必须先获取 P,P 中还包含了可运行的 G 队列。</p>
+<h4 id="GPM-模型"><a href="#GPM-模型" class="headerlink" title="GPM 模型"></a>GPM 模型</h4><p>在Go中,线程是运行 Goroutine 的实体,调度器的功能是把可运行的 Goroutine 分配到工作线程上。</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E3%80%8A%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Go%E8%AF%AD%E8%A8%80%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-Go%E8%AF%AD%E8%A8%80%E5%8D%8F%E7%A8%8B%E8%B0%83%E5%BA%A6%E5%99%A8GPM%E6%A8%A1%E5%9E%8B/GPM%E6%A8%A1%E5%9E%8B.png"
+                        alt="GPM模型.png"
+                 ></p>
+<ol>
+<li><strong>全局队列(Global Queue):存放等待运行的 G</strong>。<br>全局队列可能被任意的 P 去获取里面的 G,所以全局队列相当于整个模型中的全局资源,那么自然对于队列的读写操作是要加入互斥动作的。</li>
+<li><strong>P 的本地队列:同全局队列类似,存放的也是等待运行的 G,但存放的数量有限,不超过 256 个</strong>。<br>新建 G′ 时,G′ 优先加入 P 的本地队列,如果队列满了,则会把本地队列中一半的 G 移动到全局队列。</li>
+<li><strong>P 列表:所有的 P 都在程序启动时创建,并保存在数组中,最多有 GOMAXPROCS(可配置)个</strong>。</li>
+<li><strong>M:线程想运行任务就得获取 P,从 P 的本地队列获取 G</strong>,当 P 队列为空时,M 也会尝试从全局队列获得一批 G 放到 P 的本地队列,或从其他P的本地队列“偷”一半放到自己 P 的本地队列(工作窃取)。<br>M 运行 G,G 执行之后,M 会从 P 获取下一个 G,不断重复下去。</li>
+</ol>
+<p>Goroutine 调度器和 OS 调度器是通过 M 结合起来的,每个 M 都代表了 1 个内核线程,OS调度器负责把内核线程分配到 CPU 的核上执行。</p>
+<h5 id="有关-P-和-M-个数的问题"><a href="#有关-P-和-M-个数的问题" class="headerlink" title="有关 P 和 M 个数的问题"></a>有关 P 和 M 个数的问题</h5><p>P 的数量由启动时环境变量 $GOMAXPROCS 或者由 runtime 的方法 GOMAXPROCS() 决定。<br>这意味着在程序执行的任意时刻，最多有 <code>GOMAXPROCS</code> 个 P 执行用户 Go 代码，因此并行执行 Go 代码的 Goroutine 数量受它限制。(真正的并行,CPU 核心的数量)</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> runtime</span><br><span class="line"></span><br><span class="line"><span class="comment">// GOMAXPROCS sets the maximum number of CPUs that can be executing</span></span><br><span class="line"><span class="comment">// simultaneously and returns the previous setting. It defaults to</span></span><br><span class="line"><span class="comment">// the value of [runtime.NumCPU]. If n &lt; 1, it does not change the current setting.</span></span><br><span class="line"><span class="comment">// This call will go away when the scheduler improves.</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">GOMAXPROCS</span><span class="params">(n <span class="type">int</span>)</span></span> <span class="type">int</span> &#123;</span><br><span class="line">	<span class="keyword">if</span> GOARCH == <span class="string">&quot;wasm&quot;</span> &amp;&amp; n &gt; <span class="number">1</span> &#123;</span><br><span class="line">		n = <span class="number">1</span> <span class="comment">// WebAssembly has no threads yet, so only one CPU is possible.</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	lock(&amp;sched.lock)</span><br><span class="line">	ret := <span class="type">int</span>(gomaxprocs)</span><br><span class="line">	unlock(&amp;sched.lock)</span><br><span class="line">	<span class="keyword">if</span> n &lt;= <span class="number">0</span> || n == ret &#123;</span><br><span class="line">		<span class="keyword">return</span> ret</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	stw := stopTheWorldGC(stwGOMAXPROCS)</span><br><span class="line"></span><br><span class="line">	<span class="comment">// newprocs will be processed by startTheWorld</span></span><br><span class="line">	newprocs = <span class="type">int32</span>(n)</span><br><span class="line"></span><br><span class="line">	startTheWorldGC(stw)</span><br><span class="line">	<span class="keyword">return</span> ret</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>M 的数量由 Go 语言本身的限制决定,Go 程序启动时会设置 M 的最大数量,默认为 10000 个,但是内核很难支持这么多的线程数,所以这个限制可以忽略。<br>runtime&#x2F;debug 中的 SetMaxThreads() 函数可设置 M 的最大数量,当一个 M 阻塞了时会创建新的 M。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> runtime</span><br><span class="line"></span><br><span class="line"><span class="comment">// SetMaxThreads sets the maximum number of operating system</span></span><br><span class="line"><span class="comment">// threads that the Go program can use. If it attempts to use more than</span></span><br><span class="line"><span class="comment">// this many, the program crashes.</span></span><br><span class="line"><span class="comment">// SetMaxThreads returns the previous setting.</span></span><br><span class="line"><span class="comment">// The initial setting is 10,000 threads.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// The limit controls the number of operating system threads, not the number</span></span><br><span class="line"><span class="comment">// of goroutines. A Go program creates a new thread only when a goroutine</span></span><br><span class="line"><span class="comment">// is ready to run but all the existing threads are blocked in system calls, cgo calls,</span></span><br><span class="line"><span class="comment">// or are locked to other goroutines due to use of runtime.LockOSThread.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// SetMaxThreads is useful mainly for limiting the damage done by</span></span><br><span class="line"><span class="comment">// programs that create an unbounded number of threads. The idea is</span></span><br><span class="line"><span class="comment">// to take down the program before it takes down the operating system.</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">SetMaxThreads</span><span class="params">(threads <span class="type">int</span>)</span></span> <span class="type">int</span> &#123;</span><br><span class="line">	<span class="keyword">return</span> setMaxThreads(threads)</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>M 与 P 的数量没有绝对关系,一个 M 阻塞,P 就会去创建或者切换另一个 M,所以,即使 P 的默认数量是 1,也有可能会创建很多个 M 出来。</p>
+<h5 id="有关-P-和-M-何时被创建"><a href="#有关-P-和-M-何时被创建" class="headerlink" title="有关 P 和 M 何时被创建"></a>有关 P 和 M 何时被创建</h5><ol>
+<li>P 创建的时机在确定了 P 的最大数量 n 后,运行时系统会根据这个数量创建 n 个 P。</li>
+<li>M 创建的时机是在当没有足够的 M 来关联 P 并运行其中可运行的 G 的时候。<br>例如所有的 M 此时都阻塞住了,而 P 中还有很多就绪任务,就会去寻找空闲的 M,如果此时没有空闲的 M,就会去创建新的 M。</li>
+</ol>
+<h4 id="调度器的设计策略"><a href="#调度器的设计策略" class="headerlink" title="调度器的设计策略"></a>调度器的设计策略</h4><h5 id="复用线程"><a href="#复用线程" class="headerlink" title="复用线程"></a>复用线程</h5><p>避免频繁地创建、销毁线程,而是对线程的复用。</p>
+<ol>
+<li>偷取(Work Stealing)机制<br>当本线程无可运行的 G 时,尝试从其他线程绑定的 P 偷取 G,而不是销毁线程。<br><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E3%80%8A%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Go%E8%AF%AD%E8%A8%80%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-Go%E8%AF%AD%E8%A8%80%E5%8D%8F%E7%A8%8B%E8%B0%83%E5%BA%A6%E5%99%A8GPM%E6%A8%A1%E5%9E%8B/%E5%81%B7%E5%8F%96%E6%9C%BA%E5%88%B6.png"
+                        alt="偷取机制.png"
+                 ><br>偷取的动作一定是由 P 发起的,而非 M,因为 P 的数量是固定的,如果一个 M 得不到一个 P,那么这个 M 是没有执行的本地队列的,更谈不上向其他的 P 队列偷取了。</li>
+<li>移交(Hand Off)机制<br>当本线程因为 G 进行系统调用阻塞时,线程会释放绑定的 P,把 P 转移给其他空闲的线程执行,此时若在 M1 的 GPM 组合中,G1 正在被调度,并且已经发生了阻塞,则这个时候就会触发移交的设计机制。<br>GPM 模型为了更大程度地利用 M 和 P 的性能,不会让一个 P 永远被一个阻塞的 G1 耽误之后的工作,所以遇⻅这种情况的时候,移交机制的设计理念是应该立刻将此时的 P 释放出来。<br><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E3%80%8A%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Go%E8%AF%AD%E8%A8%80%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-Go%E8%AF%AD%E8%A8%80%E5%8D%8F%E7%A8%8B%E8%B0%83%E5%BA%A6%E5%99%A8GPM%E6%A8%A1%E5%9E%8B/%E7%A7%BB%E4%BA%A4%E6%9C%BA%E5%88%B6%EF%BC%9AG1%E5%8F%91%E7%8E%B0%E9%98%BB%E5%A1%9E.png"
+                        alt="移交机制:G1发现阻塞.png"
+                 ><br>为了释放 P,所以将 P 和 M1、G1 分离,M1 由于正在执行当前的 G1,全部的程序栈空间均在 M1 中保存,所以 M1 此时应该与 G1 一同进入阻塞的状态,但是已经被释放的 P 需要跟另一个 M 进行绑定,所以就会选择一个 M3(如果此时没有M3,则会创建一个新的或者唤醒一个正在睡眠的M)进行绑定,这样新的 P 就会继续工作,接收新的 G 或者从其他的队列中实施偷取机制。<br><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E3%80%8A%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Go%E8%AF%AD%E8%A8%80%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-Go%E8%AF%AD%E8%A8%80%E5%8D%8F%E7%A8%8B%E8%B0%83%E5%BA%A6%E5%99%A8GPM%E6%A8%A1%E5%9E%8B/%E7%A7%BB%E4%BA%A4%E6%9C%BA%E5%88%B6%EF%BC%9A%E9%98%BB%E5%A1%9E%E7%9A%84P%E8%A2%AB%E9%87%8A%E6%94%BE.png"
+                        alt="移交机制:阻塞的P被释放.png"
+                 ></li>
+</ol>
+<h5 id="利用并行"><a href="#利用并行" class="headerlink" title="利用并行"></a>利用并行</h5><p>GOMAXPROCS 设置 P 的数量,最多有 GOMAXPROCS 个线程分布在多个 CPU 上同时运行。<br>GOMAXPROCS 也限制了并发的程度,例如 GOMAXPROCS &#x3D; 核数 &#x2F; 2,表示最多利用一半的 CPU 核进行并行。</p>
+<h5 id="抢占"><a href="#抢占" class="headerlink" title="抢占"></a>抢占</h5><p>在 Co-routine 中要等待一个协程主动让出 CPU 才执行下一个协程。<br>在 Go 中,运行时间过长的 Goroutine 会被运行时标记并尝试抢占，典型检查量级约 10ms，但这不是严格的实时上限。这是 Goroutine 不同于 Co-routine 的一个地方。</p>
+<h5 id="全局G队列"><a href="#全局G队列" class="headerlink" title="全局G队列"></a>全局G队列</h5><p>在新的调度器中依然有全局 G 队列,但功能已经被弱化了,当 M 执行偷取,但从其他 P 偷不到 G 时,它可以从全局 G 队列获取 G。</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E3%80%8A%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Go%E8%AF%AD%E8%A8%80%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-Go%E8%AF%AD%E8%A8%80%E5%8D%8F%E7%A8%8B%E8%B0%83%E5%BA%A6%E5%99%A8GPM%E6%A8%A1%E5%9E%8B/%E5%85%A8%E5%B1%80%E9%98%9F%E5%88%97%E8%8E%B7%E5%8F%96.png"
+                        alt="全局队列获取.png"
+                 ></p>
+<h4 id="go-func-调度流程"><a href="#go-func-调度流程" class="headerlink" title="go func() 调度流程"></a>go func() 调度流程</h4><ol>
+<li>通过 go func() 创建一个 Goroutine<br><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E3%80%8A%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Go%E8%AF%AD%E8%A8%80%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-Go%E8%AF%AD%E8%A8%80%E5%8D%8F%E7%A8%8B%E8%B0%83%E5%BA%A6%E5%99%A8GPM%E6%A8%A1%E5%9E%8B/go-func()%E5%88%9B%E5%BB%BAGoroutine.png"
+                        alt="go func()创建Goroutine.png"
+                 ></li>
+<li>有两个存储 G 的队列,一个是局部调度器 P 的本地队列,另一个全局 G 队列。<br>新创建的 G 会先保存在 P 的本地队列中,如果 P 本地队列满了,则会保存在全局的队列中。<br><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E3%80%8A%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Go%E8%AF%AD%E8%A8%80%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-Go%E8%AF%AD%E8%A8%80%E5%8D%8F%E7%A8%8B%E8%B0%83%E5%BA%A6%E5%99%A8GPM%E6%A8%A1%E5%9E%8B/go-func()%E6%96%B0%E5%BB%BAG%E7%9A%84%E6%94%BE%E7%BD%AE%E4%BD%8D%E7%BD%AE.png"
+                        alt="go func()新建G的放置位置.png"
+                 ></li>
+<li>G 只能运行在 M 中,一个 M 必须持有一个 P,M 与 P 是 1:1 的关系。<br>M 会从 P 的本地队列弹出一个可执行状态的 G 来执行,如果 P 的本地队列为空,则会从全局队列进行获取,如果从全局队列获取不到,则会向其他的 MP 组合偷取一个可执行的 G 来执行。<br><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E3%80%8A%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Go%E8%AF%AD%E8%A8%80%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-Go%E8%AF%AD%E8%A8%80%E5%8D%8F%E7%A8%8B%E8%B0%83%E5%BA%A6%E5%99%A8GPM%E6%A8%A1%E5%9E%8B/go-func()%E8%8E%B7%E5%8F%96G%E7%9A%84%E6%96%B9%E5%BC%8F.png"
+                        alt="go func()获取G的方式.png"
+                 ></li>
+<li>一个 M 调度 G 执行的过程是一个循环机制。<br><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E3%80%8A%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Go%E8%AF%AD%E8%A8%80%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-Go%E8%AF%AD%E8%A8%80%E5%8D%8F%E7%A8%8B%E8%B0%83%E5%BA%A6%E5%99%A8GPM%E6%A8%A1%E5%9E%8B/go-func()M%E8%B0%83%E5%BA%A6G%E6%98%AF%E5%BE%AA%E7%8E%AF%E5%BE%80%E5%A4%8D%E7%9A%84.png"
+                        alt="go func()M调度G是循环往复的.png"
+                 ></li>
+<li>当 M 执行某一个 G 时如果发生了 syscall 或者其余阻塞操作,则 M 会阻塞,如果当前有一些 G 在执行,runtime 则会把这个线程 M 从 P 中移除(Detach),然后创建一个新的操作系统线程(如果有空闲的线程可用就复用空闲线程)来服务于这个 P。<br><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E3%80%8A%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Go%E8%AF%AD%E8%A8%80%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-Go%E8%AF%AD%E8%A8%80%E5%8D%8F%E7%A8%8B%E8%B0%83%E5%BA%A6%E5%99%A8GPM%E6%A8%A1%E5%9E%8B/go-func()%E5%BD%93M1%E4%B8%8A%E7%9A%84G%E5%8F%91%E7%94%9F%E9%98%BB%E5%A1%9E.png"
+                        alt="go func()当M1上的G发生阻塞.png"
+                 ></li>
+<li>当 M 系统调用结束时,这个 G 会尝试获取一个空闲的 P 执行,并放入这个 P 的本地队列。如果获取不到 P,则这个线程 M 会变成休眠状态,加入空闲线程中,然后这个 G 会被放入全局队列中。<br><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E3%80%8A%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Go%E8%AF%AD%E8%A8%80%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-Go%E8%AF%AD%E8%A8%80%E5%8D%8F%E7%A8%8B%E8%B0%83%E5%BA%A6%E5%99%A8GPM%E6%A8%A1%E5%9E%8B/go-func()M1%E5%B0%86%E4%BC%91%E7%9C%A0,G%E5%9B%9E%E5%88%B0%E5%85%A8%E5%B1%80%E9%98%9F%E5%88%97.png"
+                        alt="go func()M1将休眠,G回到全局队列.png"
+                 ></li>
+</ol>
+<h4 id="调度器的生命周期"><a href="#调度器的生命周期" class="headerlink" title="调度器的生命周期"></a>调度器的生命周期</h4><p>Go 语言调度器的 GPM 模型中还有两个比较特殊的⻆色,它们分别是 M0 和 G0。</p>
+<ol>
+<li>M0<ol>
+<li>启动程序后的编号为0的主线程。</li>
+<li>在全局命令 runtime.m0 中,不需要在 heap 堆上分配。</li>
+<li>负责执行初始化操作和启动第 1 个 G。</li>
+<li>启动第 1 个 G 后,M0 就和其他的 M 一样了。</li>
+</ol>
+</li>
+<li>G0<ol>
+<li>每次启动一个 M,创建的第1个 Goroutine 就是 G0。</li>
+<li>G0 用于负责调度 G,此外还有信号处理、抢占切换等职责。</li>
+<li>G0 不指向任何可执行的用户函数,但仍会运行 runtime 函数。</li>
+<li>每个 M 都会有一个自己的 G0。</li>
+<li>在调度或系统调度时,会使用 M 切换到 G0,再通过 G0 调度。</li>
+<li>M0 的 G0 会放在全局空间。</li>
+</ol>
+</li>
+</ol>
+<p>对于一个简单的 main 程序</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;fmt&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	fmt.Println(<span class="string">&quot;hello world&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>流程如下:</p>
+<ol>
+<li>runtime 创建最初的线程 M0 和 Goroutine G0,并将它们关联。</li>
+<li>调度器初始化:初始化 M0、栈、垃圾回收,以及创建和初始化由 GOMAXPROCS 个 P 构成的 P 列表。</li>
+<li>示例代码中的 main()函数是 main.main,runtime 中也有 1 个 main() 函数 runtime.main,代码经过编译后,runtime.main 会调用 main.main,程序启动时会为 runtime.main 创建 Goroutine,称为 Main Goroutine,然后把 Main Goroutine 加入 P 的本地队列。</li>
+<li>启动 M0,M0 已经绑定了 P,会从 P 的本地队列获取 G,并获取 Main Goroutine。</li>
+<li>G 拥有栈,M 根据 G 中的栈信息和调度信息设置运行环境。</li>
+<li>M 运行 G。</li>
+<li>G 退出,再次回到 M 获取可运行的 G,这样重复下去,直到 main.main 退出,runtime.main 执行 Defer 和 Panic 处理,或调用 runtime.exit 退出程序。</li>
+</ol>
+<p>调度器的生命周期几乎占满了一个 Go 程序的一生。<br>runtime.main 的 Goroutine 执行之前都是为调度器做准备工作,runtime.main 的 Goroutine 运行才是调度器的真正开始,直到 runtime.main 结束而结束。</p>
+<h4 id="可视化-GPM-编程"><a href="#可视化-GPM-编程" class="headerlink" title="可视化 GPM 编程"></a>可视化 GPM 编程</h4><p>Go 语言提供了两种方式可以查看一个程序的 GPM 数据。</p>
+<h5 id="go-tool-trace"><a href="#go-tool-trace" class="headerlink" title="go tool trace"></a>go tool trace</h5><p>trace 记录了运行时的信息,能提供可视化的 Web ⻚面。</p>
+<p>以下面的程序为例:</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">	<span class="string">&quot;os&quot;</span></span><br><span class="line">	<span class="string">&quot;runtime/trace&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	f, err := os.Create(<span class="string">&quot;trace.out&quot;</span>)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="built_in">panic</span>(err)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">defer</span> f.Close()</span><br><span class="line"></span><br><span class="line">	err = trace.Start(f)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="built_in">panic</span>(err)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">defer</span> trace.Stop()</span><br><span class="line"></span><br><span class="line">	<span class="comment">// main</span></span><br><span class="line">	fmt.Println(<span class="string">&quot;hello world&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>运行后会得到 trace.out 文件,使用 <code>go tool</code> 打开该文件:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ubuntu@ubuntu:~$ go tool trace trace.out</span><br><span class="line">2025/12/27 22:00:48 Preparing trace for viewer...</span><br><span class="line">2025/12/27 22:00:48 Splitting trace for viewer...</span><br><span class="line">2025/12/27 22:00:48 Opening browser. Trace viewer is listening on http://127.0.0.1:64230</span><br></pre></td></tr></table></figure>
+
+<p>通过浏览器打开后,点开 view 可以看到:</p>
+<p><img  
+                       lazyload
+                       alt="image"
+                       data-src="https://cooooing.github.io/images/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E3%80%8A%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Go%E8%AF%AD%E8%A8%80%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-Go%E8%AF%AD%E8%A8%80%E5%8D%8F%E7%A8%8B%E8%B0%83%E5%BA%A6%E5%99%A8GPM%E6%A8%A1%E5%9E%8B/trace%E4%BF%A1%E6%81%AF.png"
+                        alt="trace信息.png"
+                 ></p>
+<h5 id="Debug-trace"><a href="#Debug-trace" class="headerlink" title="Debug trace"></a>Debug trace</h5><p>编译下面的程序:</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">	<span class="string">&quot;time&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">for</span> i := <span class="number">0</span>; i &lt; <span class="number">5</span>; i++ &#123;</span><br><span class="line">		time.Sleep(<span class="number">1</span> * time.Second)</span><br><span class="line">		fmt.Println(<span class="string">&quot;hello world&quot;</span>)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用 debug 运行:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">ubuntu@ubuntu:~$ go build main.go</span><br><span class="line">ubuntu@ubuntu:~$ GODEBUG=schedtrace=1000 main</span><br><span class="line">SCHED 0ms: gomaxprocs=20 idleprocs=20 threads=6 spinningthreads=0 needspinning=0 idlethreads=3 runqueue=0 [ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ] schedticks=[ 1 4 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ]</span><br><span class="line">hello world</span><br><span class="line">SCHED 1004ms: gomaxprocs=20 idleprocs=20 threads=6 spinningthreads=0 needspinning=0 idlethreads=3 runqueue=0 [ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ] schedticks=[ 1 4 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ]</span><br><span class="line">hello world</span><br><span class="line">SCHED 2005ms: gomaxprocs=20 idleprocs=20 threads=6 spinningthreads=0 needspinning=0 idlethreads=3 runqueue=0 [ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ] schedticks=[ 1 4 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ]</span><br><span class="line">hello world</span><br><span class="line">SCHED 3014ms: gomaxprocs=20 idleprocs=20 threads=6 spinningthreads=0 needspinning=0 idlethreads=3 runqueue=0 [ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ] schedticks=[ 1 4 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ]</span><br><span class="line">hello world</span><br><span class="line">SCHED 4016ms: gomaxprocs=20 idleprocs=20 threads=6 spinningthreads=0 needspinning=0 idlethreads=3 runqueue=0 [ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ] schedticks=[ 1 4 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ]</span><br><span class="line">hello world</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>SCHED:调试信息输出标志字符串,代表本行是Goroutine调度器的输出。</li>
+<li>0ms:从程序启动到输出这行日志的时间。</li>
+<li>gomaxprocs:P 的数量(并行度的上限),因为默认的 P 的属性是和 CPU 核心数量一致,当然也可以通过 GOMAXPROCS 设置。</li>
+<li>idleprocs:处于 idle 状态、没有绑定运行 G 的 P 的数量;通过 gomaxprocs 和 idleprocs 的差值,就可知道执行 Go 代码的 P 的数量。</li>
+<li>threads:os threads&#x2F;M 的数量,包含 scheduler 使用的 m 数量,加上 runtime 自用的类似 sysmon 这样的 thread 的数量。</li>
+<li>spinningthreads:处于自旋状态的os thread数量。</li>
+<li>needspinning:当前调度器是否需要新的 spinning M。</li>
+<li>idlethread:处于 idle 状态的 os thread 的数量。</li>
+<li>runqueue&#x3D;0:全局 runqueue(sched.runq)中等待执行的 G 的数量。</li>
+<li>[0 0 …]:每个 P 的本地 runqueue 中等待执行的 G 的数量,数量与 gomaxprocs 一致。</li>
+<li>schedticks&#x3D;[ … ]:每个 P 上发生过多少次调度循环(schedule 调用)。</li>
+</ol>
+<h3 id="Go-调度器调度流程"><a href="#Go-调度器调度流程" class="headerlink" title="Go 调度器调度流程"></a>Go 调度器调度流程</h3><p>参考 Go 版本 1.25.5 的代码。<br>场景:当一个 M 已经绑定一个 P,准备执行下一个 G。</p>
+<p>首先调度器的总体结构:</p>
+<ol>
+<li>newproc 创建 G</li>
+<li>ready&#x2F;runqput G 进入 runnable</li>
+<li>schedule 调度入口</li>
+<li>findRunnable 寻找可运行 G</li>
+<li>execute G 真正运行</li>
+<li>park&#x2F;exit&#x2F;preempt 阻塞、退出、抢占</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">go f():编译器会调用 newproc,newproc 流程如下</span><br><span class="line">↓</span><br><span class="line">newproc1:</span><br><span class="line">  - 分配 / 复用 G</span><br><span class="line">  - 初始化栈与 sched 上下文</span><br><span class="line">  - 状态从 _Gdead 原子切换为 _Grunnable(或 _Gwaiting)</span><br><span class="line">↓</span><br><span class="line">runqput:</span><br><span class="line">  - 优先放入 runnext(若 next=true 且条件允许)</span><br><span class="line">  - 否则放入当前 P 的本地 runq</span><br><span class="line">  - 若本地 runq 满:</span><br><span class="line">      调用 runqputslow</span><br><span class="line">      将本地 runq 的前一半(len/2)+ 当前 G</span><br><span class="line">      批量转移到 global runq</span><br><span class="line">↓</span><br><span class="line">当一个 G 被变为 runnable(newproc / ready)时,</span><br><span class="line">在调度器已初始化且条件允许的情况下:</span><br><span class="line">  调用 wakep</span><br><span class="line">↓</span><br><span class="line">wakep:</span><br><span class="line">  - 若已有 spinning M,则直接返回</span><br><span class="line">  - 否则尝试从 idle P 队列中取一个 P</span><br><span class="line">  - 若没有 idle P(所有 P 已在用),则什么都不做</span><br><span class="line">  - 若成功取到 P:</span><br><span class="line">      启动 / 唤醒一个 M</span><br><span class="line">      绑定该 P</span><br><span class="line">      以 spinning 状态开始调度</span><br></pre></td></tr></table></figure>
+
+<p>go f():<code>newproc()</code>: go1.25.5&#x2F;src&#x2F;runtime&#x2F;proc.go:5158</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Create a new g running fn.</span></span><br><span class="line"><span class="comment">// Put it on the queue of g&#x27;s waiting to run.</span></span><br><span class="line"><span class="comment">// The compiler turns a go statement into a call to this.</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">newproc</span><span class="params">(fn *funcval)</span></span> &#123;</span><br><span class="line">	gp := getg()</span><br><span class="line">	pc := sys.GetCallerPC()</span><br><span class="line">	systemstack(<span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">		newg := newproc1(fn, gp, pc, <span class="literal">false</span>, waitReasonZero)</span><br><span class="line"></span><br><span class="line">		pp := getg().m.p.ptr()</span><br><span class="line">		runqput(pp, newg, <span class="literal">true</span>)</span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span> mainStarted &#123;</span><br><span class="line">			wakep()</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>创建 G :<code>newproc1()</code>: go1.25.5&#x2F;src&#x2F;runtime&#x2F;proc.go:5176</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Create a new g in state _Grunnable (or _Gwaiting if parked is true), starting at fn.</span></span><br><span class="line"><span class="comment">// callerpc is the address of the go statement that created this. The caller is responsible</span></span><br><span class="line"><span class="comment">// for adding the new g to the scheduler. If parked is true, waitreason must be non-zero.</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">newproc1</span><span class="params">(fn *funcval, callergp *g, callerpc <span class="type">uintptr</span>, parked <span class="type">bool</span>, waitreason waitReason)</span></span> *g &#123;</span><br><span class="line">	<span class="keyword">if</span> fn == <span class="literal">nil</span> &#123;</span><br><span class="line">		fatal(<span class="string">&quot;go of nil func value&quot;</span>)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	mp := acquirem() <span class="comment">// disable preemption because we hold M and P in local vars.</span></span><br><span class="line">	pp := mp.p.ptr()</span><br><span class="line">	newg := gfget(pp)</span><br><span class="line">	<span class="keyword">if</span> newg == <span class="literal">nil</span> &#123;</span><br><span class="line">		newg = malg(stackMin)</span><br><span class="line">		casgstatus(newg, _Gidle, _Gdead)</span><br><span class="line">		allgadd(newg) <span class="comment">// publishes with a g-&gt;status of Gdead so GC scanner doesn&#x27;t look at uninitialized stack.</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> newg.stack.hi == <span class="number">0</span> &#123;</span><br><span class="line">		throw(<span class="string">&quot;newproc1: newg missing stack&quot;</span>)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> readgstatus(newg) != _Gdead &#123;</span><br><span class="line">		throw(<span class="string">&quot;newproc1: new g is not Gdead&quot;</span>)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	totalSize := <span class="type">uintptr</span>(<span class="number">4</span>*goarch.PtrSize + sys.MinFrameSize) <span class="comment">// extra space in case of reads slightly beyond frame</span></span><br><span class="line">	totalSize = alignUp(totalSize, sys.StackAlign)</span><br><span class="line">	sp := newg.stack.hi - totalSize</span><br><span class="line">	<span class="keyword">if</span> usesLR &#123;</span><br><span class="line">		<span class="comment">// caller&#x27;s LR</span></span><br><span class="line">		*(*<span class="type">uintptr</span>)(unsafe.Pointer(sp)) = <span class="number">0</span></span><br><span class="line">		prepGoExitFrame(sp)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> GOARCH == <span class="string">&quot;arm64&quot;</span> &#123;</span><br><span class="line">		<span class="comment">// caller&#x27;s FP</span></span><br><span class="line">		*(*<span class="type">uintptr</span>)(unsafe.Pointer(sp - goarch.PtrSize)) = <span class="number">0</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	memclrNoHeapPointers(unsafe.Pointer(&amp;newg.sched), unsafe.Sizeof(newg.sched))</span><br><span class="line">	newg.sched.sp = sp</span><br><span class="line">	newg.stktopsp = sp</span><br><span class="line">	newg.sched.pc = abi.FuncPCABI0(goexit) + sys.PCQuantum <span class="comment">// +PCQuantum so that previous instruction is in same function</span></span><br><span class="line">	newg.sched.g = guintptr(unsafe.Pointer(newg))</span><br><span class="line">	gostartcallfn(&amp;newg.sched, fn)</span><br><span class="line">	newg.parentGoid = callergp.goid</span><br><span class="line">	newg.gopc = callerpc</span><br><span class="line">	newg.ancestors = saveAncestors(callergp)</span><br><span class="line">	newg.startpc = fn.fn</span><br><span class="line">	newg.runningCleanups.Store(<span class="literal">false</span>)</span><br><span class="line">	<span class="keyword">if</span> isSystemGoroutine(newg, <span class="literal">false</span>) &#123;</span><br><span class="line">		sched.ngsys.Add(<span class="number">1</span>)</span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		<span class="comment">// Only user goroutines inherit synctest groups and pprof labels.</span></span><br><span class="line">		newg.bubble = callergp.bubble</span><br><span class="line">		<span class="keyword">if</span> mp.curg != <span class="literal">nil</span> &#123;</span><br><span class="line">			newg.labels = mp.curg.labels</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span> goroutineProfile.active &#123;</span><br><span class="line">			<span class="comment">// A concurrent goroutine profile is running. It should include</span></span><br><span class="line">			<span class="comment">// exactly the set of goroutines that were alive when the goroutine</span></span><br><span class="line">			<span class="comment">// profiler first stopped the world. That does not include newg, so</span></span><br><span class="line">			<span class="comment">// mark it as not needing a profile before transitioning it from</span></span><br><span class="line">			<span class="comment">// _Gdead.</span></span><br><span class="line">			newg.goroutineProfiled.Store(goroutineProfileSatisfied)</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">// Track initial transition?</span></span><br><span class="line">	newg.trackingSeq = <span class="type">uint8</span>(cheaprand())</span><br><span class="line">	<span class="keyword">if</span> newg.trackingSeq%gTrackingPeriod == <span class="number">0</span> &#123;</span><br><span class="line">		newg.tracking = <span class="literal">true</span></span><br><span class="line">	&#125;</span><br><span class="line">	gcController.addScannableStack(pp, <span class="type">int64</span>(newg.stack.hi-newg.stack.lo))</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Get a goid and switch to runnable. Make all this atomic to the tracer.</span></span><br><span class="line">	trace := traceAcquire()</span><br><span class="line">	<span class="keyword">var</span> status <span class="type">uint32</span> = _Grunnable</span><br><span class="line">	<span class="keyword">if</span> parked &#123;</span><br><span class="line">		status = _Gwaiting</span><br><span class="line">		newg.waitreason = waitreason</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> pp.goidcache == pp.goidcacheend &#123;</span><br><span class="line">		<span class="comment">// Sched.goidgen is the last allocated id,</span></span><br><span class="line">		<span class="comment">// this batch must be [sched.goidgen+1, sched.goidgen+GoidCacheBatch].</span></span><br><span class="line">		<span class="comment">// At startup sched.goidgen=0, so main goroutine receives goid=1.</span></span><br><span class="line">		pp.goidcache = sched.goidgen.Add(_GoidCacheBatch)</span><br><span class="line">		pp.goidcache -= _GoidCacheBatch - <span class="number">1</span></span><br><span class="line">		pp.goidcacheend = pp.goidcache + _GoidCacheBatch</span><br><span class="line">	&#125;</span><br><span class="line">	newg.goid = pp.goidcache</span><br><span class="line">	casgstatus(newg, _Gdead, status)</span><br><span class="line">	pp.goidcache++</span><br><span class="line">	newg.trace.reset()</span><br><span class="line">	<span class="keyword">if</span> trace.ok() &#123;</span><br><span class="line">		trace.GoCreate(newg, newg.startpc, parked)</span><br><span class="line">		traceRelease(trace)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Set up race context.</span></span><br><span class="line">	<span class="keyword">if</span> raceenabled &#123;</span><br><span class="line">		newg.racectx = racegostart(callerpc)</span><br><span class="line">		newg.raceignore = <span class="number">0</span></span><br><span class="line">		<span class="keyword">if</span> newg.labels != <span class="literal">nil</span> &#123;</span><br><span class="line">			<span class="comment">// See note in proflabel.go on labelSync&#x27;s role in synchronizing</span></span><br><span class="line">			<span class="comment">// with the reads in the signal handler.</span></span><br><span class="line">			racereleasemergeg(newg, unsafe.Pointer(&amp;labelSync))</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	releasem(mp)</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> newg</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>将 G 放入队列:<code>runqput()</code>: go1.25.5&#x2F;src&#x2F;runtime&#x2F;proc.go:7058</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// runqput tries to put g on the local runnable queue.</span></span><br><span class="line"><span class="comment">// If next is false, runqput adds g to the tail of the runnable queue.</span></span><br><span class="line"><span class="comment">// If next is true, runqput puts g in the pp.runnext slot.</span></span><br><span class="line"><span class="comment">// If the run queue is full, runnext puts g on the global queue.</span></span><br><span class="line"><span class="comment">// Executed only by the owner P.</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">runqput</span><span class="params">(pp *p, gp *g, next <span class="type">bool</span>)</span></span> &#123;</span><br><span class="line">	<span class="keyword">if</span> !haveSysmon &amp;&amp; next &#123;</span><br><span class="line">		<span class="comment">// A runnext goroutine shares the same time slice as the</span></span><br><span class="line">		<span class="comment">// current goroutine (inheritTime from runqget). To prevent a</span></span><br><span class="line">		<span class="comment">// ping-pong pair of goroutines from starving all others, we</span></span><br><span class="line">		<span class="comment">// depend on sysmon to preempt &quot;long-running goroutines&quot;. That</span></span><br><span class="line">		<span class="comment">// is, any set of goroutines sharing the same time slice.</span></span><br><span class="line">		<span class="comment">//</span></span><br><span class="line">		<span class="comment">// If there is no sysmon, we must avoid runnext entirely or</span></span><br><span class="line">		<span class="comment">// risk starvation.</span></span><br><span class="line">		next = <span class="literal">false</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> randomizeScheduler &amp;&amp; next &amp;&amp; randn(<span class="number">2</span>) == <span class="number">0</span> &#123;</span><br><span class="line">		next = <span class="literal">false</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> next &#123;</span><br><span class="line">	retryNext:</span><br><span class="line">		oldnext := pp.runnext</span><br><span class="line">		<span class="keyword">if</span> !pp.runnext.cas(oldnext, guintptr(unsafe.Pointer(gp))) &#123;</span><br><span class="line">			<span class="keyword">goto</span> retryNext</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span> oldnext == <span class="number">0</span> &#123;</span><br><span class="line">			<span class="keyword">return</span></span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">// Kick the old runnext out to the regular run queue.</span></span><br><span class="line">		gp = oldnext.ptr()</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">retry:</span><br><span class="line">	h := atomic.LoadAcq(&amp;pp.runqhead) <span class="comment">// load-acquire, synchronize with consumers</span></span><br><span class="line">	t := pp.runqtail</span><br><span class="line">	<span class="keyword">if</span> t-h &lt; <span class="type">uint32</span>(<span class="built_in">len</span>(pp.runq)) &#123;</span><br><span class="line">		pp.runq[t%<span class="type">uint32</span>(<span class="built_in">len</span>(pp.runq))].set(gp)</span><br><span class="line">		atomic.StoreRel(&amp;pp.runqtail, t+<span class="number">1</span>) <span class="comment">// store-release, makes the item available for consumption</span></span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> runqputslow(pp, gp, h, t) &#123;</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">// the queue is not full, now the put above must succeed</span></span><br><span class="line">	<span class="keyword">goto</span> retry</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Put g and a batch of work from local runnable queue on global queue.</span></span><br><span class="line"><span class="comment">// Executed only by the owner P.</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">runqputslow</span><span class="params">(pp *p, gp *g, h, t <span class="type">uint32</span>)</span></span> <span class="type">bool</span> &#123;</span><br><span class="line">	<span class="keyword">var</span> batch [<span class="built_in">len</span>(pp.runq)/<span class="number">2</span> + <span class="number">1</span>]*g</span><br><span class="line"></span><br><span class="line">	<span class="comment">// First, grab a batch from local queue.</span></span><br><span class="line">	n := t - h</span><br><span class="line">	n = n / <span class="number">2</span></span><br><span class="line">	<span class="keyword">if</span> n != <span class="type">uint32</span>(<span class="built_in">len</span>(pp.runq)/<span class="number">2</span>) &#123;</span><br><span class="line">		throw(<span class="string">&quot;runqputslow: queue is not full&quot;</span>)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span> i := <span class="type">uint32</span>(<span class="number">0</span>); i &lt; n; i++ &#123;</span><br><span class="line">		batch[i] = pp.runq[(h+i)%<span class="type">uint32</span>(<span class="built_in">len</span>(pp.runq))].ptr()</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> !atomic.CasRel(&amp;pp.runqhead, h, h+n) &#123; <span class="comment">// cas-release, commits consume</span></span><br><span class="line">		<span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">	&#125;</span><br><span class="line">	batch[n] = gp</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> randomizeScheduler &#123;</span><br><span class="line">		<span class="keyword">for</span> i := <span class="type">uint32</span>(<span class="number">1</span>); i &lt;= n; i++ &#123;</span><br><span class="line">			j := cheaprandn(i + <span class="number">1</span>)</span><br><span class="line">			batch[i], batch[j] = batch[j], batch[i]</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Link the goroutines.</span></span><br><span class="line">	<span class="keyword">for</span> i := <span class="type">uint32</span>(<span class="number">0</span>); i &lt; n; i++ &#123;</span><br><span class="line">		batch[i].schedlink.set(batch[i+<span class="number">1</span>])</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	q := gQueue&#123;batch[<span class="number">0</span>].guintptr(), batch[n].guintptr(), <span class="type">int32</span>(n + <span class="number">1</span>)&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Now put the batch on global queue.</span></span><br><span class="line">	lock(&amp;sched.lock)</span><br><span class="line">	globrunqputbatch(&amp;q)</span><br><span class="line">	unlock(&amp;sched.lock)</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>尝试添加 P 来执行 G:<code>wakep</code>: go1.25.5&#x2F;src&#x2F;runtime&#x2F;proc.go:3217</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Tries to add one more P to execute G&#x27;s.</span></span><br><span class="line"><span class="comment">// Called when a G is made runnable (newproc, ready).</span></span><br><span class="line"><span class="comment">// Must be called with a P.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// wakep should be an internal detail,</span></span><br><span class="line"><span class="comment">// but widely used packages access it using linkname.</span></span><br><span class="line"><span class="comment">// Notable members of the hall of shame include:</span></span><br><span class="line"><span class="comment">//   - gvisor.dev/gvisor</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Do not remove or change the type signature.</span></span><br><span class="line"><span class="comment">// See go.dev/issue/67401.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//go:linkname wakep</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">wakep</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="comment">// Be conservative about spinning threads, only start one if none exist</span></span><br><span class="line">	<span class="comment">// already.</span></span><br><span class="line">	<span class="keyword">if</span> sched.nmspinning.Load() != <span class="number">0</span> || !sched.nmspinning.CompareAndSwap(<span class="number">0</span>, <span class="number">1</span>) &#123;</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Disable preemption until ownership of pp transfers to the next M in</span></span><br><span class="line">	<span class="comment">// startm. Otherwise preemption here would leave pp stuck waiting to</span></span><br><span class="line">	<span class="comment">// enter _Pgcstop.</span></span><br><span class="line">	<span class="comment">//</span></span><br><span class="line">	<span class="comment">// See preemption comment on acquirem in startm for more details.</span></span><br><span class="line">	mp := acquirem()</span><br><span class="line"></span><br><span class="line">	<span class="keyword">var</span> pp *p</span><br><span class="line">	lock(&amp;sched.lock)</span><br><span class="line">	pp, _ = pidlegetSpinning(<span class="number">0</span>)</span><br><span class="line">	<span class="keyword">if</span> pp == <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">if</span> sched.nmspinning.Add(<span class="number">-1</span>) &lt; <span class="number">0</span> &#123;</span><br><span class="line">			throw(<span class="string">&quot;wakep: negative nmspinning&quot;</span>)</span><br><span class="line">		&#125;</span><br><span class="line">		unlock(&amp;sched.lock)</span><br><span class="line">		releasem(mp)</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">// Since we always have a P, the race in the &quot;No M is available&quot;</span></span><br><span class="line">	<span class="comment">// comment in startm doesn&#x27;t apply during the small window between the</span></span><br><span class="line">	<span class="comment">// unlock here and lock in startm. A checkdead in between will always</span></span><br><span class="line">	<span class="comment">// see at least one running M (ours).</span></span><br><span class="line">	unlock(&amp;sched.lock)</span><br><span class="line"></span><br><span class="line">	startm(pp, <span class="literal">true</span>, <span class="literal">false</span>)</span><br><span class="line"></span><br><span class="line">	releasem(mp)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+                </div>
+
+                
+                        
+<div class="post-copyright-info-container border-box">
+    <div class="copyright-info-content border-box">
+        <div class="copyright-info-top border-box">
+            <div class="copyright-post-title border-box text-ellipsis">
+                《深入理解Go语言》读书笔记 - Go 语言协程调度器 GPM 模型
+            </div>
+
+            <div class="copyright-post-link border-box text-ellipsis">
+                读书笔记/读书笔记/《深入理解Go语言》读书笔记-Go语言协程调度器GPM模型/
+            </div>
+        </div>
+
+        <div class="copyright-info-bottom border-box">
+            <div class="copyright-post-author bottom-item">
+                <div class="type">
+                    作者
+                </div>
+                <div class="content">咕咕咕</div>
+            </div>
+
+            <div class="post-time bottom-item">
+                <div class="type">
+                    发布于
+                </div>
+                <div class="content">2025-12-27 14:33</div>
+            </div>
+
+
+            <div class="post-license bottom-item">
+                <div class="type">
+                    许可
+                </div>
+                <div class="content tooltip" data-tooltip-content="CC BY-NC-SA 4.0">
+                    <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hans">
+                        <i class="fa-brands fa-creative-commons"></i>
+                        <i class="fa-brands fa-creative-commons-by"></i>
+                        <i class="fa-brands fa-creative-commons-nc"></i>
+                        <i class="fa-brands fa-creative-commons-sa"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <i class="copyright-bg fa-solid fa-copyright"></i>
+    </div>
+    <div class="copy-copyright-info flex-center tooltip" data-tooltip-content="复制版权信息" data-tooltip-offset-y="-2px">
+        <i class="fa-solid fa-copy"></i>
+    </div>
+</div>
+
+                
+
+                <div class="post-bottom-tags-and-share border-box">
+                    <div>
+                        
+                            <ul class="post-tags-box border-box">
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/Go%E8%AF%AD%E8%A8%80/">Go语言</a>
+                                    </li>
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/%E3%80%8A%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Go%E8%AF%AD%E8%A8%80%E3%80%8B/">《深入理解Go语言》</a>
+                                    </li>
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/GPM%E6%A8%A1%E5%9E%8B/">GPM模型</a>
+                                    </li>
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/%E5%8D%8F%E7%A8%8B%E8%B0%83%E5%BA%A6/">协程调度</a>
+                                    </li>
+                                
+                            </ul>
+                        
+                    </div>
+                    <div>
+                        
+                            <div class="post-share-container border-box">
+    <ul class="share-list-wrap border-box">
+        <li class="qq share-item border-box flex-center tooltip"
+            data-tooltip-content="分享到 QQ"
+        >
+            <i class="fa-brands fa-qq"></i>
+        </li>
+        <li class="wechat share-item border-box flex-center tooltip tooltip-img"
+            data-tooltip-content="分享到微信"
+            data-tooltip-img-tip="微信扫一扫"
+            data-tooltip-img-style="background-color: #fff; top: -10px; padding: 0.6rem 0.6rem 0.1rem 0.6rem;"
+        >
+            <i class="fa-brands fa-weixin"></i>
+        </li>
+        <li class="weibo share-item border-box flex-center tooltip"
+            data-tooltip-content="分享到微博"
+        >
+            <i class="fa-brands fa-weibo"></i>
+        </li>
+    </ul>
+</div>
+
+                        
+                    </div>
+                </div>
+
+                
+                    <div class="reward-author-container border-box flex-center">
+    <div class="reward-btn keep-button border-box flex-center tooltip tooltip-img"
+            data-tooltip-content="谢谢你请我喝可乐~"
+            data-tooltip-img-url="/images/thanks.png"
+            data-tooltip-img-trigger="click"
+            data-tooltip-img-style="top: -8px;"
+    >
+        <i class="fa-solid fa-hand-holding-heart"></i>
+    </div>
+</div>
+
+                
+
+                
+                    <div class="post-nav border-box">
+                        
+                            <div class="prev-post">
+                                <a class="prev"
+                                   rel="prev"
+                                   href="/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E3%80%8A%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Go%E8%AF%AD%E8%A8%80%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-Go%E8%AF%AD%E8%A8%80%E6%B7%B7%E5%90%88%E5%86%99%E5%B1%8F%E9%9A%9C%E7%9A%84GC%E5%85%A8%E5%9C%BA%E6%99%AF%E5%88%86%E6%9E%90/"
+                                   title="《深入理解Go语言》读书笔记 - Go 语言混合写屏障的 GC 全场景分析"
+                                >
+                                    <span class="left arrow-icon flex-center">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </span>
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">《深入理解Go语言》读书笔记 - Go 语言混合写屏障的 GC 全场景分析</span>
+                                        <span class="post-nav-item">上一篇</span>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                        
+                            <div class="next-post">
+                                <a class="next"
+                                   rel="next"
+                                   href="/%E7%BC%96%E7%A8%8B%E8%AE%B0%E5%BD%95/%E7%BC%96%E7%A8%8B%E8%AE%B0%E5%BD%95/Go%20%E5%BA%94%E7%94%A8%E9%83%A8%E7%BD%B2%EF%BC%9AUPX%20%E5%8E%8B%E7%BC%A9%E4%B8%8E%20Docker%20Scratch%20%E9%95%9C%E5%83%8F/"
+                                   title="Go 应用部署：UPX 压缩与 Docker Scratch 镜像"
+                                >
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">Go 应用部署：UPX 压缩与 Docker Scratch 镜像</span>
+                                        <span class="post-nav-item">下一篇</span>
+                                    </span>
+                                    <span class="right arrow-icon flex-center">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                    </div>
+                
+
+                
+                    
+
+
+    <div class="comments-container border-box">
+        <div id="comments-anchor" class="comment-area-title border-box">
+            <i class="fas fa-comments"></i>&nbsp;评论
+        </div>
+        <div class="comment-plugin-fail border-box">
+    <span class="fail-tip">评论插件加载失败</span>
+    <button class="reload keep-button">点击重新加载</button>
+</div>
+<div class="comment-plugin-loading flex-center border-box">
+    <i class="loading-icon fa-solid fa-spinner fa-spin"></i>
+    <span class="load-tip">正在加载评论插件</span>
+</div>
+<script data-pjax>
+  window.KeepCommentPlugin = {}
+  window.KeepCommentPlugin.hideLoading = () => {
+    const cplDom = document.querySelector('.comments-container .comment-plugin-loading')
+    cplDom.style.display = 'none'
+  }
+  window.KeepCommentPlugin.loadFailHandle = () => {
+    window.KeepCommentPlugin.hideLoading()
+    const cpfDom = document.querySelector('.comments-container .comment-plugin-fail')
+    cpfDom.style.display = 'flex'
+    cpfDom.querySelector('.reload').addEventListener('click', () => {
+      window.location.reload()
+    })
+  }
+</script>
+
+        
+            
+
+    <div class="giscus-comments-container">
+        <div class="giscus" id="giscus"></div>
+        <script data-pjax
+                onerror="window.KeepCommentPlugin.loadFailHandle()"
+        >
+          if (!window.KeepCommentPlugin?.getGiscusTheme) {
+            window.KeepCommentPlugin.getGiscusTheme = () => {
+              return document.body.classList.contains('dark-mode') ? 'dark_dimmed' : 'light_tritanopia'
+            }
+          }
+
+          if (!window.KeepCommentPlugin?.changeGiscusTheme) {
+            window.KeepCommentPlugin.changeGiscusTheme = () => {
+              const iframe = document.querySelector('iframe.giscus-frame')
+              iframe && iframe.contentWindow.postMessage({
+                giscus: {
+                  setConfig: {
+                    theme: window.KeepCommentPlugin.getGiscusTheme()
+                  }
+                }
+              }, 'https://giscus.app')
+            }
+          }
+
+          if (!window.KeepCommentPlugin?.initGiscus) {
+            window.KeepCommentPlugin.initGiscus = () => {
+              const script = document.createElement('script')
+              script.async = true
+              script.src = 'https://giscus.app/client.js'
+              script.setAttribute('data-repo', 'Cooooing/Cooooing.github.io')
+              script.setAttribute('data-repo-id', 'R_kgDOHQal_w')
+              script.setAttribute('data-category', 'Announcements')
+              script.setAttribute('data-category-id', 'DIC_kwDOHQal_84CjZo6')
+              script.setAttribute('data-reactions-enabled', '1')
+              script.setAttribute('data-lang', 'zh-CN')
+              script.setAttribute('data-mapping', 'pathname')
+              script.setAttribute('data-strict', '0')
+              script.setAttribute('data-emit-metadata', '0')
+              script.setAttribute('data-input-position', 'top')
+              script.setAttribute('crossorigin', 'anonymous')
+              script.setAttribute('loading', 'lazy')
+              script.setAttribute('data-theme', window.KeepCommentPlugin.getGiscusTheme())
+              document.querySelector('.giscus-comments-container').appendChild(script)
+              script.onerror = () => {
+                window.KeepCommentPlugin.loadFailHandle()
+              }
+              script.onload = () => {
+                window.KeepCommentPlugin.hideLoading()
+              }
+              const toggleThemeBtn = document.querySelector('.tool-toggle-theme-mode')
+              toggleThemeBtn && toggleThemeBtn.addEventListener('click', () => {
+                window.KeepCommentPlugin.changeGiscusTheme()
+              })
+            }
+          }
+
+          if ('true' === "true") {
+            setTimeout(() => {
+              window.KeepCommentPlugin.initGiscus()
+            }, 1000)
+          } else {
+            window.addEventListener("DOMContentLoaded", window.KeepCommentPlugin.initGiscus)
+          }
+        </script>
+    </div>
+
+
+        
+    </div>
+
+
+
+
+
+                
+            </div>
+        </div>
+
+        
+            <div class="pc-post-toc left-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E7%AB%A0-%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3-Go-%E8%AF%AD%E8%A8%80%E5%8D%8F%E7%A8%8B%E8%B0%83%E5%BA%A6%E5%99%A8-GPM-%E6%A8%A1%E5%9E%8B"><span class="nav-text">第一章 深入理解 Go 语言协程调度器 GPM 模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B0%83%E5%BA%A6%E5%99%A8%E7%94%B1%E6%9D%A5"><span class="nav-text">调度器由来</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8D%95%E8%BF%9B%E7%A8%8B%E6%97%B6%E4%BB%A3%E4%B8%8D%E9%9C%80%E8%A6%81%E8%B0%83%E5%BA%A6%E5%99%A8"><span class="nav-text">单进程时代不需要调度器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A4%9A%E8%BF%9B%E7%A8%8B-%E5%A4%9A%E7%BA%BF%E7%A8%8B%E6%97%B6%E4%BB%A3%E7%9A%84%E8%B0%83%E5%BA%A6%E5%99%A8"><span class="nav-text">多进程&#x2F;多线程时代的调度器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8D%8F%E7%A8%8B%E6%8F%90%E4%BE%9B-CPU-%E5%88%A9%E7%94%A8%E7%8E%87"><span class="nav-text">协程提供 CPU 利用率</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Go-%E8%AF%AD%E8%A8%80%E7%9A%84%E5%8D%8F%E7%A8%8B-Goroutine"><span class="nav-text">Go 语言的协程 Goroutine</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%A2%AB%E5%BA%9F%E5%BC%83%E7%9A%84-Goroutine-%E8%B0%83%E5%BA%A6%E5%99%A8"><span class="nav-text">被废弃的 Goroutine 调度器</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Go%E8%AF%AD%E8%A8%80%E8%B0%83%E5%BA%A6%E5%99%A8GPM%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AE%BE%E8%AE%A1%E6%80%9D%E6%83%B3"><span class="nav-text">Go语言调度器GPM模型的设计思想</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#GPM-%E6%A8%A1%E5%9E%8B"><span class="nav-text">GPM 模型</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%9C%89%E5%85%B3-P-%E5%92%8C-M-%E4%B8%AA%E6%95%B0%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-text">有关 P 和 M 个数的问题</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%9C%89%E5%85%B3-P-%E5%92%8C-M-%E4%BD%95%E6%97%B6%E8%A2%AB%E5%88%9B%E5%BB%BA"><span class="nav-text">有关 P 和 M 何时被创建</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%B0%83%E5%BA%A6%E5%99%A8%E7%9A%84%E8%AE%BE%E8%AE%A1%E7%AD%96%E7%95%A5"><span class="nav-text">调度器的设计策略</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%A4%8D%E7%94%A8%E7%BA%BF%E7%A8%8B"><span class="nav-text">复用线程</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%88%A9%E7%94%A8%E5%B9%B6%E8%A1%8C"><span class="nav-text">利用并行</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%8A%A2%E5%8D%A0"><span class="nav-text">抢占</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%85%A8%E5%B1%80G%E9%98%9F%E5%88%97"><span class="nav-text">全局G队列</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#go-func-%E8%B0%83%E5%BA%A6%E6%B5%81%E7%A8%8B"><span class="nav-text">go func() 调度流程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%B0%83%E5%BA%A6%E5%99%A8%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F"><span class="nav-text">调度器的生命周期</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%AF%E8%A7%86%E5%8C%96-GPM-%E7%BC%96%E7%A8%8B"><span class="nav-text">可视化 GPM 编程</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#go-tool-trace"><span class="nav-text">go tool trace</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Debug-trace"><span class="nav-text">Debug trace</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Go-%E8%B0%83%E5%BA%A6%E5%99%A8%E8%B0%83%E5%BA%A6%E6%B5%81%E7%A8%8B"><span class="nav-text">Go 调度器调度流程</span></a></li></ol></li></ol>
+    </div>
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom border-box">
+            
+<footer class="footer border-box">
+    <div class="border-box website-info-box default">
+        
+            <div class="copyright-info info-item default">
+                &copy;&nbsp;<span>2022</span>&nbsp;-&nbsp;2026
+                
+                    &nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;&nbsp;<a href="/">咕咕咕</a>
+                
+            </div>
+
+            <div class="theme-info info-item default">
+                由&nbsp;<a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;驱动&nbsp;&&nbsp;主题&nbsp;<a class="keep-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep</a>
+            </div>
+
+            
+
+            
+        
+
+        <div style="color:var(--text-color-4);"><span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>(～￣▽￣)～<script src="/js/lifeTime.js"></script></div>
+        <a href="https://icp.gov.moe/?keyword=20222450" target="_blank">萌ICP备20222450号</a>
+
+
+        <div class="count-item info-item default">
+            
+                <span class="count-box border-box word">
+                    <span class="item-type border-box">总字数</span>
+                    <span class="item-value border-box word">476k</span>
+                </span>
+            
+
+            
+                <span class="count-box border-box uv">
+                    <span class="item-type border-box">访客数</span>
+                    <span class="item-value border-box uv" id="busuanzi_value_site_uv"></span>
+                </span>
+            
+
+            
+                <span class="count-box border-box pv">
+                    <span class="item-type border-box">访问量</span>
+                    <span class="item-value border-box pv" id="busuanzi_value_site_pv"></span>
+                </span>
+            
+        </div>
+
+        <div id="aplayer">
+          <meting-js
+                  server="netease"
+                  type="playlist"
+                  id="7345595717"
+                  fixed="true"
+                  mini="true"
+                  autoplay="false"
+                  listFolded="true"
+                  order="random"
+                  preload="none">
+          </meting-js>
+        </div>
+            <br>
+            <br>
+            <br>
+    </div>
+
+</footer>
+
+        </div>
+    </div>
+
+    <!-- post tools -->
+    
+        <div class="post-tools left-toc">
+            <div class="post-tools-container border-box">
+    <ul class="tools-list border-box">
+        <!-- PC TOC show toggle -->
+        
+            <li class="tools-item flex-center toggle-show-toc">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        <!-- PC go comment -->
+        
+            <li class="tools-item flex-center go-to-comments">
+                <i class="fas fa-comment"></i>
+                <span class="post-comments-count"></span>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <!-- side tools -->
+    <div class="side-tools">
+        <div class="side-tools-container border-box ">
+    <ul class="side-tools-list side-tools-show-handle border-box">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-toggle-theme-mode flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+            <li class="tools-item rss flex-center">
+                <a class="flex-center"
+                   href="/atom.xml"
+                   target="_blank"
+                >
+                    <i class="fas fa-rss"></i>
+                </a>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list border-box">
+        
+            <li class="tools-item toggle-show-toc-tablet flex-center">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        
+            <li class="tools-item go-to-comments-tablet flex-center">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+
+        <li class="tools-item tool-scroll-to-top flex-center show-arrow">
+            <i class="arrow fas fa-arrow-up"></i>
+            <span class="percent"></span>
+        </li>
+    </ul>
+</div>
+
+    </div>
+
+    <!-- image mask -->
+    <div class="zoom-in-image-mask">
+    <img class="zoom-in-image">
+</div>
+
+
+    <!-- local search -->
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="搜索..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="close-popup-btn">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+    <!-- tablet toc -->
+    
+        <div class="tablet-post-toc-mask">
+            <div class="tablet-post-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E7%AB%A0-%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3-Go-%E8%AF%AD%E8%A8%80%E5%8D%8F%E7%A8%8B%E8%B0%83%E5%BA%A6%E5%99%A8-GPM-%E6%A8%A1%E5%9E%8B"><span class="nav-text">第一章 深入理解 Go 语言协程调度器 GPM 模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B0%83%E5%BA%A6%E5%99%A8%E7%94%B1%E6%9D%A5"><span class="nav-text">调度器由来</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8D%95%E8%BF%9B%E7%A8%8B%E6%97%B6%E4%BB%A3%E4%B8%8D%E9%9C%80%E8%A6%81%E8%B0%83%E5%BA%A6%E5%99%A8"><span class="nav-text">单进程时代不需要调度器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A4%9A%E8%BF%9B%E7%A8%8B-%E5%A4%9A%E7%BA%BF%E7%A8%8B%E6%97%B6%E4%BB%A3%E7%9A%84%E8%B0%83%E5%BA%A6%E5%99%A8"><span class="nav-text">多进程&#x2F;多线程时代的调度器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8D%8F%E7%A8%8B%E6%8F%90%E4%BE%9B-CPU-%E5%88%A9%E7%94%A8%E7%8E%87"><span class="nav-text">协程提供 CPU 利用率</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Go-%E8%AF%AD%E8%A8%80%E7%9A%84%E5%8D%8F%E7%A8%8B-Goroutine"><span class="nav-text">Go 语言的协程 Goroutine</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%A2%AB%E5%BA%9F%E5%BC%83%E7%9A%84-Goroutine-%E8%B0%83%E5%BA%A6%E5%99%A8"><span class="nav-text">被废弃的 Goroutine 调度器</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Go%E8%AF%AD%E8%A8%80%E8%B0%83%E5%BA%A6%E5%99%A8GPM%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AE%BE%E8%AE%A1%E6%80%9D%E6%83%B3"><span class="nav-text">Go语言调度器GPM模型的设计思想</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#GPM-%E6%A8%A1%E5%9E%8B"><span class="nav-text">GPM 模型</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%9C%89%E5%85%B3-P-%E5%92%8C-M-%E4%B8%AA%E6%95%B0%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-text">有关 P 和 M 个数的问题</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%9C%89%E5%85%B3-P-%E5%92%8C-M-%E4%BD%95%E6%97%B6%E8%A2%AB%E5%88%9B%E5%BB%BA"><span class="nav-text">有关 P 和 M 何时被创建</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%B0%83%E5%BA%A6%E5%99%A8%E7%9A%84%E8%AE%BE%E8%AE%A1%E7%AD%96%E7%95%A5"><span class="nav-text">调度器的设计策略</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%A4%8D%E7%94%A8%E7%BA%BF%E7%A8%8B"><span class="nav-text">复用线程</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%88%A9%E7%94%A8%E5%B9%B6%E8%A1%8C"><span class="nav-text">利用并行</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%8A%A2%E5%8D%A0"><span class="nav-text">抢占</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%85%A8%E5%B1%80G%E9%98%9F%E5%88%97"><span class="nav-text">全局G队列</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#go-func-%E8%B0%83%E5%BA%A6%E6%B5%81%E7%A8%8B"><span class="nav-text">go func() 调度流程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%B0%83%E5%BA%A6%E5%99%A8%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F"><span class="nav-text">调度器的生命周期</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%AF%E8%A7%86%E5%8C%96-GPM-%E7%BC%96%E7%A8%8B"><span class="nav-text">可视化 GPM 编程</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#go-tool-trace"><span class="nav-text">go tool trace</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Debug-trace"><span class="nav-text">Debug trace</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Go-%E8%B0%83%E5%BA%A6%E5%99%A8%E8%B0%83%E5%BA%A6%E6%B5%81%E7%A8%8B"><span class="nav-text">Go 调度器调度流程</span></a></li></ol></li></ol>
+    </div>
+</div>
+
+            </div>
+        </div>
+    
+</main>
+
+
+
+<!-- common -->
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/toggle-theme.js"></script>
+
+<script src="/js/code-block.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+
+<!-- local-search -->
+
+    
+<script src="/js/local-search.js"></script>
+
+
+
+<!-- lazyload -->
+
+    
+<script src="/js/lazyload.js"></script>
+
+
+
+<div class="pjax">
+    
+        <!-- post-helper -->
+        
+<script src="/js/post/post-helper.js"></script>
+
+
+        <!-- toc -->
+        
+            
+<script src="/js/post/toc.js"></script>
+
+        
+
+        <!-- copyright-info -->
+        
+            
+<script src="/js/post/copyright-info.js"></script>
+
+        
+
+        <!-- share -->
+        
+            
+<script src="/js/post/share.js"></script>
+
+        
+    
+
+    <!-- category-page -->
+    
+
+    <!-- links-page -->
+    
+
+    <!-- photos-page -->
+    
+</div>
+
+<!-- mermaid -->
+
+
+<!-- pjax -->
+
+    
+<script src="/js/libs/pjax.min.js"></script>
+
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        window.pjax = new Pjax({
+            selectors: [
+                'head title',
+                '.page-container',
+                '.pjax',
+                '#aplayer',
+                '#canvas_sakura'
+            ],
+            history: true,
+            debug: false,
+            cacheBust: false,
+            timeout: 0,
+            analytics: false,
+            currentUrlFullReload: false,
+            scrollRestoration: false,
+        });
+
+        document.addEventListener('pjax:send', () => {
+            KEEP.utils.pjaxProgressBarStart()
+        });
+
+        document.addEventListener('pjax:complete', () => {
+            KEEP.utils.pjaxProgressBarEnd()
+            window.pjax.executeScripts(document.querySelectorAll('script[data-pjax], .pjax script'))
+            KEEP.initExecute()
+        });
+    });
+</script>
+
+
+
+
+    
+        
+            
+<script class="custom-inject-js" src="/js/APlayer.min.js" data-pjax></script>
+
+        
+    
+        
+            
+<script class="custom-inject-js" src="/js/Meting.min.js" data-pjax></script>
+
+        
+    
+        
+            
+<script class="custom-inject-js" src="/js/leaves.js" data-pjax></script>
+
+        
+    
+
+
+
+</body>
+</html>

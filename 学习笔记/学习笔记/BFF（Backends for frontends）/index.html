@@ -1,0 +1,1187 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="技术博客,后端开发,编程笔记,生活">
+    <meta name="description" content="Code | Systems | Life — 专注编程本质，也关心世界如何运转。">
+    <meta name="author" content="咕咕咕">
+
+    
+    <title>
+        
+            BFF（Backends for frontends） |
+        
+        咕咕咕的小破站
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+        <link rel="shortcut icon" href="/images/favicon.png">
+    
+    
+<link rel="stylesheet" href="/font/css/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/regular.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/solid.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/brands.min.css">
+
+    
+        
+            
+                
+<link rel="stylesheet" href="/css/APlayer.min.css">
+
+            
+        
+            
+                
+<link rel="stylesheet" href="/css/custom.css">
+
+            
+        
+    
+    <script class="keep-theme-configurations">
+    const KEEP = window.KEEP || {}
+    KEEP.hexo_config = {"hostname":"cooooing.github.io","root":"/","language":"zh-CN","path":"search.json"}
+    KEEP.theme_config = {"base_info":{"primary_color":"#0066cc","title":"咕咕咕的小破站","author":"咕咕咕","avatar":"https://avatars.githubusercontent.com/u/75006169?v=4","logo":"https://avatars.githubusercontent.com/u/75006169?v=4","favicon":"/images/favicon.png"},"menu":{"Archives":"/archives","Categories":"/categories","Tags":"/tags","日常":"/daily","Links":"/links","About":"/about"},"first_screen":{"enable":false,"background_img":"/images/bg.svg","background_img_dark":"/images/bg.svg","description":"Keep writing and Keep loving.","hitokoto":false},"social_contact":{"enable":false,"links":{"github":null,"weixin":null,"qq":null,"weibo":null,"zhihu":null,"twitter":null,"facebook":null,"email":null}},"scroll":{"progress_bar":false,"percent":false,"hide_header":true},"home":{"category":true,"tag":true,"announcement":null},"post":{"author_badge":{"enable":true,"level_badge":false,"custom_badge":["fishing"]},"word_count":{"wordcount":true,"min2read":true},"datetime_format":"YYYY-MM-DD HH:mm:ss","copyright_info":true,"share":true,"reward":{"enable":true,"img_link":"/images/thanks.png","text":"谢谢你请我喝可乐~"}},"mathjax":{"tags":"all","single_dollars":true,"cjk_width":0.9,"normal_width":0.6,"append_css":true,"every_page":false},"code_block":{"tools":{"enable":true,"style":"default"},"highlight_theme":"default"},"toc":{"enable":true,"number":false,"expand_all":true,"init_open":true,"layout":"left"},"website_count":{"busuanzi_count":{"enable":true,"site_uv":true,"site_pv":true,"page_pv":true}},"local_search":{"enable":true,"preload":true},"comment":{"enable":true,"use":"giscus","valine":{"appid":null,"appkey":null,"server_urls":null,"placeholder":null},"gitalk":{"github_id":null,"github_admins":null,"repository":null,"client_id":null,"client_secret":null,"proxy":null},"twikoo":{"env_id":null,"region":null,"version":"1.6.21"},"waline":{"server_url":null,"reaction":false,"version":2},"giscus":{"repo":"Cooooing/Cooooing.github.io","repo_id":"R_kgDOHQal_w","category":"Announcements","category_id":"DIC_kwDOHQal_84CjZo6","reactions_enabled":true},"artalk":{"server":null},"disqus":{"shortname":null}},"rss":{"enable":true},"lazyload":{"enable":true},"cdn":{"enable":false,"provider":"cdnjs"},"pjax":{"enable":true},"footer":{"since":2022,"word_count":true,"icp":{"enable":false,"record_code":null,"url":"https://beian.miit.gov.cn"},"site_deploy":{"enable":false,"provider":"github","url":null},"shields_style":{"enable":false,"custom":[{"link_url":null,"img_url":null}]}},"inject":{"enable":true,"css":["/css/APlayer.min.css","/css/custom.css"],"js":["/js/APlayer.min.js","/js/Meting.min.js","/js/leaves.js"]},"root":"","links":[{"name":"鼠鼠在碎觉","link":"https://sszsj.com","avatar":"https://tmx.fishpi.cn/img/head.jpg","description":"我是不慎落入世界的一滴水墨"},{"name":"Gakkiyomi","link":"https://gakkiyomi.blog","avatar":"https://avatars.githubusercontent.com/u/41406557?v=4","description":"为往圣继绝学"},{"name":"Hancel's Blog","link":"https://my.hancel.org","avatar":"https://my.hancel.org/media/logo.jpg","description":"人生而自由，却无往不在枷锁之中。"},{"name":"Eastshann","link":"https://eastshann.github.io/","avatar":"https://avatars.githubusercontent.com/u/87764431?v=4","description":"冲和者，淡泊平和，谦冲守正"},{"name":"小于同学的异世界","link":"https://yby.zone","avatar":"https://yby-zone.obs.cn-east-3.myhuaweicloud.com/avatar.jpg","description":"为吾为枝，余地三尺，以己为棋，胜天半子。"},{"name":"Mlikiowa Home Village","link":"https://nanaeo.cn/","avatar":"https://q1.qlogo.cn/g?b=qq&nk=1627126029&s=100","description":"A litter Village With Mlikiowa"},{"name":"忘忧草","link":"https://owo.wyc.rest/","avatar":"https://owo.wyc.rest/img/%E4%B8%87%E5%8F%B6.jpg","description":"这只是一个小破站而已！"},{"name":"stillwarter","link":"https://stillwarter.github.io/","avatar":"https://file.fishpi.cn/2022/07/MOSHED2022621164630-1b1ec532.gif?imageView2/1/w/210/h/210/interlace/0/q/100","description":"光就是一切的意义"},{"name":"test12138","link":"http://你好.eu.org/","avatar":"https://file.fishpi.cn/2022/06/srchttpimgzcoolcncommunity0116405d84f975a801211d537707c9gifreferhttpimgzcool-0f2d09c9.gif?imageView2/1/w/48/h/48/interlace/0/q/100","description":"大丈夫生于天地之间，岂能郁郁久居人下。"},{"name":"呼呼呼","link":"https://bongbongbakudan.github.io/","avatar":"https://pwl.stackoverflow.wiki/2021/12/blob-28eb4b9f.png?imageView2/1/w/48/h/48/interlace/0/q/100","description":"去整点薯条"},{"name":"Plumbiu","link":"https://blog.plumbiu.top/","avatar":"https://avatars.githubusercontent.com/u/99574369?v=4","description":"这人很勤奋，啥都没留"},{"name":"hiRipple","link":"https://hiripple.com/","avatar":"https://avatars.githubusercontent.com/u/115361435?v=4","description":"超高校级的游戏玩家"},{"name":"零糖加辣（drda）","link":"https://drda-x.github.io/drda-blog/","avatar":"https://drda-x.github.io/drda-blog/avatar/avatar.webp","description":"奶茶少糖，喜欢吃辣"},{"name":"ncc的个人网站","link":"https://www.zqcnc.cn","avatar":"https://www.zqcnc.cn/favicon.ico","description":"keep trying!"},{"name":"Yui","link":"https://yuis.cc/","avatar":"https://file.fishpi.cn/storage/%E9%B1%BC%E6%8E%92%E4%BA%BA%E7%89%A9/yui.png","description":"世界那么大，等我赚钱一定去看看"}],"version":"4.0.6"}
+    KEEP.language_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"}
+    KEEP.language_code_block = {"copy":"复制代码","copied":"已复制","fold":"折叠代码块","folded":"已折叠"}
+    KEEP.language_copy_copyright = {"copy":"复制版权信息","copied":"已复制","title":"原文标题","author":"原文作者","link":"原文链接"}
+  </script>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-CLX32WF4R1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+
+      gtag('js', new Date());
+
+      gtag('config', 'G-CLX32WF4R1');
+    </script>
+
+    <!-- 51.la -->
+    <script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
+    <script>LA.init({id: "3JwPz6wbAloyTmMc", ck: "3JwPz6wbAloyTmMc", autoTrack: true})</script>
+
+    <!-- Cloudflare Web Analytics -->
+    <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "281999cc46a948d3b8199c1eb621f11e"}'></script>
+    <!-- End Cloudflare Web Analytics -->
+
+<meta name="generator" content="Hexo 8.1.2"><link rel="alternate" href="/atom.xml" title="咕咕咕的小破站" type="application/atom+xml">
+</head>
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+        <span class="pjax-progress-bar"></span>
+        <i class="pjax-progress-icon fas fa-circle-notch fa-spin"></i>
+    
+</div>
+
+
+<main class="page-container border-box">
+
+    <!-- home first screen  -->
+    
+
+    <!-- page content -->
+    <div class="page-main-content border-box">
+        <div class="page-main-content-top">
+            
+<header class="header-wrapper">
+
+    <div class="border-box header-content">
+        <div class="left border-box">
+            
+                <a class="logo-image border-box" href="/">
+                    <img src="https://avatars.githubusercontent.com/u/75006169?v=4">
+                </a>
+            
+            <a class="site-name border-box" href="/">
+               咕咕咕的小破站
+            </a>
+        </div>
+
+        <div class="right border-box">
+            <div class="pc">
+                <ul class="menu-list">
+                    <li class="menu-item">
+                        <a class=""
+                           href="/"
+                        >首页</a>
+                    </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >归档</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/categories"
+                            >分类</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/tags"
+                            >标签</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/daily"
+                            >日常</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/links"
+                            >友链</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >关于</a>
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="fas search fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            <li class="drawer-menu-item flex-center">
+                <a class=""
+                   href="/"
+                >首页</a>
+            </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives"
+                    >归档</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/categories"
+                    >分类</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/tags"
+                    >标签</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/daily"
+                    >日常</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/links"
+                    >友链</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about"
+                    >关于</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle border-box">
+
+            <div class="main-content border-box">
+                
+
+                    
+<div class="fade-in-down-animation">
+    <div class="post-page-container border-box">
+        <div class="post-content-container border-box">
+            
+
+            <div class="post-content-bottom border-box">
+                
+                    <div class="post-title">
+                        BFF（Backends for frontends）
+                    </div>
+                
+
+                
+                    <div class="post-header border-box">
+                        
+                            <div class="avatar-box border-box">
+                                <img src="https://avatars.githubusercontent.com/u/75006169?v=4">
+                            </div>
+                        
+                        <div class="info-box">
+                            <div class="author border-box">
+                                <span class="name">咕咕咕</span>
+                                
+                                    <span class="author-badge">fishing</span>
+                                
+                            </div>
+                            <div class="meta-info border-box">
+                                
+
+<div class="post-meta-info-container border-box post">
+    <div class="post-meta-info border-box">
+        
+
+        
+            <span class="meta-info-item post-create-date">
+                <i class="icon fa-solid fa-calendar-plus"></i>&nbsp;
+                <span class="datetime">2026-06-21 18:55:52</span>
+            </span>
+
+            <span class="meta-info-item post-update-date">
+                <i class="icon fa-solid fa-file-pen"></i>&nbsp;
+                <span class="datetime" data-updated="Sun Jun 21 2026 10:55:52 GMT+0000">2026-06-21 18:55:52</span>
+            </span>
+        
+
+        
+            <span class="meta-info-item post-category border-box"><i class="icon fas fa-folder"></i>&nbsp;
+                <ul class="post-category-ul">
+                    
+                            <li class="category-item"><a href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+            <span class="post-tag meta-info-item border-box">
+                <i class="icon fas fa-tags"></i>&nbsp;
+                <ul class="post-tag-ul">
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/BFF/">BFF</a></li>
+                        
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1/">架构设计</a></li>
+                        
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/%E5%89%8D%E5%90%8E%E7%AB%AF%E5%8D%8F%E4%BD%9C/">前后端协作</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+        
+            <span class="meta-info-item post-wordcount">
+                <i class="icon fas fa-file-word"></i>&nbsp;<span>4.6k 字</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-min2read">
+                <i class="icon fas fa-clock"></i>&nbsp;<span>16 分钟</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-pv">
+                <i class="icon fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+            </span>
+        
+    </div>
+
+    
+</div>
+
+                            </div>
+                        </div>
+                    </div>
+                
+
+                <div class="post-content keep-markdown-body">
+                    
+
+                    <h2 id="问题背景"><a href="#问题背景" class="headerlink" title="问题背景"></a>问题背景</h2><p>很多系统一开始并不会专门设计 BFF。前端调用后端接口，后端返回数据，页面展示结果，这种方式在项目早期通常没有问题。</p>
+<p>问题通常出现在业务和端侧一起增长之后。后端接口越来越偏领域能力，例如订单、支付、物流、库存、售后；前端页面越来越偏用户任务，例如订单详情、个人中心、首页推荐、活动页。后端服务提供的是业务能力，前端页面需要的是展示结果，两者并不是同一种模型。</p>
+<p>以订单详情页为例，页面可能需要展示订单基础信息、支付状态、物流进度、优惠信息、售后状态和可执行操作。如果前端直接调用多个后端接口，大致会变成这样：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">GET /orders/&#123;id&#125;</span><br><span class="line">GET /payments?orderId=&#123;id&#125;</span><br><span class="line">GET /logistics?orderId=&#123;id&#125;</span><br><span class="line">GET /coupons?orderId=&#123;id&#125;</span><br><span class="line">GET /after-sales?orderId=&#123;id&#125;</span><br><span class="line">GET /orders/&#123;id&#125;/actions</span><br></pre></td></tr></table></figure>
+
+<p>这里的复杂度不只是“请求数量多”。前端还要处理多个接口的加载状态、错误合并、字段转换、状态拼装和兼容逻辑。页面越多，这些适配逻辑越容易散落在不同前端工程里。</p>
+<p>另一类问题来自多端。Web 端可能需要完整字段和复杂操作入口，移动端可能只需要状态摘要，小程序可能更关注链路短和返回字段少。如果所有端都使用同一组通用接口，后端接口会不断膨胀；如果各端分别在前端处理适配，重复逻辑又会越来越多。</p>
+<p>BFF 往往在这种背景下出现。它要解决的不是“有没有后端”的问题，而是“前端体验和后端领域能力之间，是否需要一层稳定的服务端适配”。</p>
+<h2 id="BFF-概述"><a href="#BFF-概述" class="headerlink" title="BFF 概述"></a>BFF 概述</h2><p>BFF，全称是 Backends for frontends，意思是“面向前端的后端”。它不是具体框架，也不是固定组件，而是一种服务端分层方式。</p>
+<p>它位于前端应用和后端服务之间，对前端提供贴近体验的接口，对后端调用一个或多个领域服务。这里的“前端体验”可以是 Web 端、移动端、小程序，也可以是某个业务后台或某类页面。</p>
+<p>常见链路可以简化成：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">前端应用 -&gt; BFF -&gt; 后端领域服务</span><br></pre></td></tr></table></figure>
+
+<p>存在统一入口层时，链路可能变成：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">前端应用 -&gt; API Gateway -&gt; BFF -&gt; 后端领域服务</span><br></pre></td></tr></table></figure>
+
+<p>Sam Newman 对 BFF 的核心表述可以概括为：为特定用户体验创建对应的后端。这个“特定用户体验”很关键。BFF 不是为了给所有调用方再造一个通用后端，而是为了让某个前端或某类页面拥有更合适的服务端接口。</p>
+<p>因此，BFF 的重点不是“后端 for 前端团队”，而是“后端 for 前端体验”。团队归属可以不同，但它的职责应当始终围绕前端体验展开。</p>
+<h2 id="BFF-的作用"><a href="#BFF-的作用" class="headerlink" title="BFF 的作用"></a>BFF 的作用</h2><p>BFF 最直接的作用，是把前端页面需要的适配逻辑放到服务端集中处理。它向后端服务获取领域数据，再向前端返回更贴近页面的数据结构。</p>
+<p>还是订单详情页的例子。引入 BFF 后，前端可以只调用一个页面接口：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GET /api/order-detail/&#123;id&#125;</span><br></pre></td></tr></table></figure>
+
+<p>BFF 内部调用订单、支付、物流、优惠、售后等服务，然后返回面向页面的视图模型：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;orderId&quot;</span><span class="punctuation">:</span> <span class="string">&quot;10001&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;summary&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;statusText&quot;</span><span class="punctuation">:</span> <span class="string">&quot;运输中&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;amountText&quot;</span><span class="punctuation">:</span> <span class="string">&quot;¥199.00&quot;</span></span><br><span class="line">  <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;logistics&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;latestText&quot;</span><span class="punctuation">:</span> <span class="string">&quot;包裹已到达杭州转运中心&quot;</span></span><br><span class="line">  <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;actions&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">    <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;code&quot;</span><span class="punctuation">:</span> <span class="string">&quot;VIEW_LOGISTICS&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;text&quot;</span><span class="punctuation">:</span> <span class="string">&quot;查看物流&quot;</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line">  <span class="punctuation">]</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>这个返回结果不是后端领域模型的原样暴露，而是面向订单详情页的视图模型。前端不需要知道支付服务、物流服务和售后服务分别如何组织数据，只处理页面需要的结果。</p>
+<p>BFF 还可以隔离后端变化。后端服务拆分、字段调整、接口升级时，只要 BFF 对前端的返回结构保持稳定，前端就不需要跟着所有后端内部变化同步修改。</p>
+<p>在单体迁移到微服务的过程中，BFF 也可以作为过渡层。前端仍然调用稳定的 BFF 接口，BFF 内部逐步从旧单体切换到新服务。这样可以减少迁移过程对前端的冲击。</p>
+<h2 id="适用场景"><a href="#适用场景" class="headerlink" title="适用场景"></a>适用场景</h2><p>BFF 适合出现在前端和后端之间存在持续适配需求的地方。这里的“持续”很重要。一次性的接口适配，通常不值得引入一层新的服务端应用。</p>
+<p>比较典型的适用场景包括：</p>
+<ul>
+<li>一个页面长期需要组合多个后端接口。</li>
+<li>前端存在大量字段裁剪、字段转换和状态合并。</li>
+<li>Web、移动端、小程序之间展示差异明显。</li>
+<li>后端接口偏领域模型，前端需要的是页面视图模型。</li>
+<li>页面错误处理、缓存和降级需要贴近用户体验。</li>
+<li>后端服务正在拆分，前端不适合直接感知所有服务变化。</li>
+</ul>
+<h3 id="页面模型和领域模型"><a href="#页面模型和领域模型" class="headerlink" title="页面模型和领域模型"></a>页面模型和领域模型</h3><p>页面模型服务于展示和交互，领域模型服务于业务规则和数据一致性。订单详情页需要“运输中”“待支付”“售后中”这类展示状态，但订单服务可能只关心订单状态，支付服务只关心支付状态，物流服务只关心物流轨迹。</p>
+<p>把这些状态合并成页面展示结果，适合放在 BFF。把订单状态本身如何流转，放在 BFF 就不合适。</p>
+<h3 id="多端接口差异"><a href="#多端接口差异" class="headerlink" title="多端接口差异"></a>多端接口差异</h3><p>多端差异明显时，BFF 能减少通用接口膨胀。Web 端、移动端、小程序不必强行消费同一个过度膨胀的接口，也不必在各自前端工程里重复处理大量字段裁剪。</p>
+<p>这里有两种常见做法：</p>
+<ul>
+<li>按端拆分 BFF，例如 Web BFF、Mobile BFF。</li>
+<li>在同一个 BFF 中按页面或能力提供不同接口。</li>
+</ul>
+<p>选择哪种方式取决于团队组织和端侧差异。如果不同端由不同团队长期独立演进，按端拆分更清晰。如果端侧差异不大，同一个 BFF 内部区分接口也可以接受。</p>
+<h3 id="失败降级"><a href="#失败降级" class="headerlink" title="失败降级"></a>失败降级</h3><p>BFF 适合处理贴近页面体验的失败降级。例如订单详情页中，物流模块加载失败时，页面可以继续展示订单基础信息；优惠信息服务超时时，可以隐藏优惠模块或使用缓存。</p>
+<p>这类逻辑不改变业务事实，只影响页面如何展示，因此更适合放在 BFF，而不是领域服务。</p>
+<h2 id="不适用场景"><a href="#不适用场景" class="headerlink" title="不适用场景"></a>不适用场景</h2><p>BFF 不是所有项目都需要。它会增加一个服务端应用，也会带来新的部署、监控、测试和协作成本。</p>
+<p>下面几类情况通常不适合引入 BFF：</p>
+<ul>
+<li>只是做请求转发。</li>
+<li>只是隐藏后端地址。</li>
+<li>只是解决跨域问题。</li>
+<li>项目规模很小，前端只调用少量接口。</li>
+<li>后端接口本身已经贴近页面。</li>
+<li>团队没有能力维护额外的服务端应用。</li>
+</ul>
+<p>如果 BFF 只是把 <code>/api/user</code> 转发到后端 <code>/user</code>，它没有承担真正的适配职责。这类问题更适合由 API Gateway、反向代理或框架代理能力处理。</p>
+<p>还有一种情况需要警惕：为了“架构完整”而引入 BFF。BFF 的价值来自明确的适配需求，不来自层数本身。没有稳定适配需求时，多一层只会增加复杂度。</p>
+<h2 id="职责边界"><a href="#职责边界" class="headerlink" title="职责边界"></a>职责边界</h2><p>BFF 的边界决定了它能否长期维护。边界清楚时，它能降低前端复杂度；边界失控时，它会变成新的业务后端，而且往往比原来的后端边界更混乱。</p>
+<p>BFF 适合承担的职责包括：</p>
+<ul>
+<li>聚合多个后端接口。</li>
+<li>裁剪字段，返回页面需要的视图数据。</li>
+<li>适配不同端的展示差异。</li>
+<li>统一前端可感知的错误结构。</li>
+<li>处理轻量缓存和页面降级。</li>
+<li>透传用户身份、租户、语言、地域等上下文。</li>
+<li>隔离后端接口变化，维持前端接口稳定。</li>
+</ul>
+<p>这些职责的共同点是：服务页面展示和交互，不决定核心业务事实。</p>
+<h3 id="核心业务规则"><a href="#核心业务规则" class="headerlink" title="核心业务规则"></a>核心业务规则</h3><p>BFF 不应该实现核心业务规则。订单是否允许退款、退款金额如何计算、库存如何扣减、支付状态如何确认，这些都属于领域服务职责。</p>
+<p>BFF 可以调用订单服务获取“是否允许退款”的结果，也可以把这个结果转换成页面按钮是否展示。但它不应该自己判断退款规则，更不应该直接修改订单状态。</p>
+<p>可以用一个简单标准判断：如果这段逻辑决定了业务事实，就不应该放在 BFF；如果这段逻辑只是决定页面如何展示，可以考虑放在 BFF。</p>
+<h3 id="读写接口和一致性"><a href="#读写接口和一致性" class="headerlink" title="读写接口和一致性"></a>读写接口和一致性</h3><p>BFF 的边界在读写接口上会体现得更明显。</p>
+<p>这里的读写不是按 HTTP 方法机械划分，而是按业务语义划分。判断标准是这个接口是否改变业务事实。查询订单详情通常是读接口，发起退款通常是写接口。也有一些接口看起来是读取，实际会修改状态，例如读取通知并标记已读，这类接口从业务语义上仍然属于写接口。</p>
+<p>读接口适合由 BFF 聚合。BFF 可以调用订单、支付、物流、售后等多个领域服务，把结果组装成页面视图模型。读接口主要服务页面展示，BFF 在这里厚一点是合理的。</p>
+<p>写接口则需要克制。写接口会改变业务状态，一旦涉及多个领域服务，就会出现一致性问题。如果 BFF 直接串联多个写操作，它就不再只是页面适配层，而是在承担业务流程职责。</p>
+<p>以退款为例：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">POST /api/orders/&#123;id&#125;/refund</span><br></pre></td></tr></table></figure>
+
+<p>这个接口背后可能涉及订单状态变更、支付退款、库存回滚、优惠券返还、售后单创建和通知发送。BFF 可以接收前端请求、传递用户身份和上下文、调用“发起退款”能力，但不应该自己判断退款规则，也不应该直接依次调用订单、支付、库存、优惠券服务来拼出一个跨服务事务。</p>
+<p>更合理的结构是：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">BFF -&gt; 订单应用服务：发起退款</span><br><span class="line">订单应用服务 -&gt; 本地事务：创建退款流程 / 修改订单退款状态</span><br><span class="line">订单应用服务 -&gt; 事件：RefundRequested</span><br><span class="line">支付服务 -&gt; 处理退款</span><br><span class="line">库存服务 -&gt; 处理回滚</span><br><span class="line">优惠券服务 -&gt; 处理返还</span><br><span class="line">订单应用服务 / 流程服务 -&gt; 汇总流程状态</span><br><span class="line">BFF -&gt; 查询退款进度并返回页面展示</span><br></pre></td></tr></table></figure>
+
+<p>这里 BFF 不是事务协调者。它只是前端入口和视图适配层。真正的流程状态、失败补偿、幂等处理和一致性策略，应由订单应用服务、流程服务、Saga 或消息驱动流程负责。</p>
+<p>分布式事务也不是默认答案。很多跨服务一致性问题，优先应该通过领域边界和业务职责划分解决：</p>
+<ul>
+<li>能放在同一个领域内完成的强一致操作，放进同一个领域服务，用本地事务解决。</li>
+<li>跨领域操作不要包装成一个本地事务，应建模成业务流程。</li>
+<li>对跨领域流程，优先考虑最终一致性、事件、消息、状态机、Saga、补偿操作、Outbox&#x2F;Inbox 和幂等机制。</li>
+<li>只有业务确实要求多个资源强一致，并且无法通过领域边界调整解决时，才考虑分布式事务。</li>
+</ul>
+<p>因此，BFF 可以聚合读接口，但不应该聚合跨领域写事务。写接口可以经过 BFF，但业务规则、状态流转和一致性处理不应该放在 BFF 中。</p>
+<h3 id="边界失控"><a href="#边界失控" class="headerlink" title="边界失控"></a>边界失控</h3><p>BFF 边界失控时，常见表现包括：</p>
+<ul>
+<li>BFF 中出现大量业务状态变更逻辑。</li>
+<li>BFF 直接访问多个业务数据库。</li>
+<li>同一条业务规则在 BFF 和领域服务中各实现一遍。</li>
+<li>BFF 直接串联多个领域服务的写操作并试图保证事务一致性。</li>
+<li>后端服务逐渐变薄，BFF 变成真正的业务系统。</li>
+<li>修改业务规则时必须同步修改多个 BFF。</li>
+</ul>
+<p>这些现象说明 BFF 已经不再是适配层，而是在侵入领域服务职责。</p>
+<h2 id="胖瘦-BFF"><a href="#胖瘦-BFF" class="headerlink" title="胖瘦 BFF"></a>胖瘦 BFF</h2><p>讨论 BFF 时，经常会出现“胖 BFF”和“瘦 BFF”的说法。它们不是严格的架构模式名称，更像是对 BFF 职责厚度的描述。</p>
+<p>瘦 BFF 指的是职责比较克制的 BFF。它主要做接口聚合、字段裁剪、协议适配、错误转换、轻量缓存和页面降级。它知道页面需要什么，但不重新定义业务规则。</p>
+<p>胖 BFF 指的是承担了较多业务逻辑的 BFF。它不只组织后端接口返回的数据，还开始处理业务判断、状态变更、规则计算，甚至直接访问多个业务库。此时 BFF 已经从“前端体验适配层”逐渐变成“业务后端”。</p>
+<p>胖和瘦不是按代码行数判断，而是按职责判断。一个 BFF 代码很多，但主要是接口编排、异常处理和适配逻辑，它仍然可以是瘦 BFF。另一个 BFF 代码不多，但里面实现了退款规则、库存扣减、订单状态流转，就可以判断为胖 BFF。</p>
+<p>判断一个 BFF 是偏胖还是偏瘦，可以看几个问题：</p>
+<table>
+<thead>
+<tr>
+<th>判断问题</th>
+<th>更偏瘦</th>
+<th>更偏胖</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>是否只组织页面需要的数据</td>
+<td>是</td>
+<td>否</td>
+</tr>
+<tr>
+<td>是否决定核心业务状态</td>
+<td>否</td>
+<td>是</td>
+</tr>
+<tr>
+<td>是否直接写业务库</td>
+<td>否</td>
+<td>是</td>
+</tr>
+<tr>
+<td>是否重复实现领域服务规则</td>
+<td>否</td>
+<td>是</td>
+</tr>
+<tr>
+<td>是否主要处理展示差异</td>
+<td>是</td>
+<td>否</td>
+</tr>
+<tr>
+<td>业务规则变化时是否必须修改 BFF</td>
+<td>通常不需要</td>
+<td>经常需要</td>
+</tr>
+</tbody></table>
+<p>更合理的目标不是让 BFF 永远极薄，而是让它保持“面向体验的厚度”。前端体验相关的编排和适配可以适当放进 BFF；决定业务事实的规则必须留在领域服务。</p>
+<p>因此，BFF 可以比网关厚，但不应该比领域服务厚。它可以理解页面语义，但不应该成为业务规则中心。</p>
+<h2 id="相关概念对比"><a href="#相关概念对比" class="headerlink" title="相关概念对比"></a>相关概念对比</h2><p>BFF 经常和 API Gateway、聚合服务、普通后端接口混在一起讨论。它们确实有重叠，但关注点不同。</p>
+<p>API Gateway 更偏基础设施层，负责统一入口治理，例如路由、鉴权、限流、日志、协议转换、灰度发布。BFF 更偏应用适配层，负责前端体验需要的数据组织，例如接口聚合、字段裁剪、视图模型转换和端侧差异适配。</p>
+<p>聚合服务强调组合多个下游服务。BFF 也会聚合接口，但它的聚合目标更具体：服务某个前端体验。如果聚合结果同时服务多个系统和业务流程，并且包含稳定业务语义，它更接近通用聚合服务；如果聚合结果主要服务某个页面或某类端侧展示，它更接近 BFF。</p>
+<p>普通后端接口通常表达业务能力，例如创建订单、查询库存、发起退款。BFF 接口通常表达页面需要，例如查询订单详情页展示数据、查询首页卡片列表、查询移动端个人中心摘要。</p>
+<table>
+<thead>
+<tr>
+<th>问题</th>
+<th>更适合的位置</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>路由、限流、统一入口鉴权</td>
+<td>API Gateway</td>
+</tr>
+<tr>
+<td>页面数据聚合、字段裁剪</td>
+<td>BFF</td>
+</tr>
+<tr>
+<td>订单是否允许退款</td>
+<td>订单服务</td>
+</tr>
+<tr>
+<td>用户展示名称格式化</td>
+<td>BFF</td>
+</tr>
+<tr>
+<td>库存扣减</td>
+<td>库存服务</td>
+</tr>
+<tr>
+<td>多端返回字段差异</td>
+<td>BFF</td>
+</tr>
+<tr>
+<td>支付状态流转</td>
+<td>支付服务</td>
+</tr>
+<tr>
+<td>前端错误信息归一化</td>
+<td>BFF</td>
+</tr>
+</tbody></table>
+<h2 id="引入成本"><a href="#引入成本" class="headerlink" title="引入成本"></a>引入成本</h2><p>引入 BFF 不是纯收益。每增加一个 BFF，就增加一个需要维护的服务端应用。</p>
+<p>工程上，它需要部署、监控、告警和故障处理；调用后端服务时，还要处理超时、重试、熔断和降级。协作上，前端、BFF、后端服务之间会形成新的接口契约。维护上，BFF 容易因为需求快速变化而不断膨胀。</p>
+<p>复用也是一个需要克制的问题。多个 BFF 之间可能会出现重复代码，但不能为了消除重复就抽出过重的共享层。过度共享会让多个前端体验重新耦合在一起，最后又回到通用 API 的问题。</p>
+<p>比较稳妥的做法是：先允许少量重复，只有当重复逻辑稳定、边界清晰、与前端体验无关时，再考虑抽成共享库或下沉到领域服务。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>BFF 是面向前端体验的服务端适配层。它适合处理接口聚合、字段裁剪、视图模型转换、端侧差异、轻量缓存、降级和错误归一化。</p>
+<p>是否引入 BFF，关键不在于项目有没有前端，而在于前端和后端之间是否存在持续、稳定、明确的适配需求。</p>
+<p>BFF 的边界必须清楚：页面展示和交互适配可以放在 BFF，核心业务规则必须留在后端领域服务。边界清楚时，BFF 能降低前端复杂度；边界失控时，BFF 会变成新的业务复杂度来源。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a class="link"   target="_blank" rel="noopener" href="https://samnewman.io/patterns/architectural/bff/" >Pattern: Backends For Frontends - Sam Newman<i class="fas fa-external-link-alt"></i></a></li>
+<li><a class="link"   target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/azure/architecture/patterns/backends-for-frontends" >Backends for Frontends pattern - Microsoft Azure Architecture Center<i class="fas fa-external-link-alt"></i></a></li>
+<li><a class="link"   target="_blank" rel="noopener" href="https://www.thoughtworks.com/en-us/insights/blog/bff-soundcloud" >BFF @ SoundCloud - Thoughtworks<i class="fas fa-external-link-alt"></i></a></li>
+</ul>
+
+                </div>
+
+                
+                        
+<div class="post-copyright-info-container border-box">
+    <div class="copyright-info-content border-box">
+        <div class="copyright-info-top border-box">
+            <div class="copyright-post-title border-box text-ellipsis">
+                BFF（Backends for frontends）
+            </div>
+
+            <div class="copyright-post-link border-box text-ellipsis">
+                学习笔记/学习笔记/BFF（Backends for frontends）/
+            </div>
+        </div>
+
+        <div class="copyright-info-bottom border-box">
+            <div class="copyright-post-author bottom-item">
+                <div class="type">
+                    作者
+                </div>
+                <div class="content">咕咕咕</div>
+            </div>
+
+            <div class="post-time bottom-item">
+                <div class="type">
+                    发布于
+                </div>
+                <div class="content">2026-06-21 18:55</div>
+            </div>
+
+
+            <div class="post-license bottom-item">
+                <div class="type">
+                    许可
+                </div>
+                <div class="content tooltip" data-tooltip-content="CC BY-NC-SA 4.0">
+                    <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hans">
+                        <i class="fa-brands fa-creative-commons"></i>
+                        <i class="fa-brands fa-creative-commons-by"></i>
+                        <i class="fa-brands fa-creative-commons-nc"></i>
+                        <i class="fa-brands fa-creative-commons-sa"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <i class="copyright-bg fa-solid fa-copyright"></i>
+    </div>
+    <div class="copy-copyright-info flex-center tooltip" data-tooltip-content="复制版权信息" data-tooltip-offset-y="-2px">
+        <i class="fa-solid fa-copy"></i>
+    </div>
+</div>
+
+                
+
+                <div class="post-bottom-tags-and-share border-box">
+                    <div>
+                        
+                            <ul class="post-tags-box border-box">
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/BFF/">BFF</a>
+                                    </li>
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1/">架构设计</a>
+                                    </li>
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/%E5%89%8D%E5%90%8E%E7%AB%AF%E5%8D%8F%E4%BD%9C/">前后端协作</a>
+                                    </li>
+                                
+                            </ul>
+                        
+                    </div>
+                    <div>
+                        
+                            <div class="post-share-container border-box">
+    <ul class="share-list-wrap border-box">
+        <li class="qq share-item border-box flex-center tooltip"
+            data-tooltip-content="分享到 QQ"
+        >
+            <i class="fa-brands fa-qq"></i>
+        </li>
+        <li class="wechat share-item border-box flex-center tooltip tooltip-img"
+            data-tooltip-content="分享到微信"
+            data-tooltip-img-tip="微信扫一扫"
+            data-tooltip-img-style="background-color: #fff; top: -10px; padding: 0.6rem 0.6rem 0.1rem 0.6rem;"
+        >
+            <i class="fa-brands fa-weixin"></i>
+        </li>
+        <li class="weibo share-item border-box flex-center tooltip"
+            data-tooltip-content="分享到微博"
+        >
+            <i class="fa-brands fa-weibo"></i>
+        </li>
+    </ul>
+</div>
+
+                        
+                    </div>
+                </div>
+
+                
+                    <div class="reward-author-container border-box flex-center">
+    <div class="reward-btn keep-button border-box flex-center tooltip tooltip-img"
+            data-tooltip-content="谢谢你请我喝可乐~"
+            data-tooltip-img-url="/images/thanks.png"
+            data-tooltip-img-trigger="click"
+            data-tooltip-img-style="top: -8px;"
+    >
+        <i class="fa-solid fa-hand-holding-heart"></i>
+    </div>
+</div>
+
+                
+
+                
+                    <div class="post-nav border-box">
+                        
+                            <div class="prev-post">
+                                <a class="prev"
+                                   rel="prev"
+                                   href="/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F%E4%B8%AD%E5%A6%82%E4%BD%95%E4%BF%9D%E6%8C%81%E6%95%B0%E6%8D%AE%E4%B8%80%E8%87%B4%E6%80%A7/"
+                                   title="分布式系统中如何保持数据一致性"
+                                >
+                                    <span class="left arrow-icon flex-center">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </span>
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">分布式系统中如何保持数据一致性</span>
+                                        <span class="post-nav-item">上一篇</span>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                        
+                            <div class="next-post">
+                                <a class="next"
+                                   rel="next"
+                                   href="/%E8%AE%B0%E5%BD%95%E7%94%9F%E6%B4%BB/%E8%AE%B0%E5%BD%95%E7%94%9F%E6%B4%BB/%E8%BF%91%E6%9C%9F%E6%83%85%E5%86%B5-2026-06-09/"
+                                   title="近期情况-2026-06-09"
+                                >
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">近期情况-2026-06-09</span>
+                                        <span class="post-nav-item">下一篇</span>
+                                    </span>
+                                    <span class="right arrow-icon flex-center">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                    </div>
+                
+
+                
+                    
+
+
+    <div class="comments-container border-box">
+        <div id="comments-anchor" class="comment-area-title border-box">
+            <i class="fas fa-comments"></i>&nbsp;评论
+        </div>
+        <div class="comment-plugin-fail border-box">
+    <span class="fail-tip">评论插件加载失败</span>
+    <button class="reload keep-button">点击重新加载</button>
+</div>
+<div class="comment-plugin-loading flex-center border-box">
+    <i class="loading-icon fa-solid fa-spinner fa-spin"></i>
+    <span class="load-tip">正在加载评论插件</span>
+</div>
+<script data-pjax>
+  window.KeepCommentPlugin = {}
+  window.KeepCommentPlugin.hideLoading = () => {
+    const cplDom = document.querySelector('.comments-container .comment-plugin-loading')
+    cplDom.style.display = 'none'
+  }
+  window.KeepCommentPlugin.loadFailHandle = () => {
+    window.KeepCommentPlugin.hideLoading()
+    const cpfDom = document.querySelector('.comments-container .comment-plugin-fail')
+    cpfDom.style.display = 'flex'
+    cpfDom.querySelector('.reload').addEventListener('click', () => {
+      window.location.reload()
+    })
+  }
+</script>
+
+        
+            
+
+    <div class="giscus-comments-container">
+        <div class="giscus" id="giscus"></div>
+        <script data-pjax
+                onerror="window.KeepCommentPlugin.loadFailHandle()"
+        >
+          if (!window.KeepCommentPlugin?.getGiscusTheme) {
+            window.KeepCommentPlugin.getGiscusTheme = () => {
+              return document.body.classList.contains('dark-mode') ? 'dark_dimmed' : 'light_tritanopia'
+            }
+          }
+
+          if (!window.KeepCommentPlugin?.changeGiscusTheme) {
+            window.KeepCommentPlugin.changeGiscusTheme = () => {
+              const iframe = document.querySelector('iframe.giscus-frame')
+              iframe && iframe.contentWindow.postMessage({
+                giscus: {
+                  setConfig: {
+                    theme: window.KeepCommentPlugin.getGiscusTheme()
+                  }
+                }
+              }, 'https://giscus.app')
+            }
+          }
+
+          if (!window.KeepCommentPlugin?.initGiscus) {
+            window.KeepCommentPlugin.initGiscus = () => {
+              const script = document.createElement('script')
+              script.async = true
+              script.src = 'https://giscus.app/client.js'
+              script.setAttribute('data-repo', 'Cooooing/Cooooing.github.io')
+              script.setAttribute('data-repo-id', 'R_kgDOHQal_w')
+              script.setAttribute('data-category', 'Announcements')
+              script.setAttribute('data-category-id', 'DIC_kwDOHQal_84CjZo6')
+              script.setAttribute('data-reactions-enabled', '1')
+              script.setAttribute('data-lang', 'zh-CN')
+              script.setAttribute('data-mapping', 'pathname')
+              script.setAttribute('data-strict', '0')
+              script.setAttribute('data-emit-metadata', '0')
+              script.setAttribute('data-input-position', 'top')
+              script.setAttribute('crossorigin', 'anonymous')
+              script.setAttribute('loading', 'lazy')
+              script.setAttribute('data-theme', window.KeepCommentPlugin.getGiscusTheme())
+              document.querySelector('.giscus-comments-container').appendChild(script)
+              script.onerror = () => {
+                window.KeepCommentPlugin.loadFailHandle()
+              }
+              script.onload = () => {
+                window.KeepCommentPlugin.hideLoading()
+              }
+              const toggleThemeBtn = document.querySelector('.tool-toggle-theme-mode')
+              toggleThemeBtn && toggleThemeBtn.addEventListener('click', () => {
+                window.KeepCommentPlugin.changeGiscusTheme()
+              })
+            }
+          }
+
+          if ('true' === "true") {
+            setTimeout(() => {
+              window.KeepCommentPlugin.initGiscus()
+            }, 1000)
+          } else {
+            window.addEventListener("DOMContentLoaded", window.KeepCommentPlugin.initGiscus)
+          }
+        </script>
+    </div>
+
+
+        
+    </div>
+
+
+
+
+
+                
+            </div>
+        </div>
+
+        
+            <div class="pc-post-toc left-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E8%83%8C%E6%99%AF"><span class="nav-text">问题背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#BFF-%E6%A6%82%E8%BF%B0"><span class="nav-text">BFF 概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#BFF-%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="nav-text">BFF 的作用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%82%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="nav-text">适用场景</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A1%B5%E9%9D%A2%E6%A8%A1%E5%9E%8B%E5%92%8C%E9%A2%86%E5%9F%9F%E6%A8%A1%E5%9E%8B"><span class="nav-text">页面模型和领域模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%9A%E7%AB%AF%E6%8E%A5%E5%8F%A3%E5%B7%AE%E5%BC%82"><span class="nav-text">多端接口差异</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%B1%E8%B4%A5%E9%99%8D%E7%BA%A7"><span class="nav-text">失败降级</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%8D%E9%80%82%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="nav-text">不适用场景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%81%8C%E8%B4%A3%E8%BE%B9%E7%95%8C"><span class="nav-text">职责边界</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E4%B8%9A%E5%8A%A1%E8%A7%84%E5%88%99"><span class="nav-text">核心业务规则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%BB%E5%86%99%E6%8E%A5%E5%8F%A3%E5%92%8C%E4%B8%80%E8%87%B4%E6%80%A7"><span class="nav-text">读写接口和一致性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BE%B9%E7%95%8C%E5%A4%B1%E6%8E%A7"><span class="nav-text">边界失控</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%83%96%E7%98%A6-BFF"><span class="nav-text">胖瘦 BFF</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%B8%E5%85%B3%E6%A6%82%E5%BF%B5%E5%AF%B9%E6%AF%94"><span class="nav-text">相关概念对比</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%95%E5%85%A5%E6%88%90%E6%9C%AC"><span class="nav-text">引入成本</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-text">总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-text">参考</span></a></li></ol>
+    </div>
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom border-box">
+            
+<footer class="footer border-box">
+    <div class="border-box website-info-box default">
+        
+            <div class="copyright-info info-item default">
+                &copy;&nbsp;<span>2022</span>&nbsp;-&nbsp;2026
+                
+                    &nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;&nbsp;<a href="/">咕咕咕</a>
+                
+            </div>
+
+            <div class="theme-info info-item default">
+                由&nbsp;<a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;驱动&nbsp;&&nbsp;主题&nbsp;<a class="keep-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep</a>
+            </div>
+
+            
+
+            
+        
+
+        <div style="color:var(--text-color-4);"><span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>(～￣▽￣)～<script src="/js/lifeTime.js"></script></div>
+        <a href="https://icp.gov.moe/?keyword=20222450" target="_blank">萌ICP备20222450号</a>
+
+
+        <div class="count-item info-item default">
+            
+                <span class="count-box border-box word">
+                    <span class="item-type border-box">总字数</span>
+                    <span class="item-value border-box word">476k</span>
+                </span>
+            
+
+            
+                <span class="count-box border-box uv">
+                    <span class="item-type border-box">访客数</span>
+                    <span class="item-value border-box uv" id="busuanzi_value_site_uv"></span>
+                </span>
+            
+
+            
+                <span class="count-box border-box pv">
+                    <span class="item-type border-box">访问量</span>
+                    <span class="item-value border-box pv" id="busuanzi_value_site_pv"></span>
+                </span>
+            
+        </div>
+
+        <div id="aplayer">
+          <meting-js
+                  server="netease"
+                  type="playlist"
+                  id="7345595717"
+                  fixed="true"
+                  mini="true"
+                  autoplay="false"
+                  listFolded="true"
+                  order="random"
+                  preload="none">
+          </meting-js>
+        </div>
+            <br>
+            <br>
+            <br>
+    </div>
+
+</footer>
+
+        </div>
+    </div>
+
+    <!-- post tools -->
+    
+        <div class="post-tools left-toc">
+            <div class="post-tools-container border-box">
+    <ul class="tools-list border-box">
+        <!-- PC TOC show toggle -->
+        
+            <li class="tools-item flex-center toggle-show-toc">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        <!-- PC go comment -->
+        
+            <li class="tools-item flex-center go-to-comments">
+                <i class="fas fa-comment"></i>
+                <span class="post-comments-count"></span>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <!-- side tools -->
+    <div class="side-tools">
+        <div class="side-tools-container border-box ">
+    <ul class="side-tools-list side-tools-show-handle border-box">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-toggle-theme-mode flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+            <li class="tools-item rss flex-center">
+                <a class="flex-center"
+                   href="/atom.xml"
+                   target="_blank"
+                >
+                    <i class="fas fa-rss"></i>
+                </a>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list border-box">
+        
+            <li class="tools-item toggle-show-toc-tablet flex-center">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        
+            <li class="tools-item go-to-comments-tablet flex-center">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+
+        <li class="tools-item tool-scroll-to-top flex-center show-arrow">
+            <i class="arrow fas fa-arrow-up"></i>
+            <span class="percent"></span>
+        </li>
+    </ul>
+</div>
+
+    </div>
+
+    <!-- image mask -->
+    <div class="zoom-in-image-mask">
+    <img class="zoom-in-image">
+</div>
+
+
+    <!-- local search -->
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="搜索..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="close-popup-btn">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+    <!-- tablet toc -->
+    
+        <div class="tablet-post-toc-mask">
+            <div class="tablet-post-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E8%83%8C%E6%99%AF"><span class="nav-text">问题背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#BFF-%E6%A6%82%E8%BF%B0"><span class="nav-text">BFF 概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#BFF-%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="nav-text">BFF 的作用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%82%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="nav-text">适用场景</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A1%B5%E9%9D%A2%E6%A8%A1%E5%9E%8B%E5%92%8C%E9%A2%86%E5%9F%9F%E6%A8%A1%E5%9E%8B"><span class="nav-text">页面模型和领域模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%9A%E7%AB%AF%E6%8E%A5%E5%8F%A3%E5%B7%AE%E5%BC%82"><span class="nav-text">多端接口差异</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%B1%E8%B4%A5%E9%99%8D%E7%BA%A7"><span class="nav-text">失败降级</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%8D%E9%80%82%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="nav-text">不适用场景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%81%8C%E8%B4%A3%E8%BE%B9%E7%95%8C"><span class="nav-text">职责边界</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E4%B8%9A%E5%8A%A1%E8%A7%84%E5%88%99"><span class="nav-text">核心业务规则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%BB%E5%86%99%E6%8E%A5%E5%8F%A3%E5%92%8C%E4%B8%80%E8%87%B4%E6%80%A7"><span class="nav-text">读写接口和一致性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BE%B9%E7%95%8C%E5%A4%B1%E6%8E%A7"><span class="nav-text">边界失控</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%83%96%E7%98%A6-BFF"><span class="nav-text">胖瘦 BFF</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%B8%E5%85%B3%E6%A6%82%E5%BF%B5%E5%AF%B9%E6%AF%94"><span class="nav-text">相关概念对比</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%95%E5%85%A5%E6%88%90%E6%9C%AC"><span class="nav-text">引入成本</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-text">总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-text">参考</span></a></li></ol>
+    </div>
+</div>
+
+            </div>
+        </div>
+    
+</main>
+
+
+
+<!-- common -->
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/toggle-theme.js"></script>
+
+<script src="/js/code-block.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+
+<!-- local-search -->
+
+    
+<script src="/js/local-search.js"></script>
+
+
+
+<!-- lazyload -->
+
+    
+<script src="/js/lazyload.js"></script>
+
+
+
+<div class="pjax">
+    
+        <!-- post-helper -->
+        
+<script src="/js/post/post-helper.js"></script>
+
+
+        <!-- toc -->
+        
+            
+<script src="/js/post/toc.js"></script>
+
+        
+
+        <!-- copyright-info -->
+        
+            
+<script src="/js/post/copyright-info.js"></script>
+
+        
+
+        <!-- share -->
+        
+            
+<script src="/js/post/share.js"></script>
+
+        
+    
+
+    <!-- category-page -->
+    
+
+    <!-- links-page -->
+    
+
+    <!-- photos-page -->
+    
+</div>
+
+<!-- mermaid -->
+
+
+<!-- pjax -->
+
+    
+<script src="/js/libs/pjax.min.js"></script>
+
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        window.pjax = new Pjax({
+            selectors: [
+                'head title',
+                '.page-container',
+                '.pjax',
+                '#aplayer',
+                '#canvas_sakura'
+            ],
+            history: true,
+            debug: false,
+            cacheBust: false,
+            timeout: 0,
+            analytics: false,
+            currentUrlFullReload: false,
+            scrollRestoration: false,
+        });
+
+        document.addEventListener('pjax:send', () => {
+            KEEP.utils.pjaxProgressBarStart()
+        });
+
+        document.addEventListener('pjax:complete', () => {
+            KEEP.utils.pjaxProgressBarEnd()
+            window.pjax.executeScripts(document.querySelectorAll('script[data-pjax], .pjax script'))
+            KEEP.initExecute()
+        });
+    });
+</script>
+
+
+
+
+    
+        
+            
+<script class="custom-inject-js" src="/js/APlayer.min.js" data-pjax></script>
+
+        
+    
+        
+            
+<script class="custom-inject-js" src="/js/Meting.min.js" data-pjax></script>
+
+        
+    
+        
+            
+<script class="custom-inject-js" src="/js/leaves.js" data-pjax></script>
+
+        
+    
+
+
+
+</body>
+</html>

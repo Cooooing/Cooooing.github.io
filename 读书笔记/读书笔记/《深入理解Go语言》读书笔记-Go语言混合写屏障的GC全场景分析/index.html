@@ -1,0 +1,1344 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="技术博客,后端开发,编程笔记,生活">
+    <meta name="description" content="Code | Systems | Life — 专注编程本质，也关心世界如何运转。">
+    <meta name="author" content="咕咕咕">
+
+    
+    <title>
+        
+            《深入理解Go语言》读书笔记 - Go 语言混合写屏障的 GC 全场景分析 |
+        
+        咕咕咕的小破站
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+        <link rel="shortcut icon" href="/images/favicon.png">
+    
+    
+<link rel="stylesheet" href="/font/css/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/regular.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/solid.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/brands.min.css">
+
+    
+        
+            
+                
+<link rel="stylesheet" href="/css/APlayer.min.css">
+
+            
+        
+            
+                
+<link rel="stylesheet" href="/css/custom.css">
+
+            
+        
+    
+    <script class="keep-theme-configurations">
+    const KEEP = window.KEEP || {}
+    KEEP.hexo_config = {"hostname":"cooooing.github.io","root":"/","language":"zh-CN","path":"search.json"}
+    KEEP.theme_config = {"base_info":{"primary_color":"#0066cc","title":"咕咕咕的小破站","author":"咕咕咕","avatar":"https://avatars.githubusercontent.com/u/75006169?v=4","logo":"https://avatars.githubusercontent.com/u/75006169?v=4","favicon":"/images/favicon.png"},"menu":{"Archives":"/archives","Categories":"/categories","Tags":"/tags","日常":"/daily","Links":"/links","About":"/about"},"first_screen":{"enable":false,"background_img":"/images/bg.svg","background_img_dark":"/images/bg.svg","description":"Keep writing and Keep loving.","hitokoto":false},"social_contact":{"enable":false,"links":{"github":null,"weixin":null,"qq":null,"weibo":null,"zhihu":null,"twitter":null,"facebook":null,"email":null}},"scroll":{"progress_bar":false,"percent":false,"hide_header":true},"home":{"category":true,"tag":true,"announcement":null},"post":{"author_badge":{"enable":true,"level_badge":false,"custom_badge":["fishing"]},"word_count":{"wordcount":true,"min2read":true},"datetime_format":"YYYY-MM-DD HH:mm:ss","copyright_info":true,"share":true,"reward":{"enable":true,"img_link":"/images/thanks.png","text":"谢谢你请我喝可乐~"}},"mathjax":{"tags":"all","single_dollars":true,"cjk_width":0.9,"normal_width":0.6,"append_css":true,"every_page":false},"code_block":{"tools":{"enable":true,"style":"default"},"highlight_theme":"default"},"toc":{"enable":true,"number":false,"expand_all":true,"init_open":true,"layout":"left"},"website_count":{"busuanzi_count":{"enable":true,"site_uv":true,"site_pv":true,"page_pv":true}},"local_search":{"enable":true,"preload":true},"comment":{"enable":true,"use":"giscus","valine":{"appid":null,"appkey":null,"server_urls":null,"placeholder":null},"gitalk":{"github_id":null,"github_admins":null,"repository":null,"client_id":null,"client_secret":null,"proxy":null},"twikoo":{"env_id":null,"region":null,"version":"1.6.21"},"waline":{"server_url":null,"reaction":false,"version":2},"giscus":{"repo":"Cooooing/Cooooing.github.io","repo_id":"R_kgDOHQal_w","category":"Announcements","category_id":"DIC_kwDOHQal_84CjZo6","reactions_enabled":true},"artalk":{"server":null},"disqus":{"shortname":null}},"rss":{"enable":true},"lazyload":{"enable":true},"cdn":{"enable":false,"provider":"cdnjs"},"pjax":{"enable":true},"footer":{"since":2022,"word_count":true,"icp":{"enable":false,"record_code":null,"url":"https://beian.miit.gov.cn"},"site_deploy":{"enable":false,"provider":"github","url":null},"shields_style":{"enable":false,"custom":[{"link_url":null,"img_url":null}]}},"inject":{"enable":true,"css":["/css/APlayer.min.css","/css/custom.css"],"js":["/js/APlayer.min.js","/js/Meting.min.js","/js/leaves.js"]},"root":"","links":[{"name":"鼠鼠在碎觉","link":"https://sszsj.com","avatar":"https://tmx.fishpi.cn/img/head.jpg","description":"我是不慎落入世界的一滴水墨"},{"name":"Gakkiyomi","link":"https://gakkiyomi.blog","avatar":"https://avatars.githubusercontent.com/u/41406557?v=4","description":"为往圣继绝学"},{"name":"Hancel's Blog","link":"https://my.hancel.org","avatar":"https://my.hancel.org/media/logo.jpg","description":"人生而自由，却无往不在枷锁之中。"},{"name":"Eastshann","link":"https://eastshann.github.io/","avatar":"https://avatars.githubusercontent.com/u/87764431?v=4","description":"冲和者，淡泊平和，谦冲守正"},{"name":"小于同学的异世界","link":"https://yby.zone","avatar":"https://yby-zone.obs.cn-east-3.myhuaweicloud.com/avatar.jpg","description":"为吾为枝，余地三尺，以己为棋，胜天半子。"},{"name":"Mlikiowa Home Village","link":"https://nanaeo.cn/","avatar":"https://q1.qlogo.cn/g?b=qq&nk=1627126029&s=100","description":"A litter Village With Mlikiowa"},{"name":"忘忧草","link":"https://owo.wyc.rest/","avatar":"https://owo.wyc.rest/img/%E4%B8%87%E5%8F%B6.jpg","description":"这只是一个小破站而已！"},{"name":"stillwarter","link":"https://stillwarter.github.io/","avatar":"https://file.fishpi.cn/2022/07/MOSHED2022621164630-1b1ec532.gif?imageView2/1/w/210/h/210/interlace/0/q/100","description":"光就是一切的意义"},{"name":"test12138","link":"http://你好.eu.org/","avatar":"https://file.fishpi.cn/2022/06/srchttpimgzcoolcncommunity0116405d84f975a801211d537707c9gifreferhttpimgzcool-0f2d09c9.gif?imageView2/1/w/48/h/48/interlace/0/q/100","description":"大丈夫生于天地之间，岂能郁郁久居人下。"},{"name":"呼呼呼","link":"https://bongbongbakudan.github.io/","avatar":"https://pwl.stackoverflow.wiki/2021/12/blob-28eb4b9f.png?imageView2/1/w/48/h/48/interlace/0/q/100","description":"去整点薯条"},{"name":"Plumbiu","link":"https://blog.plumbiu.top/","avatar":"https://avatars.githubusercontent.com/u/99574369?v=4","description":"这人很勤奋，啥都没留"},{"name":"hiRipple","link":"https://hiripple.com/","avatar":"https://avatars.githubusercontent.com/u/115361435?v=4","description":"超高校级的游戏玩家"},{"name":"零糖加辣（drda）","link":"https://drda-x.github.io/drda-blog/","avatar":"https://drda-x.github.io/drda-blog/avatar/avatar.webp","description":"奶茶少糖，喜欢吃辣"},{"name":"ncc的个人网站","link":"https://www.zqcnc.cn","avatar":"https://www.zqcnc.cn/favicon.ico","description":"keep trying!"},{"name":"Yui","link":"https://yuis.cc/","avatar":"https://file.fishpi.cn/storage/%E9%B1%BC%E6%8E%92%E4%BA%BA%E7%89%A9/yui.png","description":"世界那么大，等我赚钱一定去看看"}],"version":"4.0.6"}
+    KEEP.language_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"}
+    KEEP.language_code_block = {"copy":"复制代码","copied":"已复制","fold":"折叠代码块","folded":"已折叠"}
+    KEEP.language_copy_copyright = {"copy":"复制版权信息","copied":"已复制","title":"原文标题","author":"原文作者","link":"原文链接"}
+  </script>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-CLX32WF4R1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+
+      gtag('js', new Date());
+
+      gtag('config', 'G-CLX32WF4R1');
+    </script>
+
+    <!-- 51.la -->
+    <script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
+    <script>LA.init({id: "3JwPz6wbAloyTmMc", ck: "3JwPz6wbAloyTmMc", autoTrack: true})</script>
+
+    <!-- Cloudflare Web Analytics -->
+    <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "281999cc46a948d3b8199c1eb621f11e"}'></script>
+    <!-- End Cloudflare Web Analytics -->
+
+<meta name="generator" content="Hexo 8.1.2"><link rel="alternate" href="/atom.xml" title="咕咕咕的小破站" type="application/atom+xml">
+</head>
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+        <span class="pjax-progress-bar"></span>
+        <i class="pjax-progress-icon fas fa-circle-notch fa-spin"></i>
+    
+</div>
+
+
+<main class="page-container border-box">
+
+    <!-- home first screen  -->
+    
+
+    <!-- page content -->
+    <div class="page-main-content border-box">
+        <div class="page-main-content-top">
+            
+<header class="header-wrapper">
+
+    <div class="border-box header-content">
+        <div class="left border-box">
+            
+                <a class="logo-image border-box" href="/">
+                    <img src="https://avatars.githubusercontent.com/u/75006169?v=4">
+                </a>
+            
+            <a class="site-name border-box" href="/">
+               咕咕咕的小破站
+            </a>
+        </div>
+
+        <div class="right border-box">
+            <div class="pc">
+                <ul class="menu-list">
+                    <li class="menu-item">
+                        <a class=""
+                           href="/"
+                        >首页</a>
+                    </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >归档</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/categories"
+                            >分类</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/tags"
+                            >标签</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/daily"
+                            >日常</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/links"
+                            >友链</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >关于</a>
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="fas search fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            <li class="drawer-menu-item flex-center">
+                <a class=""
+                   href="/"
+                >首页</a>
+            </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives"
+                    >归档</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/categories"
+                    >分类</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/tags"
+                    >标签</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/daily"
+                    >日常</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/links"
+                    >友链</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about"
+                    >关于</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle border-box">
+
+            <div class="main-content border-box">
+                
+
+                    
+<div class="fade-in-down-animation">
+    <div class="post-page-container border-box">
+        <div class="post-content-container border-box">
+            
+
+            <div class="post-content-bottom border-box">
+                
+                    <div class="post-title">
+                        《深入理解Go语言》读书笔记 - Go 语言混合写屏障的 GC 全场景分析
+                    </div>
+                
+
+                
+                    <div class="post-header border-box">
+                        
+                            <div class="avatar-box border-box">
+                                <img src="https://avatars.githubusercontent.com/u/75006169?v=4">
+                            </div>
+                        
+                        <div class="info-box">
+                            <div class="author border-box">
+                                <span class="name">咕咕咕</span>
+                                
+                                    <span class="author-badge">fishing</span>
+                                
+                            </div>
+                            <div class="meta-info border-box">
+                                
+
+<div class="post-meta-info-container border-box post">
+    <div class="post-meta-info border-box">
+        
+
+        
+            <span class="meta-info-item post-create-date">
+                <i class="icon fa-solid fa-calendar-plus"></i>&nbsp;
+                <span class="datetime">2025-12-28 17:24:00</span>
+            </span>
+
+            <span class="meta-info-item post-update-date">
+                <i class="icon fa-solid fa-file-pen"></i>&nbsp;
+                <span class="datetime" data-updated="Sun Dec 28 2025 09:24:00 GMT+0000">2025-12-28 17:24:00</span>
+            </span>
+        
+
+        
+            <span class="meta-info-item post-category border-box"><i class="icon fas fa-folder"></i>&nbsp;
+                <ul class="post-category-ul">
+                    
+                            <li class="category-item"><a href="/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">读书笔记</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+            <span class="post-tag meta-info-item border-box">
+                <i class="icon fas fa-tags"></i>&nbsp;
+                <ul class="post-tag-ul">
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/Go%E8%AF%AD%E8%A8%80/">Go语言</a></li>
+                        
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/%E3%80%8A%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Go%E8%AF%AD%E8%A8%80%E3%80%8B/">《深入理解Go语言》</a></li>
+                        
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6/">垃圾回收</a></li>
+                        
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/%E5%86%99%E5%B1%8F%E9%9A%9C/">写屏障</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+        
+            <span class="meta-info-item post-wordcount">
+                <i class="icon fas fa-file-word"></i>&nbsp;<span>6.8k 字</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-min2read">
+                <i class="icon fas fa-clock"></i>&nbsp;<span>32 分钟</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-pv">
+                <i class="icon fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+            </span>
+        
+    </div>
+
+    
+</div>
+
+                            </div>
+                        </div>
+                    </div>
+                
+
+                <div class="post-content keep-markdown-body">
+                    
+
+                    <h2 id="第二章-Go-语言混合写屏障的-GC-全场景分析"><a href="#第二章-Go-语言混合写屏障的-GC-全场景分析" class="headerlink" title="第二章 Go 语言混合写屏障的 GC 全场景分析"></a>第二章 Go 语言混合写屏障的 GC 全场景分析</h2><p>垃圾回收(Garbage Collection,GC)是编程语言中提供的自动内存管理机制,GC 能够自动释放不需要的内存对象,让出存储器资源,其释放过程中无须程序员手动执行。<br>GC 机制在现代很多编程语言得到支持,针对 GC 性能的优劣程度,也是不同语言之间的对比指标之一。</p>
+<p>Go 语言在 GC 的演进过程中也经历了几次重大改变,如下:</p>
+<ol>
+<li>Go V1.3之前的STW的标记和清除(SWT Mark Sweep)。</li>
+<li>Go V1.5的三色并发标记法。“强-弱”三色不变式、插入屏障、删除屏障。</li>
+<li>Go V1.8混合写屏障机制。</li>
+</ol>
+<h3 id="Go-V1-3-标记-清除算法"><a href="#Go-V1-3-标记-清除算法" class="headerlink" title="Go V1.3 标记-清除算法"></a>Go V1.3 标记-清除算法</h3><p>此算法主要有两个步骤:</p>
+<ol>
+<li>标记(Mark Phase)。</li>
+<li>清除(Sweep Phase)。</li>
+</ol>
+<p>找到需要被清除的内存数据,然后一次性清除。</p>
+<h4 id="标记清除-Mark-and-Sweep-算法的详细过程"><a href="#标记清除-Mark-and-Sweep-算法的详细过程" class="headerlink" title="标记清除(Mark and Sweep)算法的详细过程"></a>标记清除(Mark and Sweep)算法的详细过程</h4><ol>
+<li>暂停程序业务逻辑,对可达和不可达的对象进行分类,然后做上标记。</li>
+<li>开始标记。程序找出它所有可达的对象,并做上标记。</li>
+<li>标记完了之后,开始清除未标记的对象。<br>Mark and Sweep 算法在执行的时候,需要程序暂停,即 STW(Stop The World)。在 STW 的过程中,CPU不执行用户代码,全部用于垃圾回收。<br>这个过程影响很大,所以 STW 也是一些回收机制最大的难题和希望优化的点。</li>
+<li>停止暂停,让程序继续运行,然后重复这个过程,直到 Process 程序生命周期结束。</li>
+</ol>
+<h4 id="标记清除算法的缺点"><a href="#标记清除算法的缺点" class="headerlink" title="标记清除算法的缺点"></a>标记清除算法的缺点</h4><p>标记清除算法简单明了,但是也有非常严重的问题:</p>
+<ol>
+<li>STW 让程序暂停,所以程序会出现卡顿。</li>
+<li>标记需要扫描整个 Heap。</li>
+<li>清除数据会产生 Heap 碎片。</li>
+</ol>
+<p>Go V1.3 版本执行 GC 的基本流程就是首先启动 STW,使程序暂停,然后执行标记,再执行数据回收,最后停止STW。<br>全部的 GC 时间都是包裹在 STW 范围之内的,Go V1.3 做了简单的优化,将停止 STW 的步骤提前,缩小 STW 暂停的时间范围。<br>将 Sweep 清除的步骤放到停止 STW 之后执行,因为这些对象已经是不可达对象了,不会出现回收写冲突等问题。</p>
+<p>但是无论怎么优化,这个算法都会暂停整个程序。</p>
+<h3 id="Go-V1-5-三色标记法"><a href="#Go-V1-5-三色标记法" class="headerlink" title="Go V1.5 三色标记法"></a>Go V1.5 三色标记法</h3><p>三色标记法 GC 过程和其他用户 Goroutine 可并发运行,但<strong>根对象扫描仍然依赖 STW</strong>,这是该版本 GC 停顿的主要来源。</p>
+<h4 id="对象的初始颜色状态"><a href="#对象的初始颜色状态" class="headerlink" title="对象的初始颜色状态"></a>对象的初始颜色状态</h4><p>在一次 GC 周期开始时:<br>堆中所有存活对象在逻辑上均视为“白色”</p>
+<blockquote>
+<p>白色表示:当前 GC 轮次中尚未被发现为可达对象</p>
+</blockquote>
+<p>需要注意的是:这里的“程序”并不是一个抽象整体,而是由一组 GC Root 组成,包括:</p>
+<ul>
+<li>所有 goroutine 的栈</li>
+<li>全局变量</li>
+<li>runtime 内部引用的对象</li>
+</ul>
+<p>从 GC 的视角看,“程序是否可达”本质上等价于“是否能从 Root 出发访问到”。</p>
+<h4 id="GC-开始-STW-根扫描阶段"><a href="#GC-开始-STW-根扫描阶段" class="headerlink" title="GC 开始:STW 根扫描阶段"></a>GC 开始:STW 根扫描阶段</h4><h5 id="Stop-The-World-第一次"><a href="#Stop-The-World-第一次" class="headerlink" title="Stop-The-World(第一次)"></a>Stop-The-World(第一次)</h5><p>在 Go 1.5 中,三色标记开始前必须先进入 STW,原因是:</p>
+<ul>
+<li>goroutine 栈 <strong>不能并发扫描</strong></li>
+<li>必须冻结世界,保证 root 集合稳定</li>
+</ul>
+<h5 id="Root-扫描与初始标记"><a href="#Root-扫描与初始标记" class="headerlink" title="Root 扫描与初始标记"></a>Root 扫描与初始标记</h5><p>在 STW 状态下,GC 执行以下操作:</p>
+<ol>
+<li><p>扫描所有 GC Root</p>
+</li>
+<li><p>将从 Root 直接可达的对象:</p>
+<ul>
+<li>从 <strong>白色标记为灰色</strong></li>
+<li>放入 <strong>灰色标记队列(mark queue)</strong></li>
+</ul>
+</li>
+</ol>
+<p>这一步是:</p>
+<ul>
+<li><strong>一次性扫描</strong></li>
+<li><strong>非递归</strong></li>
+<li>仅处理 Root 的第一层可达对象</li>
+</ul>
+<p>例如:Root 直接引用对象 1 和对象 4 ,则对象 1、对象 4 被标记为灰色</p>
+<h5 id="启用写屏障并恢复世界"><a href="#启用写屏障并恢复世界" class="headerlink" title="启用写屏障并恢复世界"></a>启用写屏障并恢复世界</h5><p>Root 扫描完成后:</p>
+<ul>
+<li>启用 <strong>写屏障(Write Barrier)</strong></li>
+<li>恢复用户 goroutine 执行<br>GC 进入并发标记阶段</li>
+</ul>
+<p>这一阶段的 STW 时间与:goroutine 数量、栈大小 <strong>强相关</strong></p>
+<h4 id="并发三色标记阶段-Concurrent-Mark"><a href="#并发三色标记阶段-Concurrent-Mark" class="headerlink" title="并发三色标记阶段(Concurrent Mark)"></a>并发三色标记阶段(Concurrent Mark)</h4><h5 id="灰色对象扫描规则"><a href="#灰色对象扫描规则" class="headerlink" title="灰色对象扫描规则"></a>灰色对象扫描规则</h5><p>GC worker 与用户 goroutine <strong>并发运行</strong>,不断执行以下过程:</p>
+<ol>
+<li>从灰色标记队列中取出一个灰色对象</li>
+<li>扫描该对象的所有指针字段</li>
+<li>对每一个被引用的对象:<ul>
+<li>若为白色 → 标记为灰色,并加入灰色队列</li>
+</ul>
+</li>
+<li>当前灰色对象扫描完成后:<ul>
+<li>标记为黑色</li>
+<li>从灰色集合移动到黑色集合</li>
+</ul>
+</li>
+</ol>
+<p>例如:</p>
+<ul>
+<li>对象 1、对象 4 初始为灰色</li>
+<li>扫描对象 1,发现对象 2、对象 7<ul>
+<li>对象 2、对象 7 由白色 → 灰色</li>
+</ul>
+</li>
+<li>对象 1、对象 4 扫描完成后 → 黑色</li>
+</ul>
+<h5 id="重复扫描直到灰色集合为空"><a href="#重复扫描直到灰色集合为空" class="headerlink" title="重复扫描直到灰色集合为空"></a>重复扫描直到灰色集合为空</h5><p>上述过程不断重复:</p>
+<ul>
+<li>灰色对象 → 黑色</li>
+<li>白色对象 → 灰色</li>
+</ul>
+<p>直到:</p>
+<ul>
+<li>灰色标记队列为空</li>
+<li>所有可达对象均已被访问</li>
+</ul>
+<p>此时,内存中的对象只剩下两种颜色:</p>
+<ul>
+<li><strong>黑色</strong>:从 Root 可达的存活对象</li>
+<li><strong>白色</strong>:从 Root 不可达的对象(垃圾)</li>
+</ul>
+<h5 id="并发正确性的保证-Go-1-5-的写屏障"><a href="#并发正确性的保证-Go-1-5-的写屏障" class="headerlink" title="并发正确性的保证:Go 1.5 的写屏障"></a>并发正确性的保证:Go 1.5 的写屏障</h5><p>在并发标记期间,用户程序仍可能修改对象引用关系,例如:</p>
+<ul>
+<li>黑对象新增指向白对象的引用</li>
+<li>可能导致白对象被错误回收</li>
+</ul>
+<p>为解决该问题,Go 1.5 引入 <strong>写屏障机制</strong>:</p>
+<p>在指针写操作时:</p>
+<ul>
+<li>若新写入的对象尚未被标记</li>
+<li>则将其标记为灰色</li>
+</ul>
+<p>写屏障的作用是:</p>
+<blockquote>
+<p><strong>防止在并发标记过程中遗漏任何逻辑上可达的对象</strong></p>
+</blockquote>
+<p>代价是:</p>
+<ul>
+<li>每一次指针写入都会增加额外开销</li>
+<li>写密集型程序在 Go 1.5 中 GC 成本明显偏高</li>
+</ul>
+<h4 id="标记结束确认-Mark-Termination-STW"><a href="#标记结束确认-Mark-Termination-STW" class="headerlink" title="标记结束确认:Mark Termination(STW)"></a>标记结束确认:Mark Termination(STW)</h4><p>当并发标记完成后,会进行下面的操作。</p>
+<h5 id="Stop-The-World-第二次"><a href="#Stop-The-World-第二次" class="headerlink" title="Stop-The-World(第二次)"></a>Stop-The-World(第二次)</h5><p>Go 1.5 会再次进入 STW,用于:</p>
+<ol>
+<li>确认灰色队列为空</li>
+<li>确保没有遗漏的标记工作</li>
+<li>关闭写屏障</li>
+</ol>
+<p>这一次 STW 相对较短,但仍然存在。</p>
+<h4 id="清除阶段-Sweep"><a href="#清除阶段-Sweep" class="headerlink" title="清除阶段(Sweep)"></a>清除阶段(Sweep)</h4><h5 id="并发清除白色对象"><a href="#并发清除白色对象" class="headerlink" title="并发清除白色对象"></a>并发清除白色对象</h5><p>GC 进入清除阶段:</p>
+<ul>
+<li>遍历堆中的内存 span</li>
+<li>回收所有 <strong>白色对象</strong></li>
+<li>黑色对象继续存活</li>
+<li>回收的内存重新进入分配池</li>
+</ul>
+<p>清除阶段是 <strong>并发执行的,不再 STW</strong>。</p>
+<h3 id="Go-V1-5-的屏障机制"><a href="#Go-V1-5-的屏障机制" class="headerlink" title="Go V1.5 的屏障机制"></a>Go V1.5 的屏障机制</h3><p>并发标记下的问题本质:三色不变式</p>
+<p>在 <strong>并发三色标记阶段</strong>,用户程序(mutator)仍在运行,可能发生:</p>
+<ul>
+<li>黑对象新增指向白对象的引用</li>
+<li>灰对象到白对象的可达路径被删除</li>
+</ul>
+<p>如果不加限制,会直接导致:<strong>仍被程序使用的对象,被错误回收</strong></p>
+<p>为此,Go 1.5 通过 <strong>三色不变式</strong> 和 <strong>写屏障</strong> 来约束并发行为。</p>
+<h4 id="并发标记下的问题本质-三色不变式"><a href="#并发标记下的问题本质-三色不变式" class="headerlink" title="并发标记下的问题本质:三色不变式"></a>并发标记下的问题本质:三色不变式</h4><h5 id="强三色不变式"><a href="#强三色不变式" class="headerlink" title="强三色不变式"></a>强三色不变式</h5><ul>
+<li><strong>不允许黑色对象直接引用白色对象</strong></li>
+<li>一旦发生引用:白色对象必须立即转为灰色</li>
+</ul>
+<p>特征:</p>
+<ul>
+<li>安全性强</li>
+<li>写屏障成本高</li>
+<li>标记精度高</li>
+</ul>
+<h5 id="弱三色不变式"><a href="#弱三色不变式" class="headerlink" title="弱三色不变式"></a>弱三色不变式</h5><ul>
+<li>允许黑色对象引用白色对象</li>
+<li>但要求:该白色对象仍然被某个灰色对象间接保护</li>
+</ul>
+<p>特征:</p>
+<ul>
+<li>屏障成本低</li>
+<li>允许对象“多活一轮”</li>
+<li>标记精度较低</li>
+</ul>
+<h4 id="插入屏障-Insertion-Barrier"><a href="#插入屏障-Insertion-Barrier" class="headerlink" title="插入屏障(Insertion Barrier)"></a>插入屏障(Insertion Barrier)</h4><ul>
+<li>满足 <strong>强三色不变式</strong></li>
+<li>防止黑对象新增指向白对象的引用</li>
+</ul>
+<p>当执行指针写入操作:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">A.field = B</span><br></pre></td></tr></table></figure>
+
+<p><strong>若:A 为黑色, B 为白色。则将 B 标记为灰色</strong></p>
+<blockquote>
+<p>插入屏障 <strong>仅用于堆对象</strong> <strong>不作用于栈对象</strong><br>原因:栈写频繁,屏障成本不可接受</p>
+</blockquote>
+<blockquote>
+<p><strong>栈上新增的白色对象引用,无法被插入屏障捕获</strong></p>
+</blockquote>
+<p>因此,在 Go 1.5 中:</p>
+<p>并发标记结束后,<strong>必须对栈进行一次 STW 重新扫描</strong>,以防止栈中仍存在“黑 → 白”的未保护引用</p>
+<p>这正是 Go 1.5 <strong>GC 停顿的主要来源之一</strong>。</p>
+<h4 id="删除屏障-Deletion-Barrier"><a href="#删除屏障-Deletion-Barrier" class="headerlink" title="删除屏障(Deletion Barrier)"></a>删除屏障(Deletion Barrier)</h4><ul>
+<li>满足 <strong>弱三色不变式</strong></li>
+<li>防止“可达路径被并发删除”</li>
+</ul>
+<p>当一个对象引用被删除或覆盖时:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">old = A.field</span><br><span class="line">A.field = nil</span><br></pre></td></tr></table></figure>
+
+<p><strong>若 <code>old</code> 为白色或灰色:将 <code>old</code> 标记为灰色</strong></p>
+<blockquote>
+<p><strong>保证:即使引用被删除或覆盖,原可达对象仍能在本轮 GC 中被扫描</strong></p>
+</blockquote>
+<p>被删除但已标灰的对象:<strong>可能在本轮 GC 中存活</strong>,只能在下一轮 GC 中回收</p>
+<blockquote>
+<p>删除屏障 <strong>牺牲回收精度,换取并发安全性</strong></p>
+</blockquote>
+<h3 id="Go-V1-8-的混合写屏障"><a href="#Go-V1-8-的混合写屏障" class="headerlink" title="Go V1.8 的混合写屏障"></a>Go V1.8 的混合写屏障</h3><p>在 Go 1.5 中:</p>
+<ol>
+<li>插入屏障 保证强三色不变式,结束阶段必须 STW 重新扫描栈</li>
+<li>删除屏障 无需栈 Re-scan ,GC 回收精度低(快照语义)</li>
+</ol>
+<p>Go 1.8 引入了混合写屏障机制(Hybrid Write Barrier),避免了对栈 Re-scan(重新扫 描)的过程,这也极大地减少了 STW 的时间,同时结合了插入写屏障和删除写屏障两者的优点</p>
+<h4 id="混合写屏障-Hybrid-Write-Barrier-规则"><a href="#混合写屏障-Hybrid-Write-Barrier-规则" class="headerlink" title="混合写屏障(Hybrid Write Barrier)规则"></a>混合写屏障(Hybrid Write Barrier)规则</h4><blockquote>
+<p><strong>把“栈”在 GC 语义上直接视为“永远安全的黑色区域”,通过“堆上的写屏障 + 初始栈全黑”,同时覆盖插入与删除两种风险。</strong></p>
+</blockquote>
+<ol>
+<li>GC 开始时,一次性 STW 扫描栈。<strong>所有栈可达对象全部标记为黑色,栈对象在整个 GC 期间都被视为安全,不会对栈进行第二次扫描。</strong></li>
+<li>GC 期间,栈上新创建的对象直接为黑色。<strong>新对象如果分配在栈上,直接视为黑色。栈对象永远不会成为白色</strong></li>
+<li>堆上“删除引用” → 被删除对象标记为灰色。</li>
+<li>堆上“新增引用” → 被新增对象标记为灰色。</li>
+</ol>
+<p>混合写屏障实际上满足的是一种变形的弱三色不变式。</p>
+<blockquote>
+<p><strong>写屏障只作用于堆的写操作,栈写入永远不出发屏障。</strong></p>
+</blockquote>
+<h4 id="一些理解上的问题"><a href="#一些理解上的问题" class="headerlink" title="一些理解上的问题"></a>一些理解上的问题</h4><h5 id="Go-的-GC-回收哪些内存-栈和堆分别由谁管理"><a href="#Go-的-GC-回收哪些内存-栈和堆分别由谁管理" class="headerlink" title="Go 的 GC 回收哪些内存?栈和堆分别由谁管理?"></a>Go 的 GC 回收哪些内存?栈和堆分别由谁管理?</h5><ul>
+<li><strong>GC 只回收堆内存</strong></li>
+<li><strong>栈内存不归 GC 管理</strong></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>内存类型</th>
+<th>管理者</th>
+<th>回收方式</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>栈</td>
+<td>编译器 + runtime</td>
+<td>函数返回直接回收</td>
+</tr>
+<tr>
+<td>堆</td>
+<td>GC</td>
+<td>标记-清除</td>
+</tr>
+</tbody></table>
+<p>栈帧随着函数调用&#x2F;返回自动创建和销毁,回收成本极低,不适合也不需要 GC 介入。</p>
+<h5 id="为什么栈对象“不会被-GC-回收”-却仍然参与-GC"><a href="#为什么栈对象“不会被-GC-回收”-却仍然参与-GC" class="headerlink" title="为什么栈对象“不会被 GC 回收”,却仍然参与 GC?"></a>为什么栈对象“不会被 GC 回收”,却仍然参与 GC?</h5><ul>
+<li><strong>栈对象本身不回收</strong></li>
+<li>栈上的指针是 GC 的根(Root Set)</li>
+<li><strong>堆对象会被栈或全局变量间接引用</strong></li>
+</ul>
+<blockquote>
+<p>GC 需要判断 <strong>堆对象</strong> 是否还能被 <strong>栈或全局变量间接引用</strong>,以便确定堆对象是否可以被回收。</p>
+</blockquote>
+<h5 id="混合写屏障带来了什么-代价是什么"><a href="#混合写屏障带来了什么-代价是什么" class="headerlink" title="混合写屏障带来了什么,代价是什么?"></a>混合写屏障带来了什么,代价是什么?</h5><p>混合写屏障通过 对堆做插入屏障和删除屏障,对栈特殊处理不做屏障。</p>
+<p>好处:</p>
+<ul>
+<li><strong>不会误删仍可达的堆对象</strong></li>
+<li>不需要 STW 栈 re-scan,极大缩短 STW 时间</li>
+<li>栈完全无屏障,极大降低写路径成本</li>
+</ul>
+<p>缺点:</p>
+<ul>
+<li>回收精度降低(延迟回收):不保证本轮 GC 回收所有垃圾,某些对象可能延迟一轮回收</li>
+<li>内存峰值略有抬高:因为保护对象增多,延迟回收</li>
+<li>不是严格实时的 GC</li>
+</ul>
+<h3 id="一些源码"><a href="#一些源码" class="headerlink" title="一些源码"></a>一些源码</h3><p>参考 Go 版本为 1.25.5</p>
+<h4 id="整体流程"><a href="#整体流程" class="headerlink" title="整体流程"></a>整体流程</h4><ol>
+<li>gcStart() 是 GC 的入口</li>
+<li>防止 GC 在“不安全的执行上下文”(<code>gp == mp.g0 || mp.locks &gt; 1 || mp.preemptoff != &quot;&quot;</code>)中启动<ul>
+<li><code>gp == mp.g0</code> 当前在 system stack</li>
+<li><code>mp.locks &gt; 1</code> 持有 runtime 锁</li>
+<li><code>mp.preemptoff != &quot;&quot;</code> 明确禁止抢占</li>
+</ul>
+</li>
+<li>补扫 sweep,<code>sweepone()</code>,扫描并释放上一轮 GC 未 sweep 完的 span ,保证 heap 状态在 GC 开始前“干净”</li>
+<li>获取“GC 启动权”,<strong>防止多个 goroutine 同时启动 GC</strong></li>
+<li>STW<ul>
+<li><code>stw = stopTheWorldWithSema(stwGCSweepTerm)</code> 停止所有 P ,停止所有 G ,建立 STW 边界<ul>
+<li><code>casGToWaitingForSuspendG(getg().m.curg, _Grunning, waitReasonStoppingTheWorld)</code> 把“当前发起 STW 的 goroutine”标记为 _Gwaiting。允许 GC mark worker 扫描它的栈,tracer 观察它的状态,GC 和 调度器 的交叉点,防止死锁。</li>
+<li><code>sched.stopwait = gomaxprocs;sched.gcwaiting.Store(true);preemptall()</code> stopwait&#x3D;GOMAXPROCS,设置全局 GC 停顿标志,向所有的 P 发起抢占。</li>
+<li><code>for sched.stopwait &gt; 0 { ...</code> 等待所有 P 停止,周期性抢占(preempt),防止遗漏</li>
+<li>STW 成功后的校验:统计每个 P 的停顿 CPU 时间,为 GC pause time 记账</li>
+<li>STW 最终状态:<code>worldStopped();casgstatus(getg().m.curg, _Gwaiting, _Grunning)</code></li>
+</ul>
+</li>
+<li><code>finishsweep_m()</code> 确保所有 span 都处于可分配状态,为 mark 阶段准备 heap。<strong>语义上确保上一轮 GC 的 sweep 在 mark 开始前彻底完成</strong></li>
+<li><code>clearpools()</code> 清空 sync.Pool,防止池中对象延迟一个 GC 周期回收</li>
+</ul>
+</li>
+<li>GC 全局状态初始化<ul>
+<li><code>gcController.startCycle(now, int(gomaxprocs), trigger)</code> 控制 GC 频率,计算 assist 比例,决定 mutator 要“干多少 GC 活”</li>
+<li><code>gcCPULimiter.startGCTransition(true, now)</code> 控制 GC 占用 CPU 的上限,防止 GC 抢光 mutator CPU</li>
+</ul>
+</li>
+<li>进入 mark 阶段<ul>
+<li><code>setGCPhase(_GCmark)</code> 切换 GC phase(全局语义切换),写屏障将开始生效,三色标记语义正式成立<ul>
+<li><code>_GCoff</code>:本轮 GC 已完成标记,允许 sweep,关闭写屏障</li>
+<li><code>_GCmark</code>:三色标记生效,写屏障开启,新分配对象直接当作黑色,灰色队列开始 drain</li>
+<li><code>_GCmarktermination</code>:写屏障仍然开启,所有 P 必须协助 GC,即将切换到 <code>GCoff</code>。这是为了<strong>安全地过渡</strong></li>
+</ul>
+</li>
+<li><code>gcBgMarkPrepare()</code> 构造一个“永远不会因为 worker 不够而提前结束 mark 的判定条件”,<strong>它并不启动任何 goroutine,真正启动 mark worker 的地方是 STW 之前的 <code>gcBgMarkStartWorkers()</code></strong>。</li>
+<li><code>gcPrepareMarkRoots()</code> 准备 root,标记:goroutine 栈、全局变量、runtime roots。为后续 gcMarkRoot 做准备,“栈只扫描一次”的入口就在这之后<br>把“本轮 GC 需要扫描的所有 root”,拆分成可并发调度的 root jobs<ul>
+<li>Global Roots(data 已初始化的全局变量 &#x2F; bss 零值全局变量):<strong>按 block 切分,避免一个巨大 module 的 root 扫描被一个 worker 独占</strong></li>
+<li>Span Roots(finalizer specials):带 specials 的 span 主要是:finalizer、weak references(未来)</li>
+<li>Stack Roots:栈的 root</li>
+<li>Fixed Roots(runtime 内部):不属于 data&#x2F;bss、不在任何 goroutine 栈上、但 runtime 必须长期持有、且可能指向堆对象的全局结构(调度器相关结构、所有 goroutine 管理结构、空闲 G &#x2F; stack 复用池、定时器系统(timer heap)、同步原语等待队列(sudog)等等)。<ul>
+<li>生命周期 ≈ 程序生命周期</li>
+<li>不在用户可见的全局变量中</li>
+<li><strong>只能由 runtime 主动扫描</strong></li>
+</ul>
+</li>
+<li><code>gcMarkTinyAllocs()</code> tiny alloc 特殊处理,tinyalloc block 直接置黑,避免分配路径插入额外屏障</li>
+<li><code>atomic.Store(&amp;gcBlackenEnabled, 1)</code> 分配会“强迫 mutator 帮 GC 干活”</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>恢复世界,进入并发标记 <code>now = startTheWorldWithSema(0, stw)</code> mutator 恢复运行,写屏障开启,并发 mark worker 开始 drain 灰色队列。<strong>GC 的“并发标记阶段”正式开始</strong><ul>
+<li><code>assertWorldStopped();mp := acquirem()</code> 恢复世界前的准备,保证世界确实是停的、当前 P 不会被抢占,防止 P 错乱</li>
+<li><code>list, delta := netpoll(0);injectglist(&amp;list);netpollAdjustWaiters(delta)</code> 处理 STW 期间积累的外部事件,是 I&#x2F;O 与 STW 的边界处理</li>
+<li><code>p1 := procresize(procs);sched.gcwaiting.Store(false)</code> 重新建立 P 的规模与归属关系,处理 GOMAXPROCS 变化、清除 gcwaiting 、唤醒 sysmon(如果需要)</li>
+<li>把 P 重新交还给 M(或创建新 M),是调度恢复的核心</li>
+<li><code>sched.stwTotalTimeGC.record(...);trace.STWDone()</code> 记录 STW 总耗时和 trace</li>
+<li><code>wakep()</code> 唤醒调度系统,防止 runnable G 堆积 、P 全部 idle</li>
+</ul>
+</li>
+</ol>
+<blockquote>
+<p>可以发现,这里的 gcStart 流程只是为 GC 进行环境的准备,保证上一次 GC 完全结束,并且拿到所有的 root。<br>真正的标记阶段是 gcStart 启动的异步的,在 STW 之后才开始的。<br>并且这里没有真正的对白色对象进行清理。</p>
+<p><strong>Go GC 的“清理阶段(Sweep)”不在 gcStart 里作为一个完整阶段出现,是因为:Sweep 是「跨 GC 周期、并发 + 增量」执行的,而不是一个集中、封闭的阶段。</strong><br>gcStart 中会有一部分清理(sweepone 和 finishsweep_m),但<strong>真正的大部分清理工作是在 GC mark 结束之后,下一轮 GC 开始之前,且与 mutator 并发执行的。</strong></p>
+</blockquote>
+<p>真正清理阶段:</p>
+<ol>
+<li>Sweep 的入口:<code>gcMarkTermination()</code></li>
+<li>Sweep 的执行:<code>sweepone() / sweepLocked()</code>,<strong>Sweep 不是一个统一的 loop,而是被“顺便”触发的</strong>。<ul>
+<li>分配内存</li>
+<li>后台 sweep goroutine</li>
+<li>下一轮 GC 启动前</li>
+<li>heap 不足</li>
+</ul>
+</li>
+<li>后台 sweep worker,Go 有专门的后台 sweep worker:在 GC 结束后启动,与 mutator 并发,慢慢把 span 扫干净。<code>bgsweep() / sweepone()</code></li>
+</ol>
+<h4 id="源码参考"><a href="#源码参考" class="headerlink" title="源码参考"></a>源码参考</h4><p>入口:<code>gcStart()</code>:go1.25.5&#x2F;src&#x2F;runtime&#x2F;mgc.go:643</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// gcStart starts the GC. It transitions from _GCoff to _GCmark (if</span></span><br><span class="line"><span class="comment">// debug.gcstoptheworld == 0) or performs all of GC (if</span></span><br><span class="line"><span class="comment">// debug.gcstoptheworld != 0).</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// This may return without performing this transition in some cases,</span></span><br><span class="line"><span class="comment">// such as when called on a system stack or with locks held.</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">gcStart</span><span class="params">(trigger gcTrigger)</span></span> &#123;</span><br><span class="line">	<span class="comment">// Since this is called from malloc and malloc is called in</span></span><br><span class="line">	<span class="comment">// the guts of a number of libraries that might be holding</span></span><br><span class="line">	<span class="comment">// locks, don&#x27;t attempt to start GC in non-preemptible or</span></span><br><span class="line">	<span class="comment">// potentially unstable situations.</span></span><br><span class="line">	mp := acquirem()</span><br><span class="line">	<span class="keyword">if</span> gp := getg(); gp == mp.g0 || mp.locks &gt; <span class="number">1</span> || mp.preemptoff != <span class="string">&quot;&quot;</span> &#123;</span><br><span class="line">		releasem(mp)</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line">	releasem(mp)</span><br><span class="line">	mp = <span class="literal">nil</span></span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> gp := getg(); gp.bubble != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="comment">// Disassociate the G from its synctest bubble while allocating.</span></span><br><span class="line">		<span class="comment">// This is less elegant than incrementing the group&#x27;s active count,</span></span><br><span class="line">		<span class="comment">// but avoids any contamination between GC and synctest.</span></span><br><span class="line">		bubble := gp.bubble</span><br><span class="line">		gp.bubble = <span class="literal">nil</span></span><br><span class="line">		<span class="keyword">defer</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">			gp.bubble = bubble</span><br><span class="line">		&#125;()</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Pick up the remaining unswept/not being swept spans concurrently</span></span><br><span class="line">	<span class="comment">//</span></span><br><span class="line">	<span class="comment">// This shouldn&#x27;t happen if we&#x27;re being invoked in background</span></span><br><span class="line">	<span class="comment">// mode since proportional sweep should have just finished</span></span><br><span class="line">	<span class="comment">// sweeping everything, but rounding errors, etc, may leave a</span></span><br><span class="line">	<span class="comment">// few spans unswept. In forced mode, this is necessary since</span></span><br><span class="line">	<span class="comment">// GC can be forced at any point in the sweeping cycle.</span></span><br><span class="line">	<span class="comment">//</span></span><br><span class="line">	<span class="comment">// We check the transition condition continuously here in case</span></span><br><span class="line">	<span class="comment">// this G gets delayed in to the next GC cycle.</span></span><br><span class="line">	<span class="keyword">for</span> trigger.test() &amp;&amp; sweepone() != ^<span class="type">uintptr</span>(<span class="number">0</span>) &#123;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Perform GC initialization and the sweep termination</span></span><br><span class="line">	<span class="comment">// transition.</span></span><br><span class="line">	semacquire(&amp;work.startSema)</span><br><span class="line">	<span class="comment">// Re-check transition condition under transition lock.</span></span><br><span class="line">	<span class="keyword">if</span> !trigger.test() &#123;</span><br><span class="line">		semrelease(&amp;work.startSema)</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// In gcstoptheworld debug mode, upgrade the mode accordingly.</span></span><br><span class="line">	<span class="comment">// We do this after re-checking the transition condition so</span></span><br><span class="line">	<span class="comment">// that multiple goroutines that detect the heap trigger don&#x27;t</span></span><br><span class="line">	<span class="comment">// start multiple STW GCs.</span></span><br><span class="line">	mode := gcBackgroundMode</span><br><span class="line">	<span class="keyword">if</span> debug.gcstoptheworld == <span class="number">1</span> &#123;</span><br><span class="line">		mode = gcForceMode</span><br><span class="line">	&#125; <span class="keyword">else</span> <span class="keyword">if</span> debug.gcstoptheworld == <span class="number">2</span> &#123;</span><br><span class="line">		mode = gcForceBlockMode</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Ok, we&#x27;re doing it! Stop everybody else</span></span><br><span class="line">	semacquire(&amp;gcsema)</span><br><span class="line">	semacquire(&amp;worldsema)</span><br><span class="line"></span><br><span class="line">	<span class="comment">// For stats, check if this GC was forced by the user.</span></span><br><span class="line">	<span class="comment">// Update it under gcsema to avoid gctrace getting wrong values.</span></span><br><span class="line">	work.userForced = trigger.kind == gcTriggerCycle</span><br><span class="line"></span><br><span class="line">	trace := traceAcquire()</span><br><span class="line">	<span class="keyword">if</span> trace.ok() &#123;</span><br><span class="line">		trace.GCStart()</span><br><span class="line">		traceRelease(trace)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Check that all Ps have finished deferred mcache flushes.</span></span><br><span class="line">	<span class="keyword">for</span> _, p := <span class="keyword">range</span> allp &#123;</span><br><span class="line">		<span class="keyword">if</span> fg := p.mcache.flushGen.Load(); fg != mheap_.sweepgen &#123;</span><br><span class="line">			<span class="built_in">println</span>(<span class="string">&quot;runtime: p&quot;</span>, p.id, <span class="string">&quot;flushGen&quot;</span>, fg, <span class="string">&quot;!= sweepgen&quot;</span>, mheap_.sweepgen)</span><br><span class="line">			throw(<span class="string">&quot;p mcache not flushed&quot;</span>)</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">// Initialize ptrBuf if necessary.</span></span><br><span class="line">		<span class="keyword">if</span> goexperiment.GreenTeaGC &amp;&amp; p.gcw.ptrBuf == <span class="literal">nil</span> &#123;</span><br><span class="line">			p.gcw.ptrBuf = (*[gc.PageSize / goarch.PtrSize]<span class="type">uintptr</span>)(persistentalloc(gc.PageSize, goarch.PtrSize, &amp;memstats.gcMiscSys))</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	gcBgMarkStartWorkers()</span><br><span class="line"></span><br><span class="line">	systemstack(gcResetMarkState)</span><br><span class="line"></span><br><span class="line">	work.stwprocs, work.maxprocs = gomaxprocs, gomaxprocs</span><br><span class="line">	<span class="keyword">if</span> work.stwprocs &gt; numCPUStartup &#123;</span><br><span class="line">		<span class="comment">// This is used to compute CPU time of the STW phases, so it</span></span><br><span class="line">		<span class="comment">// can&#x27;t be more than the CPU count, even if GOMAXPROCS is.</span></span><br><span class="line">		work.stwprocs = numCPUStartup</span><br><span class="line">	&#125;</span><br><span class="line">	work.heap0 = gcController.heapLive.Load()</span><br><span class="line">	work.pauseNS = <span class="number">0</span></span><br><span class="line">	work.mode = mode</span><br><span class="line"></span><br><span class="line">	now := nanotime()</span><br><span class="line">	work.tSweepTerm = now</span><br><span class="line">	<span class="keyword">var</span> stw worldStop</span><br><span class="line">	systemstack(<span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">		stw = stopTheWorldWithSema(stwGCSweepTerm)</span><br><span class="line">	&#125;)</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Accumulate fine-grained stopping time.</span></span><br><span class="line">	work.cpuStats.accumulateGCPauseTime(stw.stoppingCPUTime, <span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Finish sweep before we start concurrent scan.</span></span><br><span class="line">	systemstack(<span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">		finishsweep_m()</span><br><span class="line">	&#125;)</span><br><span class="line"></span><br><span class="line">	<span class="comment">// clearpools before we start the GC. If we wait the memory will not be</span></span><br><span class="line">	<span class="comment">// reclaimed until the next GC cycle.</span></span><br><span class="line">	clearpools()</span><br><span class="line"></span><br><span class="line">	work.cycles.Add(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Assists and workers can start the moment we start</span></span><br><span class="line">	<span class="comment">// the world.</span></span><br><span class="line">	gcController.startCycle(now, <span class="type">int</span>(gomaxprocs), trigger)</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Notify the CPU limiter that assists may begin.</span></span><br><span class="line">	gcCPULimiter.startGCTransition(<span class="literal">true</span>, now)</span><br><span class="line"></span><br><span class="line">	<span class="comment">// In STW mode, disable scheduling of user Gs. This may also</span></span><br><span class="line">	<span class="comment">// disable scheduling of this goroutine, so it may block as</span></span><br><span class="line">	<span class="comment">// soon as we start the world again.</span></span><br><span class="line">	<span class="keyword">if</span> mode != gcBackgroundMode &#123;</span><br><span class="line">		schedEnableUser(<span class="literal">false</span>)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Enter concurrent mark phase and enable</span></span><br><span class="line">	<span class="comment">// write barriers.</span></span><br><span class="line">	<span class="comment">//</span></span><br><span class="line">	<span class="comment">// Because the world is stopped, all Ps will</span></span><br><span class="line">	<span class="comment">// observe that write barriers are enabled by</span></span><br><span class="line">	<span class="comment">// the time we start the world and begin</span></span><br><span class="line">	<span class="comment">// scanning.</span></span><br><span class="line">	<span class="comment">//</span></span><br><span class="line">	<span class="comment">// Write barriers must be enabled before assists are</span></span><br><span class="line">	<span class="comment">// enabled because they must be enabled before</span></span><br><span class="line">	<span class="comment">// any non-leaf heap objects are marked. Since</span></span><br><span class="line">	<span class="comment">// allocations are blocked until assists can</span></span><br><span class="line">	<span class="comment">// happen, we want to enable assists as early as</span></span><br><span class="line">	<span class="comment">// possible.</span></span><br><span class="line">	setGCPhase(_GCmark)</span><br><span class="line"></span><br><span class="line">	gcBgMarkPrepare() <span class="comment">// Must happen before assists are enabled.</span></span><br><span class="line">	gcPrepareMarkRoots()</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Mark all active tinyalloc blocks. Since we&#x27;re</span></span><br><span class="line">	<span class="comment">// allocating from these, they need to be black like</span></span><br><span class="line">	<span class="comment">// other allocations. The alternative is to blacken</span></span><br><span class="line">	<span class="comment">// the tiny block on every allocation from it, which</span></span><br><span class="line">	<span class="comment">// would slow down the tiny allocator.</span></span><br><span class="line">	gcMarkTinyAllocs()</span><br><span class="line"></span><br><span class="line">	<span class="comment">// At this point all Ps have enabled the write</span></span><br><span class="line">	<span class="comment">// barrier, thus maintaining the no white to</span></span><br><span class="line">	<span class="comment">// black invariant. Enable mutator assists to</span></span><br><span class="line">	<span class="comment">// put back-pressure on fast allocating</span></span><br><span class="line">	<span class="comment">// mutators.</span></span><br><span class="line">	atomic.Store(&amp;gcBlackenEnabled, <span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">	<span class="comment">// In STW mode, we could block the instant systemstack</span></span><br><span class="line">	<span class="comment">// returns, so make sure we&#x27;re not preemptible.</span></span><br><span class="line">	mp = acquirem()</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Update the CPU stats pause time.</span></span><br><span class="line">	<span class="comment">//</span></span><br><span class="line">	<span class="comment">// Use maxprocs instead of stwprocs here because the total time</span></span><br><span class="line">	<span class="comment">// computed in the CPU stats is based on maxprocs, and we want them</span></span><br><span class="line">	<span class="comment">// to be comparable.</span></span><br><span class="line">	work.cpuStats.accumulateGCPauseTime(nanotime()-stw.finishedStopping, work.maxprocs)</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Concurrent mark.</span></span><br><span class="line">	systemstack(<span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">		now = startTheWorldWithSema(<span class="number">0</span>, stw)</span><br><span class="line">		work.pauseNS += now - stw.startedStopping</span><br><span class="line">		work.tMark = now</span><br><span class="line"></span><br><span class="line">		<span class="comment">// Release the CPU limiter.</span></span><br><span class="line">		gcCPULimiter.finishGCTransition(now)</span><br><span class="line">	&#125;)</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Release the world sema before Gosched() in STW mode</span></span><br><span class="line">	<span class="comment">// because we will need to reacquire it later but before</span></span><br><span class="line">	<span class="comment">// this goroutine becomes runnable again, and we could</span></span><br><span class="line">	<span class="comment">// self-deadlock otherwise.</span></span><br><span class="line">	semrelease(&amp;worldsema)</span><br><span class="line">	releasem(mp)</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Make sure we block instead of returning to user code</span></span><br><span class="line">	<span class="comment">// in STW mode.</span></span><br><span class="line">	<span class="keyword">if</span> mode != gcBackgroundMode &#123;</span><br><span class="line">		Gosched()</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	semrelease(&amp;work.startSema)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>setGCPhase(_GCmark)</code> 切换 GC phase(全局语义切换):go1.25.5&#x2F;src&#x2F;runtime&#x2F;mgc.go:255</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Garbage collector phase.</span></span><br><span class="line"><span class="comment">// Indicates to write barrier and synchronization task to perform.</span></span><br><span class="line"><span class="keyword">var</span> gcphase <span class="type">uint32</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// The compiler knows about this variable.</span></span><br><span class="line"><span class="comment">// If you change it, you must change builtin/runtime.go, too.</span></span><br><span class="line"><span class="comment">// If you change the first four bytes, you must also change the write</span></span><br><span class="line"><span class="comment">// barrier insertion code.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// writeBarrier should be an internal detail,</span></span><br><span class="line"><span class="comment">// but widely used packages access it using linkname.</span></span><br><span class="line"><span class="comment">// Notable members of the hall of shame include:</span></span><br><span class="line"><span class="comment">//   - github.com/bytedance/sonic</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Do not remove or change the type signature.</span></span><br><span class="line"><span class="comment">// See go.dev/issue/67401.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//go:linkname writeBarrier</span></span><br><span class="line"><span class="keyword">var</span> writeBarrier <span class="keyword">struct</span> &#123;</span><br><span class="line">	enabled <span class="type">bool</span>    <span class="comment">// compiler emits a check of this before calling write barrier</span></span><br><span class="line">	pad     [<span class="number">3</span>]<span class="type">byte</span> <span class="comment">// compiler uses 32-bit load for &quot;enabled&quot; field</span></span><br><span class="line">	alignme <span class="type">uint64</span>  <span class="comment">// guarantee alignment so that compiler can use a 32 or 64-bit load</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> (</span><br><span class="line">	_GCoff             = <span class="literal">iota</span> <span class="comment">// GC not running; sweeping in background, write barrier disabled</span></span><br><span class="line">	_GCmark                   <span class="comment">// GC marking roots and workbufs: allocate black, write barrier ENABLED</span></span><br><span class="line">	_GCmarktermination        <span class="comment">// GC mark termination: allocate black, P&#x27;s help GC, write barrier ENABLED</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment">//go:nosplit</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">setGCPhase</span><span class="params">(x <span class="type">uint32</span>)</span></span> &#123;</span><br><span class="line">	atomic.Store(&amp;gcphase, x)</span><br><span class="line">	writeBarrier.enabled = gcphase == _GCmark || gcphase == _GCmarktermination</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>gcBgMarkPrepare</code>:go1.25.5&#x2F;src&#x2F;runtime&#x2F;mgc.go:1393</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// gcBgMarkPrepare sets up state for background marking.</span></span><br><span class="line"><span class="comment">// Mutator assists must not yet be enabled.</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">gcBgMarkPrepare</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="comment">// Background marking will stop when the work queues are empty</span></span><br><span class="line">	<span class="comment">// and there are no more workers (note that, since this is</span></span><br><span class="line">	<span class="comment">// concurrent, this may be a transient state, but mark</span></span><br><span class="line">	<span class="comment">// termination will clean it up). Between background workers</span></span><br><span class="line">	<span class="comment">// and assists, we don&#x27;t really know how many workers there</span></span><br><span class="line">	<span class="comment">// will be, so we pretend to have an arbitrarily large number</span></span><br><span class="line">	<span class="comment">// of workers, almost all of which are &quot;waiting&quot;. While a</span></span><br><span class="line">	<span class="comment">// worker is working it decrements nwait. If nproc == nwait,</span></span><br><span class="line">	<span class="comment">// there are no workers.</span></span><br><span class="line">	work.nproc = ^<span class="type">uint32</span>(<span class="number">0</span>)</span><br><span class="line">	work.nwait = ^<span class="type">uint32</span>(<span class="number">0</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>gcPrepareMarkRoots</code>:go1.25.5&#x2F;src&#x2F;runtime&#x2F;mgcmark.go:60</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// gcPrepareMarkRoots queues root scanning jobs (stacks, globals, and</span></span><br><span class="line"><span class="comment">// some miscellany) and initializes scanning-related state.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// The world must be stopped.</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">gcPrepareMarkRoots</span><span class="params">()</span></span> &#123;</span><br><span class="line">	assertWorldStopped()</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Compute how many data and BSS root blocks there are.</span></span><br><span class="line">	nBlocks := <span class="function"><span class="keyword">func</span><span class="params">(bytes <span class="type">uintptr</span>)</span></span> <span class="type">int</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="type">int</span>(divRoundUp(bytes, rootBlockBytes))</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	work.nDataRoots = <span class="number">0</span></span><br><span class="line">	work.nBSSRoots = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">// Scan globals.</span></span><br><span class="line">	<span class="keyword">for</span> _, datap := <span class="keyword">range</span> activeModules() &#123;</span><br><span class="line">		nDataRoots := nBlocks(datap.edata - datap.data)</span><br><span class="line">		<span class="keyword">if</span> nDataRoots &gt; work.nDataRoots &#123;</span><br><span class="line">			work.nDataRoots = nDataRoots</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		nBSSRoots := nBlocks(datap.ebss - datap.bss)</span><br><span class="line">		<span class="keyword">if</span> nBSSRoots &gt; work.nBSSRoots &#123;</span><br><span class="line">			work.nBSSRoots = nBSSRoots</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Scan span roots for finalizer specials.</span></span><br><span class="line">	<span class="comment">//</span></span><br><span class="line">	<span class="comment">// We depend on addfinalizer to mark objects that get</span></span><br><span class="line">	<span class="comment">// finalizers after root marking.</span></span><br><span class="line">	<span class="comment">//</span></span><br><span class="line">	<span class="comment">// We&#x27;re going to scan the whole heap (that was available at the time the</span></span><br><span class="line">	<span class="comment">// mark phase started, i.e. markArenas) for in-use spans which have specials.</span></span><br><span class="line">	<span class="comment">//</span></span><br><span class="line">	<span class="comment">// Break up the work into arenas, and further into chunks.</span></span><br><span class="line">	<span class="comment">//</span></span><br><span class="line">	<span class="comment">// Snapshot heapArenas as markArenas. This snapshot is safe because heapArenas</span></span><br><span class="line">	<span class="comment">// is append-only.</span></span><br><span class="line">	mheap_.markArenas = mheap_.heapArenas[:<span class="built_in">len</span>(mheap_.heapArenas):<span class="built_in">len</span>(mheap_.heapArenas)]</span><br><span class="line">	work.nSpanRoots = <span class="built_in">len</span>(mheap_.markArenas) * (pagesPerArena / pagesPerSpanRoot)</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Scan stacks.</span></span><br><span class="line">	<span class="comment">//</span></span><br><span class="line">	<span class="comment">// Gs may be created after this point, but it&#x27;s okay that we</span></span><br><span class="line">	<span class="comment">// ignore them because they begin life without any roots, so</span></span><br><span class="line">	<span class="comment">// there&#x27;s nothing to scan, and any roots they create during</span></span><br><span class="line">	<span class="comment">// the concurrent phase will be caught by the write barrier.</span></span><br><span class="line">	work.stackRoots = allGsSnapshot()</span><br><span class="line">	work.nStackRoots = <span class="built_in">len</span>(work.stackRoots)</span><br><span class="line"></span><br><span class="line">	work.markrootNext = <span class="number">0</span></span><br><span class="line">	work.markrootJobs = <span class="type">uint32</span>(fixedRootCount + work.nDataRoots + work.nBSSRoots + work.nSpanRoots + work.nStackRoots)</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Calculate base indexes of each root type</span></span><br><span class="line">	work.baseData = <span class="type">uint32</span>(fixedRootCount)</span><br><span class="line">	work.baseBSS = work.baseData + <span class="type">uint32</span>(work.nDataRoots)</span><br><span class="line">	work.baseSpans = work.baseBSS + <span class="type">uint32</span>(work.nBSSRoots)</span><br><span class="line">	work.baseStacks = work.baseSpans + <span class="type">uint32</span>(work.nSpanRoots)</span><br><span class="line">	work.baseEnd = work.baseStacks + <span class="type">uint32</span>(work.nStackRoots)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>stopTheWorldWithSema(reason stwReason)</code>:go1.25.5&#x2F;src&#x2F;runtime&#x2F;proc.go:1617<br><code>startTheWorldWithSema(now int64, w worldStop)</code>:go1.25.5&#x2F;src&#x2F;runtime&#x2F;proc.go:1763</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// stopTheWorldWithSema is the core implementation of stopTheWorld.</span></span><br><span class="line"><span class="comment">// The caller is responsible for acquiring worldsema and disabling</span></span><br><span class="line"><span class="comment">// preemption first and then should stopTheWorldWithSema on the system</span></span><br><span class="line"><span class="comment">// stack:</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//	semacquire(&amp;worldsema, 0)</span></span><br><span class="line"><span class="comment">//	m.preemptoff = &quot;reason&quot;</span></span><br><span class="line"><span class="comment">//	var stw worldStop</span></span><br><span class="line"><span class="comment">//	systemstack(func() &#123;</span></span><br><span class="line"><span class="comment">//		stw = stopTheWorldWithSema(reason)</span></span><br><span class="line"><span class="comment">//	&#125;)</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// When finished, the caller must either call startTheWorld or undo</span></span><br><span class="line"><span class="comment">// these three operations separately:</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//	m.preemptoff = &quot;&quot;</span></span><br><span class="line"><span class="comment">//	systemstack(func() &#123;</span></span><br><span class="line"><span class="comment">//		now = startTheWorldWithSema(stw)</span></span><br><span class="line"><span class="comment">//	&#125;)</span></span><br><span class="line"><span class="comment">//	semrelease(&amp;worldsema)</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// It is allowed to acquire worldsema once and then execute multiple</span></span><br><span class="line"><span class="comment">// startTheWorldWithSema/stopTheWorldWithSema pairs.</span></span><br><span class="line"><span class="comment">// Other P&#x27;s are able to execute between successive calls to</span></span><br><span class="line"><span class="comment">// startTheWorldWithSema and stopTheWorldWithSema.</span></span><br><span class="line"><span class="comment">// Holding worldsema causes any other goroutines invoking</span></span><br><span class="line"><span class="comment">// stopTheWorld to block.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Returns the STW context. When starting the world, this context must be</span></span><br><span class="line"><span class="comment">// passed to startTheWorldWithSema.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//go:systemstack</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">stopTheWorldWithSema</span><span class="params">(reason stwReason)</span></span> worldStop &#123;</span><br><span class="line">	<span class="comment">// Mark the goroutine which called stopTheWorld preemptible so its</span></span><br><span class="line">	<span class="comment">// stack may be scanned by the GC or observed by the execution tracer.</span></span><br><span class="line">	<span class="comment">//</span></span><br><span class="line">	<span class="comment">// This lets a mark worker scan us or the execution tracer take our</span></span><br><span class="line">	<span class="comment">// stack while we try to stop the world since otherwise we could get</span></span><br><span class="line">	<span class="comment">// in a mutual preemption deadlock.</span></span><br><span class="line">	<span class="comment">//</span></span><br><span class="line">	<span class="comment">// We must not modify anything on the G stack because a stack shrink</span></span><br><span class="line">	<span class="comment">// may occur, now that we switched to _Gwaiting, specifically if we&#x27;re</span></span><br><span class="line">	<span class="comment">// doing this during the mark phase (mark termination excepted, since</span></span><br><span class="line">	<span class="comment">// we know that stack scanning is done by that point). A stack shrink</span></span><br><span class="line">	<span class="comment">// is otherwise OK though because in order to return from this function</span></span><br><span class="line">	<span class="comment">// (and to leave the system stack) we must have preempted all</span></span><br><span class="line">	<span class="comment">// goroutines, including any attempting to scan our stack, in which</span></span><br><span class="line">	<span class="comment">// case, any stack shrinking will have already completed by the time we</span></span><br><span class="line">	<span class="comment">// exit.</span></span><br><span class="line">	<span class="comment">//</span></span><br><span class="line">	<span class="comment">// N.B. The execution tracer is not aware of this status transition and</span></span><br><span class="line">	<span class="comment">// andles it specially based on the wait reason.</span></span><br><span class="line">	casGToWaitingForSuspendG(getg().m.curg, _Grunning, waitReasonStoppingTheWorld)</span><br><span class="line"></span><br><span class="line">	trace := traceAcquire()</span><br><span class="line">	<span class="keyword">if</span> trace.ok() &#123;</span><br><span class="line">		trace.STWStart(reason)</span><br><span class="line">		traceRelease(trace)</span><br><span class="line">	&#125;</span><br><span class="line">	gp := getg()</span><br><span class="line"></span><br><span class="line">	<span class="comment">// If we hold a lock, then we won&#x27;t be able to stop another M</span></span><br><span class="line">	<span class="comment">// that is blocked trying to acquire the lock.</span></span><br><span class="line">	<span class="keyword">if</span> gp.m.locks &gt; <span class="number">0</span> &#123;</span><br><span class="line">		throw(<span class="string">&quot;stopTheWorld: holding locks&quot;</span>)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	lock(&amp;sched.lock)</span><br><span class="line">	start := nanotime() <span class="comment">// exclude time waiting for sched.lock from start and total time metrics.</span></span><br><span class="line">	sched.stopwait = gomaxprocs</span><br><span class="line">	sched.gcwaiting.Store(<span class="literal">true</span>)</span><br><span class="line">	preemptall()</span><br><span class="line">	<span class="comment">// stop current P</span></span><br><span class="line">	gp.m.p.ptr().status = _Pgcstop <span class="comment">// Pgcstop is only diagnostic.</span></span><br><span class="line">	gp.m.p.ptr().gcStopTime = start</span><br><span class="line">	sched.stopwait--</span><br><span class="line">	<span class="comment">// try to retake all P&#x27;s in Psyscall status</span></span><br><span class="line">	trace = traceAcquire()</span><br><span class="line">	<span class="keyword">for</span> _, pp := <span class="keyword">range</span> allp &#123;</span><br><span class="line">		s := pp.status</span><br><span class="line">		<span class="keyword">if</span> s == _Psyscall &amp;&amp; atomic.Cas(&amp;pp.status, s, _Pgcstop) &#123;</span><br><span class="line">			<span class="keyword">if</span> trace.ok() &#123;</span><br><span class="line">				trace.ProcSteal(pp, <span class="literal">false</span>)</span><br><span class="line">			&#125;</span><br><span class="line">			pp.syscalltick++</span><br><span class="line">			pp.gcStopTime = nanotime()</span><br><span class="line">			sched.stopwait--</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> trace.ok() &#123;</span><br><span class="line">		traceRelease(trace)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// stop idle P&#x27;s</span></span><br><span class="line">	now := nanotime()</span><br><span class="line">	<span class="keyword">for</span> &#123;</span><br><span class="line">		pp, _ := pidleget(now)</span><br><span class="line">		<span class="keyword">if</span> pp == <span class="literal">nil</span> &#123;</span><br><span class="line">			<span class="keyword">break</span></span><br><span class="line">		&#125;</span><br><span class="line">		pp.status = _Pgcstop</span><br><span class="line">		pp.gcStopTime = nanotime()</span><br><span class="line">		sched.stopwait--</span><br><span class="line">	&#125;</span><br><span class="line">	wait := sched.stopwait &gt; <span class="number">0</span></span><br><span class="line">	unlock(&amp;sched.lock)</span><br><span class="line"></span><br><span class="line">	<span class="comment">// wait for remaining P&#x27;s to stop voluntarily</span></span><br><span class="line">	<span class="keyword">if</span> wait &#123;</span><br><span class="line">		<span class="keyword">for</span> &#123;</span><br><span class="line">			<span class="comment">// wait for 100us, then try to re-preempt in case of any races</span></span><br><span class="line">			<span class="keyword">if</span> notetsleep(&amp;sched.stopnote, <span class="number">100</span>*<span class="number">1000</span>) &#123;</span><br><span class="line">				noteclear(&amp;sched.stopnote)</span><br><span class="line">				<span class="keyword">break</span></span><br><span class="line">			&#125;</span><br><span class="line">			preemptall()</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	finish := nanotime()</span><br><span class="line">	startTime := finish - start</span><br><span class="line">	<span class="keyword">if</span> reason.isGC() &#123;</span><br><span class="line">		sched.stwStoppingTimeGC.record(startTime)</span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		sched.stwStoppingTimeOther.record(startTime)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Double-check we actually stopped everything, and all the invariants hold.</span></span><br><span class="line">	<span class="comment">// Also accumulate all the time spent by each P in _Pgcstop up to the point</span></span><br><span class="line">	<span class="comment">// where everything was stopped. This will be accumulated into the total pause</span></span><br><span class="line">	<span class="comment">// CPU time by the caller.</span></span><br><span class="line">	stoppingCPUTime := <span class="type">int64</span>(<span class="number">0</span>)</span><br><span class="line">	bad := <span class="string">&quot;&quot;</span></span><br><span class="line">	<span class="keyword">if</span> sched.stopwait != <span class="number">0</span> &#123;</span><br><span class="line">		bad = <span class="string">&quot;stopTheWorld: not stopped (stopwait != 0)&quot;</span></span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		<span class="keyword">for</span> _, pp := <span class="keyword">range</span> allp &#123;</span><br><span class="line">			<span class="keyword">if</span> pp.status != _Pgcstop &#123;</span><br><span class="line">				bad = <span class="string">&quot;stopTheWorld: not stopped (status != _Pgcstop)&quot;</span></span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">if</span> pp.gcStopTime == <span class="number">0</span> &amp;&amp; bad == <span class="string">&quot;&quot;</span> &#123;</span><br><span class="line">				bad = <span class="string">&quot;stopTheWorld: broken CPU time accounting&quot;</span></span><br><span class="line">			&#125;</span><br><span class="line">			stoppingCPUTime += finish - pp.gcStopTime</span><br><span class="line">			pp.gcStopTime = <span class="number">0</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> freezing.Load() &#123;</span><br><span class="line">		<span class="comment">// Some other thread is panicking. This can cause the</span></span><br><span class="line">		<span class="comment">// sanity checks above to fail if the panic happens in</span></span><br><span class="line">		<span class="comment">// the signal handler on a stopped thread. Either way,</span></span><br><span class="line">		<span class="comment">// we should halt this thread.</span></span><br><span class="line">		lock(&amp;deadlock)</span><br><span class="line">		lock(&amp;deadlock)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> bad != <span class="string">&quot;&quot;</span> &#123;</span><br><span class="line">		throw(bad)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	worldStopped()</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Switch back to _Grunning, now that the world is stopped.</span></span><br><span class="line">	casgstatus(getg().m.curg, _Gwaiting, _Grunning)</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> worldStop&#123;</span><br><span class="line">		reason:           reason,</span><br><span class="line">		startedStopping:  start,</span><br><span class="line">		finishedStopping: finish,</span><br><span class="line">		stoppingCPUTime:  stoppingCPUTime,</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// reason is the same STW reason passed to stopTheWorld. start is the start</span></span><br><span class="line"><span class="comment">// time returned by stopTheWorld.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// now is the current time; prefer to pass 0 to capture a fresh timestamp.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// stattTheWorldWithSema returns now.</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">startTheWorldWithSema</span><span class="params">(now <span class="type">int64</span>, w worldStop)</span></span> <span class="type">int64</span> &#123;</span><br><span class="line">	assertWorldStopped()</span><br><span class="line"></span><br><span class="line">	mp := acquirem() <span class="comment">// disable preemption because it can be holding p in a local var</span></span><br><span class="line">	<span class="keyword">if</span> netpollinited() &#123;</span><br><span class="line">		list, delta := netpoll(<span class="number">0</span>) <span class="comment">// non-blocking</span></span><br><span class="line">		injectglist(&amp;list)</span><br><span class="line">		netpollAdjustWaiters(delta)</span><br><span class="line">	&#125;</span><br><span class="line">	lock(&amp;sched.lock)</span><br><span class="line"></span><br><span class="line">	procs := gomaxprocs</span><br><span class="line">	<span class="keyword">if</span> newprocs != <span class="number">0</span> &#123;</span><br><span class="line">		procs = newprocs</span><br><span class="line">		newprocs = <span class="number">0</span></span><br><span class="line">	&#125;</span><br><span class="line">	p1 := procresize(procs)</span><br><span class="line">	sched.gcwaiting.Store(<span class="literal">false</span>)</span><br><span class="line">	<span class="keyword">if</span> sched.sysmonwait.Load() &#123;</span><br><span class="line">		sched.sysmonwait.Store(<span class="literal">false</span>)</span><br><span class="line">		notewakeup(&amp;sched.sysmonnote)</span><br><span class="line">	&#125;</span><br><span class="line">	unlock(&amp;sched.lock)</span><br><span class="line"></span><br><span class="line">	worldStarted()</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> p1 != <span class="literal">nil</span> &#123;</span><br><span class="line">		p := p1</span><br><span class="line">		p1 = p1.link.ptr()</span><br><span class="line">		<span class="keyword">if</span> p.m != <span class="number">0</span> &#123;</span><br><span class="line">			mp := p.m.ptr()</span><br><span class="line">			p.m = <span class="number">0</span></span><br><span class="line">			<span class="keyword">if</span> mp.nextp != <span class="number">0</span> &#123;</span><br><span class="line">				throw(<span class="string">&quot;startTheWorld: inconsistent mp-&gt;nextp&quot;</span>)</span><br><span class="line">			&#125;</span><br><span class="line">			mp.nextp.set(p)</span><br><span class="line">			notewakeup(&amp;mp.park)</span><br><span class="line">		&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">			<span class="comment">// Start M to run P.  Do not start another M below.</span></span><br><span class="line">			newm(<span class="literal">nil</span>, p, <span class="number">-1</span>)</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Capture start-the-world time before doing clean-up tasks.</span></span><br><span class="line">	<span class="keyword">if</span> now == <span class="number">0</span> &#123;</span><br><span class="line">		now = nanotime()</span><br><span class="line">	&#125;</span><br><span class="line">	totalTime := now - w.startedStopping</span><br><span class="line">	<span class="keyword">if</span> w.reason.isGC() &#123;</span><br><span class="line">		sched.stwTotalTimeGC.record(totalTime)</span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		sched.stwTotalTimeOther.record(totalTime)</span><br><span class="line">	&#125;</span><br><span class="line">	trace := traceAcquire()</span><br><span class="line">	<span class="keyword">if</span> trace.ok() &#123;</span><br><span class="line">		trace.STWDone()</span><br><span class="line">		traceRelease(trace)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Wakeup an additional proc in case we have excessive runnable goroutines</span></span><br><span class="line">	<span class="comment">// in local queues or in the global queue. If we don&#x27;t, the proc will park itself.</span></span><br><span class="line">	<span class="comment">// If we have lots of excessive work, resetspinning will unpark additional procs as necessary.</span></span><br><span class="line">	wakep()</span><br><span class="line"></span><br><span class="line">	releasem(mp)</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> now</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+                </div>
+
+                
+                        
+<div class="post-copyright-info-container border-box">
+    <div class="copyright-info-content border-box">
+        <div class="copyright-info-top border-box">
+            <div class="copyright-post-title border-box text-ellipsis">
+                《深入理解Go语言》读书笔记 - Go 语言混合写屏障的 GC 全场景分析
+            </div>
+
+            <div class="copyright-post-link border-box text-ellipsis">
+                读书笔记/读书笔记/《深入理解Go语言》读书笔记-Go语言混合写屏障的GC全场景分析/
+            </div>
+        </div>
+
+        <div class="copyright-info-bottom border-box">
+            <div class="copyright-post-author bottom-item">
+                <div class="type">
+                    作者
+                </div>
+                <div class="content">咕咕咕</div>
+            </div>
+
+            <div class="post-time bottom-item">
+                <div class="type">
+                    发布于
+                </div>
+                <div class="content">2025-12-28 17:24</div>
+            </div>
+
+
+            <div class="post-license bottom-item">
+                <div class="type">
+                    许可
+                </div>
+                <div class="content tooltip" data-tooltip-content="CC BY-NC-SA 4.0">
+                    <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hans">
+                        <i class="fa-brands fa-creative-commons"></i>
+                        <i class="fa-brands fa-creative-commons-by"></i>
+                        <i class="fa-brands fa-creative-commons-nc"></i>
+                        <i class="fa-brands fa-creative-commons-sa"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <i class="copyright-bg fa-solid fa-copyright"></i>
+    </div>
+    <div class="copy-copyright-info flex-center tooltip" data-tooltip-content="复制版权信息" data-tooltip-offset-y="-2px">
+        <i class="fa-solid fa-copy"></i>
+    </div>
+</div>
+
+                
+
+                <div class="post-bottom-tags-and-share border-box">
+                    <div>
+                        
+                            <ul class="post-tags-box border-box">
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/Go%E8%AF%AD%E8%A8%80/">Go语言</a>
+                                    </li>
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/%E3%80%8A%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Go%E8%AF%AD%E8%A8%80%E3%80%8B/">《深入理解Go语言》</a>
+                                    </li>
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6/">垃圾回收</a>
+                                    </li>
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/%E5%86%99%E5%B1%8F%E9%9A%9C/">写屏障</a>
+                                    </li>
+                                
+                            </ul>
+                        
+                    </div>
+                    <div>
+                        
+                            <div class="post-share-container border-box">
+    <ul class="share-list-wrap border-box">
+        <li class="qq share-item border-box flex-center tooltip"
+            data-tooltip-content="分享到 QQ"
+        >
+            <i class="fa-brands fa-qq"></i>
+        </li>
+        <li class="wechat share-item border-box flex-center tooltip tooltip-img"
+            data-tooltip-content="分享到微信"
+            data-tooltip-img-tip="微信扫一扫"
+            data-tooltip-img-style="background-color: #fff; top: -10px; padding: 0.6rem 0.6rem 0.1rem 0.6rem;"
+        >
+            <i class="fa-brands fa-weixin"></i>
+        </li>
+        <li class="weibo share-item border-box flex-center tooltip"
+            data-tooltip-content="分享到微博"
+        >
+            <i class="fa-brands fa-weibo"></i>
+        </li>
+    </ul>
+</div>
+
+                        
+                    </div>
+                </div>
+
+                
+                    <div class="reward-author-container border-box flex-center">
+    <div class="reward-btn keep-button border-box flex-center tooltip tooltip-img"
+            data-tooltip-content="谢谢你请我喝可乐~"
+            data-tooltip-img-url="/images/thanks.png"
+            data-tooltip-img-trigger="click"
+            data-tooltip-img-style="top: -8px;"
+    >
+        <i class="fa-solid fa-hand-holding-heart"></i>
+    </div>
+</div>
+
+                
+
+                
+                    <div class="post-nav border-box">
+                        
+                            <div class="prev-post">
+                                <a class="prev"
+                                   rel="prev"
+                                   href="/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E3%80%8A%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Go%E8%AF%AD%E8%A8%80%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-Go%E8%AF%AD%E8%A8%80%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/"
+                                   title="《深入理解Go语言》读书笔记 - Go 语言内存管理"
+                                >
+                                    <span class="left arrow-icon flex-center">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </span>
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">《深入理解Go语言》读书笔记 - Go 语言内存管理</span>
+                                        <span class="post-nav-item">上一篇</span>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                        
+                            <div class="next-post">
+                                <a class="next"
+                                   rel="next"
+                                   href="/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E3%80%8A%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Go%E8%AF%AD%E8%A8%80%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-Go%E8%AF%AD%E8%A8%80%E5%8D%8F%E7%A8%8B%E8%B0%83%E5%BA%A6%E5%99%A8GPM%E6%A8%A1%E5%9E%8B/"
+                                   title="《深入理解Go语言》读书笔记 - Go 语言协程调度器 GPM 模型"
+                                >
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">《深入理解Go语言》读书笔记 - Go 语言协程调度器 GPM 模型</span>
+                                        <span class="post-nav-item">下一篇</span>
+                                    </span>
+                                    <span class="right arrow-icon flex-center">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                    </div>
+                
+
+                
+                    
+
+
+    <div class="comments-container border-box">
+        <div id="comments-anchor" class="comment-area-title border-box">
+            <i class="fas fa-comments"></i>&nbsp;评论
+        </div>
+        <div class="comment-plugin-fail border-box">
+    <span class="fail-tip">评论插件加载失败</span>
+    <button class="reload keep-button">点击重新加载</button>
+</div>
+<div class="comment-plugin-loading flex-center border-box">
+    <i class="loading-icon fa-solid fa-spinner fa-spin"></i>
+    <span class="load-tip">正在加载评论插件</span>
+</div>
+<script data-pjax>
+  window.KeepCommentPlugin = {}
+  window.KeepCommentPlugin.hideLoading = () => {
+    const cplDom = document.querySelector('.comments-container .comment-plugin-loading')
+    cplDom.style.display = 'none'
+  }
+  window.KeepCommentPlugin.loadFailHandle = () => {
+    window.KeepCommentPlugin.hideLoading()
+    const cpfDom = document.querySelector('.comments-container .comment-plugin-fail')
+    cpfDom.style.display = 'flex'
+    cpfDom.querySelector('.reload').addEventListener('click', () => {
+      window.location.reload()
+    })
+  }
+</script>
+
+        
+            
+
+    <div class="giscus-comments-container">
+        <div class="giscus" id="giscus"></div>
+        <script data-pjax
+                onerror="window.KeepCommentPlugin.loadFailHandle()"
+        >
+          if (!window.KeepCommentPlugin?.getGiscusTheme) {
+            window.KeepCommentPlugin.getGiscusTheme = () => {
+              return document.body.classList.contains('dark-mode') ? 'dark_dimmed' : 'light_tritanopia'
+            }
+          }
+
+          if (!window.KeepCommentPlugin?.changeGiscusTheme) {
+            window.KeepCommentPlugin.changeGiscusTheme = () => {
+              const iframe = document.querySelector('iframe.giscus-frame')
+              iframe && iframe.contentWindow.postMessage({
+                giscus: {
+                  setConfig: {
+                    theme: window.KeepCommentPlugin.getGiscusTheme()
+                  }
+                }
+              }, 'https://giscus.app')
+            }
+          }
+
+          if (!window.KeepCommentPlugin?.initGiscus) {
+            window.KeepCommentPlugin.initGiscus = () => {
+              const script = document.createElement('script')
+              script.async = true
+              script.src = 'https://giscus.app/client.js'
+              script.setAttribute('data-repo', 'Cooooing/Cooooing.github.io')
+              script.setAttribute('data-repo-id', 'R_kgDOHQal_w')
+              script.setAttribute('data-category', 'Announcements')
+              script.setAttribute('data-category-id', 'DIC_kwDOHQal_84CjZo6')
+              script.setAttribute('data-reactions-enabled', '1')
+              script.setAttribute('data-lang', 'zh-CN')
+              script.setAttribute('data-mapping', 'pathname')
+              script.setAttribute('data-strict', '0')
+              script.setAttribute('data-emit-metadata', '0')
+              script.setAttribute('data-input-position', 'top')
+              script.setAttribute('crossorigin', 'anonymous')
+              script.setAttribute('loading', 'lazy')
+              script.setAttribute('data-theme', window.KeepCommentPlugin.getGiscusTheme())
+              document.querySelector('.giscus-comments-container').appendChild(script)
+              script.onerror = () => {
+                window.KeepCommentPlugin.loadFailHandle()
+              }
+              script.onload = () => {
+                window.KeepCommentPlugin.hideLoading()
+              }
+              const toggleThemeBtn = document.querySelector('.tool-toggle-theme-mode')
+              toggleThemeBtn && toggleThemeBtn.addEventListener('click', () => {
+                window.KeepCommentPlugin.changeGiscusTheme()
+              })
+            }
+          }
+
+          if ('true' === "true") {
+            setTimeout(() => {
+              window.KeepCommentPlugin.initGiscus()
+            }, 1000)
+          } else {
+            window.addEventListener("DOMContentLoaded", window.KeepCommentPlugin.initGiscus)
+          }
+        </script>
+    </div>
+
+
+        
+    </div>
+
+
+
+
+
+                
+            </div>
+        </div>
+
+        
+            <div class="pc-post-toc left-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E7%AB%A0-Go-%E8%AF%AD%E8%A8%80%E6%B7%B7%E5%90%88%E5%86%99%E5%B1%8F%E9%9A%9C%E7%9A%84-GC-%E5%85%A8%E5%9C%BA%E6%99%AF%E5%88%86%E6%9E%90"><span class="nav-text">第二章 Go 语言混合写屏障的 GC 全场景分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Go-V1-3-%E6%A0%87%E8%AE%B0-%E6%B8%85%E9%99%A4%E7%AE%97%E6%B3%95"><span class="nav-text">Go V1.3 标记-清除算法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A0%87%E8%AE%B0%E6%B8%85%E9%99%A4-Mark-and-Sweep-%E7%AE%97%E6%B3%95%E7%9A%84%E8%AF%A6%E7%BB%86%E8%BF%87%E7%A8%8B"><span class="nav-text">标记清除(Mark and Sweep)算法的详细过程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A0%87%E8%AE%B0%E6%B8%85%E9%99%A4%E7%AE%97%E6%B3%95%E7%9A%84%E7%BC%BA%E7%82%B9"><span class="nav-text">标记清除算法的缺点</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Go-V1-5-%E4%B8%89%E8%89%B2%E6%A0%87%E8%AE%B0%E6%B3%95"><span class="nav-text">Go V1.5 三色标记法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%88%9D%E5%A7%8B%E9%A2%9C%E8%89%B2%E7%8A%B6%E6%80%81"><span class="nav-text">对象的初始颜色状态</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#GC-%E5%BC%80%E5%A7%8B-STW-%E6%A0%B9%E6%89%AB%E6%8F%8F%E9%98%B6%E6%AE%B5"><span class="nav-text">GC 开始:STW 根扫描阶段</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Stop-The-World-%E7%AC%AC%E4%B8%80%E6%AC%A1"><span class="nav-text">Stop-The-World(第一次)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Root-%E6%89%AB%E6%8F%8F%E4%B8%8E%E5%88%9D%E5%A7%8B%E6%A0%87%E8%AE%B0"><span class="nav-text">Root 扫描与初始标记</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%90%AF%E7%94%A8%E5%86%99%E5%B1%8F%E9%9A%9C%E5%B9%B6%E6%81%A2%E5%A4%8D%E4%B8%96%E7%95%8C"><span class="nav-text">启用写屏障并恢复世界</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B9%B6%E5%8F%91%E4%B8%89%E8%89%B2%E6%A0%87%E8%AE%B0%E9%98%B6%E6%AE%B5-Concurrent-Mark"><span class="nav-text">并发三色标记阶段(Concurrent Mark)</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%81%B0%E8%89%B2%E5%AF%B9%E8%B1%A1%E6%89%AB%E6%8F%8F%E8%A7%84%E5%88%99"><span class="nav-text">灰色对象扫描规则</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%87%8D%E5%A4%8D%E6%89%AB%E6%8F%8F%E7%9B%B4%E5%88%B0%E7%81%B0%E8%89%B2%E9%9B%86%E5%90%88%E4%B8%BA%E7%A9%BA"><span class="nav-text">重复扫描直到灰色集合为空</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%B9%B6%E5%8F%91%E6%AD%A3%E7%A1%AE%E6%80%A7%E7%9A%84%E4%BF%9D%E8%AF%81-Go-1-5-%E7%9A%84%E5%86%99%E5%B1%8F%E9%9A%9C"><span class="nav-text">并发正确性的保证:Go 1.5 的写屏障</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A0%87%E8%AE%B0%E7%BB%93%E6%9D%9F%E7%A1%AE%E8%AE%A4-Mark-Termination-STW"><span class="nav-text">标记结束确认:Mark Termination(STW)</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Stop-The-World-%E7%AC%AC%E4%BA%8C%E6%AC%A1"><span class="nav-text">Stop-The-World(第二次)</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B8%85%E9%99%A4%E9%98%B6%E6%AE%B5-Sweep"><span class="nav-text">清除阶段(Sweep)</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%B9%B6%E5%8F%91%E6%B8%85%E9%99%A4%E7%99%BD%E8%89%B2%E5%AF%B9%E8%B1%A1"><span class="nav-text">并发清除白色对象</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Go-V1-5-%E7%9A%84%E5%B1%8F%E9%9A%9C%E6%9C%BA%E5%88%B6"><span class="nav-text">Go V1.5 的屏障机制</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B9%B6%E5%8F%91%E6%A0%87%E8%AE%B0%E4%B8%8B%E7%9A%84%E9%97%AE%E9%A2%98%E6%9C%AC%E8%B4%A8-%E4%B8%89%E8%89%B2%E4%B8%8D%E5%8F%98%E5%BC%8F"><span class="nav-text">并发标记下的问题本质:三色不变式</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%BC%BA%E4%B8%89%E8%89%B2%E4%B8%8D%E5%8F%98%E5%BC%8F"><span class="nav-text">强三色不变式</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%BC%B1%E4%B8%89%E8%89%B2%E4%B8%8D%E5%8F%98%E5%BC%8F"><span class="nav-text">弱三色不变式</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8F%92%E5%85%A5%E5%B1%8F%E9%9A%9C-Insertion-Barrier"><span class="nav-text">插入屏障(Insertion Barrier)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%A0%E9%99%A4%E5%B1%8F%E9%9A%9C-Deletion-Barrier"><span class="nav-text">删除屏障(Deletion Barrier)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Go-V1-8-%E7%9A%84%E6%B7%B7%E5%90%88%E5%86%99%E5%B1%8F%E9%9A%9C"><span class="nav-text">Go V1.8 的混合写屏障</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B7%B7%E5%90%88%E5%86%99%E5%B1%8F%E9%9A%9C-Hybrid-Write-Barrier-%E8%A7%84%E5%88%99"><span class="nav-text">混合写屏障(Hybrid Write Barrier)规则</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%80%E4%BA%9B%E7%90%86%E8%A7%A3%E4%B8%8A%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-text">一些理解上的问题</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Go-%E7%9A%84-GC-%E5%9B%9E%E6%94%B6%E5%93%AA%E4%BA%9B%E5%86%85%E5%AD%98-%E6%A0%88%E5%92%8C%E5%A0%86%E5%88%86%E5%88%AB%E7%94%B1%E8%B0%81%E7%AE%A1%E7%90%86"><span class="nav-text">Go 的 GC 回收哪些内存?栈和堆分别由谁管理?</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E6%A0%88%E5%AF%B9%E8%B1%A1%E2%80%9C%E4%B8%8D%E4%BC%9A%E8%A2%AB-GC-%E5%9B%9E%E6%94%B6%E2%80%9D-%E5%8D%B4%E4%BB%8D%E7%84%B6%E5%8F%82%E4%B8%8E-GC"><span class="nav-text">为什么栈对象“不会被 GC 回收”,却仍然参与 GC?</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%B7%B7%E5%90%88%E5%86%99%E5%B1%8F%E9%9A%9C%E5%B8%A6%E6%9D%A5%E4%BA%86%E4%BB%80%E4%B9%88-%E4%BB%A3%E4%BB%B7%E6%98%AF%E4%BB%80%E4%B9%88"><span class="nav-text">混合写屏障带来了什么,代价是什么?</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E4%BA%9B%E6%BA%90%E7%A0%81"><span class="nav-text">一些源码</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%95%B4%E4%BD%93%E6%B5%81%E7%A8%8B"><span class="nav-text">整体流程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%BA%90%E7%A0%81%E5%8F%82%E8%80%83"><span class="nav-text">源码参考</span></a></li></ol></li></ol></li></ol>
+    </div>
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom border-box">
+            
+<footer class="footer border-box">
+    <div class="border-box website-info-box default">
+        
+            <div class="copyright-info info-item default">
+                &copy;&nbsp;<span>2022</span>&nbsp;-&nbsp;2026
+                
+                    &nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;&nbsp;<a href="/">咕咕咕</a>
+                
+            </div>
+
+            <div class="theme-info info-item default">
+                由&nbsp;<a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;驱动&nbsp;&&nbsp;主题&nbsp;<a class="keep-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep</a>
+            </div>
+
+            
+
+            
+        
+
+        <div style="color:var(--text-color-4);"><span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>(～￣▽￣)～<script src="/js/lifeTime.js"></script></div>
+        <a href="https://icp.gov.moe/?keyword=20222450" target="_blank">萌ICP备20222450号</a>
+
+
+        <div class="count-item info-item default">
+            
+                <span class="count-box border-box word">
+                    <span class="item-type border-box">总字数</span>
+                    <span class="item-value border-box word">476k</span>
+                </span>
+            
+
+            
+                <span class="count-box border-box uv">
+                    <span class="item-type border-box">访客数</span>
+                    <span class="item-value border-box uv" id="busuanzi_value_site_uv"></span>
+                </span>
+            
+
+            
+                <span class="count-box border-box pv">
+                    <span class="item-type border-box">访问量</span>
+                    <span class="item-value border-box pv" id="busuanzi_value_site_pv"></span>
+                </span>
+            
+        </div>
+
+        <div id="aplayer">
+          <meting-js
+                  server="netease"
+                  type="playlist"
+                  id="7345595717"
+                  fixed="true"
+                  mini="true"
+                  autoplay="false"
+                  listFolded="true"
+                  order="random"
+                  preload="none">
+          </meting-js>
+        </div>
+            <br>
+            <br>
+            <br>
+    </div>
+
+</footer>
+
+        </div>
+    </div>
+
+    <!-- post tools -->
+    
+        <div class="post-tools left-toc">
+            <div class="post-tools-container border-box">
+    <ul class="tools-list border-box">
+        <!-- PC TOC show toggle -->
+        
+            <li class="tools-item flex-center toggle-show-toc">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        <!-- PC go comment -->
+        
+            <li class="tools-item flex-center go-to-comments">
+                <i class="fas fa-comment"></i>
+                <span class="post-comments-count"></span>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <!-- side tools -->
+    <div class="side-tools">
+        <div class="side-tools-container border-box ">
+    <ul class="side-tools-list side-tools-show-handle border-box">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-toggle-theme-mode flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+            <li class="tools-item rss flex-center">
+                <a class="flex-center"
+                   href="/atom.xml"
+                   target="_blank"
+                >
+                    <i class="fas fa-rss"></i>
+                </a>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list border-box">
+        
+            <li class="tools-item toggle-show-toc-tablet flex-center">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        
+            <li class="tools-item go-to-comments-tablet flex-center">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+
+        <li class="tools-item tool-scroll-to-top flex-center show-arrow">
+            <i class="arrow fas fa-arrow-up"></i>
+            <span class="percent"></span>
+        </li>
+    </ul>
+</div>
+
+    </div>
+
+    <!-- image mask -->
+    <div class="zoom-in-image-mask">
+    <img class="zoom-in-image">
+</div>
+
+
+    <!-- local search -->
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="搜索..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="close-popup-btn">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+    <!-- tablet toc -->
+    
+        <div class="tablet-post-toc-mask">
+            <div class="tablet-post-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E7%AB%A0-Go-%E8%AF%AD%E8%A8%80%E6%B7%B7%E5%90%88%E5%86%99%E5%B1%8F%E9%9A%9C%E7%9A%84-GC-%E5%85%A8%E5%9C%BA%E6%99%AF%E5%88%86%E6%9E%90"><span class="nav-text">第二章 Go 语言混合写屏障的 GC 全场景分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Go-V1-3-%E6%A0%87%E8%AE%B0-%E6%B8%85%E9%99%A4%E7%AE%97%E6%B3%95"><span class="nav-text">Go V1.3 标记-清除算法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A0%87%E8%AE%B0%E6%B8%85%E9%99%A4-Mark-and-Sweep-%E7%AE%97%E6%B3%95%E7%9A%84%E8%AF%A6%E7%BB%86%E8%BF%87%E7%A8%8B"><span class="nav-text">标记清除(Mark and Sweep)算法的详细过程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A0%87%E8%AE%B0%E6%B8%85%E9%99%A4%E7%AE%97%E6%B3%95%E7%9A%84%E7%BC%BA%E7%82%B9"><span class="nav-text">标记清除算法的缺点</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Go-V1-5-%E4%B8%89%E8%89%B2%E6%A0%87%E8%AE%B0%E6%B3%95"><span class="nav-text">Go V1.5 三色标记法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%88%9D%E5%A7%8B%E9%A2%9C%E8%89%B2%E7%8A%B6%E6%80%81"><span class="nav-text">对象的初始颜色状态</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#GC-%E5%BC%80%E5%A7%8B-STW-%E6%A0%B9%E6%89%AB%E6%8F%8F%E9%98%B6%E6%AE%B5"><span class="nav-text">GC 开始:STW 根扫描阶段</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Stop-The-World-%E7%AC%AC%E4%B8%80%E6%AC%A1"><span class="nav-text">Stop-The-World(第一次)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Root-%E6%89%AB%E6%8F%8F%E4%B8%8E%E5%88%9D%E5%A7%8B%E6%A0%87%E8%AE%B0"><span class="nav-text">Root 扫描与初始标记</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%90%AF%E7%94%A8%E5%86%99%E5%B1%8F%E9%9A%9C%E5%B9%B6%E6%81%A2%E5%A4%8D%E4%B8%96%E7%95%8C"><span class="nav-text">启用写屏障并恢复世界</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B9%B6%E5%8F%91%E4%B8%89%E8%89%B2%E6%A0%87%E8%AE%B0%E9%98%B6%E6%AE%B5-Concurrent-Mark"><span class="nav-text">并发三色标记阶段(Concurrent Mark)</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%81%B0%E8%89%B2%E5%AF%B9%E8%B1%A1%E6%89%AB%E6%8F%8F%E8%A7%84%E5%88%99"><span class="nav-text">灰色对象扫描规则</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%87%8D%E5%A4%8D%E6%89%AB%E6%8F%8F%E7%9B%B4%E5%88%B0%E7%81%B0%E8%89%B2%E9%9B%86%E5%90%88%E4%B8%BA%E7%A9%BA"><span class="nav-text">重复扫描直到灰色集合为空</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%B9%B6%E5%8F%91%E6%AD%A3%E7%A1%AE%E6%80%A7%E7%9A%84%E4%BF%9D%E8%AF%81-Go-1-5-%E7%9A%84%E5%86%99%E5%B1%8F%E9%9A%9C"><span class="nav-text">并发正确性的保证:Go 1.5 的写屏障</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A0%87%E8%AE%B0%E7%BB%93%E6%9D%9F%E7%A1%AE%E8%AE%A4-Mark-Termination-STW"><span class="nav-text">标记结束确认:Mark Termination(STW)</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Stop-The-World-%E7%AC%AC%E4%BA%8C%E6%AC%A1"><span class="nav-text">Stop-The-World(第二次)</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B8%85%E9%99%A4%E9%98%B6%E6%AE%B5-Sweep"><span class="nav-text">清除阶段(Sweep)</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%B9%B6%E5%8F%91%E6%B8%85%E9%99%A4%E7%99%BD%E8%89%B2%E5%AF%B9%E8%B1%A1"><span class="nav-text">并发清除白色对象</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Go-V1-5-%E7%9A%84%E5%B1%8F%E9%9A%9C%E6%9C%BA%E5%88%B6"><span class="nav-text">Go V1.5 的屏障机制</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B9%B6%E5%8F%91%E6%A0%87%E8%AE%B0%E4%B8%8B%E7%9A%84%E9%97%AE%E9%A2%98%E6%9C%AC%E8%B4%A8-%E4%B8%89%E8%89%B2%E4%B8%8D%E5%8F%98%E5%BC%8F"><span class="nav-text">并发标记下的问题本质:三色不变式</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%BC%BA%E4%B8%89%E8%89%B2%E4%B8%8D%E5%8F%98%E5%BC%8F"><span class="nav-text">强三色不变式</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%BC%B1%E4%B8%89%E8%89%B2%E4%B8%8D%E5%8F%98%E5%BC%8F"><span class="nav-text">弱三色不变式</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8F%92%E5%85%A5%E5%B1%8F%E9%9A%9C-Insertion-Barrier"><span class="nav-text">插入屏障(Insertion Barrier)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%A0%E9%99%A4%E5%B1%8F%E9%9A%9C-Deletion-Barrier"><span class="nav-text">删除屏障(Deletion Barrier)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Go-V1-8-%E7%9A%84%E6%B7%B7%E5%90%88%E5%86%99%E5%B1%8F%E9%9A%9C"><span class="nav-text">Go V1.8 的混合写屏障</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B7%B7%E5%90%88%E5%86%99%E5%B1%8F%E9%9A%9C-Hybrid-Write-Barrier-%E8%A7%84%E5%88%99"><span class="nav-text">混合写屏障(Hybrid Write Barrier)规则</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%80%E4%BA%9B%E7%90%86%E8%A7%A3%E4%B8%8A%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-text">一些理解上的问题</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Go-%E7%9A%84-GC-%E5%9B%9E%E6%94%B6%E5%93%AA%E4%BA%9B%E5%86%85%E5%AD%98-%E6%A0%88%E5%92%8C%E5%A0%86%E5%88%86%E5%88%AB%E7%94%B1%E8%B0%81%E7%AE%A1%E7%90%86"><span class="nav-text">Go 的 GC 回收哪些内存?栈和堆分别由谁管理?</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E6%A0%88%E5%AF%B9%E8%B1%A1%E2%80%9C%E4%B8%8D%E4%BC%9A%E8%A2%AB-GC-%E5%9B%9E%E6%94%B6%E2%80%9D-%E5%8D%B4%E4%BB%8D%E7%84%B6%E5%8F%82%E4%B8%8E-GC"><span class="nav-text">为什么栈对象“不会被 GC 回收”,却仍然参与 GC?</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%B7%B7%E5%90%88%E5%86%99%E5%B1%8F%E9%9A%9C%E5%B8%A6%E6%9D%A5%E4%BA%86%E4%BB%80%E4%B9%88-%E4%BB%A3%E4%BB%B7%E6%98%AF%E4%BB%80%E4%B9%88"><span class="nav-text">混合写屏障带来了什么,代价是什么?</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E4%BA%9B%E6%BA%90%E7%A0%81"><span class="nav-text">一些源码</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%95%B4%E4%BD%93%E6%B5%81%E7%A8%8B"><span class="nav-text">整体流程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%BA%90%E7%A0%81%E5%8F%82%E8%80%83"><span class="nav-text">源码参考</span></a></li></ol></li></ol></li></ol>
+    </div>
+</div>
+
+            </div>
+        </div>
+    
+</main>
+
+
+
+<!-- common -->
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/toggle-theme.js"></script>
+
+<script src="/js/code-block.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+
+<!-- local-search -->
+
+    
+<script src="/js/local-search.js"></script>
+
+
+
+<!-- lazyload -->
+
+    
+<script src="/js/lazyload.js"></script>
+
+
+
+<div class="pjax">
+    
+        <!-- post-helper -->
+        
+<script src="/js/post/post-helper.js"></script>
+
+
+        <!-- toc -->
+        
+            
+<script src="/js/post/toc.js"></script>
+
+        
+
+        <!-- copyright-info -->
+        
+            
+<script src="/js/post/copyright-info.js"></script>
+
+        
+
+        <!-- share -->
+        
+            
+<script src="/js/post/share.js"></script>
+
+        
+    
+
+    <!-- category-page -->
+    
+
+    <!-- links-page -->
+    
+
+    <!-- photos-page -->
+    
+</div>
+
+<!-- mermaid -->
+
+
+<!-- pjax -->
+
+    
+<script src="/js/libs/pjax.min.js"></script>
+
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        window.pjax = new Pjax({
+            selectors: [
+                'head title',
+                '.page-container',
+                '.pjax',
+                '#aplayer',
+                '#canvas_sakura'
+            ],
+            history: true,
+            debug: false,
+            cacheBust: false,
+            timeout: 0,
+            analytics: false,
+            currentUrlFullReload: false,
+            scrollRestoration: false,
+        });
+
+        document.addEventListener('pjax:send', () => {
+            KEEP.utils.pjaxProgressBarStart()
+        });
+
+        document.addEventListener('pjax:complete', () => {
+            KEEP.utils.pjaxProgressBarEnd()
+            window.pjax.executeScripts(document.querySelectorAll('script[data-pjax], .pjax script'))
+            KEEP.initExecute()
+        });
+    });
+</script>
+
+
+
+
+    
+        
+            
+<script class="custom-inject-js" src="/js/APlayer.min.js" data-pjax></script>
+
+        
+    
+        
+            
+<script class="custom-inject-js" src="/js/Meting.min.js" data-pjax></script>
+
+        
+    
+        
+            
+<script class="custom-inject-js" src="/js/leaves.js" data-pjax></script>
+
+        
+    
+
+
+
+</body>
+</html>

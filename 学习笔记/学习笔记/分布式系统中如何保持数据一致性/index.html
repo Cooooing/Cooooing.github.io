@@ -1,0 +1,1359 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="技术博客,后端开发,编程笔记,生活">
+    <meta name="description" content="Code | Systems | Life — 专注编程本质，也关心世界如何运转。">
+    <meta name="author" content="咕咕咕">
+
+    
+    <title>
+        
+            分布式系统中如何保持数据一致性 |
+        
+        咕咕咕的小破站
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+        <link rel="shortcut icon" href="/images/favicon.png">
+    
+    
+<link rel="stylesheet" href="/font/css/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/regular.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/solid.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/brands.min.css">
+
+    
+        
+            
+                
+<link rel="stylesheet" href="/css/APlayer.min.css">
+
+            
+        
+            
+                
+<link rel="stylesheet" href="/css/custom.css">
+
+            
+        
+    
+    <script class="keep-theme-configurations">
+    const KEEP = window.KEEP || {}
+    KEEP.hexo_config = {"hostname":"cooooing.github.io","root":"/","language":"zh-CN","path":"search.json"}
+    KEEP.theme_config = {"base_info":{"primary_color":"#0066cc","title":"咕咕咕的小破站","author":"咕咕咕","avatar":"https://avatars.githubusercontent.com/u/75006169?v=4","logo":"https://avatars.githubusercontent.com/u/75006169?v=4","favicon":"/images/favicon.png"},"menu":{"Archives":"/archives","Categories":"/categories","Tags":"/tags","日常":"/daily","Links":"/links","About":"/about"},"first_screen":{"enable":false,"background_img":"/images/bg.svg","background_img_dark":"/images/bg.svg","description":"Keep writing and Keep loving.","hitokoto":false},"social_contact":{"enable":false,"links":{"github":null,"weixin":null,"qq":null,"weibo":null,"zhihu":null,"twitter":null,"facebook":null,"email":null}},"scroll":{"progress_bar":false,"percent":false,"hide_header":true},"home":{"category":true,"tag":true,"announcement":null},"post":{"author_badge":{"enable":true,"level_badge":false,"custom_badge":["fishing"]},"word_count":{"wordcount":true,"min2read":true},"datetime_format":"YYYY-MM-DD HH:mm:ss","copyright_info":true,"share":true,"reward":{"enable":true,"img_link":"/images/thanks.png","text":"谢谢你请我喝可乐~"}},"mathjax":{"tags":"all","single_dollars":true,"cjk_width":0.9,"normal_width":0.6,"append_css":true,"every_page":false},"code_block":{"tools":{"enable":true,"style":"default"},"highlight_theme":"default"},"toc":{"enable":true,"number":false,"expand_all":true,"init_open":true,"layout":"left"},"website_count":{"busuanzi_count":{"enable":true,"site_uv":true,"site_pv":true,"page_pv":true}},"local_search":{"enable":true,"preload":true},"comment":{"enable":true,"use":"giscus","valine":{"appid":null,"appkey":null,"server_urls":null,"placeholder":null},"gitalk":{"github_id":null,"github_admins":null,"repository":null,"client_id":null,"client_secret":null,"proxy":null},"twikoo":{"env_id":null,"region":null,"version":"1.6.21"},"waline":{"server_url":null,"reaction":false,"version":2},"giscus":{"repo":"Cooooing/Cooooing.github.io","repo_id":"R_kgDOHQal_w","category":"Announcements","category_id":"DIC_kwDOHQal_84CjZo6","reactions_enabled":true},"artalk":{"server":null},"disqus":{"shortname":null}},"rss":{"enable":true},"lazyload":{"enable":true},"cdn":{"enable":false,"provider":"cdnjs"},"pjax":{"enable":true},"footer":{"since":2022,"word_count":true,"icp":{"enable":false,"record_code":null,"url":"https://beian.miit.gov.cn"},"site_deploy":{"enable":false,"provider":"github","url":null},"shields_style":{"enable":false,"custom":[{"link_url":null,"img_url":null}]}},"inject":{"enable":true,"css":["/css/APlayer.min.css","/css/custom.css"],"js":["/js/APlayer.min.js","/js/Meting.min.js","/js/leaves.js"]},"root":"","links":[{"name":"鼠鼠在碎觉","link":"https://sszsj.com","avatar":"https://tmx.fishpi.cn/img/head.jpg","description":"我是不慎落入世界的一滴水墨"},{"name":"Gakkiyomi","link":"https://gakkiyomi.blog","avatar":"https://avatars.githubusercontent.com/u/41406557?v=4","description":"为往圣继绝学"},{"name":"Hancel's Blog","link":"https://my.hancel.org","avatar":"https://my.hancel.org/media/logo.jpg","description":"人生而自由，却无往不在枷锁之中。"},{"name":"Eastshann","link":"https://eastshann.github.io/","avatar":"https://avatars.githubusercontent.com/u/87764431?v=4","description":"冲和者，淡泊平和，谦冲守正"},{"name":"小于同学的异世界","link":"https://yby.zone","avatar":"https://yby-zone.obs.cn-east-3.myhuaweicloud.com/avatar.jpg","description":"为吾为枝，余地三尺，以己为棋，胜天半子。"},{"name":"Mlikiowa Home Village","link":"https://nanaeo.cn/","avatar":"https://q1.qlogo.cn/g?b=qq&nk=1627126029&s=100","description":"A litter Village With Mlikiowa"},{"name":"忘忧草","link":"https://owo.wyc.rest/","avatar":"https://owo.wyc.rest/img/%E4%B8%87%E5%8F%B6.jpg","description":"这只是一个小破站而已！"},{"name":"stillwarter","link":"https://stillwarter.github.io/","avatar":"https://file.fishpi.cn/2022/07/MOSHED2022621164630-1b1ec532.gif?imageView2/1/w/210/h/210/interlace/0/q/100","description":"光就是一切的意义"},{"name":"test12138","link":"http://你好.eu.org/","avatar":"https://file.fishpi.cn/2022/06/srchttpimgzcoolcncommunity0116405d84f975a801211d537707c9gifreferhttpimgzcool-0f2d09c9.gif?imageView2/1/w/48/h/48/interlace/0/q/100","description":"大丈夫生于天地之间，岂能郁郁久居人下。"},{"name":"呼呼呼","link":"https://bongbongbakudan.github.io/","avatar":"https://pwl.stackoverflow.wiki/2021/12/blob-28eb4b9f.png?imageView2/1/w/48/h/48/interlace/0/q/100","description":"去整点薯条"},{"name":"Plumbiu","link":"https://blog.plumbiu.top/","avatar":"https://avatars.githubusercontent.com/u/99574369?v=4","description":"这人很勤奋，啥都没留"},{"name":"hiRipple","link":"https://hiripple.com/","avatar":"https://avatars.githubusercontent.com/u/115361435?v=4","description":"超高校级的游戏玩家"},{"name":"零糖加辣（drda）","link":"https://drda-x.github.io/drda-blog/","avatar":"https://drda-x.github.io/drda-blog/avatar/avatar.webp","description":"奶茶少糖，喜欢吃辣"},{"name":"ncc的个人网站","link":"https://www.zqcnc.cn","avatar":"https://www.zqcnc.cn/favicon.ico","description":"keep trying!"},{"name":"Yui","link":"https://yuis.cc/","avatar":"https://file.fishpi.cn/storage/%E9%B1%BC%E6%8E%92%E4%BA%BA%E7%89%A9/yui.png","description":"世界那么大，等我赚钱一定去看看"}],"version":"4.0.6"}
+    KEEP.language_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"}
+    KEEP.language_code_block = {"copy":"复制代码","copied":"已复制","fold":"折叠代码块","folded":"已折叠"}
+    KEEP.language_copy_copyright = {"copy":"复制版权信息","copied":"已复制","title":"原文标题","author":"原文作者","link":"原文链接"}
+  </script>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-CLX32WF4R1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+
+      gtag('js', new Date());
+
+      gtag('config', 'G-CLX32WF4R1');
+    </script>
+
+    <!-- 51.la -->
+    <script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
+    <script>LA.init({id: "3JwPz6wbAloyTmMc", ck: "3JwPz6wbAloyTmMc", autoTrack: true})</script>
+
+    <!-- Cloudflare Web Analytics -->
+    <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "281999cc46a948d3b8199c1eb621f11e"}'></script>
+    <!-- End Cloudflare Web Analytics -->
+
+<meta name="generator" content="Hexo 8.1.2"><link rel="alternate" href="/atom.xml" title="咕咕咕的小破站" type="application/atom+xml">
+</head>
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+        <span class="pjax-progress-bar"></span>
+        <i class="pjax-progress-icon fas fa-circle-notch fa-spin"></i>
+    
+</div>
+
+
+<main class="page-container border-box">
+
+    <!-- home first screen  -->
+    
+
+    <!-- page content -->
+    <div class="page-main-content border-box">
+        <div class="page-main-content-top">
+            
+<header class="header-wrapper">
+
+    <div class="border-box header-content">
+        <div class="left border-box">
+            
+                <a class="logo-image border-box" href="/">
+                    <img src="https://avatars.githubusercontent.com/u/75006169?v=4">
+                </a>
+            
+            <a class="site-name border-box" href="/">
+               咕咕咕的小破站
+            </a>
+        </div>
+
+        <div class="right border-box">
+            <div class="pc">
+                <ul class="menu-list">
+                    <li class="menu-item">
+                        <a class=""
+                           href="/"
+                        >首页</a>
+                    </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >归档</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/categories"
+                            >分类</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/tags"
+                            >标签</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/daily"
+                            >日常</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/links"
+                            >友链</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >关于</a>
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="fas search fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            <li class="drawer-menu-item flex-center">
+                <a class=""
+                   href="/"
+                >首页</a>
+            </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives"
+                    >归档</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/categories"
+                    >分类</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/tags"
+                    >标签</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/daily"
+                    >日常</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/links"
+                    >友链</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about"
+                    >关于</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle border-box">
+
+            <div class="main-content border-box">
+                
+
+                    
+<div class="fade-in-down-animation">
+    <div class="post-page-container border-box">
+        <div class="post-content-container border-box">
+            
+
+            <div class="post-content-bottom border-box">
+                
+                    <div class="post-title">
+                        分布式系统中如何保持数据一致性
+                    </div>
+                
+
+                
+                    <div class="post-header border-box">
+                        
+                            <div class="avatar-box border-box">
+                                <img src="https://avatars.githubusercontent.com/u/75006169?v=4">
+                            </div>
+                        
+                        <div class="info-box">
+                            <div class="author border-box">
+                                <span class="name">咕咕咕</span>
+                                
+                                    <span class="author-badge">fishing</span>
+                                
+                            </div>
+                            <div class="meta-info border-box">
+                                
+
+<div class="post-meta-info-container border-box post">
+    <div class="post-meta-info border-box">
+        
+
+        
+            <span class="meta-info-item post-create-date">
+                <i class="icon fa-solid fa-calendar-plus"></i>&nbsp;
+                <span class="datetime">2026-06-24 22:42:25</span>
+            </span>
+
+            <span class="meta-info-item post-update-date">
+                <i class="icon fa-solid fa-file-pen"></i>&nbsp;
+                <span class="datetime" data-updated="Wed Jun 24 2026 14:42:25 GMT+0000">2026-06-24 22:42:25</span>
+            </span>
+        
+
+        
+            <span class="meta-info-item post-category border-box"><i class="icon fas fa-folder"></i>&nbsp;
+                <ul class="post-category-ul">
+                    
+                            <li class="category-item"><a href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+            <span class="post-tag meta-info-item border-box">
+                <i class="icon fas fa-tags"></i>&nbsp;
+                <ul class="post-tag-ul">
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1/">分布式事务</a></li>
+                        
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/%E6%9C%80%E7%BB%88%E4%B8%80%E8%87%B4%E6%80%A7/">最终一致性</a></li>
+                        
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/Saga/">Saga</a></li>
+                        
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/TCC/">TCC</a></li>
+                        
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/Outbox/">Outbox</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+        
+            <span class="meta-info-item post-wordcount">
+                <i class="icon fas fa-file-word"></i>&nbsp;<span>9.2k 字</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-min2read">
+                <i class="icon fas fa-clock"></i>&nbsp;<span>31 分钟</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-pv">
+                <i class="icon fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+            </span>
+        
+    </div>
+
+    
+</div>
+
+                            </div>
+                        </div>
+                    </div>
+                
+
+                <div class="post-content keep-markdown-body">
+                    
+
+                    <h2 id="问题背景"><a href="#问题背景" class="headerlink" title="问题背景"></a>问题背景</h2><p>在单体应用里，很多一致性问题可以直接交给数据库事务处理。下单时创建订单、扣减库存、记录优惠券使用状态，如果这些数据都在同一个数据库里，业务代码只需要开启一个本地事务：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">begin transaction</span><br><span class="line">  创建订单</span><br><span class="line">  扣减库存</span><br><span class="line">  标记优惠券已使用</span><br><span class="line">commit</span><br></pre></td></tr></table></figure>
+
+<p>提交成功，所有修改一起生效；执行失败，数据库负责回滚。开发者主要关注业务规则，不需要自己处理一半成功、一半失败的状态。</p>
+<p>服务拆分之后，情况会变化。订单、库存、支付、优惠券可能分别属于不同服务，每个服务有自己的数据库和事务边界。一次下单可能变成这样：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">订单服务 -&gt; 创建订单</span><br><span class="line">库存服务 -&gt; 扣减库存</span><br><span class="line">优惠券服务 -&gt; 核销优惠券</span><br><span class="line">支付服务 -&gt; 创建支付单</span><br></pre></td></tr></table></figure>
+
+<p>这些操作不再天然属于同一个数据库事务。订单创建成功后，库存扣减可能失败；库存扣减成功后，优惠券核销可能超时；支付单创建成功后，订单服务可能没有收到响应。<br>系统开始面对一个更现实的问题：多个独立服务各自只能保证自己的本地事务，整体业务状态却仍然需要保持一致。</p>
+<p>这里的重点不是“怎么引入一个分布式事务框架”，而是先判断业务到底需要哪种一致性。<br>不同业务对一致性的要求不同，能接受的中间状态也不同。支付扣款和订单状态不能长期冲突，但积分发放、消息通知、搜索索引更新通常可以稍后完成。<br>把所有问题都当成强一致问题，会让系统付出不必要的复杂度和性能成本。</p>
+<h2 id="一致性的含义"><a href="#一致性的含义" class="headerlink" title="一致性的含义"></a>一致性的含义</h2><p>讨论一致性时，容易把多个概念混在一起。数据库事务里的“一致性”强调事务执行前后约束不被破坏，例如库存不能扣成负数、订单金额不能和明细不一致。</p>
+<p>分布式系统里的“一致性”更多是在问：多个服务、多个副本、多个状态之间，最终是否能表达同一个业务事实。</p>
+<p>以下单为例，系统里可能同时存在几类状态：</p>
+<ul>
+<li>订单状态：待支付、已支付、已取消。</li>
+<li>库存状态：已占用、已扣减、已释放。</li>
+<li>支付状态：待支付、支付中、支付成功、支付失败。</li>
+<li>优惠券状态：已锁定、已使用、已释放。</li>
+<li>通知状态：待发送、已发送、发送失败。</li>
+</ul>
+<p>这些状态并不一定要求在同一毫秒内全部一致。更准确的问题是：哪些状态必须同步完成，哪些状态允许短时间不一致，哪些状态可以通过补偿、重试或对账修正。</p>
+<p><strong>业务一致性通常比技术一致性更重要。</strong></p>
+<p>用户支付成功后，订单最终必须变成已支付；支付失败后，订单不能长期停留在待支付并占用库存。</p>
+<p>优惠券核销失败时，订单是否必须失败，取决于优惠券在这笔交易中的业务地位。技术方案必须服从这些业务规则。</p>
+<p><strong>强一致性</strong>要求多个参与方在一次操作结果上立即达成一致。</p>
+<p>它适合资金、库存核心扣减、唯一资源占用这类不能接受中间状态的场景。</p>
+<p><strong>最终一致性</strong>允许系统短时间处于中间状态，但要求经过重试、补偿、对账后收敛到正确结果。</p>
+<p>它适合订单履约、积分发放、通知发送、搜索索引更新这类可以异步完成的场景。</p>
+<p>因此，一致性的第一层判断不是选 XA、TCC、Saga，还是事务消息，而是识别业务事实本身的约束。</p>
+<h2 id="事务边界"><a href="#事务边界" class="headerlink" title="事务边界"></a>事务边界</h2><p>解决分布式一致性问题，首先要看事务边界。很多看起来需要分布式事务的问题，实际是领域边界划分不清。</p>
+<p>如果一个业务规则必须强一致完成，并且参与的数据天然属于同一个领域，就应该优先放在同一个领域服务里，用本地事务解决。</p>
+<p>例如订单金额、订单明细、订单状态属于订单内部一致性，把它们拆到多个服务里，再用分布式事务拼回来，通常是错误的拆分。</p>
+<p><strong>本地事务是最可靠、最容易理解、运维成本最低的一致性手段。</strong></p>
+<p>只要业务边界允许，就不要主动把一个本地事务拆成跨服务流程。</p>
+<p>服务拆分不能只看表名或代码模块，也要看哪些数据必须一起改变。</p>
+<p>下单场景里，可以先问几个问题：</p>
+<ul>
+<li>创建订单和写入订单明细是否必须一起成功。</li>
+<li>扣减库存是立即扣减，还是先冻结库存。</li>
+<li>优惠券是下单时锁定，还是支付成功后核销。</li>
+<li>支付成功后，订单状态是否由支付回调推进。</li>
+<li>订单取消时，库存和优惠券是否都存在明确释放动作。</li>
+</ul>
+<p>这些问题决定了事务边界，而不是某个框架决定事务边界。</p>
+<p>能收敛到单个领域内的强一致操作，优先使用本地事务。</p>
+<p>跨领域的长流程，应该建模成业务流程，而不是强行拼成一个跨服务本地事务。</p>
+<p>只有业务确实要求多个资源立即原子提交，并且无法调整边界时，才考虑传统分布式事务。</p>
+<h2 id="强一致方案"><a href="#强一致方案" class="headerlink" title="强一致方案"></a>强一致方案</h2><p>传统分布式事务的目标，是让多个资源参与同一个原子提交。最典型的是<strong>两阶段提交</strong>，也就是 2PC。它把一次全局事务拆成两个阶段：</p>
+<ul>
+<li><strong>准备阶段</strong>：事务协调者询问所有参与者是否可以提交。参与者执行本地准备工作，写入必要日志，并保留提交或回滚的能力。</li>
+<li><strong>提交阶段</strong>：如果所有参与者都准备成功，协调者通知它们提交；只要有参与者失败，协调者通知所有参与者回滚。</li>
+</ul>
+<p>这个模型的优点很直接：它尽量把多个资源的提交结果绑定在一起，业务代码不需要显式设计补偿流程。</p>
+<p>缺点也同样明显：参与者在准备阶段通常需要持有锁和事务资源，协调者或参与者故障会让系统进入等待状态，整体性能和可用性受最慢参与方影响。</p>
+<p><strong>三阶段提交</strong>，也就是 3PC，是在 2PC 基础上继续拆分阶段，通常会增加一个预提交阶段。<br>它的目标是降低协调者故障导致的阻塞风险，让参与者在某些情况下可以根据状态继续推进。但 3PC 不能彻底解决网络分区下的不确定问题，真实业务系统中并不常见。</p>
+<p>多数工程讨论里的强一致分布式事务，仍然集中在 XA 和 2PC 相关方案。</p>
+<p><strong>XA 是一类标准化的分布式事务接口规范，不是某个具体框架。</strong><br>它让数据库等资源管理器参与全局事务，由事务管理器统一协调提交或回滚。它更接近“把多个数据库提交包装成一个全局提交”。</p>
+<p>在金融核心账务、跨库强一致写入等场景里，XA 有存在价值；在高并发互联网业务里，长时间持锁和协调成本通常难以接受。</p>
+<p>Seata 的 XA 模式属于这一类强一致方向。Seata 还提供 AT、TCC、Saga 等模式。<br>官方文档中，<strong>AT 模式</strong>要求关系型数据库支持本地 ACID 事务，并在一阶段把业务数据和回滚日志放在同一个本地事务中提交。</p>
+<p>二阶段提交时异步清理回滚日志；二阶段回滚时，根据回滚日志生成补偿操作。<br>它降低了业务侵入，但仍然依赖 SQL 解析、回滚日志和全局锁，不是没有成本的透明事务。</p>
+<p>强一致方案适合解决“必须一起成功或一起失败”的问题，但它不应该成为默认选择。一个跨服务操作能不能使用强一致方案，需要同时满足几个条件：</p>
+<ul>
+<li>参与方数量可控。</li>
+<li>事务持续时间短。</li>
+<li>各参与方可用性较高。</li>
+<li>业务不能接受中间状态。</li>
+<li>性能和锁等待成本可以接受。</li>
+<li>故障恢复流程明确。</li>
+</ul>
+<p>如果一次下单流程包含订单、库存、优惠券、支付、积分、通知、履约等多个步骤，把它们全部放进一个强一致事务里，通常会把业务流程变成高耦合、低吞吐、难恢复的长事务。</p>
+<h2 id="最终一致方案"><a href="#最终一致方案" class="headerlink" title="最终一致方案"></a>最终一致方案</h2><p><strong>最终一致性不是放弃一致性，而是承认跨服务流程存在中间状态。</strong></p>
+<p>系统不要求所有参与方立即同时成功，但要求流程最终进入明确结果：成功、失败、取消、已补偿或需要人工处理。</p>
+<p>最终一致方案通常有几个共同前提：</p>
+<ul>
+<li>每个参与方只提交自己的本地事务。</li>
+<li>跨服务流程通过事件、命令或流程引擎推进。</li>
+<li>业务允许短时间中间状态，例如“库存已冻结”“支付中”“取消中”。</li>
+<li>每一步都要有明确结果：成功、失败、处理中、未知。</li>
+<li>失败后不能只记录日志，必须有重试、补偿、对账或人工处理。</li>
+</ul>
+<p>下单流程可以建模成状态推进：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">订单创建中 -&gt; 待支付 -&gt; 支付中 -&gt; 已支付 -&gt; 履约中 -&gt; 已完成</span><br><span class="line">                         |</span><br><span class="line">                         -&gt; 支付失败 -&gt; 已取消</span><br></pre></td></tr></table></figure>
+
+<p>每个状态变化都由某个服务的本地事务完成。订单服务负责订单状态，支付服务负责支付状态，库存服务负责库存占用或释放。跨服务一致性通过事件、命令、状态机、补偿动作和对账来保证。</p>
+<p>这种方式和强一致事务的区别在于：强一致事务希望在一次提交里消除中间状态；最终一致方案则承认中间状态存在，并把中间状态纳入业务模型。</p>
+<h3 id="Saga"><a href="#Saga" class="headerlink" title="Saga"></a>Saga</h3><p><strong>Saga</strong> 把一个跨服务业务流程拆成多个本地事务。每个本地事务完成后，触发下一步；某一步失败时，执行之前步骤对应的补偿动作。<br>Microservices.io 对 Saga 的描述也是这个思路：跨多个服务的业务事务由一系列本地事务组成，本地事务更新数据库并发布消息或事件，失败时执行补偿事务。</p>
+<p>Saga 适合长流程。所谓长流程，不一定是执行时间很长，也可能是参与方很多、步骤很多、失败路径很多、无法长期持有数据库锁。下单、退款、履约、开户、授信审批，都属于这类问题。</p>
+<p>下单流程可以简化成：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">创建订单 -&gt; 冻结库存 -&gt; 锁定优惠券 -&gt; 发起支付</span><br></pre></td></tr></table></figure>
+
+<p>每一步都是一个本地事务：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">订单服务：创建订单，状态为待支付</span><br><span class="line">库存服务：冻结库存</span><br><span class="line">优惠券服务：锁定优惠券</span><br><span class="line">支付服务：创建支付单</span><br></pre></td></tr></table></figure>
+
+<p>如果所有步骤都成功，流程继续向前推进。如果某一步失败，就执行已经成功步骤的补偿动作：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">锁定优惠券失败：</span><br><span class="line">  释放库存</span><br><span class="line">  取消订单</span><br><span class="line"></span><br><span class="line">创建支付单失败：</span><br><span class="line">  释放优惠券</span><br><span class="line">  释放库存</span><br><span class="line">  取消订单</span><br></pre></td></tr></table></figure>
+
+<p>这里要注意一个细节：<strong>补偿不是数据库回滚，而是新的业务动作。</strong></p>
+<p>数据库回滚发生在事务提交之前；Saga 的补偿发生在前面的本地事务已经提交之后。</p>
+<p>库存冻结已经对其他请求可见，优惠券锁定也可能已经影响用户后续操作，所以补偿只能在业务语义上修正结果，不能假装中间状态没有发生过。</p>
+<p>补偿动作本身也可能失败。例如释放库存失败、优惠券系统超时、取消订单时发现订单已经支付。Saga 设计里必须处理补偿失败：</p>
+<ul>
+<li>补偿接口必须幂等，重复调用不会造成重复释放。</li>
+<li>补偿失败要进入可重试状态，而不是直接丢弃。</li>
+<li>补偿超过重试次数后，要进入异常状态并触发告警。</li>
+<li>涉及资金、库存、优惠券时，要有对账任务发现长期不一致。</li>
+</ul>
+<p>Saga 的另一个难点是隔离性。传统数据库事务可以通过锁和隔离级别避免其他事务看到中间状态，Saga 通常做不到这一点。</p>
+<p>库存冻结后，其他请求可能已经看到库存减少。</p>
+<p>订单取消补偿之前，用户可能已经看到待支付订单。</p>
+<p>因此，业务页面和接口必须理解这些中间状态，不能只设计“成功”和“失败”两个结果。</p>
+<p>最终一致场景下，隔离性通常要靠业务手段补足。</p>
+<p>常见做法包括状态约束、乐观锁、业务唯一键和语义锁。</p>
+<p>状态约束用于限制非法操作。例如订单处于 <code>CANCELING</code> 时，不允许继续支付。</p>
+<p>乐观锁或版本号用于避免并发覆盖。例如订单状态从 <code>待支付</code> 改为 <code>已支付</code> 时，要检查当前版本是否仍然匹配。</p>
+<p>业务唯一键用于避免重复创建。例如同一个支付流水号只能创建一条支付记录。</p>
+<p>语义锁不是数据库锁，而是业务上的占用状态。例如冻结库存、锁定优惠券、占用额度。</p>
+<p>Saga 有两种常见协调方式。编排式 Saga 由一个流程编排者决定下一步执行什么，适合流程复杂、状态需要集中管理的场景。</p>
+<p>协同式 Saga 由各服务监听事件并触发自己的动作，适合流程简单、参与方耦合较低的场景。</p>
+<p>编排式 Saga 可以理解为有一个“流程负责人”。例如订单应用服务或流程服务保存当前步骤，并决定下一步调用库存、优惠券还是支付。</p>
+<p>它的优点是流程清晰、状态集中、排障容易。</p>
+<p>缺点是编排者会知道较多业务流程，设计不好会变成新的集中式服务。</p>
+<p>协同式 Saga 则没有中心流程负责人。订单服务发布 <code>OrderCreated</code>，库存服务监听后冻结库存并发布 <code>StockReserved</code>，优惠券服务再继续处理。</p>
+<p>它的优点是服务之间直接依赖较少；缺点是流程分散在多个事件处理器里，排查问题时需要沿着事件链追踪。</p>
+<table>
+<thead>
+<tr>
+<th>方式</th>
+<th>特点</th>
+<th>适合场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>编排式 Saga</td>
+<td>流程集中，状态清楚，容易排查</td>
+<td>步骤多、分支多、失败处理复杂</td>
+</tr>
+<tr>
+<td>协同式 Saga</td>
+<td>服务通过事件协作，没有中心编排者</td>
+<td>流程简单、事件关系稳定</td>
+</tr>
+</tbody></table>
+<p>Saga 的关键不是“发几个消息”，而是把中间状态、补偿动作、超时处理、幂等和人工处理都设计清楚。没有补偿动作和流程状态的 Saga 只是异步调用链，失败后仍然会留下不一致状态。</p>
+<h3 id="TCC"><a href="#TCC" class="headerlink" title="TCC"></a>TCC</h3><p><strong>TCC</strong> 把一个操作拆成 Try、Confirm、Cancel 三个阶段。</p>
+<p>Try 阶段预留资源，Confirm 阶段确认使用资源，Cancel 阶段释放资源。</p>
+<p>和 Saga 相比，TCC 更强调“资源预留”。Try 阶段不直接完成最终业务结果，而是先把资源占住；Confirm 才真正确认使用；Cancel 则释放之前占住的资源。</p>
+<p>库存扣减适合用 TCC 表达：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Try：冻结库存</span><br><span class="line">Confirm：扣减冻结库存</span><br><span class="line">Cancel：释放冻结库存</span><br></pre></td></tr></table></figure>
+
+<p>优惠券也可以类似处理：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Try：锁定优惠券</span><br><span class="line">Confirm：核销优惠券</span><br><span class="line">Cancel：释放优惠券</span><br></pre></td></tr></table></figure>
+
+<p>下单场景可以这样执行：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">Try 阶段：</span><br><span class="line">  订单服务创建待确认订单</span><br><span class="line">  库存服务冻结库存</span><br><span class="line">  优惠券服务锁定优惠券</span><br><span class="line"></span><br><span class="line">Confirm 阶段：</span><br><span class="line">  订单服务确认订单</span><br><span class="line">  库存服务扣减冻结库存</span><br><span class="line">  优惠券服务核销优惠券</span><br><span class="line"></span><br><span class="line">Cancel 阶段：</span><br><span class="line">  订单服务取消待确认订单</span><br><span class="line">  库存服务释放冻结库存</span><br><span class="line">  优惠券服务释放优惠券</span><br></pre></td></tr></table></figure>
+
+<p>TCC 的好处是结果更可控。Try 阶段成功，说明核心资源已经预留，后续 Confirm 的成功概率通常更高。它适合库存、额度、优惠券、席位、号源这类资源占用场景。</p>
+<p>TCC 的代价也很明确：<strong>每个参与方都要暴露三类业务动作，并且自己保证状态正确。</strong></p>
+<p>这不是把一个接口拆成三个名字，而是要为每个阶段设计数据模型。</p>
+<p>以库存为例，不能只有一个 <code>stock</code> 字段，通常还要有冻结数量：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">available_stock：可用库存</span><br><span class="line">frozen_stock：冻结库存</span><br></pre></td></tr></table></figure>
+
+<p>Try 冻结库存时，减少可用库存，增加冻结库存；Confirm 扣减时，减少冻结库存；Cancel 释放时，减少冻结库存，增加可用库存。</p>
+<p>这样才能表达“资源已经被预留，但还没有最终使用”的中间状态。</p>
+<p>TCC 还必须处理几个典型异常：</p>
+<ul>
+<li><strong>空回滚</strong>：Try 阶段没有成功执行，Cancel 却先到达，服务必须能安全返回。</li>
+<li><strong>悬挂</strong>：Cancel 先执行完成，之后迟到的 Try 又被执行，可能重新占用已经取消的资源。</li>
+<li><strong>重复提交</strong>：Confirm 或 Cancel 因为重试被调用多次，服务必须保证幂等。</li>
+</ul>
+<p>这些问题本质上来自网络不可靠和请求重试。调用方超时后不知道 Try 是否执行成功，可能会触发 Cancel；Cancel 执行后，原来的 Try 请求又可能迟到；</p>
+<p>Confirm 没收到响应时，也可能重复调用。参与方需要用事务 ID、分支事务 ID、业务流水号或状态表记录每个阶段是否执行过。</p>
+<p>一个简化的状态表可能长这样：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">business_id | try_status | confirm_status | cancel_status</span><br></pre></td></tr></table></figure>
+
+<p>实际实现不一定按这三个字段设计，但必须能回答几个问题：</p>
+<ul>
+<li>Try 是否已经成功。</li>
+<li>Cancel 是否已经执行。</li>
+<li>Confirm 是否已经执行。</li>
+<li>当前请求是不是重复请求。</li>
+<li>当前请求是否和已有状态冲突。</li>
+</ul>
+<p>TCC 不是低成本方案，也不适合所有业务。没有明确资源预留语义的操作，强行改造成 TCC 会让模型变得很别扭。</p>
+<p>例如发送短信、写操作日志、调用第三方不可撤销接口，就不适合直接套 TCC。它们更适合用 Saga、消息、状态记录和补偿动作处理。</p>
+<h3 id="状态机"><a href="#状态机" class="headerlink" title="状态机"></a>状态机</h3><p>长流程最好显式建模状态机。</p>
+<p>很多一致性问题不是因为缺少某个事务框架，而是系统没有记录流程走到了哪里。</p>
+<p><strong>状态机解决的是流程可恢复、可观察、可重试的问题。</strong></p>
+<p>状态机不是某一种事务协议，而是一种流程建模方式。它把业务流程拆成有限个状态，并限制状态只能按照允许的路径流转。</p>
+<p>这样系统不会只依赖“调用成功”或“调用失败”来判断结果，而是明确记录当前流程阶段。</p>
+<p>订单服务可以维护订单主状态，也可以维护履约流程状态：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">INIT</span><br><span class="line">STOCK_RESERVED</span><br><span class="line">COUPON_LOCKED</span><br><span class="line">PAYMENT_CREATED</span><br><span class="line">PAID</span><br><span class="line">CANCELING</span><br><span class="line">CANCELED</span><br><span class="line">FAILED_NEED_MANUAL</span><br></pre></td></tr></table></figure>
+
+<p>状态机至少要解决四类问题。</p>
+<p>第一，<strong>防止非法流转</strong>。已取消订单不能再变成已支付，已支付订单不能因为迟到的取消任务直接关闭。每次状态变更都要判断当前状态是否允许进入目标状态。</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">待支付 -&gt; 已支付：允许</span><br><span class="line">待支付 -&gt; 已取消：允许</span><br><span class="line">已支付 -&gt; 已取消：不允许，应该进入退款流程</span><br><span class="line">已取消 -&gt; 已支付：不允许，需要人工核对或退款</span><br></pre></td></tr></table></figure>
+
+<p>第二，<strong>支持安全重试</strong>。任务执行超时后，系统不能简单地重新执行所有步骤，而要根据当前状态判断下一步。</p>
+<p>例如订单已经是 STOCK_RESERVED，重试时就不应该再次冻结库存，而应该继续执行锁定优惠券或创建支付单。</p>
+<p>第三，<strong>处理未知状态</strong>。分布式系统里经常出现结果未知：请求超时、服务重启、消息发送结果不确定。</p>
+<p>状态机里应该有 PROCESSING、UNKNOWN、NEED_CHECK 这类状态，允许系统通过查询、对账、回调继续推进，而不是直接判定失败。</p>
+<p>第四，<strong>暴露异常状态</strong>。流程卡在 CANCELING、PAYMENT_UNKNOWN、FAILED_NEED_MANUAL 时，运营后台和告警系统应该能看到。</p>
+<p>否则异常只存在于日志里，很难保证长期一致。</p>
+<p>状态机和 Saga 经常一起使用。Saga 负责把跨服务流程拆成多个本地事务和补偿动作，状态机负责记录流程走到哪一步、下一步允许做什么、失败后如何恢复。</p>
+<p>Seata 的 Saga 模式也采用状态机思路：每个节点可以配置正常服务和补偿服务，发生异常时由状态机驱动已经成功节点的补偿。</p>
+<h2 id="消息一致性"><a href="#消息一致性" class="headerlink" title="消息一致性"></a>消息一致性</h2><p>很多最终一致方案依赖消息。消息能解耦服务，也能把后续动作异步化。</p>
+<p>但它会引入另一个一致性问题：<strong>数据库提交和消息发送如何保持一致</strong>。</p>
+<p>订单服务创建订单后发送 <code>OrderCreated</code> 事件，存在几种失败情况：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">情况一：消息发送成功，订单本地事务回滚</span><br><span class="line">情况二：订单本地事务提交成功，消息发送失败</span><br><span class="line">情况三：订单本地事务提交成功，消息发送结果未知</span><br><span class="line">情况四：消息发送成功，消费者重复消费</span><br></pre></td></tr></table></figure>
+
+<p>只写数据库再发送消息，无法保证提交后一定发出消息；先发送消息再写数据库，又可能让消费者看到一个不存在的订单。这个问题是消息一致性的核心。</p>
+<h3 id="事务消息"><a href="#事务消息" class="headerlink" title="事务消息"></a>事务消息</h3><p>RocketMQ 的事务消息尝试解决本地事务和消息发送的一致性问题。</p>
+<p>它先发送对消费者不可见的<strong>半消息</strong>，然后执行本地事务，最后根据本地事务结果提交或回滚消息。</p>
+<p>提交后消息对消费者可见，回滚后消息被丢弃；生产者异常时，Broker 会回查本地事务状态，再决定提交还是回滚。</p>
+<p>这个机制适合“本地核心事务成功后，驱动下游异步处理”的场景。例如订单创建成功后，通知库存、积分、购物车等下游系统继续处理。它解决的是“本地事务结果”和“消息是否投递”之间的协调问题。</p>
+<p>但事务消息不能替消费者完成业务一致性。</p>
+<p>RocketMQ 文档也明确区分了上游事务和下游消费结果：事务消息保证的是本地核心事务和消息发送之间的最终一致，下游业务仍然要通过消费重试、幂等和异常处理保证自己的处理结果。</p>
+<h3 id="Outbox"><a href="#Outbox" class="headerlink" title="Outbox"></a>Outbox</h3><p><strong>Outbox</strong> 是另一种常见做法。</p>
+<p>它解决的是“业务数据已经提交，但消息没有可靠发出”的问题。业务服务在同一个本地事务中写业务表和消息表：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">begin transaction</span><br><span class="line">  创建订单</span><br><span class="line">  插入 outbox 消息：OrderCreated</span><br><span class="line">commit</span><br></pre></td></tr></table></figure>
+
+<p>事务提交后，独立的消息发布器扫描 outbox 表，把消息发送到消息队列，并标记发送状态。</p>
+<p>这样可以保证：只要订单创建成功，对应消息就一定存在；订单创建失败，消息也不会出现。</p>
+<p>Outbox 不需要数据库和消息队列支持同一个分布式事务，因此适用范围更广。代价是系统要维护消息表、发布器、重试、去重和清理策略。</p>
+<p>Microservices.io 对 Transactional Outbox 的核心描述也是：先把要发送的消息作为本地事务的一部分存入数据库，再由单独进程发送到消息代理。</p>
+<p>Outbox 仍然可能重复发送消息。例如发布器发送消息成功后，在标记消息已发送前崩溃，重启后可能再次发送。因此消费者必须支持幂等。</p>
+<h3 id="Inbox-和幂等"><a href="#Inbox-和幂等" class="headerlink" title="Inbox 和幂等"></a>Inbox 和幂等</h3><p>消费者侧可以用 <strong>Inbox</strong> 或消费记录表处理重复消息。消费消息时，先根据消息 ID 或业务唯一键判断是否已经处理过，再执行业务逻辑。</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">begin transaction</span><br><span class="line">  判断 message_id 是否已处理</span><br><span class="line">  执行业务变更</span><br><span class="line">  记录 message_id 已处理</span><br><span class="line">commit</span><br></pre></td></tr></table></figure>
+
+<p>幂等不能只靠消息 ID。很多业务需要根据业务键做幂等，例如订单号、支付流水号、退款单号。</p>
+<p>支付回调可能重复到达，库存释放消息可能重复投递，优惠券释放也可能重复执行。</p>
+<p><strong>每个消费者都要能承受重复消息。</strong></p>
+<p>消息系统通常提供至少一次投递，而不是刚好一次端到端业务处理。</p>
+<p>至少一次投递意味着消息可能重复到达，业务侧必须用唯一约束、处理记录或状态判断来抵消重复影响。</p>
+<p>Kafka 支持生产者幂等和事务，配置 <code>transactional.id</code> 后可以使用事务语义。</p>
+<p><code>transactional.id</code> 可以跨生产者会话维持可靠语义。</p>
+<p>但 Kafka 事务主要解决 Kafka 内部生产、分区、消费位移提交等链路的一致性问题，<strong>不等于数据库事务和 Kafka 消息之间的跨资源原子提交</strong>。</p>
+<p>所以，使用 Kafka 时仍然需要关注数据库和消息之间的边界。常见做法仍然是 Outbox、变更数据捕获、幂等消费和业务对账。</p>
+<p>消息重试也不能无限执行。超过重试次数后，消息应该进入死信队列或异常表，并暴露给告警和人工处理流程。</p>
+<p>死信不是流程结束，只是系统承认自动处理已经无法继续。后续仍然需要补偿、对账或人工确认。</p>
+<h2 id="对账和人工处理"><a href="#对账和人工处理" class="headerlink" title="对账和人工处理"></a>对账和人工处理</h2><p>对账不是低级补丁，而是复杂分布式系统保持长期一致性的必要机制。</p>
+<p>实时链路只能处理大部分正常情况，不能覆盖所有异常。</p>
+<p>支付回调可能延迟，消息可能重复投递，外部系统可能返回未知结果，补偿任务也可能失败。</p>
+<p>这些问题最终都需要对账发现。</p>
+<p>以下单支付为例，对账通常不是只比较两张表，而是比较多个系统对同一笔业务的理解：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">订单系统：订单是否已支付</span><br><span class="line">支付系统：支付单是否支付成功</span><br><span class="line">库存系统：库存是否已扣减或释放</span><br><span class="line">优惠券系统：优惠券是否已核销或释放</span><br></pre></td></tr></table></figure>
+
+<p>如果支付系统显示支付成功，但订单仍然是待支付，就需要推动订单状态变更。</p>
+<p>如果订单已经取消，但库存仍然冻结，就需要释放库存。</p>
+<p>如果订单支付失败，但优惠券已经核销，就需要退回优惠券。</p>
+<p>对账发现差异后，不是所有问题都适合自动修复。</p>
+<p>明确可逆、幂等、低风险的差异，可以自动补偿。</p>
+<p>例如重复释放库存应该是幂等的，重复退回未使用优惠券也应该是幂等的。</p>
+<p>涉及资金、外部系统结果不确定、重复扣减风险时，应该进入人工处理。</p>
+<p>人工处理不是让人直接改数据库，而是系统提供受控操作入口。</p>
+<p>这个入口应该记录处理人、处理原因、处理前状态、处理后状态和关联流水。</p>
+<p>否则人工处理本身也会成为新的不一致来源。</p>
+<p>对账任务也需要记录执行结果。</p>
+<p>一次对账发现多少差异、自动修复多少、失败多少、进入人工处理多少，都应该可查询、可告警。</p>
+<p>没有这些记录，对账任务只是隐藏在后台的脚本，不能真正承担一致性兜底职责。</p>
+<h2 id="框架和实现"><a href="#框架和实现" class="headerlink" title="框架和实现"></a>框架和实现</h2><p>框架能减少样板代码，但不能替代业务建模。选择框架前，应该先明确业务使用的是强一致、最终一致、资源预留，还是消息驱动流程。</p>
+<p>Seata 适合放在分布式事务框架这一类里看。它提供 AT、TCC、Saga、XA 等模式：</p>
+<table>
+<thead>
+<tr>
+<th>模式</th>
+<th>适合场景</th>
+<th>主要代价</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>XA</td>
+<td>多个支持 XA 的资源需要强一致提交</td>
+<td>锁持有时间长，性能和可用性成本高</td>
+</tr>
+<tr>
+<td>AT</td>
+<td>关系型数据库、本地事务、希望减少业务侵入</td>
+<td>依赖 SQL 解析、回滚日志和全局锁</td>
+</tr>
+<tr>
+<td>TCC</td>
+<td>明确存在资源预留、确认、取消语义</td>
+<td>业务要实现 Try、Confirm、Cancel</td>
+</tr>
+<tr>
+<td>Saga</td>
+<td>长流程、异步流程、跨系统流程</td>
+<td>需要设计补偿、状态机和隔离策略</td>
+</tr>
+</tbody></table>
+<p>RocketMQ 事务消息适合解决“本地事务提交”和“消息可靠发出”之间的问题。它不是传统意义上的全局分布式事务，也不保证下游所有服务处理成功。下游服务仍然需要重试、幂等、死信处理和补偿。</p>
+<p>Kafka 事务适合 Kafka 生态内部的原子写入和消费位移提交，例如流处理场景中读一个 Topic、处理后写另一个 Topic，并提交消费位移。</p>
+<p>它不直接解决“数据库更新成功但 Kafka 消息发送失败”的问题。业务系统要把数据库和 Kafka 连接起来，仍然需要 Outbox、变更数据捕获或其他可靠发布机制。</p>
+<p>因此，框架选择应该从业务语义反推，而不是先选框架再改造业务。</p>
+<h2 id="方案选择"><a href="#方案选择" class="headerlink" title="方案选择"></a>方案选择</h2><p>可以按下面的顺序判断一致性方案：</p>
+<ul>
+<li>能否把必须强一致的数据放回同一个领域服务，用本地事务解决。</li>
+<li>业务是否真的要求多个资源立即一起提交。</li>
+<li>是否允许中间状态，例如“支付中”“库存已冻结”“取消中”。</li>
+<li>失败后是否存在明确补偿动作。</li>
+<li>下游处理是否可以异步完成。</li>
+<li>是否能实现幂等、重试、状态查询和人工处理。</li>
+<li>是否有对账机制发现长期不一致。</li>
+</ul>
+<p>几个常见方案可以这样比较：</p>
+<table>
+<thead>
+<tr>
+<th>方案</th>
+<th>一致性特点</th>
+<th>适合场景</th>
+<th>主要风险</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>本地事务</td>
+<td>单服务强一致</td>
+<td>同一领域内的数据修改</td>
+<td>服务边界划分错误会导致职责膨胀</td>
+</tr>
+<tr>
+<td>XA &#x2F; 2PC</td>
+<td>跨资源强一致</td>
+<td>短事务、参与方少、强一致要求高</td>
+<td>阻塞、锁等待、性能下降</td>
+</tr>
+<tr>
+<td>TCC</td>
+<td>业务资源预留式一致</td>
+<td>库存冻结、额度占用、优惠券锁定</td>
+<td>接口成本高，需处理空回滚和悬挂</td>
+</tr>
+<tr>
+<td>Saga</td>
+<td>跨服务最终一致</td>
+<td>长流程、下单、履约、退款</td>
+<td>补偿和隔离需要业务设计</td>
+</tr>
+<tr>
+<td>事务消息</td>
+<td>本地事务和消息发送最终一致</td>
+<td>本地成功后驱动下游异步处理</td>
+<td>不保证消费者业务一定成功</td>
+</tr>
+<tr>
+<td>Outbox</td>
+<td>数据库变更和消息可靠发布</td>
+<td>数据库加消息队列的通用场景</td>
+<td>发布器和消费者都要处理重复</td>
+</tr>
+<tr>
+<td>对账补偿</td>
+<td>事后发现和修正不一致</td>
+<td>支付、结算、外部系统对接</td>
+<td>时效性较弱，依赖运营和告警</td>
+</tr>
+</tbody></table>
+<p>下单支付场景里，比较合理的组合通常是：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">订单服务：本地事务创建订单，记录订单状态</span><br><span class="line">库存服务：冻结库存或扣减库存，保证库存内部一致</span><br><span class="line">优惠券服务：锁定或核销优惠券，保证优惠券内部一致</span><br><span class="line">支付服务：创建支付单，处理支付回调</span><br><span class="line">消息机制：驱动状态推进和下游处理</span><br><span class="line">状态机：记录订单流程进展</span><br><span class="line">补偿任务：处理超时、失败和取消</span><br><span class="line">对账任务：校验支付、订单、库存、优惠券长期状态</span><br></pre></td></tr></table></figure>
+
+<p>这里没有一个单独的“分布式事务”覆盖所有问题。系统一致性来自多个机制组合：本地事务保证局部正确，消息保证流程推进，状态机暴露中间状态，补偿处理失败，对账发现遗漏。</p>
+<h2 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h2><p>一个常见错误，是把分布式事务理解成跨服务版本的 <code>@Transactional</code>。本地事务依赖同一个数据库连接和事务管理器，跨服务调用没有这个前提。</p>
+<p>服务之间通过网络通信，失败模式比本地方法调用复杂得多：超时、重试、重复请求、响应丢失、服务重启都会出现。</p>
+<p>另一个错误，是在网关、BFF 或上层聚合服务里直接串联多个写接口，并试图在这一层保证事务一致性。</p>
+<p>上层服务可以接收请求、编排页面或入口流程，但不应该绕过领域服务直接决定订单、库存、支付等核心业务状态。真正的一致性策略应该落在领域服务、应用服务或流程服务中。</p>
+<p>只考虑成功链路也很危险。下单成功流程通常容易写清楚，失败流程才决定系统可靠性。</p>
+<p>库存冻结后支付失败怎么办，支付成功但订单更新失败怎么办，优惠券核销成功但订单取消怎么办，这些都需要明确状态和补偿策略。</p>
+<p>只做重试、不做幂等，也会制造新的不一致。网络超时后，调用方不知道请求是否已经执行成功，简单重试可能导致重复扣减库存、重复核销优惠券、重复创建支付单。</p>
+<p>写接口需要用业务唯一键、请求号或流水号保证幂等。</p>
+<p>结果未知时，不应该只靠重复写请求推进流程。更稳妥的做法是先查询当前状态，再决定继续、补偿、等待还是转入人工处理。</p>
+<p>只依赖异步消息、不处理消息和数据库之间的间隙，也会留下风险。数据库提交和消息发送不是同一个原子操作时，必须通过事务消息、Outbox 或变更数据捕获等机制保证消息可靠发布。</p>
+<p>最后，对账不是低级补丁。只要系统涉及外部支付、银行、三方平台或复杂异步链路，就很难完全避免所有异常状态。定时对账、差异修复、人工处理入口和告警，是保持长期一致性的必要部分。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>分布式系统保持数据一致性，首先是业务建模问题，其次才是技术方案问题。事务边界、领域职责、状态机和补偿动作，比选择某个框架更基础。</p>
+<p>本地事务仍然是最优先的选择。能在一个领域内完成的强一致操作，不应该拆成分布式事务。跨领域流程更适合建模成业务流程，通过事件、消息、Saga、TCC、补偿、幂等、对账等机制达到最终一致。</p>
+<p>分布式事务不是万能方案。XA、2PC、Seata、RocketMQ 事务消息、Kafka 事务、Outbox 都有各自边界。系统需要的不是一个统一答案，而是一套围绕业务一致性的组合策略。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a class="link"   target="_blank" rel="noopener" href="https://seata.apache.org/docs/overview/what-is-seata/" >What Is Seata? - Apache Seata<i class="fas fa-external-link-alt"></i></a></li>
+<li><a class="link"   target="_blank" rel="noopener" href="https://rocketmq.apache.org/docs/featureBehavior/04transactionmessage/" >Transaction Message - Apache RocketMQ<i class="fas fa-external-link-alt"></i></a></li>
+<li><a class="link"   target="_blank" rel="noopener" href="https://kafka.apache.org/43/configuration/producer-configs/" >Producer Configs - Apache Kafka<i class="fas fa-external-link-alt"></i></a></li>
+<li><a class="link"   target="_blank" rel="noopener" href="https://microservices.io/patterns/data/saga.html" >Pattern: Saga - Microservices.io<i class="fas fa-external-link-alt"></i></a></li>
+<li><a class="link"   target="_blank" rel="noopener" href="https://microservices.io/patterns/data/transactional-outbox.html" >Pattern: Transactional Outbox - Microservices.io<i class="fas fa-external-link-alt"></i></a></li>
+<li><a class="link"   target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/azure/architecture/patterns/compensating-transaction" >Compensating Transaction pattern - Microsoft Azure Architecture Center<i class="fas fa-external-link-alt"></i></a></li>
+</ul>
+
+                </div>
+
+                
+                        
+<div class="post-copyright-info-container border-box">
+    <div class="copyright-info-content border-box">
+        <div class="copyright-info-top border-box">
+            <div class="copyright-post-title border-box text-ellipsis">
+                分布式系统中如何保持数据一致性
+            </div>
+
+            <div class="copyright-post-link border-box text-ellipsis">
+                学习笔记/学习笔记/分布式系统中如何保持数据一致性/
+            </div>
+        </div>
+
+        <div class="copyright-info-bottom border-box">
+            <div class="copyright-post-author bottom-item">
+                <div class="type">
+                    作者
+                </div>
+                <div class="content">咕咕咕</div>
+            </div>
+
+            <div class="post-time bottom-item">
+                <div class="type">
+                    发布于
+                </div>
+                <div class="content">2026-06-24 22:42</div>
+            </div>
+
+
+            <div class="post-license bottom-item">
+                <div class="type">
+                    许可
+                </div>
+                <div class="content tooltip" data-tooltip-content="CC BY-NC-SA 4.0">
+                    <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hans">
+                        <i class="fa-brands fa-creative-commons"></i>
+                        <i class="fa-brands fa-creative-commons-by"></i>
+                        <i class="fa-brands fa-creative-commons-nc"></i>
+                        <i class="fa-brands fa-creative-commons-sa"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <i class="copyright-bg fa-solid fa-copyright"></i>
+    </div>
+    <div class="copy-copyright-info flex-center tooltip" data-tooltip-content="复制版权信息" data-tooltip-offset-y="-2px">
+        <i class="fa-solid fa-copy"></i>
+    </div>
+</div>
+
+                
+
+                <div class="post-bottom-tags-and-share border-box">
+                    <div>
+                        
+                            <ul class="post-tags-box border-box">
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1/">分布式事务</a>
+                                    </li>
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/%E6%9C%80%E7%BB%88%E4%B8%80%E8%87%B4%E6%80%A7/">最终一致性</a>
+                                    </li>
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/Saga/">Saga</a>
+                                    </li>
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/TCC/">TCC</a>
+                                    </li>
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/Outbox/">Outbox</a>
+                                    </li>
+                                
+                            </ul>
+                        
+                    </div>
+                    <div>
+                        
+                            <div class="post-share-container border-box">
+    <ul class="share-list-wrap border-box">
+        <li class="qq share-item border-box flex-center tooltip"
+            data-tooltip-content="分享到 QQ"
+        >
+            <i class="fa-brands fa-qq"></i>
+        </li>
+        <li class="wechat share-item border-box flex-center tooltip tooltip-img"
+            data-tooltip-content="分享到微信"
+            data-tooltip-img-tip="微信扫一扫"
+            data-tooltip-img-style="background-color: #fff; top: -10px; padding: 0.6rem 0.6rem 0.1rem 0.6rem;"
+        >
+            <i class="fa-brands fa-weixin"></i>
+        </li>
+        <li class="weibo share-item border-box flex-center tooltip"
+            data-tooltip-content="分享到微博"
+        >
+            <i class="fa-brands fa-weibo"></i>
+        </li>
+    </ul>
+</div>
+
+                        
+                    </div>
+                </div>
+
+                
+                    <div class="reward-author-container border-box flex-center">
+    <div class="reward-btn keep-button border-box flex-center tooltip tooltip-img"
+            data-tooltip-content="谢谢你请我喝可乐~"
+            data-tooltip-img-url="/images/thanks.png"
+            data-tooltip-img-trigger="click"
+            data-tooltip-img-style="top: -8px;"
+    >
+        <i class="fa-solid fa-hand-holding-heart"></i>
+    </div>
+</div>
+
+                
+
+                
+                    <div class="post-nav border-box">
+                        
+                        
+                            <div class="next-post">
+                                <a class="next"
+                                   rel="next"
+                                   href="/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/BFF%EF%BC%88Backends%20for%20frontends%EF%BC%89/"
+                                   title="BFF（Backends for frontends）"
+                                >
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">BFF（Backends for frontends）</span>
+                                        <span class="post-nav-item">下一篇</span>
+                                    </span>
+                                    <span class="right arrow-icon flex-center">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                    </div>
+                
+
+                
+                    
+
+
+    <div class="comments-container border-box">
+        <div id="comments-anchor" class="comment-area-title border-box">
+            <i class="fas fa-comments"></i>&nbsp;评论
+        </div>
+        <div class="comment-plugin-fail border-box">
+    <span class="fail-tip">评论插件加载失败</span>
+    <button class="reload keep-button">点击重新加载</button>
+</div>
+<div class="comment-plugin-loading flex-center border-box">
+    <i class="loading-icon fa-solid fa-spinner fa-spin"></i>
+    <span class="load-tip">正在加载评论插件</span>
+</div>
+<script data-pjax>
+  window.KeepCommentPlugin = {}
+  window.KeepCommentPlugin.hideLoading = () => {
+    const cplDom = document.querySelector('.comments-container .comment-plugin-loading')
+    cplDom.style.display = 'none'
+  }
+  window.KeepCommentPlugin.loadFailHandle = () => {
+    window.KeepCommentPlugin.hideLoading()
+    const cpfDom = document.querySelector('.comments-container .comment-plugin-fail')
+    cpfDom.style.display = 'flex'
+    cpfDom.querySelector('.reload').addEventListener('click', () => {
+      window.location.reload()
+    })
+  }
+</script>
+
+        
+            
+
+    <div class="giscus-comments-container">
+        <div class="giscus" id="giscus"></div>
+        <script data-pjax
+                onerror="window.KeepCommentPlugin.loadFailHandle()"
+        >
+          if (!window.KeepCommentPlugin?.getGiscusTheme) {
+            window.KeepCommentPlugin.getGiscusTheme = () => {
+              return document.body.classList.contains('dark-mode') ? 'dark_dimmed' : 'light_tritanopia'
+            }
+          }
+
+          if (!window.KeepCommentPlugin?.changeGiscusTheme) {
+            window.KeepCommentPlugin.changeGiscusTheme = () => {
+              const iframe = document.querySelector('iframe.giscus-frame')
+              iframe && iframe.contentWindow.postMessage({
+                giscus: {
+                  setConfig: {
+                    theme: window.KeepCommentPlugin.getGiscusTheme()
+                  }
+                }
+              }, 'https://giscus.app')
+            }
+          }
+
+          if (!window.KeepCommentPlugin?.initGiscus) {
+            window.KeepCommentPlugin.initGiscus = () => {
+              const script = document.createElement('script')
+              script.async = true
+              script.src = 'https://giscus.app/client.js'
+              script.setAttribute('data-repo', 'Cooooing/Cooooing.github.io')
+              script.setAttribute('data-repo-id', 'R_kgDOHQal_w')
+              script.setAttribute('data-category', 'Announcements')
+              script.setAttribute('data-category-id', 'DIC_kwDOHQal_84CjZo6')
+              script.setAttribute('data-reactions-enabled', '1')
+              script.setAttribute('data-lang', 'zh-CN')
+              script.setAttribute('data-mapping', 'pathname')
+              script.setAttribute('data-strict', '0')
+              script.setAttribute('data-emit-metadata', '0')
+              script.setAttribute('data-input-position', 'top')
+              script.setAttribute('crossorigin', 'anonymous')
+              script.setAttribute('loading', 'lazy')
+              script.setAttribute('data-theme', window.KeepCommentPlugin.getGiscusTheme())
+              document.querySelector('.giscus-comments-container').appendChild(script)
+              script.onerror = () => {
+                window.KeepCommentPlugin.loadFailHandle()
+              }
+              script.onload = () => {
+                window.KeepCommentPlugin.hideLoading()
+              }
+              const toggleThemeBtn = document.querySelector('.tool-toggle-theme-mode')
+              toggleThemeBtn && toggleThemeBtn.addEventListener('click', () => {
+                window.KeepCommentPlugin.changeGiscusTheme()
+              })
+            }
+          }
+
+          if ('true' === "true") {
+            setTimeout(() => {
+              window.KeepCommentPlugin.initGiscus()
+            }, 1000)
+          } else {
+            window.addEventListener("DOMContentLoaded", window.KeepCommentPlugin.initGiscus)
+          }
+        </script>
+    </div>
+
+
+        
+    </div>
+
+
+
+
+
+                
+            </div>
+        </div>
+
+        
+            <div class="pc-post-toc left-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E8%83%8C%E6%99%AF"><span class="nav-text">问题背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E8%87%B4%E6%80%A7%E7%9A%84%E5%90%AB%E4%B9%89"><span class="nav-text">一致性的含义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8B%E5%8A%A1%E8%BE%B9%E7%95%8C"><span class="nav-text">事务边界</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%BA%E4%B8%80%E8%87%B4%E6%96%B9%E6%A1%88"><span class="nav-text">强一致方案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%80%E7%BB%88%E4%B8%80%E8%87%B4%E6%96%B9%E6%A1%88"><span class="nav-text">最终一致方案</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Saga"><span class="nav-text">Saga</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TCC"><span class="nav-text">TCC</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%8A%B6%E6%80%81%E6%9C%BA"><span class="nav-text">状态机</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B6%88%E6%81%AF%E4%B8%80%E8%87%B4%E6%80%A7"><span class="nav-text">消息一致性</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8B%E5%8A%A1%E6%B6%88%E6%81%AF"><span class="nav-text">事务消息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Outbox"><span class="nav-text">Outbox</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Inbox-%E5%92%8C%E5%B9%82%E7%AD%89"><span class="nav-text">Inbox 和幂等</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%B9%E8%B4%A6%E5%92%8C%E4%BA%BA%E5%B7%A5%E5%A4%84%E7%90%86"><span class="nav-text">对账和人工处理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A1%86%E6%9E%B6%E5%92%8C%E5%AE%9E%E7%8E%B0"><span class="nav-text">框架和实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%B9%E6%A1%88%E9%80%89%E6%8B%A9"><span class="nav-text">方案选择</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98"><span class="nav-text">常见问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-text">总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-text">参考</span></a></li></ol>
+    </div>
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom border-box">
+            
+<footer class="footer border-box">
+    <div class="border-box website-info-box default">
+        
+            <div class="copyright-info info-item default">
+                &copy;&nbsp;<span>2022</span>&nbsp;-&nbsp;2026
+                
+                    &nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;&nbsp;<a href="/">咕咕咕</a>
+                
+            </div>
+
+            <div class="theme-info info-item default">
+                由&nbsp;<a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;驱动&nbsp;&&nbsp;主题&nbsp;<a class="keep-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep</a>
+            </div>
+
+            
+
+            
+        
+
+        <div style="color:var(--text-color-4);"><span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>(～￣▽￣)～<script src="/js/lifeTime.js"></script></div>
+        <a href="https://icp.gov.moe/?keyword=20222450" target="_blank">萌ICP备20222450号</a>
+
+
+        <div class="count-item info-item default">
+            
+                <span class="count-box border-box word">
+                    <span class="item-type border-box">总字数</span>
+                    <span class="item-value border-box word">476k</span>
+                </span>
+            
+
+            
+                <span class="count-box border-box uv">
+                    <span class="item-type border-box">访客数</span>
+                    <span class="item-value border-box uv" id="busuanzi_value_site_uv"></span>
+                </span>
+            
+
+            
+                <span class="count-box border-box pv">
+                    <span class="item-type border-box">访问量</span>
+                    <span class="item-value border-box pv" id="busuanzi_value_site_pv"></span>
+                </span>
+            
+        </div>
+
+        <div id="aplayer">
+          <meting-js
+                  server="netease"
+                  type="playlist"
+                  id="7345595717"
+                  fixed="true"
+                  mini="true"
+                  autoplay="false"
+                  listFolded="true"
+                  order="random"
+                  preload="none">
+          </meting-js>
+        </div>
+            <br>
+            <br>
+            <br>
+    </div>
+
+</footer>
+
+        </div>
+    </div>
+
+    <!-- post tools -->
+    
+        <div class="post-tools left-toc">
+            <div class="post-tools-container border-box">
+    <ul class="tools-list border-box">
+        <!-- PC TOC show toggle -->
+        
+            <li class="tools-item flex-center toggle-show-toc">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        <!-- PC go comment -->
+        
+            <li class="tools-item flex-center go-to-comments">
+                <i class="fas fa-comment"></i>
+                <span class="post-comments-count"></span>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <!-- side tools -->
+    <div class="side-tools">
+        <div class="side-tools-container border-box ">
+    <ul class="side-tools-list side-tools-show-handle border-box">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-toggle-theme-mode flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+            <li class="tools-item rss flex-center">
+                <a class="flex-center"
+                   href="/atom.xml"
+                   target="_blank"
+                >
+                    <i class="fas fa-rss"></i>
+                </a>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list border-box">
+        
+            <li class="tools-item toggle-show-toc-tablet flex-center">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        
+            <li class="tools-item go-to-comments-tablet flex-center">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+
+        <li class="tools-item tool-scroll-to-top flex-center show-arrow">
+            <i class="arrow fas fa-arrow-up"></i>
+            <span class="percent"></span>
+        </li>
+    </ul>
+</div>
+
+    </div>
+
+    <!-- image mask -->
+    <div class="zoom-in-image-mask">
+    <img class="zoom-in-image">
+</div>
+
+
+    <!-- local search -->
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="搜索..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="close-popup-btn">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+    <!-- tablet toc -->
+    
+        <div class="tablet-post-toc-mask">
+            <div class="tablet-post-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E8%83%8C%E6%99%AF"><span class="nav-text">问题背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E8%87%B4%E6%80%A7%E7%9A%84%E5%90%AB%E4%B9%89"><span class="nav-text">一致性的含义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8B%E5%8A%A1%E8%BE%B9%E7%95%8C"><span class="nav-text">事务边界</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%BA%E4%B8%80%E8%87%B4%E6%96%B9%E6%A1%88"><span class="nav-text">强一致方案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%80%E7%BB%88%E4%B8%80%E8%87%B4%E6%96%B9%E6%A1%88"><span class="nav-text">最终一致方案</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Saga"><span class="nav-text">Saga</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TCC"><span class="nav-text">TCC</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%8A%B6%E6%80%81%E6%9C%BA"><span class="nav-text">状态机</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B6%88%E6%81%AF%E4%B8%80%E8%87%B4%E6%80%A7"><span class="nav-text">消息一致性</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8B%E5%8A%A1%E6%B6%88%E6%81%AF"><span class="nav-text">事务消息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Outbox"><span class="nav-text">Outbox</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Inbox-%E5%92%8C%E5%B9%82%E7%AD%89"><span class="nav-text">Inbox 和幂等</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%B9%E8%B4%A6%E5%92%8C%E4%BA%BA%E5%B7%A5%E5%A4%84%E7%90%86"><span class="nav-text">对账和人工处理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A1%86%E6%9E%B6%E5%92%8C%E5%AE%9E%E7%8E%B0"><span class="nav-text">框架和实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%B9%E6%A1%88%E9%80%89%E6%8B%A9"><span class="nav-text">方案选择</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98"><span class="nav-text">常见问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-text">总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-text">参考</span></a></li></ol>
+    </div>
+</div>
+
+            </div>
+        </div>
+    
+</main>
+
+
+
+<!-- common -->
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/toggle-theme.js"></script>
+
+<script src="/js/code-block.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+
+<!-- local-search -->
+
+    
+<script src="/js/local-search.js"></script>
+
+
+
+<!-- lazyload -->
+
+    
+<script src="/js/lazyload.js"></script>
+
+
+
+<div class="pjax">
+    
+        <!-- post-helper -->
+        
+<script src="/js/post/post-helper.js"></script>
+
+
+        <!-- toc -->
+        
+            
+<script src="/js/post/toc.js"></script>
+
+        
+
+        <!-- copyright-info -->
+        
+            
+<script src="/js/post/copyright-info.js"></script>
+
+        
+
+        <!-- share -->
+        
+            
+<script src="/js/post/share.js"></script>
+
+        
+    
+
+    <!-- category-page -->
+    
+
+    <!-- links-page -->
+    
+
+    <!-- photos-page -->
+    
+</div>
+
+<!-- mermaid -->
+
+
+<!-- pjax -->
+
+    
+<script src="/js/libs/pjax.min.js"></script>
+
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        window.pjax = new Pjax({
+            selectors: [
+                'head title',
+                '.page-container',
+                '.pjax',
+                '#aplayer',
+                '#canvas_sakura'
+            ],
+            history: true,
+            debug: false,
+            cacheBust: false,
+            timeout: 0,
+            analytics: false,
+            currentUrlFullReload: false,
+            scrollRestoration: false,
+        });
+
+        document.addEventListener('pjax:send', () => {
+            KEEP.utils.pjaxProgressBarStart()
+        });
+
+        document.addEventListener('pjax:complete', () => {
+            KEEP.utils.pjaxProgressBarEnd()
+            window.pjax.executeScripts(document.querySelectorAll('script[data-pjax], .pjax script'))
+            KEEP.initExecute()
+        });
+    });
+</script>
+
+
+
+
+    
+        
+            
+<script class="custom-inject-js" src="/js/APlayer.min.js" data-pjax></script>
+
+        
+    
+        
+            
+<script class="custom-inject-js" src="/js/Meting.min.js" data-pjax></script>
+
+        
+    
+        
+            
+<script class="custom-inject-js" src="/js/leaves.js" data-pjax></script>
+
+        
+    
+
+
+
+</body>
+</html>

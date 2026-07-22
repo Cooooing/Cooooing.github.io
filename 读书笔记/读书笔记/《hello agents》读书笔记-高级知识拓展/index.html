@@ -1,0 +1,1542 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="技术博客,后端开发,编程笔记,生活">
+    <meta name="description" content="Code | Systems | Life — 专注编程本质，也关心世界如何运转。">
+    <meta name="author" content="咕咕咕">
+
+    
+    <title>
+        
+            《hello agents》读书笔记 - 高级知识拓展 |
+        
+        咕咕咕的小破站
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+        <link rel="shortcut icon" href="/images/favicon.png">
+    
+    
+<link rel="stylesheet" href="/font/css/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/regular.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/solid.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/brands.min.css">
+
+    
+        
+            
+                
+<link rel="stylesheet" href="/css/APlayer.min.css">
+
+            
+        
+            
+                
+<link rel="stylesheet" href="/css/custom.css">
+
+            
+        
+    
+    <script class="keep-theme-configurations">
+    const KEEP = window.KEEP || {}
+    KEEP.hexo_config = {"hostname":"cooooing.github.io","root":"/","language":"zh-CN","path":"search.json"}
+    KEEP.theme_config = {"base_info":{"primary_color":"#0066cc","title":"咕咕咕的小破站","author":"咕咕咕","avatar":"https://avatars.githubusercontent.com/u/75006169?v=4","logo":"https://avatars.githubusercontent.com/u/75006169?v=4","favicon":"/images/favicon.png"},"menu":{"Archives":"/archives","Categories":"/categories","Tags":"/tags","日常":"/daily","Links":"/links","About":"/about"},"first_screen":{"enable":false,"background_img":"/images/bg.svg","background_img_dark":"/images/bg.svg","description":"Keep writing and Keep loving.","hitokoto":false},"social_contact":{"enable":false,"links":{"github":null,"weixin":null,"qq":null,"weibo":null,"zhihu":null,"twitter":null,"facebook":null,"email":null}},"scroll":{"progress_bar":false,"percent":false,"hide_header":true},"home":{"category":true,"tag":true,"announcement":null},"post":{"author_badge":{"enable":true,"level_badge":false,"custom_badge":["fishing"]},"word_count":{"wordcount":true,"min2read":true},"datetime_format":"YYYY-MM-DD HH:mm:ss","copyright_info":true,"share":true,"reward":{"enable":true,"img_link":"/images/thanks.png","text":"谢谢你请我喝可乐~"}},"mathjax":{"tags":"all","single_dollars":true,"cjk_width":0.9,"normal_width":0.6,"append_css":true,"every_page":false},"code_block":{"tools":{"enable":true,"style":"default"},"highlight_theme":"default"},"toc":{"enable":true,"number":false,"expand_all":true,"init_open":true,"layout":"left"},"website_count":{"busuanzi_count":{"enable":true,"site_uv":true,"site_pv":true,"page_pv":true}},"local_search":{"enable":true,"preload":true},"comment":{"enable":true,"use":"giscus","valine":{"appid":null,"appkey":null,"server_urls":null,"placeholder":null},"gitalk":{"github_id":null,"github_admins":null,"repository":null,"client_id":null,"client_secret":null,"proxy":null},"twikoo":{"env_id":null,"region":null,"version":"1.6.21"},"waline":{"server_url":null,"reaction":false,"version":2},"giscus":{"repo":"Cooooing/Cooooing.github.io","repo_id":"R_kgDOHQal_w","category":"Announcements","category_id":"DIC_kwDOHQal_84CjZo6","reactions_enabled":true},"artalk":{"server":null},"disqus":{"shortname":null}},"rss":{"enable":true},"lazyload":{"enable":true},"cdn":{"enable":false,"provider":"cdnjs"},"pjax":{"enable":true},"footer":{"since":2022,"word_count":true,"icp":{"enable":false,"record_code":null,"url":"https://beian.miit.gov.cn"},"site_deploy":{"enable":false,"provider":"github","url":null},"shields_style":{"enable":false,"custom":[{"link_url":null,"img_url":null}]}},"inject":{"enable":true,"css":["/css/APlayer.min.css","/css/custom.css"],"js":["/js/APlayer.min.js","/js/Meting.min.js","/js/leaves.js"]},"root":"","links":[{"name":"鼠鼠在碎觉","link":"https://sszsj.com","avatar":"https://tmx.fishpi.cn/img/head.jpg","description":"我是不慎落入世界的一滴水墨"},{"name":"Gakkiyomi","link":"https://gakkiyomi.blog","avatar":"https://avatars.githubusercontent.com/u/41406557?v=4","description":"为往圣继绝学"},{"name":"Hancel's Blog","link":"https://my.hancel.org","avatar":"https://my.hancel.org/media/logo.jpg","description":"人生而自由，却无往不在枷锁之中。"},{"name":"Eastshann","link":"https://eastshann.github.io/","avatar":"https://avatars.githubusercontent.com/u/87764431?v=4","description":"冲和者，淡泊平和，谦冲守正"},{"name":"小于同学的异世界","link":"https://yby.zone","avatar":"https://yby-zone.obs.cn-east-3.myhuaweicloud.com/avatar.jpg","description":"为吾为枝，余地三尺，以己为棋，胜天半子。"},{"name":"Mlikiowa Home Village","link":"https://nanaeo.cn/","avatar":"https://q1.qlogo.cn/g?b=qq&nk=1627126029&s=100","description":"A litter Village With Mlikiowa"},{"name":"忘忧草","link":"https://owo.wyc.rest/","avatar":"https://owo.wyc.rest/img/%E4%B8%87%E5%8F%B6.jpg","description":"这只是一个小破站而已！"},{"name":"stillwarter","link":"https://stillwarter.github.io/","avatar":"https://file.fishpi.cn/2022/07/MOSHED2022621164630-1b1ec532.gif?imageView2/1/w/210/h/210/interlace/0/q/100","description":"光就是一切的意义"},{"name":"test12138","link":"http://你好.eu.org/","avatar":"https://file.fishpi.cn/2022/06/srchttpimgzcoolcncommunity0116405d84f975a801211d537707c9gifreferhttpimgzcool-0f2d09c9.gif?imageView2/1/w/48/h/48/interlace/0/q/100","description":"大丈夫生于天地之间，岂能郁郁久居人下。"},{"name":"呼呼呼","link":"https://bongbongbakudan.github.io/","avatar":"https://pwl.stackoverflow.wiki/2021/12/blob-28eb4b9f.png?imageView2/1/w/48/h/48/interlace/0/q/100","description":"去整点薯条"},{"name":"Plumbiu","link":"https://blog.plumbiu.top/","avatar":"https://avatars.githubusercontent.com/u/99574369?v=4","description":"这人很勤奋，啥都没留"},{"name":"hiRipple","link":"https://hiripple.com/","avatar":"https://avatars.githubusercontent.com/u/115361435?v=4","description":"超高校级的游戏玩家"},{"name":"零糖加辣（drda）","link":"https://drda-x.github.io/drda-blog/","avatar":"https://drda-x.github.io/drda-blog/avatar/avatar.webp","description":"奶茶少糖，喜欢吃辣"},{"name":"ncc的个人网站","link":"https://www.zqcnc.cn","avatar":"https://www.zqcnc.cn/favicon.ico","description":"keep trying!"},{"name":"Yui","link":"https://yuis.cc/","avatar":"https://file.fishpi.cn/storage/%E9%B1%BC%E6%8E%92%E4%BA%BA%E7%89%A9/yui.png","description":"世界那么大，等我赚钱一定去看看"}],"version":"4.0.6"}
+    KEEP.language_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"}
+    KEEP.language_code_block = {"copy":"复制代码","copied":"已复制","fold":"折叠代码块","folded":"已折叠"}
+    KEEP.language_copy_copyright = {"copy":"复制版权信息","copied":"已复制","title":"原文标题","author":"原文作者","link":"原文链接"}
+  </script>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-CLX32WF4R1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+
+      gtag('js', new Date());
+
+      gtag('config', 'G-CLX32WF4R1');
+    </script>
+
+    <!-- 51.la -->
+    <script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
+    <script>LA.init({id: "3JwPz6wbAloyTmMc", ck: "3JwPz6wbAloyTmMc", autoTrack: true})</script>
+
+    <!-- Cloudflare Web Analytics -->
+    <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "281999cc46a948d3b8199c1eb621f11e"}'></script>
+    <!-- End Cloudflare Web Analytics -->
+
+<meta name="generator" content="Hexo 8.1.2"><link rel="alternate" href="/atom.xml" title="咕咕咕的小破站" type="application/atom+xml">
+</head>
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+        <span class="pjax-progress-bar"></span>
+        <i class="pjax-progress-icon fas fa-circle-notch fa-spin"></i>
+    
+</div>
+
+
+<main class="page-container border-box">
+
+    <!-- home first screen  -->
+    
+
+    <!-- page content -->
+    <div class="page-main-content border-box">
+        <div class="page-main-content-top">
+            
+<header class="header-wrapper">
+
+    <div class="border-box header-content">
+        <div class="left border-box">
+            
+                <a class="logo-image border-box" href="/">
+                    <img src="https://avatars.githubusercontent.com/u/75006169?v=4">
+                </a>
+            
+            <a class="site-name border-box" href="/">
+               咕咕咕的小破站
+            </a>
+        </div>
+
+        <div class="right border-box">
+            <div class="pc">
+                <ul class="menu-list">
+                    <li class="menu-item">
+                        <a class=""
+                           href="/"
+                        >首页</a>
+                    </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >归档</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/categories"
+                            >分类</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/tags"
+                            >标签</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/daily"
+                            >日常</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/links"
+                            >友链</a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >关于</a>
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="fas search fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            <li class="drawer-menu-item flex-center">
+                <a class=""
+                   href="/"
+                >首页</a>
+            </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives"
+                    >归档</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/categories"
+                    >分类</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/tags"
+                    >标签</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/daily"
+                    >日常</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/links"
+                    >友链</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about"
+                    >关于</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle border-box">
+
+            <div class="main-content border-box">
+                
+
+                    
+<div class="fade-in-down-animation">
+    <div class="post-page-container border-box">
+        <div class="post-content-container border-box">
+            
+
+            <div class="post-content-bottom border-box">
+                
+                    <div class="post-title">
+                        《hello agents》读书笔记 - 高级知识拓展
+                    </div>
+                
+
+                
+                    <div class="post-header border-box">
+                        
+                            <div class="avatar-box border-box">
+                                <img src="https://avatars.githubusercontent.com/u/75006169?v=4">
+                            </div>
+                        
+                        <div class="info-box">
+                            <div class="author border-box">
+                                <span class="name">咕咕咕</span>
+                                
+                                    <span class="author-badge">fishing</span>
+                                
+                            </div>
+                            <div class="meta-info border-box">
+                                
+
+<div class="post-meta-info-container border-box post">
+    <div class="post-meta-info border-box">
+        
+
+        
+            <span class="meta-info-item post-create-date">
+                <i class="icon fa-solid fa-calendar-plus"></i>&nbsp;
+                <span class="datetime">2026-03-10 22:18:01</span>
+            </span>
+
+            <span class="meta-info-item post-update-date">
+                <i class="icon fa-solid fa-file-pen"></i>&nbsp;
+                <span class="datetime" data-updated="Tue Mar 10 2026 14:18:01 GMT+0000">2026-03-10 22:18:01</span>
+            </span>
+        
+
+        
+            <span class="meta-info-item post-category border-box"><i class="icon fas fa-folder"></i>&nbsp;
+                <ul class="post-category-ul">
+                    
+                            <li class="category-item"><a href="/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">读书笔记</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+            <span class="post-tag meta-info-item border-box">
+                <i class="icon fas fa-tags"></i>&nbsp;
+                <ul class="post-tag-ul">
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/%E3%80%8Ahello-agents%E3%80%8B/">《hello agents》</a></li>
+                        
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/%E6%99%BA%E8%83%BD%E4%BD%93/">智能体</a></li>
+                        
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/RAG/">RAG</a></li>
+                        
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/%E8%AE%B0%E5%BF%86%E6%A3%80%E7%B4%A2/">记忆检索</a></li>
+                        
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/%E4%B8%8A%E4%B8%8B%E6%96%87%E5%B7%A5%E7%A8%8B/">上下文工程</a></li>
+                        
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/%E6%99%BA%E8%83%BD%E4%BD%93%E5%8D%8F%E8%AE%AE/">智能体协议</a></li>
+                        
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/">强化学习</a></li>
+                        
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/%E6%99%BA%E8%83%BD%E4%BD%93%E8%AF%84%E4%BC%B0/">智能体评估</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+        
+            <span class="meta-info-item post-wordcount">
+                <i class="icon fas fa-file-word"></i>&nbsp;<span>12.2k 字</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-min2read">
+                <i class="icon fas fa-clock"></i>&nbsp;<span>41 分钟</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-pv">
+                <i class="icon fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+            </span>
+        
+    </div>
+
+    
+</div>
+
+                            </div>
+                        </div>
+                    </div>
+                
+
+                <div class="post-content keep-markdown-body">
+                    
+
+                    <h2 id="第八章-记忆与检索"><a href="#第八章-记忆与检索" class="headerlink" title="第八章 - 记忆与检索"></a>第八章 - 记忆与检索</h2><p>在大语言模型（LLM）的固有设计中，模型本身是无状态（Stateless）且知识静态的。这导致智能体在复杂任务中面临“多轮对话遗忘”与“领域知识盲区”的双重局限。<br>本章探讨如何从认知科学中汲取灵感，为智能体构建分层记忆系统（Memory System）与检索增强生成（RAG）管道，从而赋予智能体跨越时间周期的学习能力与突破参数边界的知识获取能力。</p>
+<h3 id="从认知科学到智能体记忆抽象"><a href="#从认知科学到智能体记忆抽象" class="headerlink" title="从认知科学到智能体记忆抽象"></a>从认知科学到智能体记忆抽象</h3><p>人类的记忆并非单一的存储桶，而是一个对信息流进行分级过滤、存储与重构的复杂层级网络。认知心理学的记忆模型为智能体系统架构提供了完美的蓝图。</p>
+<h4 id="人类记忆机制的启发映射"><a href="#人类记忆机制的启发映射" class="headerlink" title="人类记忆机制的启发映射"></a>人类记忆机制的启发映射</h4><ul>
+<li><strong>感觉记忆（Sensory Memory）：</strong> 持续时间极短，映射到智能体中相当于对传感器输入流（如原始音视频流、原始网络请求）的瞬时缓存。</li>
+<li><strong>工作记忆（Working Memory）：</strong> 容量有限且生命周期短，负责当前任务的实时处理。映射为智能体在单次对话或单次任务中的<strong>上下文窗口状态（Context Window）</strong>。</li>
+<li><strong>长期记忆（Long-term Memory）：</strong><ul>
+<li><em>情景记忆（Episodic Memory）：</em> 记录特定时间、地点的个人经历。映射为智能体对过去具体交互事件、历史会话日志的序列化存储。</li>
+<li><em>语义记忆（Semantic Memory）：</em> 记录抽象的概念、规则与事实。映射为智能体对用户偏好、世界常识、业务规则的结构化沉淀（如知识图谱）。</li>
+</ul>
+</li>
+</ul>
+<h4 id="LLM-原生局限性剖析"><a href="#LLM-原生局限性剖析" class="headerlink" title="LLM 原生局限性剖析"></a>LLM 原生局限性剖析</h4><p>智能体引入记忆与检索模块，是为了解决大模型底层的两大根本性缺陷：</p>
+<ol>
+<li><strong>动态状态缺失：</strong> 由于上下文窗口长度的物理限制（Token Limit），长对话中的早期关键指令必然会被截断丢弃；且模型无法跨会话（Cross-session）留存对特定用户的个性化认知。</li>
+<li><strong>静态参数化知识局限：</strong> 大模型的知识权重在预训练完成后即被冻结（Knowledge Cut-off），无法感知实时资讯，且在垂直专业领域（如企业内部规范）缺乏知识深度，极易产生事实性幻觉（Hallucination）。</li>
+</ol>
+<h3 id="记忆与检索架构系统设计"><a href="#记忆与检索架构系统设计" class="headerlink" title="记忆与检索架构系统设计"></a>记忆与检索架构系统设计</h3><p>在框架的底层架构中，记忆（Memory）与检索（RAG）不应作为特殊的特权模块，而应被降维抽象为标准的“工具（Tool）”，由核心大模型通过统一的执行接口进行调度。</p>
+<h4 id="记忆系统（Memory-System）的多层架构"><a href="#记忆系统（Memory-System）的多层架构" class="headerlink" title="记忆系统（Memory System）的多层架构"></a>记忆系统（Memory System）的多层架构</h4><p>记忆系统应采用四层解耦架构，以保障数据流转的高效与扩展性：</p>
+<ol>
+<li><strong>基础设施层：</strong> 包含核心的管理器（Manager），负责记忆的编码（Encoding）、存储路由、生命周期调度与统一接口暴露。</li>
+<li><strong>记忆类型层：</strong> 实现认知科学映射出的四种记忆分形（工作、情景、语义、感知）。</li>
+<li><strong>存储后端层：</strong> 根据数据结构异构性，混合采用多种物理引擎。包括用于语义检索的<strong>向量数据库</strong>、用于结构化持久化的<strong>关系&#x2F;文档型数据库</strong>，以及用于关系推演的<strong>图数据库</strong>。</li>
+<li><strong>嵌入表示层（Embedding Layer）：</strong> 负责将离散文本映射为连续向量的底层算子层。</li>
+</ol>
+<h4 id="RAG-系统的流转层级"><a href="#RAG-系统的流转层级" class="headerlink" title="RAG 系统的流转层级"></a>RAG 系统的流转层级</h4><p>RAG 系统专注于外部静态知识库的生命周期管理，其逻辑管道分为：</p>
+<ol>
+<li><strong>文档处理层：</strong> 负责多模态或异构格式文档的解析、清洗与结构化。</li>
+<li><strong>分块与向量化层：</strong> 按照特定策略进行文本切片，并利用嵌入模型映射为高维张量。</li>
+<li><strong>智能问答层：</strong> 包含高级检索策略（如查询重写、重排）与上下文拼装模块。</li>
+</ol>
+<h3 id="四维记忆类型的底层实现机制"><a href="#四维记忆类型的底层实现机制" class="headerlink" title="四维记忆类型的底层实现机制"></a>四维记忆类型的底层实现机制</h3><p>基于认知分形，系统中的四种记忆类型在存储介质、生命周期与检索算法上存在本质差异。</p>
+<h4 id="工作记忆（Working-Memory）"><a href="#工作记忆（Working-Memory）" class="headerlink" title="工作记忆（Working Memory）"></a>工作记忆（Working Memory）</h4><ul>
+<li><strong>定位：</strong> 短期高频访问的上下文缓存。</li>
+<li><strong>实现策略：</strong> 采用 <strong>纯内存（In-memory）</strong> 存储，读写延迟极低。引入 <strong>TTL（Time-to-Live，生存时间）</strong> 机制与最大容量淘汰队列。当会话结束或容量触顶时，自动清理陈旧数据。</li>
+<li><strong>检索算法：</strong> 为追求极致速度，通常采用轻量级的 <strong>TF-IDF 等稀疏向量算法</strong> 结合关键词精准匹配，计算综合相关性得分。</li>
+</ul>
+<h4 id="情景记忆（Episodic-Memory）"><a href="#情景记忆（Episodic-Memory）" class="headerlink" title="情景记忆（Episodic Memory）"></a>情景记忆（Episodic Memory）</h4><ul>
+<li><strong>定位：</strong> 带有明确时间戳与上下文元数据的具体事件序列。</li>
+<li><strong>实现策略：</strong> 采用<strong>关系型&#x2F;文档型数据库与向量数据库的混合（Hybrid）存储</strong>。关系型数据库保存事件的时间戳、会话 ID 与强结构化属性；向量数据库保存事件内容的语义表征。</li>
+<li><strong>检索算法：</strong> 引入<strong>时间近因性（Recency）</strong> 衰减模型。其评分公式同时衡量：向量语义相似度、时间衰减因子（距离当前时间越近分数越高）以及事件本身被标注的重要性权重（Importance）。</li>
+</ul>
+<h4 id="语义记忆（Semantic-Memory）"><a href="#语义记忆（Semantic-Memory）" class="headerlink" title="语义记忆（Semantic Memory）"></a>语义记忆（Semantic Memory）</h4><ul>
+<li><strong>定位：</strong> 从经历中提炼出的抽象常识、实体关系与长期规则。</li>
+<li><strong>实现策略：</strong> 核心依赖于<strong>图数据库（如 Neo4j）</strong> 与向量库的双轨存储。在记忆写入时，系统首先利用 NLP 算法（如命名实体识别 NER 与关系抽取）将文本解析为三元组（实体-关系-实体），存入知识图谱；同时将原始文本存入向量库。</li>
+<li><strong>检索算法：</strong> 执行<strong>图检索与向量检索的联合路由</strong>。不仅计算语义相似度，还计算图谱中的拓扑连接度（Graph Similarity），使得系统具备跳跃式关系推理（多跳查询）的能力。</li>
+</ul>
+<h4 id="感知记忆（Perceptual-Memory）"><a href="#感知记忆（Perceptual-Memory）" class="headerlink" title="感知记忆（Perceptual Memory）"></a>感知记忆（Perceptual Memory）</h4><ul>
+<li><strong>定位：</strong> 用于容纳图像、音频流等多模态（Multi-modal）表征。</li>
+<li><strong>实现策略：</strong> 采用<strong>模态分离</strong>的向量空间存储。文本、图像（利用 CLIP 等模型）、音频分列在不同的向量集合中，防止高维空间的语义干扰。</li>
+<li><strong>检索算法：</strong> 支持同模态精准检索与跨模态（Cross-modal）语义对齐检索，同样融合时间衰减与重要性权重进行联合排序。</li>
+</ul>
+<h3 id="记忆引擎的高阶管理操作"><a href="#记忆引擎的高阶管理操作" class="headerlink" title="记忆引擎的高阶管理操作"></a>记忆引擎的高阶管理操作</h3><p>记忆系统的闭环不仅在于“存”与“查”，更在于对信息生命周期的主动干预。</p>
+<ul>
+<li><strong>选择性遗忘（Forgetting）：</strong> 模拟生物大脑的代谢机制。系统支持三种维度的裁剪：<ul>
+<li><em>阈值清理：</em> 淘汰重要性评分（Importance）低于底线的冗余数据。</li>
+<li><em>时间老化：</em> 强制清除超过特定物理时间窗口的非核心记忆。</li>
+<li><em>容量挤出：</em> 触碰物理上限时，根据 LRU（最近最少使用）或重要性加权算法淘汰尾部数据。</li>
+</ul>
+</li>
+<li><strong>记忆整合与固化（Consolidation）：</strong><br>短期记忆向长期记忆的跃迁机制。系统可以设置后台守护进程，定期扫描工作记忆中那些“高频被访问”或“重要性极高”的临时切片，将其打包提升为情景记忆，或者通过大模型提炼其中的抽象概念，转存入知识图谱（语义记忆）中。</li>
+</ul>
+<h3 id="检索增强生成（RAG）管道深度解析"><a href="#检索增强生成（RAG）管道深度解析" class="headerlink" title="检索增强生成（RAG）管道深度解析"></a>检索增强生成（RAG）管道深度解析</h3><p>RAG 系统将通用大模型转化为特定领域的垂直专家。其核心在于解决“如何准确找出现有知识”与“如何规避检索遗漏”。</p>
+<h4 id="文档预处理与智能分块（Chunking）"><a href="#文档预处理与智能分块（Chunking）" class="headerlink" title="文档预处理与智能分块（Chunking）"></a>文档预处理与智能分块（Chunking）</h4><p>文档解析的核心是将混沌的非结构化数据（如 PDF 扫描件、音频）降维为标准化的 Markdown 或纯文本流。</p>
+<p><strong>结构感知分块：</strong> 摒弃粗暴的“按字数一刀切（Fixed-size Chunking）”，这会极大地破坏语义的完整性。<br>现代策略优先解析 Markdown 的标题树层次（Heading Hierarchy）或 HTML 标签结构，保证每一个文本块（Chunk）在语义边界上是相对独立且完整的，同时配合滑动重叠窗口（Overlap）以保留分块间的上下文粘连。</p>
+<h4 id="高级检索策略（Advanced-Retrieval）"><a href="#高级检索策略（Advanced-Retrieval）" class="headerlink" title="高级检索策略（Advanced Retrieval）"></a>高级检索策略（Advanced Retrieval）</h4><p>当用户查询短促、模糊或术语不匹配时，基础向量检索极易发生漏召回。系统引入多路扩展策略以兜底召回率：</p>
+<ul>
+<li><strong>多查询扩展（MQE, Multi-Query Expansion）：</strong><br>利用大模型的语义泛化能力，将用户单一的原始查询（Query）改写、同义替换或拆解为 $N$ 个语义等价但字面迥异的扩展查询。<br>系统利用这 $N$ 个变体并行对向量库发起检索，最后对召回的候选文档集进行并集去重。这极大缓解了用户用词不专业导致的召回失败。</li>
+<li><strong>假设文档嵌入（HyDE, Hypothetical Document Embeddings）：</strong><br>解决“疑问句与陈述句在向量空间分布不均”的根本性难题。系统首先命令大模型：“请不要去检索，仅凭你的幻觉或内置知识，直接编造一段能回答该问题的文本（假答案）”。<br>随后，系统将这段“包含丰富术语的陈述句假答案”进行向量化，再去知识库中匹配真实文档。这种“用答案找答案”的逆向工程，能跨越巨大的语义鸿沟。</li>
+<li><strong>统一合并路由：</strong><br>高级 RAG 管道通常同时执行原始查询、MQE 变体查询与 HyDE 假设查询。将所有并发召回的候选文档扔进一个巨大缓冲池，利用交叉注意力模型或倒数秩融合（RRF）算法进行重排（Rerank），截取最高分的 Top-K 输入给最终的生成模型。</li>
+</ul>
+<h3 id="课后习题解析"><a href="#课后习题解析" class="headerlink" title="课后习题解析"></a>课后习题解析</h3><h4 id="记忆类型与认知机制的评分推演"><a href="#记忆类型与认知机制的评分推演" class="headerlink" title="记忆类型与认知机制的评分推演"></a>记忆类型与认知机制的评分推演</h4><p><strong>【原问题】</strong></p>
+<ol>
+<li>为什么在底层评分公式中，情景记忆严重依赖“时间近因性（Recency，权重 0.2）”，而语义记忆则更强调“图检索（权重 0.3）”？这种参数分配背后的认知哲学是什么？</li>
+<li>假设设计一个“个人健康管理助手”（需要记录用户的饮食、运动、睡眠数据，并提供健康建议），你会如何将工作、情景、语义、感知这四类记忆组合应用？</li>
+<li>在工作记忆中，哪些触发条件应当激活 <code>consolidate</code>（记忆固化）操作，将其转化为长期记忆？</li>
+</ol>
+<p><strong>【解析】</strong></p>
+<ol>
+<li><strong>评分机制的认知哲学：</strong><ul>
+<li><strong>情景记忆的本质是“时间线上的切片”。</strong> 当用户问“我昨天说过什么”时，昨天（时间点）的优先级绝对高于聊天的具体内容（语义）。因此，时间衰减（Recency）必须在评分机制中占据极高的权重，以保证最新的事件或明确指定时间戳的事件能够穿透语义相似度的压制被优先召回。</li>
+<li><strong>语义记忆的本质是“脱水的客观真理”。</strong> “地球是圆的”这句话无论是一年前学到的还是刚刚学到的，其价值是等同的（无时间衰减）。但语义记忆存在大量的抽象关联，比如“狗”与“柯基”，仅仅依靠向量空间可能距离较远，但通过知识图谱的本体树（Ontology Tree）可以判定为包含关系。因此，引入高权重的图检索（Graph Retrieval）是为了补足纯向量模型在严格逻辑与本体关系推理上的短板。</li>
+</ul>
+</li>
+<li><strong>“个人健康管理助手”的四维记忆矩阵设计：</strong><ul>
+<li><em>感知记忆：</em> 接收用户每日上传的午餐照片、体检报告扫描件（PDF）、心电图波形（时序数据）。</li>
+<li><em>工作记忆：</em> 缓存在当前“挂号咨询”或“症状问诊”这一特定会话周期内，用户描述的突发头痛部位、严重程度。一旦问诊结束出具建议，该部位剧痛作为临时状态即被清理出高频内存。</li>
+<li><em>情景记忆：</em> 记录用户“在 2023年5月1日 进行了阑尾炎手术”、“连续三天（上周一到周三）跑步达到 5 公里”。这是严格绑定时间轴的历史事件记录。</li>
+<li><em>语义记忆：</em> 从长期的历史中提炼出的绝对规则。例如：“该用户对青霉素过敏”、“用户属于易胖体质”、“用户具有家族高血压史”。这是系统在任何时刻做出医疗建议前必须被检索的最高优先级“公理”。</li>
+</ul>
+</li>
+<li><strong>工作记忆整合（Consolidate）的触发阈值设计：</strong><br>整合机制不应是随机的，应当基于 <strong>“重要性-频次”双轨阈值</strong>：<ul>
+<li><em>高重要性突发触发：</em> 当工作记忆中出现被模型标记为极高重要性（$Importance &gt; 0.9$）的数据（如用户突发声明：“我对花生过敏”），应立即触发硬中断，强制将其固化至语义记忆库。</li>
+<li><em>高频共现触发：</em> 系统后台维护一个滑动窗口统计。若某项较小的信息（如用户总是询问“低糖食谱”）在多个独立的会话周期内被高频写入工作记忆，表明这已成为用户的长期偏好，触发批处理任务，将其抽象聚合后写入长期记忆。</li>
+</ul>
+</li>
+</ol>
+<h4 id="RAG-系统智能分块与检索策略剖析"><a href="#RAG-系统智能分块与检索策略剖析" class="headerlink" title="RAG 系统智能分块与检索策略剖析"></a>RAG 系统智能分块与检索策略剖析</h4><p><strong>【原问题】</strong></p>
+<ol>
+<li>Markdown 分块策略依赖标题层次。对于没有明显标题结构的长文本（如小说或法律长卷），应如何设计基于“语义边界”的智能分块算法？</li>
+<li>试对比基础向量检索、MQE（多查询扩展）与 HyDE（假设文档嵌入）在“医疗知识检索”场景中的召回表现及适用边界。</li>
+<li>在评估 Embedding 方案（云端 API、本地深度学习模型、TF-IDF 等）时，应从哪些架构维度进行权衡决策？</li>
+</ol>
+<p><strong>【解析】</strong></p>
+<ol>
+<li><strong>无结构文本的语义边界分块（Semantic Chunking）：</strong><br>当无法依赖 Markdown&#x2F;HTML 标签时，必须从自然语言的固有规律切入。<ul>
+<li><strong>统计学边界判定：</strong> 利用 NLTK 或 spaCy 等自然语言处理库，严格按照句子（句号&#x2F;感叹号）或自然段落（双换行符）进行硬切分，严禁在句子中途斩断。</li>
+<li><strong>动态语义凝聚（Dynamic Semantic Cohesion）：</strong> 将文本按最小单位（如单句）初始切分并向量化。依次计算相邻两个句子向量的余弦相似度。如果相似度发生断崖式下跌，说明此处发生了“话题转移”，以此下跌点作为物理切块的切分点。这种算法能够自适应地生成长短不一但内部语义绝对高内聚的文本块。</li>
+</ul>
+</li>
+<li><strong>高级检索策略在垂直领域的性能博弈（以医疗为例）：</strong><ul>
+<li><strong>基础检索：</strong> 仅适合用户的 Query 极其标准、术语精确的情况（如“阿司匹林的禁忌症有哪些”）。对普通患者模糊的口语化提问极其脆弱。</li>
+<li><strong>MQE（多查询扩展）：</strong> 极其适合<strong>症状描述发散</strong>的场景。用户输入“早上起来感觉天旋地转”，大模型会将其重写扩展为“眩晕症”、“耳石症”、“梅尼埃病表现”等多个专业学术查询。这能成倍扩大召回的命中面。</li>
+<li><strong>HyDE（假设文档嵌入）：</strong> 极其适合<strong>医理推断或机制解释</strong>的场景。用户问“为什么高血压会引起肾衰竭？”，大模型先凭已有知识生成一篇包含“肾小球动脉硬化”、“微血管病变”等密集专业词汇的假科普文。用这篇假文去匹配知识库中的权威医学指南，在向量空间中几乎是“降维打击”，其召回的精确度远超单纯用疑问句去检索。</li>
+</ul>
+</li>
+<li><strong>Embedding 引擎架构选型维度：</strong><ul>
+<li><em>业务精度（Accuracy）：</em> 稠密模型（如 OpenAI <code>text-embedding-3-large</code> &#x2F; <code>text-embedding-3-small</code>）对语义上下文的理解更强；TF-IDF 等稀疏矩阵主要做字面词频统计，在同义词泛化上能力有限。</li>
+<li><em>数据合规与私有化（Privacy &amp; Compliance）：</em> 若为军工或极度敏感数据，绝不允许将明文发往云端 API，必须强制选用本地部署的开源模型（如 BAAI&#x2F;bge 系列），甚至退化至纯本地计算的 TF-IDF。</li>
+<li><em>延迟与基础设施成本（Latency &amp; TCO）：</em> 云端 API 具备极高的并发上限且无需维护本地 GPU 集群，适合轻资产团队；若在无网边缘设备（IoT）上，只能运行极度量化的微型 Transformer 嵌入模型。</li>
+</ul>
+</li>
+</ol>
+<h4 id="多租户（Multi-Tenant）数据隔离与系统级设计"><a href="#多租户（Multi-Tenant）数据隔离与系统级设计" class="headerlink" title="多租户（Multi-Tenant）数据隔离与系统级设计"></a>多租户（Multi-Tenant）数据隔离与系统级设计</h4><p><strong>【原问题】</strong></p>
+<ol>
+<li>假设该智能体被部署为一个面向数十万注册用户的 SaaS 服务，必须保障不同用户的记忆与知识库绝对不可见。从底层数据库架构角度，应如何在向量数据库（如 Qdrant）和图数据库（如 Neo4j）中设计硬隔离方案？</li>
+<li>在智能体的决策流中，存在同时调用 RAG（公共知识）与 Memory（个人记忆）的情况。应如何设计一种“智能路由”机制，以减少不必要的双重检索消耗？</li>
+</ol>
+<p><strong>【解析】</strong></p>
+<ol>
+<li><strong>多租户系统下的硬性数据隔离架构（Tenant Isolation）：</strong><ul>
+<li><strong>向量数据库（Qdrant&#x2F;Pinecone）隔离：</strong> 绝对不能为每个用户创建一个独立的 Collection，这会导致底层内存耗尽。应当采用<strong>池化集合+元数据硬路由（Pooled Collections with Metadata Filtering）</strong>。将所有用户的向量塞入同一个巨大的 Collection，但在插入数据的 <code>Payload / Metadata</code> 中强制绑定 <code>tenant_id</code>（租户唯一标识）。在查询层（Query Engine）进行拦截，强制在所有的查询条件前加上强过滤约束<br><code>Filter(must: [{key: &quot;tenant_id&quot;, match: {value: current_user}}])</code>，在底层物理计算距离前直接剔除无关数据。</li>
+<li><strong>图数据库（Neo4j）隔离：</strong> 知识图谱的隔离更为复杂，因为关系可能发生交错。应采用<strong>标签与属性双轨隔离</strong>。每个实体节点必须打上对应用户的专属 Label 或持有 <code>owner_id</code> 属性。在执行 Cypher 查询语句时，所有的 <code>MATCH</code> 语法必须在应用程序的 ORM 映射层强制织入对 <code>owner_id</code> 的匹配子句，切断跨用户的图遍历路径。</li>
+</ul>
+</li>
+<li><strong>检索意图的智能路由降维机制（Intent-based Routing）：</strong><br>并行发起对 RAG 和 Memory 的检索是极大的 I&#x2F;O 浪费。应在主干链路上前置一个极速的意图分类路由（Semantic Router）或利用轻量级 LLM 节点：<ul>
+<li>若用户查询包含强指向第一人称的代词或历史指代（如“我昨天说的那个项目”、“根据我以往的口味”），分类器将路由引向 <strong>Memory Retrieval（私有记忆召回）</strong>。</li>
+<li>若查询涉及客观真理、外部流程或通用的专业解释（如“解释一下量子力学”、“公司的报销流程是什么0”），分类器将路由引向 <strong>RAG Retrieval（公域知识召回）</strong>。</li>
+<li>仅在分类置信度极低（模糊地带）时，才触发并发混合检索（Hybrid Retrieval）并做倒数秩融合（RRF）重排。</li>
+</ul>
+</li>
+</ol>
+<h2 id="第九章-上下文工程"><a href="#第九章-上下文工程" class="headerlink" title="第九章 - 上下文工程"></a>第九章 - 上下文工程</h2><p>提示工程关注“如何写好当前这一段 Prompt”，上下文工程关注“如何为模型构造一个足够完整、干净、可执行的任务现场”。</p>
+<p>对智能体而言，上下文不是一段静态文本，而是由系统指令、用户目标、历史对话、工具结果、检索材料、任务状态和输出约束共同组成的运行环境。<br>模型的推理质量，很大程度上取决于这些信息是否被正确选择、组织和压缩。</p>
+<h3 id="上下文工程的核心问题"><a href="#上下文工程的核心问题" class="headerlink" title="上下文工程的核心问题"></a>上下文工程的核心问题</h3><p>上下文工程要解决的不是“塞入更多内容”，而是<strong>把正确的信息放在正确的位置</strong>。</p>
+<p>上下文窗口是有限资源。无关信息越多，模型越容易偏离任务；关键信息缺失，模型又会只能依赖猜测。<br>因此，一个可用的上下文系统必须同时处理召回率、精确率和结构稳定性。</p>
+<h4 id="有效上下文的组成"><a href="#有效上下文的组成" class="headerlink" title="有效上下文的组成"></a>有效上下文的组成</h4><p>一个面向智能体的上下文，通常至少包含以下几类信息：</p>
+<ul>
+<li><strong>任务目标：</strong> 当前要完成什么，验收条件是什么。</li>
+<li><strong>系统约束：</strong> 哪些行为允许，哪些行为禁止，例如权限、格式、风格和安全边界。</li>
+<li><strong>短期状态：</strong> 当前任务已经执行到哪里，最近的工具调用返回了什么。</li>
+<li><strong>长期记忆：</strong> 用户偏好、历史结论、长期规则和反复出现的问题。</li>
+<li><strong>外部知识：</strong> 通过 RAG、搜索、文件系统或数据库检索得到的材料。</li>
+<li><strong>输出契约：</strong> 最终结果需要满足的结构、字段、语言和粒度。</li>
+</ul>
+<p>这些信息不能简单拼接。<br>系统指令和安全约束应当稳定靠前，任务状态应当尽量明确，检索材料需要带来源和范围，工具返回结果要避免污染主任务。</p>
+<h4 id="从-Prompt-到-Context"><a href="#从-Prompt-到-Context" class="headerlink" title="从 Prompt 到 Context"></a>从 Prompt 到 Context</h4><p>Prompt 更像单次请求的表达方式，Context 则是智能体的运行视图。</p>
+<p>一个长程任务中，模型每一步看到的内容都可能不同：</p>
+<ul>
+<li>第一轮需要理解目标和约束。</li>
+<li>中间阶段需要看到执行进度、阻塞点和已验证结论。</li>
+<li>收尾阶段需要看到验收标准、变更摘要和残留风险。</li>
+</ul>
+<p>上下文工程的价值在于：每一轮都根据任务阶段重新构造输入，而不是让历史对话自然堆积。</p>
+<h3 id="GSSC-流水线"><a href="#GSSC-流水线" class="headerlink" title="GSSC 流水线"></a>GSSC 流水线</h3><p>Hello Agents 中的 ContextBuilder 将上下文构建抽象为 <strong>GSSC 流水线</strong>。<br>这个模型可以理解为四个连续动作：Gather、Select、Structure、Compress。</p>
+<h4 id="Gather：收集候选信息"><a href="#Gather：收集候选信息" class="headerlink" title="Gather：收集候选信息"></a>Gather：收集候选信息</h4><p>Gather 阶段负责收集所有可能有用的信息，包括对话历史、记忆系统、RAG 检索结果、工具输出和临时笔记。</p>
+<p>这一阶段强调召回，不急于判断哪些内容一定会进入最终上下文。<br>设计上更像“建立候选池”，避免过早丢弃后续推理需要的信息。</p>
+<h4 id="Select：选择有效信息"><a href="#Select：选择有效信息" class="headerlink" title="Select：选择有效信息"></a>Select：选择有效信息</h4><p>Select 阶段负责过滤。<br>它需要根据当前任务目标，剔除低相关、过期、重复或可信度不足的信息。</p>
+<p>常见选择依据包括：</p>
+<ul>
+<li>与当前问题的语义相关度。</li>
+<li>信息产生的时间和任务阶段。</li>
+<li>来源可信度，例如用户明确指令高于模型猜测。</li>
+<li>信息类型优先级，例如约束高于背景材料。</li>
+</ul>
+<p>这一阶段的难点在于，不能只按向量相似度排序。<br>有些约束虽然文本相似度不高，但对任务有硬性影响。</p>
+<h4 id="Structure：组织上下文结构"><a href="#Structure：组织上下文结构" class="headerlink" title="Structure：组织上下文结构"></a>Structure：组织上下文结构</h4><p>Structure 阶段决定信息如何排列。</p>
+<p>对模型来说，同样的信息以不同顺序出现，会产生不同的行为倾向。<br>通常应将稳定约束、任务目标、当前状态、参考材料和输出要求分区放置，降低模型误解的概率。</p>
+<p>一个较稳妥的结构是：</p>
+<ol>
+<li>系统角色与边界。</li>
+<li>当前任务目标。</li>
+<li>已知事实和任务状态。</li>
+<li>可引用材料。</li>
+<li>工具调用结果。</li>
+<li>输出要求。</li>
+</ol>
+<p>这种结构的核心不是形式美观，而是让模型能区分“必须遵守的约束”和“可参考的信息”。</p>
+<h4 id="Compress：压缩长程信息"><a href="#Compress：压缩长程信息" class="headerlink" title="Compress：压缩长程信息"></a>Compress：压缩长程信息</h4><p>Compress 阶段处理上下文窗口不足的问题。</p>
+<p>压缩不等于简单摘要。<br>对智能体而言，压缩必须保留决策所需的信息，包括已经验证的事实、失败过的路径、用户明确要求、当前阻塞点和后续动作。</p>
+<p>较差的压缩会把“过程”压成“结论”，导致智能体重复尝试已经失败的方案。<br>较好的压缩会保留关键证据和判断依据。</p>
+<h3 id="NoteTool-与-TerminalTool"><a href="#NoteTool-与-TerminalTool" class="headerlink" title="NoteTool 与 TerminalTool"></a>NoteTool 与 TerminalTool</h3><p>第九章中两个工具很关键：NoteTool 负责保存结构化笔记，TerminalTool 负责即时访问文件系统。<br>这两个工具共同解决长程任务中的“状态保真”问题。</p>
+<h4 id="NoteTool：结构化任务记忆"><a href="#NoteTool：结构化任务记忆" class="headerlink" title="NoteTool：结构化任务记忆"></a>NoteTool：结构化任务记忆</h4><p>NoteTool 的意义不是替代 Memory，而是沉淀<strong>任务过程中的显式状态</strong>。</p>
+<p>例如，在代码库维护任务中，智能体需要记录：</p>
+<ul>
+<li>已经检查过哪些目录。</li>
+<li>发现了哪些阻塞点。</li>
+<li>哪些结论已经被测试验证。</li>
+<li>哪些变更需要后续处理。</li>
+</ul>
+<p>这些内容不适合全部放入对话历史，也不适合只依赖模型内部记忆。<br>结构化笔记可以在后续轮次中重新进入 ContextBuilder，成为可检索、可压缩、可审计的上下文材料。</p>
+<h4 id="TerminalTool：即时探索能力"><a href="#TerminalTool：即时探索能力" class="headerlink" title="TerminalTool：即时探索能力"></a>TerminalTool：即时探索能力</h4><p>TerminalTool 的定位是让智能体按需读取真实环境，而不是预先把整个代码库、日志目录或数据文件全部索引进上下文。</p>
+<p>它适合处理以下场景：</p>
+<ul>
+<li>查看项目结构。</li>
+<li>搜索函数定义或错误日志。</li>
+<li>读取配置文件。</li>
+<li>统计数据文件行数或字段。</li>
+<li>验证某个判断是否与真实文件一致。</li>
+</ul>
+<p>这个工具必须配合安全机制使用。<br>例如限制工作目录、限制命令白名单、限制执行时间、限制输出大小，避免智能体通过工具获得过大权限或制造不可控副作用。</p>
+<h3 id="长程智能体的上下文维护"><a href="#长程智能体的上下文维护" class="headerlink" title="长程智能体的上下文维护"></a>长程智能体的上下文维护</h3><p>长程智能体最容易失败的地方，不是单步推理能力不足，而是任务状态在多轮执行中逐渐失真。</p>
+<p>代码库维护助手就是典型场景。<br>它可能需要跨越数天执行探索、分析、修复、测试和总结。<br>在这个过程中，系统不能只依赖聊天历史，因为聊天历史会越来越长，且包含大量已经失效的中间信息。</p>
+<p>更合理的做法是：</p>
+<ul>
+<li>用 TerminalTool 获取当前真实文件状态。</li>
+<li>用 NoteTool 保存阶段性发现和阻塞点。</li>
+<li>用 Memory 保存跨任务复用的长期偏好和稳定事实。</li>
+<li>用 ContextBuilder 在每一轮重新构造当前任务视图。</li>
+</ul>
+<p>这样，智能体看到的是经过选择和压缩后的任务现场，而不是一整段混杂的历史记录。</p>
+<h3 id="课后习题解析-1"><a href="#课后习题解析-1" class="headerlink" title="课后习题解析"></a>课后习题解析</h3><h4 id="上下文压缩的边界"><a href="#上下文压缩的边界" class="headerlink" title="上下文压缩的边界"></a>上下文压缩的边界</h4><p><strong>【原问题】</strong></p>
+<p>长程任务中，如何压缩上下文才不会丢失关键任务状态？</p>
+<p><strong>【解析】</strong></p>
+<p>上下文压缩必须围绕“后续决策是否还需要这条信息”来判断。<br>仅仅把历史压缩成自然语言摘要，往往会丢掉失败路径、约束来源和证据链。</p>
+<p>较合理的压缩结果应保留：</p>
+<ul>
+<li>当前目标和验收标准。</li>
+<li>用户明确提出的硬性要求。</li>
+<li>已经完成并验证的动作。</li>
+<li>已经尝试但失败的方案。</li>
+<li>当前阻塞点及其证据。</li>
+<li>后续可执行动作。</li>
+</ul>
+<p>压缩后的上下文应当能支持另一个智能体接手任务。<br>接手者必须重新阅读全部历史才能继续执行时，说明压缩质量不够。</p>
+<h4 id="工具结果如何进入上下文"><a href="#工具结果如何进入上下文" class="headerlink" title="工具结果如何进入上下文"></a>工具结果如何进入上下文</h4><p><strong>【原问题】</strong></p>
+<p>工具返回结果是否应该全部放入上下文？</p>
+<p><strong>【解析】</strong></p>
+<p>不应该。<br>工具结果是原始材料，直接全部写入会浪费上下文窗口，还会引入大量噪声。</p>
+<p>更稳妥的方式是分层处理：</p>
+<ol>
+<li>原始结果保存在外部存储或工具日志中。</li>
+<li>当前轮次只放入与任务有关的片段。</li>
+<li>对长输出生成结构化摘要。</li>
+<li>对关键结论保留来源，例如文件路径、命令和行号。</li>
+</ol>
+<p>这样既能避免上下文膨胀，又能在需要验证时回到原始材料。</p>
+<h2 id="第十章-智能体通信协议"><a href="#第十章-智能体通信协议" class="headerlink" title="第十章 - 智能体通信协议"></a>第十章 - 智能体通信协议</h2><p>智能体系统一旦从单体演示走向真实工程，就必须处理外部工具、远程服务和其他智能体的协作问题。<br>通信协议的价值在于提供统一的能力描述、发现方式和调用约定，减少重复适配成本。</p>
+<p>第十章重点介绍三类协议：<strong>MCP、A2A、ANP</strong>。<br>它们解决的问题不同，不能混为一谈。</p>
+<h3 id="协议要解决什么"><a href="#协议要解决什么" class="headerlink" title="协议要解决什么"></a>协议要解决什么</h3><p>没有协议时，智能体接入一个新服务，通常需要手写工具定义、参数映射、错误处理和返回值解析。<br>当服务数量增加后，这种方式会迅速变成高维护成本的点对点集成。</p>
+<p>协议的目标是把集成过程标准化：</p>
+<ul>
+<li>服务能声明自己有哪些能力。</li>
+<li>客户端能发现这些能力。</li>
+<li>调用参数有明确结构。</li>
+<li>返回结果有统一格式。</li>
+<li>错误和权限可以被一致处理。</li>
+</ul>
+<p>这相当于把“智能体会不会用工具”的问题，从模型提示词层面下沉到工程接口层面。</p>
+<h3 id="MCP：连接工具与资源"><a href="#MCP：连接工具与资源" class="headerlink" title="MCP：连接工具与资源"></a>MCP：连接工具与资源</h3><p>MCP（Model Context Protocol）关注的是模型如何连接外部工具、资源和提示模板。</p>
+<p>它的核心价值是统一工具接入方式。<br>一个 MCP Server 可以向客户端暴露工具列表、参数模式、资源列表和提示模板。<br>智能体不需要为每个服务单独编写适配逻辑，而是通过 MCP Client 进行发现和调用。</p>
+<h4 id="MCP-的工程边界"><a href="#MCP-的工程边界" class="headerlink" title="MCP 的工程边界"></a>MCP 的工程边界</h4><p>MCP 适合处理“智能体调用外部能力”的场景，例如：</p>
+<ul>
+<li>文件系统读写。</li>
+<li>数据库查询。</li>
+<li>GitHub 仓库检索。</li>
+<li>浏览器操作。</li>
+<li>企业内部系统接口。</li>
+</ul>
+<p>MCP 不直接解决多智能体之间的职责分工。<br>它更像工具层协议，而不是协作层协议。</p>
+<h4 id="传输方式的差异"><a href="#传输方式的差异" class="headerlink" title="传输方式的差异"></a>传输方式的差异</h4><p>MCP 可以通过多种传输方式连接服务：</p>
+<ul>
+<li><strong>Memory Transport：</strong> 适合测试和本地演示。</li>
+<li><strong>Stdio Transport：</strong> 适合本地工具和命令行服务。</li>
+<li><strong>HTTP &#x2F; SSE &#x2F; Streamable HTTP：</strong> 适合远程服务和持续输出。</li>
+</ul>
+<p>传输方式改变的是连接形态，不改变 MCP 的核心抽象。<br>真正稳定的部分是工具描述、参数结构和调用协议。</p>
+<h3 id="A2A：智能体之间的协作"><a href="#A2A：智能体之间的协作" class="headerlink" title="A2A：智能体之间的协作"></a>A2A：智能体之间的协作</h3><p>A2A（Agent-to-Agent）关注的是智能体之间如何通信。</p>
+<p>当一个系统中存在多个具备不同职责的智能体时，单个协调者需要能够调用研究员、代码分析员、文档生成器、客服顾问等不同角色。<br>A2A 的目标是让这些智能体以服务形式暴露能力，并通过统一请求进行协作。</p>
+<h4 id="A2A-的适用场景"><a href="#A2A-的适用场景" class="headerlink" title="A2A 的适用场景"></a>A2A 的适用场景</h4><p>A2A 适合处理以下问题：</p>
+<ul>
+<li>一个智能体无法独立覆盖所有专业能力。</li>
+<li>不同智能体需要独立部署、独立扩缩容。</li>
+<li>某些智能体需要持有自己的状态和工具集。</li>
+<li>协调者需要把任务拆给多个执行者。</li>
+</ul>
+<p>例如，一个“接待员智能体”可以根据用户问题，把技术问题转给技术专家智能体，把销售问题转给销售顾问智能体。<br>这里的关键不是工具调用，而是<strong>任务委派</strong>。</p>
+<h3 id="ANP：网络化服务发现"><a href="#ANP：网络化服务发现" class="headerlink" title="ANP：网络化服务发现"></a>ANP：网络化服务发现</h3><p>ANP 更关注服务发现和智能体网络。</p>
+<p>在一个动态网络中，协调者未必预先知道有哪些智能体可用。<br>ANP 的目标是让智能体能够注册能力、声明负载、按类型检索，并在运行时选择合适的服务节点。</p>
+<p>它更接近服务治理问题：</p>
+<ul>
+<li>服务注册。</li>
+<li>能力发现。</li>
+<li>节点选择。</li>
+<li>负载均衡。</li>
+<li>网络关系构建。</li>
+</ul>
+<p>当智能体数量较少、服务关系固定时，ANP 的收益不明显。<br>当智能体生态变大，或者服务需要动态加入和退出时，ANP 的价值才会体现出来。</p>
+<h3 id="三类协议的边界对比"><a href="#三类协议的边界对比" class="headerlink" title="三类协议的边界对比"></a>三类协议的边界对比</h3><table>
+<thead>
+<tr>
+<th>协议</th>
+<th>主要问题</th>
+<th>核心对象</th>
+<th>典型场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>MCP</td>
+<td>模型如何使用外部工具和资源</td>
+<td>工具、资源、提示模板</td>
+<td>文件系统、数据库、第三方 API</td>
+</tr>
+<tr>
+<td>A2A</td>
+<td>智能体如何互相调用和协作</td>
+<td>智能体服务</td>
+<td>多角色协同、任务委派</td>
+</tr>
+<tr>
+<td>ANP</td>
+<td>智能体服务如何发现和组织</td>
+<td>网络节点、能力注册</td>
+<td>动态服务发现、负载选择</td>
+</tr>
+</tbody></table>
+<p>这三者不是互斥关系。<br>一个智能体可以通过 MCP 使用工具，通过 A2A 调用另一个智能体，再通过 ANP 发现当前可用的智能体服务。</p>
+<h3 id="自定义-MCP-Server"><a href="#自定义-MCP-Server" class="headerlink" title="自定义 MCP Server"></a>自定义 MCP Server</h3><p>第十章最后落到自定义 MCP Server。<br>这一步的意义在于：企业内部能力不可能全部由社区现成服务器提供，很多工具必须由团队自行封装。</p>
+<p>一个自定义 MCP Server 通常包含：</p>
+<ul>
+<li>工具函数定义。</li>
+<li>参数 Schema。</li>
+<li>工具注册。</li>
+<li>错误处理。</li>
+<li>运行时传输方式。</li>
+<li>权限控制和部署配置。</li>
+</ul>
+<p>封装内部系统时，不能只关注“能不能调通”。<br>还要明确哪些能力可以暴露给智能体，哪些参数需要校验，哪些操作需要人工确认，哪些返回值需要脱敏。</p>
+<h3 id="课后习题解析-2"><a href="#课后习题解析-2" class="headerlink" title="课后习题解析"></a>课后习题解析</h3><h4 id="协议选型"><a href="#协议选型" class="headerlink" title="协议选型"></a>协议选型</h4><p><strong>【原问题】</strong></p>
+<p>什么时候选择 MCP、A2A 或 ANP？</p>
+<p><strong>【解析】</strong></p>
+<p>先判断问题属于哪个层次。</p>
+<p>如果问题是“智能体如何调用一个外部工具”，优先考虑 MCP。<br>例如读取文件、查询数据库、调用 GitHub、访问企业内部接口。</p>
+<p>如果问题是“一个智能体如何委派任务给另一个智能体”，优先考虑 A2A。<br>例如协调者把调研任务分配给研究员智能体，再把结果交给写作智能体整理。</p>
+<p>如果问题是“智能体如何发现当前网络中有哪些可用服务”，才考虑 ANP。<br>例如多个计算节点动态注册，调度智能体根据能力和负载选择节点。</p>
+<h4 id="MCP-的安全边界"><a href="#MCP-的安全边界" class="headerlink" title="MCP 的安全边界"></a>MCP 的安全边界</h4><p><strong>【原问题】</strong></p>
+<p>把文件系统或数据库暴露为 MCP 工具时，需要注意什么？</p>
+<p><strong>【解析】</strong></p>
+<p>MCP 统一了工具调用方式，但不会自动消除工具风险。<br>安全边界必须由工具实现和运行环境共同保证。</p>
+<p>关键控制点包括：</p>
+<ul>
+<li>限制可访问目录或数据表。</li>
+<li>对写操作、删除操作和外部请求设置白名单。</li>
+<li>对参数做类型校验和范围校验。</li>
+<li>对返回结果做脱敏处理。</li>
+<li>保留调用审计日志。</li>
+<li>对高风险操作引入人工确认。</li>
+</ul>
+<p>模型生成的工具调用不能天然视为可信输入。<br>所有工具参数都应当按外部输入处理。</p>
+<h2 id="第十一章-Agentic-RL"><a href="#第十一章-Agentic-RL" class="headerlink" title="第十一章 - Agentic-RL"></a>第十一章 - Agentic-RL</h2><p>第十一章从训练角度讨论智能体能力的提升。<br>普通 LLM 训练更关注单轮文本生成质量，Agentic-RL 关注模型在任务环境中的行动策略。</p>
+<p>智能体不是只生成答案，还需要选择工具、分解任务、根据反馈修正行动。<br>因此，训练目标不能只看最终文本是否自然，还要看行动序列是否有效。</p>
+<h3 id="从强化学习到-Agentic-RL"><a href="#从强化学习到-Agentic-RL" class="headerlink" title="从强化学习到 Agentic-RL"></a>从强化学习到 Agentic-RL</h3><p>强化学习的基本结构包括状态、动作、奖励和策略。</p>
+<p>映射到智能体场景中：</p>
+<ul>
+<li><strong>状态：</strong> 当前上下文、任务进度、工具返回结果。</li>
+<li><strong>动作：</strong> 生成回答、调用工具、请求更多信息、终止任务。</li>
+<li><strong>奖励：</strong> 任务是否成功、答案是否正确、步骤是否高效、工具调用是否合规。</li>
+<li><strong>策略：</strong> 模型在不同状态下选择动作的倾向。</li>
+</ul>
+<p>Agentic-RL 的关键是把“会说”扩展为“会做”。<br>训练不只优化单次输出，而是优化多步行动后的任务结果。</p>
+<h3 id="LLM-训练链路"><a href="#LLM-训练链路" class="headerlink" title="LLM 训练链路"></a>LLM 训练链路</h3><p>大模型能力通常来自多个阶段。</p>
+<p>预训练让模型获得语言模式和通用知识；SFT（监督微调）让模型学习指令响应格式；偏好优化和强化学习则让模型更符合任务目标和人类偏好。</p>
+<p>在智能体训练中，SFT 和 RL 的关系可以这样理解：</p>
+<ul>
+<li><strong>SFT：</strong> 教模型模仿标准答案或标准轨迹。</li>
+<li><strong>RL：</strong> 让模型根据奖励信号探索更优行动。</li>
+</ul>
+<p>SFT 更稳定，但受限于标注数据。<br>RL 能优化最终目标，但奖励设计和训练稳定性更难。</p>
+<h3 id="数据集与奖励函数"><a href="#数据集与奖励函数" class="headerlink" title="数据集与奖励函数"></a>数据集与奖励函数</h3><p>第十一章使用 GSM8K 数学推理数据集作为示例。<br>这个选择主要是因为数学题答案可验证，适合作为奖励函数的基础。</p>
+<p>智能体训练中，数据集通常需要区分两种格式：</p>
+<ul>
+<li><strong>SFT 格式：</strong> 输入问题和标准回答，用于监督学习。</li>
+<li><strong>RL 格式：</strong> 输入问题、可采样回答和奖励计算逻辑，用于强化学习。</li>
+</ul>
+<h4 id="奖励函数设计"><a href="#奖励函数设计" class="headerlink" title="奖励函数设计"></a>奖励函数设计</h4><p>奖励函数决定模型会朝什么方向优化。</p>
+<p>常见奖励包括：</p>
+<ul>
+<li><strong>准确率奖励：</strong> 答案正确给高分，错误给低分。</li>
+<li><strong>长度惩罚：</strong> 抑制无意义的冗长输出。</li>
+<li><strong>步骤奖励：</strong> 对合理的中间推理或工具使用给予奖励。</li>
+<li><strong>格式奖励：</strong> 输出满足指定结构时给分。</li>
+</ul>
+<p>奖励函数必须与真实目标一致。<br>如果只奖励最终答案，模型可能学会跳过必要过程；如果过度奖励步骤数量，模型可能生成冗长但低价值的推理。</p>
+<h3 id="SFT-与-LoRA"><a href="#SFT-与-LoRA" class="headerlink" title="SFT 与 LoRA"></a>SFT 与 LoRA</h3><p>SFT 的目标是让模型学会特定任务的标准响应方式。<br>在资源有限的情况下，通常不会全量更新所有模型参数，而是使用 LoRA 这类参数高效微调方法。</p>
+<p>LoRA 的思路是在原模型权重旁边增加低秩适配矩阵，只训练少量新增参数。<br>这样可以降低显存和训练成本，也便于为不同任务维护不同适配器。</p>
+<p>对智能体而言，SFT 适合学习：</p>
+<ul>
+<li>固定工具调用格式。</li>
+<li>标准任务分解方式。</li>
+<li>特定领域回答风格。</li>
+<li>基础推理轨迹。</li>
+</ul>
+<p>但 SFT 本质上仍是模仿。<br>当示例数据覆盖不足时，模型很难自己发现更优策略。</p>
+<h3 id="GRPO-训练"><a href="#GRPO-训练" class="headerlink" title="GRPO 训练"></a>GRPO 训练</h3><p>GRPO 是第十一章的重点之一。<br>它与 PPO 同属策略优化思路，但 GRPO 使用组内相对奖励估计优势，减少对单独价值模型的依赖。</p>
+<p>一个简化过程是：</p>
+<ol>
+<li>对同一个问题采样多个回答。</li>
+<li>分别计算每个回答的奖励。</li>
+<li>用组内平均奖励作为基线。</li>
+<li>奖励高于组均值的回答被强化。</li>
+<li>奖励低于组均值的回答被抑制。</li>
+</ol>
+<p>这种方法适合答案可以自动评分的任务。<br>例如数学题、代码题、格式化任务和可执行验证任务。</p>
+<p>它的风险在于奖励函数一旦设计不当，模型会优化奖励漏洞，而不是真正提升任务能力。<br>因此训练过程中必须监控奖励、KL 散度、输出长度和错误类型。</p>
+<h3 id="评估与错误分析"><a href="#评估与错误分析" class="headerlink" title="评估与错误分析"></a>评估与错误分析</h3><p>训练完成不代表能力提升。<br>模型评估至少要覆盖准确率、格式合规率、推理步骤质量、工具调用成功率和失败类型分布。</p>
+<p>错误分析比单一指标更有价值。<br>例如同样是数学题错误，可能来自：</p>
+<ul>
+<li>题意理解错误。</li>
+<li>公式选择错误。</li>
+<li>中间计算错误。</li>
+<li>输出格式错误。</li>
+<li>过早停止推理。</li>
+</ul>
+<p>只有知道错误类型，才能判断该继续补充 SFT 数据、调整奖励函数，还是修改推理框架。</p>
+<h3 id="完整训练流程"><a href="#完整训练流程" class="headerlink" title="完整训练流程"></a>完整训练流程</h3><p>一个相对完整的 Agentic-RL 流程包括：</p>
+<ol>
+<li>准备任务数据集。</li>
+<li>构造 SFT 数据和 RL 数据。</li>
+<li>先进行 SFT，获得可用的基础行为。</li>
+<li>设计奖励函数。</li>
+<li>使用 GRPO 等方法进行强化学习。</li>
+<li>在独立测试集上评估。</li>
+<li>做错误分析和超参数调整。</li>
+<li>合并或加载 LoRA 权重进行部署。</li>
+</ol>
+<p>生产部署还要考虑量化、推理延迟、模型版本管理和回滚策略。<br>训练阶段的指标提升，不一定能直接转化为线上体验提升。</p>
+<h3 id="课后习题解析-3"><a href="#课后习题解析-3" class="headerlink" title="课后习题解析"></a>课后习题解析</h3><h4 id="SFT-与-RL-的关系"><a href="#SFT-与-RL-的关系" class="headerlink" title="SFT 与 RL 的关系"></a>SFT 与 RL 的关系</h4><p><strong>【原问题】</strong></p>
+<p>为什么不能只做 SFT，或者只做 RL？</p>
+<p><strong>【解析】</strong></p>
+<p>只做 SFT 的问题是模型只能模仿已有样本。<br>样本中没有覆盖的策略，模型很难通过监督学习获得。</p>
+<p>只做 RL 的问题是探索空间过大，训练不稳定，且初始行为可能完全不符合任务格式。<br>尤其在工具调用场景中，模型如果连基本调用格式都不稳定，奖励信号会非常稀疏。</p>
+<p>更合理的路线是先用 SFT 建立基础行为，再用 RL 针对任务结果做优化。</p>
+<h4 id="奖励函数的风险"><a href="#奖励函数的风险" class="headerlink" title="奖励函数的风险"></a>奖励函数的风险</h4><p><strong>【原问题】</strong></p>
+<p>奖励函数设计不当会产生什么问题？</p>
+<p><strong>【解析】</strong></p>
+<p>模型会优化奖励函数，而不是自动优化真实目标。</p>
+<p>如果奖励只看答案是否包含某个数字，模型可能输出格式混乱但碰巧包含正确数字。<br>如果奖励过度惩罚长度，模型可能省略必要推理。<br>如果奖励过度鼓励步骤，模型可能生成很多无效中间过程。</p>
+<p>因此奖励函数应尽量组合多个维度，并用人工抽查或独立评估集验证奖励是否真的代表任务质量。</p>
+<h2 id="第十二章-智能体性能评估"><a href="#第十二章-智能体性能评估" class="headerlink" title="第十二章 - 智能体性能评估"></a>第十二章 - 智能体性能评估</h2><p>第十二章讨论智能体评估。<br>评估不是训练之后的附属动作，而是智能体工程化的基础设施。</p>
+<p>没有评估，系统只能依赖主观体验判断是否变好。<br>一旦引入工具调用、检索、长程任务和多智能体协作，单看最终回答已经不够。</p>
+<h3 id="评估体系的基本问题"><a href="#评估体系的基本问题" class="headerlink" title="评估体系的基本问题"></a>评估体系的基本问题</h3><p>智能体评估需要回答四个问题：</p>
+<ul>
+<li>能不能正确理解任务。</li>
+<li>能不能选择合适工具。</li>
+<li>能不能完成多步推理。</li>
+<li>能不能在约束内给出可验证结果。</li>
+</ul>
+<p>普通问答评估更关注文本正确性。<br>智能体评估还要关注行动过程，例如工具调用参数是否正确、是否错误调用工具、是否遗漏必要步骤、是否能处理工具失败。</p>
+<h3 id="BFCL：工具调用能力评估"><a href="#BFCL：工具调用能力评估" class="headerlink" title="BFCL：工具调用能力评估"></a>BFCL：工具调用能力评估</h3><p>BFCL（Berkeley Function Calling Leaderboard）主要评估模型的函数调用能力。<br>它关注模型能否根据用户意图生成正确的函数名和参数。</p>
+<p>工具调用评估不能只看自然语言答案。<br>更关键的是：</p>
+<ul>
+<li>函数名是否匹配。</li>
+<li>参数名是否正确。</li>
+<li>参数值是否正确。</li>
+<li>参数类型是否正确。</li>
+<li>多函数调用顺序是否合理。</li>
+<li>并行调用和嵌套调用是否可执行。</li>
+</ul>
+<h4 id="BFCL-的评价重点"><a href="#BFCL-的评价重点" class="headerlink" title="BFCL 的评价重点"></a>BFCL 的评价重点</h4><p>BFCL 适合评估模型接入工具层的基础能力。</p>
+<p>例如用户要求“查询明天北京天气并设置提醒”，模型可能需要调用天气查询函数和提醒创建函数。<br>评估时不仅要看它是否知道要查天气，还要看参数是否被正确结构化。</p>
+<p>工具调用错误通常比文本错误更危险。<br>文本回答错了，用户还能识别；工具参数错了，可能直接影响外部系统状态。</p>
+<h3 id="GAIA：通用助手能力评估"><a href="#GAIA：通用助手能力评估" class="headerlink" title="GAIA：通用助手能力评估"></a>GAIA：通用助手能力评估</h3><p>GAIA 更关注通用 AI 助手在真实任务中的综合能力。</p>
+<p>这类任务往往需要检索、推理、工具使用和多步执行。<br>它不像 BFCL 那样只聚焦函数调用格式，而是评估智能体能否把多个能力组合起来解决问题。</p>
+<h4 id="GAIA-的难点"><a href="#GAIA-的难点" class="headerlink" title="GAIA 的难点"></a>GAIA 的难点</h4><p>GAIA 的难点通常来自三类复杂性：</p>
+<ul>
+<li><strong>信息来源复杂：</strong> 需要从多个来源查找和交叉验证。</li>
+<li><strong>推理链路较长：</strong> 中间步骤错误会传导到最终答案。</li>
+<li><strong>答案格式严格：</strong> 最终答案可能要求数字、字符串、列表或特定格式。</li>
+</ul>
+<p>这类评估对长程上下文管理也有要求。<br>智能体需要记录已经查过什么、哪些信息可信、最终答案如何从证据中推出。</p>
+<h3 id="数据生成质量评估"><a href="#数据生成质量评估" class="headerlink" title="数据生成质量评估"></a>数据生成质量评估</h3><p>第十二章还讨论了数据生成质量评估。<br>当智能体用于生成训练数据、数学题、测试样例或评测样本时，必须评估生成数据本身的质量。</p>
+<p>常见方法包括 LLM Judge、Win Rate 和人工验证。</p>
+<h4 id="LLM-Judge"><a href="#LLM-Judge" class="headerlink" title="LLM Judge"></a>LLM Judge</h4><p>LLM Judge 使用另一个模型作为裁判，对生成内容进行多维评分。</p>
+<p>例如评估一道数学题时，可以从以下维度判断：</p>
+<ul>
+<li>题目是否清晰。</li>
+<li>难度是否合适。</li>
+<li>答案是否唯一。</li>
+<li>解法是否正确。</li>
+<li>是否与参考数据过度相似。</li>
+</ul>
+<p>它的优势是成本低、速度快，适合大规模初筛。<br>缺点是裁判模型也会犯错，且可能偏向某些表达风格。</p>
+<h4 id="Win-Rate"><a href="#Win-Rate" class="headerlink" title="Win Rate"></a>Win Rate</h4><p>Win Rate 通过成对比较衡量质量。<br>系统把生成结果与基准样本或另一个模型结果放在一起，让裁判判断哪一个更好。</p>
+<p>相比绝对打分，成对比较通常更稳定。<br>因为判断“A 是否优于 B”往往比直接给 A 打 8 分还是 9 分更容易。</p>
+<p>但 Win Rate 也依赖样本选择。<br>如果基准样本质量本身不稳定，胜率就不能准确反映真实质量。</p>
+<h4 id="人工验证"><a href="#人工验证" class="headerlink" title="人工验证"></a>人工验证</h4><p>人工验证成本最高，但在关键任务中不可替代。</p>
+<p>尤其是数学题、医疗问答、金融建议、法律分析这类高风险内容，自动评估只能做初筛。<br>最终质量仍需要人工抽查，甚至需要专业人员审核。</p>
+<h3 id="评估报告与迭代"><a href="#评估报告与迭代" class="headerlink" title="评估报告与迭代"></a>评估报告与迭代</h3><p>一个有用的评估报告不应只输出总分。<br>它应当能支持后续改进。</p>
+<p>较完整的报告至少包括：</p>
+<ul>
+<li>总体指标。</li>
+<li>分类别指标。</li>
+<li>失败样本列表。</li>
+<li>错误类型分布。</li>
+<li>与历史版本的对比。</li>
+<li>典型失败案例。</li>
+<li>可复现实验配置。</li>
+</ul>
+<p>评估的目的不是证明系统已经足够好，而是定位下一轮优化应该改哪里。<br>例如 BFCL 分数低，可能需要优化工具描述和参数 Schema；GAIA 分数低，可能需要改进检索、上下文管理或任务分解。</p>
+<h3 id="课后习题解析-4"><a href="#课后习题解析-4" class="headerlink" title="课后习题解析"></a>课后习题解析</h3><h4 id="为什么要分层评估"><a href="#为什么要分层评估" class="headerlink" title="为什么要分层评估"></a>为什么要分层评估</h4><p><strong>【原问题】</strong></p>
+<p>为什么不能只用一个综合指标评估智能体？</p>
+<p><strong>【解析】</strong></p>
+<p>综合指标能反映总体效果，但不能解释问题来源。</p>
+<p>一个智能体任务失败，可能是检索失败、工具参数错误、推理错误、上下文污染或最终格式错误。<br>这些问题对应的修复方式完全不同。</p>
+<p>因此评估体系应分层：</p>
+<ul>
+<li>工具调用能力用 BFCL 这类基准评估。</li>
+<li>通用多步任务用 GAIA 这类基准评估。</li>
+<li>生成数据质量用 Judge、Win Rate 和人工审核评估。</li>
+<li>线上系统还需要监控延迟、成本、失败率和人工接管率。</li>
+</ul>
+<h4 id="评估污染与可复现性"><a href="#评估污染与可复现性" class="headerlink" title="评估污染与可复现性"></a>评估污染与可复现性</h4><p><strong>【原问题】</strong></p>
+<p>智能体评估中如何避免评估结果失真？</p>
+<p><strong>【解析】</strong></p>
+<p>评估失真常见于三类情况。</p>
+<p>第一类是数据污染。<br>模型训练过程中可能已经见过评估集，导致分数虚高。</p>
+<p>第二类是提示词过拟合。<br>系统为了提升某个榜单分数，针对评估集结构写了特殊提示，实际任务中并不能泛化。</p>
+<p>第三类是实验不可复现。<br>模型版本、工具版本、搜索结果、随机种子和外部接口状态没有记录，后续无法解释分数变化。</p>
+<p>因此评估时应保存完整配置，固定评估集版本，记录模型版本和工具版本，并保留失败样本。<br>对依赖外部搜索的任务，还应记录检索时间和检索结果摘要。</p>
+
+                </div>
+
+                
+                        
+<div class="post-copyright-info-container border-box">
+    <div class="copyright-info-content border-box">
+        <div class="copyright-info-top border-box">
+            <div class="copyright-post-title border-box text-ellipsis">
+                《hello agents》读书笔记 - 高级知识拓展
+            </div>
+
+            <div class="copyright-post-link border-box text-ellipsis">
+                读书笔记/读书笔记/《hello agents》读书笔记-高级知识拓展/
+            </div>
+        </div>
+
+        <div class="copyright-info-bottom border-box">
+            <div class="copyright-post-author bottom-item">
+                <div class="type">
+                    作者
+                </div>
+                <div class="content">咕咕咕</div>
+            </div>
+
+            <div class="post-time bottom-item">
+                <div class="type">
+                    发布于
+                </div>
+                <div class="content">2026-03-10 22:18</div>
+            </div>
+
+
+            <div class="post-license bottom-item">
+                <div class="type">
+                    许可
+                </div>
+                <div class="content tooltip" data-tooltip-content="CC BY-NC-SA 4.0">
+                    <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hans">
+                        <i class="fa-brands fa-creative-commons"></i>
+                        <i class="fa-brands fa-creative-commons-by"></i>
+                        <i class="fa-brands fa-creative-commons-nc"></i>
+                        <i class="fa-brands fa-creative-commons-sa"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <i class="copyright-bg fa-solid fa-copyright"></i>
+    </div>
+    <div class="copy-copyright-info flex-center tooltip" data-tooltip-content="复制版权信息" data-tooltip-offset-y="-2px">
+        <i class="fa-solid fa-copy"></i>
+    </div>
+</div>
+
+                
+
+                <div class="post-bottom-tags-and-share border-box">
+                    <div>
+                        
+                            <ul class="post-tags-box border-box">
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/%E3%80%8Ahello-agents%E3%80%8B/">《hello agents》</a>
+                                    </li>
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/%E6%99%BA%E8%83%BD%E4%BD%93/">智能体</a>
+                                    </li>
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/RAG/">RAG</a>
+                                    </li>
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/%E8%AE%B0%E5%BF%86%E6%A3%80%E7%B4%A2/">记忆检索</a>
+                                    </li>
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/%E4%B8%8A%E4%B8%8B%E6%96%87%E5%B7%A5%E7%A8%8B/">上下文工程</a>
+                                    </li>
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/%E6%99%BA%E8%83%BD%E4%BD%93%E5%8D%8F%E8%AE%AE/">智能体协议</a>
+                                    </li>
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/">强化学习</a>
+                                    </li>
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/%E6%99%BA%E8%83%BD%E4%BD%93%E8%AF%84%E4%BC%B0/">智能体评估</a>
+                                    </li>
+                                
+                            </ul>
+                        
+                    </div>
+                    <div>
+                        
+                            <div class="post-share-container border-box">
+    <ul class="share-list-wrap border-box">
+        <li class="qq share-item border-box flex-center tooltip"
+            data-tooltip-content="分享到 QQ"
+        >
+            <i class="fa-brands fa-qq"></i>
+        </li>
+        <li class="wechat share-item border-box flex-center tooltip tooltip-img"
+            data-tooltip-content="分享到微信"
+            data-tooltip-img-tip="微信扫一扫"
+            data-tooltip-img-style="background-color: #fff; top: -10px; padding: 0.6rem 0.6rem 0.1rem 0.6rem;"
+        >
+            <i class="fa-brands fa-weixin"></i>
+        </li>
+        <li class="weibo share-item border-box flex-center tooltip"
+            data-tooltip-content="分享到微博"
+        >
+            <i class="fa-brands fa-weibo"></i>
+        </li>
+    </ul>
+</div>
+
+                        
+                    </div>
+                </div>
+
+                
+                    <div class="reward-author-container border-box flex-center">
+    <div class="reward-btn keep-button border-box flex-center tooltip tooltip-img"
+            data-tooltip-content="谢谢你请我喝可乐~"
+            data-tooltip-img-url="/images/thanks.png"
+            data-tooltip-img-trigger="click"
+            data-tooltip-img-style="top: -8px;"
+    >
+        <i class="fa-solid fa-hand-holding-heart"></i>
+    </div>
+</div>
+
+                
+
+                
+                    <div class="post-nav border-box">
+                        
+                            <div class="prev-post">
+                                <a class="prev"
+                                   rel="prev"
+                                   href="/%E8%AE%B0%E5%BD%95%E7%94%9F%E6%B4%BB/%E8%AE%B0%E5%BD%95%E7%94%9F%E6%B4%BB/2026%E4%BA%94%E4%B8%80/"
+                                   title="2026 五一"
+                                >
+                                    <span class="left arrow-icon flex-center">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </span>
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">2026 五一</span>
+                                        <span class="post-nav-item">上一篇</span>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                        
+                            <div class="next-post">
+                                <a class="next"
+                                   rel="next"
+                                   href="/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/%E3%80%8Ahello%20agents%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-%E6%9E%84%E5%BB%BA%E4%BD%A0%E7%9A%84%E5%A4%A7%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B%E6%99%BA%E8%83%BD%E4%BD%93/"
+                                   title="《hello agents》读书笔记 - 构建你的大语言模型智能体"
+                                >
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">《hello agents》读书笔记 - 构建你的大语言模型智能体</span>
+                                        <span class="post-nav-item">下一篇</span>
+                                    </span>
+                                    <span class="right arrow-icon flex-center">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                    </div>
+                
+
+                
+                    
+
+
+    <div class="comments-container border-box">
+        <div id="comments-anchor" class="comment-area-title border-box">
+            <i class="fas fa-comments"></i>&nbsp;评论
+        </div>
+        <div class="comment-plugin-fail border-box">
+    <span class="fail-tip">评论插件加载失败</span>
+    <button class="reload keep-button">点击重新加载</button>
+</div>
+<div class="comment-plugin-loading flex-center border-box">
+    <i class="loading-icon fa-solid fa-spinner fa-spin"></i>
+    <span class="load-tip">正在加载评论插件</span>
+</div>
+<script data-pjax>
+  window.KeepCommentPlugin = {}
+  window.KeepCommentPlugin.hideLoading = () => {
+    const cplDom = document.querySelector('.comments-container .comment-plugin-loading')
+    cplDom.style.display = 'none'
+  }
+  window.KeepCommentPlugin.loadFailHandle = () => {
+    window.KeepCommentPlugin.hideLoading()
+    const cpfDom = document.querySelector('.comments-container .comment-plugin-fail')
+    cpfDom.style.display = 'flex'
+    cpfDom.querySelector('.reload').addEventListener('click', () => {
+      window.location.reload()
+    })
+  }
+</script>
+
+        
+            
+
+    <div class="giscus-comments-container">
+        <div class="giscus" id="giscus"></div>
+        <script data-pjax
+                onerror="window.KeepCommentPlugin.loadFailHandle()"
+        >
+          if (!window.KeepCommentPlugin?.getGiscusTheme) {
+            window.KeepCommentPlugin.getGiscusTheme = () => {
+              return document.body.classList.contains('dark-mode') ? 'dark_dimmed' : 'light_tritanopia'
+            }
+          }
+
+          if (!window.KeepCommentPlugin?.changeGiscusTheme) {
+            window.KeepCommentPlugin.changeGiscusTheme = () => {
+              const iframe = document.querySelector('iframe.giscus-frame')
+              iframe && iframe.contentWindow.postMessage({
+                giscus: {
+                  setConfig: {
+                    theme: window.KeepCommentPlugin.getGiscusTheme()
+                  }
+                }
+              }, 'https://giscus.app')
+            }
+          }
+
+          if (!window.KeepCommentPlugin?.initGiscus) {
+            window.KeepCommentPlugin.initGiscus = () => {
+              const script = document.createElement('script')
+              script.async = true
+              script.src = 'https://giscus.app/client.js'
+              script.setAttribute('data-repo', 'Cooooing/Cooooing.github.io')
+              script.setAttribute('data-repo-id', 'R_kgDOHQal_w')
+              script.setAttribute('data-category', 'Announcements')
+              script.setAttribute('data-category-id', 'DIC_kwDOHQal_84CjZo6')
+              script.setAttribute('data-reactions-enabled', '1')
+              script.setAttribute('data-lang', 'zh-CN')
+              script.setAttribute('data-mapping', 'pathname')
+              script.setAttribute('data-strict', '0')
+              script.setAttribute('data-emit-metadata', '0')
+              script.setAttribute('data-input-position', 'top')
+              script.setAttribute('crossorigin', 'anonymous')
+              script.setAttribute('loading', 'lazy')
+              script.setAttribute('data-theme', window.KeepCommentPlugin.getGiscusTheme())
+              document.querySelector('.giscus-comments-container').appendChild(script)
+              script.onerror = () => {
+                window.KeepCommentPlugin.loadFailHandle()
+              }
+              script.onload = () => {
+                window.KeepCommentPlugin.hideLoading()
+              }
+              const toggleThemeBtn = document.querySelector('.tool-toggle-theme-mode')
+              toggleThemeBtn && toggleThemeBtn.addEventListener('click', () => {
+                window.KeepCommentPlugin.changeGiscusTheme()
+              })
+            }
+          }
+
+          if ('true' === "true") {
+            setTimeout(() => {
+              window.KeepCommentPlugin.initGiscus()
+            }, 1000)
+          } else {
+            window.addEventListener("DOMContentLoaded", window.KeepCommentPlugin.initGiscus)
+          }
+        </script>
+    </div>
+
+
+        
+    </div>
+
+
+
+
+
+                
+            </div>
+        </div>
+
+        
+            <div class="pc-post-toc left-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E5%85%AB%E7%AB%A0-%E8%AE%B0%E5%BF%86%E4%B8%8E%E6%A3%80%E7%B4%A2"><span class="nav-text">第八章 - 记忆与检索</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%8E%E8%AE%A4%E7%9F%A5%E7%A7%91%E5%AD%A6%E5%88%B0%E6%99%BA%E8%83%BD%E4%BD%93%E8%AE%B0%E5%BF%86%E6%8A%BD%E8%B1%A1"><span class="nav-text">从认知科学到智能体记忆抽象</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BA%BA%E7%B1%BB%E8%AE%B0%E5%BF%86%E6%9C%BA%E5%88%B6%E7%9A%84%E5%90%AF%E5%8F%91%E6%98%A0%E5%B0%84"><span class="nav-text">人类记忆机制的启发映射</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#LLM-%E5%8E%9F%E7%94%9F%E5%B1%80%E9%99%90%E6%80%A7%E5%89%96%E6%9E%90"><span class="nav-text">LLM 原生局限性剖析</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%B0%E5%BF%86%E4%B8%8E%E6%A3%80%E7%B4%A2%E6%9E%B6%E6%9E%84%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1"><span class="nav-text">记忆与检索架构系统设计</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AE%B0%E5%BF%86%E7%B3%BB%E7%BB%9F%EF%BC%88Memory-System%EF%BC%89%E7%9A%84%E5%A4%9A%E5%B1%82%E6%9E%B6%E6%9E%84"><span class="nav-text">记忆系统（Memory System）的多层架构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#RAG-%E7%B3%BB%E7%BB%9F%E7%9A%84%E6%B5%81%E8%BD%AC%E5%B1%82%E7%BA%A7"><span class="nav-text">RAG 系统的流转层级</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%9B%E7%BB%B4%E8%AE%B0%E5%BF%86%E7%B1%BB%E5%9E%8B%E7%9A%84%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0%E6%9C%BA%E5%88%B6"><span class="nav-text">四维记忆类型的底层实现机制</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B7%A5%E4%BD%9C%E8%AE%B0%E5%BF%86%EF%BC%88Working-Memory%EF%BC%89"><span class="nav-text">工作记忆（Working Memory）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%83%85%E6%99%AF%E8%AE%B0%E5%BF%86%EF%BC%88Episodic-Memory%EF%BC%89"><span class="nav-text">情景记忆（Episodic Memory）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AF%AD%E4%B9%89%E8%AE%B0%E5%BF%86%EF%BC%88Semantic-Memory%EF%BC%89"><span class="nav-text">语义记忆（Semantic Memory）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%84%9F%E7%9F%A5%E8%AE%B0%E5%BF%86%EF%BC%88Perceptual-Memory%EF%BC%89"><span class="nav-text">感知记忆（Perceptual Memory）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%B0%E5%BF%86%E5%BC%95%E6%93%8E%E7%9A%84%E9%AB%98%E9%98%B6%E7%AE%A1%E7%90%86%E6%93%8D%E4%BD%9C"><span class="nav-text">记忆引擎的高阶管理操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A3%80%E7%B4%A2%E5%A2%9E%E5%BC%BA%E7%94%9F%E6%88%90%EF%BC%88RAG%EF%BC%89%E7%AE%A1%E9%81%93%E6%B7%B1%E5%BA%A6%E8%A7%A3%E6%9E%90"><span class="nav-text">检索增强生成（RAG）管道深度解析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%96%87%E6%A1%A3%E9%A2%84%E5%A4%84%E7%90%86%E4%B8%8E%E6%99%BA%E8%83%BD%E5%88%86%E5%9D%97%EF%BC%88Chunking%EF%BC%89"><span class="nav-text">文档预处理与智能分块（Chunking）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%AB%98%E7%BA%A7%E6%A3%80%E7%B4%A2%E7%AD%96%E7%95%A5%EF%BC%88Advanced-Retrieval%EF%BC%89"><span class="nav-text">高级检索策略（Advanced Retrieval）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%BE%E5%90%8E%E4%B9%A0%E9%A2%98%E8%A7%A3%E6%9E%90"><span class="nav-text">课后习题解析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AE%B0%E5%BF%86%E7%B1%BB%E5%9E%8B%E4%B8%8E%E8%AE%A4%E7%9F%A5%E6%9C%BA%E5%88%B6%E7%9A%84%E8%AF%84%E5%88%86%E6%8E%A8%E6%BC%94"><span class="nav-text">记忆类型与认知机制的评分推演</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#RAG-%E7%B3%BB%E7%BB%9F%E6%99%BA%E8%83%BD%E5%88%86%E5%9D%97%E4%B8%8E%E6%A3%80%E7%B4%A2%E7%AD%96%E7%95%A5%E5%89%96%E6%9E%90"><span class="nav-text">RAG 系统智能分块与检索策略剖析</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A4%9A%E7%A7%9F%E6%88%B7%EF%BC%88Multi-Tenant%EF%BC%89%E6%95%B0%E6%8D%AE%E9%9A%94%E7%A6%BB%E4%B8%8E%E7%B3%BB%E7%BB%9F%E7%BA%A7%E8%AE%BE%E8%AE%A1"><span class="nav-text">多租户（Multi-Tenant）数据隔离与系统级设计</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%B9%9D%E7%AB%A0-%E4%B8%8A%E4%B8%8B%E6%96%87%E5%B7%A5%E7%A8%8B"><span class="nav-text">第九章 - 上下文工程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%8A%E4%B8%8B%E6%96%87%E5%B7%A5%E7%A8%8B%E7%9A%84%E6%A0%B8%E5%BF%83%E9%97%AE%E9%A2%98"><span class="nav-text">上下文工程的核心问题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9C%89%E6%95%88%E4%B8%8A%E4%B8%8B%E6%96%87%E7%9A%84%E7%BB%84%E6%88%90"><span class="nav-text">有效上下文的组成</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BB%8E-Prompt-%E5%88%B0-Context"><span class="nav-text">从 Prompt 到 Context</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GSSC-%E6%B5%81%E6%B0%B4%E7%BA%BF"><span class="nav-text">GSSC 流水线</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Gather%EF%BC%9A%E6%94%B6%E9%9B%86%E5%80%99%E9%80%89%E4%BF%A1%E6%81%AF"><span class="nav-text">Gather：收集候选信息</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Select%EF%BC%9A%E9%80%89%E6%8B%A9%E6%9C%89%E6%95%88%E4%BF%A1%E6%81%AF"><span class="nav-text">Select：选择有效信息</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Structure%EF%BC%9A%E7%BB%84%E7%BB%87%E4%B8%8A%E4%B8%8B%E6%96%87%E7%BB%93%E6%9E%84"><span class="nav-text">Structure：组织上下文结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Compress%EF%BC%9A%E5%8E%8B%E7%BC%A9%E9%95%BF%E7%A8%8B%E4%BF%A1%E6%81%AF"><span class="nav-text">Compress：压缩长程信息</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#NoteTool-%E4%B8%8E-TerminalTool"><span class="nav-text">NoteTool 与 TerminalTool</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#NoteTool%EF%BC%9A%E7%BB%93%E6%9E%84%E5%8C%96%E4%BB%BB%E5%8A%A1%E8%AE%B0%E5%BF%86"><span class="nav-text">NoteTool：结构化任务记忆</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#TerminalTool%EF%BC%9A%E5%8D%B3%E6%97%B6%E6%8E%A2%E7%B4%A2%E8%83%BD%E5%8A%9B"><span class="nav-text">TerminalTool：即时探索能力</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%95%BF%E7%A8%8B%E6%99%BA%E8%83%BD%E4%BD%93%E7%9A%84%E4%B8%8A%E4%B8%8B%E6%96%87%E7%BB%B4%E6%8A%A4"><span class="nav-text">长程智能体的上下文维护</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%BE%E5%90%8E%E4%B9%A0%E9%A2%98%E8%A7%A3%E6%9E%90-1"><span class="nav-text">课后习题解析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%8A%E4%B8%8B%E6%96%87%E5%8E%8B%E7%BC%A9%E7%9A%84%E8%BE%B9%E7%95%8C"><span class="nav-text">上下文压缩的边界</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B7%A5%E5%85%B7%E7%BB%93%E6%9E%9C%E5%A6%82%E4%BD%95%E8%BF%9B%E5%85%A5%E4%B8%8A%E4%B8%8B%E6%96%87"><span class="nav-text">工具结果如何进入上下文</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E5%8D%81%E7%AB%A0-%E6%99%BA%E8%83%BD%E4%BD%93%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE"><span class="nav-text">第十章 - 智能体通信协议</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8D%8F%E8%AE%AE%E8%A6%81%E8%A7%A3%E5%86%B3%E4%BB%80%E4%B9%88"><span class="nav-text">协议要解决什么</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MCP%EF%BC%9A%E8%BF%9E%E6%8E%A5%E5%B7%A5%E5%85%B7%E4%B8%8E%E8%B5%84%E6%BA%90"><span class="nav-text">MCP：连接工具与资源</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#MCP-%E7%9A%84%E5%B7%A5%E7%A8%8B%E8%BE%B9%E7%95%8C"><span class="nav-text">MCP 的工程边界</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BC%A0%E8%BE%93%E6%96%B9%E5%BC%8F%E7%9A%84%E5%B7%AE%E5%BC%82"><span class="nav-text">传输方式的差异</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#A2A%EF%BC%9A%E6%99%BA%E8%83%BD%E4%BD%93%E4%B9%8B%E9%97%B4%E7%9A%84%E5%8D%8F%E4%BD%9C"><span class="nav-text">A2A：智能体之间的协作</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#A2A-%E7%9A%84%E9%80%82%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="nav-text">A2A 的适用场景</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ANP%EF%BC%9A%E7%BD%91%E7%BB%9C%E5%8C%96%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0"><span class="nav-text">ANP：网络化服务发现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%89%E7%B1%BB%E5%8D%8F%E8%AE%AE%E7%9A%84%E8%BE%B9%E7%95%8C%E5%AF%B9%E6%AF%94"><span class="nav-text">三类协议的边界对比</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89-MCP-Server"><span class="nav-text">自定义 MCP Server</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%BE%E5%90%8E%E4%B9%A0%E9%A2%98%E8%A7%A3%E6%9E%90-2"><span class="nav-text">课后习题解析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8D%8F%E8%AE%AE%E9%80%89%E5%9E%8B"><span class="nav-text">协议选型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MCP-%E7%9A%84%E5%AE%89%E5%85%A8%E8%BE%B9%E7%95%8C"><span class="nav-text">MCP 的安全边界</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E5%8D%81%E4%B8%80%E7%AB%A0-Agentic-RL"><span class="nav-text">第十一章 - Agentic-RL</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%8E%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E5%88%B0-Agentic-RL"><span class="nav-text">从强化学习到 Agentic-RL</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#LLM-%E8%AE%AD%E7%BB%83%E9%93%BE%E8%B7%AF"><span class="nav-text">LLM 训练链路</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E9%9B%86%E4%B8%8E%E5%A5%96%E5%8A%B1%E5%87%BD%E6%95%B0"><span class="nav-text">数据集与奖励函数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A5%96%E5%8A%B1%E5%87%BD%E6%95%B0%E8%AE%BE%E8%AE%A1"><span class="nav-text">奖励函数设计</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SFT-%E4%B8%8E-LoRA"><span class="nav-text">SFT 与 LoRA</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GRPO-%E8%AE%AD%E7%BB%83"><span class="nav-text">GRPO 训练</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%84%E4%BC%B0%E4%B8%8E%E9%94%99%E8%AF%AF%E5%88%86%E6%9E%90"><span class="nav-text">评估与错误分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%8C%E6%95%B4%E8%AE%AD%E7%BB%83%E6%B5%81%E7%A8%8B"><span class="nav-text">完整训练流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%BE%E5%90%8E%E4%B9%A0%E9%A2%98%E8%A7%A3%E6%9E%90-3"><span class="nav-text">课后习题解析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#SFT-%E4%B8%8E-RL-%E7%9A%84%E5%85%B3%E7%B3%BB"><span class="nav-text">SFT 与 RL 的关系</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A5%96%E5%8A%B1%E5%87%BD%E6%95%B0%E7%9A%84%E9%A3%8E%E9%99%A9"><span class="nav-text">奖励函数的风险</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E5%8D%81%E4%BA%8C%E7%AB%A0-%E6%99%BA%E8%83%BD%E4%BD%93%E6%80%A7%E8%83%BD%E8%AF%84%E4%BC%B0"><span class="nav-text">第十二章 - 智能体性能评估</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%84%E4%BC%B0%E4%BD%93%E7%B3%BB%E7%9A%84%E5%9F%BA%E6%9C%AC%E9%97%AE%E9%A2%98"><span class="nav-text">评估体系的基本问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#BFCL%EF%BC%9A%E5%B7%A5%E5%85%B7%E8%B0%83%E7%94%A8%E8%83%BD%E5%8A%9B%E8%AF%84%E4%BC%B0"><span class="nav-text">BFCL：工具调用能力评估</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#BFCL-%E7%9A%84%E8%AF%84%E4%BB%B7%E9%87%8D%E7%82%B9"><span class="nav-text">BFCL 的评价重点</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GAIA%EF%BC%9A%E9%80%9A%E7%94%A8%E5%8A%A9%E6%89%8B%E8%83%BD%E5%8A%9B%E8%AF%84%E4%BC%B0"><span class="nav-text">GAIA：通用助手能力评估</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#GAIA-%E7%9A%84%E9%9A%BE%E7%82%B9"><span class="nav-text">GAIA 的难点</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E7%94%9F%E6%88%90%E8%B4%A8%E9%87%8F%E8%AF%84%E4%BC%B0"><span class="nav-text">数据生成质量评估</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#LLM-Judge"><span class="nav-text">LLM Judge</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Win-Rate"><span class="nav-text">Win Rate</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BA%BA%E5%B7%A5%E9%AA%8C%E8%AF%81"><span class="nav-text">人工验证</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%84%E4%BC%B0%E6%8A%A5%E5%91%8A%E4%B8%8E%E8%BF%AD%E4%BB%A3"><span class="nav-text">评估报告与迭代</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%BE%E5%90%8E%E4%B9%A0%E9%A2%98%E8%A7%A3%E6%9E%90-4"><span class="nav-text">课后习题解析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E5%88%86%E5%B1%82%E8%AF%84%E4%BC%B0"><span class="nav-text">为什么要分层评估</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AF%84%E4%BC%B0%E6%B1%A1%E6%9F%93%E4%B8%8E%E5%8F%AF%E5%A4%8D%E7%8E%B0%E6%80%A7"><span class="nav-text">评估污染与可复现性</span></a></li></ol></li></ol></li></ol>
+    </div>
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom border-box">
+            
+<footer class="footer border-box">
+    <div class="border-box website-info-box default">
+        
+            <div class="copyright-info info-item default">
+                &copy;&nbsp;<span>2022</span>&nbsp;-&nbsp;2026
+                
+                    &nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;&nbsp;<a href="/">咕咕咕</a>
+                
+            </div>
+
+            <div class="theme-info info-item default">
+                由&nbsp;<a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;驱动&nbsp;&&nbsp;主题&nbsp;<a class="keep-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep</a>
+            </div>
+
+            
+
+            
+        
+
+        <div style="color:var(--text-color-4);"><span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>(～￣▽￣)～<script src="/js/lifeTime.js"></script></div>
+        <a href="https://icp.gov.moe/?keyword=20222450" target="_blank">萌ICP备20222450号</a>
+
+
+        <div class="count-item info-item default">
+            
+                <span class="count-box border-box word">
+                    <span class="item-type border-box">总字数</span>
+                    <span class="item-value border-box word">476k</span>
+                </span>
+            
+
+            
+                <span class="count-box border-box uv">
+                    <span class="item-type border-box">访客数</span>
+                    <span class="item-value border-box uv" id="busuanzi_value_site_uv"></span>
+                </span>
+            
+
+            
+                <span class="count-box border-box pv">
+                    <span class="item-type border-box">访问量</span>
+                    <span class="item-value border-box pv" id="busuanzi_value_site_pv"></span>
+                </span>
+            
+        </div>
+
+        <div id="aplayer">
+          <meting-js
+                  server="netease"
+                  type="playlist"
+                  id="7345595717"
+                  fixed="true"
+                  mini="true"
+                  autoplay="false"
+                  listFolded="true"
+                  order="random"
+                  preload="none">
+          </meting-js>
+        </div>
+            <br>
+            <br>
+            <br>
+    </div>
+
+</footer>
+
+        </div>
+    </div>
+
+    <!-- post tools -->
+    
+        <div class="post-tools left-toc">
+            <div class="post-tools-container border-box">
+    <ul class="tools-list border-box">
+        <!-- PC TOC show toggle -->
+        
+            <li class="tools-item flex-center toggle-show-toc">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        <!-- PC go comment -->
+        
+            <li class="tools-item flex-center go-to-comments">
+                <i class="fas fa-comment"></i>
+                <span class="post-comments-count"></span>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <!-- side tools -->
+    <div class="side-tools">
+        <div class="side-tools-container border-box ">
+    <ul class="side-tools-list side-tools-show-handle border-box">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-toggle-theme-mode flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+            <li class="tools-item rss flex-center">
+                <a class="flex-center"
+                   href="/atom.xml"
+                   target="_blank"
+                >
+                    <i class="fas fa-rss"></i>
+                </a>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list border-box">
+        
+            <li class="tools-item toggle-show-toc-tablet flex-center">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        
+            <li class="tools-item go-to-comments-tablet flex-center">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+
+        <li class="tools-item tool-scroll-to-top flex-center show-arrow">
+            <i class="arrow fas fa-arrow-up"></i>
+            <span class="percent"></span>
+        </li>
+    </ul>
+</div>
+
+    </div>
+
+    <!-- image mask -->
+    <div class="zoom-in-image-mask">
+    <img class="zoom-in-image">
+</div>
+
+
+    <!-- local search -->
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="搜索..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="close-popup-btn">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+    <!-- tablet toc -->
+    
+        <div class="tablet-post-toc-mask">
+            <div class="tablet-post-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E5%85%AB%E7%AB%A0-%E8%AE%B0%E5%BF%86%E4%B8%8E%E6%A3%80%E7%B4%A2"><span class="nav-text">第八章 - 记忆与检索</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%8E%E8%AE%A4%E7%9F%A5%E7%A7%91%E5%AD%A6%E5%88%B0%E6%99%BA%E8%83%BD%E4%BD%93%E8%AE%B0%E5%BF%86%E6%8A%BD%E8%B1%A1"><span class="nav-text">从认知科学到智能体记忆抽象</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BA%BA%E7%B1%BB%E8%AE%B0%E5%BF%86%E6%9C%BA%E5%88%B6%E7%9A%84%E5%90%AF%E5%8F%91%E6%98%A0%E5%B0%84"><span class="nav-text">人类记忆机制的启发映射</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#LLM-%E5%8E%9F%E7%94%9F%E5%B1%80%E9%99%90%E6%80%A7%E5%89%96%E6%9E%90"><span class="nav-text">LLM 原生局限性剖析</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%B0%E5%BF%86%E4%B8%8E%E6%A3%80%E7%B4%A2%E6%9E%B6%E6%9E%84%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1"><span class="nav-text">记忆与检索架构系统设计</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AE%B0%E5%BF%86%E7%B3%BB%E7%BB%9F%EF%BC%88Memory-System%EF%BC%89%E7%9A%84%E5%A4%9A%E5%B1%82%E6%9E%B6%E6%9E%84"><span class="nav-text">记忆系统（Memory System）的多层架构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#RAG-%E7%B3%BB%E7%BB%9F%E7%9A%84%E6%B5%81%E8%BD%AC%E5%B1%82%E7%BA%A7"><span class="nav-text">RAG 系统的流转层级</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%9B%E7%BB%B4%E8%AE%B0%E5%BF%86%E7%B1%BB%E5%9E%8B%E7%9A%84%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0%E6%9C%BA%E5%88%B6"><span class="nav-text">四维记忆类型的底层实现机制</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B7%A5%E4%BD%9C%E8%AE%B0%E5%BF%86%EF%BC%88Working-Memory%EF%BC%89"><span class="nav-text">工作记忆（Working Memory）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%83%85%E6%99%AF%E8%AE%B0%E5%BF%86%EF%BC%88Episodic-Memory%EF%BC%89"><span class="nav-text">情景记忆（Episodic Memory）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AF%AD%E4%B9%89%E8%AE%B0%E5%BF%86%EF%BC%88Semantic-Memory%EF%BC%89"><span class="nav-text">语义记忆（Semantic Memory）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%84%9F%E7%9F%A5%E8%AE%B0%E5%BF%86%EF%BC%88Perceptual-Memory%EF%BC%89"><span class="nav-text">感知记忆（Perceptual Memory）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%B0%E5%BF%86%E5%BC%95%E6%93%8E%E7%9A%84%E9%AB%98%E9%98%B6%E7%AE%A1%E7%90%86%E6%93%8D%E4%BD%9C"><span class="nav-text">记忆引擎的高阶管理操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A3%80%E7%B4%A2%E5%A2%9E%E5%BC%BA%E7%94%9F%E6%88%90%EF%BC%88RAG%EF%BC%89%E7%AE%A1%E9%81%93%E6%B7%B1%E5%BA%A6%E8%A7%A3%E6%9E%90"><span class="nav-text">检索增强生成（RAG）管道深度解析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%96%87%E6%A1%A3%E9%A2%84%E5%A4%84%E7%90%86%E4%B8%8E%E6%99%BA%E8%83%BD%E5%88%86%E5%9D%97%EF%BC%88Chunking%EF%BC%89"><span class="nav-text">文档预处理与智能分块（Chunking）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%AB%98%E7%BA%A7%E6%A3%80%E7%B4%A2%E7%AD%96%E7%95%A5%EF%BC%88Advanced-Retrieval%EF%BC%89"><span class="nav-text">高级检索策略（Advanced Retrieval）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%BE%E5%90%8E%E4%B9%A0%E9%A2%98%E8%A7%A3%E6%9E%90"><span class="nav-text">课后习题解析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AE%B0%E5%BF%86%E7%B1%BB%E5%9E%8B%E4%B8%8E%E8%AE%A4%E7%9F%A5%E6%9C%BA%E5%88%B6%E7%9A%84%E8%AF%84%E5%88%86%E6%8E%A8%E6%BC%94"><span class="nav-text">记忆类型与认知机制的评分推演</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#RAG-%E7%B3%BB%E7%BB%9F%E6%99%BA%E8%83%BD%E5%88%86%E5%9D%97%E4%B8%8E%E6%A3%80%E7%B4%A2%E7%AD%96%E7%95%A5%E5%89%96%E6%9E%90"><span class="nav-text">RAG 系统智能分块与检索策略剖析</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A4%9A%E7%A7%9F%E6%88%B7%EF%BC%88Multi-Tenant%EF%BC%89%E6%95%B0%E6%8D%AE%E9%9A%94%E7%A6%BB%E4%B8%8E%E7%B3%BB%E7%BB%9F%E7%BA%A7%E8%AE%BE%E8%AE%A1"><span class="nav-text">多租户（Multi-Tenant）数据隔离与系统级设计</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%B9%9D%E7%AB%A0-%E4%B8%8A%E4%B8%8B%E6%96%87%E5%B7%A5%E7%A8%8B"><span class="nav-text">第九章 - 上下文工程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%8A%E4%B8%8B%E6%96%87%E5%B7%A5%E7%A8%8B%E7%9A%84%E6%A0%B8%E5%BF%83%E9%97%AE%E9%A2%98"><span class="nav-text">上下文工程的核心问题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9C%89%E6%95%88%E4%B8%8A%E4%B8%8B%E6%96%87%E7%9A%84%E7%BB%84%E6%88%90"><span class="nav-text">有效上下文的组成</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BB%8E-Prompt-%E5%88%B0-Context"><span class="nav-text">从 Prompt 到 Context</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GSSC-%E6%B5%81%E6%B0%B4%E7%BA%BF"><span class="nav-text">GSSC 流水线</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Gather%EF%BC%9A%E6%94%B6%E9%9B%86%E5%80%99%E9%80%89%E4%BF%A1%E6%81%AF"><span class="nav-text">Gather：收集候选信息</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Select%EF%BC%9A%E9%80%89%E6%8B%A9%E6%9C%89%E6%95%88%E4%BF%A1%E6%81%AF"><span class="nav-text">Select：选择有效信息</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Structure%EF%BC%9A%E7%BB%84%E7%BB%87%E4%B8%8A%E4%B8%8B%E6%96%87%E7%BB%93%E6%9E%84"><span class="nav-text">Structure：组织上下文结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Compress%EF%BC%9A%E5%8E%8B%E7%BC%A9%E9%95%BF%E7%A8%8B%E4%BF%A1%E6%81%AF"><span class="nav-text">Compress：压缩长程信息</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#NoteTool-%E4%B8%8E-TerminalTool"><span class="nav-text">NoteTool 与 TerminalTool</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#NoteTool%EF%BC%9A%E7%BB%93%E6%9E%84%E5%8C%96%E4%BB%BB%E5%8A%A1%E8%AE%B0%E5%BF%86"><span class="nav-text">NoteTool：结构化任务记忆</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#TerminalTool%EF%BC%9A%E5%8D%B3%E6%97%B6%E6%8E%A2%E7%B4%A2%E8%83%BD%E5%8A%9B"><span class="nav-text">TerminalTool：即时探索能力</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%95%BF%E7%A8%8B%E6%99%BA%E8%83%BD%E4%BD%93%E7%9A%84%E4%B8%8A%E4%B8%8B%E6%96%87%E7%BB%B4%E6%8A%A4"><span class="nav-text">长程智能体的上下文维护</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%BE%E5%90%8E%E4%B9%A0%E9%A2%98%E8%A7%A3%E6%9E%90-1"><span class="nav-text">课后习题解析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%8A%E4%B8%8B%E6%96%87%E5%8E%8B%E7%BC%A9%E7%9A%84%E8%BE%B9%E7%95%8C"><span class="nav-text">上下文压缩的边界</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B7%A5%E5%85%B7%E7%BB%93%E6%9E%9C%E5%A6%82%E4%BD%95%E8%BF%9B%E5%85%A5%E4%B8%8A%E4%B8%8B%E6%96%87"><span class="nav-text">工具结果如何进入上下文</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E5%8D%81%E7%AB%A0-%E6%99%BA%E8%83%BD%E4%BD%93%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE"><span class="nav-text">第十章 - 智能体通信协议</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8D%8F%E8%AE%AE%E8%A6%81%E8%A7%A3%E5%86%B3%E4%BB%80%E4%B9%88"><span class="nav-text">协议要解决什么</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MCP%EF%BC%9A%E8%BF%9E%E6%8E%A5%E5%B7%A5%E5%85%B7%E4%B8%8E%E8%B5%84%E6%BA%90"><span class="nav-text">MCP：连接工具与资源</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#MCP-%E7%9A%84%E5%B7%A5%E7%A8%8B%E8%BE%B9%E7%95%8C"><span class="nav-text">MCP 的工程边界</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BC%A0%E8%BE%93%E6%96%B9%E5%BC%8F%E7%9A%84%E5%B7%AE%E5%BC%82"><span class="nav-text">传输方式的差异</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#A2A%EF%BC%9A%E6%99%BA%E8%83%BD%E4%BD%93%E4%B9%8B%E9%97%B4%E7%9A%84%E5%8D%8F%E4%BD%9C"><span class="nav-text">A2A：智能体之间的协作</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#A2A-%E7%9A%84%E9%80%82%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="nav-text">A2A 的适用场景</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ANP%EF%BC%9A%E7%BD%91%E7%BB%9C%E5%8C%96%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0"><span class="nav-text">ANP：网络化服务发现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%89%E7%B1%BB%E5%8D%8F%E8%AE%AE%E7%9A%84%E8%BE%B9%E7%95%8C%E5%AF%B9%E6%AF%94"><span class="nav-text">三类协议的边界对比</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89-MCP-Server"><span class="nav-text">自定义 MCP Server</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%BE%E5%90%8E%E4%B9%A0%E9%A2%98%E8%A7%A3%E6%9E%90-2"><span class="nav-text">课后习题解析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8D%8F%E8%AE%AE%E9%80%89%E5%9E%8B"><span class="nav-text">协议选型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MCP-%E7%9A%84%E5%AE%89%E5%85%A8%E8%BE%B9%E7%95%8C"><span class="nav-text">MCP 的安全边界</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E5%8D%81%E4%B8%80%E7%AB%A0-Agentic-RL"><span class="nav-text">第十一章 - Agentic-RL</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%8E%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E5%88%B0-Agentic-RL"><span class="nav-text">从强化学习到 Agentic-RL</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#LLM-%E8%AE%AD%E7%BB%83%E9%93%BE%E8%B7%AF"><span class="nav-text">LLM 训练链路</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E9%9B%86%E4%B8%8E%E5%A5%96%E5%8A%B1%E5%87%BD%E6%95%B0"><span class="nav-text">数据集与奖励函数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A5%96%E5%8A%B1%E5%87%BD%E6%95%B0%E8%AE%BE%E8%AE%A1"><span class="nav-text">奖励函数设计</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SFT-%E4%B8%8E-LoRA"><span class="nav-text">SFT 与 LoRA</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GRPO-%E8%AE%AD%E7%BB%83"><span class="nav-text">GRPO 训练</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%84%E4%BC%B0%E4%B8%8E%E9%94%99%E8%AF%AF%E5%88%86%E6%9E%90"><span class="nav-text">评估与错误分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%8C%E6%95%B4%E8%AE%AD%E7%BB%83%E6%B5%81%E7%A8%8B"><span class="nav-text">完整训练流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%BE%E5%90%8E%E4%B9%A0%E9%A2%98%E8%A7%A3%E6%9E%90-3"><span class="nav-text">课后习题解析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#SFT-%E4%B8%8E-RL-%E7%9A%84%E5%85%B3%E7%B3%BB"><span class="nav-text">SFT 与 RL 的关系</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A5%96%E5%8A%B1%E5%87%BD%E6%95%B0%E7%9A%84%E9%A3%8E%E9%99%A9"><span class="nav-text">奖励函数的风险</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E5%8D%81%E4%BA%8C%E7%AB%A0-%E6%99%BA%E8%83%BD%E4%BD%93%E6%80%A7%E8%83%BD%E8%AF%84%E4%BC%B0"><span class="nav-text">第十二章 - 智能体性能评估</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%84%E4%BC%B0%E4%BD%93%E7%B3%BB%E7%9A%84%E5%9F%BA%E6%9C%AC%E9%97%AE%E9%A2%98"><span class="nav-text">评估体系的基本问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#BFCL%EF%BC%9A%E5%B7%A5%E5%85%B7%E8%B0%83%E7%94%A8%E8%83%BD%E5%8A%9B%E8%AF%84%E4%BC%B0"><span class="nav-text">BFCL：工具调用能力评估</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#BFCL-%E7%9A%84%E8%AF%84%E4%BB%B7%E9%87%8D%E7%82%B9"><span class="nav-text">BFCL 的评价重点</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GAIA%EF%BC%9A%E9%80%9A%E7%94%A8%E5%8A%A9%E6%89%8B%E8%83%BD%E5%8A%9B%E8%AF%84%E4%BC%B0"><span class="nav-text">GAIA：通用助手能力评估</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#GAIA-%E7%9A%84%E9%9A%BE%E7%82%B9"><span class="nav-text">GAIA 的难点</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E7%94%9F%E6%88%90%E8%B4%A8%E9%87%8F%E8%AF%84%E4%BC%B0"><span class="nav-text">数据生成质量评估</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#LLM-Judge"><span class="nav-text">LLM Judge</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Win-Rate"><span class="nav-text">Win Rate</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BA%BA%E5%B7%A5%E9%AA%8C%E8%AF%81"><span class="nav-text">人工验证</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%84%E4%BC%B0%E6%8A%A5%E5%91%8A%E4%B8%8E%E8%BF%AD%E4%BB%A3"><span class="nav-text">评估报告与迭代</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%BE%E5%90%8E%E4%B9%A0%E9%A2%98%E8%A7%A3%E6%9E%90-4"><span class="nav-text">课后习题解析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E5%88%86%E5%B1%82%E8%AF%84%E4%BC%B0"><span class="nav-text">为什么要分层评估</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AF%84%E4%BC%B0%E6%B1%A1%E6%9F%93%E4%B8%8E%E5%8F%AF%E5%A4%8D%E7%8E%B0%E6%80%A7"><span class="nav-text">评估污染与可复现性</span></a></li></ol></li></ol></li></ol>
+    </div>
+</div>
+
+            </div>
+        </div>
+    
+</main>
+
+
+
+<!-- common -->
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/toggle-theme.js"></script>
+
+<script src="/js/code-block.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+
+<!-- local-search -->
+
+    
+<script src="/js/local-search.js"></script>
+
+
+
+<!-- lazyload -->
+
+    
+<script src="/js/lazyload.js"></script>
+
+
+
+<div class="pjax">
+    
+        <!-- post-helper -->
+        
+<script src="/js/post/post-helper.js"></script>
+
+
+        <!-- toc -->
+        
+            
+<script src="/js/post/toc.js"></script>
+
+        
+
+        <!-- copyright-info -->
+        
+            
+<script src="/js/post/copyright-info.js"></script>
+
+        
+
+        <!-- share -->
+        
+            
+<script src="/js/post/share.js"></script>
+
+        
+    
+
+    <!-- category-page -->
+    
+
+    <!-- links-page -->
+    
+
+    <!-- photos-page -->
+    
+</div>
+
+<!-- mermaid -->
+
+
+<!-- pjax -->
+
+    
+<script src="/js/libs/pjax.min.js"></script>
+
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        window.pjax = new Pjax({
+            selectors: [
+                'head title',
+                '.page-container',
+                '.pjax',
+                '#aplayer',
+                '#canvas_sakura'
+            ],
+            history: true,
+            debug: false,
+            cacheBust: false,
+            timeout: 0,
+            analytics: false,
+            currentUrlFullReload: false,
+            scrollRestoration: false,
+        });
+
+        document.addEventListener('pjax:send', () => {
+            KEEP.utils.pjaxProgressBarStart()
+        });
+
+        document.addEventListener('pjax:complete', () => {
+            KEEP.utils.pjaxProgressBarEnd()
+            window.pjax.executeScripts(document.querySelectorAll('script[data-pjax], .pjax script'))
+            KEEP.initExecute()
+        });
+    });
+</script>
+
+
+
+
+    
+        
+            
+<script class="custom-inject-js" src="/js/APlayer.min.js" data-pjax></script>
+
+        
+    
+        
+            
+<script class="custom-inject-js" src="/js/Meting.min.js" data-pjax></script>
+
+        
+    
+        
+            
+<script class="custom-inject-js" src="/js/leaves.js" data-pjax></script>
+
+        
+    
+
+
+
+</body>
+</html>
