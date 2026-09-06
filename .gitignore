@@ -8,6 +8,7 @@
 /.deploy_git/
 /.idea/
 /scaffolds/
+/docs/
 
 /source/_posts/opengl笔记.md
 /source/_posts/Vuejs笔记.md
