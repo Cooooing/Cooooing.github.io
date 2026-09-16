@@ -120,14 +120,6 @@ deploy:
   name: cooooing
   email: 75006169+Cooooing@users.noreply.github.com
 
-# Search
-## See: https://github.com/theme-next/hexo-generator-searchdb
-search:
-  path: search.json
-  field: post
-  content: true
-  format: striptags
-
 # Feed Atom
 # npm install hexo-generator-feed
 feed:
