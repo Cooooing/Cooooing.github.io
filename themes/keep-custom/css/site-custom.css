@@ -17,6 +17,16 @@ figure.highlight * {
   font-family: 'JetBrains Mono Variable', 'JetBrains Mono', Consolas, Menlo, monospace;
 }
 
+/* Keep uses z-index values above APlayer's legacy default of 99. */
+#aplayer .aplayer.aplayer-fixed,
+#aplayer .aplayer.aplayer-fixed .aplayer-body {
+  z-index: 1100;
+}
+
+#aplayer .aplayer.aplayer-fixed .aplayer-lrc {
+  z-index: 1099;
+}
+
 a {
   cursor: url(https://cdn.jsdelivr.net/gh/kaix2301/pictures/img202201071205091.cur), auto !important;
 }

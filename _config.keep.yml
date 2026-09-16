@@ -102,8 +102,6 @@ inject:
     - /css/APlayer.min.css
     - /css/site-custom.css
   js:
-    - /js/APlayer.min.js
-    - /js/Meting.min.js
     - /js/leaves.js
     - /js/lifeTime.js
     - /js/site-custom.js

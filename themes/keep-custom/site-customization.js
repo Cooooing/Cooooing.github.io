@@ -43,14 +43,19 @@ const HEAD_SNIPPET = `
   <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token":"281999cc46a948d3b8199c1eb621f11e"}'></script>
 `;
 
+const PLAYER_SNIPPET = `
+  <div id="aplayer">
+    <meting-js server="netease" type="playlist" id="7345595717" api="https://api.injahow.cn/meting/?server=:server&type=:type&id=:id&r=:r" fixed="true" mini="true" autoplay="false" listFolded="true" order="random" preload="none"></meting-js>
+  </div>
+  <script src="/js/APlayer.min.js"></script>
+  <script src="/js/Meting.min.js"></script>
+`;
+
 const FOOTER_SNIPPET = `
   <div class="site-runtime" style="color:var(--text-color-4);">
     <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>(～￣▽￣)～
   </div>
   <a class="site-moe-icp" href="https://icp.gov.moe/?keyword=20222450" target="_blank" rel="noopener">萌ICP备20222450号</a>
-  <div id="aplayer">
-    <meting-js server="netease" type="playlist" id="7345595717" listFolded="true" order="random" preload="none"></meting-js>
-  </div>
 `;
 
 hexo.extend.filter.register('after_render:html', function (html, data) {
@@ -65,6 +70,9 @@ hexo.extend.filter.register('after_render:html', function (html, data) {
   }
   if (!result.includes('class="site-runtime"')) {
     result = result.replace('</footer>', `${FOOTER_SNIPPET}</footer>`);
+  }
+  if (!result.includes('id="aplayer"')) {
+    result = result.replace('</body>', `${PLAYER_SNIPPET}</body>`);
   }
   return result;
 });
