@@ -1,0 +1,105 @@
+# Site-specific Keep settings. This file is merged over the npm-managed theme.
+base_info:
+  primary_color: "#0066cc"
+  title: 咕咕咕的小破站
+  author: 咕咕咕
+  avatar: https://avatars.githubusercontent.com/u/75006169?v=4
+  logo: https://avatars.githubusercontent.com/u/75006169?v=4
+  favicon: /images/favicon.png
+
+menu:
+  home: /
+  archives: /archives
+  categories: /categories
+  tags: /tags
+  日常: /daily
+  links: /links
+  about: /about
+
+home:
+  category: true
+  tag: true
+
+post:
+  author_badge:
+    enable: true
+    level_badge: false
+    # A string overrides Keep's default array during Hexo's deep merge.
+    custom_badge: fishing
+  word_count:
+    wordcount: true
+    min2read: true
+  datetime_format: "YYYY-MM-DD HH:mm:ss"
+  copyright_info: true
+  share: true
+  reward:
+    enable: true
+    img_link: /images/thanks.png
+    text: 谢谢你请我喝可乐~
+
+mathjax:
+  tags: all
+  single_dollars: true
+  cjk_width: 0.9
+  normal_width: 0.6
+  append_css: true
+  every_page: false
+
+code_block:
+  tools:
+    enable: true
+    style: default
+  highlight_theme: default
+
+toc:
+  enable: true
+  number: false
+  expand_all: true
+  init_open: true
+  layout: left
+
+website_count:
+  busuanzi_count:
+    enable: true
+    site_uv: true
+    site_pv: true
+    page_pv: true
+
+local_search:
+  enable: true
+  preload: true
+
+comment:
+  enable: true
+  use: giscus
+  giscus:
+    repo: Cooooing/Cooooing.github.io
+    repo_id: R_kgDOHQal_w
+    category: Announcements
+    category_id: DIC_kwDOHQal_84CjZo6
+    reactions_enabled: true
+
+rss:
+  enable: true
+
+lazyload:
+  enable: true
+
+pjax:
+  enable: true
+
+footer:
+  since: 2022
+  word_count: true
+
+inject:
+  enable: true
+  css:
+    - /css/APlayer.min.css
+    - /css/site-custom.css
+  js:
+    - /js/APlayer.min.js
+    - /js/Meting.min.js
+    - /js/leaves.js
+    - /js/lifeTime.js
+    - /js/site-custom.js

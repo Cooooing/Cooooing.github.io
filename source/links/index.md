@@ -2,7 +2,7 @@
 layout: post
 title: links
 date: 2022-04-27 22:06:17
-type: "links"
+template: links
 ---
 
 以下是我的信息
