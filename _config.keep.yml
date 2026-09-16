@@ -85,6 +85,10 @@ rss:
 lazyload:
   enable: true
 
+cdn:
+  enable: true
+  provider: jsdelivr
+
 pjax:
   enable: true
 
