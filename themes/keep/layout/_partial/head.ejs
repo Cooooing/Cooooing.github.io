@@ -4,6 +4,9 @@
     <meta name="keywords" content="<%= page?.keywords || config?.keywords || '技术博客,后端开发,编程笔记,生活' %>">
     <meta name="description" content="<%= page?.description || config?.description || 'Code | Systems | Life — 专注编程本质，也关心世界如何运转。' %>">
     <meta name="author" content="<%= theme?.base_info?.author || config?.author || '咕咕咕' %>">
+    <% if (is_tag()) { %>
+        <meta name="robots" content="noindex,follow">
+    <% } %>
 
     <%
     let title = page.title;

@@ -102,6 +102,15 @@ ignore:
 ## Themes: https://hexo.io/themes/
 theme: keep
 
+# Sitemap
+# Keep the sitemap focused on posts, standalone pages, and useful category pages.
+# Tag archives remain reachable on the site but are not submitted for indexing.
+sitemap:
+  path: sitemap.xml
+  rel: true
+  tags: false
+  categories: true
+
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
