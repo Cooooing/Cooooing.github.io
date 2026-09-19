@@ -1,0 +1,80 @@
+@import url('https://cdn.jsdelivr.net/npm/@chinese-fonts/lxgwwenkai@3.0.0/dist/LXGWWenKai-Light/result.css');
+@import url('https://cdn.jsdelivr.net/npm/@fontsource-variable/jetbrains-mono@5.2.6/index.css');
+
+:root {
+  --base-font-family: 'LXGW WenKai Light', 'LXGW WenKai', 'Microsoft YaHei', sans-serif;
+}
+
+body {
+  font-family: var(--base-font-family);
+  cursor: url(https://cdn.jsdelivr.net/gh/kaix2301/pictures/img202201071208706.cur), auto;
+}
+
+code,
+pre,
+figure.highlight,
+figure.highlight * {
+  font-family: 'JetBrains Mono Variable', 'JetBrains Mono', Consolas, Menlo, monospace;
+}
+
+/* Keep uses z-index values above APlayer's legacy default of 99. */
+#aplayer .aplayer.aplayer-fixed,
+#aplayer .aplayer.aplayer-fixed .aplayer-body {
+  z-index: 1100;
+}
+
+#aplayer .aplayer.aplayer-fixed .aplayer-lrc {
+  z-index: 1099;
+}
+
+a {
+  cursor: url(https://cdn.jsdelivr.net/gh/kaix2301/pictures/img202201071205091.cur), auto !important;
+}
+
+/* Preserve the site's translucent card and gradient treatment over Keep defaults. */
+.header-wrapper,
+.keep-tabs,
+.home-content-container {
+  background: rgba(255, 255, 255, 0) !important;
+}
+
+.tagcloud-container,
+.archives-container,
+.category-page-container,
+.tag-page-container,
+.category-container,
+.category-list-container,
+.page-template-container,
+.tag-container,
+.post-content-container,
+.post-content-container .post-content-bottom,
+.home-content-container .website-announcement,
+.home-content-container .home-post-item {
+  background: rgba(255, 255, 255, 0.1) !important;
+}
+
+.page-main-content {
+  background: linear-gradient(
+    90deg,
+    rgba(247, 149, 51, 0.1) 0%,
+    rgba(243, 112, 85, 0.1) 15%,
+    rgba(239, 78, 123, 0.1) 30%,
+    rgba(161, 102, 171, 0.1) 44%,
+    rgba(80, 115, 184, 0.1) 58%,
+    rgba(16, 152, 173, 0.1) 72%,
+    rgba(7, 179, 155, 0.1) 86%,
+    rgba(109, 186, 130, 0.1) 100%
+  );
+}
+
+/* The previous theme copy disabled both code folding and automatic shrinking. */
+.code-tools-box .fold,
+figure.highlight .shrink-line {
+  display: none !important;
+}
+
+.post-content figure.highlight {
+  height: auto !important;
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
+}
