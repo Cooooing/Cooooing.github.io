@@ -48,6 +48,8 @@ a {
 .tag-container,
 .post-content-container,
 .post-content-container .post-content-bottom,
+.post-content-container .post-nav .prev-post,
+.post-content-container .post-nav .next-post,
 .home-content-container .website-announcement,
 .home-content-container .home-post-item {
   background: rgba(255, 255, 255, 0.1) !important;
