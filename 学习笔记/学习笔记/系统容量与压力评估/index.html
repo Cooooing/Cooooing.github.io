@@ -1,0 +1,1583 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="咕咕咕">
+    
+    <title>
+        
+            系统容量与压力评估：指标、计算与观测 |
+        
+        咕咕咕的小破站
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+        <link rel="shortcut icon" href="/images/favicon.png">
+    
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hexo-theme-keep@4.3.0/source/font/css/fontawesome.min.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hexo-theme-keep@4.3.0/source/font/css/regular.min.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hexo-theme-keep@4.3.0/source/font/css/solid.min.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hexo-theme-keep@4.3.0/source/font/css/brands.min.css">
+    
+        
+            
+        
+            
+                
+<link rel="stylesheet" href="/css/APlayer.min.css">
+
+            
+        
+            
+                
+<link rel="stylesheet" href="/css/site-custom.css">
+
+            
+        
+    
+    <script>
+        (function () {
+            let theme = localStorage.getItem('KEEP-THEME-STATUS');
+            let classname = "";
+            if (!theme || (JSON.parse(theme).isAutoTheme)){
+                classname = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? "dark-mode" : "light-mode";
+            }
+            else{
+                classname = JSON.parse(theme).isDark ? "dark-mode" : "light-mode";
+            }
+            document.documentElement.classList.add(classname);
+        })();
+    </script>
+    <script class="keep-theme-configurations">
+    const KEEP = window.KEEP || {}
+    KEEP.hexo_config = {"hostname":"cooooing.github.io","root":"/","language":"zh-CN"}
+    KEEP.theme_config = {"base_info":{"primary_color":"#0066cc","title":"咕咕咕的小破站","author":"咕咕咕","avatar":"https://avatars.githubusercontent.com/u/75006169?v=4","logo":"https://avatars.githubusercontent.com/u/75006169?v=4","favicon":"/images/favicon.png"},"menu":{"home":"/","archives":"/archives","categories":"/categories","tags":"/tags","日常":"/daily","links":"/links","about":"/about"},"first_screen":{"enable":false,"background_img":"/images/bg.svg","background_img_dark":"/images/bg.svg","description":"Keep writing and Keep loving.","hitokoto":false},"social_contact":{"enable":false,"links":{"github":null,"weixin":null,"qq":null,"weibo":null,"zhihu":null,"twitter":null,"x":null,"facebook":null,"email":null}},"scroll":{"progress_bar":false,"percent":false,"hide_header":true},"home":{"announcement":null,"category":true,"tag":true,"post_datetime":"updated"},"post":{"author_badge":{"enable":true,"level_badge":false,"custom_badge":"fishing"},"word_count":{"wordcount":true,"min2read":true},"datetime_format":"YYYY-MM-DD HH:mm:ss","copyright_info":true,"share":true,"reward":{"enable":true,"img_link":"/images/thanks.png","text":"谢谢你请我喝可乐~","icon":null}},"code_block":{"tools":{"enable":true,"style":"default"},"highlight_theme":"default"},"toc":{"enable":true,"number":false,"expand_all":true,"init_open":true,"layout":"left"},"website_count":{"busuanzi_count":{"enable":true,"site_uv":true,"site_pv":true,"page_pv":true}},"local_search":{"enable":true,"preload":true},"comment":{"enable":true,"use":"giscus","valine":{"appid":null,"appkey":null,"server_urls":null,"placeholder":null},"gitalk":{"github_id":null,"github_admins":null,"repository":null,"client_id":null,"client_secret":null,"proxy":null},"twikoo":{"env_id":null,"region":null,"version":"1.6.39"},"waline":{"server_url":null,"reaction":false,"version":"3.3.2"},"giscus":{"repo":"Cooooing/Cooooing.github.io","repo_id":"R_kgDOHQal_w","category":"Announcements","category_id":"DIC_kwDOHQal_84CjZo6","reactions_enabled":true},"artalk":{"server":null},"disqus":{"shortname":null}},"rss":{"enable":true},"lazyload":{"enable":true},"cdn":{"enable":true,"provider":"jsdelivr","custom":{"enable":false,"url":null}},"pjax":{"enable":true},"footer":{"since":2022,"word_count":true,"site_deploy":{"enable":false,"provider":"github","url":null},"record":{"enable":false,"list":[{"code":null,"link":null}]}},"inject":{"enable":true,"css":[null,"/css/APlayer.min.css","/css/site-custom.css"],"js":[null,"/js/leaves.js","/js/lifeTime.js","/js/site-custom.js"]},"mathjax":{"tags":"all","single_dollars":true,"cjk_width":0.9,"normal_width":0.6,"append_css":true,"every_page":false},"root":"","search_db_path":"keep-search.json","source_data":{"links":[{"name":"鼠鼠在碎觉","link":"https://sszsj.com","avatar":"https://tmx.fishpi.cn/img/head.jpg","description":"我是不慎落入世界的一滴水墨"},{"name":"Gakkiyomi","link":"https://gakkiyomi.blog","avatar":"https://avatars.githubusercontent.com/u/41406557?v=4","description":"为往圣继绝学"},{"name":"Hancel's Blog","link":"https://my.hancel.org","avatar":"https://my.hancel.org/media/logo.jpg","description":"人生而自由，却无往不在枷锁之中。"},{"name":"Eastshann","link":"https://eastshann.github.io/","avatar":"https://avatars.githubusercontent.com/u/87764431?v=4","description":"冲和者，淡泊平和，谦冲守正"},{"name":"小于同学的异世界","link":"https://yby.zone","avatar":"https://yby-zone.obs.cn-east-3.myhuaweicloud.com/avatar.jpg","description":"为吾为枝，余地三尺，以己为棋，胜天半子。"},{"name":"Mlikiowa Home Village","link":"https://nanaeo.cn/","avatar":"https://q1.qlogo.cn/g?b=qq&nk=1627126029&s=100","description":"A litter Village With Mlikiowa"},{"name":"忘忧草","link":"https://owo.wyc.rest/","avatar":"https://owo.wyc.rest/img/%E4%B8%87%E5%8F%B6.jpg","description":"这只是一个小破站而已！"},{"name":"stillwarter","link":"https://stillwarter.github.io/","avatar":"https://file.fishpi.cn/2022/07/MOSHED2022621164630-1b1ec532.gif?imageView2/1/w/210/h/210/interlace/0/q/100","description":"光就是一切的意义"},{"name":"test12138","link":"http://你好.eu.org/","avatar":"https://file.fishpi.cn/2022/06/srchttpimgzcoolcncommunity0116405d84f975a801211d537707c9gifreferhttpimgzcool-0f2d09c9.gif?imageView2/1/w/48/h/48/interlace/0/q/100","description":"大丈夫生于天地之间，岂能郁郁久居人下。"},{"name":"呼呼呼","link":"https://bongbongbakudan.github.io/","avatar":"https://pwl.stackoverflow.wiki/2021/12/blob-28eb4b9f.png?imageView2/1/w/48/h/48/interlace/0/q/100","description":"去整点薯条"},{"name":"Plumbiu","link":"https://blog.plumbiu.top/","avatar":"https://avatars.githubusercontent.com/u/99574369?v=4","description":"这人很勤奋，啥都没留"},{"name":"hiRipple","link":"https://hiripple.com/","avatar":"https://avatars.githubusercontent.com/u/115361435?v=4","description":"超高校级的游戏玩家"},{"name":"零糖加辣（drda）","link":"https://drda-x.github.io/drda-blog/","avatar":"https://drda-x.github.io/drda-blog/avatar/avatar.webp","description":"奶茶少糖，喜欢吃辣"},{"name":"ncc的个人网站","link":"https://www.zqcnc.cn","avatar":"https://www.zqcnc.cn/favicon.ico","description":"keep trying!"},{"name":"Yui","link":"https://yuis.cc/","avatar":"https://file.fishpi.cn/storage/%E9%B1%BC%E6%8E%92%E4%BA%BA%E7%89%A9/yui.png","description":"世界那么大，等我赚钱一定去看看"},{"name":"XPoet","link":"https://xpoet.cn","description":"懒惰是程序员第一生产力","avatar":"https://xpoet.cn/images/avatar.png"}]},"version":"4.3.0"}
+    KEEP.language_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"}
+    KEEP.language_code_block = {"copy":"复制代码","copied":"已复制","fold":"折叠代码块","folded":"已折叠"}
+    KEEP.language_copy_copyright = {"copy":"复制版权信息","copied":"已复制","title":"原文标题","author":"原文作者","link":"原文链接"}
+  </script>
+<meta name="generator" content="Hexo 8.1.2"><style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style><link rel="alternate" href="/atom.xml" title="咕咕咕的小破站" type="application/atom+xml">
+
+  <!-- Site SEO and analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-CLX32WF4R1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments)}
+    gtag('js', new Date());
+    gtag('config', 'G-CLX32WF4R1');
+  </script>
+  <script>
+    (function(c,l,a,r,i,t,y){
+      c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+      t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+      y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window,document,"clarity","script","yj7nocwazf");
+  </script>
+  <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token":"281999cc46a948d3b8199c1eb621f11e"}'></script>
+</head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+        <span class="pjax-progress-bar"></span>
+        <i class="pjax-progress-icon fas fa-circle-notch fa-spin"></i>
+    
+</div>
+
+
+
+<main class="page-container border-box">
+    <!-- home first screen  -->
+    
+
+    <!-- page content -->
+    <div class="page-main-content border-box">
+        <div class="page-main-content-top">
+            
+<header class="header-wrapper">
+
+    <div class="border-box header-content">
+        <div class="left flex-start border-box">
+            
+                <a class="logo-image border-box" href="/">
+                    <img src="https://avatars.githubusercontent.com/u/75006169?v=4">
+                </a>
+            
+            <a class="site-name border-box" href="/">
+               咕咕咕的小破站
+            </a>
+        </div>
+
+        <div class="right border-box">
+            <div class="pc border-box">
+                <ul class="menu-list border-box">
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/">
+                                
+                                首页
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/archives">
+                                
+                                归档
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/categories">
+                                
+                                分类
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/tags">
+                                
+                                标签
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/daily">
+                                
+                                日常
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/links">
+                                
+                                友链
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/about">
+                                
+                                关于
+                                
+                            </a>
+                            
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="menu-text-color fas search fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile border-box flex-start">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list border-box">
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/">
+                            
+                            首页
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/archives">
+                            
+                            归档
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/categories">
+                            
+                            分类
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/tags">
+                            
+                            标签
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/daily">
+                            
+                            日常
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/links">
+                            
+                            友链
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/about">
+                            
+                            关于
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle border-box">
+
+            <div class="main-content border-box">
+                
+
+                    
+<div class="fade-in-down-animation">
+    <div class="post-page-container border-box">
+        <div class="post-content-container border-box">
+            
+
+            <div class="post-content-bottom border-box">
+                
+                    <div class="post-title">
+                        系统容量与压力评估：指标、计算与观测
+                    </div>
+                
+
+                
+                    <div class="post-header border-box">
+                        
+                            <div class="avatar-box border-box">
+                                <img src="https://avatars.githubusercontent.com/u/75006169?v=4">
+                            </div>
+                        
+                        <div class="info-box">
+                            <div class="author border-box">
+                                <span class="name">咕咕咕</span>
+                                
+                                    <span class="author-badge">fishing</span>
+                                
+                            </div>
+                            <div class="meta-info border-box">
+                                
+
+<div class="post-meta-info-container border-box post">
+    <div class="post-meta-info border-box">
+        
+
+        
+            <span class="meta-info-item post-create-date">
+                <i class="icon fa-solid fa-calendar-plus"></i>&nbsp;
+                <span class="datetime">2026-10-30 16:35:38</span>
+            </span>
+
+            
+                <span class="meta-info-item post-update-date">
+                    <i class="icon fa-solid fa-file-pen"></i>&nbsp;
+                    <span class="datetime" data-updated="Fri Oct 30 2026 08:35:38 GMT+0000">2026-10-30 16:35:38</span>
+                </span>
+            
+        
+
+        
+            <span class="meta-info-item post-category border-box"><i class="icon fas fa-folder"></i>&nbsp;
+                <ul class="post-category-ul">
+                    
+                            <li class="category-item"><a href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+            <span class="post-tag meta-info-item border-box">
+                <ul class="post-tag-ul">
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/Go/">Go</a></li>
+                        
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/%E7%B3%BB%E7%BB%9F%E6%80%A7%E8%83%BD/">系统性能</a></li>
+                        
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/%E5%AE%B9%E9%87%8F%E8%AF%84%E4%BC%B0/">容量评估</a></li>
+                        
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/%E5%8E%8B%E5%8A%9B%E6%B5%8B%E8%AF%95/">压力测试</a></li>
+                        
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/%E5%8F%AF%E8%A7%82%E6%B5%8B%E6%80%A7/">可观测性</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+        
+            <span class="meta-info-item post-wordcount">
+                <i class="icon fas fa-file-word"></i>&nbsp;<span>5.2k 字</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-min2read">
+                <i class="icon fas fa-clock"></i>&nbsp;<span>19 分钟</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-pv">
+                <i class="icon fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+            </span>
+        
+    </div>
+
+    
+</div>
+
+                            </div>
+                        </div>
+                    </div>
+                
+
+                <div class="post-content keep-markdown-body ">
+                    
+
+                    
+                         <h2 id="什么是系统可承受的压力"><a href="#什么是系统可承受的压力" class="headerlink" title="什么是系统可承受的压力"></a>什么是系统可承受的压力</h2><p>“系统能承受多少 QPS”不是一个可以脱离条件回答的问题。同一个接口在缓存命中和未命中、返回几十字节和返回数 MB 数据、读数据库和写数据库、单机和多实例部署时，能达到的吞吐量都不同。</p>
+<p>更准确的定义是：<strong>在给定的流量模型、数据规模、部署环境和服务目标下，系统能够持续处理请求，同时满足延迟、错误率与业务正确性要求的最大负载。</strong></p>
+<p>这里有四个不能省略的条件：</p>
+<ol>
+<li><strong>流量模型</strong>：请求速率是稳定的还是突发的；读写比例、请求体大小、热点分布分别是什么。</li>
+<li><strong>服务目标</strong>：例如“P99 延迟不高于 300 ms，5xx 错误率不高于 0.1%”。没有目标，无法判断某个负载下的表现是否合格。</li>
+<li><strong>持续时间</strong>：短时间跑到 10,000 QPS 不代表能够持续承载。内存泄漏、队列积压、连接池耗尽和磁盘写入常常需要更长时间才会暴露。</li>
+<li><strong>依赖边界</strong>：应用、数据库、缓存、消息队列和第三方服务共同决定容量。入口服务还有余量，不表示整条请求链路仍有余量。</li>
+</ol>
+<p>因此，容量结论应写成类似下面的形式：</p>
+<blockquote>
+<p>在 4 个相同应用实例、MySQL 读写分离、缓存命中率约 95%、商品详情读请求占 90% 的条件下，系统以 3,000 QPS 稳态运行 30 分钟时，P99 延迟为 180 ms，5xx 错误率低于 0.05%，数据库连接池等待时间未持续增长。</p>
+</blockquote>
+<p>这个结论可以复验，也明确了它不适用于哪些条件。</p>
+<h2 id="评估容量时需要看的指标"><a href="#评估容量时需要看的指标" class="headerlink" title="评估容量时需要看的指标"></a>评估容量时需要看的指标</h2><h3 id="吞吐量：单位时间完成了多少工作"><a href="#吞吐量：单位时间完成了多少工作" class="headerlink" title="吞吐量：单位时间完成了多少工作"></a>吞吐量：单位时间完成了多少工作</h3><p>吞吐量表示单位时间内系统完成的工作数量。常见单位如下：</p>
+<table>
+<thead>
+<tr>
+<th>指标</th>
+<th>含义</th>
+<th>适用对象</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>QPS / RPS</td>
+<td>每秒查询数 / 请求数</td>
+<td>HTTP、RPC、搜索接口</td>
+</tr>
+<tr>
+<td>TPS</td>
+<td>每秒完成的事务数</td>
+<td>支付、下单等有完整事务边界的业务</td>
+</tr>
+<tr>
+<td>消费速率</td>
+<td>每秒消费的消息数</td>
+<td>Kafka、RabbitMQ、任务队列</td>
+</tr>
+<tr>
+<td>写入速率</td>
+<td>每秒写入的记录、字节或事件数</td>
+<td>数据库、日志、时序库</td>
+</tr>
+<tr>
+<td>网络吞吐</td>
+<td>每秒传输的字节数</td>
+<td>网关、文件服务、流媒体服务</td>
+</tr>
+</tbody></table>
+<p>QPS 只计数请求，不说明请求是否成功，也不说明响应是否及时。例如入口收到 10,000 QPS，但其中 3,000 个请求超时，或者全部请求只是在队列中等待，都不能称为系统已经“承受住了 10,000 QPS”。因此吞吐量必须和错误率、延迟、积压一起观察。</p>
+<p>平均 QPS 的计算为：</p>
+<p><mjx-container class="MathJax" jax="SVG" overflow="overflow" display="true"><svg style="vertical-align: -2.059ex;" xmlns="http://www.w3.org/2000/svg" width="33.458ex" height="5.285ex" role="img" focusable="false" viewBox="0 -1426 14788.6 2336"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math" data-latex="
+\text{QPS} = \frac{\text{时间窗口内完成的请求数}}{\text{窗口时长（秒）}}
+"><g data-mml-node="mtext" data-latex="\text{QPS}"><path data-c="51" d="M705-118C720-79 727-42 727-8C727 9 722 17 712 17C704 17 699 10 697-4C693-49 659-84 611-84C574-84 544-54 521 7C584 36 633 81 668 142C703 203 721 268 721 338C721 436 690 521 629 592C564 667 484 705 388 705C292 705 212 667 148 592C87 521 56 436 56 338C56 241 87 157 149 87C213 13 293-24 389-24C419-24 449-19 480-10C487-53 494-87 501-111C516-156 547-194 603-194C652-194 686-169 705-118M305 66C305 54 308 40 315 25C284 38 254 64 225 101C184 153 163 232 163 338C163 459 190 547 243 602C288 649 337 672 388 672C441 672 490 648 535 600C588 545 614 457 614 338C614 203 577 107 503 50C475 119 437 153 390 153C342 153 305 114 305 66M335 66C335 98 358 123 390 123C432 123 459 92 472 30C446 16 418 9 389 9C356 9 335 36 335 66Z"></path><path data-c="50" d="M395 312C452 312 503 328 548 360C599 396 624 441 624 495C624 552 598 599 546 635C500 667 447 683 387 683L35 683L35 644L63 644C98 644 119 641 126 636C133 631 137 620 137 602L137 81C137 63 133 51 126 46C119 41 98 39 63 39L35 39L35 0C61 2 111 3 184 3C258 3 308 2 334 0L334 39L306 39C271 39 250 41 243 46C236 51 232 63 232 81L232 312M274 644L362 644C391 644 416 640 437 633C494 612 514 570 514 495C514 467 511 443 504 423C487 373 433 346 362 346L229 346L229 609C229 645 235 644 274 644Z" transform="translate(778,0)"></path><path data-c="53" d="M252 669C359 669 422 601 440 466C441 456 447 451 456 451C467 451 472 460 472 478L472 677C472 696 467 705 458 705C452 705 446 700 440 690L408 638C364 680 324 705 251 705C142 705 56 617 56 509C56 417 116 349 187 324L317 292C384 275 428 229 428 154C428 79 376 17 301 17C170 17 93 91 88 218C88 227 83 232 73 232C62 232 56 223 56 204L56 6C56-13 61-22 71-22C77-22 83-17 89-7L121 45C164 0 224-22 302-22C359-22 407-1 444 40C481 81 499 130 499 188C499 235 485 278 458 317C431 356 394 380 349 391L223 422C170 434 127 481 127 544C127 614 182 669 252 669Z" transform="translate(1459,0)"></path></g><g data-mml-node="mo" data-latex="=" transform="translate(2292.8,0)"><path data-c="3D" d="M698 367L80 367C64 367 56 359 56 344C56 329 64 321 80 321L698 321C714 321 722 329 722 344C722 356 711 367 698 367M698 179L80 179C64 179 56 171 56 156C56 141 64 133 80 133L698 133C714 133 722 141 722 156C722 169 711 179 698 179Z"></path></g><g data-mml-node="mfrac" data-latex="\frac{\text{时间窗口内完成的请求数}}{\text{窗口时长（秒）}}" transform="translate(3348.6,0)"><g data-mml-node="mtext" data-latex="\text{时间窗口内完成的请求数}" transform="translate(220,676)"><text data-variant="normal" transform="scale(1,-1)" font-size="884px" font-family="serif">时间窗口内完成的请求数</text></g><g data-mml-node="mtext" data-latex="\text{窗口时长（秒）}" transform="translate(2220,-710)"><text data-variant="normal" transform="scale(1,-1)" font-size="884px" font-family="serif">窗口时长（秒）</text></g><rect width="11200" height="60" x="120" y="220"></rect></g></g></g></svg></mjx-container></p>
+<p>例如 60 秒内完成 12,000 个请求，平均 QPS 为 200。窗口越大，曲线越平滑，但越容易掩盖尖峰；窗口越小，越容易发现瞬时波动，但噪声更大。监控中通常同时保留短窗口和长窗口的速率视图。</p>
+<h3 id="延迟：请求花了多长时间"><a href="#延迟：请求花了多长时间" class="headerlink" title="延迟：请求花了多长时间"></a>延迟：请求花了多长时间</h3><p>延迟必须使用分位数，而不能只看平均值。假设 100 个请求中 99 个耗时 10 ms，1 个耗时 10 s：平均值约为 110 ms，看上去尚可；但那一个请求的用户实际等待了 10 秒。</p>
+<table>
+<thead>
+<tr>
+<th>指标</th>
+<th>含义</th>
+<th>适合回答的问题</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>平均值（Average）</td>
+<td>总耗时除以请求数</td>
+<td>总体资源成本大致如何</td>
+</tr>
+<tr>
+<td>P50</td>
+<td>50% 请求不超过该耗时</td>
+<td>普通用户的典型体验</td>
+</tr>
+<tr>
+<td>P90 / P95</td>
+<td>90% / 95% 请求不超过该耗时</td>
+<td>较慢请求是否正在增加</td>
+</tr>
+<tr>
+<td>P99</td>
+<td>99% 请求不超过该耗时</td>
+<td>长尾延迟是否满足服务目标</td>
+</tr>
+<tr>
+<td>最大值</td>
+<td>窗口内最慢请求</td>
+<td>排查线索，不适合作为稳定 SLA</td>
+</tr>
+</tbody></table>
+<p>需要先明确测量位置。客户端总耗时、网关耗时、应用处理耗时、数据库执行耗时不是同一个指标。一个 HTTP 请求的总时间可以近似拆为：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">客户端排队 + 网络传输 + 网关排队 + 应用排队 + 应用处理</span><br><span class="line">          + 下游调用等待 + 下游处理 + 响应传输</span><br></pre></td></tr></table></figure>
+
+<p>应用只记录业务函数耗时，无法发现请求在连接池或工作队列中等待了多久；只看客户端耗时，又无法直接定位慢在何处。需要用指标和链路追踪将这些阶段区分开。</p>
+<h3 id="错误与正确性：请求是否得到正确结果"><a href="#错误与正确性：请求是否得到正确结果" class="headerlink" title="错误与正确性：请求是否得到正确结果"></a>错误与正确性：请求是否得到正确结果</h3><p>错误率通常按状态码、错误类型或业务结果分别统计：</p>
+<p><mjx-container class="MathJax" jax="SVG" overflow="overflow" display="true"><svg style="vertical-align: -2.059ex;" xmlns="http://www.w3.org/2000/svg" width="28.271ex" height="5.285ex" role="img" focusable="false" viewBox="0 -1426 12496 2336"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math" data-latex="
+\text{错误率} = \frac{\text{失败请求数}}{\text{总请求数}} \times 100%
+"><g data-mml-node="mtext" data-latex="\text{错误率}"><text data-variant="normal" transform="scale(1,-1)" font-size="884px" font-family="serif">错误率</text></g><g data-mml-node="mo" data-latex="=" transform="translate(3277.8,0)"><path data-c="3D" d="M698 367L80 367C64 367 56 359 56 344C56 329 64 321 80 321L698 321C714 321 722 329 722 344C722 356 711 367 698 367M698 179L80 179C64 179 56 171 56 156C56 141 64 133 80 133L698 133C714 133 722 141 722 156C722 169 711 179 698 179Z"></path></g><g data-mml-node="mfrac" data-latex="\frac{\text{失败请求数}}{\text{总请求数}}" transform="translate(4333.6,0)"><g data-mml-node="mtext" data-latex="\text{失败请求数}" transform="translate(220,676)"><text data-variant="normal" transform="scale(1,-1)" font-size="884px" font-family="serif">失败请求数</text></g><g data-mml-node="mtext" data-latex="\text{总请求数}" transform="translate(720,-710)"><text data-variant="normal" transform="scale(1,-1)" font-size="884px" font-family="serif">总请求数</text></g><rect width="5200" height="60" x="120" y="220"></rect></g><g data-mml-node="mo" data-latex="\times" transform="translate(9995.8,0)"><path data-c="D7" d="M630 32C630 39 628 44 623 49L422 250L623 451C628 456 630 461 630 468C630 481 620 491 607 491C600 491 595 489 590 484L389 283L188 484C183 489 178 491 171 491C158 491 148 481 148 468C148 461 150 456 155 451L356 250L155 49C150 44 148 39 148 32C148 19 158 9 171 9C178 9 183 11 188 16L389 217L590 16C595 11 600 9 607 9C620 9 630 19 630 32Z"></path></g><g data-mml-node="mn" data-latex="%" transform="translate(10996,0)"><path data-c="31" d="M269 666C228 624 168 603 89 603L89 564C141 564 184 572 217 588L217 82C217 64 213 52 204 47C195 42 170 39 130 39L95 39L95 0C120 2 174 3 257 3C340 3 394 2 419 0L419 39L384 39C343 39 318 42 310 47C302 52 297 64 297 82L297 636C297 660 295 666 269 666Z"></path><path data-c="30" d="M249-22C390-22 460 92 460 320C460 473 428 575 365 625C330 652 291 666 250 666C109 666 39 551 39 320C39 136 88-22 249-22M361 524C368 489 371 425 371 332C371 240 367 172 360 128C347 48 310 8 249 8C226 8 203 17 182 34C155 57 139 104 132 176C129 201 128 253 128 332C128 419 131 480 136 513C145 568 163 603 191 618C213 630 232 636 249 636C314 636 350 583 361 524Z" transform="translate(500,0)"></path><path data-c="30" d="M249-22C390-22 460 92 460 320C460 473 428 575 365 625C330 652 291 666 250 666C109 666 39 551 39 320C39 136 88-22 249-22M361 524C368 489 371 425 371 332C371 240 367 172 360 128C347 48 310 8 249 8C226 8 203 17 182 34C155 57 139 104 132 176C129 201 128 253 128 332C128 419 131 480 136 513C145 568 163 603 191 618C213 630 232 636 249 636C314 636 350 583 361 524Z" transform="translate(1000,0)"></path></g></g></g></svg></mjx-container></p>
+<p>至少应区分：</p>
+<ul>
+<li>4xx：参数、鉴权、限流等客户端或策略问题；</li>
+<li>5xx：服务端处理失败；</li>
+<li>超时：调用方在期限内没有收到结果；</li>
+<li>取消：客户端主动中断，或上游 context 被取消；</li>
+<li>业务失败：例如库存不足、状态不允许流转。这不一定是系统故障，但可能是业务流量变化的重要信号；</li>
+<li>重试：应单独计数。重试会增加实际进入系统的请求量，不能混入正常业务吞吐。</li>
+</ul>
+<p>“返回 200”也不必然代表业务正确。例如异步任务已入队但消费者持续积压、数据库主从复制延迟导致读到旧数据，都可能让 HTTP 请求成功而业务目标尚未完成。对关键流程还应观测最终状态、补偿次数和一致性校验结果。</p>
+<h3 id="并发、排队与饱和度：系统是否开始堆积"><a href="#并发、排队与饱和度：系统是否开始堆积" class="headerlink" title="并发、排队与饱和度：系统是否开始堆积"></a>并发、排队与饱和度：系统是否开始堆积</h3><p>并发数是某一时刻正在处理或等待处理的请求数。它与连接数、goroutine 数、线程数不同：一个请求可能占用连接但未执行，也可能在队列中等待而尚未获得工作线程。</p>
+<p>饱和度描述资源或队列是否接近极限。常见信号包括：</p>
+<table>
+<thead>
+<tr>
+<th>位置</th>
+<th>需要观测的饱和信号</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>CPU</td>
+<td>使用率持续接近可用核数；运行队列变长</td>
+</tr>
+<tr>
+<td>内存</td>
+<td>堆持续增长、频繁 GC、接近容器内存限制、发生 OOM</td>
+</tr>
+<tr>
+<td>连接池</td>
+<td>已用连接接近上限、等待连接的请求数和等待时间增长</td>
+</tr>
+<tr>
+<td>工作池</td>
+<td>活跃 worker 达上限、任务队列长度持续增长</td>
+</tr>
+<tr>
+<td>消息队列</td>
+<td>producer 速率持续高于 consumer 速率、consumer lag 增长</td>
+</tr>
+<tr>
+<td>数据库</td>
+<td>慢查询增加、锁等待增加、活跃连接满、磁盘 I/O 等待升高</td>
+</tr>
+<tr>
+<td>网络</td>
+<td>带宽接近上限、重传增加、连接建连失败增加</td>
+</tr>
+</tbody></table>
+<p>队列长度只在持续增长时才说明系统处理能力低于到达速率。短暂尖峰后队列回落，属于缓冲吸收流量；队列持续上升则意味着延迟会不断恶化，最终表现为超时、拒绝或内存耗尽。</p>
+<h2 id="指标之间如何互相约束"><a href="#指标之间如何互相约束" class="headerlink" title="指标之间如何互相约束"></a>指标之间如何互相约束</h2><h3 id="Little-定律：并发、吞吐量和延迟"><a href="#Little-定律：并发、吞吐量和延迟" class="headerlink" title="Little 定律：并发、吞吐量和延迟"></a>Little 定律：并发、吞吐量和延迟</h3><p>在稳定系统中，Little 定律给出平均在系统中的请求数、到达速率与平均停留时间的关系：</p>
+<p><mjx-container class="MathJax" jax="SVG" overflow="overflow" display="true"><svg style="vertical-align: -0.05ex;" xmlns="http://www.w3.org/2000/svg" width="8.248ex" height="1.62ex" role="img" focusable="false" viewBox="0 -694 3645.6 716"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math" data-latex="
+L = \lambda W
+"><g data-mml-node="mi" data-latex="L"><path data-c="1D43F" d="M520 667C520 678 513 683 500 683L354 680L223 683C208 684 200 676 200 659C200 652 203 647 209 646C218 645 226 644 231 644C262 643 279 641 284 640C289 639 292 636 292 631C292 629 291 623 288 613L156 82C150 60 140 47 125 42C119 40 101 39 70 39C49 39 39 31 39 15C39 5 49 0 70 0L527 0C552 0 554 0 561 19L639 233C642 240 643 245 643 248C643 258 638 263 627 263C617 263 612 254 607 240C588 191 570 154 555 131C518 75 455 39 363 39L270 39C259 39 252 39 249 40C242 40 239 42 239 45C239 47 241 54 244 67L377 601C383 624 396 637 415 642C421 643 442 644 478 644C506 644 520 644 520 667Z"></path></g><g data-mml-node="mo" data-latex="=" transform="translate(958.8,0)"><path data-c="3D" d="M698 367L80 367C64 367 56 359 56 344C56 329 64 321 80 321L698 321C714 321 722 329 722 344C722 356 711 367 698 367M698 179L80 179C64 179 56 171 56 156C56 141 64 133 80 133L698 133C714 133 722 141 722 156C722 169 711 179 698 179Z"></path></g><g data-mml-node="mi" data-latex="\lambda" transform="translate(2014.6,0)"><path data-c="1D706" d="M86-13C97-13 109-6 122 9L355 285C390 189 416 117 433 68C444 37 451 19 456 12C467-3 486-11 512-11L533-11C543-10 548-6 548 3C548 5 546 9 542 14C535 21 528 36 520 59L319 621C302 670 261 694 196 694C181 694 174 689 174 679C174 672 180 667 191 664C205 660 214 655 219 649C226 641 236 621 247 589L342 322L72 53C59 40 53 29 53 20C53 2 68-13 86-13Z"></path></g><g data-mml-node="mi" data-latex="W" transform="translate(2597.6,0)"><path data-c="1D44A" d="M956 680C937 680 872 683 853 683C838 683 830 675 830 660C830 650 836 645 848 644C885 643 903 632 903 610C903 604 899 594 891 579L629 125L594 602C590 638 614 644 659 644C680 644 690 652 690 668C690 678 684 683 671 683C649 683 572 680 550 680C531 680 465 683 446 683C431 683 423 675 423 659C423 649 432 644 451 644C482 644 498 637 499 623L505 548L261 125L225 613C222 638 264 644 296 644C313 644 321 652 321 668C321 678 315 683 303 683C281 683 203 680 181 680C162 680 96 683 77 683C62 683 55 675 55 660C55 649 65 644 84 644C126 644 130 642 132 612L177 7C178-12 185-22 197-22C210-20 215-17 223-2C224-1 224 0 224 1L509 494L545 7C546-12 553-22 565-22C575-22 584-15 592-1L918 562C945 611 964 639 1025 644C1043 646 1048 651 1048 668C1048 678 1043 683 1032 683C1018 683 970 680 956 680Z"></path></g></g></g></svg></mjx-container></p>
+<ul>
+<li><mjx-container class="MathJax" jax="SVG" overflow="overflow"><svg style="vertical-align: 0;" xmlns="http://www.w3.org/2000/svg" width="1.541ex" height="1.548ex" role="img" focusable="false" viewBox="0 -684 681 684"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math" data-latex="L"><g data-mml-node="mi" data-latex="L"><path data-c="1D43F" d="M520 667C520 678 513 683 500 683L354 680L223 683C208 684 200 676 200 659C200 652 203 647 209 646C218 645 226 644 231 644C262 643 279 641 284 640C289 639 292 636 292 631C292 629 291 623 288 613L156 82C150 60 140 47 125 42C119 40 101 39 70 39C49 39 39 31 39 15C39 5 49 0 70 0L527 0C552 0 554 0 561 19L639 233C642 240 643 245 643 248C643 258 638 263 627 263C617 263 612 254 607 240C588 191 570 154 555 131C518 75 455 39 363 39L270 39C259 39 252 39 249 40C242 40 239 42 239 45C239 47 241 54 244 67L377 601C383 624 396 637 415 642C421 643 442 644 478 644C506 644 520 644 520 667Z"></path></g></g></g></svg></mjx-container>：系统中的平均请求数，也可近似理解为平均并发；</li>
+<li><mjx-container class="MathJax" jax="SVG" overflow="overflow"><svg style="vertical-align: -0.029ex;" xmlns="http://www.w3.org/2000/svg" width="1.319ex" height="1.6ex" role="img" focusable="false" viewBox="0 -694 583 707"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math" data-latex="\lambda"><g data-mml-node="mi" data-latex="\lambda"><path data-c="1D706" d="M86-13C97-13 109-6 122 9L355 285C390 189 416 117 433 68C444 37 451 19 456 12C467-3 486-11 512-11L533-11C543-10 548-6 548 3C548 5 546 9 542 14C535 21 528 36 520 59L319 621C302 670 261 694 196 694C181 694 174 689 174 679C174 672 180 667 191 664C205 660 214 655 219 649C226 641 236 621 247 589L342 322L72 53C59 40 53 29 53 20C53 2 68-13 86-13Z"></path></g></g></g></svg></mjx-container>：平均到达速率，例如 QPS；</li>
+<li><mjx-container class="MathJax" jax="SVG" overflow="overflow"><svg style="vertical-align: -0.05ex;" xmlns="http://www.w3.org/2000/svg" width="2.371ex" height="1.595ex" role="img" focusable="false" viewBox="0 -683 1048 705"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math" data-latex="W"><g data-mml-node="mi" data-latex="W"><path data-c="1D44A" d="M956 680C937 680 872 683 853 683C838 683 830 675 830 660C830 650 836 645 848 644C885 643 903 632 903 610C903 604 899 594 891 579L629 125L594 602C590 638 614 644 659 644C680 644 690 652 690 668C690 678 684 683 671 683C649 683 572 680 550 680C531 680 465 683 446 683C431 683 423 675 423 659C423 649 432 644 451 644C482 644 498 637 499 623L505 548L261 125L225 613C222 638 264 644 296 644C313 644 321 652 321 668C321 678 315 683 303 683C281 683 203 680 181 680C162 680 96 683 77 683C62 683 55 675 55 660C55 649 65 644 84 644C126 644 130 642 132 612L177 7C178-12 185-22 197-22C210-20 215-17 223-2C224-1 224 0 224 1L509 494L545 7C546-12 553-22 565-22C575-22 584-15 592-1L918 562C945 611 964 639 1025 644C1043 646 1048 651 1048 668C1048 678 1043 683 1032 683C1018 683 970 680 956 680Z"></path></g></g></g></svg></mjx-container>：请求从进入系统到离开系统的平均时间。</li>
+</ul>
+<p>假设接口稳定处理 500 QPS，端到端平均耗时为 200 ms（0.2 秒），则平均有：</p>
+<p><mjx-container class="MathJax" jax="SVG" overflow="overflow" display="true"><svg style="vertical-align: -0.05ex;" xmlns="http://www.w3.org/2000/svg" width="20.019ex" height="1.597ex" role="img" focusable="false" viewBox="0 -684 8848.6 706"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math" data-latex="
+L = 500 \times 0.2 = 100
+"><g data-mml-node="mi" data-latex="L"><path data-c="1D43F" d="M520 667C520 678 513 683 500 683L354 680L223 683C208 684 200 676 200 659C200 652 203 647 209 646C218 645 226 644 231 644C262 643 279 641 284 640C289 639 292 636 292 631C292 629 291 623 288 613L156 82C150 60 140 47 125 42C119 40 101 39 70 39C49 39 39 31 39 15C39 5 49 0 70 0L527 0C552 0 554 0 561 19L639 233C642 240 643 245 643 248C643 258 638 263 627 263C617 263 612 254 607 240C588 191 570 154 555 131C518 75 455 39 363 39L270 39C259 39 252 39 249 40C242 40 239 42 239 45C239 47 241 54 244 67L377 601C383 624 396 637 415 642C421 643 442 644 478 644C506 644 520 644 520 667Z"></path></g><g data-mml-node="mo" data-latex="=" transform="translate(958.8,0)"><path data-c="3D" d="M698 367L80 367C64 367 56 359 56 344C56 329 64 321 80 321L698 321C714 321 722 329 722 344C722 356 711 367 698 367M698 179L80 179C64 179 56 171 56 156C56 141 64 133 80 133L698 133C714 133 722 141 722 156C722 169 711 179 698 179Z"></path></g><g data-mml-node="mn" data-latex="500" transform="translate(2014.6,0)"><path data-c="35" d="M118 315C123 315 129 319 134 326C164 371 205 393 257 393C292 393 319 373 337 332C348 305 354 264 354 209C354 146 346 102 331 76C306 35 272 14 229 14C162 14 109 62 91 114C94 113 96 114 100 114C130 114 155 137 155 167C155 198 130 219 100 219C65 219 50 200 50 163C50 63 131-22 231-22C292-22 344 0 386 44C428 88 449 141 449 202C449 260 432 310 398 353C361 400 315 423 259 423C212 423 171 408 138 378L138 556C165 548 191 544 218 544C264 544 304 555 338 578C369 597 390 616 402 634C408 642 411 648 411 651C411 661 406 666 396 666C341 645 294 634 256 634C211 634 168 643 127 662C122 664 118 665 114 665C105 665 100 656 100 637L100 345C100 324 100 315 118 315Z"></path><path data-c="30" d="M249-22C390-22 460 92 460 320C460 473 428 575 365 625C330 652 291 666 250 666C109 666 39 551 39 320C39 136 88-22 249-22M361 524C368 489 371 425 371 332C371 240 367 172 360 128C347 48 310 8 249 8C226 8 203 17 182 34C155 57 139 104 132 176C129 201 128 253 128 332C128 419 131 480 136 513C145 568 163 603 191 618C213 630 232 636 249 636C314 636 350 583 361 524Z" transform="translate(500,0)"></path><path data-c="30" d="M249-22C390-22 460 92 460 320C460 473 428 575 365 625C330 652 291 666 250 666C109 666 39 551 39 320C39 136 88-22 249-22M361 524C368 489 371 425 371 332C371 240 367 172 360 128C347 48 310 8 249 8C226 8 203 17 182 34C155 57 139 104 132 176C129 201 128 253 128 332C128 419 131 480 136 513C145 568 163 603 191 618C213 630 232 636 249 636C314 636 350 583 361 524Z" transform="translate(1000,0)"></path></g><g data-mml-node="mo" data-latex="\times" transform="translate(3736.8,0)"><path data-c="D7" d="M630 32C630 39 628 44 623 49L422 250L623 451C628 456 630 461 630 468C630 481 620 491 607 491C600 491 595 489 590 484L389 283L188 484C183 489 178 491 171 491C158 491 148 481 148 468C148 461 150 456 155 451L356 250L155 49C150 44 148 39 148 32C148 19 158 9 171 9C178 9 183 11 188 16L389 217L590 16C595 11 600 9 607 9C620 9 630 19 630 32Z"></path></g><g data-mml-node="mn" data-latex="0.2" transform="translate(4737,0)"><path data-c="30" d="M249-22C390-22 460 92 460 320C460 473 428 575 365 625C330 652 291 666 250 666C109 666 39 551 39 320C39 136 88-22 249-22M361 524C368 489 371 425 371 332C371 240 367 172 360 128C347 48 310 8 249 8C226 8 203 17 182 34C155 57 139 104 132 176C129 201 128 253 128 332C128 419 131 480 136 513C145 568 163 603 191 618C213 630 232 636 249 636C314 636 350 583 361 524Z"></path><path data-c="2E" d="M192 53C192 82 168 106 139 106C110 106 86 82 86 53C86 24 110 0 139 0C168 0 192 24 192 53Z" transform="translate(500,0)"></path><path data-c="32" d="M237 666C186 666 143 648 106 612C69 576 50 534 50 483C50 449 75 424 106 424C136 424 161 450 161 480C161 513 137 536 105 536C102 536 100 536 98 535C117 584 161 627 224 627C306 627 352 556 352 470C352 403 318 331 250 255L62 43C49 28 50 29 50 0L421 0L450 180L417 180C409 129 402 100 396 91C391 86 361 84 306 84L139 84L236 179C304 243 390 312 419 365C439 400 449 435 449 470C449 588 357 666 237 666Z" transform="translate(778,0)"></path></g><g data-mml-node="mo" data-latex="=" transform="translate(6292.8,0)"><path data-c="3D" d="M698 367L80 367C64 367 56 359 56 344C56 329 64 321 80 321L698 321C714 321 722 329 722 344C722 356 711 367 698 367M698 179L80 179C64 179 56 171 56 156C56 141 64 133 80 133L698 133C714 133 722 141 722 156C722 169 711 179 698 179Z"></path></g><g data-mml-node="mn" data-latex="100" transform="translate(7348.6,0)"><path data-c="31" d="M269 666C228 624 168 603 89 603L89 564C141 564 184 572 217 588L217 82C217 64 213 52 204 47C195 42 170 39 130 39L95 39L95 0C120 2 174 3 257 3C340 3 394 2 419 0L419 39L384 39C343 39 318 42 310 47C302 52 297 64 297 82L297 636C297 660 295 666 269 666Z"></path><path data-c="30" d="M249-22C390-22 460 92 460 320C460 473 428 575 365 625C330 652 291 666 250 666C109 666 39 551 39 320C39 136 88-22 249-22M361 524C368 489 371 425 371 332C371 240 367 172 360 128C347 48 310 8 249 8C226 8 203 17 182 34C155 57 139 104 132 176C129 201 128 253 128 332C128 419 131 480 136 513C145 568 163 603 191 618C213 630 232 636 249 636C314 636 350 583 361 524Z" transform="translate(500,0)"></path><path data-c="30" d="M249-22C390-22 460 92 460 320C460 473 428 575 365 625C330 652 291 666 250 666C109 666 39 551 39 320C39 136 88-22 249-22M361 524C368 489 371 425 371 332C371 240 367 172 360 128C347 48 310 8 249 8C226 8 203 17 182 34C155 57 139 104 132 176C129 201 128 253 128 332C128 419 131 480 136 513C145 568 163 603 191 618C213 630 232 636 249 636C314 636 350 583 361 524Z" transform="translate(1000,0)"></path></g></g></g></svg></mjx-container></p>
+<p>个请求处于系统中。</p>
+<p>它不是容量公式，而是检查指标是否自洽的工具。若 QPS 基本不变、处理时间从 200 ms 上升到 2 s，系统内并发请求理论上会从约 100 增长到约 1,000；如果工作池或连接池容量远小于这个数字，请求就会在队列中等待，延迟进一步升高。</p>
+<p>Little 定律依赖稳定状态下的平均值，不能直接用 P99 替换平均耗时，也不能用于请求无限堆积的系统。它仍能帮助发现一个常见事实：<strong>延迟上升会占用更多并发容量；更多排队又会继续推高延迟。</strong></p>
+<h3 id="带宽与数据量"><a href="#带宽与数据量" class="headerlink" title="带宽与数据量"></a>带宽与数据量</h3><p>网络容量常被 QPS 掩盖。若平均每个请求和响应合计 100 KB，1,000 QPS 对应的有效载荷约为：</p>
+<p><mjx-container class="MathJax" jax="SVG" overflow="overflow" display="true"><svg style="vertical-align: -0.566ex;" xmlns="http://www.w3.org/2000/svg" width="30.299ex" height="2.262ex" role="img" focusable="false" viewBox="0 -750 13392 1000"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math" data-latex="
+1{,}000 \times 100\ \text{KB/s} \approx 100\ \text{MB/s}
+"><g data-mml-node="mn" data-latex="1{,}000"><path data-c="31" d="M269 666C228 624 168 603 89 603L89 564C141 564 184 572 217 588L217 82C217 64 213 52 204 47C195 42 170 39 130 39L95 39L95 0C120 2 174 3 257 3C340 3 394 2 419 0L419 39L384 39C343 39 318 42 310 47C302 52 297 64 297 82L297 636C297 660 295 666 269 666Z"></path><path data-c="2C" d="M139 106C107 106 86 82 86 50C86 20 109-5 139-5C153-5 165-1 174 8L175 0C175-63 154-117 112-160C105-168 101-174 101-178C101-188 105-193 114-193C123-193 135-181 152-158C186-110 203-57 203 0C203 53 185 106 139 106Z" transform="translate(500,0)"></path><path data-c="30" d="M249-22C390-22 460 92 460 320C460 473 428 575 365 625C330 652 291 666 250 666C109 666 39 551 39 320C39 136 88-22 249-22M361 524C368 489 371 425 371 332C371 240 367 172 360 128C347 48 310 8 249 8C226 8 203 17 182 34C155 57 139 104 132 176C129 201 128 253 128 332C128 419 131 480 136 513C145 568 163 603 191 618C213 630 232 636 249 636C314 636 350 583 361 524Z" transform="translate(778,0)"></path><path data-c="30" d="M249-22C390-22 460 92 460 320C460 473 428 575 365 625C330 652 291 666 250 666C109 666 39 551 39 320C39 136 88-22 249-22M361 524C368 489 371 425 371 332C371 240 367 172 360 128C347 48 310 8 249 8C226 8 203 17 182 34C155 57 139 104 132 176C129 201 128 253 128 332C128 419 131 480 136 513C145 568 163 603 191 618C213 630 232 636 249 636C314 636 350 583 361 524Z" transform="translate(1278,0)"></path><path data-c="30" d="M249-22C390-22 460 92 460 320C460 473 428 575 365 625C330 652 291 666 250 666C109 666 39 551 39 320C39 136 88-22 249-22M361 524C368 489 371 425 371 332C371 240 367 172 360 128C347 48 310 8 249 8C226 8 203 17 182 34C155 57 139 104 132 176C129 201 128 253 128 332C128 419 131 480 136 513C145 568 163 603 191 618C213 630 232 636 249 636C314 636 350 583 361 524Z" transform="translate(1778,0)"></path></g><g data-mml-node="mo" data-latex="\times" transform="translate(2500.2,0)"><path data-c="D7" d="M630 32C630 39 628 44 623 49L422 250L623 451C628 456 630 461 630 468C630 481 620 491 607 491C600 491 595 489 590 484L389 283L188 484C183 489 178 491 171 491C158 491 148 481 148 468C148 461 150 456 155 451L356 250L155 49C150 44 148 39 148 32C148 19 158 9 171 9C178 9 183 11 188 16L389 217L590 16C595 11 600 9 607 9C620 9 630 19 630 32Z"></path></g><g data-mml-node="mn" data-latex="100" transform="translate(3500.4,0)"><path data-c="31" d="M269 666C228 624 168 603 89 603L89 564C141 564 184 572 217 588L217 82C217 64 213 52 204 47C195 42 170 39 130 39L95 39L95 0C120 2 174 3 257 3C340 3 394 2 419 0L419 39L384 39C343 39 318 42 310 47C302 52 297 64 297 82L297 636C297 660 295 666 269 666Z"></path><path data-c="30" d="M249-22C390-22 460 92 460 320C460 473 428 575 365 625C330 652 291 666 250 666C109 666 39 551 39 320C39 136 88-22 249-22M361 524C368 489 371 425 371 332C371 240 367 172 360 128C347 48 310 8 249 8C226 8 203 17 182 34C155 57 139 104 132 176C129 201 128 253 128 332C128 419 131 480 136 513C145 568 163 603 191 618C213 630 232 636 249 636C314 636 350 583 361 524Z" transform="translate(500,0)"></path><path data-c="30" d="M249-22C390-22 460 92 460 320C460 473 428 575 365 625C330 652 291 666 250 666C109 666 39 551 39 320C39 136 88-22 249-22M361 524C368 489 371 425 371 332C371 240 367 172 360 128C347 48 310 8 249 8C226 8 203 17 182 34C155 57 139 104 132 176C129 201 128 253 128 332C128 419 131 480 136 513C145 568 163 603 191 618C213 630 232 636 249 636C314 636 350 583 361 524Z" transform="translate(1000,0)"></path></g><g data-mml-node="mtext" data-latex="\ " transform="translate(5000.4,0)"><path data-c="A0" d=""></path></g><g data-mml-node="mtext" data-latex="\text{KB/s}" transform="translate(5332.4,0)"><path data-c="4B" d="M550 616C550 607 545 597 534 586L231 297L231 602C231 620 235 631 242 636C249 641 270 644 305 644L333 644L333 683C307 681 257 680 183 680C109 680 59 681 33 683L33 644L61 644C96 644 117 641 124 636C131 631 135 620 135 602L135 81C135 63 131 51 124 46C117 41 96 39 61 39L33 39L33 0C59 2 109 3 182 3C257 3 307 2 333 0L333 39L305 39C270 39 249 41 242 46C235 51 231 63 231 81L231 252L341 357L517 96C526 82 531 71 531 64C531 47 512 39 473 39L473 0C516 3 564 4 618 3L736 0L736 39C671 39 659 45 631 84L405 418L581 586C620 625 667 644 722 644L722 683C702 681 673 680 634 680C573 680 530 681 505 683L505 644C529 644 550 636 550 616Z"></path><path data-c="42" d="M478 358C548 376 624 432 624 512C624 565 599 607 549 640C506 669 456 683 401 683L36 683L36 644L64 644C99 644 120 641 127 636C134 631 138 620 138 602L138 81C138 63 134 51 127 46C120 41 99 39 64 39L36 39L36 0L427 0C484 0 535 16 579 48C627 83 651 129 651 185C651 278 563 342 478 358M521 512C521 428 451 370 367 370L228 370L228 609C228 645 233 644 272 644L394 644C468 644 521 586 521 512M544 186L544 160C542 137 529 111 504 84C478 54 442 39 395 39L272 39C233 39 228 38 228 74L228 340L409 340C490 340 544 270 544 186Z" transform="translate(778,0)"></path><path data-c="2F" d="M444 718C445 720 445 723 445 726C445 742 437 750 421 750C410 750 403 745 399 734L57-218C56-220 56-223 56-226C56-242 64-250 80-250C91-250 98-245 102-234Z" transform="translate(1486,0)"></path><path data-c="73" d="M360 130C360 206 308 254 205 274C158 283 128 294 112 305C96 316 88 332 88 351C88 398 123 421 193 421C261 421 298 383 303 306C304 298 309 294 319 294C330 294 336 303 336 321L336 420C336 439 331 448 321 448C310 448 295 430 285 422C260 439 229 448 193 448C104 448 33 408 33 323C33 289 47 260 76 237C111 208 144 202 207 191C272 178 305 149 305 104C305 47 270 18 199 18C130 18 86 64 67 155C64 168 59 175 50 175C39 175 33 165 33 146L33 17C33-2 38-11 48-11C51-11 56-8 64-1C82 15 74 12 92 30C121 3 157-11 199-11C294-11 360 38 360 130Z" transform="translate(1986,0)"></path></g><g data-mml-node="mo" data-latex="\approx" transform="translate(7990.2,0)"><path data-c="2248" d="M717 432L717 434C717 445 712 450 701 450C694 450 689 446 686 439C679 404 665 377 645 360C612 331 577 317 539 317C510 317 480 328 449 349C392 390 358 413 347 420C304 445 266 457 232 457C125 457 77 382 56 284L56 281C56 271 61 266 72 266C81 266 86 270 88 278C95 313 108 339 128 356C161 385 196 399 235 399C264 399 293 388 324 366C381 326 415 303 426 296C469 271 507 259 541 259C648 259 696 334 717 432M717 216L717 219C717 229 712 234 701 234C694 234 689 230 686 223C679 188 665 162 645 144C612 115 577 101 539 101C510 101 480 112 449 134C392 174 358 197 347 204C304 229 266 241 232 241C125 241 77 166 56 68L56 66C56 55 61 50 72 50C81 50 86 54 88 62C95 97 108 123 128 140C161 169 196 183 235 183C264 183 293 172 324 151C381 110 415 87 426 80C469 55 507 43 541 43C648 43 696 118 717 216Z"></path></g><g data-mml-node="mn" data-latex="100" transform="translate(9041,0)"><path data-c="31" d="M269 666C228 624 168 603 89 603L89 564C141 564 184 572 217 588L217 82C217 64 213 52 204 47C195 42 170 39 130 39L95 39L95 0C120 2 174 3 257 3C340 3 394 2 419 0L419 39L384 39C343 39 318 42 310 47C302 52 297 64 297 82L297 636C297 660 295 666 269 666Z"></path><path data-c="30" d="M249-22C390-22 460 92 460 320C460 473 428 575 365 625C330 652 291 666 250 666C109 666 39 551 39 320C39 136 88-22 249-22M361 524C368 489 371 425 371 332C371 240 367 172 360 128C347 48 310 8 249 8C226 8 203 17 182 34C155 57 139 104 132 176C129 201 128 253 128 332C128 419 131 480 136 513C145 568 163 603 191 618C213 630 232 636 249 636C314 636 350 583 361 524Z" transform="translate(500,0)"></path><path data-c="30" d="M249-22C390-22 460 92 460 320C460 473 428 575 365 625C330 652 291 666 250 666C109 666 39 551 39 320C39 136 88-22 249-22M361 524C368 489 371 425 371 332C371 240 367 172 360 128C347 48 310 8 249 8C226 8 203 17 182 34C155 57 139 104 132 176C129 201 128 253 128 332C128 419 131 480 136 513C145 568 163 603 191 618C213 630 232 636 249 636C314 636 350 583 361 524Z" transform="translate(1000,0)"></path></g><g data-mml-node="mtext" data-latex="\ " transform="translate(10541,0)"><path data-c="A0" d=""></path></g><g data-mml-node="mtext" data-latex="\text{MB/s}" transform="translate(10873,0)"><path data-c="4D" d="M175 108L175 622L407 24C413 8 421 0 430 0C439 0 446 7 452 21L689 630L689 81C689 63 685 51 678 46C671 41 650 39 615 39L587 39L587 0C614 2 663 3 733 3C803 3 852 2 879 0L879 39L851 39C816 39 795 41 788 46C781 51 777 63 777 81L777 602C777 620 781 631 788 636C795 641 816 644 851 644L879 644L879 683L708 683C681 683 679 682 671 662L458 115L247 659C238 679 235 683 208 683L37 683L37 644L65 644C100 644 121 641 128 636C135 631 139 620 139 602L139 108C139 91 135 77 127 64C116 47 86 39 37 39L37 0L157 3L277 0L277 39C204 39 175 51 175 108Z"></path><path data-c="42" d="M478 358C548 376 624 432 624 512C624 565 599 607 549 640C506 669 456 683 401 683L36 683L36 644L64 644C99 644 120 641 127 636C134 631 138 620 138 602L138 81C138 63 134 51 127 46C120 41 99 39 64 39L36 39L36 0L427 0C484 0 535 16 579 48C627 83 651 129 651 185C651 278 563 342 478 358M521 512C521 428 451 370 367 370L228 370L228 609C228 645 233 644 272 644L394 644C468 644 521 586 521 512M544 186L544 160C542 137 529 111 504 84C478 54 442 39 395 39L272 39C233 39 228 38 228 74L228 340L409 340C490 340 544 270 544 186Z" transform="translate(917,0)"></path><path data-c="2F" d="M444 718C445 720 445 723 445 726C445 742 437 750 421 750C410 750 403 745 399 734L57-218C56-220 56-223 56-226C56-242 64-250 80-250C91-250 98-245 102-234Z" transform="translate(1625,0)"></path><path data-c="73" d="M360 130C360 206 308 254 205 274C158 283 128 294 112 305C96 316 88 332 88 351C88 398 123 421 193 421C261 421 298 383 303 306C304 298 309 294 319 294C330 294 336 303 336 321L336 420C336 439 331 448 321 448C310 448 295 430 285 422C260 439 229 448 193 448C104 448 33 408 33 323C33 289 47 260 76 237C111 208 144 202 207 191C272 178 305 149 305 104C305 47 270 18 199 18C130 18 86 64 67 155C64 168 59 175 50 175C39 175 33 165 33 146L33 17C33-2 38-11 48-11C51-11 56-8 64-1C82 15 74 12 92 30C121 3 157-11 199-11C294-11 360 38 360 130Z" transform="translate(2125,0)"></path></g></g></g></svg></mjx-container></p>
+<p>这还没有计算 TCP/IP、TLS、HTTP 头部和重传开销。响应体变为 1 MB 后，即使 QPS 不变，带宽需求也增加十倍。文件下载、批量接口和日志上报服务，应同时以请求数与字节速率作为容量指标。</p>
+<h3 id="重试放大与级联故障"><a href="#重试放大与级联故障" class="headerlink" title="重试放大与级联故障"></a>重试放大与级联故障</h3><p>设上游每秒发起 1,000 次调用，其中 20% 因超时重试一次，则下游实际收到的调用数约为：</p>
+<p><mjx-container class="MathJax" jax="SVG" overflow="overflow" display="true"><svg style="vertical-align: -0.437ex;" xmlns="http://www.w3.org/2000/svg" width="18.102ex" height="1.943ex" role="img" focusable="false" viewBox="0 -666 8000.9 859"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math" data-latex="
+1{,}000 + 1{,}000 \times 20% = 1{,}200\ \text{QPS}
+"><g data-mml-node="mn" data-latex="1{,}000"><path data-c="31" d="M269 666C228 624 168 603 89 603L89 564C141 564 184 572 217 588L217 82C217 64 213 52 204 47C195 42 170 39 130 39L95 39L95 0C120 2 174 3 257 3C340 3 394 2 419 0L419 39L384 39C343 39 318 42 310 47C302 52 297 64 297 82L297 636C297 660 295 666 269 666Z"></path><path data-c="2C" d="M139 106C107 106 86 82 86 50C86 20 109-5 139-5C153-5 165-1 174 8L175 0C175-63 154-117 112-160C105-168 101-174 101-178C101-188 105-193 114-193C123-193 135-181 152-158C186-110 203-57 203 0C203 53 185 106 139 106Z" transform="translate(500,0)"></path><path data-c="30" d="M249-22C390-22 460 92 460 320C460 473 428 575 365 625C330 652 291 666 250 666C109 666 39 551 39 320C39 136 88-22 249-22M361 524C368 489 371 425 371 332C371 240 367 172 360 128C347 48 310 8 249 8C226 8 203 17 182 34C155 57 139 104 132 176C129 201 128 253 128 332C128 419 131 480 136 513C145 568 163 603 191 618C213 630 232 636 249 636C314 636 350 583 361 524Z" transform="translate(778,0)"></path><path data-c="30" d="M249-22C390-22 460 92 460 320C460 473 428 575 365 625C330 652 291 666 250 666C109 666 39 551 39 320C39 136 88-22 249-22M361 524C368 489 371 425 371 332C371 240 367 172 360 128C347 48 310 8 249 8C226 8 203 17 182 34C155 57 139 104 132 176C129 201 128 253 128 332C128 419 131 480 136 513C145 568 163 603 191 618C213 630 232 636 249 636C314 636 350 583 361 524Z" transform="translate(1278,0)"></path><path data-c="30" d="M249-22C390-22 460 92 460 320C460 473 428 575 365 625C330 652 291 666 250 666C109 666 39 551 39 320C39 136 88-22 249-22M361 524C368 489 371 425 371 332C371 240 367 172 360 128C347 48 310 8 249 8C226 8 203 17 182 34C155 57 139 104 132 176C129 201 128 253 128 332C128 419 131 480 136 513C145 568 163 603 191 618C213 630 232 636 249 636C314 636 350 583 361 524Z" transform="translate(1778,0)"></path></g><g data-mml-node="mo" data-latex="+" transform="translate(2500.2,0)"><path data-c="2B" d="M698 274L413 274L413 559C413 575 405 583 389 583C373 583 365 575 365 559L365 274L80 274C64 274 56 266 56 250C56 234 64 226 80 226L365 226L365-59C365-75 373-83 389-83C405-83 413-75 413-59L413 226L698 226C714 226 722 234 722 250C722 263 711 274 698 274Z"></path></g><g data-mml-node="mn" data-latex="1{,}000" transform="translate(3500.4,0)"><path data-c="31" d="M269 666C228 624 168 603 89 603L89 564C141 564 184 572 217 588L217 82C217 64 213 52 204 47C195 42 170 39 130 39L95 39L95 0C120 2 174 3 257 3C340 3 394 2 419 0L419 39L384 39C343 39 318 42 310 47C302 52 297 64 297 82L297 636C297 660 295 666 269 666Z"></path><path data-c="2C" d="M139 106C107 106 86 82 86 50C86 20 109-5 139-5C153-5 165-1 174 8L175 0C175-63 154-117 112-160C105-168 101-174 101-178C101-188 105-193 114-193C123-193 135-181 152-158C186-110 203-57 203 0C203 53 185 106 139 106Z" transform="translate(500,0)"></path><path data-c="30" d="M249-22C390-22 460 92 460 320C460 473 428 575 365 625C330 652 291 666 250 666C109 666 39 551 39 320C39 136 88-22 249-22M361 524C368 489 371 425 371 332C371 240 367 172 360 128C347 48 310 8 249 8C226 8 203 17 182 34C155 57 139 104 132 176C129 201 128 253 128 332C128 419 131 480 136 513C145 568 163 603 191 618C213 630 232 636 249 636C314 636 350 583 361 524Z" transform="translate(778,0)"></path><path data-c="30" d="M249-22C390-22 460 92 460 320C460 473 428 575 365 625C330 652 291 666 250 666C109 666 39 551 39 320C39 136 88-22 249-22M361 524C368 489 371 425 371 332C371 240 367 172 360 128C347 48 310 8 249 8C226 8 203 17 182 34C155 57 139 104 132 176C129 201 128 253 128 332C128 419 131 480 136 513C145 568 163 603 191 618C213 630 232 636 249 636C314 636 350 583 361 524Z" transform="translate(1278,0)"></path><path data-c="30" d="M249-22C390-22 460 92 460 320C460 473 428 575 365 625C330 652 291 666 250 666C109 666 39 551 39 320C39 136 88-22 249-22M361 524C368 489 371 425 371 332C371 240 367 172 360 128C347 48 310 8 249 8C226 8 203 17 182 34C155 57 139 104 132 176C129 201 128 253 128 332C128 419 131 480 136 513C145 568 163 603 191 618C213 630 232 636 249 636C314 636 350 583 361 524Z" transform="translate(1778,0)"></path></g><g data-mml-node="mo" data-latex="\times" transform="translate(6000.7,0)"><path data-c="D7" d="M630 32C630 39 628 44 623 49L422 250L623 451C628 456 630 461 630 468C630 481 620 491 607 491C600 491 595 489 590 484L389 283L188 484C183 489 178 491 171 491C158 491 148 481 148 468C148 461 150 456 155 451L356 250L155 49C150 44 148 39 148 32C148 19 158 9 171 9C178 9 183 11 188 16L389 217L590 16C595 11 600 9 607 9C620 9 630 19 630 32Z"></path></g><g data-mml-node="mn" data-latex="% = 1{,}200\ \text{QPS}" transform="translate(7000.9,0)"><path data-c="32" d="M237 666C186 666 143 648 106 612C69 576 50 534 50 483C50 449 75 424 106 424C136 424 161 450 161 480C161 513 137 536 105 536C102 536 100 536 98 535C117 584 161 627 224 627C306 627 352 556 352 470C352 403 318 331 250 255L62 43C49 28 50 29 50 0L421 0L450 180L417 180C409 129 402 100 396 91C391 86 361 84 306 84L139 84L236 179C304 243 390 312 419 365C439 400 449 435 449 470C449 588 357 666 237 666Z"></path><path data-c="30" d="M249-22C390-22 460 92 460 320C460 473 428 575 365 625C330 652 291 666 250 666C109 666 39 551 39 320C39 136 88-22 249-22M361 524C368 489 371 425 371 332C371 240 367 172 360 128C347 48 310 8 249 8C226 8 203 17 182 34C155 57 139 104 132 176C129 201 128 253 128 332C128 419 131 480 136 513C145 568 163 603 191 618C213 630 232 636 249 636C314 636 350 583 361 524Z" transform="translate(500,0)"></path></g></g></g></svg></mjx-container></p>
+<p>如果请求可重试两次、多个服务都各自重试，放大倍数会更高。下游变慢时，盲目重试会让它收到更多请求，进一步恶化超时；这就是为什么超时、重试、限流、熔断和退避必须作为一组机制设计。</p>
+<p>观测时至少分开记录“首次请求”和“重试请求”，并在压测模型中包含真实的超时与重试策略。否则入口 QPS 看似正常，但依赖服务可能已经被重试流量压垮。</p>
+<h3 id="最慢依赖决定端到端容量"><a href="#最慢依赖决定端到端容量" class="headerlink" title="最慢依赖决定端到端容量"></a>最慢依赖决定端到端容量</h3><p>一次请求经过网关、应用、缓存、数据库和第三方服务时，任何一个关键依赖达到饱和都可能限制整条链路。应用实例 CPU 只有 40% 并不表示系统还有 60% 的容量：瓶颈可能是数据库连接池、缓存热点分片、下游接口配额，或单个序列化锁。</p>
+<p>容量评估需要沿调用链找出最早达到阈值的资源，并记录它达到阈值时的流量、延迟和错误率。扩容非瓶颈层通常无法提高总容量，反而可能向瓶颈发出更多并发请求。</p>
+<h2 id="从目标到压测结果"><a href="#从目标到压测结果" class="headerlink" title="从目标到压测结果"></a>从目标到压测结果</h2><h3 id="先定义服务目标和负载模型"><a href="#先定义服务目标和负载模型" class="headerlink" title="先定义服务目标和负载模型"></a>先定义服务目标和负载模型</h3><p>压测不是“把并发调到最大”。开始前应定义目标，例如：</p>
+<table>
+<thead>
+<tr>
+<th>项目</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>被测接口</td>
+<td><code>GET /api/products/{id}</code>、<code>POST /api/orders</code></td>
+</tr>
+<tr>
+<td>流量比例</td>
+<td>商品详情 80%，下单 15%，取消订单 5%</td>
+</tr>
+<tr>
+<td>数据规模</td>
+<td>100 万商品、10 万活跃用户、热点商品占 20% 请求</td>
+</tr>
+<tr>
+<td>请求模型</td>
+<td>稳态 1,000 QPS，5 分钟后升至 2,000 QPS；每 10 分钟一次 3,000 QPS 突刺</td>
+</tr>
+<tr>
+<td>延迟目标</td>
+<td>读接口 P99 &lt; 200 ms；写接口 P99 &lt; 500 ms</td>
+</tr>
+<tr>
+<td>错误目标</td>
+<td>5xx &lt; 0.1%，超时 &lt; 0.05%</td>
+</tr>
+<tr>
+<td>持续时间</td>
+<td>稳态至少 30 分钟；长稳测试至少数小时</td>
+</tr>
+</tbody></table>
+<p>压测数据必须接近生产的大小和分布。空数据库、小数据集、全部命中缓存或永远使用同一个 ID，都会让结论偏乐观。涉及写入时还要考虑索引增长、事务日志、清理任务和缓存失效后的表现。</p>
+<h3 id="常见压测模型"><a href="#常见压测模型" class="headerlink" title="常见压测模型"></a>常见压测模型</h3><table>
+<thead>
+<tr>
+<th>模型</th>
+<th>做法</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>基线测试</td>
+<td>小负载下运行</td>
+<td>确认测试链路和正常延迟</td>
+</tr>
+<tr>
+<td>阶梯加压</td>
+<td>每隔固定时间增加 QPS 或并发</td>
+<td>找到延迟、错误或饱和度的拐点</td>
+</tr>
+<tr>
+<td>稳态压测</td>
+<td>固定目标负载持续运行</td>
+<td>验证目标容量是否可持续</td>
+</tr>
+<tr>
+<td>突刺压测</td>
+<td>短时间快速提高流量</td>
+<td>验证队列、限流和弹性扩容行为</td>
+</tr>
+<tr>
+<td>长稳压测</td>
+<td>长时间运行</td>
+<td>暴露泄漏、积压、连接泄漏和周期性任务问题</td>
+</tr>
+<tr>
+<td>故障压测</td>
+<td>注入延迟、错误或实例故障</td>
+<td>验证超时、重试、熔断和降级是否有效</td>
+</tr>
+</tbody></table>
+<p>还需区分<strong>开环</strong>和<strong>闭环</strong>模型。开环压测按预定速率持续发出请求，适合模拟外部流量持续到达；闭环压测由固定数量的虚拟用户在收到响应后再发起下一次请求，负载会随响应变慢而自动下降。用闭环模型时，系统越慢，压测工具实际发出的请求可能越少，容易掩盖过载；报告中必须说明模型。</p>
+<h3 id="何时认为达到容量边界"><a href="#何时认为达到容量边界" class="headerlink" title="何时认为达到容量边界"></a>何时认为达到容量边界</h3><p>不要只在 CPU 达到 100% 时才认为测试结束。以下任一现象持续出现，都意味着已越过当前目标容量：</p>
+<ul>
+<li>P95、P99 延迟在增加负载后突然上升，且降载后才回落；</li>
+<li>错误率、超时率或限流拒绝率超过服务目标；</li>
+<li>消息积压、连接池等待或工作队列长度持续增长；</li>
+<li>某项关键资源持续打满，例如数据库连接、缓存分片、磁盘 I/O；</li>
+<li>重试请求比例持续增加；</li>
+<li>关键业务校验失败，例如重复扣减、订单状态异常或数据不一致。</li>
+</ul>
+<p>报告中不要只写“最高达到 5,000 QPS”。应记录达到该负载时的分位延迟、错误率、资源水位、测试持续时间、瓶颈位置和降级策略是否触发。</p>
+<h2 id="建立观测体系"><a href="#建立观测体系" class="headerlink" title="建立观测体系"></a>建立观测体系</h2><h3 id="指标、日志、追踪与剖析"><a href="#指标、日志、追踪与剖析" class="headerlink" title="指标、日志、追踪与剖析"></a>指标、日志、追踪与剖析</h3><p>四类信号解决不同问题：</p>
+<table>
+<thead>
+<tr>
+<th>信号</th>
+<th>适合回答的问题</th>
+<th>常见内容</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Metrics</td>
+<td>系统是否正在变慢、变错或变满</td>
+<td>QPS、延迟直方图、错误计数、CPU、连接池等待</td>
+</tr>
+<tr>
+<td>Logs</td>
+<td>某个失败请求发生了什么</td>
+<td>错误栈、参数摘要、状态码、请求 ID</td>
+</tr>
+<tr>
+<td>Traces</td>
+<td>一次请求慢在调用链的哪里</td>
+<td>Span 耗时、下游调用、排队、重试</td>
+</tr>
+<tr>
+<td>Profiles</td>
+<td>进程为什么消耗 CPU、内存或发生阻塞</td>
+<td>CPU、堆、goroutine、mutex、block profile</td>
+</tr>
+</tbody></table>
+<p>它们需要能关联起来。例如网关把 request ID 或 trace ID 传递给下游；指标按路由、状态码和服务名聚合；日志携带 trace ID。发生 P99 上升时，先从指标确认是哪些接口和实例受影响，再从追踪定位慢调用，最后通过日志和 profile 分析根因。</p>
+<h3 id="Golden-Signals、RED-与-USE"><a href="#Golden-Signals、RED-与-USE" class="headerlink" title="Golden Signals、RED 与 USE"></a>Golden Signals、RED 与 USE</h3><p>Google SRE 书籍中的四个黄金信号是：</p>
+<ul>
+<li><strong>Latency</strong>：服务请求耗时；</li>
+<li><strong>Traffic</strong>：服务处理的需求量；</li>
+<li><strong>Errors</strong>：失败请求比例或数量；</li>
+<li><strong>Saturation</strong>：最受限资源的饱和程度。</li>
+</ul>
+<p>它适合从服务整体判断是否健康。对于请求驱动的服务，还可用 RED 方法组织指标：</p>
+<table>
+<thead>
+<tr>
+<th>RED</th>
+<th>含义</th>
+<th>典型指标</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Rate</td>
+<td>请求速率</td>
+<td><code>http_requests_total</code> 的增长速率</td>
+</tr>
+<tr>
+<td>Errors</td>
+<td>错误数或错误率</td>
+<td>5xx、超时、RPC error</td>
+</tr>
+<tr>
+<td>Duration</td>
+<td>请求耗时</td>
+<td>延迟直方图、P95/P99</td>
+</tr>
+</tbody></table>
+<p>对于 CPU、磁盘、网络接口、数据库连接池等资源，USE 方法更合适：</p>
+<table>
+<thead>
+<tr>
+<th>USE</th>
+<th>含义</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Utilization</td>
+<td>资源忙碌比例</td>
+<td>CPU 使用率、连接池已用比例</td>
+</tr>
+<tr>
+<td>Saturation</td>
+<td>等待该资源的工作量</td>
+<td>运行队列、连接池等待数、磁盘队列长度</td>
+</tr>
+<tr>
+<td>Errors</td>
+<td>资源错误</td>
+<td>磁盘错误、连接失败、网络丢包</td>
+</tr>
+</tbody></table>
+<p>CPU 使用率高是 Utilization；等待 CPU 调度的任务增加才是 Saturation。二者一起观察，才能判断是需要扩容、优化热点代码，还是瓶颈其实在别处。</p>
+<h3 id="Prometheus-指标设计"><a href="#Prometheus-指标设计" class="headerlink" title="Prometheus 指标设计"></a>Prometheus 指标设计</h3><p>Prometheus 常用三类指标：</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>用途</th>
+<th>例子</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Counter</td>
+<td>只增不减的累计事件数</td>
+<td>请求总数、错误总数、重试总数</td>
+</tr>
+<tr>
+<td>Gauge</td>
+<td>可升可降的瞬时值</td>
+<td>goroutine 数、连接池当前占用、队列长度</td>
+</tr>
+<tr>
+<td>Histogram</td>
+<td>观测值分布</td>
+<td>HTTP 耗时、响应大小、数据库查询耗时</td>
+</tr>
+</tbody></table>
+<p>HTTP 指标通常至少包含请求 Counter 与耗时 Histogram。标签应能回答“哪个接口、哪种方法、什么状态结果导致变化”，但不能携带无限变化的值。</p>
+<p>适合的标签：<code>service</code>、<code>route</code>、<code>method</code>、<code>status_code</code>、<code>operation</code>。</p>
+<p>不适合的标签：<code>user_id</code>、<code>request_id</code>、完整 URL、完整错误文本、订单号、IP 地址。它们会产生高基数时间序列，导致 Prometheus 内存和查询压力明显上升。路径应使用路由模板如 <code>/api/orders/{id}</code>，而不是实际 URL。</p>
+<p>在 PromQL 中，可以通过：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"># 最近 5 分钟每秒请求数，按路由和状态码聚合</span><br><span class="line">sum by (route, status_code) (</span><br><span class="line">  rate(http_server_requests_total[5m])</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"># 最近 5 分钟某路由的 P99 延迟</span><br><span class="line">histogram_quantile(</span><br><span class="line">  0.99,</span><br><span class="line">  sum by (le, route) (</span><br><span class="line">    rate(http_server_request_duration_seconds_bucket[5m])</span><br><span class="line">  )</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p><code>rate()</code> 适合展示一段时间内的平滑速率；窗口不能小于抓取间隔的数倍，否则结果容易波动或缺样本。分位数应从直方图 bucket 计算，不应先在每个实例上计算分位数再平均，因为平均后的结果不再代表整体 P99。</p>
+<h2 id="Go-服务中的基础观测"><a href="#Go-服务中的基础观测" class="headerlink" title="Go 服务中的基础观测"></a>Go 服务中的基础观测</h2><p>Go 标准库 <code>runtime/metrics</code> 提供运行时指标，<code>net/http/pprof</code> 可以导出 CPU、堆、goroutine、mutex、block 等 profile。应用层请求指标通常通过 Prometheus Go client 或 OpenTelemetry SDK 暴露。</p>
+<p>下面示例用 <code>prometheus/client_golang</code> 为 HTTP 服务记录请求总数和处理耗时。实际项目中应尽量从路由框架取得<strong>路由模板</strong>，而不是直接使用原始 URL 路径。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">    <span class="string">"net/http"</span></span><br><span class="line">    <span class="string">"strconv"</span></span><br><span class="line">    <span class="string">"time"</span></span><br><span class="line"></span><br><span class="line">    <span class="string">"github.com/prometheus/client_golang/prometheus"</span></span><br><span class="line">    <span class="string">"github.com/prometheus/client_golang/prometheus/promhttp"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> (</span><br><span class="line">    requestsTotal = prometheus.NewCounterVec(</span><br><span class="line">        prometheus.CounterOpts{</span><br><span class="line">            Name: <span class="string">"http_server_requests_total"</span>,</span><br><span class="line">            Help: <span class="string">"Total number of HTTP requests handled by the server."</span>,</span><br><span class="line">        },</span><br><span class="line">        []<span class="type">string</span>{<span class="string">"route"</span>, <span class="string">"method"</span>, <span class="string">"status_code"</span>},</span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line">    requestDuration = prometheus.NewHistogramVec(</span><br><span class="line">        prometheus.HistogramOpts{</span><br><span class="line">            Name:    <span class="string">"http_server_request_duration_seconds"</span>,</span><br><span class="line">            Help:    <span class="string">"HTTP request processing duration in seconds."</span>,</span><br><span class="line">            Buckets: []<span class="type">float64</span>{<span class="number">0.005</span>, <span class="number">0.01</span>, <span class="number">0.025</span>, <span class="number">0.05</span>, <span class="number">0.1</span>, <span class="number">0.25</span>, <span class="number">0.5</span>, <span class="number">1</span>, <span class="number">2.5</span>, <span class="number">5</span>},</span><br><span class="line">        },</span><br><span class="line">        []<span class="type">string</span>{<span class="string">"route"</span>, <span class="string">"method"</span>},</span><br><span class="line">    )</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">init</span><span class="params">()</span></span> {</span><br><span class="line">    prometheus.MustRegister(requestsTotal, requestDuration)</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> statusRecorder <span class="keyword">struct</span> {</span><br><span class="line">    http.ResponseWriter</span><br><span class="line">    statusCode <span class="type">int</span></span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(w *statusRecorder)</span></span> WriteHeader(code <span class="type">int</span>) {</span><br><span class="line">    w.statusCode = code</span><br><span class="line">    w.ResponseWriter.WriteHeader(code)</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">metrics</span><span class="params">(route <span class="type">string</span>, next http.Handler)</span></span> http.Handler {</span><br><span class="line">    <span class="keyword">return</span> http.HandlerFunc(<span class="function"><span class="keyword">func</span><span class="params">(w http.ResponseWriter, r *http.Request)</span></span> {</span><br><span class="line">        recorder := &amp;statusRecorder{ResponseWriter: w, statusCode: http.StatusOK}</span><br><span class="line">        startedAt := time.Now()</span><br><span class="line"></span><br><span class="line">        next.ServeHTTP(recorder, r)</span><br><span class="line"></span><br><span class="line">        labels := []<span class="type">string</span>{route, r.Method}</span><br><span class="line">        requestDuration.WithLabelValues(labels...).Observe(time.Since(startedAt).Seconds())</span><br><span class="line">        requestsTotal.WithLabelValues(<span class="built_in">append</span>(labels, strconv.Itoa(recorder.statusCode))...).Inc()</span><br><span class="line">    })</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> {</span><br><span class="line">    mux := http.NewServeMux()</span><br><span class="line">    mux.Handle(<span class="string">"GET /api/products/{id}"</span>, metrics(<span class="string">"/api/products/{id}"</span>, http.HandlerFunc(productHandler)))</span><br><span class="line">    mux.Handle(<span class="string">"GET /metrics"</span>, promhttp.Handler())</span><br><span class="line"></span><br><span class="line">    _ = http.ListenAndServe(<span class="string">":8080"</span>, mux)</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">productHandler</span><span class="params">(w http.ResponseWriter, r *http.Request)</span></span> {</span><br><span class="line">    w.Header().Set(<span class="string">"Content-Type"</span>, <span class="string">"application/json"</span>)</span><br><span class="line">    _, _ = w.Write([]<span class="type">byte</span>(<span class="string">`{"id":"demo","name":"product"}`</span>))</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+
+<p>这个示例有几个边界：</p>
+<ul>
+<li>它记录的是 handler 执行时间，不包含客户端到服务端的网络耗时，也不包含请求到达 handler 前的网关排队。</li>
+<li>若 handler 直接调用 <code>Write</code> 而不调用 <code>WriteHeader</code>，记录器默认的 200 状态码仍正确；若需要兼容 <code>http.Flusher</code>、<code>http.Hijacker</code> 等可选接口，应使用更完整的包装实现或框架中间件。</li>
+<li>Histogram bucket 应按照服务目标和实际延迟范围配置。若 P99 目标是 300 ms，0.25、0.5 等相邻 bucket 才能提供足够的估算精度。</li>
+<li>路由、方法、状态码的基数通常可控；不要加入用户 ID、订单 ID 或原始 URL。</li>
+</ul>
+<p>对于性能问题，profile 比单纯的业务指标更接近根因。开发环境可在独立管理端口开启 <code>net/http/pprof</code>，再用 <code>go tool pprof</code> 采集和分析：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> _ <span class="string">"net/http/pprof"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> {</span><br><span class="line">    <span class="comment">// 仅在受访问控制的管理地址暴露，不能直接开放到公网。</span></span><br><span class="line">    _ = http.ListenAndServe(<span class="string">"127.0.0.1:6060"</span>, <span class="literal">nil</span>)</span><br><span class="line">}()</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">采集 30 秒 CPU profile</span></span><br><span class="line">go tool pprof http://127.0.0.1:6060/debug/pprof/profile?seconds=30</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">查看 goroutine 堆栈</span></span><br><span class="line">go tool pprof http://127.0.0.1:6060/debug/pprof/goroutine</span><br></pre></td></tr></table></figure>
+
+<p>CPU profile 用于定位计算热点；heap profile 用于分析内存占用；mutex 和 block profile 可辅助发现锁竞争与阻塞。profile 会带来一定开销，也可能暴露函数名、调用栈和业务信息，应限制访问范围，并避免在未经评估的高压生产环境中长时间采集。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>容量不是“跑出了多少 QPS”，而是在明确流量模型和服务目标后，系统持续提供正确服务的能力。吞吐量、延迟分位数、错误率、并发与队列饱和度共同描述这个能力；任何单一指标都不足以说明系统是否健康。</p>
+<p>实践时应先定义目标和流量模型，再通过阶梯加压与长稳压测寻找瓶颈；生产中用 Metrics 发现趋势、用 Trace 定位调用链、用 Logs 还原失败上下文、用 Profile 分析进程内部原因。容量结论必须包含环境、数据分布、持续时间和瓶颈条件，才能成为后续扩容与优化的可靠依据。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ol>
+<li>John D. C. Little. <a class="link" target="_blank" rel="noopener" href="https://www.jstor.org/stable/2628235">A Proof for the Queuing Formula: L = λW<i class="fas fa-external-link-alt"></i></a>。Little 定律的原始论文。</li>
+<li>Google. <a class="link" target="_blank" rel="noopener" href="https://sre.google/sre-book/monitoring-distributed-systems/">Site Reliability Engineering: Monitoring Distributed Systems<i class="fas fa-external-link-alt"></i></a>。Golden Signals、延迟、流量、错误与饱和度。</li>
+<li>Prometheus. <a class="link" target="_blank" rel="noopener" href="https://prometheus.io/docs/practices/naming/">Metric and label naming<i class="fas fa-external-link-alt"></i></a>。指标和标签命名建议。</li>
+<li>Prometheus. <a class="link" target="_blank" rel="noopener" href="https://prometheus.io/docs/practices/histograms/">Histograms and summaries<i class="fas fa-external-link-alt"></i></a>。分位数、直方图与 PromQL 聚合方式。</li>
+<li>Go. <a class="link" target="_blank" rel="noopener" href="https://pkg.go.dev/runtime/metrics">runtime/metrics package<i class="fas fa-external-link-alt"></i></a>。Go 运行时指标。</li>
+<li>Go. <a class="link" target="_blank" rel="noopener" href="https://pkg.go.dev/net/http/pprof">net/http/pprof package<i class="fas fa-external-link-alt"></i></a>。Go profile HTTP 端点。</li>
+<li>Prometheus Go client. <a class="link" target="_blank" rel="noopener" href="https://github.com/prometheus/client_golang">client_golang<i class="fas fa-external-link-alt"></i></a>。Go 中暴露 Prometheus 指标的客户端库。</li>
+</ol>
+
+                    
+                </div>
+
+                
+                        
+<div class="post-copyright-info-container border-box">
+    <div class="copyright-info-content border-box">
+        <div class="copyright-info-top border-box">
+            <div class="copyright-post-title border-box text-ellipsis">
+                系统容量与压力评估：指标、计算与观测
+            </div>
+
+            <div class="copyright-post-link border-box text-ellipsis">
+                学习笔记/学习笔记/系统容量与压力评估/
+            </div>
+        </div>
+
+        <div class="copyright-info-bottom border-box">
+            <div class="copyright-post-author bottom-item">
+                <div class="type">
+                    作者
+                </div>
+                <div class="content">咕咕咕</div>
+            </div>
+
+            <div class="post-time bottom-item">
+                <div class="type">
+                    发布于
+                </div>
+                <div class="content">2026-10-30 16:35</div>
+            </div>
+
+
+            <div class="post-license bottom-item">
+                <div class="type">
+                    许可
+                </div>
+                <div class="content tooltip" data-tooltip-content="CC BY-NC-SA 4.0">
+                    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hans" target="_blank">
+                        
+                            <i class="fa-brands fa-creative-commons"></i>
+                            <i class="fa-brands fa-creative-commons-by"></i>
+                            <i class="fa-brands fa-creative-commons-nc"></i>
+                            <i class="fa-brands fa-creative-commons-sa"></i>
+                        
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <i class="copyright-bg fa-solid fa-copyright"></i>
+    </div>
+    <div class="copy-copyright-info flex-center tooltip" data-tooltip-content="复制版权信息" data-tooltip-offset-y="-2px">
+        <i class="fa-solid fa-copy"></i>
+    </div>
+</div>
+
+                
+
+                <div class="post-bottom-tags-and-share border-box">
+                    <div>
+                        
+                            <ul class="post-tags-box border-box">
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/Go/">Go</a>
+                                    </li>
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/%E7%B3%BB%E7%BB%9F%E6%80%A7%E8%83%BD/">系统性能</a>
+                                    </li>
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/%E5%AE%B9%E9%87%8F%E8%AF%84%E4%BC%B0/">容量评估</a>
+                                    </li>
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/%E5%8E%8B%E5%8A%9B%E6%B5%8B%E8%AF%95/">压力测试</a>
+                                    </li>
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/%E5%8F%AF%E8%A7%82%E6%B5%8B%E6%80%A7/">可观测性</a>
+                                    </li>
+                                
+                            </ul>
+                        
+                    </div>
+                    <div>
+                        
+                            <div class="post-share-container border-box">
+    <ul class="share-list-wrap border-box">
+        <li class="qq share-item border-box flex-center tooltip"
+            data-tooltip-content="分享到 QQ"
+        >
+            <i class="fa-brands fa-qq"></i>
+        </li>
+        <li class="wechat share-item border-box flex-center tooltip tooltip-img"
+            data-tooltip-content="分享到微信"
+            data-tooltip-img-tip="微信扫一扫"
+            data-tooltip-img-style="background-color: #fff; top: -10px; padding: 0.6rem 0.6rem 0.1rem 0.6rem;"
+        >
+            <i class="fa-brands fa-weixin"></i>
+        </li>
+        <li class="weibo share-item border-box flex-center tooltip"
+            data-tooltip-content="分享到微博"
+        >
+            <i class="fa-brands fa-weibo"></i>
+        </li>
+    </ul>
+</div>
+
+                        
+                    </div>
+                </div>
+
+                
+                    
+
+<div class="reward-author-container border-box flex-center">
+    <div class="reward-btn border-box flex-center tooltip tooltip-img"
+            data-tooltip-img-url="/images/thanks.png"
+            data-tooltip-img-trigger="click"
+            data-tooltip-img-style="top: -6px;"
+    >
+        <i class="fa-solid fa-gift"></i>&nbsp;谢谢你请我喝可乐~
+    </div>
+</div>
+
+                
+
+                
+                    <div class="post-nav border-box">
+                        
+                        
+                            <div class="next-post">
+                                <a class="next"
+                                   rel="next"
+                                   href="/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%EF%BC%9A%E4%BB%8E%E5%8C%B9%E9%85%8D%E8%A7%84%E5%88%99%E5%88%B0%E5%B7%A5%E7%A8%8B%E4%BD%BF%E7%94%A8/"
+                                   title="正则表达式：从匹配规则到工程使用"
+                                >
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">正则表达式：从匹配规则到工程使用</span>
+                                        <span class="post-nav-item">下一篇</span>
+                                    </span>
+                                    <span class="right arrow-icon flex-center">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                    </div>
+                
+
+                
+                    
+
+
+    <div class="comments-container border-box">
+        <div id="comments-anchor" class="comment-area-title border-box">
+            <i class="fas fa-comments"></i>&nbsp;评论
+        </div>
+        <div class="comment-plugin-fail border-box">
+    <span class="fail-tip">评论插件加载失败</span>
+    <button class="reload keep-button">点击重新加载</button>
+</div>
+<div class="comment-plugin-loading flex-center border-box">
+    <i class="loading-icon fa-solid fa-spinner fa-spin"></i>
+    <span class="load-tip">正在加载评论插件</span>
+</div>
+<script data-pjax>
+  window.KeepCommentPlugin = {}
+  window.KeepCommentPlugin.hideLoading = () => {
+    const cplDom = document.querySelector('.comments-container .comment-plugin-loading')
+    cplDom.style.display = 'none'
+  }
+  window.KeepCommentPlugin.loadFailHandle = () => {
+    window.KeepCommentPlugin.hideLoading()
+    const cpfDom = document.querySelector('.comments-container .comment-plugin-fail')
+    cpfDom.style.display = 'flex'
+    cpfDom.querySelector('.reload').addEventListener('click', () => {
+      window.location.reload()
+    })
+  }
+</script>
+
+        
+            
+
+    <div class="giscus-comments-container">
+        <div class="giscus" id="giscus"></div>
+        <script data-pjax
+                onerror="window.KeepCommentPlugin.loadFailHandle()"
+        >
+          if (!window.KeepCommentPlugin?.getGiscusTheme) {
+            window.KeepCommentPlugin.getGiscusTheme = () => {
+              return document.documentElement.classList.contains('dark-mode') ? 'dark_dimmed' : 'light_tritanopia'
+            }
+          }
+
+          if (!window.KeepCommentPlugin?.changeGiscusTheme) {
+            window.KeepCommentPlugin.changeGiscusTheme = () => {
+              const iframe = document.querySelector('iframe.giscus-frame')
+              iframe && iframe.contentWindow.postMessage({
+                giscus: {
+                  setConfig: {
+                    theme: window.KeepCommentPlugin.getGiscusTheme()
+                  }
+                }
+              }, 'https://giscus.app')
+            }
+          }
+
+          if (!window.KeepCommentPlugin?.initGiscus) {
+            window.KeepCommentPlugin.initGiscus = () => {
+              const script = document.createElement('script')
+              script.async = true
+              script.src = 'https://giscus.app/client.js'
+              script.setAttribute('data-repo', 'Cooooing/Cooooing.github.io')
+              script.setAttribute('data-repo-id', 'R_kgDOHQal_w')
+              script.setAttribute('data-category', 'Announcements')
+              script.setAttribute('data-category-id', 'DIC_kwDOHQal_84CjZo6')
+              script.setAttribute('data-reactions-enabled', '1')
+              script.setAttribute('data-lang', 'zh-CN')
+              script.setAttribute('data-mapping', 'pathname')
+              script.setAttribute('data-strict', '0')
+              script.setAttribute('data-emit-metadata', '0')
+              script.setAttribute('data-input-position', 'top')
+              script.setAttribute('crossorigin', 'anonymous')
+              script.setAttribute('loading', 'lazy')
+              script.setAttribute('data-theme', window.KeepCommentPlugin.getGiscusTheme())
+              document.querySelector('.giscus-comments-container').appendChild(script)
+              script.onerror = () => {
+                window.KeepCommentPlugin.loadFailHandle()
+              }
+              script.onload = () => {
+                window.KeepCommentPlugin.hideLoading()
+              }
+              const toggleThemeBtn = document.querySelector('.tool-toggle-theme-mode')
+              toggleThemeBtn && toggleThemeBtn.addEventListener('click', () => {
+                window.KeepCommentPlugin.changeGiscusTheme()
+              })
+            }
+          }
+
+          if ('true' === "true") {
+            setTimeout(() => {
+              window.KeepCommentPlugin.initGiscus()
+            }, 1000)
+          } else {
+            window.addEventListener("DOMContentLoaded", window.KeepCommentPlugin.initGiscus)
+          }
+        </script>
+    </div>
+
+
+        
+    </div>
+
+
+
+
+
+                
+            </div>
+        </div>
+
+        
+            <div class="pc-post-toc left-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E7%B3%BB%E7%BB%9F%E5%8F%AF%E6%89%BF%E5%8F%97%E7%9A%84%E5%8E%8B%E5%8A%9B"><span class="nav-text">什么是系统可承受的压力</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%84%E4%BC%B0%E5%AE%B9%E9%87%8F%E6%97%B6%E9%9C%80%E8%A6%81%E7%9C%8B%E7%9A%84%E6%8C%87%E6%A0%87"><span class="nav-text">评估容量时需要看的指标</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%9E%E5%90%90%E9%87%8F%EF%BC%9A%E5%8D%95%E4%BD%8D%E6%97%B6%E9%97%B4%E5%AE%8C%E6%88%90%E4%BA%86%E5%A4%9A%E5%B0%91%E5%B7%A5%E4%BD%9C"><span class="nav-text">吞吐量：单位时间完成了多少工作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BB%B6%E8%BF%9F%EF%BC%9A%E8%AF%B7%E6%B1%82%E8%8A%B1%E4%BA%86%E5%A4%9A%E9%95%BF%E6%97%B6%E9%97%B4"><span class="nav-text">延迟：请求花了多长时间</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%94%99%E8%AF%AF%E4%B8%8E%E6%AD%A3%E7%A1%AE%E6%80%A7%EF%BC%9A%E8%AF%B7%E6%B1%82%E6%98%AF%E5%90%A6%E5%BE%97%E5%88%B0%E6%AD%A3%E7%A1%AE%E7%BB%93%E6%9E%9C"><span class="nav-text">错误与正确性：请求是否得到正确结果</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B9%B6%E5%8F%91%E3%80%81%E6%8E%92%E9%98%9F%E4%B8%8E%E9%A5%B1%E5%92%8C%E5%BA%A6%EF%BC%9A%E7%B3%BB%E7%BB%9F%E6%98%AF%E5%90%A6%E5%BC%80%E5%A7%8B%E5%A0%86%E7%A7%AF"><span class="nav-text">并发、排队与饱和度：系统是否开始堆积</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8C%87%E6%A0%87%E4%B9%8B%E9%97%B4%E5%A6%82%E4%BD%95%E4%BA%92%E7%9B%B8%E7%BA%A6%E6%9D%9F"><span class="nav-text">指标之间如何互相约束</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Little-%E5%AE%9A%E5%BE%8B%EF%BC%9A%E5%B9%B6%E5%8F%91%E3%80%81%E5%90%9E%E5%90%90%E9%87%8F%E5%92%8C%E5%BB%B6%E8%BF%9F"><span class="nav-text">Little 定律：并发、吞吐量和延迟</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%A6%E5%AE%BD%E4%B8%8E%E6%95%B0%E6%8D%AE%E9%87%8F"><span class="nav-text">带宽与数据量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%87%8D%E8%AF%95%E6%94%BE%E5%A4%A7%E4%B8%8E%E7%BA%A7%E8%81%94%E6%95%85%E9%9A%9C"><span class="nav-text">重试放大与级联故障</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%80%E6%85%A2%E4%BE%9D%E8%B5%96%E5%86%B3%E5%AE%9A%E7%AB%AF%E5%88%B0%E7%AB%AF%E5%AE%B9%E9%87%8F"><span class="nav-text">最慢依赖决定端到端容量</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%8E%E7%9B%AE%E6%A0%87%E5%88%B0%E5%8E%8B%E6%B5%8B%E7%BB%93%E6%9E%9C"><span class="nav-text">从目标到压测结果</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%88%E5%AE%9A%E4%B9%89%E6%9C%8D%E5%8A%A1%E7%9B%AE%E6%A0%87%E5%92%8C%E8%B4%9F%E8%BD%BD%E6%A8%A1%E5%9E%8B"><span class="nav-text">先定义服务目标和负载模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E5%8E%8B%E6%B5%8B%E6%A8%A1%E5%9E%8B"><span class="nav-text">常见压测模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%95%E6%97%B6%E8%AE%A4%E4%B8%BA%E8%BE%BE%E5%88%B0%E5%AE%B9%E9%87%8F%E8%BE%B9%E7%95%8C"><span class="nav-text">何时认为达到容量边界</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BB%BA%E7%AB%8B%E8%A7%82%E6%B5%8B%E4%BD%93%E7%B3%BB"><span class="nav-text">建立观测体系</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8C%87%E6%A0%87%E3%80%81%E6%97%A5%E5%BF%97%E3%80%81%E8%BF%BD%E8%B8%AA%E4%B8%8E%E5%89%96%E6%9E%90"><span class="nav-text">指标、日志、追踪与剖析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Golden-Signals%E3%80%81RED-%E4%B8%8E-USE"><span class="nav-text">Golden Signals、RED 与 USE</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Prometheus-%E6%8C%87%E6%A0%87%E8%AE%BE%E8%AE%A1"><span class="nav-text">Prometheus 指标设计</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Go-%E6%9C%8D%E5%8A%A1%E4%B8%AD%E7%9A%84%E5%9F%BA%E7%A1%80%E8%A7%82%E6%B5%8B"><span class="nav-text">Go 服务中的基础观测</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-text">总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-text">参考资料</span></a></li></ol>
+    </div>
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+        </div>
+
+        <div class="page-main-content-bottom border-box">
+            
+<footer class="footer border-box">
+    <div class="copyright-info info-item">
+    &copy;&nbsp;<span>2022</span>&nbsp;-&nbsp;2026
+    
+            &nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;&nbsp;<a href="/">咕咕咕</a>
+        
+    </div>
+
+    <div class="theme-info info-item">
+        由&nbsp;<a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;驱动&nbsp;&&nbsp;主题&nbsp;<a class="keep-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep</a>
+    </div>
+
+    
+
+    
+        <div class="count-info info-item">
+            
+                <span class="count-item border-box word">
+                    <span class="item-type border-box">总字数</span>
+                    <span class="item-value border-box word">490.8k</span>
+                </span>
+            
+
+            
+                <span class="count-item border-box uv">
+                    <span class="item-type border-box">访客数</span>
+                    <span class="item-value border-box uv" id="busuanzi_value_site_uv"></span>
+                </span>
+            
+
+            
+                <span class="count-item border-box pv">
+                    <span class="item-type border-box">访问量</span>
+                    <span class="item-value border-box pv" id="busuanzi_value_site_pv"></span>
+                </span>
+            
+        </div>
+    
+
+    
+
+  <div class="site-runtime" style="color:var(--text-color-4);">
+    <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>(～￣▽￣)～
+  </div>
+  <a class="site-moe-icp" href="https://icp.gov.moe/?keyword=20222450" target="_blank" rel="noopener">萌ICP备20222450号</a>
+</footer>
+
+        </div>
+    </div>
+
+    <!-- post tools -->
+    
+        <div class="post-tools left-toc">
+            <div class="post-tools-container border-box">
+    <ul class="post-tools-list border-box">
+        <!-- PC encrypt again -->
+        
+
+        <!-- PC TOC show toggle -->
+        
+            <li class="tools-item flex-center toggle-show-toc">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        <!-- PC go comment -->
+        
+            <li class="tools-item flex-center go-to-comments">
+                <i class="fas fa-comment"></i>
+                <span class="post-comments-count"></span>
+            </li>
+        
+
+        <!-- PC full screen -->
+        <li class="tools-item flex-center full-screen">
+            <i class="fa-solid fa-expand"></i>
+        </li>
+    </ul>
+</div>
+
+        </div>
+    
+
+    <!-- side tools -->
+    <div class="side-tools">
+        <div class="side-tools-container border-box ">
+    <ul class="side-tools-list side-tools-show-handle border-box">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <!-- toggle mode -->
+        
+            <li class="tools-item tool-toggle-theme-mode flex-center">
+                <i class="fas fa-moon"></i>
+            </li>
+        
+
+        <!-- rss -->
+        
+            <li class="tools-item rss flex-center">
+                <a class="flex-center"
+                   href="/atom.xml"
+                   target="_blank"
+                >
+                    <i class="fas fa-rss"></i>
+                </a>
+            </li>
+        
+
+        <!-- to bottom -->
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list border-box">
+        
+            <li class="tools-item toggle-show-toc-tablet flex-center">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        
+            <li class="tools-item go-to-comments-tablet flex-center">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+
+        <li class="tools-item tool-scroll-to-top flex-center show-arrow">
+            <i class="arrow fas fa-arrow-up"></i>
+            <span class="percent"></span>
+        </li>
+    </ul>
+</div>
+
+    </div>
+
+    <!-- image mask -->
+    <div class="zoom-in-image-mask">
+    <img class="zoom-in-image">
+</div>
+
+
+    <!-- local search -->
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="搜索..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="close-popup-btn">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+    <!-- tablet toc -->
+    
+        <div class="tablet-post-toc-mask">
+            <div class="tablet-post-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E7%B3%BB%E7%BB%9F%E5%8F%AF%E6%89%BF%E5%8F%97%E7%9A%84%E5%8E%8B%E5%8A%9B"><span class="nav-text">什么是系统可承受的压力</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%84%E4%BC%B0%E5%AE%B9%E9%87%8F%E6%97%B6%E9%9C%80%E8%A6%81%E7%9C%8B%E7%9A%84%E6%8C%87%E6%A0%87"><span class="nav-text">评估容量时需要看的指标</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%9E%E5%90%90%E9%87%8F%EF%BC%9A%E5%8D%95%E4%BD%8D%E6%97%B6%E9%97%B4%E5%AE%8C%E6%88%90%E4%BA%86%E5%A4%9A%E5%B0%91%E5%B7%A5%E4%BD%9C"><span class="nav-text">吞吐量：单位时间完成了多少工作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BB%B6%E8%BF%9F%EF%BC%9A%E8%AF%B7%E6%B1%82%E8%8A%B1%E4%BA%86%E5%A4%9A%E9%95%BF%E6%97%B6%E9%97%B4"><span class="nav-text">延迟：请求花了多长时间</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%94%99%E8%AF%AF%E4%B8%8E%E6%AD%A3%E7%A1%AE%E6%80%A7%EF%BC%9A%E8%AF%B7%E6%B1%82%E6%98%AF%E5%90%A6%E5%BE%97%E5%88%B0%E6%AD%A3%E7%A1%AE%E7%BB%93%E6%9E%9C"><span class="nav-text">错误与正确性：请求是否得到正确结果</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B9%B6%E5%8F%91%E3%80%81%E6%8E%92%E9%98%9F%E4%B8%8E%E9%A5%B1%E5%92%8C%E5%BA%A6%EF%BC%9A%E7%B3%BB%E7%BB%9F%E6%98%AF%E5%90%A6%E5%BC%80%E5%A7%8B%E5%A0%86%E7%A7%AF"><span class="nav-text">并发、排队与饱和度：系统是否开始堆积</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8C%87%E6%A0%87%E4%B9%8B%E9%97%B4%E5%A6%82%E4%BD%95%E4%BA%92%E7%9B%B8%E7%BA%A6%E6%9D%9F"><span class="nav-text">指标之间如何互相约束</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Little-%E5%AE%9A%E5%BE%8B%EF%BC%9A%E5%B9%B6%E5%8F%91%E3%80%81%E5%90%9E%E5%90%90%E9%87%8F%E5%92%8C%E5%BB%B6%E8%BF%9F"><span class="nav-text">Little 定律：并发、吞吐量和延迟</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%A6%E5%AE%BD%E4%B8%8E%E6%95%B0%E6%8D%AE%E9%87%8F"><span class="nav-text">带宽与数据量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%87%8D%E8%AF%95%E6%94%BE%E5%A4%A7%E4%B8%8E%E7%BA%A7%E8%81%94%E6%95%85%E9%9A%9C"><span class="nav-text">重试放大与级联故障</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%80%E6%85%A2%E4%BE%9D%E8%B5%96%E5%86%B3%E5%AE%9A%E7%AB%AF%E5%88%B0%E7%AB%AF%E5%AE%B9%E9%87%8F"><span class="nav-text">最慢依赖决定端到端容量</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%8E%E7%9B%AE%E6%A0%87%E5%88%B0%E5%8E%8B%E6%B5%8B%E7%BB%93%E6%9E%9C"><span class="nav-text">从目标到压测结果</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%88%E5%AE%9A%E4%B9%89%E6%9C%8D%E5%8A%A1%E7%9B%AE%E6%A0%87%E5%92%8C%E8%B4%9F%E8%BD%BD%E6%A8%A1%E5%9E%8B"><span class="nav-text">先定义服务目标和负载模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E5%8E%8B%E6%B5%8B%E6%A8%A1%E5%9E%8B"><span class="nav-text">常见压测模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%95%E6%97%B6%E8%AE%A4%E4%B8%BA%E8%BE%BE%E5%88%B0%E5%AE%B9%E9%87%8F%E8%BE%B9%E7%95%8C"><span class="nav-text">何时认为达到容量边界</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BB%BA%E7%AB%8B%E8%A7%82%E6%B5%8B%E4%BD%93%E7%B3%BB"><span class="nav-text">建立观测体系</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8C%87%E6%A0%87%E3%80%81%E6%97%A5%E5%BF%97%E3%80%81%E8%BF%BD%E8%B8%AA%E4%B8%8E%E5%89%96%E6%9E%90"><span class="nav-text">指标、日志、追踪与剖析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Golden-Signals%E3%80%81RED-%E4%B8%8E-USE"><span class="nav-text">Golden Signals、RED 与 USE</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Prometheus-%E6%8C%87%E6%A0%87%E8%AE%BE%E8%AE%A1"><span class="nav-text">Prometheus 指标设计</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Go-%E6%9C%8D%E5%8A%A1%E4%B8%AD%E7%9A%84%E5%9F%BA%E7%A1%80%E8%A7%82%E6%B5%8B"><span class="nav-text">Go 服务中的基础观测</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-text">总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-text">参考资料</span></a></li></ol>
+    </div>
+</div>
+
+            </div>
+        </div>
+    
+</main>
+
+
+
+
+
+<!-- common js -->
+<script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@4.3.0/source/js/utils.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@4.3.0/source/js/header-shrink.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@4.3.0/source/js/back2top.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@4.3.0/source/js/toggle-theme.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@4.3.0/source/js/code-block.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@4.3.0/source/js/main.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@4.3.0/source/js/libs/anime.min.js"></script>
+
+<!-- local search -->
+
+    <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@4.3.0/source/js/local-search.js"></script>
+
+
+<!-- lazyload -->
+
+    <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@4.3.0/source/js/lazyload.js"></script>
+
+
+<div class="pjax">
+    <!-- home page -->
+    
+
+    <!-- post page -->
+    
+        <!-- post-helper -->
+        <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@4.3.0/source/js/post/post-helper.js"></script>
+
+        <!-- toc -->
+        
+            <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@4.3.0/source/js/post/toc.js"></script>
+        
+
+        <!-- copyright-info -->
+        
+            <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@4.3.0/source/js/post/copyright-info.js"></script>
+        
+
+        <!-- share -->
+        
+            <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@4.3.0/source/js/post/share.js"></script>
+        
+    
+
+    <!-- categories page -->
+    
+
+    <!-- links page -->
+    
+
+    <!-- photos page -->
+    
+
+    <!-- tools page -->
+    
+</div>
+
+<!-- mermaid -->
+
+
+<!-- pjax -->
+
+    <script id="pjax-script" src="/js/libs/pjax.min.js"></script>
+<script>
+  (function () {
+    const isGoogleTranslate = location.hostname.includes('.translate.goog')
+
+    if (isGoogleTranslate) {
+      document.getElementById('pjax-script')?.remove()
+      return
+    }
+
+    function initPjax () {
+      if (window.pjax) return
+
+      window.pjax = new Pjax({
+        selectors: [
+          'head title',
+          '.page-container',
+          '.pjax'
+        ],
+        history: true,
+        debug: false,
+        cacheBust: false,
+        timeout: 0,
+        analytics: false,
+        currentUrlFullReload: false,
+        scrollRestoration: false
+      })
+
+      document.addEventListener('pjax:send', onPjaxSend)
+      document.addEventListener('pjax:complete', onPjaxComplete)
+    }
+
+    function onPjaxSend () {
+      KEEP?.utils?.pjaxProgressBarStart()
+    }
+
+    function onPjaxComplete () {
+      KEEP?.utils?.pjaxProgressBarEnd()
+
+      window?.pjax?.executeScripts(
+        document.querySelectorAll('script[data-pjax], .pjax script')
+      )
+
+      KEEP?.initExecute()
+    }
+
+    // DOM Ready
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initPjax)
+    } else {
+      initPjax()
+    }
+  })()
+</script>
+
+
+
+
+    
+        
+    
+        
+            
+<script class="custom-inject-js" src="/js/leaves.js" data-pjax></script>
+
+        
+    
+        
+            
+<script class="custom-inject-js" src="/js/lifeTime.js" data-pjax></script>
+
+        
+    
+        
+            
+<script class="custom-inject-js" src="/js/site-custom.js" data-pjax></script>
+
+        
+    
+
+
+  <div id="aplayer">
+    <meting-js server="netease" type="playlist" id="7345595717" api="https://api.injahow.cn/meting/?server=:server&type=:type&id=:id&r=:r" fixed="true" mini="true" autoplay="false" listFolded="true" order="random" preload="none"></meting-js>
+  </div>
+  <script src="/js/APlayer.min.js"></script>
+  <script src="/js/Meting.min.js"></script>
+</body>
+</html>

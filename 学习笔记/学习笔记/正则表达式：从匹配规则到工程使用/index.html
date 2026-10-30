@@ -1,0 +1,1759 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="咕咕咕">
+    
+    <title>
+        
+            正则表达式：从匹配规则到工程使用 |
+        
+        咕咕咕的小破站
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+        <link rel="shortcut icon" href="/images/favicon.png">
+    
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hexo-theme-keep@4.3.0/source/font/css/fontawesome.min.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hexo-theme-keep@4.3.0/source/font/css/regular.min.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hexo-theme-keep@4.3.0/source/font/css/solid.min.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hexo-theme-keep@4.3.0/source/font/css/brands.min.css">
+    
+        
+            
+        
+            
+                
+<link rel="stylesheet" href="/css/APlayer.min.css">
+
+            
+        
+            
+                
+<link rel="stylesheet" href="/css/site-custom.css">
+
+            
+        
+    
+    <script>
+        (function () {
+            let theme = localStorage.getItem('KEEP-THEME-STATUS');
+            let classname = "";
+            if (!theme || (JSON.parse(theme).isAutoTheme)){
+                classname = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? "dark-mode" : "light-mode";
+            }
+            else{
+                classname = JSON.parse(theme).isDark ? "dark-mode" : "light-mode";
+            }
+            document.documentElement.classList.add(classname);
+        })();
+    </script>
+    <script class="keep-theme-configurations">
+    const KEEP = window.KEEP || {}
+    KEEP.hexo_config = {"hostname":"cooooing.github.io","root":"/","language":"zh-CN"}
+    KEEP.theme_config = {"base_info":{"primary_color":"#0066cc","title":"咕咕咕的小破站","author":"咕咕咕","avatar":"https://avatars.githubusercontent.com/u/75006169?v=4","logo":"https://avatars.githubusercontent.com/u/75006169?v=4","favicon":"/images/favicon.png"},"menu":{"home":"/","archives":"/archives","categories":"/categories","tags":"/tags","日常":"/daily","links":"/links","about":"/about"},"first_screen":{"enable":false,"background_img":"/images/bg.svg","background_img_dark":"/images/bg.svg","description":"Keep writing and Keep loving.","hitokoto":false},"social_contact":{"enable":false,"links":{"github":null,"weixin":null,"qq":null,"weibo":null,"zhihu":null,"twitter":null,"x":null,"facebook":null,"email":null}},"scroll":{"progress_bar":false,"percent":false,"hide_header":true},"home":{"announcement":null,"category":true,"tag":true,"post_datetime":"updated"},"post":{"author_badge":{"enable":true,"level_badge":false,"custom_badge":"fishing"},"word_count":{"wordcount":true,"min2read":true},"datetime_format":"YYYY-MM-DD HH:mm:ss","copyright_info":true,"share":true,"reward":{"enable":true,"img_link":"/images/thanks.png","text":"谢谢你请我喝可乐~","icon":null}},"code_block":{"tools":{"enable":true,"style":"default"},"highlight_theme":"default"},"toc":{"enable":true,"number":false,"expand_all":true,"init_open":true,"layout":"left"},"website_count":{"busuanzi_count":{"enable":true,"site_uv":true,"site_pv":true,"page_pv":true}},"local_search":{"enable":true,"preload":true},"comment":{"enable":true,"use":"giscus","valine":{"appid":null,"appkey":null,"server_urls":null,"placeholder":null},"gitalk":{"github_id":null,"github_admins":null,"repository":null,"client_id":null,"client_secret":null,"proxy":null},"twikoo":{"env_id":null,"region":null,"version":"1.6.39"},"waline":{"server_url":null,"reaction":false,"version":"3.3.2"},"giscus":{"repo":"Cooooing/Cooooing.github.io","repo_id":"R_kgDOHQal_w","category":"Announcements","category_id":"DIC_kwDOHQal_84CjZo6","reactions_enabled":true},"artalk":{"server":null},"disqus":{"shortname":null}},"rss":{"enable":true},"lazyload":{"enable":true},"cdn":{"enable":true,"provider":"jsdelivr","custom":{"enable":false,"url":null}},"pjax":{"enable":true},"footer":{"since":2022,"word_count":true,"site_deploy":{"enable":false,"provider":"github","url":null},"record":{"enable":false,"list":[{"code":null,"link":null}]}},"inject":{"enable":true,"css":[null,"/css/APlayer.min.css","/css/site-custom.css"],"js":[null,"/js/leaves.js","/js/lifeTime.js","/js/site-custom.js"]},"mathjax":{"tags":"all","single_dollars":true,"cjk_width":0.9,"normal_width":0.6,"append_css":true,"every_page":false},"root":"","search_db_path":"keep-search.json","source_data":{"links":[{"name":"鼠鼠在碎觉","link":"https://sszsj.com","avatar":"https://tmx.fishpi.cn/img/head.jpg","description":"我是不慎落入世界的一滴水墨"},{"name":"Gakkiyomi","link":"https://gakkiyomi.blog","avatar":"https://avatars.githubusercontent.com/u/41406557?v=4","description":"为往圣继绝学"},{"name":"Hancel's Blog","link":"https://my.hancel.org","avatar":"https://my.hancel.org/media/logo.jpg","description":"人生而自由，却无往不在枷锁之中。"},{"name":"Eastshann","link":"https://eastshann.github.io/","avatar":"https://avatars.githubusercontent.com/u/87764431?v=4","description":"冲和者，淡泊平和，谦冲守正"},{"name":"小于同学的异世界","link":"https://yby.zone","avatar":"https://yby-zone.obs.cn-east-3.myhuaweicloud.com/avatar.jpg","description":"为吾为枝，余地三尺，以己为棋，胜天半子。"},{"name":"Mlikiowa Home Village","link":"https://nanaeo.cn/","avatar":"https://q1.qlogo.cn/g?b=qq&nk=1627126029&s=100","description":"A litter Village With Mlikiowa"},{"name":"忘忧草","link":"https://owo.wyc.rest/","avatar":"https://owo.wyc.rest/img/%E4%B8%87%E5%8F%B6.jpg","description":"这只是一个小破站而已！"},{"name":"stillwarter","link":"https://stillwarter.github.io/","avatar":"https://file.fishpi.cn/2022/07/MOSHED2022621164630-1b1ec532.gif?imageView2/1/w/210/h/210/interlace/0/q/100","description":"光就是一切的意义"},{"name":"test12138","link":"http://你好.eu.org/","avatar":"https://file.fishpi.cn/2022/06/srchttpimgzcoolcncommunity0116405d84f975a801211d537707c9gifreferhttpimgzcool-0f2d09c9.gif?imageView2/1/w/48/h/48/interlace/0/q/100","description":"大丈夫生于天地之间，岂能郁郁久居人下。"},{"name":"呼呼呼","link":"https://bongbongbakudan.github.io/","avatar":"https://pwl.stackoverflow.wiki/2021/12/blob-28eb4b9f.png?imageView2/1/w/48/h/48/interlace/0/q/100","description":"去整点薯条"},{"name":"Plumbiu","link":"https://blog.plumbiu.top/","avatar":"https://avatars.githubusercontent.com/u/99574369?v=4","description":"这人很勤奋，啥都没留"},{"name":"hiRipple","link":"https://hiripple.com/","avatar":"https://avatars.githubusercontent.com/u/115361435?v=4","description":"超高校级的游戏玩家"},{"name":"零糖加辣（drda）","link":"https://drda-x.github.io/drda-blog/","avatar":"https://drda-x.github.io/drda-blog/avatar/avatar.webp","description":"奶茶少糖，喜欢吃辣"},{"name":"ncc的个人网站","link":"https://www.zqcnc.cn","avatar":"https://www.zqcnc.cn/favicon.ico","description":"keep trying!"},{"name":"Yui","link":"https://yuis.cc/","avatar":"https://file.fishpi.cn/storage/%E9%B1%BC%E6%8E%92%E4%BA%BA%E7%89%A9/yui.png","description":"世界那么大，等我赚钱一定去看看"},{"name":"XPoet","link":"https://xpoet.cn","description":"懒惰是程序员第一生产力","avatar":"https://xpoet.cn/images/avatar.png"}]},"version":"4.3.0"}
+    KEEP.language_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"}
+    KEEP.language_code_block = {"copy":"复制代码","copied":"已复制","fold":"折叠代码块","folded":"已折叠"}
+    KEEP.language_copy_copyright = {"copy":"复制版权信息","copied":"已复制","title":"原文标题","author":"原文作者","link":"原文链接"}
+  </script>
+<meta name="generator" content="Hexo 8.1.2"><style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style><link rel="alternate" href="/atom.xml" title="咕咕咕的小破站" type="application/atom+xml">
+
+  <!-- Site SEO and analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-CLX32WF4R1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments)}
+    gtag('js', new Date());
+    gtag('config', 'G-CLX32WF4R1');
+  </script>
+  <script>
+    (function(c,l,a,r,i,t,y){
+      c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+      t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+      y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window,document,"clarity","script","yj7nocwazf");
+  </script>
+  <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token":"281999cc46a948d3b8199c1eb621f11e"}'></script>
+</head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+        <span class="pjax-progress-bar"></span>
+        <i class="pjax-progress-icon fas fa-circle-notch fa-spin"></i>
+    
+</div>
+
+
+
+<main class="page-container border-box">
+    <!-- home first screen  -->
+    
+
+    <!-- page content -->
+    <div class="page-main-content border-box">
+        <div class="page-main-content-top">
+            
+<header class="header-wrapper">
+
+    <div class="border-box header-content">
+        <div class="left flex-start border-box">
+            
+                <a class="logo-image border-box" href="/">
+                    <img src="https://avatars.githubusercontent.com/u/75006169?v=4">
+                </a>
+            
+            <a class="site-name border-box" href="/">
+               咕咕咕的小破站
+            </a>
+        </div>
+
+        <div class="right border-box">
+            <div class="pc border-box">
+                <ul class="menu-list border-box">
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/">
+                                
+                                首页
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/archives">
+                                
+                                归档
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/categories">
+                                
+                                分类
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/tags">
+                                
+                                标签
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/daily">
+                                
+                                日常
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/links">
+                                
+                                友链
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/about">
+                                
+                                关于
+                                
+                            </a>
+                            
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="menu-text-color fas search fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile border-box flex-start">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list border-box">
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/">
+                            
+                            首页
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/archives">
+                            
+                            归档
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/categories">
+                            
+                            分类
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/tags">
+                            
+                            标签
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/daily">
+                            
+                            日常
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/links">
+                            
+                            友链
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/about">
+                            
+                            关于
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle border-box">
+
+            <div class="main-content border-box">
+                
+
+                    
+<div class="fade-in-down-animation">
+    <div class="post-page-container border-box">
+        <div class="post-content-container border-box">
+            
+
+            <div class="post-content-bottom border-box">
+                
+                    <div class="post-title">
+                        正则表达式：从匹配规则到工程使用
+                    </div>
+                
+
+                
+                    <div class="post-header border-box">
+                        
+                            <div class="avatar-box border-box">
+                                <img src="https://avatars.githubusercontent.com/u/75006169?v=4">
+                            </div>
+                        
+                        <div class="info-box">
+                            <div class="author border-box">
+                                <span class="name">咕咕咕</span>
+                                
+                                    <span class="author-badge">fishing</span>
+                                
+                            </div>
+                            <div class="meta-info border-box">
+                                
+
+<div class="post-meta-info-container border-box post">
+    <div class="post-meta-info border-box">
+        
+
+        
+            <span class="meta-info-item post-create-date">
+                <i class="icon fa-solid fa-calendar-plus"></i>&nbsp;
+                <span class="datetime">2026-09-22 14:46:02</span>
+            </span>
+
+            
+                <span class="meta-info-item post-update-date">
+                    <i class="icon fa-solid fa-file-pen"></i>&nbsp;
+                    <span class="datetime" data-updated="Tue Sep 22 2026 06:46:02 GMT+0000">2026-09-22 14:46:02</span>
+                </span>
+            
+        
+
+        
+            <span class="meta-info-item post-category border-box"><i class="icon fas fa-folder"></i>&nbsp;
+                <ul class="post-category-ul">
+                    
+                            <li class="category-item"><a href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+            <span class="post-tag meta-info-item border-box">
+                <ul class="post-tag-ul">
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/Go/">Go</a></li>
+                        
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/">正则表达式</a></li>
+                        
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/%E6%96%87%E6%9C%AC%E5%A4%84%E7%90%86/">文本处理</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+        
+            <span class="meta-info-item post-wordcount">
+                <i class="icon fas fa-file-word"></i>&nbsp;<span>4k 字</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-min2read">
+                <i class="icon fas fa-clock"></i>&nbsp;<span>15 分钟</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-pv">
+                <i class="icon fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+            </span>
+        
+    </div>
+
+    
+</div>
+
+                            </div>
+                        </div>
+                    </div>
+                
+
+                <div class="post-content keep-markdown-body ">
+                    
+
+                    
+                         <h2 id="正则表达式解决什么问题"><a href="#正则表达式解决什么问题" class="headerlink" title="正则表达式解决什么问题"></a>正则表达式解决什么问题</h2><p>正则表达式（regular expression，常写作 regex 或 regexp）是一种描述<strong>字符串模式</strong>的语言。程序将模式交给正则引擎，再由引擎判断输入中是否存在符合模式的片段，或者提取、替换这些片段。</p>
+<p>常见用途包括：</p>
+<ul>
+<li>从日志中提取时间、请求 ID、IP 地址等结构化字段；</li>
+<li>检查用户名、编号、日期等文本是否符合预期格式；</li>
+<li>批量替换文本中的固定结构；</li>
+<li>按规则切分字符串。</li>
+</ul>
+<p>正则表达式描述的是<strong>字符结构</strong>，不是业务事实。例如，<code>\d{4}-\d{2}-\d{2}</code> 可以匹配 <code>2026-99-99</code>，却不能证明这是一个有效日期；匹配电子邮件的常见模式也不能证明邮箱存在、归属某人或可以收信。格式检查之外的语义，应由日期库、数据库、验证码或其他业务规则完成。</p>
+<h2 id="从模式到匹配结果"><a href="#从模式到匹配结果" class="headerlink" title="从模式到匹配结果"></a>从模式到匹配结果</h2><p>正则表达式由<strong>字面量、元字符、字符类、锚点、量词、分组和选择</strong>组成。引擎在输入中寻找满足整个模式的一段文本；是否要求覆盖整个输入、字符类如何解释、某些扩展语法是否支持，取决于模式和所用引擎。</p>
+<p>本节是一份通用速查表，适合学习和编写模式时查询。不同引擎对 Unicode、锚点、命名分组、断言等细节可能不同；这些差异应在目标语言或工具的文档中确认。</p>
+<h3 id="匹配范围与位置"><a href="#匹配范围与位置" class="headerlink" title="匹配范围与位置"></a>匹配范围与位置</h3><table>
+<thead>
+<tr>
+<th>目标</th>
+<th>推荐模式</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>查找任意位置的数字</td>
+<td><code>\d+</code></td>
+<td>可在 <code>A-1024</code> 中找到 <code>1024</code></td>
+</tr>
+<tr>
+<td>整个输入都是数字</td>
+<td><code>^\d+$</code></td>
+<td><code>^</code>、<code>$</code> 限制匹配覆盖整个输入</td>
+</tr>
+<tr>
+<td>以 <code>http://</code> 或 <code>https://</code> 开头</td>
+<td><code>^https?://</code></td>
+<td><code>?</code> 表示前一元素出现零或一次</td>
+</tr>
+<tr>
+<td>单独的单词 <code>cat</code></td>
+<td><code>\bcat\b</code></td>
+<td><code>\b</code> 是单词边界；对中文分词通常无效</td>
+</tr>
+<tr>
+<td>每一行以 <code>ERROR:</code> 开头的文本</td>
+<td><code>(?m)^ERROR:.*$</code></td>
+<td>多行模式下，<code>^</code>、<code>$</code> 匹配行的起止位置</td>
+</tr>
+</tbody></table>
+<p>锚点不匹配实际字符，只限制模式出现的位置。</p>
+<table>
+<thead>
+<tr>
+<th>模式</th>
+<th>常见含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>^</code></td>
+<td>输入开头；多行模式下通常也表示行首</td>
+</tr>
+<tr>
+<td><code>$</code></td>
+<td>输入结尾；多行模式下通常也表示行尾</td>
+</tr>
+<tr>
+<td><code>\A</code></td>
+<td>输入绝对开头；并非所有引擎支持</td>
+</tr>
+<tr>
+<td><code>\z</code></td>
+<td>输入绝对结尾；并非所有引擎支持</td>
+</tr>
+<tr>
+<td><code>\b</code></td>
+<td>单词边界</td>
+</tr>
+<tr>
+<td><code>\B</code></td>
+<td>非单词边界</td>
+</tr>
+</tbody></table>
+<p>完整校验通常写作 <code>^模式$</code>。但 <code>$</code> 是否允许匹配最后一个换行符之前的位置、<code>\b</code> 如何定义单词字符，都可能因引擎而异；需要严格校验时，应以实际引擎的规则为准。</p>
+<h3 id="字面量、转义与字符类"><a href="#字面量、转义与字符类" class="headerlink" title="字面量、转义与字符类"></a>字面量、转义与字符类</h3><p>普通字符匹配自身，例如 <code>cat</code> 匹配连续的 <code>cat</code>。<code>.</code>、<code>*</code>、<code>+</code>、<code>?</code>、<code>(</code>、<code>)</code>、<code>[</code>、<code>]</code>、<code>{</code>、<code>}</code>、<code>|</code>、<code>^</code>、<code>$</code>、<code>\</code> 等是元字符；若要匹配它们自身，通常需要使用反斜杠转义。</p>
+<table>
+<thead>
+<tr>
+<th>目标文本</th>
+<th>正则模式</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>a.b</code></td>
+<td><code>a\.b</code></td>
+<td><code>.</code> 默认匹配一个字符，<code>\.</code> 匹配句点</td>
+</tr>
+<tr>
+<td><code>a+b</code></td>
+<td><code>a\+b</code></td>
+<td><code>+</code> 是量词，<code>\+</code> 匹配加号</td>
+</tr>
+<tr>
+<td><code>a(b)</code></td>
+<td><code>a\(b\)</code></td>
+<td>圆括号默认用于分组</td>
+</tr>
+<tr>
+<td><code>C:\temp</code></td>
+<td><code>C:\\temp</code></td>
+<td>字面量反斜杠通常写成 <code>\\</code></td>
+</tr>
+<tr>
+<td>任意一个字符</td>
+<td><code>.</code></td>
+<td>多数引擎默认不匹配换行符</td>
+</tr>
+<tr>
+<td>换行、制表符、回车</td>
+<td><code>\n</code>、<code>\t</code>、<code>\r</code></td>
+<td>匹配对应控制字符</td>
+</tr>
+<tr>
+<td>十六进制字符</td>
+<td><code>\x7F</code></td>
+<td>匹配十六进制编码对应字符</td>
+</tr>
+<tr>
+<td>一段纯字面量文本</td>
+<td><code>\Q[a-z]+\E</code></td>
+<td>支持该语法的引擎中，内部元字符失去特殊含义</td>
+</tr>
+</tbody></table>
+<p>字符类 <code>[]</code> 一次匹配一个字符。<code>[]</code> 中的 <code>^</code> 只有位于开头时表示取反；连字符 <code>-</code> 通常用于范围，若要匹配连字符本身，可将它放在首尾或转义为 <code>\-</code>。</p>
+<table>
+<thead>
+<tr>
+<th>模式</th>
+<th>匹配内容</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>[abc]</code></td>
+<td><code>a</code>、<code>b</code>、<code>c</code> 中任意一个</td>
+</tr>
+<tr>
+<td><code>[^abc]</code></td>
+<td>除 <code>a</code>、<code>b</code>、<code>c</code> 外的任意一个字符</td>
+</tr>
+<tr>
+<td><code>[a-z]</code></td>
+<td>一个小写 ASCII 字母</td>
+</tr>
+<tr>
+<td><code>[A-Za-z0-9_]</code></td>
+<td>一个大小写 ASCII 字母、数字或下划线</td>
+</tr>
+<tr>
+<td><code>[0-9A-Fa-f]</code></td>
+<td>一个十六进制数字</td>
+</tr>
+<tr>
+<td><code>[-a-z]</code>、<code>[a-z-]</code></td>
+<td>小写 ASCII 字母或连字符</td>
+</tr>
+<tr>
+<td><code>\d</code>、<code>\D</code></td>
+<td>一个数字 &#x2F; 一个非数字字符</td>
+</tr>
+<tr>
+<td><code>\s</code>、<code>\S</code></td>
+<td>一个空白字符 &#x2F; 一个非空白字符</td>
+</tr>
+<tr>
+<td><code>\w</code>、<code>\W</code></td>
+<td>一个单词字符 &#x2F; 一个非单词字符</td>
+</tr>
+<tr>
+<td><code>[[:alpha:]]</code></td>
+<td>一个 ASCII 字母（POSIX 字符类）</td>
+</tr>
+<tr>
+<td><code>[[:digit:]]</code></td>
+<td>一个 ASCII 数字（POSIX 字符类）</td>
+</tr>
+<tr>
+<td><code>\p{Han}</code></td>
+<td>一个汉字字符（支持 Unicode 属性的引擎中）</td>
+</tr>
+<tr>
+<td><code>\P{Han}</code></td>
+<td>一个非汉字字符（支持 Unicode 属性的引擎中）</td>
+</tr>
+<tr>
+<td><code>\p{L}</code>、<code>\p{Lu}</code></td>
+<td>任意 Unicode 字母 &#x2F; 大写 Unicode 字母</td>
+</tr>
+</tbody></table>
+<p><code>\d</code>、<code>\s</code>、<code>\w</code> 以及 <code>\p{...}</code> 的精确定义存在引擎差异。需要精确限制格式时，使用显式字符范围，例如 <code>[0-9]</code>、<code>[A-Za-z]</code>，通常更清楚。</p>
+<h3 id="量词、选择与分组"><a href="#量词、选择与分组" class="headerlink" title="量词、选择与分组"></a>量词、选择与分组</h3><p>量词修饰前一个原子；原子可以是字符、字符类、转义序列或一个分组。下表量词行中的 <code>x</code> 是占位符，表示“前一个原子”，不是固定要匹配的字母 <code>x</code>。例如 <code>a*</code> 表示字母 <code>a</code> 出现零次或多次，<code>\d+</code> 表示数字字符类出现一次或多次，<code>(ab){2}</code> 表示整体 <code>ab</code> 出现两次。</p>
+<table>
+<thead>
+<tr>
+<th>写法</th>
+<th>含义</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>x*</code></td>
+<td><code>x</code> 出现零次或多次</td>
+<td>空串、<code>x</code>、<code>xxx</code></td>
+</tr>
+<tr>
+<td><code>x+</code></td>
+<td><code>x</code> 出现一次或多次</td>
+<td><code>x</code>、<code>xxx</code></td>
+</tr>
+<tr>
+<td><code>x?</code></td>
+<td><code>x</code> 出现零次或一次</td>
+<td>空串、<code>x</code></td>
+</tr>
+<tr>
+<td><code>x{n}</code></td>
+<td><code>x</code> 恰好出现 <code>n</code> 次</td>
+<td><code>x{3}</code> 匹配 <code>xxx</code></td>
+</tr>
+<tr>
+<td><code>x{n,}</code></td>
+<td><code>x</code> 至少出现 <code>n</code> 次</td>
+<td><code>x{2,}</code> 匹配 <code>xx</code>、<code>xxx</code></td>
+</tr>
+<tr>
+<td><code>x{n,m}</code></td>
+<td><code>x</code> 出现 <code>n</code> 至 <code>m</code> 次</td>
+<td><code>x{2,4}</code> 匹配 <code>xx</code> 至 <code>xxxx</code></td>
+</tr>
+<tr>
+<td><code>x*?</code>、<code>x+?</code>、<code>x??</code></td>
+<td>对应量词的懒惰形式</td>
+<td>尽可能少匹配，但仍使整体成功</td>
+</tr>
+<tr>
+<td><code>a&#124;b</code></td>
+<td>匹配 <code>a</code> 或 <code>b</code></td>
+<td><code>GET&#124;POST</code> 匹配 <code>GET</code> 或 <code>POST</code></td>
+</tr>
+<tr>
+<td><code>(re)</code></td>
+<td>捕获组：匹配 <code>re</code> 并保存其结果</td>
+<td><code>(ab)+</code> 将 <code>ab</code> 作为整体重复</td>
+</tr>
+<tr>
+<td><code>(?:re)</code></td>
+<td>非捕获组：只分组，不保存结果</td>
+<td><code>(?:GET&#124;POST) /api</code>；并非所有引擎支持</td>
+</tr>
+<tr>
+<td><code>(?&lt;name&gt;re)</code>、<code>(?P&lt;name&gt;re)</code></td>
+<td>命名捕获组</td>
+<td>语法与支持范围因引擎而异</td>
+</tr>
+</tbody></table>
+<p><code>ab+</code> 只重复 <code>b</code>；要重复整个 <code>ab</code>，应写 <code>(ab)+</code>。竖线 <code>|</code> 表示“或”；圆括号用于将多个元素组成整体，也可以保存匹配结果。</p>
+<p>选择的范围由分组决定：<code>GET&#124;POST /api</code> 表示 <code>GET</code>，或 <code>POST /api</code>；<code>(GET&#124;POST) /api</code> 才表示 <code>GET /api</code> 或 <code>POST /api</code>。</p>
+<p>量词默认通常是贪婪的：<code>&lt;.*&gt;</code> 用于 <code>&lt;b&gt;一&lt;/b&gt;&lt;i&gt;二&lt;/i&gt;</code> 时，通常会匹配到最后一个 <code>&gt;</code>；<code>&lt;.*?&gt;</code> 则会依次匹配四个标签。比起依赖贪婪或懒惰量词，按数据边界排除字符往往更可靠，例如 <code>&lt;[^&gt;]*&gt;</code>。</p>
+<p>正则表达式适合描述局部、扁平的文本结构，不适合解析任意 HTML、XML、JSON 或编程语言源码。这些格式具有嵌套结构、转义规则或上下文语义，应使用对应解析器。</p>
+<h3 id="修饰符与高级语法"><a href="#修饰符与高级语法" class="headerlink" title="修饰符与高级语法"></a>修饰符与高级语法</h3><p>修饰符（flag）会改变后续模式或局部子模式的解释方式。写法和支持范围因引擎而异。</p>
+<table>
+<thead>
+<tr>
+<th>写法</th>
+<th>常见作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>i</code> 或 <code>(?i)</code></td>
+<td>忽略大小写</td>
+</tr>
+<tr>
+<td><code>m</code> 或 <code>(?m)</code></td>
+<td>多行模式，<code>^</code>、<code>$</code> 匹配行边界</td>
+</tr>
+<tr>
+<td><code>s</code> 或 <code>(?s)</code></td>
+<td>dotall 模式，<code>.</code> 可以匹配换行符</td>
+</tr>
+<tr>
+<td><code>U</code> 或 <code>(?U)</code></td>
+<td>交换贪婪与懒惰量词的默认行为；并非所有引擎支持</td>
+</tr>
+<tr>
+<td><code>(?i:re)</code></td>
+<td>仅对 <code>re</code> 启用忽略大小写</td>
+</tr>
+<tr>
+<td><code>(?-i)</code>、<code>(?im-s:re)</code></td>
+<td>关闭或组合局部修饰符；引擎支持情况不同</td>
+</tr>
+</tbody></table>
+<p>以下是编写模式时常见、但不具备完全通用性的高级语法：</p>
+<table>
+<thead>
+<tr>
+<th>能力</th>
+<th>常见写法</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>回溯引用</td>
+<td><code>(\w+)\s+\1</code></td>
+<td>匹配重复出现的同一文本</td>
+</tr>
+<tr>
+<td>前瞻</td>
+<td><code>\d+(?=px)</code></td>
+<td>要求后方满足条件，但不消耗后方文本</td>
+</tr>
+<tr>
+<td>后顾</td>
+<td><code>(?&lt;=#)\w+</code></td>
+<td>要求前方满足条件，但不消耗前方文本</td>
+</tr>
+<tr>
+<td>条件分支</td>
+<td><code>(?(1)a&#124;b)</code></td>
+<td>根据某个分组是否匹配选择分支</td>
+</tr>
+<tr>
+<td>原子组</td>
+<td><code>(?&gt;re)</code></td>
+<td>禁止该组内部回溯</td>
+</tr>
+<tr>
+<td>递归匹配</td>
+<td><code>(?R)</code></td>
+<td>用于部分嵌套结构；并非解析器的替代品</td>
+</tr>
+</tbody></table>
+<p>这些语法在不同引擎中的支持和行为差异很大。使用前应确认目标语言或工具的文档，而不应仅以在线正则工具的结果为准。</p>
+<h2 id="在-Go-中使用-regexp-包"><a href="#在-Go-中使用-regexp-包" class="headerlink" title="在 Go 中使用 regexp 包"></a>在 Go 中使用 regexp 包</h2><h3 id="RE2-语法特征与限制"><a href="#RE2-语法特征与限制" class="headerlink" title="RE2 语法特征与限制"></a>RE2 语法特征与限制</h3><p>Go 的 <code>regexp</code> 包使用 RE2 引擎。修饰符写在模式内，可作用于剩余模式，也可以限制在一个分组内。</p>
+<table>
+<thead>
+<tr>
+<th>写法</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>(?i)</code>、<code>(?i:re)</code></td>
+<td>忽略大小写；后者仅作用于 <code>re</code></td>
+</tr>
+<tr>
+<td><code>(?m)</code>、<code>(?m:re)</code></td>
+<td>多行模式，<code>^</code>、<code>$</code> 匹配行边界</td>
+</tr>
+<tr>
+<td><code>(?s)</code>、<code>(?s:re)</code></td>
+<td>dotall 模式，<code>.</code> 可以匹配换行符</td>
+</tr>
+<tr>
+<td><code>(?U)</code>、<code>(?U:re)</code></td>
+<td>非贪婪模式，交换贪婪与懒惰量词的默认行为</td>
+</tr>
+<tr>
+<td><code>(?-i)</code>、<code>(?im-s:re)</code></td>
+<td>关闭一个修饰符，或在分组内组合设置</td>
+</tr>
+</tbody></table>
+<p>RE2 为保证线性时间匹配，明确不支持下列常见扩展：</p>
+<table>
+<thead>
+<tr>
+<th>不支持的能力</th>
+<th>常见写法</th>
+<th>替代方向</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>回溯引用</td>
+<td><code>(\w+)\s+\1</code></td>
+<td>提取两段文本后在 Go 代码中比较</td>
+</tr>
+<tr>
+<td>前瞻</td>
+<td><code>\d+(?=px)</code></td>
+<td>先匹配候选文本，再检查后缀</td>
+</tr>
+<tr>
+<td>后顾</td>
+<td><code>(?&lt;=#)\w+</code></td>
+<td>匹配 <code>#(\w+)</code> 后提取捕获组</td>
+</tr>
+<tr>
+<td>条件分支、原子组</td>
+<td><code>(?(1)a&#124;b)</code>、<code>(?&gt;re)</code></td>
+<td>拆为普通 Go 控制流</td>
+</tr>
+<tr>
+<td>分支重置、递归匹配</td>
+<td><code>(?&#124;...)</code>、<code>(?R)</code></td>
+<td>改用多个模式或解析器</td>
+</tr>
+</tbody></table>
+<p>除上述语法差异外，RE2 的匹配语义与常见回溯型引擎也不完全相同；跨语言迁移模式时，应使用目标语言的引擎文档重新验证。</p>
+<h3 id="编译与转义"><a href="#编译与转义" class="headerlink" title="编译与转义"></a>编译与转义</h3><table>
+<thead>
+<tr>
+<th>API</th>
+<th>用途</th>
+<th>失败行为</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>regexp.Compile(expr)</code></td>
+<td>编译动态或需要处理错误的模式</td>
+<td>返回 <code>(*Regexp, error)</code></td>
+</tr>
+<tr>
+<td><code>regexp.MustCompile(expr)</code></td>
+<td>编译代码中固定且已测试的模式</td>
+<td>编译失败时 panic</td>
+</tr>
+<tr>
+<td><code>regexp.CompilePOSIX(expr)</code></td>
+<td>按 POSIX 左最长规则编译</td>
+<td>返回 <code>(*Regexp, error)</code></td>
+</tr>
+<tr>
+<td><code>regexp.MustCompilePOSIX(expr)</code></td>
+<td>编译固定的 POSIX 模式</td>
+<td>编译失败时 panic</td>
+</tr>
+<tr>
+<td><code>regexp.QuoteMeta(text)</code></td>
+<td>将普通文本转为可安全嵌入模式的字面量</td>
+<td>不编译模式</td>
+</tr>
+</tbody></table>
+<p>Go 推荐使用原始字符串 <code>`...`</code> 编写固定模式，例如 <code>`^\d+$`</code> 会原样传给正则引擎。若使用双引号字符串，则还需处理 Go 字符串转义，相同模式写作 <code>&quot;^\\d+$&quot;</code>。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">prefix := regexp.QuoteMeta(userInput)</span><br><span class="line">re, err := regexp.Compile(<span class="string">`^`</span> + prefix + <span class="string">`-[0-9]+$`</span>)</span><br><span class="line"><span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> err</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里 <code>QuoteMeta</code> 防止 <code>userInput</code> 中的 <code>.</code>、<code>*</code>、<code>[</code> 等字符改变模式含义。它只用于模式，不用于 <code>ReplaceAllString</code> 的替换字符串。<code>CompilePOSIX</code> 使用 POSIX 左最长规则；通常的 <code>Compile</code> 使用左端最先匹配规则。普通模式如无明确要求，使用 <code>Compile</code> 即可。</p>
+<h3 id="匹配、查找与索引"><a href="#匹配、查找与索引" class="headerlink" title="匹配、查找与索引"></a>匹配、查找与索引</h3><p>包级 <code>regexp.MatchString(pattern, text)</code> 会每次编译 <code>pattern</code>，适合一次性使用。已有 <code>*Regexp</code> 时使用下表方法。</p>
+<p>这些匹配 API 都采用“查找是否存在匹配子串”的语义。若要校验整个输入，模式必须显式使用 <code>^</code>、<code>$</code>，例如 <code>^\d+$</code>；<code>\d+</code> 仍会在 <code>订单 A-1024</code> 中匹配到 <code>1024</code>。</p>
+<table>
+<thead>
+<tr>
+<th>包级函数</th>
+<th>输入类型</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>regexp.Match(pattern, b)</code></td>
+<td><code>[]byte</code></td>
+<td>一次性判断字节切片是否包含匹配</td>
+</tr>
+<tr>
+<td><code>regexp.MatchString(pattern, s)</code></td>
+<td><code>string</code></td>
+<td>一次性判断字符串是否包含匹配</td>
+</tr>
+<tr>
+<td><code>regexp.MatchReader(pattern, r)</code></td>
+<td><code>io.RuneReader</code></td>
+<td>一次性判断字符流是否包含匹配</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>返回内容</th>
+<th>未匹配时</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>re.MatchString(s)</code></td>
+<td>是否存在匹配子串</td>
+<td><code>false</code></td>
+</tr>
+<tr>
+<td><code>re.FindString(s)</code></td>
+<td>第一个匹配子串</td>
+<td><code>&quot;&quot;</code></td>
+</tr>
+<tr>
+<td><code>re.FindStringIndex(s)</code></td>
+<td>第一个匹配的字节区间 <code>[start, end]</code></td>
+<td><code>nil</code></td>
+</tr>
+<tr>
+<td><code>re.FindAllString(s, n)</code></td>
+<td>最多 <code>n</code> 个匹配；<code>n &lt; 0</code> 表示全部</td>
+<td><code>nil</code></td>
+</tr>
+<tr>
+<td><code>re.FindAllStringIndex(s, n)</code></td>
+<td>多个匹配的字节区间</td>
+<td><code>nil</code></td>
+</tr>
+<tr>
+<td><code>re.Split(s, n)</code></td>
+<td>按匹配处切分字符串</td>
+<td>由 <code>n</code> 控制结果数量</td>
+</tr>
+</tbody></table>
+<p>索引均以<strong>字节偏移量</strong>表示，不是 rune 个数。处理中文文本时，不能把 <code>FindStringIndex</code> 的返回值当作字符下标；可以用它直接切片 <code>s[start:end]</code>，或者按需将字符串转换为 <code>[]rune</code> 后再处理。</p>
+<p>以上字符串方法都有面向 <code>[]byte</code> 的同名变体，例如 <code>Find</code>、<code>FindIndex</code>、<code>FindAll</code>、<code>FindSubmatch</code>、<code>ReplaceAll</code>。处理 <code>io.RuneReader</code> 时可使用 <code>FindReaderIndex</code> 和 <code>FindReaderSubmatchIndex</code>。除输入和返回类型外，匹配语义相同。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">re := regexp.MustCompile(<span class="string">`\d+`</span>)</span><br><span class="line">text := <span class="string">&quot;订单 A-1024，批次 77&quot;</span></span><br><span class="line"></span><br><span class="line">fmt.Println(re.MatchString(text))         <span class="comment">// true</span></span><br><span class="line">fmt.Println(re.FindString(text))          <span class="comment">// 1024</span></span><br><span class="line">fmt.Println(re.FindAllString(text, <span class="number">-1</span>))   <span class="comment">// [1024 77]</span></span><br><span class="line">fmt.Println(re.FindStringIndex(text))     <span class="comment">// [9 13]，字节下标</span></span><br><span class="line"></span><br><span class="line">comma := regexp.MustCompile(<span class="string">`,\s*`</span>)</span><br><span class="line">fmt.Println(comma.Split(<span class="string">&quot;a, b, c&quot;</span>, <span class="number">-1</span>))  <span class="comment">// [a b c]</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="捕获组与替换"><a href="#捕获组与替换" class="headerlink" title="捕获组与替换"></a>捕获组与替换</h3><p><code>FindStringSubmatch</code> 返回完整匹配和每个捕获组；<code>FindStringSubmatchIndex</code> 返回它们的字节区间。具名分组可配合 <code>SubexpNames</code>、<code>SubexpIndex</code> 避免依赖难读的数字下标。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">line := <span class="string">&quot;2026-09-22 20:15:03 INFO request_id=ab12cd user_id=42&quot;</span></span><br><span class="line">re := regexp.MustCompile(<span class="string">`^(?P&lt;date&gt;\d&#123;4&#125;-\d&#123;2&#125;-\d&#123;2&#125;)\s+(?P&lt;time&gt;\d&#123;2&#125;:\d&#123;2&#125;:\d&#123;2&#125;)\s+(?P&lt;level&gt;INFO|WARN|ERROR)\s+request_id=(?P&lt;requestID&gt;[A-Za-z0-9]+)\s+user_id=(?P&lt;userID&gt;\d+)$`</span>)</span><br><span class="line"></span><br><span class="line">values := re.FindStringSubmatch(line)</span><br><span class="line"><span class="keyword">if</span> values != <span class="literal">nil</span> &#123;</span><br><span class="line">    fmt.Println(values[re.SubexpIndex(<span class="string">&quot;requestID&quot;</span>)]) <span class="comment">// ab12cd</span></span><br><span class="line">    fmt.Println(values[re.SubexpIndex(<span class="string">&quot;userID&quot;</span>)])    <span class="comment">// 42</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>re.NumSubexp()</code></td>
+<td>捕获组数量，不包括完整匹配</td>
+</tr>
+<tr>
+<td><code>re.SubexpNames()</code></td>
+<td>与编号对应的分组名称；未命名项为空字符串</td>
+</tr>
+<tr>
+<td><code>re.SubexpIndex(name)</code></td>
+<td>获取命名组编号；不存在时返回 <code>-1</code></td>
+</tr>
+<tr>
+<td><code>re.FindStringSubmatch(s)</code></td>
+<td>第一个完整匹配和各捕获组文本</td>
+</tr>
+<tr>
+<td><code>re.FindStringSubmatchIndex(s)</code></td>
+<td>第一个完整匹配和各捕获组字节区间</td>
+</tr>
+<tr>
+<td><code>re.FindAllStringSubmatch(s, n)</code></td>
+<td>多个匹配及其各捕获组</td>
+</tr>
+<tr>
+<td><code>re.ReplaceAllString(s, repl)</code></td>
+<td>用替换模板替换所有匹配</td>
+</tr>
+<tr>
+<td><code>re.ReplaceAllStringFunc(s, func)</code></td>
+<td>对每个匹配调用函数生成替换结果</td>
+</tr>
+<tr>
+<td><code>re.ReplaceAllLiteralString(s, repl)</code></td>
+<td>将 <code>repl</code> 视为字面量，不展开 <code>$1</code>、<code>${name}</code></td>
+</tr>
+<tr>
+<td><code>re.ExpandString(dst, template, src, match)</code></td>
+<td>根据匹配索引将替换模板展开到 <code>dst</code></td>
+</tr>
+<tr>
+<td><code>re.LiteralPrefix()</code></td>
+<td>返回可确定的字面量前缀及其是否覆盖整个模式</td>
+</tr>
+<tr>
+<td><code>re.Longest()</code></td>
+<td>将该 <code>Regexp</code> 切换为左最长匹配；不应与并发匹配同时调用</td>
+</tr>
+</tbody></table>
+<p>替换方法中的 <code>$1</code>、<code>${name}</code> 引用捕获组。<code>ReplaceAllLiteralString</code> 会将替换文本原样写入；<code>ReplaceAllStringFunc</code> 直接接收每个匹配文本并返回替换结果，适合执行计算或安全地插入外部文本。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">date := regexp.MustCompile(<span class="string">`^(\d&#123;4&#125;)-(\d&#123;2&#125;)-(\d&#123;2&#125;)$`</span>)</span><br><span class="line">fmt.Println(date.ReplaceAllString(<span class="string">&quot;2026-09-22&quot;</span>, <span class="string">&quot;$3/$2/$1&quot;</span>)) <span class="comment">// 22/09/2026</span></span><br><span class="line"></span><br><span class="line">number := regexp.MustCompile(<span class="string">`\d+`</span>)</span><br><span class="line">fmt.Println(number.ReplaceAllStringFunc(<span class="string">&quot;item-12, item-7&quot;</span>, <span class="function"><span class="keyword">func</span><span class="params">(match <span class="type">string</span>)</span></span> <span class="type">string</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;[&quot;</span> + match + <span class="string">&quot;]&quot;</span></span><br><span class="line">&#125;)) <span class="comment">// item-[12], item-[7]</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="性能与边界"><a href="#性能与边界" class="headerlink" title="性能与边界"></a>性能与边界</h3><p>Go 的 RE2 保证匹配时间相对输入长度是线性的，因此传统回溯型引擎中 <code>(a+)+</code>、<code>(.*)*</code> 引发的灾难性回溯不会发生。但这不代表可忽略资源限制：超长输入、收集全部匹配、复杂替换和频繁编译模式仍会消耗 CPU 或内存。</p>
+<ul>
+<li>为外部输入设置长度上限；</li>
+<li>只需要一个结果时使用 <code>FindString</code>，不要无条件使用 <code>FindAllString(..., -1)</code>；</li>
+<li>固定模式预编译并复用；</li>
+<li>不接受不可信来源提供的任意正则表达式作为模式；</li>
+<li>对日期、URL、邮箱、标识符等格式匹配成功后，继续完成相应的语义校验。</li>
+</ul>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>正则表达式的关键不在于记住所有符号，而在于先定义匹配目标和边界：是查找片段还是校验整体，哪些字符允许出现，哪些字段需要提取，哪些语义必须交给后续代码验证。</p>
+<p>处理真实业务文本时，保持模式短小、测试充分，理解 Go RE2 的语法边界，并把不可信动态模式排除在输入路径之外。正则表达式适合描述局部、扁平的文本规则；当数据有递归嵌套或复杂语义时，解析器和结构化校验通常是更合适的工具。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ol>
+<li>Go. <a class="link"   target="_blank" rel="noopener" href="https://pkg.go.dev/regexp" >regexp package<i class="fas fa-external-link-alt"></i></a>。Go 标准库的匹配 API、RE2 语法与线性时间保证。</li>
+<li>Google RE2. <a class="link"   target="_blank" rel="noopener" href="https://github.com/google/re2/wiki/Syntax" >Syntax<i class="fas fa-external-link-alt"></i></a>。RE2 支持的字符类、量词、分组和修饰符。</li>
+<li>Russ Cox. <a class="link"   target="_blank" rel="noopener" href="https://swtch.com/~rsc/regexp/regexp1.html" >Regular Expression Matching Can Be Simple And Fast<i class="fas fa-external-link-alt"></i></a>。回溯型正则引擎与线性时间匹配算法的差异。</li>
+</ol>
+
+                    
+                </div>
+
+                
+                        
+<div class="post-copyright-info-container border-box">
+    <div class="copyright-info-content border-box">
+        <div class="copyright-info-top border-box">
+            <div class="copyright-post-title border-box text-ellipsis">
+                正则表达式：从匹配规则到工程使用
+            </div>
+
+            <div class="copyright-post-link border-box text-ellipsis">
+                学习笔记/学习笔记/正则表达式：从匹配规则到工程使用/
+            </div>
+        </div>
+
+        <div class="copyright-info-bottom border-box">
+            <div class="copyright-post-author bottom-item">
+                <div class="type">
+                    作者
+                </div>
+                <div class="content">咕咕咕</div>
+            </div>
+
+            <div class="post-time bottom-item">
+                <div class="type">
+                    发布于
+                </div>
+                <div class="content">2026-09-22 14:46</div>
+            </div>
+
+
+            <div class="post-license bottom-item">
+                <div class="type">
+                    许可
+                </div>
+                <div class="content tooltip" data-tooltip-content="CC BY-NC-SA 4.0">
+                    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hans" target="_blank">
+                        
+                            <i class="fa-brands fa-creative-commons"></i>
+                            <i class="fa-brands fa-creative-commons-by"></i>
+                            <i class="fa-brands fa-creative-commons-nc"></i>
+                            <i class="fa-brands fa-creative-commons-sa"></i>
+                        
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <i class="copyright-bg fa-solid fa-copyright"></i>
+    </div>
+    <div class="copy-copyright-info flex-center tooltip" data-tooltip-content="复制版权信息" data-tooltip-offset-y="-2px">
+        <i class="fa-solid fa-copy"></i>
+    </div>
+</div>
+
+                
+
+                <div class="post-bottom-tags-and-share border-box">
+                    <div>
+                        
+                            <ul class="post-tags-box border-box">
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/Go/">Go</a>
+                                    </li>
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/">正则表达式</a>
+                                    </li>
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/%E6%96%87%E6%9C%AC%E5%A4%84%E7%90%86/">文本处理</a>
+                                    </li>
+                                
+                            </ul>
+                        
+                    </div>
+                    <div>
+                        
+                            <div class="post-share-container border-box">
+    <ul class="share-list-wrap border-box">
+        <li class="qq share-item border-box flex-center tooltip"
+            data-tooltip-content="分享到 QQ"
+        >
+            <i class="fa-brands fa-qq"></i>
+        </li>
+        <li class="wechat share-item border-box flex-center tooltip tooltip-img"
+            data-tooltip-content="分享到微信"
+            data-tooltip-img-tip="微信扫一扫"
+            data-tooltip-img-style="background-color: #fff; top: -10px; padding: 0.6rem 0.6rem 0.1rem 0.6rem;"
+        >
+            <i class="fa-brands fa-weixin"></i>
+        </li>
+        <li class="weibo share-item border-box flex-center tooltip"
+            data-tooltip-content="分享到微博"
+        >
+            <i class="fa-brands fa-weibo"></i>
+        </li>
+    </ul>
+</div>
+
+                        
+                    </div>
+                </div>
+
+                
+                    
+
+<div class="reward-author-container border-box flex-center">
+    <div class="reward-btn border-box flex-center tooltip tooltip-img"
+            data-tooltip-img-url="/images/thanks.png"
+            data-tooltip-img-trigger="click"
+            data-tooltip-img-style="top: -6px;"
+    >
+        <i class="fa-solid fa-gift"></i>&nbsp;谢谢你请我喝可乐~
+    </div>
+</div>
+
+                
+
+                
+                    <div class="post-nav border-box">
+                        
+                            <div class="prev-post">
+                                <a class="prev"
+                                   rel="prev"
+                                   href="/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E7%B3%BB%E7%BB%9F%E5%AE%B9%E9%87%8F%E4%B8%8E%E5%8E%8B%E5%8A%9B%E8%AF%84%E4%BC%B0/"
+                                   title="系统容量与压力评估：指标、计算与观测"
+                                >
+                                    <span class="left arrow-icon flex-center">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </span>
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">系统容量与压力评估：指标、计算与观测</span>
+                                        <span class="post-nav-item">上一篇</span>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                        
+                            <div class="next-post">
+                                <a class="next"
+                                   rel="next"
+                                   href="/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/Actor%E6%A8%A1%E5%9E%8B%EF%BC%9A%E4%BB%8E%E5%85%B1%E4%BA%AB%E7%8A%B6%E6%80%81%E5%88%B0%E6%B6%88%E6%81%AF%E4%BC%A0%E9%80%92/"
+                                   title="Actor 模型：从共享状态到消息传递"
+                                >
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">Actor 模型：从共享状态到消息传递</span>
+                                        <span class="post-nav-item">下一篇</span>
+                                    </span>
+                                    <span class="right arrow-icon flex-center">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                    </div>
+                
+
+                
+                    
+
+
+    <div class="comments-container border-box">
+        <div id="comments-anchor" class="comment-area-title border-box">
+            <i class="fas fa-comments"></i>&nbsp;评论
+        </div>
+        <div class="comment-plugin-fail border-box">
+    <span class="fail-tip">评论插件加载失败</span>
+    <button class="reload keep-button">点击重新加载</button>
+</div>
+<div class="comment-plugin-loading flex-center border-box">
+    <i class="loading-icon fa-solid fa-spinner fa-spin"></i>
+    <span class="load-tip">正在加载评论插件</span>
+</div>
+<script data-pjax>
+  window.KeepCommentPlugin = {}
+  window.KeepCommentPlugin.hideLoading = () => {
+    const cplDom = document.querySelector('.comments-container .comment-plugin-loading')
+    cplDom.style.display = 'none'
+  }
+  window.KeepCommentPlugin.loadFailHandle = () => {
+    window.KeepCommentPlugin.hideLoading()
+    const cpfDom = document.querySelector('.comments-container .comment-plugin-fail')
+    cpfDom.style.display = 'flex'
+    cpfDom.querySelector('.reload').addEventListener('click', () => {
+      window.location.reload()
+    })
+  }
+</script>
+
+        
+            
+
+    <div class="giscus-comments-container">
+        <div class="giscus" id="giscus"></div>
+        <script data-pjax
+                onerror="window.KeepCommentPlugin.loadFailHandle()"
+        >
+          if (!window.KeepCommentPlugin?.getGiscusTheme) {
+            window.KeepCommentPlugin.getGiscusTheme = () => {
+              return document.documentElement.classList.contains('dark-mode') ? 'dark_dimmed' : 'light_tritanopia'
+            }
+          }
+
+          if (!window.KeepCommentPlugin?.changeGiscusTheme) {
+            window.KeepCommentPlugin.changeGiscusTheme = () => {
+              const iframe = document.querySelector('iframe.giscus-frame')
+              iframe && iframe.contentWindow.postMessage({
+                giscus: {
+                  setConfig: {
+                    theme: window.KeepCommentPlugin.getGiscusTheme()
+                  }
+                }
+              }, 'https://giscus.app')
+            }
+          }
+
+          if (!window.KeepCommentPlugin?.initGiscus) {
+            window.KeepCommentPlugin.initGiscus = () => {
+              const script = document.createElement('script')
+              script.async = true
+              script.src = 'https://giscus.app/client.js'
+              script.setAttribute('data-repo', 'Cooooing/Cooooing.github.io')
+              script.setAttribute('data-repo-id', 'R_kgDOHQal_w')
+              script.setAttribute('data-category', 'Announcements')
+              script.setAttribute('data-category-id', 'DIC_kwDOHQal_84CjZo6')
+              script.setAttribute('data-reactions-enabled', '1')
+              script.setAttribute('data-lang', 'zh-CN')
+              script.setAttribute('data-mapping', 'pathname')
+              script.setAttribute('data-strict', '0')
+              script.setAttribute('data-emit-metadata', '0')
+              script.setAttribute('data-input-position', 'top')
+              script.setAttribute('crossorigin', 'anonymous')
+              script.setAttribute('loading', 'lazy')
+              script.setAttribute('data-theme', window.KeepCommentPlugin.getGiscusTheme())
+              document.querySelector('.giscus-comments-container').appendChild(script)
+              script.onerror = () => {
+                window.KeepCommentPlugin.loadFailHandle()
+              }
+              script.onload = () => {
+                window.KeepCommentPlugin.hideLoading()
+              }
+              const toggleThemeBtn = document.querySelector('.tool-toggle-theme-mode')
+              toggleThemeBtn && toggleThemeBtn.addEventListener('click', () => {
+                window.KeepCommentPlugin.changeGiscusTheme()
+              })
+            }
+          }
+
+          if ('true' === "true") {
+            setTimeout(() => {
+              window.KeepCommentPlugin.initGiscus()
+            }, 1000)
+          } else {
+            window.addEventListener("DOMContentLoaded", window.KeepCommentPlugin.initGiscus)
+          }
+        </script>
+    </div>
+
+
+        
+    </div>
+
+
+
+
+
+                
+            </div>
+        </div>
+
+        
+            <div class="pc-post-toc left-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E8%A7%A3%E5%86%B3%E4%BB%80%E4%B9%88%E9%97%AE%E9%A2%98"><span class="nav-text">正则表达式解决什么问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%8E%E6%A8%A1%E5%BC%8F%E5%88%B0%E5%8C%B9%E9%85%8D%E7%BB%93%E6%9E%9C"><span class="nav-text">从模式到匹配结果</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8C%B9%E9%85%8D%E8%8C%83%E5%9B%B4%E4%B8%8E%E4%BD%8D%E7%BD%AE"><span class="nav-text">匹配范围与位置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AD%97%E9%9D%A2%E9%87%8F%E3%80%81%E8%BD%AC%E4%B9%89%E4%B8%8E%E5%AD%97%E7%AC%A6%E7%B1%BB"><span class="nav-text">字面量、转义与字符类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%87%8F%E8%AF%8D%E3%80%81%E9%80%89%E6%8B%A9%E4%B8%8E%E5%88%86%E7%BB%84"><span class="nav-text">量词、选择与分组</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%AE%E9%A5%B0%E7%AC%A6%E4%B8%8E%E9%AB%98%E7%BA%A7%E8%AF%AD%E6%B3%95"><span class="nav-text">修饰符与高级语法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9C%A8-Go-%E4%B8%AD%E4%BD%BF%E7%94%A8-regexp-%E5%8C%85"><span class="nav-text">在 Go 中使用 regexp 包</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#RE2-%E8%AF%AD%E6%B3%95%E7%89%B9%E5%BE%81%E4%B8%8E%E9%99%90%E5%88%B6"><span class="nav-text">RE2 语法特征与限制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BC%96%E8%AF%91%E4%B8%8E%E8%BD%AC%E4%B9%89"><span class="nav-text">编译与转义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8C%B9%E9%85%8D%E3%80%81%E6%9F%A5%E6%89%BE%E4%B8%8E%E7%B4%A2%E5%BC%95"><span class="nav-text">匹配、查找与索引</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8D%95%E8%8E%B7%E7%BB%84%E4%B8%8E%E6%9B%BF%E6%8D%A2"><span class="nav-text">捕获组与替换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%A7%E8%83%BD%E4%B8%8E%E8%BE%B9%E7%95%8C"><span class="nav-text">性能与边界</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-text">总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-text">参考资料</span></a></li></ol>
+    </div>
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+        </div>
+
+        <div class="page-main-content-bottom border-box">
+            
+<footer class="footer border-box">
+    <div class="copyright-info info-item">
+    &copy;&nbsp;<span>2022</span>&nbsp;-&nbsp;2026
+    
+            &nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;&nbsp;<a href="/">咕咕咕</a>
+        
+    </div>
+
+    <div class="theme-info info-item">
+        由&nbsp;<a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;驱动&nbsp;&&nbsp;主题&nbsp;<a class="keep-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep</a>
+    </div>
+
+    
+
+    
+        <div class="count-info info-item">
+            
+                <span class="count-item border-box word">
+                    <span class="item-type border-box">总字数</span>
+                    <span class="item-value border-box word">490.8k</span>
+                </span>
+            
+
+            
+                <span class="count-item border-box uv">
+                    <span class="item-type border-box">访客数</span>
+                    <span class="item-value border-box uv" id="busuanzi_value_site_uv"></span>
+                </span>
+            
+
+            
+                <span class="count-item border-box pv">
+                    <span class="item-type border-box">访问量</span>
+                    <span class="item-value border-box pv" id="busuanzi_value_site_pv"></span>
+                </span>
+            
+        </div>
+    
+
+    
+
+  <div class="site-runtime" style="color:var(--text-color-4);">
+    <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>(～￣▽￣)～
+  </div>
+  <a class="site-moe-icp" href="https://icp.gov.moe/?keyword=20222450" target="_blank" rel="noopener">萌ICP备20222450号</a>
+</footer>
+
+        </div>
+    </div>
+
+    <!-- post tools -->
+    
+        <div class="post-tools left-toc">
+            <div class="post-tools-container border-box">
+    <ul class="post-tools-list border-box">
+        <!-- PC encrypt again -->
+        
+
+        <!-- PC TOC show toggle -->
+        
+            <li class="tools-item flex-center toggle-show-toc">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        <!-- PC go comment -->
+        
+            <li class="tools-item flex-center go-to-comments">
+                <i class="fas fa-comment"></i>
+                <span class="post-comments-count"></span>
+            </li>
+        
+
+        <!-- PC full screen -->
+        <li class="tools-item flex-center full-screen">
+            <i class="fa-solid fa-expand"></i>
+        </li>
+    </ul>
+</div>
+
+        </div>
+    
+
+    <!-- side tools -->
+    <div class="side-tools">
+        <div class="side-tools-container border-box ">
+    <ul class="side-tools-list side-tools-show-handle border-box">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <!-- toggle mode -->
+        
+            <li class="tools-item tool-toggle-theme-mode flex-center">
+                <i class="fas fa-moon"></i>
+            </li>
+        
+
+        <!-- rss -->
+        
+            <li class="tools-item rss flex-center">
+                <a class="flex-center"
+                   href="/atom.xml"
+                   target="_blank"
+                >
+                    <i class="fas fa-rss"></i>
+                </a>
+            </li>
+        
+
+        <!-- to bottom -->
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list border-box">
+        
+            <li class="tools-item toggle-show-toc-tablet flex-center">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        
+            <li class="tools-item go-to-comments-tablet flex-center">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+
+        <li class="tools-item tool-scroll-to-top flex-center show-arrow">
+            <i class="arrow fas fa-arrow-up"></i>
+            <span class="percent"></span>
+        </li>
+    </ul>
+</div>
+
+    </div>
+
+    <!-- image mask -->
+    <div class="zoom-in-image-mask">
+    <img class="zoom-in-image">
+</div>
+
+
+    <!-- local search -->
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="搜索..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="close-popup-btn">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+    <!-- tablet toc -->
+    
+        <div class="tablet-post-toc-mask">
+            <div class="tablet-post-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E8%A7%A3%E5%86%B3%E4%BB%80%E4%B9%88%E9%97%AE%E9%A2%98"><span class="nav-text">正则表达式解决什么问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%8E%E6%A8%A1%E5%BC%8F%E5%88%B0%E5%8C%B9%E9%85%8D%E7%BB%93%E6%9E%9C"><span class="nav-text">从模式到匹配结果</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8C%B9%E9%85%8D%E8%8C%83%E5%9B%B4%E4%B8%8E%E4%BD%8D%E7%BD%AE"><span class="nav-text">匹配范围与位置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AD%97%E9%9D%A2%E9%87%8F%E3%80%81%E8%BD%AC%E4%B9%89%E4%B8%8E%E5%AD%97%E7%AC%A6%E7%B1%BB"><span class="nav-text">字面量、转义与字符类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%87%8F%E8%AF%8D%E3%80%81%E9%80%89%E6%8B%A9%E4%B8%8E%E5%88%86%E7%BB%84"><span class="nav-text">量词、选择与分组</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%AE%E9%A5%B0%E7%AC%A6%E4%B8%8E%E9%AB%98%E7%BA%A7%E8%AF%AD%E6%B3%95"><span class="nav-text">修饰符与高级语法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9C%A8-Go-%E4%B8%AD%E4%BD%BF%E7%94%A8-regexp-%E5%8C%85"><span class="nav-text">在 Go 中使用 regexp 包</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#RE2-%E8%AF%AD%E6%B3%95%E7%89%B9%E5%BE%81%E4%B8%8E%E9%99%90%E5%88%B6"><span class="nav-text">RE2 语法特征与限制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BC%96%E8%AF%91%E4%B8%8E%E8%BD%AC%E4%B9%89"><span class="nav-text">编译与转义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8C%B9%E9%85%8D%E3%80%81%E6%9F%A5%E6%89%BE%E4%B8%8E%E7%B4%A2%E5%BC%95"><span class="nav-text">匹配、查找与索引</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8D%95%E8%8E%B7%E7%BB%84%E4%B8%8E%E6%9B%BF%E6%8D%A2"><span class="nav-text">捕获组与替换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%A7%E8%83%BD%E4%B8%8E%E8%BE%B9%E7%95%8C"><span class="nav-text">性能与边界</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-text">总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-text">参考资料</span></a></li></ol>
+    </div>
+</div>
+
+            </div>
+        </div>
+    
+</main>
+
+
+
+
+
+<!-- common js -->
+<script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@4.3.0/source/js/utils.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@4.3.0/source/js/header-shrink.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@4.3.0/source/js/back2top.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@4.3.0/source/js/toggle-theme.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@4.3.0/source/js/code-block.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@4.3.0/source/js/main.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@4.3.0/source/js/libs/anime.min.js"></script>
+
+<!-- local search -->
+
+    <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@4.3.0/source/js/local-search.js"></script>
+
+
+<!-- lazyload -->
+
+    <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@4.3.0/source/js/lazyload.js"></script>
+
+
+<div class="pjax">
+    <!-- home page -->
+    
+
+    <!-- post page -->
+    
+        <!-- post-helper -->
+        <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@4.3.0/source/js/post/post-helper.js"></script>
+
+        <!-- toc -->
+        
+            <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@4.3.0/source/js/post/toc.js"></script>
+        
+
+        <!-- copyright-info -->
+        
+            <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@4.3.0/source/js/post/copyright-info.js"></script>
+        
+
+        <!-- share -->
+        
+            <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@4.3.0/source/js/post/share.js"></script>
+        
+    
+
+    <!-- categories page -->
+    
+
+    <!-- links page -->
+    
+
+    <!-- photos page -->
+    
+
+    <!-- tools page -->
+    
+</div>
+
+<!-- mermaid -->
+
+
+<!-- pjax -->
+
+    <script id="pjax-script" src="/js/libs/pjax.min.js"></script>
+<script>
+  (function () {
+    const isGoogleTranslate = location.hostname.includes('.translate.goog')
+
+    if (isGoogleTranslate) {
+      document.getElementById('pjax-script')?.remove()
+      return
+    }
+
+    function initPjax () {
+      if (window.pjax) return
+
+      window.pjax = new Pjax({
+        selectors: [
+          'head title',
+          '.page-container',
+          '.pjax'
+        ],
+        history: true,
+        debug: false,
+        cacheBust: false,
+        timeout: 0,
+        analytics: false,
+        currentUrlFullReload: false,
+        scrollRestoration: false
+      })
+
+      document.addEventListener('pjax:send', onPjaxSend)
+      document.addEventListener('pjax:complete', onPjaxComplete)
+    }
+
+    function onPjaxSend () {
+      KEEP?.utils?.pjaxProgressBarStart()
+    }
+
+    function onPjaxComplete () {
+      KEEP?.utils?.pjaxProgressBarEnd()
+
+      window?.pjax?.executeScripts(
+        document.querySelectorAll('script[data-pjax], .pjax script')
+      )
+
+      KEEP?.initExecute()
+    }
+
+    // DOM Ready
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initPjax)
+    } else {
+      initPjax()
+    }
+  })()
+</script>
+
+
+
+
+    
+        
+    
+        
+            
+<script class="custom-inject-js" src="/js/leaves.js" data-pjax></script>
+
+        
+    
+        
+            
+<script class="custom-inject-js" src="/js/lifeTime.js" data-pjax></script>
+
+        
+    
+        
+            
+<script class="custom-inject-js" src="/js/site-custom.js" data-pjax></script>
+
+        
+    
+
+
+  <div id="aplayer">
+    <meting-js server="netease" type="playlist" id="7345595717" api="https://api.injahow.cn/meting/?server=:server&type=:type&id=:id&r=:r" fixed="true" mini="true" autoplay="false" listFolded="true" order="random" preload="none"></meting-js>
+  </div>
+  <script src="/js/APlayer.min.js"></script>
+  <script src="/js/Meting.min.js"></script>
+</body>
+</html>
